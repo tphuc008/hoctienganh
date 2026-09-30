@@ -280,11 +280,32 @@ const UNITS = [
   {id:10,title:"Unit 10",subtitle:"Practice collection",live:false}
 ];
 
+const SET_SIZE=20;
+const TOTAL_SETS=Math.ceil(QUESTIONS.length/SET_SIZE);
+let activeSet=1;
+let activeStartIndex=0;
+let activeQuestions=QUESTIONS.slice(0,SET_SIZE);
+let activeExplanations=DEEP_EXPLANATIONS.slice(0,SET_SIZE);
+
 let current=0;
-let answers=Array(QUESTIONS.length).fill(null);
-let solved=Array(QUESTIONS.length).fill(false);
-let mistakes=Array(QUESTIONS.length).fill(0);
-let wrongChoices=Array.from({length:QUESTIONS.length},()=>new Set());
+let answers=Array(activeQuestions.length).fill(null);
+let solved=Array(activeQuestions.length).fill(false);
+let mistakes=Array(activeQuestions.length).fill(0);
+let wrongChoices=Array.from({length:activeQuestions.length},()=>new Set());
+
+function selectSet(setNo){
+  const safe=Math.min(Math.max(1,Number(setNo)||1),TOTAL_SETS);
+  activeSet=safe;
+  activeStartIndex=(safe-1)*SET_SIZE;
+  const end=Math.min(activeStartIndex+SET_SIZE,QUESTIONS.length);
+  activeQuestions=QUESTIONS.slice(activeStartIndex,end);
+  activeExplanations=DEEP_EXPLANATIONS.slice(activeStartIndex,end);
+}
+
+function getSetCount(setNo){
+  const start=(setNo-1)*SET_SIZE;
+  return Math.max(0,Math.min(SET_SIZE,QUESTIONS.length-start));
+}
 
 const pageMount=document.getElementById("pageMount");
 const quizShell=document.getElementById("quizShell");
@@ -308,8 +329,8 @@ function route(){
   const hash=location.hash.replace(/^#/,"");
   hideAll();
   if(!hash){renderHome();return}
-  const exercise=hash.match(/^unit-(\d+)\/vocabulary-practice-1$/);
-  if(exercise){renderExercise(Number(exercise[1]));return}
+  const exercise=hash.match(/^unit-(\d+)\/vocabulary-practice-(\d+)$/);
+  if(exercise){renderExercise(Number(exercise[1]),Number(exercise[2]));return}
   const unit=hash.match(/^unit-(\d+)$/);
   if(unit){renderUnit(Number(unit[1]));return}
   renderHome();
@@ -347,14 +368,19 @@ function renderUnit(id){
   if(!unit){location.hash="";return}
   pageMount.style.display="block";
   const exerciseHTML=id===6 ? `
-    <div class="section-title"><h2>Exercises</h2><span>1 exercise</span></div>
+    <div class="section-title"><h2>Exercises</h2><span>${TOTAL_SETS} sets</span></div>
     <div class="exercise-grid">
-      <button class="exercise-card" onclick="openExercise(6)">
-        <div class="exercise-icon">Aa</div>
-        <h3>Vocabulary Practice 1</h3>
-        <p>B1–B2 multiple-choice practice using vocabulary from the Unit 6 notes.</p>
-        <div class="meta"><span class="chip">44 questions</span><span class="chip">B1–B2</span><span class="chip">Multiple choice</span></div>
-      </button>
+      ${Array.from({length:TOTAL_SETS},(_,i)=>{
+        const setNo=i+1;
+        const count=getSetCount(setNo);
+        return `
+          <button class="exercise-card" onclick="openExercise(6,${setNo})">
+            <div class="exercise-icon">${setNo}</div>
+            <h3>Vocabulary Practice ${setNo}</h3>
+            <p>B1–B2 multiple-choice practice using vocabulary from the Unit 6 notes.</p>
+            <div class="meta"><span class="chip">${count} questions</span><span class="chip">B1–B2</span><span class="chip">Multiple choice</span></div>
+          </button>`;
+      }).join("")}
     </div>` : `
     <div class="section-title"><h2>Exercises</h2><span>0 exercises</span></div>
     <div class="empty"><b>No exercises yet</b>Bài tập của Unit ${id} sẽ xuất hiện ở đây khi được thêm vào.</div>`;
@@ -369,38 +395,42 @@ function renderUnit(id){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function openExercise(id){location.hash="unit-"+id+"/vocabulary-practice-1"}
+function openExercise(id,setNo){location.hash="unit-"+id+"/vocabulary-practice-"+setNo}
 
-function renderExercise(id){
+function renderExercise(id,setNo){
   if(id!==6){goUnit(id);return}
+  if(!setNo||setNo<1||setNo>TOTAL_SETS){goUnit(6);return}
+  selectSet(setNo);
+  const count=activeQuestions.length;
   pageMount.style.display="block";
   pageMount.innerHTML=`
     <div class="breadcrumbs">
       <button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span>
-      <button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Vocabulary Practice 1</span>
+      <button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Vocabulary Practice ${activeSet}</span>
     </div>
     <div class="exercise-intro">
-      <div class="eyebrow">Unit 6 · Artificial Intelligence</div>
-      <h1><span class="gradient">Vocabulary Practice 1</span></h1>
-      <p>44 multiple-choice questions at B1–B2 level. Bạn sẽ nhận phản hồi ngay sau mỗi lựa chọn. Chọn sai thì thử lại; chọn đúng sẽ mở phần giải thích từ vựng chuyên sâu trước khi sang câu tiếp theo.</p>
-      <div class="pills"><span class="pill">44 questions</span><span class="pill">B1–B2</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
+      <div class="eyebrow">Unit 6 · Artificial Intelligence · Set ${activeSet}</div>
+      <h1><span class="gradient">Vocabulary Practice ${activeSet}</span></h1>
+      <p>${count} multiple-choice questions at B1–B2 level. Bạn sẽ nhận phản hồi ngay sau mỗi lựa chọn. Chọn sai thì thử lại; chọn đúng sẽ mở phần giải thích từ vựng chuyên sâu trước khi sang câu tiếp theo.</p>
+      <div class="pills"><span class="pill">${count} questions</span><span class="pill">B1–B2</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
       <button class="primary" onclick="startQuiz(true)">Start exercise →</button>
     </div>`;
 }
 
 function startQuiz(reset=false){
-  if(reset){current=0;answers=Array(QUESTIONS.length).fill(null);solved=Array(QUESTIONS.length).fill(false);mistakes=Array(QUESTIONS.length).fill(0);wrongChoices=Array.from({length:QUESTIONS.length},()=>new Set())}
+  if(reset){current=0;answers=Array(activeQuestions.length).fill(null);solved=Array(activeQuestions.length).fill(false);mistakes=Array(activeQuestions.length).fill(0);wrongChoices=Array.from({length:activeQuestions.length},()=>new Set())}
   hideAll();
+  document.getElementById("exitQuizBtn").textContent="← Unit 6 · Set "+activeSet;
   quizShell.style.display="block";
   renderQuestion();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function renderQuestion(){
-  const q=QUESTIONS[current],isSolved=solved[current];
+  const q=activeQuestions[current],isSolved=solved[current];
   const solvedCount=solved.filter(Boolean).length;
-  progress.style.width=((current+1)/QUESTIONS.length*100)+"%";
-  counter.textContent=`${current+1} / ${QUESTIONS.length}`;
+  progress.style.width=((current+1)/activeQuestions.length*100)+"%";
+  counter.textContent=`${current+1} / ${activeQuestions.length}`;
   const feedback=isSolved ? deepFeedback(current) : (wrongChoices[current].size ? wrongFeedback(current) : "");
   qMount.innerHTML=`
     <div class="question-card">
@@ -419,7 +449,7 @@ function renderQuestion(){
       <div class="nav">
         <button class="secondary" id="prevBtn" ${current===0?"disabled":""}>← Previous</button>
         ${isSolved
-          ? (current===QUESTIONS.length-1
+          ? (current===activeQuestions.length-1
               ? '<button class="primary" id="finishBtn">Finish ✓</button>'
               : '<button class="primary" id="nextBtn">Next →</button>')
           : '<span class="next-lock">Chọn đúng đáp án để tiếp tục →</span>'}
@@ -433,7 +463,7 @@ function renderQuestion(){
 }
 
 function checkAnswer(i){
-  const q=QUESTIONS[current];
+  const q=activeQuestions[current];
   if(solved[current])return;
   if(i===q.a){
     answers[current]=i;
@@ -457,7 +487,7 @@ function wrongFeedback(index){
 }
 
 function deepFeedback(index){
-  const q=QUESTIONS[index],d=DEEP_EXPLANATIONS[index];
+  const q=activeQuestions[index],d=activeExplanations[index];
   return `<div class="feedback correct">
     <div class="feedback-title">✓ Đúng — ${"ABCD"[q.a]}. ${esc(q.o[q.a])}</div>
     <div class="deep-grid">
@@ -471,18 +501,20 @@ function deepFeedback(index){
 
 function move(step){
   const n=current+step;
-  if(n<0||n>=QUESTIONS.length)return;
+  if(n<0||n>=activeQuestions.length)return;
   if(step>0&&!solved[current])return;
   current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function finishLearning(){
   const mastered=solved.filter(Boolean).length;
-  if(mastered<QUESTIONS.length)return;
+  if(mastered<activeQuestions.length)return;
   const totalMistakes=mistakes.reduce((a,b)=>a+b,0);
   const firstTry=mistakes.filter(x=>x===0).length;
-  const pct=Math.round(firstTry/QUESTIONS.length*100);
+  const pct=Math.round(firstTry/activeQuestions.length*100);
   hideAll();resultScreen.style.display="block";
+  const resultCrumbs=resultScreen.querySelector(".breadcrumbs");
+  if(resultCrumbs) resultCrumbs.innerHTML=`<button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Set ${activeSet} Result</span>`;
   document.getElementById("scoreBig").textContent=pct+"%";
   document.getElementById("scoreFraction").textContent="first-try accuracy";
   document.getElementById("correctStat").textContent=mastered;
@@ -490,14 +522,14 @@ function finishLearning(){
   document.getElementById("answeredStat").textContent=firstTry;
   document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent2) ${pct*3.6}deg,rgba(255,255,255,.08) 0deg)`;
   document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Good work — review the tricky contrasts.";
-  document.getElementById("resultMessage").textContent=`Bạn đã hoàn thành đủ ${QUESTIONS.length} câu. First-try accuracy là số câu bạn chọn đúng ngay lần đầu; mọi câu đều đã được sửa cho đến khi đúng.`;
+  document.getElementById("resultMessage").textContent=`Bạn đã hoàn thành đủ ${activeQuestions.length} câu. First-try accuracy là số câu bạn chọn đúng ngay lần đầu; mọi câu đều đã được sửa cho đến khi đúng.`;
   buildReview();if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function buildReview(){
   const list=document.getElementById("reviewList");
-  list.innerHTML=QUESTIONS.map((q,i)=>{
+  list.innerHTML=activeQuestions.map((q,i)=>{
     const d=DEEP_EXPLANATIONS[i];
     const right=`${"ABCD"[q.a]}. ${esc(q.o[q.a])}`;
     const attemptLabel=mistakes[i]===0?"Correct on first try":`${mistakes[i]} mistake${mistakes[i]>1?"s":""} before correct`;
@@ -519,7 +551,7 @@ function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t
 document.addEventListener("keydown",e=>{
   if(quizShell.style.display!=="block")return;
   const k=e.key.toLowerCase();if(["a","b","c","d"].includes(k)){const i=["a","b","c","d"].indexOf(k);const b=qMount.querySelector(`.answer[data-i="${i}"]`);if(b)b.click()}
-  if(e.key==="ArrowRight"&&current<QUESTIONS.length-1&&solved[current])move(1);
+  if(e.key==="ArrowRight"&&current<activeQuestions.length-1&&solved[current])move(1);
   if(e.key==="ArrowLeft"&&current>0)move(-1);
 });
 route();
