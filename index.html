@@ -451,12 +451,8 @@ function checkAnswer(i){
 }
 
 function wrongFeedback(index){
-  const q=QUESTIONS[index];
-  const lastWrong=[...wrongChoices[index]].at(-1);
-  const chosen=q.o[lastWrong];
   return `<div class="feedback wrong">
-    <div class="feedback-title">✕ Chưa đúng — hãy chọn lại</div>
-    <p><b>${esc(chosen)}</b> không phù hợp với nghĩa hoặc cấu trúc mà câu này yêu cầu. Hãy nhìn lại tín hiệu ngữ cảnh và từ loại cần điền. Lựa chọn sai vừa chọn đã được khóa; hãy thử một đáp án khác.</p>
+    <div class="feedback-title">✕ Sai — hãy chọn lại</div>
   </div>`;
 }
 
