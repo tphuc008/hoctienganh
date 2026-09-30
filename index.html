@@ -530,7 +530,7 @@ function finishLearning(){
 function buildReview(){
   const list=document.getElementById("reviewList");
   list.innerHTML=activeQuestions.map((q,i)=>{
-    const d=DEEP_EXPLANATIONS[i];
+    const d=activeExplanations[i];
     const right=`${"ABCD"[q.a]}. ${esc(q.o[q.a])}`;
     const attemptLabel=mistakes[i]===0?"Correct on first try":`${mistakes[i]} mistake${mistakes[i]>1?"s":""} before correct`;
     return `<div class="review-item correct">
