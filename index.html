@@ -115,6 +115,25 @@ h1,h2,h3,p{margin-top:0}
 }
 .answer:hover{transform:translateY(-2px);border-color:rgba(103,232,249,.35)}
 .answer.selected{border-color:#8b5cf6;background:rgba(139,92,246,.12);transform:translateX(4px)}
+.answer.correct{border-color:rgba(52,211,153,.78);background:rgba(52,211,153,.12);transform:translateX(4px)}
+.answer.correct .letter{background:var(--good);border-color:var(--good);color:#04140f}
+.answer.wrong-choice{border-color:rgba(251,113,133,.78);background:rgba(251,113,133,.11);animation:shake .28s ease}
+.answer.wrong-choice .letter{background:var(--bad);border-color:var(--bad);color:#21050b}
+.answer:disabled{cursor:default;opacity:.93}
+.answer:disabled:hover{transform:none}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.feedback{margin-top:20px;border-radius:18px;padding:18px;border:1px solid var(--line);animation:fadeUp .3s ease}
+.feedback.wrong{border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.07)}
+.feedback.correct{border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.065)}
+.feedback-title{font-weight:900;font-size:16px;margin-bottom:8px}
+.feedback.wrong .feedback-title{color:#fecdd3}
+.feedback.correct .feedback-title{color:#a7f3d0}
+.feedback p{color:#cbd7e8;line-height:1.62;margin:0}
+.deep-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.deep-box{padding:13px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid var(--line)}
+.deep-box b{display:block;color:white;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.deep-box span{display:block;color:var(--muted);font-size:13px;line-height:1.58}
+.next-lock{color:var(--muted);font-size:12px;align-self:center}
 .letter{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line);font-weight:900}
 .answer.selected .letter{background:#8b5cf6;border-color:#8b5cf6}
 .nav{display:flex;justify-content:space-between;gap:10px;margin-top:26px}
@@ -149,7 +168,7 @@ h1,h2,h3,p{margin-top:0}
 @media(max-width:760px){
   .page{padding:23px 17px;min-height:620px}.units,.exercise-grid{grid-template-columns:1fr}
   .unit-card{min-height:200px}.header-note{display:none}.score-wrap{grid-template-columns:1fr}.score-ring{margin:auto}
-  .stats{grid-template-columns:1fr}.quiz-body{padding:23px 17px}
+  .stats{grid-template-columns:1fr}.deep-grid{grid-template-columns:1fr}.quiz-body{padding:23px 17px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 </style>
@@ -183,9 +202,9 @@ h1,h2,h3,p{margin-top:0}
           <h2 id="resultTitle" style="font-size:36px;margin:10px 0 8px"></h2>
           <p id="resultMessage" style="color:var(--muted);line-height:1.65"></p>
           <div class="stats">
-            <div class="stat"><b id="correctStat">0</b><span>Correct</span></div>
-            <div class="stat"><b id="wrongStat">0</b><span>Incorrect</span></div>
-            <div class="stat"><b id="answeredStat">0</b><span>Answered</span></div>
+            <div class="stat"><b id="correctStat">0</b><span>Mastered</span></div>
+            <div class="stat"><b id="wrongStat">0</b><span>Total mistakes</span></div>
+            <div class="stat"><b id="answeredStat">0</b><span>First-try correct</span></div>
           </div>
           <button class="primary" id="retryBtn">Try again</button>
           <button class="secondary" onclick="goUnit(6)" style="margin-left:8px">Back to Unit 6</button>
@@ -193,13 +212,60 @@ h1,h2,h3,p{margin-top:0}
       </div>
       <div class="review"><h3>Answer review</h3><div class="review-list" id="reviewList"></div></div>
     </section>
-    <div class="footer">Static website · GitHub Pages · No login required</div>
+    
   </main>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 const QUESTIONS = [{"q": "The company offers regular training courses as part of its employees’ career ________, helping them build useful skills for the future.", "o": ["retirement", "settlement", "development", "advancement"], "a": 2, "e": "Career development focuses on building skills and professional growth within a career."}, {"q": "Taking on a management position can be an important step in career ________ for an experienced employee.", "o": ["advancement", "development", "retirement", "settlement"], "a": 0, "e": "Career advancement emphasizes moving upward or gaining a higher position."}, {"q": "After working as a teacher for nearly forty years, Mr Brown is now looking forward to his ________.", "o": ["standardization", "retirement", "development", "settlement"], "a": 1, "e": "Retirement is the period when someone stops working permanently, usually because of age."}, {"q": "After several weeks of disagreement, the two sides finally reached a peaceful ________.", "o": ["companionship", "retirement", "settlement", "memorization"], "a": 2, "e": "A settlement can mean an agreement that resolves a disagreement."}, {"q": "We had finished our meal, so I asked the waiter if I could ________ the bill.", "o": ["deploy", "settle", "accompany", "retire"], "a": 1, "e": "To settle a bill means to pay it."}, {"q": "It took Mai a few weeks to ________ after moving to a completely new city.", "o": ["settle in", "industrialize", "memorize", "standardize"], "a": 0, "e": "To settle in means to become comfortable in a new place or situation."}, {"q": "After the factory closed, hundreds of local workers became ________ and had to look for new jobs.", "o": ["industrious", "companionable", "unemployable", "unemployed"], "a": 3, "e": "Unemployed describes the state of not having a job."}, {"q": "Without basic computer skills, some workers may become ________ in a labour market that increasingly depends on technology.", "o": ["unemployed", "unemployable", "companionable", "industrious"], "a": 1, "e": "Unemployable means difficult to employ because a person lacks suitable skills or qualifications."}, {"q": "A ________ statement contains information that is factually correct.", "o": ["realistic", "reliable", "truthful", "honest"], "a": 2, "e": "Truthful emphasizes that what is said is true or factually correct."}, {"q": "Jack was ________ enough to admit that he had made the mistake instead of blaming his colleague.", "o": ["truthful", "realistic", "reliable", "honest"], "a": 3, "e": "Honest emphasizes sincerity and not hiding or misrepresenting the truth."}, {"q": "The plan is ambitious, but it is still ________ because the team has enough time, money, and staff to complete it.", "o": ["theoretical", "reliable", "realistic", "truthful"], "a": 2, "e": "Realistic means practical and achievable in real-life conditions."}, {"q": "Before using information in your essay, make sure it comes from a ________ source.", "o": ["realistic", "reliable", "straightforward", "practical"], "a": 1, "e": "A reliable source can be trusted to provide accurate information."}, {"q": "This website sometimes gives incorrect information, so students consider it ________.", "o": ["inaccessible", "untruthful", "unreliable", "unfriendly"], "a": 2, "e": "Unreliable means not consistently accurate or trustworthy."}, {"q": "The course gives students ________ experience by allowing them to work on real projects rather than simply reading about them.", "o": ["theoretical", "practical", "realistic", "reliable"], "a": 1, "e": "Practical experience comes from doing real tasks, not only studying theory."}, {"q": "The first part of the course is mainly ________, while the second part allows students to apply what they have learned in real situations.", "o": ["straightforward", "practical", "theoretical", "automatic"], "a": 2, "e": "Theoretical refers to ideas and principles rather than practical application."}, {"q": "Despite living in different countries, the brothers have maintained strong ________ relationships.", "o": ["communal", "industrial", "familial", "companionable"], "a": 2, "e": "Familial means relating to a family."}, {"q": "I really enjoyed Anna’s ________ during the long train journey because we had so much to talk about.", "o": ["company", "memory", "industry", "settlement"], "a": 0, "e": "To enjoy someone’s company means to enjoy being with that person."}, {"q": "Parents are allowed to ________ their young children on the school trip.", "o": ["deploy", "befriend", "standardize", "accompany"], "a": 3, "e": "Accompany means to go somewhere with someone."}, {"q": "For many elderly people who live alone, a pet can become a valuable ________.", "o": ["retiree", "settler", "companion", "industry"], "a": 2, "e": "A companion is a person or animal that spends time with someone and provides company."}, {"q": "Although David is rather quiet, he is very ________ once you start talking to him.", "o": ["theoretical", "industrial", "companionable", "unemployed"], "a": 2, "e": "Companionable describes someone who is friendly and pleasant to spend time with."}, {"q": "The restaurant chain plans to ________ its cooking procedures so that customers receive the same quality of food at every branch.", "o": ["complicate", "industrialize", "memorize", "standardize"], "a": 3, "e": "Standardize means to make a process follow the same standard."}, {"q": "The ________ of safety procedures across all factories has helped the company reduce human error.", "o": ["memorization", "industrialization", "standardization", "accessibility"], "a": 2, "e": "Standardization is the process of making procedures consistent according to a standard."}, {"q": "The city used to depend mainly on agriculture, but rapid ________ led to the development of hundreds of factories.", "o": ["memorization", "industrialization", "standardization", "settlement"], "a": 1, "e": "Industrialization is the development of industry and factory-based production."}, {"q": "The northern part of the country contains several large ________ areas where factories and warehouses are located.", "o": ["familial", "industrious", "industrial", "communal"], "a": 2, "e": "Industrial means relating to industry or manufacturing."}, {"q": "Sarah is an extremely ________ student who always completes her assignments carefully and on time.", "o": ["industrial", "automatic", "unemployed", "industrious"], "a": 3, "e": "Industrious means hard-working."}, {"q": "Instead of simply trying to ________ every sentence, students should understand the main ideas of the text.", "o": ["deploy", "memorize", "settle", "standardize"], "a": 1, "e": "Memorize means to learn something so that you can remember it exactly."}, {"q": "Some students depend heavily on rote ________ before examinations instead of trying to understand the material.", "o": ["standardization", "development", "memorization", "reality"], "a": 2, "e": "Memorization is the process of learning something by memory."}, {"q": "To get a useful response from an AI chatbot, users should provide a clear and specific ________.", "o": ["memory", "theory", "company", "prompt"], "a": 3, "e": "A prompt is an instruction or input given to an AI system."}, {"q": "The customer thanked the company for its ________ response to her complaint.", "o": ["communal", "theoretical", "prompt", "realistic"], "a": 2, "e": "As an adjective, prompt means immediate or quick."}, {"q": "When the fire alarm went off, staff reacted ________ and helped everyone leave the building safely.", "o": ["theoretically", "realistically", "truthfully", "promptly"], "a": 3, "e": "Promptly means quickly and without unnecessary delay."}, {"q": "The sharp increase in online fraud ________ the bank to introduce stronger security measures.", "o": ["accompanied", "prompted", "deployed", "challenged"], "a": 1, "e": "Prompt somebody to do something means to cause or encourage them to take action."}, {"q": "Learning to speak confidently in front of a large audience can be ________, but it can also help students develop valuable communication skills.", "o": ["straightforward", "challenging", "automatic", "accessible"], "a": 1, "e": "Challenging means difficult in a way that can require effort and may be rewarding."}, {"q": "Introducing too many new rules at the same time may ________ the registration process rather than improve it.", "o": ["deploy", "standardize", "complicate", "befriend"], "a": 2, "e": "Complicate means to make something more difficult or complex."}, {"q": "A sudden technical problem created another ________ and delayed the event for nearly an hour.", "o": ["retirement", "accessibility", "settlement", "complication"], "a": 3, "e": "A complication is an additional problem that makes a situation more difficult."}, {"q": "The application process is fairly ________: you simply complete the form, upload your documents, and click “Submit.”", "o": ["complicated", "straightforward", "theoretical", "realistic"], "a": 1, "e": "Straightforward means clear and uncomplicated."}, {"q": "The online textbook was ________ for several hours because of a problem with the school website.", "o": ["unemployable", "unreliable", "inaccessible", "unfriendly"], "a": 2, "e": "Inaccessible means impossible or difficult to reach or use."}, {"q": "The university has improved the ________ of its website so that students with disabilities can use it more easily.", "o": ["reliability", "practicality", "accessibility", "happiness"], "a": 2, "e": "Accessibility is the quality of being easy to reach, enter, use, or understand."}, {"q": "On her first day at university, Linh quickly ________ several students in her class and began having lunch with them.", "o": ["befriended", "deployed", "retired", "standardized"], "a": 0, "e": "Befriend means to become friends with someone."}, {"q": "Residents can grow vegetables together in the ________ garden behind the apartment building.", "o": ["familial", "communal", "industrial", "companionable"], "a": 1, "e": "Communal describes something shared by a group or community."}, {"q": "The company plans to ________ a new digital system across all of its offices next month.", "o": ["memorize", "industrialize", "deploy", "standardize"], "a": 2, "e": "Deploy means to put something into use."}, {"q": "The supermarket entrance has an ________ door that opens whenever its sensor detects someone approaching.", "o": ["automated", "autonomous", "industrial", "automatic"], "a": 3, "e": "Automatic means operating by itself when triggered, according to a fixed mechanism or program."}, {"q": "The factory has introduced an ________ packaging system, so most products are now packed by machines rather than workers.", "o": ["automatic", "familial", "autonomous", "automated"], "a": 3, "e": "Automated describes a process that has been changed so machines perform tasks previously done manually."}, {"q": "Unlike a basic automatic machine, an ________ robot can analyse its surroundings and make certain decisions by itself.", "o": ["industrial", "autonomous", "automated", "automatic"], "a": 1, "e": "Autonomous means able to operate or make certain decisions independently."}, {"q": "Spending time with close friends and family can contribute greatly to a person’s overall ________.", "o": ["happiness", "accessibility", "reliability", "practicality"], "a": 0, "e": "Happiness is the state of feeling happy or satisfied."}];
+
+const DEEP_EXPLANATIONS = [
+{meaning:"Career development = quá trình nâng cao kỹ năng, kiến thức và kinh nghiệm nghề nghiệp. Trọng tâm là trở nên giỏi hơn trong nghề, không nhất thiết được thăng chức.",why:"Câu nhấn mạnh training courses giúp nhân viên build useful skills, nên ý chính là phát triển năng lực.",usage:"Collocations: career development, professional development, development opportunities. Word family: develop → development → developed/developing.",contrast:"Career advancement = đi lên về vị trí/chức vụ. Development có thể xảy ra dù job title không đổi."},
+{meaning:"Career advancement = sự thăng tiến nghề nghiệp: lên vị trí cao hơn, có trách nhiệm hoặc quyền hạn lớn hơn.",why:"Taking on a management position là thay đổi cấp bậc, nên dùng advancement.",usage:"Collocations: career advancement, opportunities for advancement, advance in one’s career.",contrast:"Career development = phát triển năng lực; career advancement = phát triển vị trí."},
+{meaning:"Retirement = việc/giai đoạn nghỉ hưu, khi một người dừng công việc nghề nghiệp lâu dài, thường do tuổi tác.",why:"Mr Brown đã làm giáo viên gần 40 năm và đang mong chờ lúc ngừng làm việc.",usage:"retire (v) → retirement (n) → retiree (n). Collocations: retirement age, early retirement.",contrast:"Development/advancement mô tả sự nghiệp đang tiếp diễn; retirement là rời khỏi công việc."},
+{meaning:"Settlement trong câu này = sự dàn xếp/thỏa thuận giải quyết tranh chấp. Từ này cũng có thể nghĩa là khu định cư.",why:"Hai bên có disagreement rồi finally reached a peaceful ___ → reach a settlement.",usage:"Collocations: reach/negotiate a settlement. Word family: settle → settlement → settler.",contrast:"Companionship, retirement, memorization không mang nghĩa giải quyết bất đồng."},
+{meaning:"Settle a bill = thanh toán hóa đơn. Settle ở đây có nghĩa hoàn tất một khoản phải trả.",why:"Sau khi ăn xong và gọi waiter, hành động hợp logic là thanh toán bill.",usage:"settle a bill/account/debt; settle a dispute; settle in.",contrast:"Deploy = triển khai; accompany = đi cùng; retire = nghỉ hưu."},
+{meaning:"Settle in = dần quen, thoải mái và ổn định ở nơi hoặc hoàn cảnh mới.",why:"Mai vừa chuyển đến thành phố mới và cần vài tuần để thích nghi.",usage:"settle in; settle into a new job/routine.",contrast:"Settle không có in thường có thể là giải quyết hoặc thanh toán; settle in nhấn mạnh thích nghi."},
+{meaning:"Unemployed = đang không có việc làm. Nó mô tả trạng thái hiện tại, không nói rằng người đó không thể tìm việc.",why:"Factory closed → workers lost their jobs → became unemployed.",usage:"become/remain unemployed; unemployment. Word family: employ → employment → unemployed.",contrast:"Unemployable = khó được tuyển vì thiếu kỹ năng/kiến thức. Một người unemployed vẫn có thể rất employable."},
+{meaning:"Unemployable = khó có khả năng được tuyển vì kỹ năng/kiến thức không đáp ứng thị trường.",why:"Câu nhấn mạnh thiếu basic computer skills trong thị trường phụ thuộc công nghệ.",usage:"make somebody unemployable; potentially unemployable.",contrast:"Unemployed = hiện tại không có việc; unemployable = khả năng tìm được việc thấp."},
+{meaning:"Truthful = đúng sự thật, phản ánh facts chính xác. Trọng tâm nằm ở nội dung có đúng hay không.",why:"Câu định nghĩa trực tiếp 'factually correct'.",usage:"truth → truthful → truthfully; untruthful. Collocations: truthful account/answer/statement.",contrast:"Honest nhấn mạnh sincerity/không cố lừa dối. Một người có thể honest nhưng nhớ sai fact."},
+{meaning:"Honest = thành thật, không cố ý nói dối, che giấu hoặc đổ lỗi sai. Trọng tâm là ý định và phẩm chất người nói.",why:"Jack admitted his mistake thay vì blame colleague.",usage:"be honest about/with; honestly admit; honesty.",contrast:"Truthful nghiêng về độ chính xác của thông tin; honest nghiêng về sự chân thành."},
+{meaning:"Realistic = thực tế, phù hợp điều kiện thật và có khả năng đạt được; cũng có thể nghĩa giống đời thực.",why:"Plan ambitious nhưng có đủ time, money, staff → vẫn achievable.",usage:"realistic goal/expectation/plan; be realistic about. real → reality → realistic.",contrast:"Reliable = đáng tin cậy; practical = thiên về ứng dụng/thực hành."},
+{meaning:"Reliable = đáng tin cậy, có thể dựa vào vì thường xuyên cho kết quả đúng hoặc ổn định.",why:"Nguồn dùng cho essay cần có độ tin cậy cao.",usage:"reliable source/information/method/person. reliable → reliably → reliability.",contrast:"Realistic = thực tế/khả thi; truthful = đúng sự thật trong một phát biểu."},
+{meaning:"Unreliable = không đáng tin, không ổn định hoặc hay cho thông tin/kết quả sai.",why:"Website đôi khi cung cấp incorrect information.",usage:"unreliable source/data/service; unreliability.",contrast:"Untruthful thường gợi ý không nói thật; unreliable rộng hơn và có thể do chất lượng kém."},
+{meaning:"Practical = mang tính thực hành/thực tiễn, liên quan việc làm hoặc áp dụng trong tình huống thật.",why:"Students work on real projects rather than only reading.",usage:"practical experience/skills/advice/solution; practicality.",contrast:"Theoretical = thuộc lý thuyết. Practical không hoàn toàn đồng nghĩa realistic."},
+{meaning:"Theoretical = thuộc lý thuyết, dựa trên ideas/principles hơn là việc thực hiện trong thực tế.",why:"First part học kiến thức, second part mới apply in real situations.",usage:"theoretical knowledge/framework/approach; theory → theoretical → theoretically.",contrast:"Practical = áp dụng/thực hành. Hai từ thường tạo thành cặp đối lập."},
+{meaning:"Familial = thuộc về hoặc liên quan đến gia đình.",why:"Relationships giữa brothers là quan hệ gia đình.",usage:"familial relationships/ties/responsibilities.",contrast:"Communal = thuộc cộng đồng; companionable = dễ bầu bạn."},
+{meaning:"Company trong enjoy someone’s company = sự hiện diện/sự đồng hành của ai đó, không phải 'công ty'.",why:"Người nói thích ở cùng Anna trong chuyến tàu dài.",usage:"enjoy someone’s company; keep someone company.",contrast:"Companionship là sự bầu bạn/mối quan hệ đồng hành mang tính khái quát hơn."},
+{meaning:"Accompany = đi cùng, hộ tống hoặc hiện diện cùng ai đó.",why:"Parents được phép đi cùng children on the school trip.",usage:"accompany somebody to/on something. Không dùng 'accompany with somebody' khi nghĩa là đi cùng.",contrast:"Befriend = kết bạn; deploy = triển khai."},
+{meaning:"Companion = người hoặc động vật đồng hành/bầu bạn với ai đó.",why:"Pet có thể giúp elderly people living alone bớt cô đơn.",usage:"travelling companion, constant companion, companion animal.",contrast:"Company = sự hiện diện; companion = bản thân người/vật đồng hành."},
+{meaning:"Companionable = thân thiện, dễ trò chuyện và dễ chịu khi ở cùng.",why:"David quiet nhưng pleasant once you talk to him.",usage:"a companionable person/silence/atmosphere.",contrast:"Friendly rộng hơn; companionable nhấn mạnh cảm giác dễ chịu khi dành thời gian cùng."},
+{meaning:"Standardize = tiêu chuẩn hóa, làm cho quy trình/sản phẩm tuân theo cùng một chuẩn.",why:"Chuỗi nhà hàng muốn mọi branch có cùng quality.",usage:"standardize a process/system/procedure; standardization.",contrast:"Industrialize = công nghiệp hóa; complicate = làm phức tạp."},
+{meaning:"Standardization = quá trình tạo và áp dụng tiêu chuẩn chung để tăng tính nhất quán.",why:"Safety procedures across all factories được làm đồng nhất.",usage:"standardization of procedures/data/testing.",contrast:"Industrialization = phát triển công nghiệp; standardization = làm theo chuẩn chung."},
+{meaning:"Industrialization = quá trình nền kinh tế/khu vực phát triển mạnh sản xuất công nghiệp và nhà máy.",why:"City chuyển từ agriculture sang hundreds of factories.",usage:"rapid industrialization; industrialize; industrial.",contrast:"Không phải standardization: một từ nói về công nghiệp hóa, một từ nói về chuẩn hóa."},
+{meaning:"Industrial = thuộc công nghiệp, nhà máy hoặc sản xuất quy mô lớn.",why:"Areas chứa factories and warehouses là industrial areas.",usage:"industrial area/zone/production/development.",contrast:"Industrious nhìn giống nhưng nghĩa là chăm chỉ."},
+{meaning:"Industrious = chăm chỉ, cần cù, làm việc đều đặn và nghiêm túc.",why:"Sarah luôn hoàn thành assignments carefully and on time.",usage:"an industrious student/worker; industriously.",contrast:"Industrial = thuộc công nghiệp; industrious = hard-working."},
+{meaning:"Memorize = chủ động ghi nhớ để có thể nhớ/nhắc lại thông tin.",why:"Câu đối lập memorize every sentence với understand the main ideas.",usage:"memorize a poem/formula/list. memory → memorize → memorization.",contrast:"Memory là danh từ; memorization là quá trình; memorize là hành động."},
+{meaning:"Memorization = quá trình học thuộc/ghi nhớ thông tin.",why:"Rote memorization là collocation phổ biến cho học thuộc máy móc.",usage:"rote memorization; memorization technique.",contrast:"Understanding và memorization khác nhau: nhớ được chưa chắc hiểu được."},
+{meaning:"Prompt (noun) = câu lệnh/đầu vào hướng dẫn hệ thống AI tạo phản hồi.",why:"Muốn chatbot trả lời hữu ích cần clear and specific instruction.",usage:"write/give/refine a prompt; AI prompt; prompt engineering.",contrast:"Prompt còn là adjective = nhanh và verb = thúc đẩy. Ở đây có article 'a' nên cần noun."},
+{meaning:"Prompt (adjective) = nhanh chóng, kịp thời, không trì hoãn.",why:"Cấu trúc 'a ___ response' cần adjective bổ nghĩa response.",usage:"prompt response/action/payment/attention.",contrast:"Prompt noun = câu lệnh; promptly = adverb."},
+{meaning:"Promptly = một cách nhanh chóng/kịp thời; đây là adverb.",why:"Sau động từ reacted cần adverb.",usage:"respond promptly, act promptly, arrive promptly.",contrast:"Prompt là adjective/noun/verb; promptly mới là trạng từ."},
+{meaning:"Prompt somebody to do something = khiến/thúc đẩy ai đó làm một hành động.",why:"Online fraud tăng khiến bank introduce stronger security measures.",usage:"prompt + somebody + to-infinitive.",contrast:"Challenge = phản biện/thử thách; deploy = triển khai; accompany = đi cùng."},
+{meaning:"Challenging = khó và đòi hỏi nỗ lực, thường mang sắc thái trung tính hoặc tích cực.",why:"Public speaking khó nhưng đồng thời giúp develop communication skills.",usage:"challenging task/job/course/situation.",contrast:"Difficult thường chỉ đơn giản là khó; challenging dễ hàm ý khó nhưng có giá trị phát triển."},
+{meaning:"Complicate = làm cho một việc trở nên phức tạp hoặc khó xử lý hơn.",why:"Too many rules có thể làm registration process khó hơn.",usage:"complicate a process/situation; to complicate matters.",contrast:"Standardize thường làm quy trình nhất quán hơn; complicate theo hướng ngược lại."},
+{meaning:"Complication = vấn đề phát sinh làm tình huống khó hơn; trong y khoa còn nghĩa biến chứng.",why:"Technical problem phát sinh và delayed the event.",usage:"unexpected complication, medical complication.",contrast:"Complicate là verb; complication là noun, và sau 'another' cần noun."},
+{meaning:"Straightforward = rõ ràng, trực tiếp, không phức tạp về bước/quy tắc.",why:"Process chỉ gồm complete form → upload → submit.",usage:"straightforward process/explanation/task/answer.",contrast:"Easy = không cần nhiều effort; straightforward = không phức tạp. Một việc có thể straightforward nhưng vẫn tốn công."},
+{meaning:"Inaccessible = không thể hoặc khó truy cập/tiếp cận/sử dụng.",why:"Online textbook không dùng được vì website có problem.",usage:"inaccessible to somebody; digitally inaccessible; inaccessibility.",contrast:"Unreliable = có thể truy cập nhưng không đáng tin; inaccessible = không vào/dùng được."},
+{meaning:"Accessibility = mức độ một thứ dễ tiếp cận, sử dụng hoặc hiểu được, đặc biệt với người có nhu cầu khác nhau.",why:"Website được cải thiện để students with disabilities use it more easily.",usage:"improve accessibility; web accessibility; accessibility features.",contrast:"Reliability = độ đáng tin; practicality = tính thực tiễn; accessibility = khả năng tiếp cận."},
+{meaning:"Befriend = chủ động trở thành bạn với ai đó. Đây là transitive verb.",why:"Linh nhanh chóng kết bạn với several students.",usage:"Đúng: befriend someone. Không dùng 'befriend with someone'.",contrast:"Be friends with dùng with; befriend thì đi thẳng với object."},
+{meaning:"Communal = thuộc về hoặc được chia sẻ bởi cộng đồng/nhóm người.",why:"Residents cùng dùng garden để trồng vegetables.",usage:"communal area/space/garden/kitchen/facilities.",contrast:"Familial = thuộc gia đình; industrial = thuộc công nghiệp."},
+{meaning:"Deploy = đưa hệ thống/công nghệ/nguồn lực vào sử dụng thực tế hoặc triển khai nó.",why:"Company đưa new digital system tới all offices.",usage:"deploy software/system/technology/resources; deployment.",contrast:"Standardize = làm theo chuẩn; deploy = đưa thứ đã có vào sử dụng."},
+{meaning:"Automatic = tự động hoạt động khi có trigger theo cơ chế/chương trình định sẵn.",why:"Door mở khi sensor detects someone: trigger cố định → response cố định.",usage:"automatic door/payment/transmission.",contrast:"Automated nhấn mạnh process được tự động hóa; autonomous nhấn mạnh khả năng tự quyết định."},
+{meaning:"Automated = được tự động hóa: quy trình vốn cần con người nay do máy/phần mềm thực hiện phần lớn.",why:"Packaging trước cần workers, nay products are packed by machines.",usage:"automated system/process/manufacturing; automate → automation.",contrast:"Automatic mô tả cách thiết bị hoạt động; automated nhấn mạnh quá trình đã được chuyển từ manual sang machine-run."},
+{meaning:"Autonomous = tự chủ, có thể vận hành và đưa ra một số quyết định mà không cần điều khiển trực tiếp liên tục.",why:"Robot can analyse surroundings and make decisions by itself.",usage:"autonomous robot/vehicle/system; autonomy.",contrast:"Automatic = trigger cố định; automated = process được máy hóa; autonomous = có mức tự quyết định."},
+{meaning:"Happiness = trạng thái/cảm giác hạnh phúc, hài lòng; là abstract noun của happy.",why:"Sau 'a person’s overall' cần noun và close relationships có thể contribute to happiness.",usage:"happy → happily → happiness; personal happiness, source of happiness.",contrast:"Accessibility/reliability/practicality cũng là abstract nouns nhưng khác nghĩa hoàn toàn."}
+];
 
 const UNITS = [
   {id:1,title:"Unit 1",subtitle:"Practice collection",live:false},
@@ -216,6 +282,9 @@ const UNITS = [
 
 let current=0;
 let answers=Array(QUESTIONS.length).fill(null);
+let solved=Array(QUESTIONS.length).fill(false);
+let mistakes=Array(QUESTIONS.length).fill(0);
+let wrongChoices=Array.from({length:QUESTIONS.length},()=>new Set());
 
 const pageMount=document.getElementById("pageMount");
 const quizShell=document.getElementById("quizShell");
@@ -313,14 +382,14 @@ function renderExercise(id){
     <div class="exercise-intro">
       <div class="eyebrow">Unit 6 · Artificial Intelligence</div>
       <h1><span class="gradient">Vocabulary Practice 1</span></h1>
-      <p>44 multiple-choice questions at B1–B2 level. Choose one answer for each question. You can move backward and forward before submitting.</p>
-      <div class="pills"><span class="pill">44 questions</span><span class="pill">B1–B2</span><span class="pill">A–D keyboard shortcuts</span><span class="pill">Answer review</span></div>
+      <p>44 multiple-choice questions at B1–B2 level. Bạn sẽ nhận phản hồi ngay sau mỗi lựa chọn. Chọn sai thì thử lại; chọn đúng sẽ mở phần giải thích từ vựng chuyên sâu trước khi sang câu tiếp theo.</p>
+      <div class="pills"><span class="pill">44 questions</span><span class="pill">B1–B2</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
       <button class="primary" onclick="startQuiz(true)">Start exercise →</button>
     </div>`;
 }
 
 function startQuiz(reset=false){
-  if(reset){current=0;answers=Array(QUESTIONS.length).fill(null)}
+  if(reset){current=0;answers=Array(QUESTIONS.length).fill(null);solved=Array(QUESTIONS.length).fill(false);mistakes=Array(QUESTIONS.length).fill(0);wrongChoices=Array.from({length:QUESTIONS.length},()=>new Set())}
   hideAll();
   quizShell.style.display="block";
   renderQuestion();
@@ -328,49 +397,104 @@ function startQuiz(reset=false){
 }
 
 function renderQuestion(){
-  const q=QUESTIONS[current],chosen=answers[current];
-  const answered=answers.filter(v=>v!==null).length;
+  const q=QUESTIONS[current],isSolved=solved[current];
+  const solvedCount=solved.filter(Boolean).length;
   progress.style.width=((current+1)/QUESTIONS.length*100)+"%";
   counter.textContent=`${current+1} / ${QUESTIONS.length}`;
+  const feedback=isSolved ? deepFeedback(current) : (wrongChoices[current].size ? wrongFeedback(current) : "");
   qMount.innerHTML=`
     <div class="question-card">
-      <div class="kicker"><span class="qnum">QUESTION ${String(current+1).padStart(2,"0")}</span><span>${answered} answered</span></div>
+      <div class="kicker"><span class="qnum">QUESTION ${String(current+1).padStart(2,"0")}</span><span>${solvedCount} mastered</span></div>
       <h2 class="question">${esc(q.q)}</h2>
       <div class="answers">
-        ${q.o.map((opt,i)=>`<button class="answer ${chosen===i?"selected":""}" data-i="${i}"><span class="letter">${"ABCD"[i]}</span><span>${esc(opt)}</span></button>`).join("")}
+        ${q.o.map((opt,i)=>{
+          const isCorrect=isSolved&&i===q.a;
+          const wasWrong=wrongChoices[current].has(i);
+          return `<button class="answer ${isCorrect?"correct":wasWrong?"wrong-choice":""}" data-i="${i}" ${isSolved||wasWrong?"disabled":""}>
+            <span class="letter">${"ABCD"[i]}</span><span>${esc(opt)}</span>
+          </button>`
+        }).join("")}
       </div>
+      <div id="feedbackMount">${feedback}</div>
       <div class="nav">
         <button class="secondary" id="prevBtn" ${current===0?"disabled":""}>← Previous</button>
-        ${current===QUESTIONS.length-1?'<button class="primary" id="submitBtn">Submit quiz ✓</button>':'<button class="primary" id="nextBtn">Next →</button>'}
+        ${isSolved
+          ? (current===QUESTIONS.length-1
+              ? '<button class="primary" id="finishBtn">Finish ✓</button>'
+              : '<button class="primary" id="nextBtn">Next →</button>')
+          : '<span class="next-lock">Chọn đúng đáp án để tiếp tục →</span>'}
       </div>
     </div>`;
-  qMount.querySelectorAll(".answer").forEach(btn=>btn.onclick=()=>{
-    answers[current]=Number(btn.dataset.i);
-    qMount.querySelectorAll(".answer").forEach(x=>x.classList.remove("selected"));
-    btn.classList.add("selected");
-  });
+
+  qMount.querySelectorAll(".answer:not(:disabled)").forEach(btn=>btn.onclick=()=>checkAnswer(Number(btn.dataset.i)));
   const p=document.getElementById("prevBtn"); if(p)p.onclick=()=>move(-1);
   const n=document.getElementById("nextBtn"); if(n)n.onclick=()=>move(1);
-  const s=document.getElementById("submitBtn"); if(s)s.onclick=submitQuiz;
+  const finish=document.getElementById("finishBtn"); if(finish)finish.onclick=finishLearning;
+}
+
+function checkAnswer(i){
+  const q=QUESTIONS[current];
+  if(solved[current])return;
+  if(i===q.a){
+    answers[current]=i;
+    solved[current]=true;
+    renderQuestion();
+    const panel=document.querySelector(".feedback.correct");
+    if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+    return;
+  }
+  mistakes[current]++;
+  wrongChoices[current].add(i);
+  renderQuestion();
+  const panel=document.querySelector(".feedback.wrong");
+  if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function wrongFeedback(index){
+  const q=QUESTIONS[index];
+  const lastWrong=[...wrongChoices[index]].at(-1);
+  const chosen=q.o[lastWrong];
+  return `<div class="feedback wrong">
+    <div class="feedback-title">✕ Chưa đúng — hãy chọn lại</div>
+    <p><b>${esc(chosen)}</b> không phù hợp với nghĩa hoặc cấu trúc mà câu này yêu cầu. Hãy nhìn lại tín hiệu ngữ cảnh và từ loại cần điền. Lựa chọn sai vừa chọn đã được khóa; hãy thử một đáp án khác.</p>
+  </div>`;
+}
+
+function deepFeedback(index){
+  const q=QUESTIONS[index],d=DEEP_EXPLANATIONS[index];
+  return `<div class="feedback correct">
+    <div class="feedback-title">✓ Đúng — ${"ABCD"[q.a]}. ${esc(q.o[q.a])}</div>
+    <div class="deep-grid">
+      <div class="deep-box"><b>Nghĩa & sắc thái</b><span>${esc(d.meaning)}</span></div>
+      <div class="deep-box"><b>Vì sao đúng trong câu</b><span>${esc(d.why)}</span></div>
+      <div class="deep-box"><b>Cách dùng / collocation</b><span>${esc(d.usage)}</span></div>
+      <div class="deep-box"><b>Phân biệt từ dễ nhầm</b><span>${esc(d.contrast)}</span></div>
+    </div>
+  </div>`;
 }
 
 function move(step){
-  const n=current+step;if(n<0||n>=QUESTIONS.length)return;
+  const n=current+step;
+  if(n<0||n>=QUESTIONS.length)return;
+  if(step>0&&!solved[current])return;
   current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function submitQuiz(){
-  const correct=QUESTIONS.reduce((n,q,i)=>n+(answers[i]===q.a?1:0),0);
-  const pct=Math.round(correct/QUESTIONS.length*100);
+function finishLearning(){
+  const mastered=solved.filter(Boolean).length;
+  if(mastered<QUESTIONS.length)return;
+  const totalMistakes=mistakes.reduce((a,b)=>a+b,0);
+  const firstTry=mistakes.filter(x=>x===0).length;
+  const pct=Math.round(firstTry/QUESTIONS.length*100);
   hideAll();resultScreen.style.display="block";
   document.getElementById("scoreBig").textContent=pct+"%";
-  document.getElementById("scoreFraction").textContent=`${correct} / ${QUESTIONS.length} correct`;
-  document.getElementById("correctStat").textContent=correct;
-  document.getElementById("wrongStat").textContent=QUESTIONS.length-correct;
-  document.getElementById("answeredStat").textContent=answers.filter(v=>v!==null).length;
+  document.getElementById("scoreFraction").textContent="first-try accuracy";
+  document.getElementById("correctStat").textContent=mastered;
+  document.getElementById("wrongStat").textContent=totalMistakes;
+  document.getElementById("answeredStat").textContent=firstTry;
   document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent2) ${pct*3.6}deg,rgba(255,255,255,.08) 0deg)`;
-  document.getElementById("resultTitle").textContent=pct>=90?"Excellent control.":pct>=75?"Strong result.":pct>=60?"Good progress.":"Keep practising.";
-  document.getElementById("resultMessage").textContent=pct>=75?"Review the few missed contrasts below to make the distinctions automatic.":"Use the review below to revisit the vocabulary distinctions from the notes.";
+  document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Good work — review the tricky contrasts.";
+  document.getElementById("resultMessage").textContent=`Bạn đã hoàn thành đủ ${QUESTIONS.length} câu. First-try accuracy là số câu bạn chọn đúng ngay lần đầu; mọi câu đều đã được sửa cho đến khi đúng.`;
   buildReview();if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -378,13 +502,14 @@ function submitQuiz(){
 function buildReview(){
   const list=document.getElementById("reviewList");
   list.innerHTML=QUESTIONS.map((q,i)=>{
-    const u=answers[i],ok=u===q.a;
-    const user=u===null?"Not answered":`${"ABCD"[u]}. ${esc(q.o[u])}`;
+    const d=DEEP_EXPLANATIONS[i];
     const right=`${"ABCD"[q.a]}. ${esc(q.o[q.a])}`;
-    return `<div class="review-item ${ok?"correct":"wrong"}">
+    const attemptLabel=mistakes[i]===0?"Correct on first try":`${mistakes[i]} mistake${mistakes[i]>1?"s":""} before correct`;
+    return `<div class="review-item correct">
       <div class="review-q">${i+1}. ${esc(q.q)}</div>
-      <div class="review-meta"><span class="tag ${ok?"good":"bad"}">Your answer: ${user}</span>${ok?"":`<span class="tag good">Correct: ${right}</span>`}</div>
-      <div class="explain">${esc(q.e)}</div></div>`;
+      <div class="review-meta"><span class="tag good">Correct: ${right}</span><span class="tag">${attemptLabel}</span></div>
+      <div class="explain"><b>Nghĩa:</b> ${esc(d.meaning)}<br><br><b>Phân biệt:</b> ${esc(d.contrast)}</div>
+    </div>`;
   }).join("");
 }
 
@@ -398,7 +523,7 @@ function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t
 document.addEventListener("keydown",e=>{
   if(quizShell.style.display!=="block")return;
   const k=e.key.toLowerCase();if(["a","b","c","d"].includes(k)){const i=["a","b","c","d"].indexOf(k);const b=qMount.querySelector(`.answer[data-i="${i}"]`);if(b)b.click()}
-  if(e.key==="ArrowRight"&&current<QUESTIONS.length-1)move(1);
+  if(e.key==="ArrowRight"&&current<QUESTIONS.length-1&&solved[current])move(1);
   if(e.key==="ArrowLeft"&&current>0)move(-1);
 });
 route();
