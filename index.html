@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Unit 6 Vocabulary Quiz | B1–B2</title>
+<style>
+  :root {
+    --bg:#07111f;
+    --panel:rgba(15,23,42,.78);
+    --panel-2:rgba(255,255,255,.055);
+    --text:#f8fafc;
+    --muted:#9fb0c8;
+    --line:rgba(255,255,255,.11);
+    --accent:#8b5cf6;
+    --accent2:#22d3ee;
+    --good:#34d399;
+    --bad:#fb7185;
+    --warning:#fbbf24;
+    --shadow:0 24px 80px rgba(0,0,0,.38);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; min-height:100vh; color:var(--text);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:
+      radial-gradient(circle at 18% 18%, rgba(34,211,238,.13), transparent 30%),
+      radial-gradient(circle at 82% 12%, rgba(139,92,246,.17), transparent 34%),
+      radial-gradient(circle at 55% 86%, rgba(52,211,153,.08), transparent 28%),
+      var(--bg);
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; opacity:.42;
+    background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:32px 32px;
+    mask-image:linear-gradient(to bottom,black,transparent 85%);
+  }
+  .orb{position:fixed;border-radius:50%;filter:blur(2px);opacity:.35;pointer-events:none;animation:float 10s ease-in-out infinite}
+  .orb.one{width:180px;height:180px;background:#7c3aed;left:-55px;top:22%;animation-delay:-1s}
+  .orb.two{width:120px;height:120px;background:#06b6d4;right:-35px;top:56%;animation-delay:-5s}
+  @keyframes float{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-28px,0) scale(1.08)}}
+  .wrap{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 56px;position:relative;z-index:2}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
+  .logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 35px rgba(34,211,238,.18);font-size:20px}
+  .badge{font-size:12px;color:#d8e3f3;border:1px solid var(--line);background:rgba(255,255,255,.05);padding:7px 10px;border-radius:999px}
+  .shell{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(18px);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+  .topbar{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;gap:18px;align-items:center}
+  .progress-track{height:8px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;flex:1}
+  .progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:inherit;transition:width .5s cubic-bezier(.22,1,.36,1)}
+  .counter{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px;min-width:82px;text-align:right}
+  .screen{padding:34px;min-height:610px}
+  .center{min-height:520px;display:grid;place-items:center;text-align:center}
+  .hero{max-width:720px;animation:rise .65s cubic-bezier(.22,1,.36,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(20px) scale(.985)}to{opacity:1;transform:none}}
+  .eyebrow{display:inline-flex;gap:8px;align-items:center;color:#c9d8ed;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .eyebrow::before{content:"";width:28px;height:2px;background:linear-gradient(90deg,var(--accent2),transparent)}
+  h1{font-size:clamp(36px,6vw,72px);line-height:.98;margin:18px 0 18px;letter-spacing:-.045em}
+  .gradient{background:linear-gradient(90deg,#fff 0%,#c4b5fd 42%,#67e8f9 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);font-size:17px;line-height:1.7;margin:0 auto 24px;max-width:650px}
+  .pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:24px 0 32px}
+  .pill{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;padding:9px 12px;color:#c9d8ed;font-size:13px}
+  button{font:inherit}
+  .primary,.secondary{border:0;border-radius:15px;padding:13px 18px;font-weight:800;cursor:pointer;transition:.2s ease}
+  .primary{color:#07111f;background:linear-gradient(135deg,#a78bfa,#67e8f9);box-shadow:0 12px 35px rgba(103,232,249,.13)}
+  .primary:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .primary:active{transform:scale(.98)}
+  .secondary{color:var(--text);background:rgba(255,255,255,.07);border:1px solid var(--line)}
+  .secondary:hover{background:rgba(255,255,255,.11)}
+  .quiz{display:none}
+  .question-card{animation:slideIn .42s cubic-bezier(.22,1,.36,1) both}
+  @keyframes slideIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+  .kicker{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;color:var(--muted);font-size:13px}
+  .qnum{font-weight:800;color:#c4b5fd}
+  .question{font-size:clamp(22px,3.4vw,34px);line-height:1.35;letter-spacing:-.02em;margin:0 0 28px;min-height:92px}
+  .answers{display:grid;gap:12px}
+  .answer{
+    position:relative;width:100%;display:flex;align-items:center;gap:14px;text-align:left;
+    color:var(--text);background:var(--panel-2);border:1px solid var(--line);border-radius:17px;
+    padding:16px 18px;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease;
+    overflow:hidden;
+  }
+  .answer::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(139,92,246,.13),rgba(34,211,238,.08));opacity:0;transition:.2s}
+  .answer:hover{transform:translateY(-2px);border-color:rgba(103,232,249,.35)}
+  .answer:hover::after{opacity:1}
+  .answer.selected{border-color:#8b5cf6;background:rgba(139,92,246,.12);transform:translateX(4px)}
+  .answer.selected::after{opacity:1}
+  .letter{width:34px;height:34px;flex:0 0 34px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;font-weight:900;color:#d9e4f2;background:rgba(255,255,255,.04);z-index:1}
+  .answer.selected .letter{background:#8b5cf6;border-color:#8b5cf6;color:white;animation:pop .25s ease}
+  @keyframes pop{50%{transform:scale(1.18)}}
+  .answer span:last-child{z-index:1;font-size:16px}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+  .nav .right{display:flex;gap:10px}
+  .mini-note{color:var(--muted);font-size:12px;margin-top:16px;text-align:center}
+  .result{display:none;animation:rise .55s ease both}
+  .score-wrap{display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:center}
+  .score-ring{width:220px;height:220px;border-radius:50%;display:grid;place-items:center;position:relative;margin:auto;background:conic-gradient(var(--accent2) 0deg,rgba(255,255,255,.08) 0deg)}
+  .score-ring::after{content:"";position:absolute;inset:14px;background:#0d1727;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line)}
+  .score-inner{position:relative;z-index:2;text-align:center}
+  .score-big{font-size:54px;font-weight:900;letter-spacing:-.05em}
+  .score-label{color:var(--muted);font-size:13px}
+  .result h2{font-size:36px;margin:0 0 8px}
+  .result p{color:var(--muted);line-height:1.65}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+  .stat{padding:15px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid var(--line)}
+  .stat b{display:block;font-size:22px;margin-bottom:3px}
+  .stat span{font-size:12px;color:var(--muted)}
+  .review{margin-top:30px}
+  .review h3{margin:0 0 14px;font-size:20px}
+  .review-list{display:grid;gap:12px}
+  .review-item{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:16px;padding:16px}
+  .review-item.correct{border-left:4px solid var(--good)}
+  .review-item.wrong{border-left:4px solid var(--bad)}
+  .review-q{font-weight:750;line-height:1.5}
+  .review-meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  .tag{font-size:12px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.06);color:#d8e3f3}
+  .tag.good{background:rgba(52,211,153,.12);color:#a7f3d0}
+  .tag.bad{background:rgba(251,113,133,.12);color:#fecdd3}
+  .explain{color:var(--muted);font-size:14px;line-height:1.55}
+  .footer{text-align:center;color:#71839b;font-size:12px;padding:16px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#111c2e;border:1px solid var(--line);color:white;padding:10px 14px;border-radius:12px;transition:.25s;z-index:20;box-shadow:var(--shadow)}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+  .confetti i{position:absolute;top:-16px;width:9px;height:16px;border-radius:3px;animation:fall var(--t) linear forwards;transform:rotate(var(--r));background:hsl(var(--h) 85% 65%)}
+  @keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(760deg);opacity:.9}}
+  @media(max-width:720px){
+    .screen{padding:24px 18px;min-height:620px}
+    .score-wrap{grid-template-columns:1fr}
+    .score-ring{width:185px;height:185px}
+    .stats{grid-template-columns:1fr}
+    header{align-items:flex-start}
+    .badge{display:none}
+    .question{min-height:0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body>
+<div class="orb one"></div><div class="orb two"></div>
+<div class="confetti" id="confetti"></div>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">✦</div><div>Unit 6 · Vocabulary Lab</div></div>
+    <div class="badge">B1–B2 · 44 questions · Note-only vocabulary</div>
+  </header>
+
+  <main class="shell">
+    <div class="topbar">
+      <div class="progress-track"><div class="progress" id="progress"></div></div>
+      <div class="counter" id="counter">Ready</div>
+    </div>
+
+    <section class="screen center" id="startScreen">
+      <div class="hero">
+        <div class="eyebrow">Artificial Intelligence · Unit 6</div>
+        <h1><span class="gradient">Vocabulary, but interactive.</span></h1>
+        <p>44 multiple-choice questions built only from the vocabulary notes in your Unit 6 document. Choose one answer per question, navigate freely, then submit to see your score and detailed review.</p>
+        <div class="pills">
+          <span class="pill">⚡ Animated interactions</span>
+          <span class="pill">⌨ Keyboard shortcuts</span>
+          <span class="pill">✓ Instant final review</span>
+          <span class="pill">◉ Works offline</span>
+        </div>
+        <button class="primary" id="startBtn">Start the quiz →</button>
+        <div class="mini-note">Tip: press A–D to choose an answer, ←/→ to move between questions.</div>
+      </div>
+    </section>
+
+    <section class="screen quiz" id="quizScreen">
+      <div id="questionMount"></div>
+    </section>
+
+    <section class="screen result" id="resultScreen">
+      <div class="score-wrap">
+        <div class="score-ring" id="scoreRing">
+          <div class="score-inner">
+            <div class="score-big" id="scoreBig">0%</div>
+            <div class="score-label" id="scoreFraction">0 / 44 correct</div>
+          </div>
+        </div>
+        <div>
+          <div class="eyebrow">Quiz complete</div>
+          <h2 id="resultTitle">Nice work.</h2>
+          <p id="resultMessage"></p>
+          <div class="stats">
+            <div class="stat"><b id="correctStat">0</b><span>Correct</span></div>
+            <div class="stat"><b id="wrongStat">0</b><span>Incorrect</span></div>
+            <div class="stat"><b id="answeredStat">0</b><span>Answered</span></div>
+          </div>
+          <button class="primary" id="retryBtn">Try again</button>
+        </div>
+      </div>
+      <div class="review">
+        <h3>Answer review</h3>
+        <div class="review-list" id="reviewList"></div>
+      </div>
+    </section>
+
+    <div class="footer">Static HTML · No tracking · No external libraries</div>
+  </main>
+</div>
+<div class="toast" id="toast">Choose an answer first.</div>
+
+<script>
+const QUESTIONS = [{"q": "The company offers regular training courses as part of its employees’ career ________, helping them build useful skills for the future.", "o": ["retirement", "settlement", "development", "advancement"], "a": 2, "e": "Career development focuses on building skills and professional growth within a career."}, {"q": "Taking on a management position can be an important step in career ________ for an experienced employee.", "o": ["advancement", "development", "retirement", "settlement"], "a": 0, "e": "Career advancement emphasizes moving upward or gaining a higher position."}, {"q": "After working as a teacher for nearly forty years, Mr Brown is now looking forward to his ________.", "o": ["standardization", "retirement", "development", "settlement"], "a": 1, "e": "Retirement is the period when someone stops working permanently, usually because of age."}, {"q": "After several weeks of disagreement, the two sides finally reached a peaceful ________.", "o": ["companionship", "retirement", "settlement", "memorization"], "a": 2, "e": "A settlement can mean an agreement that resolves a disagreement."}, {"q": "We had finished our meal, so I asked the waiter if I could ________ the bill.", "o": ["deploy", "settle", "accompany", "retire"], "a": 1, "e": "To settle a bill means to pay it."}, {"q": "It took Mai a few weeks to ________ after moving to a completely new city.", "o": ["settle in", "industrialize", "memorize", "standardize"], "a": 0, "e": "To settle in means to become comfortable in a new place or situation."}, {"q": "After the factory closed, hundreds of local workers became ________ and had to look for new jobs.", "o": ["industrious", "companionable", "unemployable", "unemployed"], "a": 3, "e": "Unemployed describes the state of not having a job."}, {"q": "Without basic computer skills, some workers may become ________ in a labour market that increasingly depends on technology.", "o": ["unemployed", "unemployable", "companionable", "industrious"], "a": 1, "e": "Unemployable means difficult to employ because a person lacks suitable skills or qualifications."}, {"q": "A ________ statement contains information that is factually correct.", "o": ["realistic", "reliable", "truthful", "honest"], "a": 2, "e": "Truthful emphasizes that what is said is true or factually correct."}, {"q": "Jack was ________ enough to admit that he had made the mistake instead of blaming his colleague.", "o": ["truthful", "realistic", "reliable", "honest"], "a": 3, "e": "Honest emphasizes sincerity and not hiding or misrepresenting the truth."}, {"q": "The plan is ambitious, but it is still ________ because the team has enough time, money, and staff to complete it.", "o": ["theoretical", "reliable", "realistic", "truthful"], "a": 2, "e": "Realistic means practical and achievable in real-life conditions."}, {"q": "Before using information in your essay, make sure it comes from a ________ source.", "o": ["realistic", "reliable", "straightforward", "practical"], "a": 1, "e": "A reliable source can be trusted to provide accurate information."}, {"q": "This website sometimes gives incorrect information, so students consider it ________.", "o": ["inaccessible", "untruthful", "unreliable", "unfriendly"], "a": 2, "e": "Unreliable means not consistently accurate or trustworthy."}, {"q": "The course gives students ________ experience by allowing them to work on real projects rather than simply reading about them.", "o": ["theoretical", "practical", "realistic", "reliable"], "a": 1, "e": "Practical experience comes from doing real tasks, not only studying theory."}, {"q": "The first part of the course is mainly ________, while the second part allows students to apply what they have learned in real situations.", "o": ["straightforward", "practical", "theoretical", "automatic"], "a": 2, "e": "Theoretical refers to ideas and principles rather than practical application."}, {"q": "Despite living in different countries, the brothers have maintained strong ________ relationships.", "o": ["communal", "industrial", "familial", "companionable"], "a": 2, "e": "Familial means relating to a family."}, {"q": "I really enjoyed Anna’s ________ during the long train journey because we had so much to talk about.", "o": ["company", "memory", "industry", "settlement"], "a": 0, "e": "To enjoy someone’s company means to enjoy being with that person."}, {"q": "Parents are allowed to ________ their young children on the school trip.", "o": ["deploy", "befriend", "standardize", "accompany"], "a": 3, "e": "Accompany means to go somewhere with someone."}, {"q": "For many elderly people who live alone, a pet can become a valuable ________.", "o": ["retiree", "settler", "companion", "industry"], "a": 2, "e": "A companion is a person or animal that spends time with someone and provides company."}, {"q": "Although David is rather quiet, he is very ________ once you start talking to him.", "o": ["theoretical", "industrial", "companionable", "unemployed"], "a": 2, "e": "Companionable describes someone who is friendly and pleasant to spend time with."}, {"q": "The restaurant chain plans to ________ its cooking procedures so that customers receive the same quality of food at every branch.", "o": ["complicate", "industrialize", "memorize", "standardize"], "a": 3, "e": "Standardize means to make a process follow the same standard."}, {"q": "The ________ of safety procedures across all factories has helped the company reduce human error.", "o": ["memorization", "industrialization", "standardization", "accessibility"], "a": 2, "e": "Standardization is the process of making procedures consistent according to a standard."}, {"q": "The city used to depend mainly on agriculture, but rapid ________ led to the development of hundreds of factories.", "o": ["memorization", "industrialization", "standardization", "settlement"], "a": 1, "e": "Industrialization is the development of industry and factory-based production."}, {"q": "The northern part of the country contains several large ________ areas where factories and warehouses are located.", "o": ["familial", "industrious", "industrial", "communal"], "a": 2, "e": "Industrial means relating to industry or manufacturing."}, {"q": "Sarah is an extremely ________ student who always completes her assignments carefully and on time.", "o": ["industrial", "automatic", "unemployed", "industrious"], "a": 3, "e": "Industrious means hard-working."}, {"q": "Instead of simply trying to ________ every sentence, students should understand the main ideas of the text.", "o": ["deploy", "memorize", "settle", "standardize"], "a": 1, "e": "Memorize means to learn something so that you can remember it exactly."}, {"q": "Some students depend heavily on rote ________ before examinations instead of trying to understand the material.", "o": ["standardization", "development", "memorization", "reality"], "a": 2, "e": "Memorization is the process of learning something by memory."}, {"q": "To get a useful response from an AI chatbot, users should provide a clear and specific ________.", "o": ["memory", "theory", "company", "prompt"], "a": 3, "e": "A prompt is an instruction or input given to an AI system."}, {"q": "The customer thanked the company for its ________ response to her complaint.", "o": ["communal", "theoretical", "prompt", "realistic"], "a": 2, "e": "As an adjective, prompt means immediate or quick."}, {"q": "When the fire alarm went off, staff reacted ________ and helped everyone leave the building safely.", "o": ["theoretically", "realistically", "truthfully", "promptly"], "a": 3, "e": "Promptly means quickly and without unnecessary delay."}, {"q": "The sharp increase in online fraud ________ the bank to introduce stronger security measures.", "o": ["accompanied", "prompted", "deployed", "challenged"], "a": 1, "e": "Prompt somebody to do something means to cause or encourage them to take action."}, {"q": "Learning to speak confidently in front of a large audience can be ________, but it can also help students develop valuable communication skills.", "o": ["straightforward", "challenging", "automatic", "accessible"], "a": 1, "e": "Challenging means difficult in a way that can require effort and may be rewarding."}, {"q": "Introducing too many new rules at the same time may ________ the registration process rather than improve it.", "o": ["deploy", "standardize", "complicate", "befriend"], "a": 2, "e": "Complicate means to make something more difficult or complex."}, {"q": "A sudden technical problem created another ________ and delayed the event for nearly an hour.", "o": ["retirement", "accessibility", "settlement", "complication"], "a": 3, "e": "A complication is an additional problem that makes a situation more difficult."}, {"q": "The application process is fairly ________: you simply complete the form, upload your documents, and click “Submit.”", "o": ["complicated", "straightforward", "theoretical", "realistic"], "a": 1, "e": "Straightforward means clear and uncomplicated."}, {"q": "The online textbook was ________ for several hours because of a problem with the school website.", "o": ["unemployable", "unreliable", "inaccessible", "unfriendly"], "a": 2, "e": "Inaccessible means impossible or difficult to reach or use."}, {"q": "The university has improved the ________ of its website so that students with disabilities can use it more easily.", "o": ["reliability", "practicality", "accessibility", "happiness"], "a": 2, "e": "Accessibility is the quality of being easy to reach, enter, use, or understand."}, {"q": "On her first day at university, Linh quickly ________ several students in her class and began having lunch with them.", "o": ["befriended", "deployed", "retired", "standardized"], "a": 0, "e": "Befriend means to become friends with someone."}, {"q": "Residents can grow vegetables together in the ________ garden behind the apartment building.", "o": ["familial", "communal", "industrial", "companionable"], "a": 1, "e": "Communal describes something shared by a group or community."}, {"q": "The company plans to ________ a new digital system across all of its offices next month.", "o": ["memorize", "industrialize", "deploy", "standardize"], "a": 2, "e": "Deploy means to put something into use."}, {"q": "The supermarket entrance has an ________ door that opens whenever its sensor detects someone approaching.", "o": ["automated", "autonomous", "industrial", "automatic"], "a": 3, "e": "Automatic means operating by itself when triggered, according to a fixed mechanism or program."}, {"q": "The factory has introduced an ________ packaging system, so most products are now packed by machines rather than workers.", "o": ["automatic", "familial", "autonomous", "automated"], "a": 3, "e": "Automated describes a process that has been changed so machines perform tasks previously done manually."}, {"q": "Unlike a basic automatic machine, an ________ robot can analyse its surroundings and make certain decisions by itself.", "o": ["industrial", "autonomous", "automated", "automatic"], "a": 1, "e": "Autonomous means able to operate or make certain decisions independently."}, {"q": "Spending time with close friends and family can contribute greatly to a person’s overall ________.", "o": ["happiness", "accessibility", "reliability", "practicality"], "a": 0, "e": "Happiness is the state of feeling happy or satisfied."}];
+let current = 0;
+let answers = Array(QUESTIONS.length).fill(null);
+
+const startScreen = document.getElementById('startScreen');
+const quizScreen = document.getElementById('quizScreen');
+const resultScreen = document.getElementById('resultScreen');
+const mount = document.getElementById('questionMount');
+const progress = document.getElementById('progress');
+const counter = document.getElementById('counter');
+const toast = document.getElementById('toast');
+
+document.getElementById('startBtn').addEventListener('click', startQuiz);
+document.getElementById('retryBtn').addEventListener('click', () => {
+  current = 0; answers = Array(QUESTIONS.length).fill(null);
+  resultScreen.style.display = 'none';
+  quizScreen.style.display = 'block';
+  renderQuestion();
+});
+
+function startQuiz() {
+  startScreen.style.display = 'none';
+  quizScreen.style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion(direction = 1) {
+  const q = QUESTIONS[current];
+  const chosen = answers[current];
+  const answered = answers.filter(v => v !== null).length;
+  progress.style.width = ((current + 1) / QUESTIONS.length * 100) + '%';
+  counter.textContent = `${current + 1} / ${QUESTIONS.length}`;
+
+  mount.innerHTML = `
+    <div class="question-card" style="animation-name:${direction < 0 ? 'slideIn' : 'slideIn'}">
+      <div class="kicker"><span class="qnum">QUESTION ${String(current + 1).padStart(2,'0')}</span><span>${answered} answered</span></div>
+      <h2 class="question">${escapeHTML(q.q)}</h2>
+      <div class="answers">
+        ${q.o.map((opt,i)=>`
+          <button class="answer ${chosen===i?'selected':''}" data-index="${i}">
+            <span class="letter">${'ABCD'[i]}</span>
+            <span>${escapeHTML(opt)}</span>
+          </button>`).join('')}
+      </div>
+      <div class="nav">
+        <button class="secondary" id="prevBtn" ${current===0?'disabled':''}>← Previous</button>
+        <div class="right">
+          ${current === QUESTIONS.length - 1
+            ? '<button class="primary" id="submitBtn">Submit quiz ✓</button>'
+            : '<button class="primary" id="nextBtn">Next →</button>'}
+        </div>
+      </div>
+      <div class="mini-note">You can change any answer before submitting.</div>
+    </div>`;
+
+  mount.querySelectorAll('.answer').forEach(btn => {
+    btn.addEventListener('click', () => {
+      answers[current] = Number(btn.dataset.index);
+      mount.querySelectorAll('.answer').forEach(x=>x.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+  const prev = document.getElementById('prevBtn');
+  if(prev) prev.addEventListener('click', () => move(-1));
+  const next = document.getElementById('nextBtn');
+  if(next) next.addEventListener('click', () => move(1));
+  const submit = document.getElementById('submitBtn');
+  if(submit) submit.addEventListener('click', submitQuiz);
+}
+
+function move(step) {
+  const nextIndex = current + step;
+  if(nextIndex < 0 || nextIndex >= QUESTIONS.length) return;
+  current = nextIndex;
+  renderQuestion(step);
+}
+
+function submitQuiz() {
+  const unanswered = answers.filter(v=>v===null).length;
+  if(unanswered) {
+    showToast(`${unanswered} question${unanswered>1?'s':''} still unanswered — submitting anyway.`);
+  }
+  const correct = QUESTIONS.reduce((n,q,i)=> n + (answers[i] === q.a ? 1 : 0), 0);
+  const pct = Math.round(correct / QUESTIONS.length * 100);
+  quizScreen.style.display = 'none';
+  resultScreen.style.display = 'block';
+  progress.style.width = '100%';
+  counter.textContent = 'Completed';
+
+  document.getElementById('scoreBig').textContent = pct + '%';
+  document.getElementById('scoreFraction').textContent = `${correct} / ${QUESTIONS.length} correct`;
+  document.getElementById('correctStat').textContent = correct;
+  document.getElementById('wrongStat').textContent = QUESTIONS.length - correct;
+  document.getElementById('answeredStat').textContent = answers.filter(v=>v!==null).length;
+  document.getElementById('scoreRing').style.background =
+    `conic-gradient(var(--accent2) ${pct*3.6}deg, rgba(255,255,255,.08) 0deg)`;
+
+  const title = pct >= 90 ? 'Excellent control.' : pct >= 75 ? 'Strong result.' : pct >= 60 ? 'Good progress.' : 'Keep sharpening the contrasts.';
+  const msg = pct >= 90
+    ? 'You handled the word families and nuance-heavy contrasts very accurately.'
+    : pct >= 75
+    ? 'Your vocabulary control is solid. Review the missed contrasts to make the distinctions automatic.'
+    : pct >= 60
+    ? 'You have a good base. Focus especially on words that share a topic but differ in meaning or usage.'
+    : 'Use the review below to revisit the precise differences between the vocabulary items in the notes.';
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMessage').textContent = msg;
+
+  buildReview();
+  if(pct >= 75) launchConfetti();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildReview() {
+  const list = document.getElementById('reviewList');
+  list.innerHTML = QUESTIONS.map((q,i)=> {
+    const user = answers[i];
+    const ok = user === q.a;
+    const userText = user === null ? 'Not answered' : `${'ABCD'[user]}. ${escapeHTML(q.o[user])}`;
+    const correctText = `${'ABCD'[q.a]}. ${escapeHTML(q.o[q.a])}`;
+    return `
+      <div class="review-item ${ok?'correct':'wrong'}">
+        <div class="review-q">${i+1}. ${escapeHTML(q.q)}</div>
+        <div class="review-meta">
+          <span class="tag ${ok?'good':'bad'}">Your answer: ${userText}</span>
+          ${ok?'':`<span class="tag good">Correct: ${correctText}</span>`}
+        </div>
+        <div class="explain">${escapeHTML(q.e)}</div>
+      </div>`;
+  }).join('');
+}
+
+function launchConfetti() {
+  const holder = document.getElementById('confetti');
+  holder.innerHTML = '';
+  for(let i=0;i<90;i++) {
+    const el = document.createElement('i');
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.setProperty('--x', (Math.random()*240-120) + 'px');
+    el.style.setProperty('--t', (2.6 + Math.random()*2.2) + 's');
+    el.style.setProperty('--r', (Math.random()*160-80) + 'deg');
+    el.style.setProperty('--h', Math.floor(Math.random()*360));
+    el.style.animationDelay = Math.random()*.7 + 's';
+    holder.appendChild(el);
+  }
+  setTimeout(()=> holder.innerHTML='', 5600);
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(window.__toast);
+  window.__toast = setTimeout(()=>toast.classList.remove('show'),2200);
+}
+
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[s]);
+}
+
+document.addEventListener('keydown', e => {
+  if(quizScreen.style.display !== 'block') return;
+  const key = e.key.toLowerCase();
+  if(['a','b','c','d'].includes(key)) {
+    const idx = ['a','b','c','d'].indexOf(key);
+    const btn = mount.querySelector(`.answer[data-index="${idx}"]`);
+    if(btn) btn.click();
+  }
+  if(e.key === 'ArrowRight' && current < QUESTIONS.length-1) move(1);
+  if(e.key === 'ArrowLeft' && current > 0) move(-1);
+});
+</script>
+</body>
+</html>
