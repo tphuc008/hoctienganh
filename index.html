@@ -133,6 +133,7 @@ h1,h2,h3,p{margin-top:0}
 .deep-box{padding:13px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid var(--line)}
 .deep-box b{display:block;color:white;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
 .deep-box span{display:block;color:var(--muted);font-size:13px;line-height:1.58}
+.deep-box.wide{grid-column:1/-1}
 .next-lock{color:var(--muted);font-size:12px;align-self:center}
 .letter{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line);font-weight:900}
 .answer.selected .letter{background:#8b5cf6;border-color:#8b5cf6}
@@ -674,13 +675,17 @@ function wrongFeedback(index){
 
 function deepFeedback(index){
   const q=activeQuestions[index],d=activeExplanations[index];
+  const usageBox=activeGrade===10
+    ? ""
+    : `<div class="deep-box"><b>Cách dùng / collocation</b><span>${esc(d.usage)}</span></div>`;
+  const contrastClass=activeGrade===10?"deep-box wide":"deep-box";
   return `<div class="feedback correct">
     <div class="feedback-title">✓ Đúng — ${"ABCD"[q.a]}. ${esc(q.o[q.a])}</div>
     <div class="deep-grid">
       <div class="deep-box"><b>Nghĩa & sắc thái</b><span>${esc(d.meaning)}</span></div>
       <div class="deep-box"><b>Vì sao đúng trong câu</b><span>${esc(d.why)}</span></div>
-      <div class="deep-box"><b>Cách dùng / collocation</b><span>${esc(d.usage)}</span></div>
-      <div class="deep-box"><b>Phân biệt từ dễ nhầm</b><span>${esc(d.contrast)}</span></div>
+      ${usageBox}
+      <div class="${contrastClass}"><b>Phân biệt từ dễ nhầm</b><span>${esc(d.contrast)}</span></div>
     </div>
   </div>`;
 }
