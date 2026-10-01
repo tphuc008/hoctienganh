@@ -21,7 +21,7 @@ window.G10_U3_BANK = (() => {
   const TERM_MEANING=Object.fromEntries(ROWS.map(x=>[x.o[x.a],x.m.replace(/^.*?=\s*/,"").replace(/\.$/,"")]));
   function detailedContrast(r){
     const answer=r.o[r.a];
-    const distractors=r.o.filter(x=>x!==answer).map(x=>TERM_MEANING[x]?\`“\${x}” = \${TERM_MEANING[x]}\`:\`“\${x}”\`);
+    const distractors=r.o.filter(x=>x!==answer).map(x=>TERM_MEANING[x]?"“"+x+"” = "+TERM_MEANING[x]:"“"+x+"”");
     const extra=distractors.length?" Các phương án còn lại: "+distractors.join("; ")+".":"";
     return r.c+extra;
   }
