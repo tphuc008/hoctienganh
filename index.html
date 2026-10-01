@@ -347,7 +347,7 @@ function route(){
 
   const exercise=hash.match(/^grade-12\/unit-6\/vocabulary-practice-(\d+)$/);
   if(exercise){renderExercise(6,Number(exercise[1]));return}
-  if(hash==="grade-12/unit-6/leaderboard"){renderUnit(6);return}
+  if(hash==="grade-12/unit-6/leaderboard"){renderGrade(12);return}
   if(hash==="grade-12/unit-6"){renderUnit(6);return}
 
   const grade=hash.match(/^grade-(9|10|11|12)$/);
@@ -410,20 +410,34 @@ function renderGrade(id){
       <div class="eyebrow">Grade 12</div>
       <h1>Lớp 12</h1>
     </div>
-    <div class="section-title"><h2>Units</h2><span>1 unit</span></div>
-    <div class="units">
-      <button class="unit-card" onclick="goUnit(6)">
-        <div class="unit-top">
-          <span class="unit-no">UNIT 06</span>
-          <span class="status live">Exercises available</span>
+    <div class="unit-main-grid">
+      <aside class="diligence-card">
+        <div class="diligence-head">
+          <div><h3>🏆 Người chăm chỉ</h3><span>Top 5 · toàn Lớp 12</span></div>
         </div>
-        <h3>Unit 6</h3>
-        <p>Artificial Intelligence</p>
-        <span class="unit-arrow">→</span>
-      </button>
+        <div class="diligence-list" id="diligenceMount">
+          <div class="diligence-empty">Loading…</div>
+        </div>
+      </aside>
+      <div class="unit-exercises">
+        <div class="section-title"><h2>Units</h2><span>1 unit</span></div>
+        <div class="units">
+          <button class="unit-card" onclick="goUnit(6)">
+            <div class="unit-top">
+              <span class="unit-no">UNIT 06</span>
+              <span class="status live">Exercises available</span>
+            </div>
+            <h3>Unit 6</h3>
+            <p>Artificial Intelligence</p>
+            <span class="unit-arrow">→</span>
+          </button>
+        </div>
+      </div>
     </div>`;
+  loadDiligenceLeaderboard();
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
 
 function goUnit(id){
   if(id===6) location.hash="grade-12/unit-6";
@@ -434,31 +448,19 @@ function renderUnit(id){
   pageMount.style.display="block";
 
   const exerciseHTML=`
-    <div class="unit-main-grid">
-      <aside class="diligence-card">
-        <div class="diligence-head">
-          <div><h3>🏆 Người chăm chỉ</h3><span>Top 5 · số bài hoàn thành</span></div>
-        </div>
-        <div class="diligence-list" id="diligenceMount">
-          <div class="diligence-empty">Loading…</div>
-        </div>
-      </aside>
-      <div class="unit-exercises">
-        <div class="section-title"><h2>Exercises</h2><span>${TOTAL_SETS} sets</span></div>
-        <div class="exercise-grid">
-          ${Array.from({length:TOTAL_SETS},(_,i)=>{
-            const setNo=i+1;
-            const count=getSetCount(setNo);
-            const level=getSetLevel(setNo);
-            return `
-              <button class="exercise-card" onclick="openExercise(6,${setNo})">
-                <div class="exercise-icon">${setNo}</div>
-                <h3>Vocabulary Practice ${setNo} - ${getSetLevelName(setNo)}</h3>
-                <div class="meta"><span class="chip">${count} questions</span><span class="chip">${level}</span><span class="chip">Immediate feedback</span><span class="chip">Deep vocabulary notes</span></div>
-              </button>`;
-          }).join("")}
-        </div>
-      </div>
+    <div class="section-title"><h2>Exercises</h2><span>${TOTAL_SETS} sets</span></div>
+    <div class="exercise-grid">
+      ${Array.from({length:TOTAL_SETS},(_,i)=>{
+        const setNo=i+1;
+        const count=getSetCount(setNo);
+        const level=getSetLevel(setNo);
+        return `
+          <button class="exercise-card" onclick="openExercise(6,${setNo})">
+            <div class="exercise-icon">${setNo}</div>
+            <h3>Vocabulary Practice ${setNo} - ${getSetLevelName(setNo)}</h3>
+            <div class="meta"><span class="chip">${count} questions</span><span class="chip">${level}</span><span class="chip">Immediate feedback</span><span class="chip">Deep vocabulary notes</span></div>
+          </button>`;
+      }).join("")}
     </div>`;
 
   pageMount.innerHTML=`
@@ -471,7 +473,6 @@ function renderUnit(id){
       <h1>Artificial Intelligence</h1>
     </div>
     ${exerciseHTML}`;
-  loadDiligenceLeaderboard();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -623,7 +624,7 @@ async function loadDiligenceLeaderboard(){
   const mount=document.getElementById("diligenceMount");
   if(!mount)return;
   mount.innerHTML='<div class="diligence-empty">Loading…</div>';
-  const query="?select=nickname,completed_quizzes,active_days,questions_practiced&order=completed_quizzes.desc,active_days.desc,questions_practiced.desc&limit=5";
+  const query="?select=nickname,completed_quizzes,current_streak,active_days,questions_practiced&order=completed_quizzes.desc,current_streak.desc,active_days.desc,questions_practiced.desc&limit=5";
   try{
     const res=await fetch(SUPABASE_URL+"/rest/v1/diligence_leaderboard"+query,{
       headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}
@@ -639,7 +640,7 @@ async function loadDiligenceLeaderboard(){
       <div class="diligence-row">
         <div class="diligence-rank">${medals[i]||i+1}</div>
         <div class="diligence-name">${esc(r.nickname)}</div>
-        <div class="diligence-stats"><b>${r.completed_quizzes} bài</b>${r.active_days} ngày</div>
+        <div class="diligence-stats"><b>${r.completed_quizzes} bài</b>🔥 ${r.current_streak} ngày</div>
       </div>`).join("");
   }catch(err){
     console.error(err);
