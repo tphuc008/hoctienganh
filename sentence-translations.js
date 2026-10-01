@@ -39,7 +39,8 @@ window.SENTENCE_TRANSLATIONS = {
     56: "Cộng đồng muốn cắt giảm nhựa dùng một lần tại các lễ hội và khu chợ.",
     57: "Nếu xưởng không đặt thêm đất sét sớm, họ có thể hết nguyên liệu trước lễ hội.",
     58: "Di tích cổ thu hút du khách quốc tế vì nó nổi tiếng trên toàn thế giới.",
-    59: "Ngôi đình có ý nghĩa quan trọng về mặt lịch sử vì nhiều sự kiện địa phương quan trọng đã diễn ra ở đó.",
+    59: "Ngôi đình có ý nghĩa quan trọng về mặt lịch sử vì nhiều sự kiện địa phương quan trọng đã diễn ra ở đó."
+  },
   "9-2": {
     20: "Thành phố muốn nhiều người sử dụng phương tiện công cộng thay vì lái xe cá nhân.",
     21: "Xe buýt, xe đạp, tàu hỏa và xe máy đều là những phương tiện giao thông khác nhau.",
