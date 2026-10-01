@@ -237,6 +237,10 @@ h1,h2,h3,p{margin-top:0}
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="grade9-unit1.js"></script>
+<script src="grade9-unit2.js"></script>
+<script src="grade9-unit3.js"></script>
+<script src="grade9-unit4.js"></script>
 <script src="grade9-unit5.js"></script>
 <script src="grade10-unit3.js"></script>
 <script src="grade12-units.js"></script>
@@ -253,6 +257,10 @@ const GRADES = [
 ];
 
 const UNITS = [
+  {grade:9,id:1,title:"Unit 1",subtitle:"Local Community",live:true},
+  {grade:9,id:2,title:"Unit 2",subtitle:"City Life",live:true},
+  {grade:9,id:3,title:"Unit 3",subtitle:"Healthy Living for Teens",live:true},
+  {grade:9,id:4,title:"Unit 4",subtitle:"Remembering the Past",live:true},
   {grade:9,id:5,title:"Unit 5",subtitle:"Our Experiences",live:true},
   {grade:10,id:3,title:"Unit 3",subtitle:"Music",live:true},
   {grade:12,id:1,title:"Unit 1",subtitle:"Life Stories We Admire",live:true},
@@ -289,6 +297,10 @@ const LEVEL_CONFIG={
 
 const BANKS={
   ...(window.G12_BANKS||{}),
+  "9-1":window.G9_U1_BANK,
+  "9-2":window.G9_U2_BANK,
+  "9-3":window.G9_U3_BANK,
+  "9-4":window.G9_U4_BANK,
   "9-5":window.G9_U5_BANK,
   "12-6":{
     grade:12,
@@ -637,14 +649,15 @@ function wrongFeedback(index){
 
 function deepFeedback(index){
   const q=activeQuestions[index],d=activeExplanations[index];
-  const usageBox=activeGrade===10
+  const compactNotes=activeGrade===9||activeGrade===10;
+  const usageBox=compactNotes
     ? ""
     : `<div class="deep-box"><b>Cách dùng / collocation</b><span>${esc(d.usage)}</span></div>`;
-  const familyRow=activeGrade===10
+  const familyRow=compactNotes
     ? `<div class="word-family-row"><b>Word family</b><span>${esc(d.family||"—")}</span></div>`
     : "";
-  const contrastClass=activeGrade===10?"deep-box wide":"deep-box";
-  const feedbackClass=activeGrade===10?"feedback correct grade10-feedback":"feedback correct";
+  const contrastClass=compactNotes?"deep-box wide":"deep-box";
+  const feedbackClass=compactNotes?"feedback correct grade10-feedback":"feedback correct";
   return `<div class="${feedbackClass}">
     <div class="feedback-title">✓ Đúng — ${"ABCD"[q.a]}. ${esc(q.o[q.a])}</div>
     <div class="deep-grid">
