@@ -235,6 +235,7 @@ h1,h2,h3,p{margin-top:0}
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="grade9-unit5.js"></script>
 <script src="grade10-unit3.js"></script>
 <script src="grade12-units.js"></script>
 <script>
@@ -243,13 +244,14 @@ const QUESTIONS = [{"q":"The company offers regular training courses as part of 
 const DEEP_EXPLANATIONS = [{"meaning":"Career development = quá trình nâng cao kỹ năng, kiến thức và kinh nghiệm nghề nghiệp. Trọng tâm là trở nên giỏi hơn trong nghề, không nhất thiết được thăng chức.","why":"Câu nhấn mạnh training courses giúp nhân viên build useful skills, nên ý chính là phát triển năng lực.","usage":"Collocations: career development, professional development, development opportunities. Word family: develop → development → developed/developing.","contrast":"Career advancement = đi lên về vị trí/chức vụ. Development có thể xảy ra dù job title không đổi."},{"meaning":"Career advancement = sự thăng tiến nghề nghiệp: lên vị trí cao hơn, có trách nhiệm hoặc quyền hạn lớn hơn.","why":"Taking on a management position là thay đổi cấp bậc, nên dùng advancement.","usage":"Collocations: career advancement, opportunities for advancement, advance in one’s career.","contrast":"Career development = phát triển năng lực; career advancement = phát triển vị trí."},{"meaning":"Retirement = việc/giai đoạn nghỉ hưu, khi một người dừng công việc nghề nghiệp lâu dài, thường do tuổi tác.","why":"Mr Brown đã làm giáo viên gần 40 năm và đang mong chờ lúc ngừng làm việc.","usage":"retire (v) → retirement (n) → retiree (n). Collocations: retirement age, early retirement.","contrast":"Development/advancement mô tả sự nghiệp đang tiếp diễn; retirement là rời khỏi công việc."},{"meaning":"Settlement trong câu này = sự dàn xếp/thỏa thuận giải quyết tranh chấp. Từ này cũng có thể nghĩa là khu định cư.","why":"Hai bên có disagreement rồi finally reached a peaceful ___ → reach a settlement.","usage":"Collocations: reach/negotiate a settlement. Word family: settle → settlement → settler.","contrast":"Companionship, retirement, memorization không mang nghĩa giải quyết bất đồng."},{"meaning":"Settle a bill = thanh toán hóa đơn. Settle ở đây có nghĩa hoàn tất một khoản phải trả.","why":"Sau khi ăn xong và gọi waiter, hành động hợp logic là thanh toán bill.","usage":"settle a bill/account/debt; settle a dispute; settle in.","contrast":"Deploy = triển khai; accompany = đi cùng; retire = nghỉ hưu."},{"meaning":"Settle in = dần quen, thoải mái và ổn định ở nơi hoặc hoàn cảnh mới.","why":"Mai vừa chuyển đến thành phố mới và cần vài tuần để thích nghi.","usage":"settle in; settle into a new job/routine.","contrast":"Settle không có in thường có thể là giải quyết hoặc thanh toán; settle in nhấn mạnh thích nghi."},{"meaning":"Unemployed = đang không có việc làm. Nó mô tả trạng thái hiện tại, không nói rằng người đó không thể tìm việc.","why":"Factory closed → workers lost their jobs → became unemployed.","usage":"become/remain unemployed; unemployment. Word family: employ → employment → unemployed.","contrast":"Unemployable = khó được tuyển vì thiếu kỹ năng/kiến thức. Một người unemployed vẫn có thể rất employable."},{"meaning":"Unemployable = khó có khả năng được tuyển vì kỹ năng/kiến thức không đáp ứng thị trường.","why":"Câu nhấn mạnh thiếu basic computer skills trong thị trường phụ thuộc công nghệ.","usage":"make somebody unemployable; potentially unemployable.","contrast":"Unemployed = hiện tại không có việc; unemployable = khả năng tìm được việc thấp."},{"meaning":"Truthful = đúng sự thật, phản ánh facts chính xác. Trọng tâm nằm ở nội dung có đúng hay không.","why":"Câu định nghĩa trực tiếp 'factually correct'.","usage":"truth → truthful → truthfully; untruthful. Collocations: truthful account/answer/statement.","contrast":"Honest nhấn mạnh sincerity/không cố lừa dối. Một người có thể honest nhưng nhớ sai fact."},{"meaning":"Honest = thành thật, không cố ý nói dối, che giấu hoặc đổ lỗi sai. Trọng tâm là ý định và phẩm chất người nói.","why":"Jack admitted his mistake thay vì blame colleague.","usage":"be honest about/with; honestly admit; honesty.","contrast":"Truthful nghiêng về độ chính xác của thông tin; honest nghiêng về sự chân thành."},{"meaning":"Realistic = thực tế, phù hợp điều kiện thật và có khả năng đạt được; cũng có thể nghĩa giống đời thực.","why":"Plan ambitious nhưng có đủ time, money, staff → vẫn achievable.","usage":"realistic goal/expectation/plan; be realistic about. real → reality → realistic.","contrast":"Reliable = đáng tin cậy; practical = thiên về ứng dụng/thực hành."},{"meaning":"Reliable = đáng tin cậy, có thể dựa vào vì thường xuyên cho kết quả đúng hoặc ổn định.","why":"Nguồn dùng cho essay cần có độ tin cậy cao.","usage":"reliable source/information/method/person. reliable → reliably → reliability.","contrast":"Realistic = thực tế/khả thi; truthful = đúng sự thật trong một phát biểu."},{"meaning":"Unreliable = không đáng tin, không ổn định hoặc hay cho thông tin/kết quả sai.","why":"Website đôi khi cung cấp incorrect information.","usage":"unreliable source/data/service; unreliability.","contrast":"Untruthful thường gợi ý không nói thật; unreliable rộng hơn và có thể do chất lượng kém."},{"meaning":"Practical = mang tính thực hành/thực tiễn, liên quan việc làm hoặc áp dụng trong tình huống thật.","why":"Students work on real projects rather than only reading.","usage":"practical experience/skills/advice/solution; practicality.","contrast":"Theoretical = thuộc lý thuyết. Practical không hoàn toàn đồng nghĩa realistic."},{"meaning":"Theoretical = thuộc lý thuyết, dựa trên ideas/principles hơn là việc thực hiện trong thực tế.","why":"First part học kiến thức, second part mới apply in real situations.","usage":"theoretical knowledge/framework/approach; theory → theoretical → theoretically.","contrast":"Practical = áp dụng/thực hành. Hai từ thường tạo thành cặp đối lập."},{"meaning":"Familial = thuộc về hoặc liên quan đến gia đình.","why":"Relationships giữa brothers là quan hệ gia đình.","usage":"familial relationships/ties/responsibilities.","contrast":"Communal = thuộc cộng đồng; companionable = dễ bầu bạn."},{"meaning":"Company trong enjoy someone’s company = sự hiện diện/sự đồng hành của ai đó, không phải 'công ty'.","why":"Người nói thích ở cùng Anna trong chuyến tàu dài.","usage":"enjoy someone’s company; keep someone company.","contrast":"Companionship là sự bầu bạn/mối quan hệ đồng hành mang tính khái quát hơn."},{"meaning":"Accompany = đi cùng, hộ tống hoặc hiện diện cùng ai đó.","why":"Parents được phép đi cùng children on the school trip.","usage":"accompany somebody to/on something. Không dùng 'accompany with somebody' khi nghĩa là đi cùng.","contrast":"Befriend = kết bạn; deploy = triển khai."},{"meaning":"Companion = người hoặc động vật đồng hành/bầu bạn với ai đó.","why":"Pet có thể giúp elderly people living alone bớt cô đơn.","usage":"travelling companion, constant companion, companion animal.","contrast":"Company = sự hiện diện; companion = bản thân người/vật đồng hành."},{"meaning":"Companionable = thân thiện, dễ trò chuyện và dễ chịu khi ở cùng.","why":"David quiet nhưng pleasant once you talk to him.","usage":"a companionable person/silence/atmosphere.","contrast":"Friendly rộng hơn; companionable nhấn mạnh cảm giác dễ chịu khi dành thời gian cùng."},{"meaning":"Standardize = tiêu chuẩn hóa, làm cho quy trình/sản phẩm tuân theo cùng một chuẩn.","why":"Chuỗi nhà hàng muốn mọi branch có cùng quality.","usage":"standardize a process/system/procedure; standardization.","contrast":"Industrialize = công nghiệp hóa; complicate = làm phức tạp."},{"meaning":"Standardization = quá trình tạo và áp dụng tiêu chuẩn chung để tăng tính nhất quán.","why":"Safety procedures across all factories được làm đồng nhất.","usage":"standardization of procedures/data/testing.","contrast":"Industrialization = phát triển công nghiệp; standardization = làm theo chuẩn chung."},{"meaning":"Industrialization = quá trình nền kinh tế/khu vực phát triển mạnh sản xuất công nghiệp và nhà máy.","why":"City chuyển từ agriculture sang hundreds of factories.","usage":"rapid industrialization; industrialize; industrial.","contrast":"Không phải standardization: một từ nói về công nghiệp hóa, một từ nói về chuẩn hóa."},{"meaning":"Industrial = thuộc công nghiệp, nhà máy hoặc sản xuất quy mô lớn.","why":"Areas chứa factories and warehouses là industrial areas.","usage":"industrial area/zone/production/development.","contrast":"Industrious nhìn giống nhưng nghĩa là chăm chỉ."},{"meaning":"Industrious = chăm chỉ, cần cù, làm việc đều đặn và nghiêm túc.","why":"Sarah luôn hoàn thành assignments carefully and on time.","usage":"an industrious student/worker; industriously.","contrast":"Industrial = thuộc công nghiệp; industrious = hard-working."},{"meaning":"Memorize = chủ động ghi nhớ để có thể nhớ/nhắc lại thông tin.","why":"Câu đối lập memorize every sentence với understand the main ideas.","usage":"memorize a poem/formula/list. memory → memorize → memorization.","contrast":"Memory là danh từ; memorization là quá trình; memorize là hành động."},{"meaning":"Memorization = quá trình học thuộc/ghi nhớ thông tin.","why":"Rote memorization là collocation phổ biến cho học thuộc máy móc.","usage":"rote memorization; memorization technique.","contrast":"Understanding và memorization khác nhau: nhớ được chưa chắc hiểu được."},{"meaning":"Prompt (noun) = câu lệnh/đầu vào hướng dẫn hệ thống AI tạo phản hồi.","why":"Muốn chatbot trả lời hữu ích cần clear and specific instruction.","usage":"write/give/refine a prompt; AI prompt; prompt engineering.","contrast":"Prompt còn là adjective = nhanh và verb = thúc đẩy. Ở đây có article 'a' nên cần noun."},{"meaning":"Prompt (adjective) = nhanh chóng, kịp thời, không trì hoãn.","why":"Cấu trúc 'a ___ response' cần adjective bổ nghĩa response.","usage":"prompt response/action/payment/attention.","contrast":"Prompt noun = câu lệnh; promptly = adverb."},{"meaning":"Promptly = một cách nhanh chóng/kịp thời; đây là adverb.","why":"Sau động từ reacted cần adverb.","usage":"respond promptly, act promptly, arrive promptly.","contrast":"Prompt là adjective/noun/verb; promptly mới là trạng từ."},{"meaning":"Prompt somebody to do something = khiến/thúc đẩy ai đó làm một hành động.","why":"Online fraud tăng khiến bank introduce stronger security measures.","usage":"prompt + somebody + to-infinitive.","contrast":"Challenge = phản biện/thử thách; deploy = triển khai; accompany = đi cùng."},{"meaning":"Challenging = khó và đòi hỏi nỗ lực, thường mang sắc thái trung tính hoặc tích cực.","why":"Public speaking khó nhưng đồng thời giúp develop communication skills.","usage":"challenging task/job/course/situation.","contrast":"Difficult thường chỉ đơn giản là khó; challenging dễ hàm ý khó nhưng có giá trị phát triển."},{"meaning":"Complicate = làm cho một việc trở nên phức tạp hoặc khó xử lý hơn.","why":"Too many rules có thể làm registration process khó hơn.","usage":"complicate a process/situation; to complicate matters.","contrast":"Standardize thường làm quy trình nhất quán hơn; complicate theo hướng ngược lại."},{"meaning":"Complication = vấn đề phát sinh làm tình huống khó hơn; trong y khoa còn nghĩa biến chứng.","why":"Technical problem phát sinh và delayed the event.","usage":"unexpected complication, medical complication.","contrast":"Complicate là verb; complication là noun, và sau 'another' cần noun."},{"meaning":"Straightforward = rõ ràng, trực tiếp, không phức tạp về bước/quy tắc.","why":"Process chỉ gồm complete form → upload → submit.","usage":"straightforward process/explanation/task/answer.","contrast":"Easy = không cần nhiều effort; straightforward = không phức tạp. Một việc có thể straightforward nhưng vẫn tốn công."},{"meaning":"Inaccessible = không thể hoặc khó truy cập/tiếp cận/sử dụng.","why":"Online textbook không dùng được vì website có problem.","usage":"inaccessible to somebody; digitally inaccessible; inaccessibility.","contrast":"Unreliable = có thể truy cập nhưng không đáng tin; inaccessible = không vào/dùng được."},{"meaning":"Accessibility = mức độ một thứ dễ tiếp cận, sử dụng hoặc hiểu được, đặc biệt với người có nhu cầu khác nhau.","why":"Website được cải thiện để students with disabilities use it more easily.","usage":"improve accessibility; web accessibility; accessibility features.","contrast":"Reliability = độ đáng tin; practicality = tính thực tiễn; accessibility = khả năng tiếp cận."},{"meaning":"Befriend = chủ động trở thành bạn với ai đó. Đây là transitive verb.","why":"Linh nhanh chóng kết bạn với several students.","usage":"Đúng: befriend someone. Không dùng 'befriend with someone'.","contrast":"Be friends with dùng with; befriend thì đi thẳng với object."},{"meaning":"Communal = thuộc về hoặc được chia sẻ bởi cộng đồng/nhóm người.","why":"Residents cùng dùng garden để trồng vegetables.","usage":"communal area/space/garden/kitchen/facilities.","contrast":"Familial = thuộc gia đình; industrial = thuộc công nghiệp."},{"meaning":"Deploy = đưa hệ thống/công nghệ/nguồn lực vào sử dụng thực tế hoặc triển khai nó.","why":"Company đưa new digital system tới all offices.","usage":"deploy software/system/technology/resources; deployment.","contrast":"Standardize = làm theo chuẩn; deploy = đưa thứ đã có vào sử dụng."},{"meaning":"Automatic = tự động hoạt động khi có trigger theo cơ chế/chương trình định sẵn.","why":"Door mở khi sensor detects someone: trigger cố định → response cố định.","usage":"automatic door/payment/transmission.","contrast":"Automated nhấn mạnh process được tự động hóa; autonomous nhấn mạnh khả năng tự quyết định."},{"meaning":"Automated = được tự động hóa: quy trình vốn cần con người nay do máy/phần mềm thực hiện phần lớn.","why":"Packaging trước cần workers, nay products are packed by machines.","usage":"automated system/process/manufacturing; automate → automation.","contrast":"Automatic mô tả cách thiết bị hoạt động; automated nhấn mạnh quá trình đã được chuyển từ manual sang machine-run."},{"meaning":"Autonomous = tự chủ, có thể vận hành và đưa ra một số quyết định mà không cần điều khiển trực tiếp liên tục.","why":"Robot can analyse surroundings and make decisions by itself.","usage":"autonomous robot/vehicle/system; autonomy.","contrast":"Automatic = trigger cố định; automated = process được máy hóa; autonomous = có mức tự quyết định."},{"meaning":"Happiness = trạng thái/cảm giác hạnh phúc, hài lòng; là abstract noun của happy.","why":"Sau 'a person’s overall' cần noun và close relationships có thể contribute to happiness.","usage":"happy → happily → happiness; personal happiness, source of happiness.","contrast":"Accessibility/reliability/practicality cũng là abstract nouns nhưng khác nghĩa hoàn toàn."},{"meaning":"Career development = quá trình phát triển kỹ năng, năng lực và kinh nghiệm nghề nghiệp theo thời gian.","why":"Mentoring scheme nhằm phát triển lâu dài; câu còn đối chiếu rõ với promotions = career advancement.","usage":"career development plan/program; professional development; develop skills.","contrast":"Career advancement nhấn mạnh thăng tiến vị trí/chức vụ; career development rộng hơn và tập trung vào năng lực."},{"meaning":"Honest = trung thực, không cố tình che giấu hay bóp méo điều mình tin là đúng.","why":"Nhân chứng có thể thành thật về trí nhớ của mình dù chi tiết thực tế sau đó có thể sai.","usage":"be honest about/with; an honest answer/person.","contrast":"Truthful nhấn mạnh thông tin đúng sự thật; honest nhấn mạnh sự chân thành của người nói."},{"meaning":"Realistic = giống thực tế hoặc có tính thực tế; ở đây nói về giọng nói nghe giống người thật.","why":"Câu đối chiếu 'sounds realistic' với 'information ... reliable', nên realistic không đồng nghĩa reliable.","usage":"realistic voice/image/plan; realistically; reality.","contrast":"Reliable = đáng tin cậy; realistic = giống/ phù hợp với thực tế."},{"meaning":"Practical = thực tiễn, liên quan đến việc áp dụng trong điều kiện thật.","why":"Managers muốn evidence cho everyday conditions chứ không chỉ ý tưởng hấp dẫn về mặt lý thuyết.","usage":"practical evidence/experience/solution; practicality.","contrast":"Theoretical = thuộc lý thuyết; practical = dùng/kiểm chứng được trong thực tế."},{"meaning":"Companionship = sự đồng hành, cảm giác có người/vật ở bên làm bạn.","why":"Robot không thay thế friendship nhưng vẫn có thể đem lại companionship cho người sống một mình.","usage":"provide/offer companionship; human companionship.","contrast":"Company trong 'enjoy someone's company' là sự hiện diện của ai đó; companionship là khái niệm sự đồng hành nói chung."},{"meaning":"Standardize = tiêu chuẩn hóa, làm cho nhiều nơi/quy trình cùng theo một chuẩn.","why":"Mục tiêu là giảm lỗi bằng cách dùng cùng một procedure ở mọi branch.","usage":"standardize a process/procedure/system; standardization.","contrast":"Deploy = đưa vào sử dụng; standardize = làm thống nhất theo chuẩn."},{"meaning":"Industrialization = quá trình công nghiệp hóa, khi sản xuất công nghiệp và nhà máy phát triển mạnh.","why":"Câu nói đến factory jobs và thay đổi cấu trúc cộng đồng do công nghiệp phát triển.","usage":"rapid industrialization; industrialize an economy; industrial sector.","contrast":"Industry là ngành công nghiệp; industrialization là quá trình phát triển công nghiệp."},{"meaning":"Prompt (v) = thúc đẩy/khiến ai đó làm một việc.","why":"Teacher's warning khiến học sinh kiểm tra references.","usage":"prompt somebody to do something; prompt action/change; promptly.","contrast":"Prompt (n) = câu lệnh; prompt (adj) = nhanh chóng; prompted (v) = đã thúc đẩy."},{"meaning":"Challenging = có độ khó nhưng thường mang sắc thái trung tính hoặc tích cực vì tạo động lực/phát triển.","why":"Students nói bài tập khiến họ think more deeply chứ không chỉ gây khó chịu.","usage":"challenging task/job/question; find something challenging.","contrast":"Difficult nhấn mạnh độ khó; challenging thường có thể hàm ý khó nhưng đáng làm."},{"meaning":"Complicate = làm một tình huống/vấn đề trở nên phức tạp hơn.","why":"Thêm approval stage vào quy trình vốn đã khó sẽ làm matters phức tạp thêm.","usage":"complicate matters; complicate a process; complication.","contrast":"Complication là danh từ chỉ vấn đề phát sinh; complicate là động từ gây ra sự phức tạp."},{"meaning":"Straightforward = rõ ràng, trực tiếp, không có quy tắc hay bước ẩn phức tạp.","why":"Câu nói instructions không nhất thiết easy nhưng từng bước rõ ràng.","usage":"straightforward process/explanation/instructions.","contrast":"Easy = không cần nhiều nỗ lực; straightforward = dễ hiểu vì không phức tạp."},{"meaning":"Accessibility = khả năng một thứ có thể được tiếp cận, sử dụng hoặc hiểu bởi nhiều người, kể cả người có nhu cầu khác nhau.","why":"Website phải cho users with different needs reach and use content.","usage":"web accessibility; improve accessibility; accessibility features.","contrast":"Reliability = độ đáng tin; accessibility = khả năng tiếp cận/sử dụng."},{"meaning":"Automatic = tự động theo cơ chế hoặc chương trình cố định khi có trigger.","why":"Sensor phát hiện chuyển động rồi cửa mở theo fixed program.","usage":"automatic door/payment/transmission.","contrast":"Autonomous có mức tự quyết định; automatic chỉ thực hiện phản ứng đã cài đặt."},{"meaning":"Automated = đã được tự động hóa, tức quy trình thủ công được chuyển sang cho máy/hệ thống thực hiện.","why":"Production line từng manual nhưng nay machines perform routine steps.","usage":"automated process/system/factory; automate; automation.","contrast":"Automatic mô tả cách một thiết bị hoạt động; automated nhấn mạnh quá trình đã được chuyển từ manual sang machine-run."},{"meaning":"Autonomous = tự chủ, có khả năng phân tích và đưa ra một số quyết định mà không cần điều khiển trực tiếp từng bước.","why":"Vehicle phải analyse surroundings và decide how to respond.","usage":"autonomous vehicle/robot/system; autonomy.","contrast":"Automatic phản ứng theo trigger cố định; autonomous có khả năng lựa chọn phản ứng dựa trên phân tích."},{"meaning":"Deploy = triển khai, đưa công nghệ/hệ thống vào sử dụng thực tế.","why":"Sau testing, company đưa AI tool vào các customer-service departments.","usage":"deploy software/system/technology; deployment.","contrast":"Develop = xây dựng/cải tiến; deploy = đưa sản phẩm đã sẵn sàng vào sử dụng."}];
 
 const GRADES = [
-  {id:9,title:"Lớp 9",live:false},
+  {id:9,title:"Lớp 9",live:true},
   {id:10,title:"Lớp 10",live:true},
   {id:11,title:"Lớp 11",live:false},
   {id:12,title:"Lớp 12",live:true}
 ];
 
 const UNITS = [
+  {grade:9,id:5,title:"Unit 5",subtitle:"Our Experiences",live:true},
   {grade:10,id:3,title:"Unit 3",subtitle:"Music",live:true},
   {grade:12,id:1,title:"Unit 1",subtitle:"Life Stories We Admire",live:true},
   {grade:12,id:2,title:"Unit 2",subtitle:"A Multicultural World",live:true},
@@ -285,6 +287,7 @@ const LEVEL_CONFIG={
 
 const BANKS={
   ...(window.G12_BANKS||{}),
+  "9-5":window.G9_U5_BANK,
   "12-6":{
     grade:12,
     unit:6,
@@ -389,7 +392,7 @@ function route(){
   hideAll();
   if(!hash){renderHome();return}
 
-  const exercise=hash.match(/^grade-(10|12)\/unit-(\d+)\/vocabulary-practice-(\d+)$/);
+  const exercise=hash.match(/^grade-(9|10|11|12)\/unit-(\d+)\/vocabulary-practice-(\d+)$/);
   if(exercise){
     const grade=Number(exercise[1]),unit=Number(exercise[2]),setNo=Number(exercise[3]);
     if(BANKS[`${grade}-${unit}`]){renderExercise(grade,unit,setNo);return}
@@ -397,7 +400,7 @@ function route(){
 
   if(hash==="grade-12/unit-6/leaderboard"){renderGrade(12);return}
 
-  const unitRoute=hash.match(/^grade-(10|12)\/unit-(\d+)$/);
+  const unitRoute=hash.match(/^grade-(9|10|11|12)\/unit-(\d+)$/);
   if(unitRoute){
     const grade=Number(unitRoute[1]),unit=Number(unitRoute[2]);
     if(BANKS[`${grade}-${unit}`]){renderUnit(grade,unit);return}
@@ -442,64 +445,32 @@ function renderGrade(id){
   const grade=GRADES.find(g=>g.id===id);
   if(!grade){location.hash="";return}
 
+  const units=UNITS.filter(u=>u.grade===id);
   pageMount.style.display="block";
 
-  if(id===10){
-    pageMount.innerHTML=`
-      <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Lớp 10</span></div>
-
-      <div class="grade-overview">
-        <div class="unit-hero">
-          <div class="eyebrow">Grade 10</div>
-          <h1>Lớp 10</h1>
-        </div>
-
-        <aside class="diligence-card">
-          <div class="diligence-head">
-            <div><h3>🏆 Người chăm chỉ</h3><span>Top 5</span></div>
-          </div>
-          <div class="diligence-list" id="diligenceMount">
-            <div class="diligence-empty">Loading…</div>
-          </div>
-        </aside>
-      </div>
-
-      <div class="section-title"><h2>Units</h2><span>1 unit</span></div>
-      <div class="units">
-        <button class="unit-card" onclick="goUnit(3,10)">
+  const unitsHTML=units.length ? `
+    <div class="section-title"><h2>Units</h2><span>${units.length} unit${units.length===1?"":"s"}</span></div>
+    <div class="units">
+      ${units.map(u=>`
+        <button class="unit-card" ${u.live?`onclick="goUnit(${u.id},${id})"`:"disabled"} style="${u.live?"":"cursor:default;opacity:.68"}">
           <div class="unit-top">
-            <span class="unit-no">UNIT 03</span>
-            <span class="status live">Exercises available</span>
+            <span class="unit-no">UNIT ${String(u.id).padStart(2,"0")}</span>
+            <span class="status ${u.live?"live":""}">${u.live?"Exercises available":"Coming soon"}</span>
           </div>
-          <h3>Unit 3</h3>
-          <p>Music</p>
-          <span class="unit-arrow">→</span>
-        </button>
-      </div>`;
-    loadDiligenceLeaderboard(10);
-    window.scrollTo({top:0,behavior:"smooth"});
-    return;
-  }
-
-  if(id!==12){
-    pageMount.innerHTML=`
-      <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Lớp ${id}</span></div>
-      <div class="unit-hero">
-        <div class="eyebrow">Grade ${id}</div>
-        <h1>Lớp ${id}</h1>
-      </div>
-      <div class="empty"><b>Coming soon</b>Nội dung cho Lớp ${id} sẽ được thêm sau.</div>`;
-    window.scrollTo({top:0,behavior:"smooth"});
-    return;
-  }
+          <h3>${esc(u.title)}</h3>
+          <p>${esc(u.subtitle)}</p>
+          <span class="unit-arrow">${u.live?"→":"·"}</span>
+        </button>`).join("")}
+    </div>`
+    : `<div class="empty"><b>Coming soon</b>Nội dung cho Lớp ${id} sẽ được thêm sau.</div>`;
 
   pageMount.innerHTML=`
-    <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Lớp 12</span></div>
+    <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=&quot;&quot;">Home</button><span>›</span><span>Lớp ${id}</span></div>
 
     <div class="grade-overview">
       <div class="unit-hero">
-        <div class="eyebrow">Grade 12</div>
-        <h1>Lớp 12</h1>
+        <div class="eyebrow">Grade ${id}</div>
+        <h1>Lớp ${id}</h1>
       </div>
 
       <aside class="diligence-card">
@@ -512,28 +483,14 @@ function renderGrade(id){
       </aside>
     </div>
 
-    <div class="section-title"><h2>Units</h2><span>10 units</span></div>
-    <div class="units">
-      ${UNITS.filter(u=>u.grade===12).map(u=>`
-        <button class="unit-card" ${u.live?`onclick="goUnit(${u.id},12)"`:"disabled"} style="${u.live?"":"cursor:default;opacity:.68"}">
-          <div class="unit-top">
-            <span class="unit-no">UNIT ${String(u.id).padStart(2,"0")}</span>
-            <span class="status ${u.live?"live":""}">${u.live?"Exercises available":"Coming soon"}</span>
-          </div>
-          <h3>${esc(u.title)}</h3>
-          <p>${esc(u.subtitle)}</p>
-          <span class="unit-arrow">${u.live?"→":"·"}</span>
-        </button>`).join("")}
-    </div>`;
-  loadDiligenceLeaderboard(12);
+    ${unitsHTML}`;
+  loadDiligenceLeaderboard(id);
   window.scrollTo({top:0,behavior:"smooth"});
 }
-
 function goUnit(id,grade){
-  const g=Number(grade)||(id===3?10:12);
+  const g=Number(grade)||activeGrade;
   if(BANKS[`${g}-${id}`]) location.hash=`grade-${g}/unit-${id}`;
 }
-
 function renderUnit(grade,id){
   if(!useBank(grade,id)){goGrade(grade);return}
   pageMount.style.display="block";
@@ -568,10 +525,9 @@ function renderUnit(grade,id){
 }
 
 function openExercise(id,setNo,grade){
-  const g=Number(grade)||(id===3?10:12);
+  const g=Number(grade)||activeGrade;
   if(BANKS[`${g}-${id}`]) location.hash=`grade-${g}/unit-${id}/vocabulary-practice-${setNo}`;
 }
-
 function renderExercise(grade,id,setNo){
   if(!useBank(grade,id)){goGrade(grade);return}
   if(!setNo||setNo<1||setNo>TOTAL_SETS){goUnit(id,grade);return}
