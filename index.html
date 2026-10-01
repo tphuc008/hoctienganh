@@ -362,6 +362,15 @@ function blankInfo(text,answer){
   return {core,completed,before:clip(before),after:clipAfter(after)};
 }
 
+function partOfSpeechClue(detail){
+  const text=String(detail?.meaning||"").toLowerCase();
+  if(/\((?:adj|adjective)[^)]*\)/.test(text))return "Vị trí chỗ trống cần một tính từ để mô tả đặc điểm hoặc trạng thái của đối tượng đang được nói tới.";
+  if(/\((?:adv|adverb)[^)]*\)/.test(text))return "Vị trí chỗ trống cần một trạng từ để bổ nghĩa cho hành động hoặc đặc điểm trong câu.";
+  if(/\((?:v|verb|phr\.? ?v|pv)[^)]*\)/.test(text))return "Vị trí chỗ trống cần một động từ hoặc cụm động từ để diễn tả hành động xảy ra trong tình huống này.";
+  if(/\((?:n|noun)[^)]*\)/.test(text))return "Vị trí chỗ trống cần một danh từ hoặc cụm danh từ để gọi tên người, vật, sự việc hoặc khái niệm được nhắc tới.";
+  return "";
+}
+
 function connectorClue(core,gloss){
   const because=core.match(/\bbecause\b\s+(.+)$/i);
   if(because)return `Mệnh đề sau “because” — “${because[1].trim()}” — nêu lý do trực tiếp làm rõ đặc điểm hoặc ý “${gloss}” mà chỗ trống cần diễn đạt.`;
@@ -386,23 +395,24 @@ function grade9StandardExplanation(bank,question,detail){
 
   let why;
   if(direct){
-    why=`Câu hỏi nêu trực tiếp nghĩa tiếng Việt “${gloss}”. Trong các lựa chọn, “${answer}” chính là mục từ của Unit ${bank.unit} mang nghĩa này. Vì vậy manh mối quyết định nằm ở cụm “${gloss}”: “${answer}” trả lời đúng yêu cầu dịch nghĩa của câu, còn các lựa chọn khác tuy cùng chủ đề nhưng biểu đạt những khái niệm khác.`;
+    why=`Câu hỏi nêu trực tiếp nghĩa tiếng Việt “${gloss}”. Trong các lựa chọn, “${answer}” chính là mục từ của Unit ${bank.unit} mang nghĩa này. Vì thế chỉ cần đối chiếu đúng nghĩa được hỏi: “${answer}” tương ứng với “${gloss}”, còn các phương án còn lại gọi tên những khái niệm khác trong cùng chủ đề.`;
   }else{
-    const left=info.before?`Phần ngay trước chỗ trống là “${info.before}”. `:"";
-    const right=info.after?`Phần ngay sau chỗ trống là “${info.after}”. `:"";
+    const left=info.before?`Trước chỗ trống là “${info.before}”. `:"";
+    const right=info.after?`Sau chỗ trống là “${info.after}”. `:"";
+    const grammar=partOfSpeechClue(detail);
     const connector=connectorClue(info.core,gloss);
-    why=`Câu đang xét là “${info.core}”. ${left}${right}Khi điền “${answer}” (= “${gloss}”), câu hoàn chỉnh thành “${info.completed}”. Như vậy, chính các chi tiết đứng sát chỗ trống xác định ý “${gloss}” mà câu cần; ${connector||`cụm chứa “${answer}” diễn đạt đúng mối quan hệ được nêu trong câu hoàn chỉnh.`}`;
+    why=`${left}${right}${grammar?grammar+" ":""}“${answer}” mang nghĩa “${gloss}”, nên khi đặt vào vị trí này, từ/cụm từ diễn tả đúng hành động, đặc điểm hoặc khái niệm mà hai phần của câu đang hướng tới. ${connector||`Các chi tiết ngay trước và sau chỗ trống đều gắn trực tiếp với ý “${gloss}”, vì vậy “${answer}” phù hợp với chính tình huống được nêu.`}`;
   }
 
   const contrastBase=String(detail.contrast||"").trim();
   const contrast=contrastBase+
-    ` Trong câu này, ý cần giữ là “${gloss||answer}”. Nếu thay “${answer}” bằng một lựa chọn có nghĩa khác ở trên, câu sẽ chuyển sang một nội dung khác với tình huống hoặc yêu cầu đang được nêu.`;
+    ` Trong câu này, ý cần giữ là “${gloss||answer}”. Nếu thay “${answer}” bằng một lựa chọn có nghĩa khác ở trên, phần còn lại của câu sẽ không còn diễn đạt đúng tình huống đang được mô tả.`;
 
   return {meaning,why,contrast,family:explanationFamily(detail,answer),standard:true};
 }
-
 function unit6StandardExplanation(question,detail){
   const answer=question.o[question.a];
+  const gloss=explanationGloss(question,detail,answer);
   const info=blankInfo(question.q,answer);
   const meaning=String(detail.meaning||"").trim();
   const baseWhy=String(detail.why||"").trim();
@@ -410,7 +420,8 @@ function unit6StandardExplanation(question,detail){
   if(info.before||info.after){
     const left=info.before?` Trước chỗ trống là “${info.before}”.`:"";
     const right=info.after?` Sau chỗ trống là “${info.after}”.`:"";
-    why+=`${left}${right} Khi điền “${answer}”, ta được câu “${info.completed}”. Các chi tiết này gắn trực tiếp với nghĩa và vai trò của “${answer}” trong chính câu hỏi.`;
+    const glossNote=gloss?` “${answer}” ở đây mang nghĩa “${gloss}”.`:"";
+    why+=`${left}${right}${glossNote} Hai phần này cho thấy trực tiếp vai trò của “${answer}” trong câu và giải thích vì sao đáp án phù hợp với tình huống đang được mô tả.`;
   }
   return {
     meaning,
@@ -420,7 +431,6 @@ function unit6StandardExplanation(question,detail){
     standard:true
   };
 }
-
 function fallbackStandardExplanation(bank,question,detail){
   const answer=question.o[question.a];
   const gloss=explanationGloss(question,detail,answer);
