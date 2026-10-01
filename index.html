@@ -200,7 +200,6 @@ h1,h2,h3,p{margin-top:0}
         <div>
           <div class="eyebrow">Quiz complete</div>
           <h2 id="resultTitle" style="font-size:36px;margin:10px 0 8px"></h2>
-          <p id="resultMessage" style="color:var(--muted);line-height:1.65"></p>
           <div class="stats">
             <div class="stat"><b id="correctStat">0</b><span>Mastered</span></div>
             <div class="stat"><b id="wrongStat">0</b><span>Total mistakes</span></div>
@@ -281,31 +280,50 @@ const UNITS = [
 ];
 
 const SET_SIZE=20;
-const TOTAL_SETS=Math.ceil(QUESTIONS.length/SET_SIZE);
+const TOTAL_SETS=6;
+
+const LEVEL_CONFIG={
+  1:{label:"A2–B1",name:"Easy",pool:[2,4,5,6,8,9,10,11,12,13,14,16,17,18,23,25,29,31,34,37,38,39,40,43,0,27]},
+  2:{label:"A2–B1",name:"Easy",pool:[2,4,5,6,8,9,10,11,12,13,14,16,17,18,23,25,29,31,34,37,38,39,40,43,0,27]},
+  3:{label:"B1–B2",name:"Medium",pool:[0,1,3,5,7,8,9,10,11,12,13,14,15,19,20,23,24,26,27,28,29,30,31,32,33,34,35,37,38,39,40,41,43]},
+  4:{label:"B1–B2",name:"Medium",pool:[0,1,3,5,7,8,9,10,11,12,13,14,15,19,20,23,24,26,27,28,29,30,31,32,33,34,35,37,38,39,40,41,43]},
+  5:{label:"B2–C1",name:"Hard",pool:[1,3,7,8,9,10,11,12,15,19,20,21,22,24,26,27,28,30,31,32,33,34,35,36,39,41,42]},
+  6:{label:"B2–C1",name:"Hard",pool:[1,3,7,8,9,10,11,12,15,19,20,21,22,24,26,27,28,30,31,32,33,34,35,36,39,41,42]}
+};
+
 let activeSet=1;
-let activeStartIndex=0;
-let activeQuestions=QUESTIONS.slice(0,SET_SIZE);
-let activeExplanations=DEEP_EXPLANATIONS.slice(0,SET_SIZE);
+let activeLevel=LEVEL_CONFIG[1];
+let activeQuestionIndices=[];
+let activeQuestions=[];
+let activeExplanations=[];
 
 let current=0;
-let answers=Array(activeQuestions.length).fill(null);
-let solved=Array(activeQuestions.length).fill(false);
-let mistakes=Array(activeQuestions.length).fill(0);
-let wrongChoices=Array.from({length:activeQuestions.length},()=>new Set());
+let answers=[];
+let solved=[];
+let mistakes=[];
+let wrongChoices=[];
+
+function shuffled(items){
+  const copy=[...items];
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
+  }
+  return copy;
+}
 
 function selectSet(setNo){
   const safe=Math.min(Math.max(1,Number(setNo)||1),TOTAL_SETS);
   activeSet=safe;
-  activeStartIndex=(safe-1)*SET_SIZE;
-  const end=Math.min(activeStartIndex+SET_SIZE,QUESTIONS.length);
-  activeQuestions=QUESTIONS.slice(activeStartIndex,end);
-  activeExplanations=DEEP_EXPLANATIONS.slice(activeStartIndex,end);
+  activeLevel=LEVEL_CONFIG[safe];
+  activeQuestionIndices=shuffled(activeLevel.pool).slice(0,SET_SIZE);
+  activeQuestions=activeQuestionIndices.map(i=>QUESTIONS[i]);
+  activeExplanations=activeQuestionIndices.map(i=>DEEP_EXPLANATIONS[i]);
 }
 
-function getSetCount(setNo){
-  const start=(setNo-1)*SET_SIZE;
-  return Math.max(0,Math.min(SET_SIZE,QUESTIONS.length-start));
-}
+function getSetCount(){return SET_SIZE}
+function getSetLevel(setNo){return LEVEL_CONFIG[setNo]?.label||"B1–B2"}
+function getSetLevelName(setNo){return LEVEL_CONFIG[setNo]?.name||"Medium"}
 
 const pageMount=document.getElementById("pageMount");
 const quizShell=document.getElementById("quizShell");
@@ -373,12 +391,12 @@ function renderUnit(id){
       ${Array.from({length:TOTAL_SETS},(_,i)=>{
         const setNo=i+1;
         const count=getSetCount(setNo);
+        const level=getSetLevel(setNo);
         return `
           <button class="exercise-card" onclick="openExercise(6,${setNo})">
             <div class="exercise-icon">${setNo}</div>
             <h3>Vocabulary Practice ${setNo}</h3>
-            <p>B1–B2 multiple-choice practice using vocabulary from the Unit 6 notes.</p>
-            <div class="meta"><span class="chip">${count} questions</span><span class="chip">B1–B2</span><span class="chip">Multiple choice</span></div>
+            <div class="meta"><span class="chip">${count} questions</span><span class="chip">${level}</span><span class="chip">Immediate feedback</span><span class="chip">Deep vocabulary notes</span></div>
           </button>`;
       }).join("")}
     </div>` : `
@@ -409,10 +427,10 @@ function renderExercise(id,setNo){
       <button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Vocabulary Practice ${activeSet}</span>
     </div>
     <div class="exercise-intro">
-      <div class="eyebrow">Unit 6 · Artificial Intelligence · Set ${activeSet}</div>
+      <div class="eyebrow">Unit 6 · Artificial Intelligence · Set ${activeSet} · ${activeLevel.name}</div>
       <h1><span class="gradient">Vocabulary Practice ${activeSet}</span></h1>
       
-      <div class="pills"><span class="pill">${count} questions</span><span class="pill">B1–B2</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
+      <div class="pills"><span class="pill">${count} questions</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
       <button class="primary" onclick="startQuiz(true)">Start exercise →</button>
     </div>`;
 }
@@ -521,8 +539,7 @@ function finishLearning(){
   document.getElementById("wrongStat").textContent=totalMistakes;
   document.getElementById("answeredStat").textContent=firstTry;
   document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent2) ${pct*3.6}deg,rgba(255,255,255,.08) 0deg)`;
-  document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Good work — review the tricky contrasts.";
-  document.getElementById("resultMessage").textContent=`Bạn đã hoàn thành đủ ${activeQuestions.length} câu. First-try accuracy là số câu bạn chọn đúng ngay lần đầu; mọi câu đều đã được sửa cho đến khi đúng.`;
+  document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Review the tricky contrasts below.";
   buildReview();if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
