@@ -24,11 +24,7 @@ function sourceFamily(term){
   return COMMON_WORD_FAMILIES[term]||"";
 }
 function buildMeaning(unit,term,meaning,ipa,usage,setNo){
-  const base=`“${term}” = “${meaning}”.`;
-  if(setNo<3)return base;
-  const use=String(usage||"").trim();
-  if(!use)return base;
-  return `${base} Ở mức nghĩa nâng cao, nên chú ý cách từ này kết hợp trong “${use}”, vì cụm đó giúp xác định rõ sắc thái và phạm vi sử dụng của “${term}”.`;
+  return `“${term}” = “${meaning}”.`;
 }
 function semanticClue(cue,meaning){
   const text=String(cue||"").replace(/\s+/g," ").trim();
@@ -61,6 +57,21 @@ function semanticClue(cue,meaning){
   const including=text.match(/\bincluding\b\s+([^.!?]+)/i);
   if(including){
     return `Phần “including ${shortText(including[1],125)}” đưa ra các trường hợp cụ thể thuộc nhóm đang được nói tới. Các ví dụ này giúp xác định chính xác ý “${meaning}” của đáp án.`;
+  }
+
+  const turning=text.match(/\bturning\b\s+([^,.]{1,100})\s+\binto\b\s+([^,.]{1,120})/i);
+  if(turning){
+    return `Cấu trúc “turning ${shortText(turning[1],75)} into ${shortText(turning[2],95)}” mô tả sự chuyển đổi từ trạng thái ban đầu sang kết quả mới. Kết quả sau “into” giúp xác định sắc thái “${meaning}” của đáp án.`;
+  }
+
+  const whileClause=text.match(/\bwhile\b\s+([^.!?]+)/i);
+  if(whileClause){
+    return `Mệnh đề “while ${shortText(whileClause[1],130)}” tạo quan hệ tương phản hoặc đồng thời với phần trước. Sự đối chiếu này giúp xác định chính xác ý “${meaning}” ở chỗ trống.`;
+  }
+
+  const soThat=text.match(/\bso\b\s+([^.!?]+?)\s+\bthat\b\s+([^.!?]+)/i);
+  if(soThat){
+    return `Cấu trúc “so ${shortText(soThat[1],70)} that ${shortText(soThat[2],95)}” nối mức độ với kết quả. Kết quả ở vế sau là bằng chứng cho ý “${meaning}”.`;
   }
 
   const by=text.match(/\bby\b\s+([^.!?]+)/i);
