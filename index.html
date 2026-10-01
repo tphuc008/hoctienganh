@@ -148,8 +148,9 @@ h1,h2,h3,p{margin-top:0}
 .stat{border:1px solid var(--line);background:var(--soft);border-radius:15px;padding:14px}
 .stat b{display:block;font-size:22px}
 .stat span{color:var(--muted);font-size:11px}
-.nickname-box{max-width:420px;margin:18px auto 0;text-align:left}.nickname-box label{display:block;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}.nickname-box input{width:100%;box-sizing:border-box;color:var(--text);background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;font:inherit}.nickname-box input:focus{border-color:rgba(103,232,249,.55);box-shadow:0 0 0 3px rgba(103,232,249,.08)}.unit-main-grid{display:grid;grid-template-columns:280px minmax(0,1fr);gap:18px;align-items:start}
-.diligence-card{position:sticky;top:18px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:20px;padding:16px}
+.nickname-box{max-width:420px;margin:18px auto 0;text-align:left}.nickname-box label{display:block;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}.nickname-box input{width:100%;box-sizing:border-box;color:var(--text);background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;font:inherit}.nickname-box input:focus{border-color:rgba(103,232,249,.55);box-shadow:0 0 0 3px rgba(103,232,249,.08)}.grade-overview{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:stretch;margin-bottom:24px}
+.grade-overview .unit-hero{margin-bottom:0}
+.diligence-card{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:20px;padding:16px;min-height:100%;box-sizing:border-box}
 .diligence-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
 .diligence-head h3{font-size:16px;margin:0}
 .diligence-head span{font-size:11px;color:var(--muted)}
@@ -160,8 +161,7 @@ h1,h2,h3,p{margin-top:0}
 .diligence-stats{text-align:right;font-size:11px;color:var(--muted);white-space:nowrap}
 .diligence-stats b{display:block;color:var(--text);font-size:12px}
 .diligence-empty{padding:14px 4px;color:var(--muted);font-size:12px;text-align:center}
-.unit-exercises .section-title{margin-top:0}
-@media(max-width:900px){.unit-main-grid{grid-template-columns:1fr}.diligence-card{position:static}}
+@media(max-width:900px){.grade-overview{grid-template-columns:1fr}.diligence-card{min-height:auto}}
 .review{margin-top:28px}
 .review-list{display:grid;gap:10px}
 .review-item{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:15px;padding:15px}
@@ -406,11 +406,13 @@ function renderGrade(id){
 
   pageMount.innerHTML=`
     <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Lớp 12</span></div>
-    <div class="unit-hero">
-      <div class="eyebrow">Grade 12</div>
-      <h1>Lớp 12</h1>
-    </div>
-    <div class="unit-main-grid">
+
+    <div class="grade-overview">
+      <div class="unit-hero">
+        <div class="eyebrow">Grade 12</div>
+        <h1>Lớp 12</h1>
+      </div>
+
       <aside class="diligence-card">
         <div class="diligence-head">
           <div><h3>🏆 Người chăm chỉ</h3><span>Top 5 · toàn Lớp 12</span></div>
@@ -419,20 +421,19 @@ function renderGrade(id){
           <div class="diligence-empty">Loading…</div>
         </div>
       </aside>
-      <div class="unit-exercises">
-        <div class="section-title"><h2>Units</h2><span>1 unit</span></div>
-        <div class="units">
-          <button class="unit-card" onclick="goUnit(6)">
-            <div class="unit-top">
-              <span class="unit-no">UNIT 06</span>
-              <span class="status live">Exercises available</span>
-            </div>
-            <h3>Unit 6</h3>
-            <p>Artificial Intelligence</p>
-            <span class="unit-arrow">→</span>
-          </button>
+    </div>
+
+    <div class="section-title"><h2>Units</h2><span>1 unit</span></div>
+    <div class="units">
+      <button class="unit-card" onclick="goUnit(6)">
+        <div class="unit-top">
+          <span class="unit-no">UNIT 06</span>
+          <span class="status live">Exercises available</span>
         </div>
-      </div>
+        <h3>Unit 6</h3>
+        <p>Artificial Intelligence</p>
+        <span class="unit-arrow">→</span>
+      </button>
     </div>`;
   loadDiligenceLeaderboard();
   window.scrollTo({top:0,behavior:"smooth"});
