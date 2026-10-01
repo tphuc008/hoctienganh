@@ -178,7 +178,7 @@ h1,h2,h3,p{margin-top:0}
 <div class="wrap">
   <header class="site-header">
     <div class="brand" id="brandBtn"><div class="logo">✦</div><div>English Practice Hub</div></div>
-    <div class="header-note">Grade 12 · Interactive practice</div>
+    <div class="header-note">Grades 9–12 · Interactive practice</div>
   </header>
 
   <main class="panel">
@@ -266,17 +266,15 @@ const DEEP_EXPLANATIONS = [
 {meaning:"Happiness = trạng thái/cảm giác hạnh phúc, hài lòng; là abstract noun của happy.",why:"Sau 'a person’s overall' cần noun và close relationships có thể contribute to happiness.",usage:"happy → happily → happiness; personal happiness, source of happiness.",contrast:"Accessibility/reliability/practicality cũng là abstract nouns nhưng khác nghĩa hoàn toàn."}
 ];
 
+const GRADES = [
+  {id:9,title:"Lớp 9",live:false},
+  {id:10,title:"Lớp 10",live:false},
+  {id:11,title:"Lớp 11",live:false},
+  {id:12,title:"Lớp 12",live:true}
+];
+
 const UNITS = [
-  {id:1,title:"Unit 1",subtitle:"Practice collection",live:false},
-  {id:2,title:"Unit 2",subtitle:"Practice collection",live:false},
-  {id:3,title:"Unit 3",subtitle:"Practice collection",live:false},
-  {id:4,title:"Unit 4",subtitle:"Practice collection",live:false},
-  {id:5,title:"Unit 5",subtitle:"Practice collection",live:false},
-  {id:6,title:"Unit 6",subtitle:"Artificial Intelligence",live:true},
-  {id:7,title:"Unit 7",subtitle:"Practice collection",live:false},
-  {id:8,title:"Unit 8",subtitle:"Practice collection",live:false},
-  {id:9,title:"Unit 9",subtitle:"Practice collection",live:false},
-  {id:10,title:"Unit 10",subtitle:"Practice collection",live:false}
+  {id:6,title:"Unit 6",subtitle:"Artificial Intelligence",live:true}
 ];
 
 const SET_SIZE=20;
@@ -372,10 +370,18 @@ function route(){
   const hash=location.hash.replace(/^#/,"");
   hideAll();
   if(!hash){renderHome();return}
-  const exercise=hash.match(/^unit-(\d+)\/vocabulary-practice-(\d+)$/);
-  if(exercise){renderExercise(Number(exercise[1]),Number(exercise[2]));return}
-  const unit=hash.match(/^unit-(\d+)$/);
-  if(unit){renderUnit(Number(unit[1]));return}
+
+  const exercise=hash.match(/^grade-12\/unit-6\/vocabulary-practice-(\d+)$/);
+  if(exercise){renderExercise(6,Number(exercise[1]));return}
+  if(hash==="grade-12/unit-6"){renderUnit(6);return}
+
+  const grade=hash.match(/^grade-(9|10|11|12)$/);
+  if(grade){renderGrade(Number(grade[1]));return}
+
+  const oldExercise=hash.match(/^unit-6\/vocabulary-practice-(\d+)$/);
+  if(oldExercise){location.hash="grade-12/unit-6/vocabulary-practice-"+oldExercise[1];return}
+  if(hash==="unit-6"){location.hash="grade-12/unit-6";return}
+
   renderHome();
 }
 
@@ -383,20 +389,19 @@ function renderHome(){
   pageMount.style.display="block";
   pageMount.innerHTML=`
     <div class="hero">
-      <div class="eyebrow">English 12 practice library</div>
-      <h1><span class="gradient">Choose a Unit.</span><br>Then choose your exercise.</h1>
-      
+      <div class="eyebrow">English practice library</div>
+      <h1><span class="gradient">Choose your grade.</span></h1>
     </div>
-    <div class="section-title"><h2>Units</h2><span>${UNITS.length} units</span></div>
+    <div class="section-title"><h2>Grades</h2><span>4 levels</span></div>
     <div class="units">
-      ${UNITS.map(u=>`
-        <button class="unit-card" onclick="goUnit(${u.id})">
+      ${GRADES.map(g=>`
+        <button class="unit-card" onclick="goGrade(${g.id})">
           <div class="unit-top">
-            <span class="unit-no">UNIT ${String(u.id).padStart(2,"0")}</span>
-            <span class="status ${u.live?"live":""}">${u.live?"Exercises available":"Coming soon"}</span>
+            <span class="unit-no">GRADE ${g.id}</span>
+            <span class="status ${g.live?"live":""}">${g.live?"Available":"Coming soon"}</span>
           </div>
-          <h3>${u.title}</h3>
-          <p>${u.subtitle}</p>
+          <h3>${g.title}</h3>
+          <p>${g.live?"Vocabulary practice":"Coming soon"}</p>
           <span class="unit-arrow">→</span>
         </button>
       `).join("")}
@@ -404,13 +409,56 @@ function renderHome(){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function goUnit(id){location.hash="unit-"+id}
+function goGrade(id){location.hash="grade-"+id}
+
+function renderGrade(id){
+  const grade=GRADES.find(g=>g.id===id);
+  if(!grade){location.hash="";return}
+
+  pageMount.style.display="block";
+
+  if(id!==12){
+    pageMount.innerHTML=`
+      <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Lớp ${id}</span></div>
+      <div class="unit-hero">
+        <div class="eyebrow">Grade ${id}</div>
+        <h1>Lớp ${id}</h1>
+      </div>
+      <div class="empty"><b>Coming soon</b>Nội dung cho Lớp ${id} sẽ được thêm sau.</div>`;
+    window.scrollTo({top:0,behavior:"smooth"});
+    return;
+  }
+
+  pageMount.innerHTML=`
+    <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Lớp 12</span></div>
+    <div class="unit-hero">
+      <div class="eyebrow">Grade 12</div>
+      <h1>Lớp 12</h1>
+    </div>
+    <div class="section-title"><h2>Units</h2><span>1 unit</span></div>
+    <div class="units">
+      <button class="unit-card" onclick="goUnit(6)">
+        <div class="unit-top">
+          <span class="unit-no">UNIT 06</span>
+          <span class="status live">Exercises available</span>
+        </div>
+        <h3>Unit 6</h3>
+        <p>Artificial Intelligence</p>
+        <span class="unit-arrow">→</span>
+      </button>
+    </div>`;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function goUnit(id){
+  if(id===6) location.hash="grade-12/unit-6";
+}
 
 function renderUnit(id){
-  const unit=UNITS.find(x=>x.id===id);
-  if(!unit){location.hash="";return}
+  if(id!==6){goGrade(12);return}
   pageMount.style.display="block";
-  const exerciseHTML=id===6 ? `
+
+  const exerciseHTML=`
     <div class="section-title"><h2>Exercises</h2><span>${TOTAL_SETS} sets</span></div>
     <div class="exercise-grid">
       ${Array.from({length:TOTAL_SETS},(_,i)=>{
@@ -424,24 +472,27 @@ function renderUnit(id){
             <div class="meta"><span class="chip">${count} questions</span><span class="chip">${level}</span><span class="chip">Immediate feedback</span><span class="chip">Deep vocabulary notes</span></div>
           </button>`;
       }).join("")}
-    </div>` : `
-    <div class="section-title"><h2>Exercises</h2><span>0 exercises</span></div>
-    <div class="empty"><b>No exercises yet</b>Bài tập của Unit ${id} sẽ xuất hiện ở đây khi được thêm vào.</div>`;
+    </div>`;
+
   pageMount.innerHTML=`
-    <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Unit ${id}</span></div>
+    <div class="breadcrumbs">
+      <button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span>
+      <button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span><span>Unit 6</span>
+    </div>
     <div class="unit-hero">
-      <div class="eyebrow">Unit ${String(id).padStart(2,"0")}</div>
-      <h1>${id===6?"Artificial Intelligence":unit.title}</h1>
-      <p>${id===6?"Vocabulary and language practice for Unit 6. Choose an exercise below to begin.":"This unit is ready for future exercises. New practice sets can be added here without changing the overall website structure."}</p>
+      <div class="eyebrow">Grade 12 · Unit 06</div>
+      <h1>Artificial Intelligence</h1>
     </div>
     ${exerciseHTML}`;
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function openExercise(id,setNo){location.hash="unit-"+id+"/vocabulary-practice-"+setNo}
+function openExercise(id,setNo){
+  if(id===6) location.hash="grade-12/unit-6/vocabulary-practice-"+setNo;
+}
 
 function renderExercise(id,setNo){
-  if(id!==6){goUnit(id);return}
+  if(id!==6){goGrade(12);return}
   if(!setNo||setNo<1||setNo>TOTAL_SETS){goUnit(6);return}
   selectSet(setNo);
   const count=activeQuestions.length;
@@ -449,10 +500,11 @@ function renderExercise(id,setNo){
   pageMount.innerHTML=`
     <div class="breadcrumbs">
       <button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span>
+      <button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span>
       <button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Vocabulary Practice ${activeSet} - ${activeLevel.name}</span>
     </div>
     <div class="exercise-intro">
-      <div class="eyebrow">Unit 6 · Artificial Intelligence · Set ${activeSet} · ${activeLevel.name}</div>
+      <div class="eyebrow">Grade 12 · Unit 6 · Set ${activeSet} · ${activeLevel.name}</div>
       <h1><span class="gradient">Vocabulary Practice ${activeSet} - ${activeLevel.name}</span></h1>
       <div class="pills"><span class="pill">${count} questions</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
       <button class="primary" onclick="startQuiz(true)">Start exercise →</button>
