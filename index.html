@@ -134,6 +134,10 @@ h1,h2,h3,p{margin-top:0}
 .deep-box b{display:block;color:white;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
 .deep-box span{display:block;color:var(--muted);font-size:13px;line-height:1.58}
 .deep-box.wide{grid-column:1/-1}
+.word-family-row{grid-column:1/-1;display:flex;align-items:center;gap:10px;min-width:0;padding:10px 13px;border-radius:12px;border:1px solid var(--line);background:rgba(139,92,246,.065);font-size:13px;line-height:1.45}
+.word-family-row b{flex:0 0 auto;color:#ddd6fe;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.word-family-row span{min-width:0;color:#d6e1ef;overflow-wrap:anywhere}
+@media(max-width:560px){.word-family-row{align-items:flex-start;flex-direction:column;gap:4px}}
 .next-lock{color:var(--muted);font-size:12px;align-self:center}
 .letter{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line);font-weight:900}
 .answer.selected .letter{background:#8b5cf6;border-color:#8b5cf6}
@@ -678,6 +682,9 @@ function deepFeedback(index){
   const usageBox=activeGrade===10
     ? ""
     : `<div class="deep-box"><b>Cách dùng / collocation</b><span>${esc(d.usage)}</span></div>`;
+  const familyRow=activeGrade===10
+    ? `<div class="word-family-row"><b>Word family</b><span>${esc(d.family||"—")}</span></div>`
+    : "";
   const contrastClass=activeGrade===10?"deep-box wide":"deep-box";
   return `<div class="feedback correct">
     <div class="feedback-title">✓ Đúng — ${"ABCD"[q.a]}. ${esc(q.o[q.a])}</div>
@@ -686,6 +693,7 @@ function deepFeedback(index){
       <div class="deep-box"><b>Vì sao đúng trong câu</b><span>${esc(d.why)}</span></div>
       ${usageBox}
       <div class="${contrastClass}"><b>Phân biệt từ dễ nhầm</b><span>${esc(d.contrast)}</span></div>
+      ${familyRow}
     </div>
   </div>`;
 }
