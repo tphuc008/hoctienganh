@@ -148,7 +148,21 @@ h1,h2,h3,p{margin-top:0}
 .stat{border:1px solid var(--line);background:var(--soft);border-radius:15px;padding:14px}
 .stat b{display:block;font-size:22px}
 .stat span{color:var(--muted);font-size:11px}
-.nickname-box{max-width:420px;margin:18px auto 0;text-align:left}.nickname-box label{display:block;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}.nickname-box input{width:100%;box-sizing:border-box;color:var(--text);background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;font:inherit}.nickname-box input:focus{border-color:rgba(103,232,249,.55);box-shadow:0 0 0 3px rgba(103,232,249,.08)}.leaderboard-actions{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.leaderboard-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}.leaderboard-table{width:100%;border-collapse:collapse;min-width:670px}.leaderboard-table th,.leaderboard-table td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--line)}.leaderboard-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.leaderboard-table td{font-size:14px}.leaderboard-table tr:last-child td{border-bottom:0}.rank{font-weight:900}.leaderboard-empty{padding:24px;color:var(--muted);text-align:center}.review{margin-top:28px}
+.nickname-box{max-width:420px;margin:18px auto 0;text-align:left}.nickname-box label{display:block;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}.nickname-box input{width:100%;box-sizing:border-box;color:var(--text);background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;font:inherit}.nickname-box input:focus{border-color:rgba(103,232,249,.55);box-shadow:0 0 0 3px rgba(103,232,249,.08)}.unit-main-grid{display:grid;grid-template-columns:280px minmax(0,1fr);gap:18px;align-items:start}
+.diligence-card{position:sticky;top:18px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:20px;padding:16px}
+.diligence-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.diligence-head h3{font-size:16px;margin:0}
+.diligence-head span{font-size:11px;color:var(--muted)}
+.diligence-list{display:grid;gap:7px}
+.diligence-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px 8px;border-radius:12px;background:rgba(255,255,255,.035)}
+.diligence-rank{font-weight:900;text-align:center}
+.diligence-name{font-weight:760;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.diligence-stats{text-align:right;font-size:11px;color:var(--muted);white-space:nowrap}
+.diligence-stats b{display:block;color:var(--text);font-size:12px}
+.diligence-empty{padding:14px 4px;color:var(--muted);font-size:12px;text-align:center}
+.unit-exercises .section-title{margin-top:0}
+@media(max-width:900px){.unit-main-grid{grid-template-columns:1fr}.diligence-card{position:static}}
+.review{margin-top:28px}
 .review-list{display:grid;gap:10px}
 .review-item{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:15px;padding:15px}
 .review-item.correct{border-left:4px solid var(--good)}
@@ -378,7 +392,7 @@ function route(){
 
   const exercise=hash.match(/^grade-12\/unit-6\/vocabulary-practice-(\d+)$/);
   if(exercise){renderExercise(6,Number(exercise[1]));return}
-  if(hash==="grade-12/unit-6/leaderboard"){renderLeaderboard();return}
+  if(hash==="grade-12/unit-6/leaderboard"){renderUnit(6);return}
   if(hash==="grade-12/unit-6"){renderUnit(6);return}
 
   const grade=hash.match(/^grade-(9|10|11|12)$/);
@@ -465,20 +479,31 @@ function renderUnit(id){
   pageMount.style.display="block";
 
   const exerciseHTML=`
-    <div class="section-title"><h2>Exercises</h2><span>${TOTAL_SETS} sets</span></div>
-    <div style="margin:-8px 0 18px"><button class="secondary" onclick="openLeaderboard()">🏆 Leaderboard</button></div>
-    <div class="exercise-grid">
-      ${Array.from({length:TOTAL_SETS},(_,i)=>{
-        const setNo=i+1;
-        const count=getSetCount(setNo);
-        const level=getSetLevel(setNo);
-        return `
-          <button class="exercise-card" onclick="openExercise(6,${setNo})">
-            <div class="exercise-icon">${setNo}</div>
-            <h3>Vocabulary Practice ${setNo} - ${getSetLevelName(setNo)}</h3>
-            <div class="meta"><span class="chip">${count} questions</span><span class="chip">${level}</span><span class="chip">Immediate feedback</span><span class="chip">Deep vocabulary notes</span></div>
-          </button>`;
-      }).join("")}
+    <div class="unit-main-grid">
+      <aside class="diligence-card">
+        <div class="diligence-head">
+          <div><h3>🏆 Người chăm chỉ</h3><span>Top 5 · số bài hoàn thành</span></div>
+        </div>
+        <div class="diligence-list" id="diligenceMount">
+          <div class="diligence-empty">Loading…</div>
+        </div>
+      </aside>
+      <div class="unit-exercises">
+        <div class="section-title"><h2>Exercises</h2><span>${TOTAL_SETS} sets</span></div>
+        <div class="exercise-grid">
+          ${Array.from({length:TOTAL_SETS},(_,i)=>{
+            const setNo=i+1;
+            const count=getSetCount(setNo);
+            const level=getSetLevel(setNo);
+            return `
+              <button class="exercise-card" onclick="openExercise(6,${setNo})">
+                <div class="exercise-icon">${setNo}</div>
+                <h3>Vocabulary Practice ${setNo} - ${getSetLevelName(setNo)}</h3>
+                <div class="meta"><span class="chip">${count} questions</span><span class="chip">${level}</span><span class="chip">Immediate feedback</span><span class="chip">Deep vocabulary notes</span></div>
+              </button>`;
+          }).join("")}
+        </div>
+      </div>
     </div>`;
 
   pageMount.innerHTML=`
@@ -491,6 +516,7 @@ function renderUnit(id){
       <h1>Artificial Intelligence</h1>
     </div>
     ${exerciseHTML}`;
+  loadDiligenceLeaderboard();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -622,14 +648,6 @@ function move(step){
   current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function openLeaderboard(){location.hash="grade-12/unit-6/leaderboard"}
-
-function formatDuration(totalSeconds){
-  const s=Math.max(0,Number(totalSeconds)||0);
-  const m=Math.floor(s/60);
-  return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
-}
-
 async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
   if(scoreSubmitted||!currentNickname||!quizStartedAt)return;
   scoreSubmitted=true;
@@ -638,48 +656,39 @@ async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
   try{
     const res=await fetch(SUPABASE_URL+"/rest/v1/scores",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(payload)});
     if(!res.ok)throw new Error("Score submit failed");
-    toast("Đã lưu kết quả lên leaderboard");
+    toast("Đã ghi nhận bài hoàn thành");
   }catch(err){
     scoreSubmitted=false;
     console.error(err);
-    toast("Chưa lưu được leaderboard — kết quả trên máy vẫn giữ nguyên");
+    toast("Chưa ghi nhận được lượt học — kết quả trên máy vẫn giữ nguyên");
   }
 }
 
-function renderLeaderboard(){
-  pageMount.style.display="block";
-  pageMount.innerHTML=`
-    <div class="breadcrumbs">
-      <button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span>
-      <button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span>
-      <button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Leaderboard</span>
-    </div>
-    <div class="unit-hero"><div class="eyebrow">Grade 12 · Unit 6</div><h1>🏆 Leaderboard</h1></div>
-    <div class="leaderboard-actions">
-      <button class="secondary" id="lb1" onclick="loadLeaderboard(1)">Easy</button>
-      <button class="secondary" id="lb2" onclick="loadLeaderboard(2)">Intermediate</button>
-      <button class="secondary" id="lb3" onclick="loadLeaderboard(3)">Hard</button>
-    </div>
-    <div class="leaderboard-table-wrap" id="leaderboardMount"><div class="leaderboard-empty">Loading…</div></div>`;
-  loadLeaderboard(1);
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-async function loadLeaderboard(setNo){
-  [1,2,3].forEach(n=>{const b=document.getElementById("lb"+n);if(b)b.style.borderColor=n===setNo?"rgba(103,232,249,.65)":"";});
-  const mount=document.getElementById("leaderboardMount");
+async function loadDiligenceLeaderboard(){
+  const mount=document.getElementById("diligenceMount");
   if(!mount)return;
-  mount.innerHTML='<div class="leaderboard-empty">Loading…</div>';
-  const query="?select=nickname,set_no,difficulty,first_try_correct,total_questions,mistakes,duration_seconds,created_at&set_no=eq."+setNo+"&order=first_try_correct.desc,mistakes.asc,duration_seconds.asc,created_at.asc&limit=50";
+  mount.innerHTML='<div class="diligence-empty">Loading…</div>';
+  const query="?select=nickname,completed_quizzes,active_days,questions_practiced&order=completed_quizzes.desc,active_days.desc,questions_practiced.desc&limit=5";
   try{
-    const res=await fetch(SUPABASE_URL+"/rest/v1/scores"+query,{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
-    if(!res.ok)throw new Error("Leaderboard fetch failed");
+    const res=await fetch(SUPABASE_URL+"/rest/v1/diligence_leaderboard"+query,{
+      headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}
+    });
+    if(!res.ok)throw new Error("Diligence leaderboard fetch failed");
     const rows=await res.json();
-    if(!rows.length){mount.innerHTML='<div class="leaderboard-empty">Chưa có kết quả cho set này.</div>';return;}
-    mount.innerHTML=`<table class="leaderboard-table"><thead><tr><th>#</th><th>Nickname</th><th>First try</th><th>Mistakes</th><th>Time</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td class="rank">${i+1}</td><td>${esc(r.nickname)}</td><td>${r.first_try_correct}/${r.total_questions}</td><td>${r.mistakes}</td><td>${formatDuration(r.duration_seconds)}</td></tr>`).join("")}</tbody></table>`;
+    if(!rows.length){
+      mount.innerHTML='<div class="diligence-empty">Chưa có lượt hoàn thành.</div>';
+      return;
+    }
+    const medals=["🥇","🥈","🥉"];
+    mount.innerHTML=rows.map((r,i)=>`
+      <div class="diligence-row">
+        <div class="diligence-rank">${medals[i]||i+1}</div>
+        <div class="diligence-name">${esc(r.nickname)}</div>
+        <div class="diligence-stats"><b>${r.completed_quizzes} bài</b>${r.active_days} ngày</div>
+      </div>`).join("");
   }catch(err){
     console.error(err);
-    mount.innerHTML='<div class="leaderboard-empty">Không tải được leaderboard. Vui lòng thử lại.</div>';
+    mount.innerHTML='<div class="diligence-empty">Không tải được BXH.</div>';
   }
 }
 
