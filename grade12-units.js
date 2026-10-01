@@ -19,40 +19,55 @@ function blankParts(text){
     after:shortText(s.slice(p+m[0].length).trim().replace(/^[”"]+/,""),88)
   };
 }
-function sourceFamily(term,usage){
-  const joined=String(usage||"");
-  const arrow=joined.match(/([^.;]{1,80}(?:→|->)[^.;]{1,120})/);
-  if(arrow)return arrow[1].trim();
-  return `Tài liệu hiện chỉ cung cấp dạng “${term}”; không mở rộng thêm word family ngoài nguồn.`;
+const COMMON_WORD_FAMILIES={"interesting":"interest (n./v.) → interested (adj.) → interesting (adj.)","medicine":"medicine (n.) → medical (adj.)","volunteer":"volunteer (n./v.) → voluntary (adj.) → voluntarily (adv.)","surgeon":"surgery (n.) → surgeon (n.) → surgical (adj.)","contain":"contain (v.) → container (n.) → containment (n.)","experience":"experience (n./v.) → experienced (adj.)","unfortunately":"fortune (n.) → fortunate (adj.) → fortunately (adv.) → unfortunate (adj.) → unfortunately (adv.)","kill":"kill (v.) → killer (n.) → killing (n./adj.)","biological":"biology (n.) → biological (adj.) → biologically (adv.)","accessible":"access (n./v.) → accessible (adj.) → accessibility (n.)","invent":"invent (v.) → invention (n.) → inventor (n.) → inventive (adj.)","contribute to":"contribute (v.) → contribution (n.) → contributor (n.)","diagnose":"diagnose (v.) → diagnosis (n.) → diagnostic (adj.)","visionary":"vision (n.) → visionary (adj./n.)","determination":"determine (v.) → determined (adj.) → determination (n.)","ambitious":"ambition (n.) → ambitious (adj.)","activist":"activism (n.) → activist (n.)","diplomat":"diplomacy (n.) → diplomat (n.) → diplomatic (adj.)","aspiration":"aspire (v.) → aspiration (n.) → aspiring (adj.)","reflective":"reflect (v.) → reflection (n.) → reflective (adj.)","adorn":"adorn (v.) → adornment (n.)","refine":"refine (v.) → refined (adj.) → refinement (n.)","cultural":"culture (n.) → cultural (adj.) → culturally (adv.)","diversity":"diverse (adj.) → diversity (n.) → diversify (v.)","popular":"popular (adj.) → popularity (n.)","traditional":"tradition (n.) → traditional (adj.) → traditionally (adv.)","healthy":"health (n.) → healthy (adj.) → healthily (adv.)","spicy":"spice (n./v.) → spicy (adj.)","globalisation":"global (adj.) → globalise (v.) → globalisation (n.)","connected":"connect (v.) → connection (n.) → connected (adj.)","belief":"believe (v.) → belief (n.)","cultural diversity":"culture (n.) → cultural (adj.) → culturally (adv.)","international":"nation (n.) → national (adj.) → international (adj.)","suitable":"suit (v.) → suitable (adj.) → suitability (n.)","captivated":"captivate (v.) → captivated/captivating (adj.) → captivation (n.)","influence":"influence (n./v.) → influential (adj.)","reflect":"reflect (v.) → reflection (n.) → reflective (adj.)","identity":"identify (v.) → identification (n.) → identity (n.)","illegal":"legal (adj.) → illegal (adj.) → legally (adv.)","institution":"institute (n./v.) → institution (n.) → institutional (adj.)","sacrifice":"sacrifice (n./v.) → sacrificial (adj.)","obligation":"oblige (v.) → obligation (n.) → obligatory (adj.)","binding":"bind (v.) → binding (adj./n.)","afford":"afford (v.) → affordable (adj.) → affordability (n.)","variation":"vary (v.) → various (adj.) → variety/variation (n.)","ceremony":"ceremony (n.) → ceremonial (adj.)","negotiation":"negotiate (v.) → negotiation (n.) → negotiator (n.)","environmental awareness":"environment (n.) → environmental (adj.)","reduce":"reduce (v.) → reduction (n.) → reduced (adj.)","efficiently":"efficient (adj.) → efficiency (n.) → efficiently (adv.)","frequently":"frequent (adj.) → frequency (n.) → frequently (adv.)","develop":"develop (v.) → development (n.) → developer (n.)","behaviour":"behave (v.) → behaviour (n.) → behavioural (adj.)","decompose":"decompose (v.) → decomposition (n.)","environment":"environment (n.) → environmental (adj.)","convenience":"convenient (adj.) → convenience (n.) → conveniently (adv.)","reuse":"reuse (v./n.) → reusable (adj.)","recycle":"recycle (v.) → recycling (n.) → recyclable (adj.)","contaminated":"contaminate (v.) → contamination (n.) → contaminated (adj.)","recyclable":"recycle (v.) → recycling (n.) → recyclable (adj.)","sustainable":"sustain (v.) → sustainable (adj.) → sustainability (n.)","strategic":"strategy (n.) → strategic (adj.) → strategically (adv.)","emit":"emit (v.) → emission (n.) → emitter (n.)","decarbonisation":"decarbonise (v.) → decarbonisation (n.)","redesign":"design (n./v.) → designer (n.) → redesign (v./n.)","emission":"emit (v.) → emission (n.)","advertising trickery":"advertise (v.) → advertisement (n.) → advertising (n.)","flourish":"flourish (v.) → flourishing (adj.)","urbanisation":"urban (adj.) → urbanise (v.) → urbanisation (n.)","resident":"reside (v.) → resident (n./adj.) → residence (n.)","population":"populate (v.) → population (n.)","trade":"trade (n./v.) → trader (n.)","colonial":"colony (n.) → colonial (adj.)","architecture":"architect (n.) → architecture (n.) → architectural (adj.)","gradually":"gradual (adj.) → gradually (adv.)","expand":"expand (v.) → expansion (n.) → expansive (adj.)","modernise":"modern (adj.) → modernise (v.) → modernisation (n.)","unemployment rate":"employ (v.) → employment (n.) → unemployed (adj.) → unemployment (n.)","migrate":"migrate (v.) → migration (n.) → migrant (n.)","development":"develop (v.) → development (n.) → developer (n.)","private investor":"invest (v.) → investment (n.) → investor (n.)","wealthy neighborhood":"wealth (n.) → wealthy (adj.)","industrialization":"industry (n.) → industrial (adj.) → industrialize (v.) → industrialization (n.)","mobility":"mobile (adj.) → mobility (n.)","tiring":"tire (v.) → tired/tiring (adj.)","stressful":"stress (n./v.) → stressful/stressed (adj.)","regulation":"regulate (v.) → regulation (n.) → regulatory (adj.)","accountant":"account (n./v.) → accountant (n.) → accounting (n.)","vacancy":"vacant (adj.) → vacancy (n.)","flexible working hours":"flexible (adj.) → flexibility (n.) → flexibly (adv.)","sort donations":"donate (v.) → donation (n.) → donor (n.)","apply":"apply (v.) → application (n.) → applicant (n.)","employee":"employ (v.) → employee (n.) → employment (n.)","benefit":"benefit (n./v.) → beneficial (adj.)","responsibility":"responsible (adj.) → responsibility (n.) → responsibly (adv.)","supervise":"supervise (v.) → supervision (n.) → supervisor (n.)","requirement":"require (v.) → requirement (n.)","productive":"produce (v.) → production/product (n.) → productive (adj.) → productivity (n.)","instability":"stable (adj.) → stability (n.) → unstable (adj.) → instability (n.)","expectation":"expect (v.) → expectation (n.)","vulnerability":"vulnerable (adj.) → vulnerability (n.)","productivity":"produce (v.) → productive (adj.) → productivity (n.)","conceal":"conceal (v.) → concealment (n.)","motivation":"motivate (v.) → motivation (n.) → motivated (adj.)","discipline":"discipline (n./v.) → disciplined (adj.)","depression":"depress (v.) → depressed/depressing (adj.) → depression (n.)","entrepreneur":"entrepreneur (n.) → entrepreneurial (adj.) → entrepreneurship (n.)","worried":"worry (n./v.) → worried/worrying (adj.)","stressed":"stress (n./v.) → stressed/stressful (adj.)","publicity":"public (adj./n.) → publicise (v.) → publicity (n.)","expensive":"expense (n.) → expensive (adj.)","promote":"promote (v.) → promotion (n.) → promotional (adj.)","viewer":"view (n./v.) → viewer (n.) → viewing (n.)","commercial":"commerce (n.) → commercial (adj./n.) → commercially (adv.)","distribute":"distribute (v.) → distribution (n.) → distributor (n.)","broadcast TV":"broadcast (v./n.) → broadcaster (n.) → broadcasting (n.)","convenient":"convenient (adj.) → convenience (n.) → conveniently (adv.)","access information":"access (n./v.) → accessible (adj.) → accessibility (n.)","interactive":"interact (v.) → interaction (n.) → interactive (adj.)","immediately":"immediate (adj.) → immediately (adv.)","strength":"strong (adj.) → strength (n.) → strengthen (v.)","weakness":"weak (adj.) → weakness (n.) → weaken (v.)","credible":"credible (adj.) → credibility (n.) → credibly (adv.)","reliable source":"rely (v.) → reliable (adj.) → reliability (n.)","emerge":"emerge (v.) → emergence (n.) → emerging (adj.)","evolve into":"evolve (v.) → evolution (n.) → evolutionary (adj.)","fraudulent":"fraud (n.) → fraudulent (adj.)","sophisticated":"sophisticated (adj.) → sophistication (n.)","deception":"deceive (v.) → deception (n.) → deceptive (adj.)","realization":"realize (v.) → realization (n.)","predatory":"predator (n.) → predatory (adj.)","initiate":"initiate (v.) → initiation (n.) → initiative (n.)","liquidate":"liquidate (v.) → liquidation (n.)","irresistible":"resist (v.) → resistance (n.) → irresistible (adj.)"};
+function sourceFamily(term){
+  return COMMON_WORD_FAMILIES[term]||"";
 }
-function buildMeaning(unit,term,meaning,ipa,usage){
+function buildMeaning(unit,term,meaning,ipa,usage,setNo){
+  const base=`“${term}” = “${meaning}”.`;
+  if(setNo<3)return base;
   const use=String(usage||"").trim();
-  const usageSentence=use
-    ? ` Trong tài liệu, “${term}” còn xuất hiện trong cách dùng “${use}”, giúp xác định rõ phạm vi nghĩa của mục từ.`
-    : ` Trong tài liệu của Unit ${unit}, mục từ này được ghi và dùng đúng với nghĩa trên.`;
-  return `“${term}” = “${meaning}”. Đây là nghĩa trọng tâm cần ghi nhớ trong Unit ${unit}.${usageSentence} Khi gặp lại từ này, cần giữ đúng nghĩa “${meaning}” trong ngữ cảnh của bài, không suy sang một từ khác chỉ vì cùng chủ đề.`;
+  if(!use)return base;
+  return `${base} Ở mức nghĩa nâng cao, nên chú ý cách từ này kết hợp trong “${use}”, vì cụm đó giúp xác định rõ sắc thái và phạm vi sử dụng của “${term}”.`;
 }
 function buildWhy(unit,setNo,term,meaning,usage,cue){
   if(setNo===1||!cue){
-    return `Câu hỏi yêu cầu tìm từ/cụm từ mang nghĩa “${meaning}”. Trong danh sách từ của Unit ${unit}, “${term}” được ghi trực tiếp với nghĩa “${meaning}”. Vì vậy điểm quyết định nằm ở chính cụm nghĩa tiếng Việt này: “${term}” là mục từ tương ứng, còn các lựa chọn khác trong cùng nhóm mang những nghĩa khác.`;
+    return `Câu hỏi chỉ yêu cầu đối chiếu nghĩa. “${term}” mang nghĩa “${meaning}”, nên đây là đáp án đúng; các lựa chọn còn lại mang những nghĩa khác.`;
   }
   if(cue.startsWith("COLLOC::")){
     const colloc=cue.slice(8).trim();
-    return `Câu hỏi lấy trực tiếp collocation “${colloc}” từ tài liệu. Trong nguồn, mục từ đi với collocation này là “${term}”, và “${term}” mang nghĩa “${meaning}”. Vì thế “${term}” phải được giữ ở vị trí này để tạo đúng cụm từ đã xuất hiện trong bài; các lựa chọn khác sẽ làm thay đổi collocation nguồn.`;
+    return `Cụm cần hoàn chỉnh là “${colloc}”. “${term}” mang nghĩa “${meaning}” và kết hợp tự nhiên trong cụm này, nên khi điền vào chỗ trống, toàn bộ cụm giữ đúng nghĩa và cấu trúc. Các lựa chọn khác hoặc sai nghĩa, hoặc không tạo được cách kết hợp từ tự nhiên trong ngữ cảnh này.`;
   }
   const parts=blankParts(cue);
-  const before=parts.before?`Trước chỗ trống là “${parts.before}”. `:"";
-  const after=parts.after?`Sau chỗ trống là “${parts.after}”. `:"";
-  const local=shortText([parts.before,term,parts.after].filter(Boolean).join(" "),135);
-  const use=usage?` Tài liệu còn ghi cách dùng “${usage}”, giúp xác nhận thêm cách kết hợp của “${term}” trong ngữ cảnh này.`:"";
-  return `${before}${after}“${term}” mang nghĩa “${meaning}”. Khi đặt vào chỗ trống, phần câu quanh đáp án trở thành “${local}”; nghĩa “${meaning}” nối đúng nội dung của hai phần đứng trước và sau chỗ trống.${use}`;
+  const before=parts.before?`Ngay trước chỗ trống là “${parts.before}”. `:"";
+  const after=parts.after?`Ngay sau chỗ trống là “${parts.after}”. `:"";
+  const local=shortText([parts.before,term,parts.after].filter(Boolean).join(" "),150);
+  const grammar=(()=>{
+    const b=String(parts.before||"").toLowerCase();
+    if(/\b(to|can|could|will|would|should|may|might|must)\s*$/.test(b))return "Vị trí này cần một động từ hoặc cụm động từ để hoàn chỉnh hành động.";
+    if(/\b(a|an|the|this|that|his|her|their|our)\s*$/.test(b))return "Vị trí này cần một danh từ/cụm danh từ hoặc một từ có thể bổ nghĩa cho danh từ phía sau.";
+    if(/\b(is|are|was|were|be|become|became|seem|feel|look)\s*$/.test(b))return "Vị trí này thường cần một tính từ hoặc thành phần mô tả trạng thái/đặc điểm.";
+    return "";
+  })();
+  const logic=(()=>{
+    const text=String(cue);
+    const because=text.match(/\bbecause\b\s+(.+)$/i);
+    if(because)return ` Mệnh đề sau “because” — “${because[1].trim()}” — giải thích trực tiếp vì sao ý “${meaning}” phù hợp.`;
+    if(/rather than/i.test(text))return " Cụm “rather than” tạo thế đối chiếu, nên đáp án phải phù hợp với ý được ưu tiên ở vế còn lại.";
+    if(/instead of/i.test(text))return " Cụm “instead of” tạo thế đối chiếu giữa hai lựa chọn/hành động, giúp loại các đáp án không cùng quan hệ nghĩa.";
+    return "";
+  })();
+  return `${before}${after}${grammar?grammar+" ":""}“${term}” mang nghĩa “${meaning}”. Khi điền vào, phần câu trở thành “${local}”, và nghĩa của “${term}” nối đúng hai phần của câu về cả nội dung lẫn ngữ pháp.${logic}`;
 }
 function buildContrast(term,meaning,group,cue){
   const others=group.filter(x=>x[0]!==term).map(x=>`“${x[0]}” = “${x[1]}”`);
-  const context=cue&&!cue.startsWith("COLLOC::")
-    ? ` Trong câu nguồn, chỗ trống đang cần đúng ý “${meaning}”, nên các nghĩa còn lại sẽ làm câu lệch khỏi nội dung được nêu.`
-    : ` Câu hỏi đang nhắm trực tiếp đến nghĩa “${meaning}”, nên ba mục từ còn lại bị loại vì mang nghĩa khác.`;
-  return `Cần phân biệt: “${term}” = “${meaning}”; ${others.join("; ")}.${context}`;
+  if(!cue){
+    return `“${term}” = “${meaning}”. Các lựa chọn còn lại là ${others.join("; ")}. Vì nghĩa của chúng khác nhau, chỉ “${term}” khớp với nghĩa được hỏi.`;
+  }
+  if(cue.startsWith("COLLOC::")){
+    return `“${term}” = “${meaning}”, còn ${others.join("; ")}. Điểm khác biệt không chỉ nằm ở nghĩa: trong cụm đang xét, “${term}” còn tạo được cách kết hợp tự nhiên, trong khi các lựa chọn kia không phù hợp với cấu trúc hoặc làm đổi nghĩa của cả cụm.`;
+  }
+  return `“${term}” = “${meaning}”, còn ${others.join("; ")}. Trong câu này, chỗ trống phải diễn đạt đúng ý “${meaning}”; nếu thay bằng một lựa chọn khác, câu sẽ chuyển sang một ý khác hoặc không còn hợp với chi tiết đứng trước/sau chỗ trống.`;
 }
 
 const banks={};
@@ -82,10 +97,10 @@ for(const [unitKey,src] of Object.entries(D)){
       }
       questions.push({q,o:opts,a,e:`${term} = ${meaning}.`});
       explanations.push({
-        meaning:buildMeaning(unit,term,meaning,ipa,usage),
+        meaning:buildMeaning(unit,term,meaning,ipa,usage,setNo),
         why:buildWhy(unit,setNo,term,meaning,usage,cue),
         contrast:buildContrast(term,meaning,group,cue),
-        family:sourceFamily(term,usage),
+        family:sourceFamily(term),
         standard:true
       });
     });
