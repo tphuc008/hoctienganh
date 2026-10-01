@@ -158,8 +158,7 @@ h1,h2,h3,p{margin-top:0}
 .diligence-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px 8px;border-radius:12px;background:rgba(255,255,255,.035)}
 .diligence-rank{font-weight:900;text-align:center}
 .diligence-name{font-weight:760;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.diligence-stats{text-align:right;font-size:11px;color:var(--muted);white-space:nowrap}
-.diligence-stats b{display:block;color:var(--text);font-size:12px}
+.diligence-stats{text-align:right;font-size:12px;color:var(--muted);white-space:nowrap}
 .diligence-empty{padding:14px 4px;color:var(--muted);font-size:12px;text-align:center}
 @media(max-width:900px){.grade-overview{grid-template-columns:1fr}.diligence-card{min-height:auto}}
 .review{margin-top:28px}
@@ -227,6 +226,7 @@ h1,h2,h3,p{margin-top:0}
     </section>
     
   </main>
+  <div class="footer">🔥 Streak: ngày học liên tục</div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -415,7 +415,7 @@ function renderGrade(id){
 
       <aside class="diligence-card">
         <div class="diligence-head">
-          <div><h3>🏆 Người chăm chỉ</h3><span>Top 5 · toàn Lớp 12</span></div>
+          <div><h3>🏆 Người chăm chỉ</h3><span>Top 5</span></div>
         </div>
         <div class="diligence-list" id="diligenceMount">
           <div class="diligence-empty">Loading…</div>
@@ -641,7 +641,7 @@ async function loadDiligenceLeaderboard(){
       <div class="diligence-row">
         <div class="diligence-rank">${medals[i]||i+1}</div>
         <div class="diligence-name">${esc(r.nickname)}</div>
-        <div class="diligence-stats"><b>${r.completed_quizzes} bài</b>🔥 ${r.current_streak} ngày</div>
+        <div class="diligence-stats">${r.completed_quizzes} bài · 🔥 ${r.current_streak} ngày</div>
       </div>`).join("");
   }catch(err){
     console.error(err);
