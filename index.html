@@ -148,7 +148,7 @@ h1,h2,h3,p{margin-top:0}
 .stat{border:1px solid var(--line);background:var(--soft);border-radius:15px;padding:14px}
 .stat b{display:block;font-size:22px}
 .stat span{color:var(--muted);font-size:11px}
-.review{margin-top:28px}
+.nickname-box{max-width:420px;margin:18px auto 0;text-align:left}.nickname-box label{display:block;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}.nickname-box input{width:100%;box-sizing:border-box;color:var(--text);background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;font:inherit}.nickname-box input:focus{border-color:rgba(103,232,249,.55);box-shadow:0 0 0 3px rgba(103,232,249,.08)}.leaderboard-actions{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.leaderboard-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}.leaderboard-table{width:100%;border-collapse:collapse;min-width:670px}.leaderboard-table th,.leaderboard-table td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--line)}.leaderboard-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.leaderboard-table td{font-size:14px}.leaderboard-table tr:last-child td{border-bottom:0}.rank{font-weight:900}.leaderboard-empty{padding:24px;color:var(--muted);text-align:center}.review{margin-top:28px}
 .review-list{display:grid;gap:10px}
 .review-item{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:15px;padding:15px}
 .review-item.correct{border-left:4px solid var(--good)}
@@ -308,6 +308,12 @@ let answers=[];
 let solved=[];
 let mistakes=[];
 let wrongChoices=[];
+let quizStartedAt=0;
+let currentNickname=localStorage.getItem("vocabNickname")||"";
+let scoreSubmitted=false;
+
+const SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
+const SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
 
 function shuffled(items){
   const copy=[...items];
@@ -372,6 +378,7 @@ function route(){
 
   const exercise=hash.match(/^grade-12\/unit-6\/vocabulary-practice-(\d+)$/);
   if(exercise){renderExercise(6,Number(exercise[1]));return}
+  if(hash==="grade-12/unit-6/leaderboard"){renderLeaderboard();return}
   if(hash==="grade-12/unit-6"){renderUnit(6);return}
 
   const grade=hash.match(/^grade-(9|10|11|12)$/);
@@ -459,6 +466,7 @@ function renderUnit(id){
 
   const exerciseHTML=`
     <div class="section-title"><h2>Exercises</h2><span>${TOTAL_SETS} sets</span></div>
+    <div style="margin:-8px 0 18px"><button class="secondary" onclick="openLeaderboard()">🏆 Leaderboard</button></div>
     <div class="exercise-grid">
       ${Array.from({length:TOTAL_SETS},(_,i)=>{
         const setNo=i+1;
@@ -506,18 +514,26 @@ function renderExercise(id,setNo){
       <div class="eyebrow">Grade 12 · Unit 6 · Set ${activeSet} · ${activeLevel.name}</div>
       <h1><span class="gradient">Vocabulary Practice ${activeSet} - ${activeLevel.name}</span></h1>
       <div class="pills"><span class="pill">${count} questions</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
-      <button class="primary" onclick="startQuiz(true)">Start exercise →</button>
+      <div class="nickname-box"><label for="nicknameInput">Nickname for leaderboard</label><input id="nicknameInput" maxlength="24" autocomplete="nickname" placeholder="Enter nickname" value="${esc(currentNickname)}"></div>
+      <button class="primary" style="margin-top:16px" onclick="startQuiz(true)">Start exercise →</button>
     </div>`;
 }
 
 function startQuiz(reset=false){
   if(reset){
+    const nicknameInput=document.getElementById("nicknameInput");
+    const nickname=(nicknameInput?nicknameInput.value:currentNickname).trim().replace(/\s+/g," ");
+    if(nickname.length<2){toast("Nhập nickname ít nhất 2 ký tự");return}
+    currentNickname=nickname.slice(0,24);
+    localStorage.setItem("vocabNickname",currentNickname);
     selectSet(activeSet);
     current=0;
     answers=Array(activeQuestions.length).fill(null);
     solved=Array(activeQuestions.length).fill(false);
     mistakes=Array(activeQuestions.length).fill(0);
     wrongChoices=Array.from({length:activeQuestions.length},()=>new Set());
+    quizStartedAt=Date.now();
+    scoreSubmitted=false;
   }
   hideAll();
   document.getElementById("exitQuizBtn").textContent="← Unit 6 · Set "+activeSet;
@@ -606,6 +622,67 @@ function move(step){
   current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
+function openLeaderboard(){location.hash="grade-12/unit-6/leaderboard"}
+
+function formatDuration(totalSeconds){
+  const s=Math.max(0,Number(totalSeconds)||0);
+  const m=Math.floor(s/60);
+  return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+}
+
+async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
+  if(scoreSubmitted||!currentNickname||!quizStartedAt)return;
+  scoreSubmitted=true;
+  const duration=Math.max(1,Math.round((Date.now()-quizStartedAt)/1000));
+  const payload={nickname:currentNickname,grade:12,unit_no:6,set_no:activeSet,difficulty:activeLevel.name,first_try_correct:firstTry,total_questions:totalQuestions,mistakes:totalMistakes,duration_seconds:Math.min(duration,7200)};
+  try{
+    const res=await fetch(SUPABASE_URL+"/rest/v1/scores",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error("Score submit failed");
+    toast("Đã lưu kết quả lên leaderboard");
+  }catch(err){
+    scoreSubmitted=false;
+    console.error(err);
+    toast("Chưa lưu được leaderboard — kết quả trên máy vẫn giữ nguyên");
+  }
+}
+
+function renderLeaderboard(){
+  pageMount.style.display="block";
+  pageMount.innerHTML=`
+    <div class="breadcrumbs">
+      <button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span>
+      <button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span>
+      <button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Leaderboard</span>
+    </div>
+    <div class="unit-hero"><div class="eyebrow">Grade 12 · Unit 6</div><h1>🏆 Leaderboard</h1></div>
+    <div class="leaderboard-actions">
+      <button class="secondary" id="lb1" onclick="loadLeaderboard(1)">Easy</button>
+      <button class="secondary" id="lb2" onclick="loadLeaderboard(2)">Intermediate</button>
+      <button class="secondary" id="lb3" onclick="loadLeaderboard(3)">Hard</button>
+    </div>
+    <div class="leaderboard-table-wrap" id="leaderboardMount"><div class="leaderboard-empty">Loading…</div></div>`;
+  loadLeaderboard(1);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function loadLeaderboard(setNo){
+  [1,2,3].forEach(n=>{const b=document.getElementById("lb"+n);if(b)b.style.borderColor=n===setNo?"rgba(103,232,249,.65)":"";});
+  const mount=document.getElementById("leaderboardMount");
+  if(!mount)return;
+  mount.innerHTML='<div class="leaderboard-empty">Loading…</div>';
+  const query="?select=nickname,set_no,difficulty,first_try_correct,total_questions,mistakes,duration_seconds,created_at&set_no=eq."+setNo+"&order=first_try_correct.desc,mistakes.asc,duration_seconds.asc,created_at.asc&limit=50";
+  try{
+    const res=await fetch(SUPABASE_URL+"/rest/v1/scores"+query,{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+    if(!res.ok)throw new Error("Leaderboard fetch failed");
+    const rows=await res.json();
+    if(!rows.length){mount.innerHTML='<div class="leaderboard-empty">Chưa có kết quả cho set này.</div>';return;}
+    mount.innerHTML=`<table class="leaderboard-table"><thead><tr><th>#</th><th>Nickname</th><th>First try</th><th>Mistakes</th><th>Time</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td class="rank">${i+1}</td><td>${esc(r.nickname)}</td><td>${r.first_try_correct}/${r.total_questions}</td><td>${r.mistakes}</td><td>${formatDuration(r.duration_seconds)}</td></tr>`).join("")}</tbody></table>`;
+  }catch(err){
+    console.error(err);
+    mount.innerHTML='<div class="leaderboard-empty">Không tải được leaderboard. Vui lòng thử lại.</div>';
+  }
+}
+
 function finishLearning(){
   const mastered=solved.filter(Boolean).length;
   if(mastered<activeQuestions.length)return;
@@ -622,7 +699,9 @@ function finishLearning(){
   document.getElementById("answeredStat").textContent=firstTry;
   document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent2) ${pct*3.6}deg,rgba(255,255,255,.08) 0deg)`;
   document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Review the tricky contrasts below.";
-  buildReview();if(pct>=75)confetti();
+  buildReview();
+  submitLeaderboardScore(firstTry,totalMistakes,activeQuestions.length);
+  if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
