@@ -30,34 +30,87 @@ function buildMeaning(unit,term,meaning,ipa,usage,setNo){
   if(!use)return base;
   return `${base} Ở mức nghĩa nâng cao, nên chú ý cách từ này kết hợp trong “${use}”, vì cụm đó giúp xác định rõ sắc thái và phạm vi sử dụng của “${term}”.`;
 }
+function semanticClue(cue,meaning){
+  const text=String(cue||"").replace(/\s+/g," ").trim();
+
+  const dash=text.match(/_{2,}\s*[—–-]\s*([^.!?]+)/);
+  if(dash){
+    return `Phần sau dấu gạch ngang — “${shortText(dash[1],150)}” — đóng vai trò giải thích hoặc định nghĩa cho chỗ trống. Nội dung đó trực tiếp làm rõ ý “${meaning}”, nên đây là manh mối nghĩa mạnh nhất của câu.`;
+  }
+
+  const because=text.match(/\bbecause\b\s+([^.!?]+)/i);
+  if(because){
+    return `Mệnh đề “because ${shortText(because[1],140)}” nêu nguyên nhân hoặc bằng chứng cho phần đứng trước. Chính lý do này làm rõ vì sao chỗ trống phải mang ý “${meaning}”.`;
+  }
+
+  const fromTo=text.match(/\bfrom\b\s+([^,.]{1,80})\s+\bto\b\s+([^,.]{1,100})/i);
+  if(fromTo){
+    return `Cấu trúc “from ${shortText(fromTo[1],70)} to ${shortText(fromTo[2],85)}” cho thấy một quá trình thay đổi hoặc tiến triển rõ rệt. Vì vậy đáp án phải diễn tả đặc điểm phù hợp với toàn bộ quá trình đó, ở đây là ý “${meaning}”.`;
+  }
+
+  const notBut=text.match(/\bnot\b\s+([^,.]{1,100})\s*,?\s*\bbut(?: rather)?\b\s+([^,.]{1,120})/i);
+  if(notBut){
+    return `Cấu trúc đối lập “not ${shortText(notBut[1],70)} … but ${shortText(notBut[2],90)}” loại bỏ ý thứ nhất và nhấn mạnh ý thứ hai. Chỗ trống phải phù hợp với vế được nhấn mạnh, nên nghĩa “${meaning}” là phù hợp.`;
+  }
+
+  const suchAs=text.match(/\bsuch as\b\s+([^.!?]+)/i);
+  if(suchAs){
+    return `Cụm “such as ${shortText(suchAs[1],125)}” đưa ra ví dụ cụ thể. Những ví dụ này giúp xác định trường nghĩa của chỗ trống và dẫn trực tiếp đến ý “${meaning}”.`;
+  }
+
+  const including=text.match(/\bincluding\b\s+([^.!?]+)/i);
+  if(including){
+    return `Phần “including ${shortText(including[1],125)}” đưa ra các trường hợp cụ thể thuộc nhóm đang được nói tới. Các ví dụ này giúp xác định chính xác ý “${meaning}” của đáp án.`;
+  }
+
+  const by=text.match(/\bby\b\s+([^.!?]+)/i);
+  if(by){
+    return `Cụm “by ${shortText(by[1],125)}” cho biết cách thức hoặc cơ chế mà hành động hoặc kết quả xảy ra. Quan hệ này giúp xác định rằng chỗ trống phải mang ý “${meaning}”.`;
+  }
+
+  const withClause=text.match(/\bwith\b\s+([^.!?]+)/i);
+  if(withClause){
+    return `Cụm “with ${shortText(withClause[1],125)}” bổ sung hoàn cảnh hoặc đặc điểm đi kèm. Chi tiết này thu hẹp nghĩa của chỗ trống về đúng ý “${meaning}”.`;
+  }
+
+  return "";
+}
 function buildWhy(unit,setNo,term,meaning,usage,cue){
   if(setNo===1||!cue){
-    return `Câu hỏi chỉ yêu cầu đối chiếu nghĩa. “${term}” mang nghĩa “${meaning}”, nên đây là đáp án đúng; các lựa chọn còn lại mang những nghĩa khác.`;
+    return `“${term}” mang nghĩa “${meaning}”. Đây là câu nhận diện nghĩa trực tiếp, nên chỉ cần đối chiếu đúng khái niệm; các lựa chọn còn lại mang nghĩa khác.`;
   }
+
   if(cue.startsWith("COLLOC::")){
     const colloc=cue.slice(8).trim();
-    return `Cụm cần hoàn chỉnh là “${colloc}”. “${term}” mang nghĩa “${meaning}” và kết hợp tự nhiên trong cụm này, nên khi điền vào chỗ trống, toàn bộ cụm giữ đúng nghĩa và cấu trúc. Các lựa chọn khác hoặc sai nghĩa, hoặc không tạo được cách kết hợp từ tự nhiên trong ngữ cảnh này.`;
+    const completed=colloc.replace(/_{2,}/,term);
+    return `Chỗ trống nằm trong cụm “${colloc}”. Khi điền “${term}”, ta được “${completed}”. “${term}” mang nghĩa “${meaning}” và tạo đúng cách kết hợp từ trong cụm này; các lựa chọn khác hoặc sai nghĩa hoặc không tạo được một collocation tự nhiên ở vị trí đó.`;
   }
+
   const parts=blankParts(cue);
   const before=parts.before?`Ngay trước chỗ trống là “${parts.before}”. `:"";
   const after=parts.after?`Ngay sau chỗ trống là “${parts.after}”. `:"";
-  const local=shortText([parts.before,term,parts.after].filter(Boolean).join(" "),150);
+  const local=shortText([parts.before,term,parts.after].filter(Boolean).join(" "),165);
+
   const grammar=(()=>{
     const b=String(parts.before||"").toLowerCase();
-    if(/\b(to|can|could|will|would|should|may|might|must)\s*$/.test(b))return "Vị trí này cần một động từ hoặc cụm động từ để hoàn chỉnh hành động.";
-    if(/\b(a|an|the|this|that|his|her|their|our)\s*$/.test(b))return "Vị trí này cần một danh từ/cụm danh từ hoặc một từ có thể bổ nghĩa cho danh từ phía sau.";
-    if(/\b(is|are|was|were|be|become|became|seem|feel|look)\s*$/.test(b))return "Vị trí này thường cần một tính từ hoặc thành phần mô tả trạng thái/đặc điểm.";
+    const a=String(parts.after||"").toLowerCase();
+    if(/\b(to|can|could|will|would|should|may|might|must)\s*$/.test(b))
+      return "Vị trí này cần một động từ/cụm động từ để diễn tả hành động.";
+    if(/\b(a|an|the|this|that|his|her|their|our)\s*$/.test(b))
+      return "Vị trí này cần một danh từ/cụm danh từ, hoặc một tính từ đứng trước danh từ phía sau.";
+    if(/\b(is|are|was|were|be|become|became|seem|feel|look|remain)\s*$/.test(b))
+      return "Sau động từ nối, chỗ trống thường cần thành phần mô tả trạng thái hoặc đặc điểm.";
+    if(/^[a-z-]+\s+(?:life|career|people|workers|clients|system|practice|approach|atmosphere|economy|company|market)\b/i.test(a))
+      return "Từ đứng sau chỗ trống là một danh từ, nên chỗ trống nhiều khả năng cần một tính từ bổ nghĩa cho danh từ đó.";
     return "";
   })();
-  const logic=(()=>{
-    const text=String(cue);
-    const because=text.match(/\bbecause\b\s+(.+)$/i);
-    if(because)return ` Mệnh đề sau “because” — “${because[1].trim()}” — giải thích trực tiếp vì sao ý “${meaning}” phù hợp.`;
-    if(/rather than/i.test(text))return " Cụm “rather than” tạo thế đối chiếu, nên đáp án phải phù hợp với ý được ưu tiên ở vế còn lại.";
-    if(/instead of/i.test(text))return " Cụm “instead of” tạo thế đối chiếu giữa hai lựa chọn/hành động, giúp loại các đáp án không cùng quan hệ nghĩa.";
-    return "";
-  })();
-  return `${before}${after}${grammar?grammar+" ":""}“${term}” mang nghĩa “${meaning}”. Khi điền vào, phần câu trở thành “${local}”, và nghĩa của “${term}” nối đúng hai phần của câu về cả nội dung lẫn ngữ pháp.${logic}`;
+
+  const semantic=semanticClue(cue,meaning);
+  const usageNote=usage
+    ? ` Cách kết hợp “${usage}” cũng cho thấy “${term}” thường xuất hiện trong đúng trường nghĩa này.`
+    : "";
+
+  return `${before}${after}${grammar?grammar+" ":""}“${term}” mang nghĩa “${meaning}”. Khi đặt vào, phần câu quanh đáp án trở thành “${local}”. ${semantic||`Các chi tiết hai bên chỗ trống cùng hướng tới ý “${meaning}”, nên “${term}” nối câu hợp lý cả về ngữ pháp lẫn nội dung.`}${usageNote}`;
 }
 function buildContrast(term,meaning,group,cue){
   const others=group.filter(x=>x[0]!==term).map(x=>`“${x[0]}” = “${x[1]}”`);
@@ -83,17 +136,17 @@ for(const [unitKey,src] of Object.entries(D)){
       const a=i-base;
       let q;
       if(setNo===1){
-        q=`Từ/cụm nào trong Unit ${unit} có nghĩa “${meaning}”?`;
+        q=`Từ/cụm từ nào có nghĩa “${meaning}”?`;
       }else if(cue){
         if(cue.startsWith("COLLOC::")){
-          q=`Choose the vocabulary item that completes the source collocation: “${cue.slice(8)}”.`;
+          q=`Chọn từ/cụm từ hoàn thành đúng collocation: “${cue.slice(8)}”.`;
         }else{
           q=setNo===2
-            ?`Choose the vocabulary item that best completes the source sentence: ${cue}`
-            :`Choose the most precise vocabulary item from the source: ${cue}`;
+            ?`Chọn từ/cụm từ phù hợp nhất để hoàn thành câu: ${cue}`
+            :`Chọn từ/cụm từ chính xác nhất để hoàn thành câu: ${cue}`;
         }
       }else{
-        q=`Which vocabulary item in Unit ${unit} matches the meaning “${meaning}”?`;
+        q=`Từ/cụm từ nào có nghĩa “${meaning}”?`;
       }
       questions.push({q,o:opts,a,e:`${term} = ${meaning}.`});
       explanations.push({
