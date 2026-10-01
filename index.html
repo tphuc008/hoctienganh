@@ -312,12 +312,28 @@ function shuffled(items){
   return copy;
 }
 
+function shuffleQuestionOptions(question){
+  const shuffledOptions=shuffled(
+    question.o.map((text,originalIndex)=>({text,originalIndex}))
+  );
+  return {
+    ...question,
+    o:shuffledOptions.map(item=>item.text),
+    a:shuffledOptions.findIndex(item=>item.originalIndex===question.a)
+  };
+}
+
 function selectSet(setNo){
   const safe=Math.min(Math.max(1,Number(setNo)||1),TOTAL_SETS);
   activeSet=safe;
   activeLevel=LEVEL_CONFIG[safe];
+
+  // Randomize which 20 questions appear and their order.
   activeQuestionIndices=shuffled(activeLevel.pool).slice(0,SET_SIZE);
-  activeQuestions=activeQuestionIndices.map(i=>QUESTIONS[i]);
+
+  // Independently randomize A–D for every selected question,
+  // while remapping the correct-answer index.
+  activeQuestions=activeQuestionIndices.map(i=>shuffleQuestionOptions(QUESTIONS[i]));
   activeExplanations=activeQuestionIndices.map(i=>DEEP_EXPLANATIONS[i]);
 }
 
@@ -436,7 +452,14 @@ function renderExercise(id,setNo){
 }
 
 function startQuiz(reset=false){
-  if(reset){current=0;answers=Array(activeQuestions.length).fill(null);solved=Array(activeQuestions.length).fill(false);mistakes=Array(activeQuestions.length).fill(0);wrongChoices=Array.from({length:activeQuestions.length},()=>new Set())}
+  if(reset){
+    selectSet(activeSet);
+    current=0;
+    answers=Array(activeQuestions.length).fill(null);
+    solved=Array(activeQuestions.length).fill(false);
+    mistakes=Array(activeQuestions.length).fill(0);
+    wrongChoices=Array.from({length:activeQuestions.length},()=>new Set());
+  }
   hideAll();
   document.getElementById("exitQuizBtn").textContent="← Unit 6 · Set "+activeSet;
   quizShell.style.display="block";
