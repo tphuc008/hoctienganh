@@ -615,7 +615,7 @@ function finishLearning(){
   const pct=Math.round(firstTry/activeQuestions.length*100);
   hideAll();resultScreen.style.display="block";
   const resultCrumbs=resultScreen.querySelector(".breadcrumbs");
-  if(resultCrumbs) resultCrumbs.innerHTML=`<button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Set ${activeSet} Result</span>`;
+  if(resultCrumbs) resultCrumbs.innerHTML=`<button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span><button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Set ${activeSet} Result</span>`;
   document.getElementById("scoreBig").textContent=pct+"%";
   document.getElementById("scoreFraction").textContent="first-try accuracy";
   document.getElementById("correctStat").textContent=mastered;
