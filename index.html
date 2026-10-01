@@ -137,8 +137,8 @@ h1,h2,h3,p{margin-top:0}
 .word-family-row{grid-column:1/-1;display:flex;align-items:center;gap:10px;min-width:0;padding:10px 13px;border-radius:12px;border:1px solid var(--line);background:rgba(139,92,246,.065);font-size:13px;line-height:1.45}
 .word-family-row b{flex:0 0 auto;color:#ddd6fe;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
 .word-family-row span{min-width:0;color:#d6e1ef;overflow-wrap:anywhere}
-.feedback.grade10-feedback .deep-box span{font-size:13.5px;line-height:1.62;min-height:8.1em;max-width:48ch}
-.feedback.grade10-feedback .deep-box.wide span{max-width:72ch;min-height:7.4em}
+.feedback.standard-feedback .deep-box span{font-size:13.5px;line-height:1.62;min-height:8.1em;max-width:48ch}
+.feedback.standard-feedback .deep-box.wide span{max-width:72ch;min-height:7.4em}
 @media(max-width:560px){.word-family-row{align-items:flex-start;flex-direction:column;gap:4px}}
 .next-lock{color:var(--muted);font-size:12px;align-self:center}
 .letter{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line);font-weight:900}
@@ -312,6 +312,146 @@ const BANKS={
   },
   "10-3":window.G10_U3_BANK
 };
+
+function explanationGloss(question,detail,answer){
+  const direct=String(question?.q||"").match(/(?:means|có nghĩa|nghĩa)\s*[“"]([^”"]+)[”"]/i);
+  if(direct)return direct[1].trim();
+  const e=String(question?.e||"");
+  let m=e.match(/=\s*([^.;]+)/);
+  if(m)return m[1].trim();
+  const meaning=String(detail?.meaning||"");
+  m=meaning.match(/(?:=|—)\s*[“"]?([^.;”"]+)/);
+  if(m)return m[1].trim();
+  return "";
+}
+
+function explanationFamily(detail,answer){
+  if(detail?.family&&String(detail.family).trim()&&detail.family!=="—")return String(detail.family).trim();
+  const usage=String(detail?.usage||"");
+  const wf=usage.match(/Word family:\s*([^.]*(?:→[^.]*)?)/i);
+  if(wf&&wf[1].trim())return wf[1].trim();
+  const pieces=usage.split(/\.\s+/);
+  const arrow=pieces.find(x=>x.includes("→"));
+  if(arrow)return arrow.replace(/^Word family:\s*/i,"").replace(/^Collocations?:\s*/i,"").trim();
+  return `“${answer}” — tài liệu hiện không nêu thêm dạng word family; ghi nhớ dạng từ/cụm đang dùng trong bài.`;
+}
+
+function questionCore(text){
+  return String(text||"")
+    .replace(/^Choose the vocabulary item that best completes the source sentence:\s*/i,"")
+    .replace(/^Choose the most precise vocabulary item from the source:\s*/i,"")
+    .trim();
+}
+
+function blankInfo(text,answer){
+  const core=questionCore(text);
+  const m=core.match(/_{2,}/);
+  if(!m)return {core,completed:core,before:"",after:""};
+  const pos=m.index;
+  const before=core.slice(0,pos).trim();
+  const after=core.slice(pos+m[0].length).trim();
+  const completed=core.slice(0,pos)+answer+core.slice(pos+m[0].length);
+  const clip=(s,n=92)=>{
+    const clean=s.replace(/\s+/g," ").replace(/^[“"]|[”"]$/g,"").trim();
+    return clean.length<=n?clean:clean.slice(clean.length-n).trim();
+  };
+  const clipAfter=(s,n=92)=>{
+    const clean=s.replace(/\s+/g," ").replace(/^[“"]|[”"]$/g,"").trim();
+    return clean.length<=n?clean:clean.slice(0,n).trim()+"…";
+  };
+  return {core,completed,before:clip(before),after:clipAfter(after)};
+}
+
+function connectorClue(core,gloss){
+  const because=core.match(/\bbecause\b\s+(.+)$/i);
+  if(because)return `Mệnh đề sau “because” — “${because[1].trim()}” — nêu lý do trực tiếp làm rõ đặc điểm hoặc ý “${gloss}” mà chỗ trống cần diễn đạt.`;
+  const semi=core.split(";");
+  if(semi.length>1)return `Phần sau dấu chấm phẩy — “${semi.slice(1).join(";").trim()}” — giải thích cụ thể cho ý cần điền ở vế trước.`;
+  const soThat=core.match(/\bso\b[^.?!]*\bthat\b[^.?!]*/i);
+  if(soThat)return `Cấu trúc “${soThat[0].trim()}” cho thấy vế sau là kết quả trực tiếp của đặc điểm hoặc hành động được chọn ở chỗ trống.`;
+  if(/\binstead of\b/i.test(core))return "Cụm “instead of” tạo thế đối chiếu ngay trong câu, nên đáp án phải phù hợp với hành động hoặc ý được đặt đối lập ở hai vế.";
+  if(/\brather than\b/i.test(core))return "Cụm “rather than” đặt hai khả năng trong thế đối chiếu; đáp án đúng phải khớp với hành động hoặc đặc điểm mà câu ưu tiên ở vế còn lại.";
+  return "";
+}
+
+function grade9StandardExplanation(bank,question,detail){
+  const answer=question.o[question.a];
+  const gloss=explanationGloss(question,detail,answer);
+  const direct=/Which English word or phrase means|có nghĩa/i.test(question.q);
+  const info=blankInfo(question.q,answer);
+
+  const meaningBase=String(detail.meaning||question.e||`${answer} = ${gloss}`).trim();
+  const meaning=meaningBase+
+    ` Trong Unit ${bank.unit}, “${answer}” được ghi nhớ với nghĩa “${gloss||"như trong câu hỏi"}”. Phần nghĩa này cần được hiểu đúng theo chủ đề của bài và đúng từ loại hoặc cấu trúc đã xuất hiện, tránh đổi sang một từ cùng chủ đề nhưng mang chức năng khác.`;
+
+  let why;
+  if(direct){
+    why=`Câu hỏi nêu trực tiếp nghĩa tiếng Việt “${gloss}”. Trong các lựa chọn, “${answer}” chính là mục từ của Unit ${bank.unit} mang nghĩa này. Vì vậy manh mối quyết định nằm ở cụm “${gloss}”: “${answer}” trả lời đúng yêu cầu dịch nghĩa của câu, còn các lựa chọn khác tuy cùng chủ đề nhưng biểu đạt những khái niệm khác.`;
+  }else{
+    const left=info.before?`Phần ngay trước chỗ trống là “${info.before}”. `:"";
+    const right=info.after?`Phần ngay sau chỗ trống là “${info.after}”. `:"";
+    const connector=connectorClue(info.core,gloss);
+    why=`Câu đang xét là “${info.core}”. ${left}${right}Khi điền “${answer}” (= “${gloss}”), câu hoàn chỉnh thành “${info.completed}”. Như vậy, chính các chi tiết đứng sát chỗ trống xác định ý “${gloss}” mà câu cần; ${connector||`cụm chứa “${answer}” diễn đạt đúng mối quan hệ được nêu trong câu hoàn chỉnh.`}`;
+  }
+
+  const contrastBase=String(detail.contrast||"").trim();
+  const contrast=contrastBase+
+    ` Trong câu này, ý cần giữ là “${gloss||answer}”. Nếu thay “${answer}” bằng một lựa chọn có nghĩa khác ở trên, câu sẽ chuyển sang một nội dung khác với tình huống hoặc yêu cầu đang được nêu.`;
+
+  return {meaning,why,contrast,family:explanationFamily(detail,answer),standard:true};
+}
+
+function unit6StandardExplanation(question,detail){
+  const answer=question.o[question.a];
+  const info=blankInfo(question.q,answer);
+  const meaning=String(detail.meaning||"").trim();
+  const baseWhy=String(detail.why||"").trim();
+  let why=baseWhy;
+  if(info.before||info.after){
+    const left=info.before?` Trước chỗ trống là “${info.before}”.`:"";
+    const right=info.after?` Sau chỗ trống là “${info.after}”.`:"";
+    why+=`${left}${right} Khi điền “${answer}”, ta được câu “${info.completed}”. Các chi tiết này gắn trực tiếp với nghĩa và vai trò của “${answer}” trong chính câu hỏi.`;
+  }
+  return {
+    meaning,
+    why,
+    contrast:String(detail.contrast||"").trim(),
+    family:explanationFamily(detail,answer),
+    standard:true
+  };
+}
+
+function fallbackStandardExplanation(bank,question,detail){
+  const answer=question.o[question.a];
+  const gloss=explanationGloss(question,detail,answer);
+  const info=blankInfo(question.q,answer);
+  const meaning=String(detail.meaning||question.e||`${answer} = ${gloss}`).trim();
+  const why=String(detail.why||"").trim() || (info.before||info.after
+    ? `Trong câu “${info.core}”, khi điền “${answer}” (= “${gloss}”), ta được “${info.completed}”. Các phần đứng trước và sau chỗ trống xác định trực tiếp nghĩa và vai trò của đáp án trong câu.`
+    : `Câu hỏi đang yêu cầu đúng nghĩa “${gloss}”, và “${answer}” là mục từ mang nghĩa này trong bài.`);
+  return {
+    meaning,
+    why,
+    contrast:String(detail.contrast||"").trim(),
+    family:explanationFamily(detail,answer),
+    standard:true
+  };
+}
+
+for(const bank of Object.values(BANKS)){
+  if(!bank?.questions||!bank?.explanations)continue;
+  bank.explanations=bank.explanations.map((detail,index)=>{
+    const question=bank.questions[index];
+    if(!question)return detail;
+    if(detail?.standard)return {...detail,family:explanationFamily(detail,question.o[question.a])};
+    if(bank.grade===10)return {...detail,family:explanationFamily(detail,question.o[question.a]),standard:true};
+    if(bank.grade===9)return grade9StandardExplanation(bank,question,detail);
+    if(bank.grade===12&&bank.unit===6)return unit6StandardExplanation(question,detail);
+    return fallbackStandardExplanation(bank,question,detail);
+  });
+}
+
+
 
 let activeGrade=12;
 let activeUnit=6;
@@ -649,27 +789,16 @@ function wrongFeedback(index){
 
 function deepFeedback(index){
   const q=activeQuestions[index],d=activeExplanations[index];
-  const compactNotes=activeGrade===9||activeGrade===10;
-  const usageBox=compactNotes
-    ? ""
-    : `<div class="deep-box"><b>Cách dùng / collocation</b><span>${esc(d.usage)}</span></div>`;
-  const familyRow=compactNotes
-    ? `<div class="word-family-row"><b>Word family</b><span>${esc(d.family||"—")}</span></div>`
-    : "";
-  const contrastClass=compactNotes?"deep-box wide":"deep-box";
-  const feedbackClass=compactNotes?"feedback correct grade10-feedback":"feedback correct";
-  return `<div class="${feedbackClass}">
+  return `<div class="feedback correct standard-feedback">
     <div class="feedback-title">✓ Đúng — ${"ABCD"[q.a]}. ${esc(q.o[q.a])}</div>
     <div class="deep-grid">
       <div class="deep-box"><b>Nghĩa & sắc thái</b><span>${esc(d.meaning)}</span></div>
       <div class="deep-box"><b>Vì sao đúng trong câu</b><span>${esc(d.why)}</span></div>
-      ${usageBox}
-      <div class="${contrastClass}"><b>Phân biệt từ dễ nhầm</b><span>${esc(d.contrast)}</span></div>
-      ${familyRow}
+      <div class="deep-box wide"><b>Phân biệt từ dễ nhầm</b><span>${esc(d.contrast)}</span></div>
+      <div class="word-family-row"><b>Word family</b><span>${esc(d.family||"—")}</span></div>
     </div>
   </div>`;
 }
-
 function move(step){
   const n=current+step;
   if(n<0||n>=activeQuestions.length)return;
