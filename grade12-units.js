@@ -34,18 +34,18 @@ function buildMeaning(unit,term,meaning,ipa,usage){
 }
 function buildWhy(unit,setNo,term,meaning,usage,cue){
   if(setNo===1||!cue){
-    return `Câu hỏi yêu cầu tìm từ/cụm từ mang nghĩa “${meaning}”. Trong danh sách từ của Unit ${unit}, “${term}” được ghi trực tiếp với nghĩa “${meaning}”. Vì vậy điểm quyết định nằm ở chính cụm nghĩa tiếng Việt này: chọn “${term}” sẽ khớp đúng mục từ mà câu hỏi yêu cầu; các lựa chọn còn lại là những mục từ khác trong cùng Unit nhưng không mang nghĩa “${meaning}”.`;
+    return `Câu hỏi yêu cầu tìm từ/cụm từ mang nghĩa “${meaning}”. Trong danh sách từ của Unit ${unit}, “${term}” được ghi trực tiếp với nghĩa “${meaning}”. Vì vậy điểm quyết định nằm ở chính cụm nghĩa tiếng Việt này: “${term}” là mục từ tương ứng, còn các lựa chọn khác trong cùng nhóm mang những nghĩa khác.`;
   }
   if(cue.startsWith("COLLOC::")){
     const colloc=cue.slice(8).trim();
-    return `Câu hỏi lấy trực tiếp collocation “${colloc}” từ tài liệu. Trong nguồn, mục từ đi với collocation này là “${term}”, và “${term}” mang nghĩa “${meaning}”. Vì thế khi hoàn chỉnh cụm bằng “${term}”, ta giữ nguyên cách kết hợp từ đã xuất hiện trong bài; các lựa chọn khác không tạo đúng collocation nguồn này.`;
+    return `Câu hỏi lấy trực tiếp collocation “${colloc}” từ tài liệu. Trong nguồn, mục từ đi với collocation này là “${term}”, và “${term}” mang nghĩa “${meaning}”. Vì thế “${term}” phải được giữ ở vị trí này để tạo đúng cụm từ đã xuất hiện trong bài; các lựa chọn khác sẽ làm thay đổi collocation nguồn.`;
   }
   const parts=blankParts(cue);
-  const filled=fillFirstBlank(cue,term);
-  const before=parts.before?` Phần ngay trước chỗ trống là “${parts.before}”.`:"";
-  const after=parts.after?` Phần ngay sau chỗ trống là “${parts.after}”.`:"";
-  const use=usage?` Tài liệu còn ghi cách dùng “${usage}”, củng cố cách dùng của “${term}” trong chính câu nguồn này.`:"";
-  return `Câu nguồn là “${cue}”.${before}${after} Khi điền “${term}”, ta được “${filled}”. “${term}” mang nghĩa “${meaning}”, nên phần được hoàn chỉnh diễn đạt đúng nội dung của câu nguồn thay vì đổi sang một ý khác.${use}`;
+  const before=parts.before?`Trước chỗ trống là “${parts.before}”. `:"";
+  const after=parts.after?`Sau chỗ trống là “${parts.after}”. `:"";
+  const local=shortText([parts.before,term,parts.after].filter(Boolean).join(" "),135);
+  const use=usage?` Tài liệu còn ghi cách dùng “${usage}”, giúp xác nhận thêm cách kết hợp của “${term}” trong ngữ cảnh này.`:"";
+  return `${before}${after}“${term}” mang nghĩa “${meaning}”. Khi đặt vào chỗ trống, phần câu quanh đáp án trở thành “${local}”; nghĩa “${meaning}” nối đúng nội dung của hai phần đứng trước và sau chỗ trống.${use}`;
 }
 function buildContrast(term,meaning,group,cue){
   const others=group.filter(x=>x[0]!==term).map(x=>`“${x[0]}” = “${x[1]}”`);
