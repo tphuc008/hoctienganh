@@ -226,7 +226,7 @@ h1,h2,h3,p{margin-top:0}
     </section>
     
   </main>
-  <div class="footer">🔥 Streak: ngày học liên tục</div>
+  <div class="footer">🔥 = streak: ngày học liên tục</div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -431,10 +431,23 @@ function renderGrade(id){
   if(id===10){
     pageMount.innerHTML=`
       <div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span><span>Lớp 10</span></div>
-      <div class="unit-hero">
-        <div class="eyebrow">Grade 10</div>
-        <h1>Lớp 10</h1>
+
+      <div class="grade-overview">
+        <div class="unit-hero">
+          <div class="eyebrow">Grade 10</div>
+          <h1>Lớp 10</h1>
+        </div>
+
+        <aside class="diligence-card">
+          <div class="diligence-head">
+            <div><h3>🏆 Người chăm chỉ</h3><span>Top 5</span></div>
+          </div>
+          <div class="diligence-list" id="diligenceMount">
+            <div class="diligence-empty">Loading…</div>
+          </div>
+        </aside>
       </div>
+
       <div class="section-title"><h2>Units</h2><span>1 unit</span></div>
       <div class="units">
         <button class="unit-card" onclick="goUnit(3,10)">
@@ -447,6 +460,7 @@ function renderGrade(id){
           <span class="unit-arrow">→</span>
         </button>
       </div>`;
+    loadDiligenceLeaderboard(10);
     window.scrollTo({top:0,behavior:"smooth"});
     return;
   }
@@ -474,7 +488,7 @@ function renderGrade(id){
 
       <aside class="diligence-card">
         <div class="diligence-head">
-          <div><h3>🏆 Người chăm chỉ</h3><span>Top 5 · toàn Lớp 12</span></div>
+          <div><h3>🏆 Người chăm chỉ</h3><span>Top 5</span></div>
         </div>
         <div class="diligence-list" id="diligenceMount">
           <div class="diligence-empty">Loading…</div>
@@ -494,7 +508,7 @@ function renderGrade(id){
         <span class="unit-arrow">→</span>
       </button>
     </div>`;
-  loadDiligenceLeaderboard();
+  loadDiligenceLeaderboard(12);
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -547,9 +561,7 @@ function renderExercise(grade,id,setNo){
   selectSet(setNo);
   const count=activeQuestions.length;
   pageMount.style.display="block";
-  const nicknameHTML=activeGrade===12
-    ? `<div class="nickname-box"><label for="nicknameInput">Nickname for leaderboard</label><input id="nicknameInput" maxlength="24" autocomplete="nickname" placeholder="Enter nickname" value="${esc(currentNickname)}"></div>`
-    : "";
+  const nicknameHTML=`<div class="nickname-box"><label for="nicknameInput">Nickname for leaderboard</label><input id="nicknameInput" maxlength="24" autocomplete="nickname" placeholder="Enter nickname" value="${esc(currentNickname)}"></div>`;
   pageMount.innerHTML=`
     <div class="breadcrumbs">
       <button class="crumb-btn" onclick="location.hash=''">Home</button><span>›</span>
@@ -567,13 +579,11 @@ function renderExercise(grade,id,setNo){
 
 function startQuiz(reset=false){
   if(reset){
-    if(activeGrade===12){
-      const nicknameInput=document.getElementById("nicknameInput");
-      const nickname=(nicknameInput?nicknameInput.value:currentNickname).trim().replace(/\s+/g," ");
-      if(nickname.length<2){toast("Nhập nickname ít nhất 2 ký tự");return}
-      currentNickname=nickname.slice(0,24);
-      localStorage.setItem("vocabNickname",currentNickname);
-    }
+    const nicknameInput=document.getElementById("nicknameInput");
+    const nickname=(nicknameInput?nicknameInput.value:currentNickname).trim().replace(/\s+/g," ");
+    if(nickname.length<2){toast("Nhập nickname ít nhất 2 ký tự");return}
+    currentNickname=nickname.slice(0,24);
+    localStorage.setItem("vocabNickname",currentNickname);
     selectSet(activeSet);
     current=0;
     answers=Array(activeQuestions.length).fill(null);
@@ -671,7 +681,6 @@ function move(step){
 }
 
 async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
-  if(activeGrade!==12)return;
   if(scoreSubmitted||!currentNickname||!quizStartedAt)return;
   scoreSubmitted=true;
   const duration=Math.max(1,Math.round((Date.now()-quizStartedAt)/1000));
@@ -687,13 +696,14 @@ async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
   }
 }
 
-async function loadDiligenceLeaderboard(){
+async function loadDiligenceLeaderboard(grade){
   const mount=document.getElementById("diligenceMount");
   if(!mount)return;
   mount.innerHTML='<div class="diligence-empty">Loading…</div>';
-  const query="?select=nickname,completed_quizzes,current_streak,active_days,questions_practiced&order=completed_quizzes.desc,current_streak.desc,active_days.desc,questions_practiced.desc&limit=5";
+  const safeGrade=Math.min(12,Math.max(9,Number(grade)||12));
+  const query="?select=nickname,completed_quizzes,current_streak,active_days,questions_practiced&grade=eq."+safeGrade+"&order=completed_quizzes.desc,current_streak.desc,active_days.desc,questions_practiced.desc&limit=5";
   try{
-    const res=await fetch(SUPABASE_URL+"/rest/v1/diligence_leaderboard"+query,{
+    const res=await fetch(SUPABASE_URL+"/rest/v1/diligence_leaderboard_by_grade"+query,{
       headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}
     });
     if(!res.ok)throw new Error("Diligence leaderboard fetch failed");
@@ -707,7 +717,7 @@ async function loadDiligenceLeaderboard(){
       <div class="diligence-row">
         <div class="diligence-rank">${medals[i]||i+1}</div>
         <div class="diligence-name">${esc(r.nickname)}</div>
-        <div class="diligence-stats">${r.completed_quizzes} bài · 🔥 ${r.current_streak} ngày</div>
+        <div class="diligence-stats"><b>${r.completed_quizzes} bài</b>🔥 ${r.current_streak} ngày</div>
       </div>`).join("");
   }catch(err){
     console.error(err);
