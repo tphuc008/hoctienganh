@@ -21,6 +21,30 @@ function schoolSetItems(setNo){
 function schoolSetTopic(setNo){
   return SCHOOL_MIDTERM1_SETS[Number(setNo)]?.title||"Ôn tập";
 }
+function schoolShuffleArray(values){
+  const arr=[...values];
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+function schoolPrepareQuizItems(items){
+  const prepared=items.map(item=>{
+    const q={...item};
+    if(Array.isArray(item.answers))q.answers=[...item.answers];
+    if(item.kind==="mcq"&&Array.isArray(item.o)){
+      const choices=item.o.map((text,index)=>({text,correct:index===item.a}));
+      const shuffledChoices=schoolShuffleArray(choices);
+      q.o=shuffledChoices.map(choice=>choice.text);
+      q.a=shuffledChoices.findIndex(choice=>choice.correct);
+    }else if(Array.isArray(item.o)){
+      q.o=[...item.o];
+    }
+    return q;
+  });
+  return schoolShuffleArray(prepared);
+}
 function schoolText(value){
   return esc(value??"").replace(/\n/g,"<br>");
 }
@@ -191,8 +215,9 @@ function renderSchoolSetIntro(setNo){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function startSchoolQuiz(setNo){
-  const items=schoolSetItems(setNo);
-  if(!items.length)return;
+  const sourceItems=schoolSetItems(setNo);
+  if(!sourceItems.length)return;
+  const items=schoolPrepareQuizItems(sourceItems);
   schoolSession={
     setNo:Number(setNo),
     items,
@@ -253,7 +278,7 @@ function renderSchoolQuestion(){
         <div class="counter">${s.current+1} / ${s.items.length}</div>
       </div>
       <div class="question-card">
-        <div class="kicker"><span class="qnum">CÂU ${esc(q.sourceNo)}</span><span>${esc(q.section)}</span></div>
+        <div class="kicker"><span class="qnum">CÂU ${s.current+1}</span><span>${esc(q.section)}</span></div>
         ${context?`<div class="deep-box wide" style="margin-bottom:18px"><b>Đoạn văn / ngữ cảnh</b><span style="white-space:normal">${schoolText(context)}</span></div>`:""}
         <h2 class="question">${schoolText(q.q)}</h2>
         ${answerHTML}
@@ -336,7 +361,7 @@ function finishSchoolQuiz(){
   const pct=Math.round(firstTry/s.items.length*100);
   const review=s.items.map((q,i)=>`
     <div class="review-item correct">
-      <div class="review-q">${esc(q.sourceNo)}. ${schoolText(q.q)}</div>
+      <div class="review-q">${i+1}. ${schoolText(q.q)}</div>
       <div class="review-meta">
         <span class="tag good">Đáp án: ${esc(schoolExpected(q))}</span>
         <span class="tag">${s.mistakes[i]===0?"Đúng ngay lần đầu":`${s.mistakes[i]} lần sai trước khi đúng`}</span>
