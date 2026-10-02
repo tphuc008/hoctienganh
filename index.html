@@ -245,6 +245,8 @@ h1,h2,h3,p{margin-top:0}
 <script src="grade9-unit4.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit5.js?v=20261001-deep-v5"></script>
 <script src="grade10-unit3.js?v=20261001-deep-v5"></script>
+<script src="school-grade10-midterm1.js?v=20261002-school-g10-midterm1-v1"></script>
+<script src="school-ui.js?v=20261002-school-g10-midterm1-v1"></script>
 <script src="grade12-units.js?v=20261001-deep-v5"></script>
 <script src="sentence-translations.js?v=20261001-translations-v1"></script>
 <script>
@@ -920,7 +922,9 @@ async function validateStoredAccess(area){
 function setActiveArea(area){
   localStorage.setItem(ACCESS_ACTIVE_KEY,area);
   const note=document.querySelector(".header-note");
-  if(note)note.textContent=accessAreaLabel(area)+" · Grades 9–12 · Interactive practice";
+  if(note)note.textContent=area==="school"
+    ?"School · Lớp 10 · Ôn tập trên trường"
+    :"Tutoring · Grades 9–12 · Interactive practice";
 }
 function getActiveArea(){
   const area=localStorage.getItem(ACCESS_ACTIVE_KEY);
@@ -1062,20 +1066,52 @@ async function route(){
 
   if(!hash){renderPortal();return}
 
-  if(hash==="school"||hash==="tutoring"){
-    if(await validateStoredAccess(hash)){
-      setActiveArea(hash);
+  if(hash==="school"){
+    if(await validateStoredAccess("school")){
+      setActiveArea("school");
+      renderSchoolHome();
+    }else{
+      clearStoredAccess("school");
+      clearActiveArea();
+      renderAccessPrompt("school");
+    }
+    return;
+  }
+
+  if(hash==="tutoring"){
+    if(await validateStoredAccess("tutoring")){
+      setActiveArea("tutoring");
       renderHome();
     }else{
-      clearStoredAccess(hash);
+      clearStoredAccess("tutoring");
       clearActiveArea();
-      renderAccessPrompt(hash);
+      renderAccessPrompt("tutoring");
     }
+    return;
+  }
+
+  if(hash.startsWith("school/")){
+    if(!await validateStoredAccess("school")){
+      clearStoredAccess("school");
+      clearActiveArea();
+      renderAccessPrompt("school");
+      return;
+    }
+    setActiveArea("school");
+
+    if(hash==="school/grade-10"){renderSchoolGrade10();return}
+    if(hash==="school/grade-10/midterm-1"){renderSchoolMidterm1();return}
+
+    const schoolSet=hash.match(/^school\/grade-10\/midterm-1\/set-(\d+)$/);
+    if(schoolSet){renderSchoolSetIntro(Number(schoolSet[1]));return}
+
+    location.hash="school";
     return;
   }
 
   const area=await ensureActiveAccess();
   if(!area){renderPortal();return}
+  if(area!=="tutoring"){location.hash="school";return}
 
   const exercise=hash.match(/^grade-(9|10|11|12)\/unit-(\d+)\/vocabulary-practice-(\d+)$/);
   if(exercise){
