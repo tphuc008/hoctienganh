@@ -3,21 +3,23 @@ let schoolSession=null;
 function schoolReviewData(){
   return window.SCHOOL_G10_MIDTERM1||null;
 }
+const SCHOOL_MIDTERM1_SETS={
+  1:{start:0,end:12,title:"Phát âm & Trọng âm"},
+  2:{start:12,end:27,title:"Grammar"},
+  3:{start:27,end:39,title:"Communication & Vocabulary"},
+  4:{start:39,end:51,title:"Advertisement Cloze"},
+  5:{start:51,end:66,title:"Reading Cloze"},
+  6:{start:66,end:81,title:"Word Form"},
+  7:{start:81,end:96,title:"Sentence Transformation"}
+};
 function schoolSetItems(setNo){
   const data=schoolReviewData();
-  if(!data)return [];
-  const n=Math.min(5,Math.max(1,Number(setNo)||1));
-  const start=(n-1)*20;
-  return data.items.slice(start,start+20);
+  const config=SCHOOL_MIDTERM1_SETS[Number(setNo)];
+  if(!data||!config)return [];
+  return data.items.slice(config.start,config.end);
 }
 function schoolSetTopic(setNo){
-  return {
-    1:"Phát âm · Trọng âm · Ngữ pháp",
-    2:"Ngữ pháp · Hội thoại · Từ đồng nghĩa",
-    3:"Quảng cáo · Cloze test",
-    4:"Cloze test · Word form",
-    5:"Word form · Viết lại câu"
-  }[setNo]||"Ôn tập";
+  return SCHOOL_MIDTERM1_SETS[Number(setNo)]?.title||"Ôn tập";
 }
 function schoolText(value){
   return esc(value??"").replace(/\n/g,"<br>");
@@ -74,7 +76,7 @@ function renderSchoolGrade10(){
         <h3>${esc(data.title)}</h3>
         <div class="meta">
           <span class="chip">${data.items.length} questions</span>
-          <span class="chip">5 sets</span>
+          <span class="chip">7 sets</span>
           <span class="chip">${esc(data.subtitle)}</span>
           <span class="chip">Immediate feedback</span>
         </div>
@@ -86,7 +88,7 @@ function renderSchoolMidterm1(){
   const data=schoolReviewData();
   if(!data){location.hash="school/grade-10";return}
   pageMount.style.display="block";
-  const cards=Array.from({length:5},(_,i)=>{
+  const cards=Array.from({length:7},(_,i)=>{
     const setNo=i+1,items=schoolSetItems(setNo);
     return `
       <button class="exercise-card" onclick="location.hash='school/grade-10/midterm-1/set-${setNo}'">
@@ -113,7 +115,7 @@ function renderSchoolMidterm1(){
         <span class="chip">${esc(data.subtitle)}</span>
       </div>
     </div>
-    <div class="section-title"><h2>Sets</h2><span>5 sets · tối đa 20 câu/set</span></div>
+    <div class="section-title"><h2>Sets</h2><span>7 sets · chia theo dạng bài</span></div>
     <div class="exercise-grid">${cards}</div>`;
   window.scrollTo({top:0,behavior:"smooth"});
 }
