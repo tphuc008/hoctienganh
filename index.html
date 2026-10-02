@@ -541,14 +541,14 @@ function compactBlankInfo(text,answer){
 }
 function explanationPos(detail,answer){
   const text=String(detail?.meaning||"").toLowerCase();
-  if(/\((?:adj|adjective|adj\.)[^)]*\)/.test(text))return "adj";
-  if(/\((?:adv|adverb|adv\.)[^)]*\)/.test(text))return "adv";
-  if(/\((?:v|verb|phr\.?\s*v|phr\.?v|pv|v\.)[^)]*\)/.test(text))return "v";
-  if(/\((?:n|noun|n\.)[^)]*\)/.test(text))return "n";
-  if(/\b(adj\.?|adjective)\b/.test(text))return "adj";
-  if(/\b(adv\.?|adverb)\b/.test(text))return "adv";
-  if(/\b(phr\.?\s*v|phrasal verb|verb|v\.)\b/.test(text))return "v";
-  if(/\b(noun|n\.)\b/.test(text))return "n";
+  const a=String(answer||"").toLowerCase().trim();
+  if(/\((?:adj|adjective|adj\.)[^)]*\)/.test(text) || /\b(adj\.?|adjective)\b/.test(text))return "adj";
+  if(/\((?:adv|adverb|adv\.)[^)]*\)/.test(text) || /\b(adv\.?|adverb)\b/.test(text))return "adv";
+  if(/\((?:v|verb|phr\.?\s*v|phr\.?v|pv|v\.)[^)]*\)/.test(text) || /\b(phr\.?\s*v|phrasal verb|verb|v\.)\b/.test(text))return "v";
+  if(/\((?:n|noun|n\.)[^)]*\)/.test(text) || /\b(noun|n\.)\b/.test(text))return "n";
+  if(/ly$/.test(a))return "adv";
+  if(/(tion|sion|ment|ness|ity|ance|ence|ship|ism|ist)$/.test(a))return "n";
+  if(/(ous|ive|al|ic|able|ible|less|ful|ant|ent)$/.test(a) || /^(world-class)$/.test(a))return "adj";
   return "";
 }
 function usageCollocation(detail,answer,info){
@@ -568,14 +568,19 @@ function usageCollocation(detail,answer,info){
 function naturalCombination(question,detail,answer,info,pos){
   const explicit=/collocation/i.test(String(question?.q||""));
   if(explicit && /_{2,}/.test(info.core)){
-    return compactSnippet(info.completed.replace(/^[“"]+|[”"]+$/g,""),82);
+    return compactSnippet(
+      info.completed.replace(/[“”"]/g,"").replace(/[.?!]+$/,"").trim(),
+      82
+    );
   }
-  const fromUsage=usageCollocation(detail,answer,info);
-  if(fromUsage)return fromUsage;
-  if(pos==="adj"){
-    const m=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").match(/^([A-Za-z][A-Za-z'-]*)/);
-    if(m)return answer+" "+m[1];
+
+  const after=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").trim();
+  const next=(after.match(/^([A-Za-z][A-Za-z'-]*)/)||[])[1]||"";
+  const stop=/^(because|and|or|but|to|of|in|on|at|for|with|by|from|as|than|that|which|who|whose|where|when|is|are|was|were|be|been|being|has|have|had|can|could|will|would|should|may|might|must|a|an|the|this|these|those|his|her|their|our|your|my)$/i;
+  if(next && !stop.test(next) && (pos==="adj" || pos==="adv" || !pos)){
+    return answer+" "+next;
   }
+
   return "";
 }
 function decisiveGrammar(info,pos,answer,gloss){
@@ -638,12 +643,17 @@ function semanticClass(gloss,answer){
   return "gọi tên đúng loại đối tượng hoặc khái niệm";
 }
 function compactWhy(question,detail,answer,gloss,info,pos){
-  const direct=/Which English word or phrase means|Từ\/cụm từ nào có nghĩa|có nghĩa/i.test(String(question?.q||"")) && !/_{2,}/.test(String(question?.q||""));
+  const q=String(question?.q||"");
+  const direct=/Which English word or phrase means|Từ\/cụm từ nào có nghĩa|có nghĩa/i.test(q) && !/_{2,}/.test(q);
   if(direct)return "“"+answer+"” dùng để chỉ “"+gloss+"”; với dạng nhận diện nghĩa, đây là nét nghĩa cốt lõi cần ghi nhớ.";
 
+  const explicit=/collocation/i.test(q);
   const combo=naturalCombination(question,detail,answer,info,pos);
-  if(combo){
-    return "“"+combo+"” là cách kết hợp tự nhiên trong tiếng Anh; ở đây “"+answer+"” mang đúng sắc thái “"+gloss+"”.";
+  if(explicit && combo){
+    return "“"+combo+"” là cấu trúc/collocation cố định; “"+answer+"” là thành tố được quy ước để tạo đúng nghĩa “"+gloss+"”.";
+  }
+  if(combo && (pos==="adj" || pos==="adv" || !pos)){
+    return "“"+combo+"” là cách kết hợp tự nhiên; “"+answer+"” tạo đúng sắc thái “"+gloss+"” cho từ đứng cạnh.";
   }
 
   const grammar=decisiveGrammar(info,pos,answer,gloss);
@@ -655,19 +665,27 @@ function compactWhy(question,detail,answer,gloss,info,pos){
   return evidenceReason(info,answer,gloss);
 }
 function compactContrast(question,detail,answer,gloss,info,pos){
+  const q=String(question?.q||"");
+  const explicit=/collocation/i.test(q);
+  const combo=naturalCombination(question,detail,answer,info,pos);
+
+  if(explicit && combo){
+    return "Khung “"+combo+"” có tính cố định: “"+answer+"” được lựa chọn bởi chính collocation này. Từ gần nghĩa không thể thay vào tùy ý mà vẫn giữ cùng cách dùng và sắc thái.";
+  }
+
+  if(combo && (pos==="adj" || pos==="adv" || !pos)){
+    const after=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").trim();
+    const head=(after.match(/^([A-Za-z][A-Za-z'-]*)/)||[])[1]||"";
+    if(pos==="adv"){
+      return "“"+answer+"” chọn tự nhiên hành động “"+head+"” và bổ sung sắc thái “"+gloss+"”. Đây là selectional restriction: không phải trạng từ gần nghĩa nào cũng mô tả hành động này với cùng sắc thái.";
+    }
+    return "Về mặt ngữ nghĩa, “"+answer+"” kết hợp tự nhiên với “"+head+"” để gán đúng thuộc tính “"+gloss+"”. Điểm phân biệt nằm ở selectional restriction và sắc thái, không chỉ ở từ loại.";
+  }
+
   const existing=usefulExistingContrast(detail?.contrast);
   if(existing)return existing;
 
-  const combo=naturalCombination(question,detail,answer,info,pos);
-  if(combo){
-    return "Về mặt lựa chọn từ, “"+answer+"” đi tự nhiên trong cụm “"+combo+"”. Đây là selectional restriction: không phải từ cùng từ loại nào cũng kết hợp được với danh từ/bổ ngữ này và giữ đúng sắc thái.";
-  }
-
   const after=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").trim();
-  const head=(after.match(/^([A-Za-z][A-Za-z'-]*)/)||[])[1]||"";
-  if(pos==="adj" && head){
-    return "Về mặt ngữ nghĩa, “"+answer+"” gán cho “"+head+"” đúng thuộc tính “"+gloss+"”. Điểm phân biệt nằm ở sắc thái này, không chỉ ở việc các lựa chọn có thể cùng là tính từ.";
-  }
   if(pos==="v" && after){
     return "“"+answer+"” kết hợp tự nhiên với bổ ngữ “"+compactSnippet(after,48)+"” để diễn tả “"+gloss+"”. Đây là selectional restriction: động từ phải phù hợp với đúng loại đối tượng và quan hệ nghĩa.";
   }
@@ -681,7 +699,7 @@ function compactContrast(question,detail,answer,gloss,info,pos){
     return "“"+answer+"” hoạt động như một đơn vị nghĩa cố định mang ý “"+gloss+"”; thay từng thành tố bằng từ gần nghĩa không bảo đảm giữ được cùng cách dùng và sắc thái.";
   }
 
-  const direct=/Which English word or phrase means|Từ\/cụm từ nào có nghĩa|có nghĩa/i.test(String(question?.q||"")) && !/_{2,}/.test(String(question?.q||""));
+  const direct=/Which English word or phrase means|Từ\/cụm từ nào có nghĩa|có nghĩa/i.test(q) && !/_{2,}/.test(q);
   if(direct){
     return "Điểm cần phân biệt là phạm vi nghĩa: “"+answer+"” gọi đúng khái niệm “"+gloss+"”, còn các lựa chọn khác biểu đạt những khái niệm khác trong cùng nhóm từ vựng.";
   }
