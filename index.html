@@ -521,7 +521,10 @@ function compactCore(text){
     .trim();
 }
 function compactSnippet(text,max=76){
-  const clean=String(text||"").replace(/\s+/g," ").replace(/^[“"]+|[”"]+$/g,"").trim();
+  const clean=String(text||"")
+    .replace(/\s+/g," ")
+    .replace(/^[“”"'.,;:!?\s]+|[“”"'.,;:!?\s]+$/g,"")
+    .trim();
   if(clean.length<=max)return clean;
   return clean.slice(0,max).replace(/\s+\S*$/,"").trim()+"…";
 }
@@ -626,9 +629,12 @@ function evidenceReason(info,answer,gloss){
 }
 function usefulExistingWhy(text){
   const s=String(text||"").trim();
-  if(!s || s.length>330)return "";
-  if(/Ngay trước chỗ trống|Ngay sau chỗ trống|Câu hoàn chỉnh là|Khi đặt vào|phần câu quanh đáp án|các lựa chọn khác|khớp trực tiếp với yêu cầu|không cần suy luận thêm|Hai phần này cùng xác định|đúng vai trò ngữ pháp/i.test(s))return "";
-  return s;
+  if(!s)return "";
+  if(/Ngay trước chỗ trống|Ngay sau chỗ trống|Câu hoàn chỉnh là|Khi đặt vào|phần câu quanh đáp án|khớp trực tiếp với yêu cầu|không cần suy luận thêm|Hai phần này cùng xác định|đúng vai trò ngữ pháp/i.test(s))return "";
+  const sentences=s.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const useful=sentences.filter(x=>!/^(“?Audience|“?Participant|“?Judge|“?Organiser|Các lựa chọn|Các phương án)/i.test(x));
+  const picked=(useful.length?useful:sentences).slice(0,2).join(" ").trim();
+  return picked.length<=460?picked:compactSnippet(picked,440);
 }
 function usefulExistingContrast(text){
   const s=String(text||"").trim();
@@ -686,6 +692,12 @@ function compactContrast(question,detail,answer,gloss,info,pos){
   if(existing)return existing;
 
   const after=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").trim();
+  const before=String(info.before||"").replace(/[”"',;:.!?()\s]+$/,"").trim();
+  const prev=(before.match(/([A-Za-z][A-Za-z'-]*)$/)||[])[1]||"";
+
+  if(pos==="adj" && /ly$/i.test(prev)){
+    return "“"+prev+" "+answer+"” tạo một quan hệ nghĩa cụ thể: trạng từ giới hạn phương diện đánh giá, còn “"+answer+"” mang sắc thái “"+gloss+"”. Vì vậy điểm phân biệt nằm ở đúng phương diện nghĩa mà tính từ mô tả.";
+  }
   if(pos==="v" && after){
     return "“"+answer+"” kết hợp tự nhiên với bổ ngữ “"+compactSnippet(after,48)+"” để diễn tả “"+gloss+"”. Đây là selectional restriction: động từ phải phù hợp với đúng loại đối tượng và quan hệ nghĩa.";
   }
