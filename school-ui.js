@@ -273,7 +273,13 @@ function renderSchoolQuestion(){
     const inp=document.getElementById("schoolAnswerInput");
     inp?.focus();
     inp?.addEventListener("input",()=>{if(schoolSession)schoolSession.drafts[schoolSession.current]=inp.value});
-    inp?.addEventListener("keydown",e=>{if(e.key==="Enter")checkSchoolInput()});
+    inp?.addEventListener("keydown",e=>{
+      if(e.key==="Enter"){
+        e.preventDefault();
+        e.stopPropagation();
+        checkSchoolInput();
+      }
+    });
   }
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -366,3 +372,16 @@ function finishSchoolQuiz(){
   if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Enter"||!schoolSession)return;
+  if(!document.querySelector("[data-school-quiz='1']"))return;
+  const s=schoolSession;
+  if(!s.solved[s.current])return;
+  e.preventDefault();
+  if(s.current===s.items.length-1){
+    finishSchoolQuiz();
+  }else{
+    moveSchoolQuestion(1);
+  }
+});
