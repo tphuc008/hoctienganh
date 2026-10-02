@@ -510,6 +510,200 @@ function fallbackStandardExplanation(bank,question,detail){
   };
 }
 
+
+function compactCore(text){
+  return String(text||"")
+    .replace(/^Choose the vocabulary item that best completes the source sentence:\s*/i,"")
+    .replace(/^Choose the most precise vocabulary item from the source:\s*/i,"")
+    .replace(/^Chọn từ\/cụm từ phù hợp nhất để hoàn thành câu:\s*/i,"")
+    .replace(/^Chọn từ\/cụm từ chính xác nhất để hoàn thành câu:\s*/i,"")
+    .replace(/^Chọn từ\/cụm từ hoàn thành đúng collocation:\s*/i,"")
+    .trim();
+}
+function compactSnippet(text,max=76){
+  const clean=String(text||"").replace(/\s+/g," ").replace(/^[“"]+|[”"]+$/g,"").trim();
+  if(clean.length<=max)return clean;
+  return clean.slice(0,max).replace(/\s+\S*$/,"").trim()+"…";
+}
+function compactBlankInfo(text,answer){
+  const core=compactCore(text);
+  const m=core.match(/_{2,}/);
+  if(!m)return {core,completed:core,before:"",after:""};
+  const pos=m.index;
+  const before=core.slice(0,pos).trim();
+  const after=core.slice(pos+m[0].length).trim();
+  return {
+    core,
+    completed:core.slice(0,pos)+answer+core.slice(pos+m[0].length),
+    before,
+    after
+  };
+}
+function explanationPos(detail,answer){
+  const text=String(detail?.meaning||"").toLowerCase();
+  if(/\((?:adj|adjective|adj\.)[^)]*\)/.test(text))return "adj";
+  if(/\((?:adv|adverb|adv\.)[^)]*\)/.test(text))return "adv";
+  if(/\((?:v|verb|phr\.?\s*v|phr\.?v|pv|v\.)[^)]*\)/.test(text))return "v";
+  if(/\((?:n|noun|n\.)[^)]*\)/.test(text))return "n";
+  if(/\b(adj\.?|adjective)\b/.test(text))return "adj";
+  if(/\b(adv\.?|adverb)\b/.test(text))return "adv";
+  if(/\b(phr\.?\s*v|phrasal verb|verb|v\.)\b/.test(text))return "v";
+  if(/\b(noun|n\.)\b/.test(text))return "n";
+  return "";
+}
+function usageCollocation(detail,answer,info){
+  const usage=String(detail?.usage||"");
+  if(!usage)return "";
+  const candidates=usage
+    .split(/[;.]/)
+    .map(x=>x.trim())
+    .filter(x=>x && !/word family/i.test(x) && x.toLowerCase().includes(String(answer).toLowerCase()));
+  if(!candidates.length)return "";
+  const local=(info.before+" "+answer+" "+info.after).toLowerCase();
+  return candidates.find(x=>{
+    const words=x.toLowerCase().match(/[a-z][a-z'-]*/g)||[];
+    return words.length>=2 && words.every(w=>local.includes(w));
+  })||"";
+}
+function naturalCombination(question,detail,answer,info,pos){
+  const explicit=/collocation/i.test(String(question?.q||""));
+  if(explicit && /_{2,}/.test(info.core)){
+    return compactSnippet(info.completed.replace(/^[“"]+|[”"]+$/g,""),82);
+  }
+  const fromUsage=usageCollocation(detail,answer,info);
+  if(fromUsage)return fromUsage;
+  if(pos==="adj"){
+    const m=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").match(/^([A-Za-z][A-Za-z'-]*)/);
+    if(m)return answer+" "+m[1];
+  }
+  return "";
+}
+function decisiveGrammar(info,pos,answer,gloss){
+  const b=String(info.before||"").replace(/[“"'(),;:.!?]+$/g,"").trim();
+  const last=(b.match(/([A-Za-z'-]+)\s*$/)||[])[1]||"";
+  if(pos==="v" && /^(to|can|could|will|would|should|may|might|must)$/i.test(last)){
+    return "Sau “"+last+"” cần động từ nguyên mẫu; “"+answer+"” vừa đúng cấu trúc vừa diễn tả ý “"+gloss+"”.";
+  }
+  if(pos==="adj" && /^(is|are|was|were|be|been|being|become|became|seem|seems|feel|feels|look|looks|remain|remains)$/i.test(last)){
+    return "Sau động từ nối “"+last+"” cần thành phần mô tả trạng thái hoặc đặc điểm; “"+answer+"” cung cấp đúng ý “"+gloss+"”.";
+  }
+  if(pos==="n" && /^(a|an|the|this|that|his|her|their|our|your)$/i.test(last)){
+    return "Sau “"+last+"” vị trí này cần một danh từ/cụm danh từ; “"+answer+"” gọi đúng đối tượng hoặc khái niệm mà câu đang nói tới.";
+  }
+  if(pos==="adv"){
+    return "Chỗ trống bổ nghĩa cho hành động hoặc cách thức thực hiện, nên cần trạng từ; “"+answer+"” diễn tả đúng sắc thái “"+gloss+"”.";
+  }
+  return "";
+}
+function evidenceReason(info,answer,gloss){
+  const text=String(info.core||"").replace(/\s+/g," ").trim();
+  let m=text.match(/\bbecause\b\s+([^.!?]+)/i);
+  if(m)return "Dấu hiệu quyết định là mệnh đề “because "+compactSnippet(m[1],68)+"”: nó cung cấp bằng chứng trực tiếp cho ý “"+gloss+"”.";
+  m=text.match(/\bsuch as\b\s+([^.!?]+)/i);
+  if(m)return "Các ví dụ sau “such as” — “"+compactSnippet(m[1],68)+"” — xác định đúng trường nghĩa cần điền, dẫn tới “"+answer+"”.";
+  m=text.match(/\bfor example\b[,:\s]+([^.!?]+)/i);
+  if(m)return "Ví dụ “"+compactSnippet(m[1],68)+"” thu hẹp nghĩa của chỗ trống về đúng ý “"+gloss+"”.";
+  m=text.match(/\bso\b\s+([^.!?]+?)\s+\bthat\b\s+([^.!?]+)/i);
+  if(m)return "Quan hệ mức độ–kết quả trong “so … that …” là manh mối chính: kết quả phía sau cho thấy đặc điểm cần diễn đạt là “"+gloss+"”.";
+  m=text.match(/\bnot\b\s+([^,.]{1,90})\s*,?\s*\bbut(?: rather)?\b\s+([^,.]{1,100})/i);
+  if(m)return "Cấu trúc đối lập “not … but …” loại bỏ một khả năng và nhấn mạnh ý còn lại; ý được nhấn mạnh phù hợp với “"+answer+"”.";
+  m=text.match(/\bfrom\b\s+([^,.]{1,70})\s+\bto\b\s+([^,.]{1,90})/i);
+  if(m)return "Cấu trúc “from … to …” cho thấy một quá trình hoặc sự chuyển biến; “"+answer+"” khái quát đúng đặc điểm của quá trình đó.";
+  const semi=text.split(";");
+  if(semi.length>1){
+    return "Vế sau dấu chấm phẩy — “"+compactSnippet(semi.slice(1).join(";"),72)+"” — đóng vai trò bằng chứng/giải thích cho ý “"+gloss+"”.";
+  }
+  const after=compactSnippet(info.after,70);
+  const before=compactSnippet(info.before,70);
+  const clue=after||before;
+  if(clue)return "Dấu hiệu quyết định là “"+clue+"”: chi tiết này hướng tới ý “"+gloss+"”, nên “"+answer+"” là cách diễn đạt phù hợp.";
+  return "“"+answer+"” diễn đạt chính xác ý “"+gloss+"” mà câu yêu cầu.";
+}
+function usefulExistingWhy(text){
+  const s=String(text||"").trim();
+  if(!s || s.length>330)return "";
+  if(/Ngay trước chỗ trống|Ngay sau chỗ trống|Câu hoàn chỉnh là|Khi đặt vào|phần câu quanh đáp án|các lựa chọn khác|khớp trực tiếp với yêu cầu|không cần suy luận thêm|Hai phần này cùng xác định|đúng vai trò ngữ pháp/i.test(s))return "";
+  return s;
+}
+function usefulExistingContrast(text){
+  const s=String(text||"").trim();
+  if(!s || s.length>330)return "";
+  if(/các lựa chọn còn lại|các phương án còn lại|vì vậy chỉ|câu sẽ chuyển|không còn hợp|khớp chính xác|so với các lựa chọn|đổi nghĩa hoặc sai vai trò/i.test(s))return "";
+  return s;
+}
+function semanticClass(gloss,answer){
+  const g=String(gloss||"").toLowerCase();
+  if(/người|nhân viên|thợ|nghệ nhân|ca sĩ|nhà hoạt động|nhà ngoại giao|khán giả|công dân|tình nguyện viên|chú rể/.test(g) || /(er|or|ist|ian|ant|ent)$/.test(String(answer||"").toLowerCase()))return "chỉ người";
+  if(/^(sự|việc|quá trình|trạng thái|quyền|khát vọng|chủ quyền|dinh dưỡng|nhận thức|trách nhiệm|đóng góp|đoàn kết)/.test(g))return "chỉ khái niệm hoặc trạng thái trừu tượng";
+  return "gọi tên đúng loại đối tượng hoặc khái niệm";
+}
+function compactWhy(question,detail,answer,gloss,info,pos){
+  const direct=/Which English word or phrase means|Từ\/cụm từ nào có nghĩa|có nghĩa/i.test(String(question?.q||"")) && !/_{2,}/.test(String(question?.q||""));
+  if(direct)return "“"+answer+"” dùng để chỉ “"+gloss+"”; với dạng nhận diện nghĩa, đây là nét nghĩa cốt lõi cần ghi nhớ.";
+
+  const combo=naturalCombination(question,detail,answer,info,pos);
+  if(combo){
+    return "“"+combo+"” là cách kết hợp tự nhiên trong tiếng Anh; ở đây “"+answer+"” mang đúng sắc thái “"+gloss+"”.";
+  }
+
+  const grammar=decisiveGrammar(info,pos,answer,gloss);
+  if(grammar)return grammar;
+
+  const existing=usefulExistingWhy(detail?.why);
+  if(existing)return existing;
+
+  return evidenceReason(info,answer,gloss);
+}
+function compactContrast(question,detail,answer,gloss,info,pos){
+  const existing=usefulExistingContrast(detail?.contrast);
+  if(existing)return existing;
+
+  const combo=naturalCombination(question,detail,answer,info,pos);
+  if(combo){
+    return "Về mặt lựa chọn từ, “"+answer+"” đi tự nhiên trong cụm “"+combo+"”. Đây là selectional restriction: không phải từ cùng từ loại nào cũng kết hợp được với danh từ/bổ ngữ này và giữ đúng sắc thái.";
+  }
+
+  const after=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").trim();
+  const head=(after.match(/^([A-Za-z][A-Za-z'-]*)/)||[])[1]||"";
+  if(pos==="adj" && head){
+    return "Về mặt ngữ nghĩa, “"+answer+"” gán cho “"+head+"” đúng thuộc tính “"+gloss+"”. Điểm phân biệt nằm ở sắc thái này, không chỉ ở việc các lựa chọn có thể cùng là tính từ.";
+  }
+  if(pos==="v" && after){
+    return "“"+answer+"” kết hợp tự nhiên với bổ ngữ “"+compactSnippet(after,48)+"” để diễn tả “"+gloss+"”. Đây là selectional restriction: động từ phải phù hợp với đúng loại đối tượng và quan hệ nghĩa.";
+  }
+  if(pos==="n"){
+    return "“"+answer+"” thuộc đúng nhóm danh từ "+semanticClass(gloss,answer)+". Sự phù hợp nằm ở loại thực thể/khái niệm mà từ có thể gọi tên, không chỉ ở hình thức ngữ pháp.";
+  }
+  if(pos==="adv"){
+    return "“"+answer+"” không chỉ đúng từ loại mà còn mang sắc thái “"+gloss+"”, tức mô tả chính xác cách thức hành động diễn ra; đó là điểm phân biệt với các trạng từ có sắc thái khác.";
+  }
+  if(/\s/.test(String(answer))){
+    return "“"+answer+"” hoạt động như một đơn vị nghĩa cố định mang ý “"+gloss+"”; thay từng thành tố bằng từ gần nghĩa không bảo đảm giữ được cùng cách dùng và sắc thái.";
+  }
+
+  const direct=/Which English word or phrase means|Từ\/cụm từ nào có nghĩa|có nghĩa/i.test(String(question?.q||"")) && !/_{2,}/.test(String(question?.q||""));
+  if(direct){
+    return "Điểm cần phân biệt là phạm vi nghĩa: “"+answer+"” gọi đúng khái niệm “"+gloss+"”, còn các lựa chọn khác biểu đạt những khái niệm khác trong cùng nhóm từ vựng.";
+  }
+
+  return "Điểm phân biệt nằm ở sắc thái “"+gloss+"”: “"+answer+"” phù hợp với loại đối tượng và quan hệ nghĩa mà ngữ cảnh cho phép.";
+}
+function unifiedStandardExplanation(bank,question,detail){
+  const answer=question.o[question.a];
+  const gloss=explanationGloss(question,detail,answer);
+  const info=compactBlankInfo(question.q,answer);
+  const pos=explanationPos(detail,answer);
+  const meaning=String(detail?.meaning||question.e||"“"+answer+"” = “"+gloss+"”.").trim();
+  return {
+    ...detail,
+    meaning,
+    why:compactWhy(question,detail,answer,gloss,info,pos),
+    contrast:compactContrast(question,detail,answer,gloss,info,pos),
+    family:explanationFamily(detail,answer),
+    standard:true
+  };
+}
+
 function sentenceTranslation(bank,question,index){
   const key=bank.grade+"-"+bank.unit;
   const mapped=window.SENTENCE_TRANSLATIONS?.[key]?.[index];
@@ -528,19 +722,7 @@ for(const bank of Object.values(BANKS)){
     const question=bank.questions[index];
     if(!question)return detail;
 
-    let normalized;
-    if(detail?.standard){
-      normalized={...detail,family:explanationFamily(detail,question.o[question.a])};
-    }else if(bank.grade===10){
-      normalized={...detail,family:explanationFamily(detail,question.o[question.a]),standard:true};
-    }else if(bank.grade===9){
-      normalized=grade9StandardExplanation(bank,question,detail);
-    }else if(bank.grade===12&&bank.unit===6){
-      normalized=unit6StandardExplanation(question,detail);
-    }else{
-      normalized=fallbackStandardExplanation(bank,question,detail);
-    }
-
+    const normalized=unifiedStandardExplanation(bank,question,detail);
     return {...normalized,translation:sentenceTranslation(bank,question,index)};
   });
 }
