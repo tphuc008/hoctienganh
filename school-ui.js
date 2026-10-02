@@ -31,6 +31,51 @@ function schoolExpected(item){
   if(item.kind==="mcq")return `${"ABCD"[item.a]}. ${schoolPlain(item.o[item.a])}`;
   return item.answers?.[0]||"";
 }
+function schoolExplanationData(item){
+  return window.SCHOOL_G10_EXPLANATIONS?.[String(item?.sourceNo||"")]||null;
+}
+function schoolExplanationLayout(detail){
+  const mode=detail?.mode||"";
+  const labels={
+    phonetic:["Quy tắc / điểm cần nhận ra","Vì sao đúng","Phân tích / quy tắc cần nhớ","So sánh / điểm dễ nhầm"],
+    stress:["Trọng âm cần nhận ra","Vì sao đúng","Cách nhận diện","So sánh / điểm dễ nhầm"],
+    grammar:["Cấu trúc & ý nghĩa","Vì sao đúng trong câu","Cách dùng / cấu trúc liên quan","Phân biệt / lỗi dễ nhầm"],
+    dialogue:["Logic hội thoại","Vì sao thứ tự đúng","Móc nối cần nhìn","Điểm khóa / loại phương án sai"],
+    vocab:["Nghĩa & sắc thái","Vì sao đúng trong câu","Cách dùng / collocation","Phân biệt từ dễ nhầm"],
+    cloze:["Cấu trúc / collocation","Bằng chứng trong ngữ cảnh","Cách dùng / mẫu cần nhớ","Loại đáp án nhiễu"],
+    wordform:["Từ loại cần điền","Vì sao đúng","Cách dùng / cấu trúc","Phân biệt dạng từ"],
+    transform:["Công thức","Các bước biến đổi","Cách dùng / mẫu câu","Lỗi dễ gặp"]
+  };
+  return labels[mode]||["Kiến thức trọng tâm","Vì sao đúng","Cách dùng","Điểm dễ nhầm"];
+}
+function schoolDeepFeedback(item){
+  const d=schoolExplanationData(item);
+  if(!d){
+    return `<div class="feedback correct standard-feedback">
+      <div class="feedback-title">✓ Đúng — ${esc(schoolExpected(item))}</div>
+      <div class="deep-grid">
+        <div class="deep-box wide"><b>Giải thích</b><span>${esc(item.note||"")}</span></div>
+      </div>
+    </div>`;
+  }
+  const labels=schoolExplanationLayout(d);
+  const translation=d.translation
+    ? `<div class="sentence-translation"><strong>Dịch câu</strong> ${esc(d.translation)}</div>`
+    : "";
+  const family=d.family
+    ? `<div class="word-family-row"><b>Word family</b><span>${esc(d.family)}</span></div>`
+    : "";
+  return `<div class="feedback correct standard-feedback">
+    <div class="feedback-title">✓ Đúng — ${esc(schoolExpected(item))}</div>
+    <div class="deep-grid school-deep-grid">
+      <div class="deep-box"><b>${labels[0]}</b><span>${esc(d.concept||item.note||"")}</span>${translation}</div>
+      <div class="deep-box"><b>${labels[1]}</b><span>${esc(d.why||item.note||"")}</span></div>
+      <div class="deep-box wide"><b>${labels[2]}</b><span>${esc(d.usage||"")}</span></div>
+      <div class="deep-box wide"><b>${labels[3]}</b><span>${esc(d.contrast||"")}</span></div>
+      ${family}
+    </div>
+  </div>`;
+}
 function normalizeSchoolAnswer(value){
   return String(value??"")
     .toLowerCase()
@@ -166,15 +211,9 @@ function renderSchoolQuestion(){
   const progressPct=((s.current+1)/s.items.length*100);
   const context=q.ctx?schoolReviewData()?.contexts?.[q.ctx]:"";
   const feedback=solved
-    ? `<div class="feedback correct standard-feedback">
-        <div class="feedback-title">✓ Đúng — ${esc(schoolExpected(q))}</div>
-        <div class="deep-grid">
-          <div class="deep-box"><b>Đáp án</b><span>${esc(schoolExpected(q))}</span></div>
-          <div class="deep-box wide"><b>Giải thích</b><span>${esc(q.note||"")}</span></div>
-        </div>
-      </div>`
+    ? schoolDeepFeedback(q)
     : s.lastWrong[s.current]
-      ? `<div class="feedback wrong"><div class="feedback-title">✕ Sai — hãy thử lại</div></div>`
+      ? `<div class="feedback wrong"><div class="feedback-title">✕ Sai — hãy chọn lại</div></div>`
       : "";
 
   let answerHTML="";
