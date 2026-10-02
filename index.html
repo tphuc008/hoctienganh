@@ -949,7 +949,6 @@ function renderPortal(){
     <div class="hero">
       <div class="eyebrow">English Practice Hub</div>
       <h1><span class="gradient">Chọn khu vực học tập.</span></h1>
-      <p style="max-width:680px;margin:10px auto 0;color:var(--muted)">Mỗi khu vực có mã truy cập riêng. Sau khi xác minh thành công, trình duyệt này sẽ ghi nhớ quyền truy cập.</p>
     </div>
     <div class="section-title"><h2>Access</h2><span>2 areas</span></div>
     <div class="units">
@@ -973,7 +972,13 @@ function renderAccessPrompt(area,message=""){
       <div class="eyebrow">${accessAreaLabel(area)} access</div>
       <h1><span class="gradient">Nhập mã truy cập</span></h1>
       <p style="color:var(--muted);margin:8px 0 18px">Chỉ cần nhập một lần trên trình duyệt này. Quyền truy cập được ghi nhớ trong 1 năm.</p>
-      <div class="nickname-box"><label for="accessPassInput">Mã truy cập</label><input id="accessPassInput" type="password" autocomplete="off" placeholder="Nhập mã"></div>
+      <div class="nickname-box">
+        <label for="accessPassInput">Mã truy cập</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="accessPassInput" type="password" autocomplete="off" placeholder="Nhập mã" style="flex:1">
+          <button type="button" class="secondary" id="accessToggleBtn" style="white-space:nowrap;padding:10px 14px" onclick="toggleAccessPassword()">Hiện</button>
+        </div>
+      </div>
       <div id="accessError" style="min-height:24px;margin-top:10px;color:#ef4444">${esc(message)}</div>
       <button class="primary" id="accessSubmitBtn" style="margin-top:6px" onclick="submitAreaPass('${area}')">Xác nhận →</button>
       <button class="secondary" style="margin:6px 0 0 8px" onclick="location.hash=''">Quay lại</button>
@@ -981,6 +986,15 @@ function renderAccessPrompt(area,message=""){
   const input=document.getElementById("accessPassInput");
   input?.focus();
   input?.addEventListener("keydown",e=>{if(e.key==="Enter")submitAreaPass(area)});
+}
+function toggleAccessPassword(){
+  const input=document.getElementById("accessPassInput");
+  const btn=document.getElementById("accessToggleBtn");
+  if(!input||!btn)return;
+  const show=input.type==="password";
+  input.type=show?"text":"password";
+  btn.textContent=show?"Ẩn":"Hiện";
+  input.focus();
 }
 async function enterArea(area){
   hideAll();
