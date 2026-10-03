@@ -33,6 +33,12 @@
       out.push(w);
     }
     s=out.join(" ").replace(/\s+[A-Za-z][A-Za-z-]*\s*;\s*.*$/,"").trim();
+    var tail=s.split(" ");
+    while(tail.length>1){
+      var last=tail[tail.length-1].toLowerCase().replace(/[^a-z0-9-]/g,"");
+      if(last&&termWords.has(last)&&!VI_ALLOW.has(last))tail.pop(); else break;
+    }
+    s=tail.join(" ").trim();
     return s||String(raw||"").trim();
   }
   function cleanUsage(raw){
