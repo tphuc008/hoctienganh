@@ -39,7 +39,7 @@
     var s=String(raw||"").replace(/\s+/g," ").trim();
     if(!s)return "";
     s=s.split(";")[0].split(/,\s+(?=[a-z])/i)[0].trim();
-    s=s.replace(/\b(announcement|notification|bulletin|organize|conduct|host|evaluate|assess|rate|decrease|lower|material|supply|asset|greenery|vegetation|flora|pitcher|container|effectively|productively|economically|advertise|publicise|market|profitable|commercial|money-making|trustworthy|believable|reliable|appear|arise|surface|advanced|complex|elaborate|arrange|coordinate|engineer|deceptive|dishonest|deceitful|begin|commence|launch|sell|dispose|cash)\b.*$/i,"").trim();
+    s=s.replace(/\b(announcement|notification|bulletin|organize|conduct|host|evaluate|assess|rate|decrease|lower|material|supply|asset|greenery|vegetation|flora|pitcher|container|effectively|productively|economically|advertise|publicise|market|profitable|commercial|money-making|trustworthy|believable|reliable|appear|arise|surface|advanced|complex|elaborate|arrange|coordinate|engineer|deceptive|dishonest|deceitful|begin|commence|launch|sell|dispose|cash|reach|keen|live|establish|reside|introduce|guide|learn|know|find|offer|provide|show|combine|mix|value|reinforce|conquer|regard|view|mandatory|obligatory)\b.*$/i,"").trim();
     s=s.replace(/\barmys\b/i,"army");
     if(/\b(the|a|an|of|to|for|with|and)\.?$/i.test(s)||s.length<4)return "";
     return s.slice(0,100);
@@ -86,7 +86,7 @@
     (sourceRows||[]).forEach(function(r){
       var term=cleanTerm(r[0]),key=norm(term);if(!term||seen.has(key))return;
       var old=legacyMap[key]||{};
-      var meaning=old.meaning||cleanGloss(r[1],term),usage=old.usage||cleanUsage(r[3]),ipa=String(r[2]||"");
+      var meaning=cleanGloss(old.meaning||r[1],term),usage=cleanUsage(old.usage||r[3]),ipa=String(r[2]||"");
       if(!meaning||meaning.length>120)return;
       seen.add(key);source.push({term:term,meaning:meaning,ipa:ipa,usage:usage,family:old.family||""});
     });
