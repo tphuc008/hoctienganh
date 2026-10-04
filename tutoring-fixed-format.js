@@ -75,6 +75,50 @@
   const translation=(key,i,d)=>d?.translation||window.SENTENCE_TRANSLATIONS?.[key]?.[i]||"";
   const clean=t=>String(t||"").replace(/Trong (?:Unit|chủ đề|tài liệu)[^.]*\.\s*/gi,"").replace(/Ở dạng nhận diện nghĩa[^.]*\.\s*/gi,"").replace(/Set (?:Easy|Intermediate|Hard)[^.]*\.\s*/gi,"").replace(/Mở rộng chủ đề[^.]*\.\s*/gi,"").trim();
 
+  const VERB_START=new Set(["read","hold","join","judge","reduce","use","grow","change","protect","develop","build","pay","follow","feel","look","be","work","apply","supervise","sort","take","open","place","promote","run","post","access","connect","offer","design","distribute","fact-check","rely","warn","alert","emit","settle","maintain","encourage","migrate","revitalize","improve","control","spread","prevent","experience","transition","align","evaluate"]);
+  function usagePhrase(detail){
+    let u=String(detail?.usage||"").replace(/^Collocation\/cách dùng:\s*/i,"").replace(/^Collocations?:\s*/i,"").trim();
+    if(!u)return "";
+    u=u.split(";")[0].replace(/\.$/,"").trim();
+    return u.length<=90?u:"";
+  }
+  function inferPos(detail,a){
+    const f=family(detail),term=String(a||"").trim();
+    if(f){
+      for(const p of f.split("→").map(x=>x.trim())){
+        if(p.toLowerCase().includes(term.toLowerCase())){
+          if(/\(adv/i.test(p))return "adv";
+          if(/\(adj/i.test(p))return "adj";
+          if(/\(v/i.test(p))return "v";
+          if(/\(n/i.test(p))return "n";
+        }
+      }
+    }
+    const first=norm(term).split(" ")[0];
+    if(VERB_START.has(first)||/^(get|give|look|work|show|put|draw|pay|run|post|connect|offer|take|carry|cut|fill|remove|settle|migrate|rely|warn|alert)\b/i.test(term))return "v";
+    if(/ly$/i.test(term))return "adv";
+    if(/(ous|ful|less|able|ible|ive|al|ic|ary|ory|ed)$/i.test(term)&&!term.includes(" "))return "adj";
+    return "n";
+  }
+  function synthContext(key,bank,src,blank){
+    blank=blank||"______";
+    const a=answer(bank,src),d=bank.explanations[src]||{},g=gloss(bank,src)||a,topic=(TOPICS[key]||["the project"])[0];
+    const pos=inferPos(d,a),u=usagePhrase(d),re=a?new RegExp(escReg(a),"i"):null;
+    if(u&&re&&re.test(u)){
+      const phrase=u.replace(re,blank),first=norm(u).split(" ")[0];
+      if(VERB_START.has(first)){
+        const soft=["feel","look","be","experience"].includes(first);
+        return soft
+          ? {text:"During "+topic+", some participants may "+phrase+".",translation:"Trong dự án, một số người tham gia có thể ở trạng thái liên quan đến “"+g+"”."}
+          : {text:"As part of "+topic+", participants were asked to "+phrase+".",translation:"Trong dự án, người tham gia được yêu cầu thực hiện hành động liên quan đến “"+g+"”."};
+      }
+      return {text:"During "+topic+", the discussion focused on "+phrase+".",translation:"Trong dự án, phần thảo luận tập trung vào “"+g+"”."};
+    }
+    if(pos==="v")return {text:"As "+topic+" developed, the team decided to "+blank+" as part of its plan.",translation:"Khi dự án phát triển, nhóm quyết định "+g+" như một phần của kế hoạch."};
+    if(pos==="adj")return {text:"During "+topic+", the situation became increasingly "+blank+".",translation:"Trong dự án, tình hình ngày càng "+g+"."};
+    if(pos==="adv")return {text:"During "+topic+", the team handled the task "+blank+".",translation:"Trong dự án, nhóm xử lý nhiệm vụ một cách "+g+"."};
+    return {text:"During "+topic+", the team discussed "+blank+" in detail.",translation:"Trong dự án, nhóm đã thảo luận chi tiết về "+g+"."};
+  }
   function explain(bank,key,i,qid,why,tr){
     const d=bank.explanations[i]||{},q=bank.questions[i]||{},a=answer(bank,i);
     return {questionId:qid,meaning:clean(d.meaning||q.e||(a+" = "+gloss(bank,i))),why:clean(why||d.why||q.e||("“"+a+"” phù hợp với nghĩa và cấu trúc của câu.")),usage:clean(d.usage||""),contrast:clean(d.contrast||""),family:family(d),translation:tr!==undefined?tr:translation(key,i,d),preserve:true,standard:true};
