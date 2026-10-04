@@ -831,6 +831,7 @@ let answers=[];
 let solved=[];
 let mistakes=[];
 let wrongChoices=[];
+let skipped=[];
 let quizStartedAt=0;
 let currentNickname=localStorage.getItem("vocabNickname")||"";
 let scoreSubmitted=false;
@@ -1471,6 +1472,7 @@ function initQuizState(){
   solved=Array(activeQuestions.length).fill(false);
   mistakes=Array(activeQuestions.length).fill(0);
   wrongChoices=Array.from({length:activeQuestions.length},()=>new Set());
+  skipped=Array(activeQuestions.length).fill(false);
   quizStartedAt=Date.now();
   scoreSubmitted=false;
   readingScrollTop=0;
@@ -1623,6 +1625,8 @@ function renderQuestion(){
   qMount.querySelectorAll(".answer:not(:disabled)").forEach(btn=>btn.onclick=()=>checkAnswer(Number(btn.dataset.i)));
   const input=document.getElementById("wordformInput");
   const submit=document.getElementById("wordformSubmit");
+  const skipBtn=document.getElementById("skipWordformBtn");
+  if(skipBtn)skipBtn.onclick=skipWordformQuestion;
   if(input&&!isSolved){
     if(submit)submit.onclick=()=>checkInputAnswer(input.value);
     input.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();checkInputAnswer(input.value)}});
@@ -1664,6 +1668,20 @@ function checkInputAnswer(value){
   if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
+function skipWordformQuestion(){
+  const q=activeQuestions[current];
+  if(!q||q.kind!=="input"||solved[current]||!activeBank?.pilotFixedFormat||mistakes[current]<5)return;
+
+  skipped[current]=true;
+  answers[current]=correctAnswerText(q);
+  solved[current]=true;
+  recordVocabProgress(q,mistakes[current]);
+  renderQuestion();
+
+  const panel=document.querySelector(".feedback.correct");
+  if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
 function checkAnswer(i){
   const q=activeQuestions[current];
   if(solved[current])return;
@@ -1686,7 +1704,11 @@ function checkAnswer(i){
 function wrongFeedback(index){
   const q=activeQuestions[index];
   const msg=q?.kind==="input"?"✕ Sai — hãy thử lại":"✕ Sai — hãy chọn lại";
-  return `<div class="feedback wrong"><div class="feedback-title">${msg}</div></div>`;
+  const canSkip=q?.kind==="input"&&activeBank?.pilotFixedFormat&&mistakes[index]>=5;
+  const skipButton=canSkip
+    ? `<button class="secondary" id="skipWordformBtn" style="margin-top:10px">Bỏ qua — xem đáp án</button>`
+    : "";
+  return `<div class="feedback wrong"><div class="feedback-title">${msg}</div>${skipButton}</div>`;
 }
 
 function deepFeedback(index){
@@ -1715,7 +1737,7 @@ function deepFeedback(index){
     ? `<div class="deep-box"><b>Cách dùng / collocation</b><span>${esc(d.usage||"")}</span>${familyRow}</div>`
     : "";
   return `<div class="feedback correct standard-feedback">
-    <div class="feedback-title">✓ Đúng — ${esc(correctAnswerText(q))}</div>
+    <div class="feedback-title">${skipped[index]?"↷ Đã bỏ qua — đáp án: ":"✓ Đúng — "}${esc(correctAnswerText(q))}</div>
     <div class="deep-grid">
       <div class="deep-box"><b>Nghĩa & sắc thái</b><span>${esc(d.meaning)}</span>${translationRow}</div>
       <div class="deep-box"><b>Vì sao đúng trong câu</b><span>${esc(d.why)}</span></div>
@@ -1808,7 +1830,9 @@ function buildReview(){
   list.innerHTML=activeQuestions.map((q,i)=>{
     const d=activeExplanations[i];
     const right=esc(correctAnswerText(q));
-    const attemptLabel=mistakes[i]===0?"Correct on first try":`${mistakes[i]} mistake${mistakes[i]>1?"s":""} before correct`;
+    const attemptLabel=skipped[i]
+      ? `Skipped after ${mistakes[i]} mistakes`
+      : (mistakes[i]===0?"Correct on first try":`${mistakes[i]} mistake${mistakes[i]>1?"s":""} before correct`);
     return `<div class="review-item correct">
       <div class="review-q">${i+1}. ${esc(q.q)}</div>
       <div class="review-meta"><span class="tag good">Correct: ${right}</span><span class="tag">${attemptLabel}</span></div>
