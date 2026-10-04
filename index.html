@@ -296,7 +296,7 @@ h1,h2,h3,p{margin-top:0}
 <script src="grade12-units.js?v=20261001-deep-v5"></script>
 <script src="grade12-expanded.js?v=20261003-adaptive-v1"></script>
 <script src="grade12-unit2-pilot.js?v=20261004-pilot-v1"></script>
-<script src="grade12-unit1-pilot.js?v=20261004-fixed-v5"></script>
+<script src="grade12-unit1-pilot.js?v=20261004-format-v6"></script>
 <script src="tutoring-fixed-format.js?v=20261004-context-bank-v3"></script>
 <script src="sentence-translations.js?v=20261001-translations-v1"></script>
 <script>
@@ -1797,6 +1797,25 @@ function deepFeedback(index){
       </div>
     </div>`;
   }
+  if(activeBank?.explanationFormatV2){
+    const translationBox=d.translation
+      ? `<div class="deep-box wide"><b>Dịch câu</b><span>${esc(d.translation)}</span></div>`
+      : "";
+    const usageBox=d.usage
+      ? `<div class="deep-box wide"><b>Collocation</b><span>${esc(d.usage)}</span></div>`
+      : "";
+    const contrastTitle=q?.kind==="mcq"?"Phân biệt với 3 đáp án còn lại":"Phân biệt";
+    return `<div class="feedback correct standard-feedback">
+      <div class="feedback-title">${skipped[index]?"↷ Đã bỏ qua — đáp án: ":"✓ Đúng — "}${esc(correctAnswerText(q))}</div>
+      <div class="deep-grid">
+        <div class="deep-box wide"><b>Nghĩa & sắc thái</b><span>${esc(d.meaning)}</span></div>
+        ${translationBox}
+        ${usageBox}
+        <div class="deep-box wide"><b>${contrastTitle}</b><span>${esc(d.contrast||"")}</span></div>
+      </div>
+    </div>`;
+  }
+
   const familyRow=d.family
     ? `<div class="word-family-row"><b>Word family</b><span>${esc(d.family)}</span></div>`
     : "";
