@@ -48,6 +48,85 @@
     "acclaim":{m:"sự ca ngợi rộng rãi",n:"Lời khen mạnh từ công chúng hoặc giới chuyên môn dành cho thành tựu.",u:"receive critical acclaim; international acclaim",c:"acclaim = sự đánh giá tích cực; fame = nổi tiếng, có thể tích cực hoặc tiêu cực.",f:"acclaim (n/v) → acclaimed (adj)"}
   };
 
+  const OPTION_MEANINGS={
+    "province":"tỉnh",
+    "enemy":"kẻ thù, đối phương",
+    "medicine":"thuốc; y học",
+    "contain":"chứa, bao gồm",
+    "save":"cứu; tiết kiệm",
+    "kill":"giết, làm chết",
+    "carefully":"một cách cẩn thận",
+    "suddenly":"một cách đột ngột",
+    "proudly":"một cách tự hào",
+    "resistance war":"cuộc kháng chiến",
+    "scientific calculator":"máy tính khoa học",
+    "famous":"nổi tiếng, được nhiều người biết đến",
+    "awake":"đang thức, không ngủ",
+    "active":"năng động; đang hoạt động",
+    "career milestone":"cột mốc quan trọng trong sự nghiệp",
+    "army":"quân đội",
+    "record people's stories":"ghi lại câu chuyện của mọi người",
+    "join the army":"tham gia/nhập ngũ vào quân đội",
+    "treat a place":"đối xử với/xử lý một nơi; không phải cách nói về làm việc tại bệnh viện",
+    "keep a diary":"viết hoặc duy trì nhật ký",
+    "contain information":"chứa thông tin",
+    "jungle":"rừng rậm nhiệt đới",
+    "soldier":"người lính",
+    "hospital":"bệnh viện",
+    "give up for adoption":"cho người khác nhận làm con nuôi",
+    "dropped out of":"đã bỏ ... giữa chừng",
+    "passed away from":"qua đời vì một nguyên nhân/bệnh",
+    "contributed to":"đóng góp vào; góp phần vào",
+    "extremely expensive":"cực kỳ đắt đỏ",
+    "highly fashionable":"rất thời thượng",
+    "scientifically advanced":"tiên tiến về mặt khoa học",
+    "activist":"nhà hoạt động xã hội/chính trị",
+    "recover":"hồi phục",
+    "retire":"nghỉ hưu",
+    "disappear":"biến mất",
+    "invented":"đã phát minh",
+    "garnered":"đã giành/thu được",
+    "refined":"đã trau chuốt, hoàn thiện",
+    "a private diary":"một cuốn nhật ký cá nhân",
+    "an unfinished project":"một dự án chưa hoàn thành",
+    "a scientific device":"một thiết bị khoa học",
+    "passed away":"đã qua đời",
+    "dropped out":"đã bỏ học/bỏ dở",
+    "bonded over":"đã trở nên gắn kết nhờ cùng chia sẻ điều gì",
+    "full-length":"đầy đủ độ dài; bản dài hoàn chỉnh",
+    "diagnosed with":"được chẩn đoán mắc",
+    "adorned":"được trang hoàng, tô điểm",
+    "stylish":"có phong cách, thời trang",
+    "abandon":"từ bỏ, bỏ lại",
+    "conceal":"che giấu",
+    "weaken":"làm suy yếu",
+    "drop out of":"bỏ ... giữa chừng",
+    "pass away from":"qua đời vì",
+    "single achievement":"một thành tựu riêng lẻ",
+    "public reputation":"danh tiếng trước công chúng",
+    "final decision":"quyết định cuối cùng",
+    "voluntarily":"một cách tự nguyện",
+    "biologically":"về mặt sinh học; theo huyết thống",
+    "formal instruction":"sự hướng dẫn/giảng dạy chính thức",
+    "private memory":"ký ức riêng tư",
+    "public office":"chức vụ công",
+    "aspiration":"khát vọng, hoài bão",
+    "diagnosed":"đã được chẩn đoán"
+  };
+
+  function optionMeaning(term){
+    if(L[term]?.m)return L[term].m;
+    return OPTION_MEANINGS[term]||"mang nghĩa khác với đáp án đúng trong ngữ cảnh này";
+  }
+
+  function contrastThree(options,answerIndex){
+    return (options||[])
+      .map((term,i)=>({term,i}))
+      .filter(x=>x.i!==answerIndex)
+      .map((x,i)=>String(i+1)+". “"+x.term+"” = "+optionMeaning(x.term)+".")
+      .join(" ");
+  }
+
   function exp(term,why,translation,extra){
     const x=L[term]||{m:term,n:"",u:"",c:"",f:""};
     return Object.assign({
@@ -77,7 +156,10 @@
       const qq={id,targetId:id,kind:"mcq",type,q,o,a};
       if(context)qq.context=context;
       if(focus)qq.focus=focus;
-      return push(qq,exp(term,why,translation),levels[set]);
+      const e=exp(term,why,translation);
+      e.contrast=contrastThree(o,a);
+      e.formatV2=true;
+      return push(qq,e,levels[set]);
     }
     function input(set,q,answers,term,why,translation){
       const hint=(String(q).match(/\(([^()]+)\)\s*$/)||[])[1]||"";
@@ -195,7 +277,7 @@
     cgq("c1c2",5,"Based on the context, “intransigent” most nearly means:",["unwilling to compromise or change one's position","easily persuaded by political pressure","uncertain about ethical principles","careful to avoid public disagreement"],0,"intransigent","không chịu thỏa hiệp, cứng rắn không đổi lập trường","Câu sau cho biết advisers urged compromise nhưng bà “refused to yield”, ngay cả khi mất đồng minh quyền lực.","Intransigent thường có sắc thái cứng rắn, đôi khi tiêu cực; trong passage nó được gắn với nguyên tắc đạo đức.","intransigent position/opponent; remain intransigent","steadfast có thể tích cực = kiên định; intransigent nhấn mạnh không chịu nhượng bộ.",c2);
 
     return {
-      grade:12,unit:1,title:"Life Stories We Admire",source:"VOCAB-WEEK 1.pdf",version:4,pilotFixedFormat:true,
+      grade:12,unit:1,title:"Life Stories We Admire",source:"VOCAB-WEEK 1.pdf",version:5,pilotFixedFormat:true,explanationFormatV2:true,
       questions,explanations,explanationById,
       levelConfig:{
         1:{label:"A2–B1",name:"Easy",note:"Easy",sessionSize:20,readingTail:true,pool:levels[1]},
