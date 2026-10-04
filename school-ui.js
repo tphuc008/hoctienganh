@@ -30,6 +30,7 @@ function schoolShuffleArray(values){
   return arr;
 }
 function schoolPrepareQuizItems(items){
+  const preserveQuestionOrder=items.some(item=>!!item?.ctx);
   const prepared=items.map(item=>{
     const q={...item};
     if(Array.isArray(item.answers))q.answers=[...item.answers];
@@ -43,7 +44,7 @@ function schoolPrepareQuizItems(items){
     }
     return q;
   });
-  return schoolShuffleArray(prepared);
+  return preserveQuestionOrder?prepared:schoolShuffleArray(prepared);
 }
 function schoolText(value){
   return esc(value??"").replace(/\n/g,"<br>");
