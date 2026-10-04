@@ -137,8 +137,15 @@
     const id=qid(key,set,no);add(state,{id,targetId:id,kind:"mcq",type:"meaning",q:"Từ/cụm từ nào có nghĩa “"+g+"”?",o,a:ai},explain(bank,key,src,id,"“"+a+"” diễn đạt đúng nghĩa “"+g+"”.",""),pool);return true;
   }
   function contextQ(bank,key,set,src,no,state,pool){
-    const q=bank.questions[src]||{},a=answer(bank,src),text=core(q.q);if(!a||!/_{2,}/.test(text)||!Array.isArray(q.o))return false;
-    const id=qid(key,set,no);add(state,{id,targetId:id,kind:"mcq",type:"context",q:text,o:[...q.o],a:q.a},explain(bank,key,src,id,undefined,translation(key,src,bank.explanations[src]||{})),pool);return true;
+    const q=bank.questions[src]||{},a=answer(bank,src),text=core(q.q);
+    if(!a||!Array.isArray(q.o))return false;
+    const generated=/_{2,}/.test(text)
+      ? {text:text,translation:translation(key,src,bank.explanations[src]||{})}
+      : synthContext(key,bank,src);
+    const id=qid(key,set,no);
+    add(state,{id:id,targetId:id,kind:"mcq",type:"context",q:generated.text,o:[...q.o],a:q.a},
+      explain(bank,key,src,id,undefined,generated.translation),pool);
+    return true;
   }
   function synonymQ(bank,key,set,src,no,state,pool){
     const a=answer(bank,src),o=SYN[norm(a)];if(!a||!o)return false;
@@ -146,39 +153,95 @@
   }
   function wordFormQ(bank,key,set,src,no,state,pool){
     const q=bank.questions[src]||{},a=answer(bank,src),d=bank.explanations[src]||{},c=cue(d,a),text=core(q.q);
-    if(!c||!a||!Array.isArray(q.o)||!/_{2,}/.test(text)||norm(c)===norm(a))return false;
-    const id=qid(key,set,no);add(state,{id,targetId:id,kind:"input",type:"wordform",q:text+" ("+c.toUpperCase()+")",answers:[a],wordFormCue:c},explain(bank,key,src,id,"Từ gợi ý “"+c+"” phải đổi sang “"+a+"” để đúng từ loại và cấu trúc của vị trí chỗ trống.",translation(key,src,d)),pool);return true;
+    if(!c||!a||norm(c)===norm(a))return false;
+    const generated=/_{2,}/.test(text)
+      ? {text:text,translation:translation(key,src,d)}
+      : synthContext(key,bank,src);
+    const id=qid(key,set,no);
+    add(state,{id:id,targetId:id,kind:"input",type:"wordform",q:generated.text+" ("+c.toUpperCase()+")",answers:[a],wordFormCue:c},
+      explain(bank,key,src,id,"Từ gợi ý “"+c+"” phải đổi sang “"+a+"” để đúng từ loại và cấu trúc của vị trí chỗ trống.",generated.translation),pool);
+    return true;
+  }
+  function customWordFormQ(key,set,no,slot,state,pool){
+    const row=CUSTOM_WF[key]?.[set]?.[slot];
+    if(!row)return false;
+    const id=qid(key,set,no);
+    const q={id:id,targetId:id,kind:"input",type:"wordform",q:row[0]+" ("+row[1]+")",answers:[row[2]],wordFormCue:row[1].toLowerCase()};
+    const e={questionId:id,meaning:"“"+row[2]+"” = "+row[3]+".",why:"Từ gợi ý “"+row[1].toLowerCase()+"” phải đổi sang “"+row[2]+"” để đúng từ loại và cấu trúc của câu.",usage:"",contrast:"",family:row[1].toLowerCase()+" → "+row[2],translation:row[4],preserve:true,standard:true};
+    add(state,q,e,pool);
+    return true;
   }
   const candidates=(bank,pool,test)=>[...new Set([...(pool||[]).filter(test),...bank.questions.map((_,i)=>i).filter(test)])];
   const next=(list,used)=>list.find(i=>!used.has(i));
 
   function reading(bank,key,set,pool,used,state,targetPool){
-    const all=candidates(bank,pool,i=>Array.isArray(bank.questions[i]?.o)&&/_{2,}/.test(core(bank.questions[i]?.q))&&!!answer(bank,i)),pick=[];
+    const ordered=[...(pool||[]),...bank.questions.map((_,i)=>i)],all=[];
+    for(const i of ordered){
+      if(all.includes(i)||!answer(bank,i)||!Array.isArray(bank.questions[i]?.o))continue;
+      all.push(i);
+    }
+    const pick=[];
     for(const i of all){if(!used.has(i)){pick.push(i);if(pick.length===5)break}}
     for(const i of all){if(pick.length>=5)break;if(!pick.includes(i))pick.push(i)}
     if(pick.length<5)return;
-    const passage=pick.map((src,j)=>core(bank.questions[src].q).replace(/_{2,}/,"("+(16+j)+") ______")).join(" ");
-    pick.forEach((src,j)=>{const q=bank.questions[src],id=qid(key,set,16+j),d=bank.explanations[src]||{};add(state,{id,targetId:id,kind:"mcq",type:"reading",q:"Choose the best option for blank ("+(16+j)+").",o:[...q.o],a:q.a,context:passage,focus:"("+(16+j)+") ______"},explain(bank,key,src,id,undefined,translation(key,src,d)),targetPool);used.add(src)});
+    const rows=pick.map((src,j)=>{
+      const raw=core(bank.questions[src].q);
+      const g=/_{2,}/.test(raw)?{text:raw,translation:translation(key,src,bank.explanations[src]||{})}:synthContext(key,bank,src);
+      return {text:g.text.replace(/_{2,}/,"("+(16+j)+") ______"),translation:g.translation};
+    });
+    const passage=rows.map(x=>x.text).join(" ");
+    pick.forEach((src,j)=>{
+      const q=bank.questions[src],id=qid(key,set,16+j);
+      add(state,{id:id,targetId:id,kind:"mcq",type:"reading",q:"Choose the best option for blank ("+(16+j)+").",o:[...q.o],a:q.a,context:passage,focus:"("+(16+j)+") ______"},
+        explain(bank,key,src,id,undefined,rows[j].translation),targetPool);
+      used.add(src);
+    });
   }
+
+  function build(
 
   function build(key,bank){
     const state={questions:[],explanations:[],explanationById:{}},levels={1:[],2:[],3:[]};
     for(const set of [1,2,3]){
       const pool=[...(bank.levelConfig?.[set]?.pool||bank.questions.map((_,i)=>i).slice((set-1)*20,set*20))],used=new Set(),target=levels[set];
-      const M=candidates(bank,pool,i=>!!gloss(bank,i)),C=candidates(bank,pool,i=>Array.isArray(bank.questions[i]?.o)&&/_{2,}/.test(core(bank.questions[i]?.q))),Y=candidates(bank,pool,i=>!!SYN[norm(answer(bank,i))]),W=candidates(bank,pool,i=>!!cue(bank.explanations[i]||{},answer(bank,i))&&/_{2,}/.test(core(bank.questions[i]?.q)));
-      const plan=["M","C","Y","W","M","C","C","W","Y","C","M","C","W","M","C"];let no=1;
+      const M=candidates(bank,pool,i=>!!gloss(bank,i));
+      const C=candidates(bank,pool,i=>Array.isArray(bank.questions[i]?.o)&&!!answer(bank,i));
+      const Y=candidates(bank,pool,i=>!!SYN[norm(answer(bank,i))]);
+      const W=candidates(bank,pool,i=>!!cue(bank.explanations[i]||{},answer(bank,i)));
+      const plan=["M","C","Y","W","M","C","C","W","Y","C","M","C","W","M","C"];
+      let no=1,wfSlot=0;
       for(const type of plan){
-        const list=type==="M"?M:type==="C"?C:type==="Y"?Y:W;let src=next(list,used),ok=false;
-        if(src!==undefined)ok=type==="M"?meaningQ(bank,key,set,src,no,state,target):type==="C"?contextQ(bank,key,set,src,no,state,target):type==="Y"?synonymQ(bank,key,set,src,no,state,target):wordFormQ(bank,key,set,src,no,state,target);
-        if(!ok){for(const fallback of [C,M,Y]){src=next(fallback,used);if(src===undefined)continue;ok=/_{2,}/.test(core(bank.questions[src]?.q))?contextQ(bank,key,set,src,no,state,target):meaningQ(bank,key,set,src,no,state,target);if(ok)break}}
-        if(ok){used.add(src);no++}
+        let list=type==="M"?M:type==="C"?C:type==="Y"?Y:W;
+        let src=next(list,used),ok=false,usedCustom=false;
+        if(type==="W"&&CUSTOM_WF[key]?.[set]?.[wfSlot]){
+          ok=customWordFormQ(key,set,no,wfSlot,state,target);
+          wfSlot++; usedCustom=ok;
+        }else if(src!==undefined){
+          ok=type==="M"?meaningQ(bank,key,set,src,no,state,target):type==="C"?contextQ(bank,key,set,src,no,state,target):type==="Y"?synonymQ(bank,key,set,src,no,state,target):wordFormQ(bank,key,set,src,no,state,target);
+        }
+        if(!ok){
+          for(const pair of [["C",C],["M",M],["Y",Y]]){
+            src=next(pair[1],used);
+            if(src===undefined)continue;
+            ok=pair[0]==="C"?contextQ(bank,key,set,src,no,state,target):pair[0]==="Y"?synonymQ(bank,key,set,src,no,state,target):meaningQ(bank,key,set,src,no,state,target);
+            if(ok)break;
+          }
+        }
+        if(ok){if(!usedCustom&&src!==undefined)used.add(src);no++}
       }
-      while(target.length<15){const src=next(M,used);if(src===undefined)break;if(meaningQ(bank,key,set,src,target.length+1,state,target))used.add(src);else used.add(src)}
+      while(target.length<15){
+        const src=next(M,used);
+        if(src===undefined)break;
+        if(meaningQ(bank,key,set,src,target.length+1,state,target))used.add(src);else used.add(src);
+      }
       reading(bank,key,set,pool,used,state,target);
     }
     const out={grade:bank.grade,unit:bank.unit,title:bank.title,source:bank.source||"",version:(bank.version||1)+10,pilotFixedFormat:true,questions:state.questions,explanations:state.explanations,explanationById:state.explanationById,levelConfig:{1:{label:"A2–B1",name:"Easy",note:"Easy",sessionSize:20,readingTail:true,pool:levels[1]},2:{label:"B1–B2",name:"Intermediate",note:"Intermediate",sessionSize:20,readingTail:true,pool:levels[2]},3:{label:"B2–C1",name:"Hard",note:"Hard",sessionSize:20,readingTail:true,pool:levels[3]}}};
-    addContextGuessing(key,out);return out;
+    addContextGuessing(key,out);
+    return out;
   }
+
+  const DEF=
 
   const DEF={
     b1b2:[
@@ -220,7 +283,7 @@
   }
   function augment(key,bank){
     bank.explanationById=bank.explanationById||{};
-    bank.questions.forEach((q,i)=>{if(!q.id){q.id="fixed-"+key+"-legacy-"+(i+1);q.targetId=q.id}const e=bank.explanations[i]||{};e.questionId=q.id;e.preserve=true;e.standard=true;bank.explanationById[q.id]=e});
+    bank.questions.forEach((q,i)=>{if(!q.id){q.id="fixed-"+key+"-legacy-"+(i+1);q.targetId=q.id}if(q.kind==="input"&&!q.wordFormCue){const m=String(q.q||"").match(/\(([^()]+)\)\s*$/);if(m)q.wordFormCue=m[1].toLowerCase()}const e=bank.explanations[i]||{};e.questionId=q.id;e.preserve=true;e.standard=true;bank.explanationById[q.id]=e});
     bank.pilotFixedFormat=true;return addContextGuessing(key,bank);
   }
 
