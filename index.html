@@ -1630,7 +1630,12 @@ function renderQuestion(){
   if(skipBtn)skipBtn.onclick=skipWordformQuestion;
   if(input&&!isSolved){
     if(submit)submit.onclick=()=>checkInputAnswer(input.value);
-    input.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();checkInputAnswer(input.value)}});
+    input.addEventListener("keydown",e=>{
+      if(e.key!=="Enter")return;
+      e.preventDefault();
+      e.stopPropagation();
+      checkInputAnswer(input.value);
+    });
     setTimeout(()=>input.focus(),0);
   }
   const p=document.getElementById("prevBtn"); if(p)p.onclick=()=>move(-1);
@@ -1850,10 +1855,13 @@ function confetti(){
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__t);window.__t=setTimeout(()=>t.classList.remove("show"),2200)}
 document.addEventListener("keydown",e=>{
-  if(quizShell.style.display!=="block")return;
-  const k=e.key.toLowerCase();if(activeQuestions[current]?.kind!=="input"&&["a","b","c","d"].includes(k)){const i=["a","b","c","d"].indexOf(k);const b=qMount.querySelector(`.answer[data-i="${i}"]`);if(b)b.click()}
-  if(e.key==="ArrowRight"&&current<activeQuestions.length-1&&solved[current])move(1);
-  if(e.key==="ArrowLeft"&&current>0)move(-1);
+  if(quizShell.style.display!=="block"||e.key!=="Enter")return;
+  const target=e.target;
+  if(target instanceof HTMLInputElement||target instanceof HTMLTextAreaElement||target?.isContentEditable)return;
+  if(!solved[current])return;
+  e.preventDefault();
+  if(current<activeQuestions.length-1)move(1);
+  else finishLearning();
 });
 route();
 </script>
