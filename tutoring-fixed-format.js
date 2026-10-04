@@ -75,7 +75,7 @@
   const translation=(key,i,d)=>d?.translation||window.SENTENCE_TRANSLATIONS?.[key]?.[i]||"";
   const clean=t=>String(t||"").replace(/Trong (?:Unit|chủ đề|tài liệu)[^.]*\.\s*/gi,"").replace(/Ở dạng nhận diện nghĩa[^.]*\.\s*/gi,"").replace(/Set (?:Easy|Intermediate|Hard)[^.]*\.\s*/gi,"").replace(/Mở rộng chủ đề[^.]*\.\s*/gi,"").trim();
 
-  const VERB_START=new Set(["read","hold","join","judge","reduce","use","grow","change","protect","develop","build","pay","follow","feel","look","be","work","apply","supervise","sort","take","open","place","promote","run","post","access","connect","offer","design","distribute","fact-check","rely","warn","alert","emit","settle","maintain","encourage","migrate","revitalize","improve","control","spread","prevent","experience","transition","align","evaluate"]);
+  const VERB_START=new Set(["read","hold","join","judge","reduce","use","grow","change","protect","develop","build","pay","follow","feel","look","be","work","apply","supervise","sort","take","open","place","promote","run","post","access","connect","offer","design","distribute","fact-check","rely","warn","alert","emit","settle","maintain","encourage","migrate","revitalize","improve","control","spread","prevent","experience","transition","align","evaluate","adopt","conduct","introduce","redevelop","make","implement","address","create","achieve","ensure","increase","raise","keep","provide","support"]);
   function usagePhrase(detail){
     let u=String(detail?.usage||"").replace(/^Collocation\/cách dùng:\s*/i,"").replace(/^Collocations?:\s*/i,"").trim();
     if(!u)return "";
