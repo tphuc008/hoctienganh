@@ -1438,7 +1438,7 @@ function renderUnit(grade,id){
               <span class="chip">${special?((activeLevelConfig[setNo]?.bankSize||24)+"-word bank · 10 per set"):count+" questions"}</span>
               <span class="chip">${level}</span>
               <span class="chip">Immediate feedback</span>
-              <span class="chip">${special?"5 B1–B2 + 5 C1–C2":"Deep vocabulary notes"}</span>
+              ${special?"":'<span class="chip">Deep vocabulary notes</span>'}
             </div>
           </button>`;
       }).join("")}
@@ -1484,11 +1484,9 @@ function renderExercise(grade,id,setNo){
         <div class="pills">
           <span class="pill">${bankSize}-word rotating bank</span>
           <span class="pill">10 words per set</span>
-          <span class="pill">5 B1–B2 + 5 C1–C2</span>
           <span class="pill">2 readings</span>
           <span class="pill">Unfamiliar words by design</span>
         </div>
-        <div class="cg-note">Mỗi lượt hệ thống chọn 5 từ B1–B2 và 5 từ C1–C2 từ word bank của topic. Từ chưa gặp hoặc ít gặp được ưu tiên để word bank xoay vòng thay vì lặp lại một bộ cố định.</div>
         ${nicknameHTML}
         <button class="primary" style="margin-top:18px" onclick="startContextGuessing('mixed')">Start 10-word set →</button>
       </div>`;
