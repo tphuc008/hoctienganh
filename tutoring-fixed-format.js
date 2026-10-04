@@ -198,8 +198,6 @@
     });
   }
 
-  function build(
-
   function build(key,bank){
     const state={questions:[],explanations:[],explanationById:{}},levels={1:[],2:[],3:[]};
     for(const set of [1,2,3]){
@@ -240,8 +238,6 @@
     addContextGuessing(key,out);
     return out;
   }
-
-  const DEF=
 
   const DEF={
     b1b2:[
