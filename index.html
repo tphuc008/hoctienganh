@@ -903,44 +903,6 @@ function writeVocabProgress(data){
   data.version=activeBank?.version||data.version||1;
   try{localStorage.setItem(vocabProgressKey(),JSON.stringify(data))}catch(_){}
 }
-function grammarRotationKey(slug,setNo){
-  return "grammar_rotation_v1_"+String(slug||"grammar")+"_"+String(setNo||1);
-}
-function readGrammarRotationProgress(slug,setNo){
-  try{
-    const data=JSON.parse(localStorage.getItem(grammarRotationKey(slug,setNo))||"null");
-    if(data&&typeof data==="object")return {items:data.items||{}};
-  }catch(_){}
-  return {items:{}};
-}
-function writeGrammarRotationProgress(slug,setNo,data){
-  try{localStorage.setItem(grammarRotationKey(slug,setNo),JSON.stringify({items:data.items||{}}))}catch(_){}
-}
-function pickGrammarRotating(pool,count,progress,exclude=new Set()){
-  const candidates=shuffled((pool||[]).filter(i=>!exclude.has(i)));
-  candidates.sort((a,b)=>{
-    const qa=activeBank.questions[a]||{},qb=activeBank.questions[b]||{};
-    const A=progress.items[qa.id||qa.targetId]||{},B=progress.items[qb.id||qb.targetId]||{};
-    const seenA=Number(A.seen)||0,seenB=Number(B.seen)||0;
-    const lastA=Number(A.lastSeen)||0,lastB=Number(B.lastSeen)||0;
-    return seenA-seenB || lastA-lastB;
-  });
-  return candidates.slice(0,Math.max(0,count));
-}
-function markGrammarRotation(indices,progress,slug,setNo){
-  const now=Date.now();
-  (indices||[]).forEach((i,offset)=>{
-    const q=activeBank.questions[i]||{};
-    const id=q.id||q.targetId;
-    if(!id)return;
-    const st=progress.items[id]||{seen:0,lastSeen:0};
-    st.seen=(Number(st.seen)||0)+1;
-    st.lastSeen=now+offset;
-    progress.items[id]=st;
-  });
-  writeGrammarRotationProgress(slug,setNo,progress);
-}
-
 function contextProgressKey(){
   return "context_guessing_progress_v1_g"+activeGrade+"_u"+activeUnit;
 }
@@ -1048,12 +1010,7 @@ function selectSet(setNo){
   activeSublevelKey="";
 
   if(activeMode==="grammar"){
-    const progress=readGrammarRotationProgress(activeGrammarSlug,activeSet);
-    const build=pickGrammarRotating(activeLevel.buildPool||[],5,progress);
-    const context=pickGrammarRotating(activeLevel.contextPool||[],5,progress,new Set(build));
-    const selected=[...build,...context];
-    markGrammarRotation(selected,progress,activeGrammarSlug,activeSet);
-    loadQuestionPool(selected,{shuffleOrder:false});
+    loadQuestionPool(activeLevel.pool||[],{shuffleOrder:false});
     return;
   }
 
@@ -1514,7 +1471,6 @@ function renderGrammarUnit(slug){
           <div class="meta">
             <span class="chip">5 Build the word</span>
             <span class="chip">5 Context choices</span>
-            <span class="chip">${activeLevelConfig[setNo]?.bankSize||20}-question rotating bank · 10 per attempt</span>
             <span class="chip">${esc(getSetLevel(setNo))}</span>
             <span class="chip">Immediate feedback</span>
           </div>
@@ -1533,9 +1489,7 @@ function renderGrammarExercise(slug,setNo){
   activeSet=Number(setNo);
   activeLevel=activeLevelConfig[activeSet];
   activeSublevelKey="";
-  activeQuestionIndices=[];
-  activeQuestions=[];
-  activeExplanations=[];
+  selectSet(activeSet);
   pageMount.style.display="block";
   pageMount.innerHTML=`
     <div class="breadcrumbs">
@@ -1550,7 +1504,6 @@ function renderGrammarExercise(slug,setNo){
       <div class="pills">
         <span class="pill">5 Build the word</span>
         <span class="pill">5 Context choices</span>
-        <span class="pill">${activeLevel.bankSize||20}-question rotating bank</span>
         <span class="pill">${esc(activeLevel.label)}</span>
         <span class="pill">Immediate feedback</span>
       </div>
