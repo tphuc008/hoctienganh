@@ -428,10 +428,14 @@
   const explanations=[];
   const explanationById={};
   const levelConfig={};
+  const buildGroups={};
+  const contextGroups={};
 
   SETS.forEach((set,setIndex)=>{
     const setNo=setIndex+1;
     const pool=[];
+    const buildPool=[];
+    const contextPool=[];
     set.items.forEach((item,itemIndex)=>{
       const id="grammar-prefix-suffix-s"+setNo+"-"+String(itemIndex+1).padStart(2,"0");
       const q=Object.assign({id:id,targetId:id},item.question);
@@ -441,15 +445,50 @@
       explanations.push(e);
       explanationById[id]=e;
       pool.push(index);
+      if(q.kind==="input")buildPool.push(index);
+      else if(q.kind==="mcq")contextPool.push(index);
     });
+    buildGroups[setNo]=buildPool;
+    contextGroups[setNo]=contextPool;
     levelConfig[setNo]={
       label:set.label,
       name:set.name,
       note:set.note,
       sessionSize:10,
-      pool:pool
+      pool:pool,
+      buildPool:buildPool,
+      contextPool:contextPool,
+      bankSize:10
     };
   });
+
+  // Rotating wordbank: each visible set draws from a 20-question bank
+  // (10 Build the word + 10 Context questions), then serves 5 + 5 per attempt.
+  // The extra items come from the neighbouring sets in the same knowledge bank,
+  // so students see fresh items without leaving the Prefix & Suffix syllabus.
+  for(let setNo=1;setNo<=SETS.length;setNo++){
+    const prev=setNo===1?SETS.length:setNo-1;
+    const next=setNo===SETS.length?1:setNo+1;
+    const buildPool=[
+      ...buildGroups[setNo],
+      ...buildGroups[next].slice(0,3),
+      ...buildGroups[prev].slice(0,2)
+    ];
+    const contextPool=[
+      ...contextGroups[setNo],
+      ...contextGroups[next].slice(0,3),
+      ...contextGroups[prev].slice(0,2)
+    ];
+    levelConfig[setNo]={
+      ...levelConfig[setNo],
+      buildPool,
+      contextPool,
+      pool:[...buildPool,...contextPool],
+      sessionSize:10,
+      bankSize:20,
+      rotatingWordbank:true
+    };
+  }
 
   window.GRAMMAR_BANKS={
     "prefix-suffix":{
