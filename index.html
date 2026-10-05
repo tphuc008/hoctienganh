@@ -245,7 +245,7 @@ h1,h2,h3,p{margin-top:0}
 <div class="wrap">
   <header class="site-header">
     <div class="brand" id="brandBtn"><div class="logo">✦</div><div>English Practice Hub</div></div>
-    <div class="header-note">Grades 9–12 · Interactive practice</div>
+    <div class="header-note">Grades 9–12 · Grammar · Interactive practice</div>
   </header>
 
   <main class="panel">
@@ -1150,7 +1150,7 @@ function setActiveArea(area){
   const note=document.querySelector(".header-note");
   if(note)note.textContent=area==="school"
     ?"School · Lớp 10 · Ôn tập trên trường"
-    :"Tutoring · Grades 9–12 · Interactive practice";
+    :"Tutoring · Grades 9–12 · Grammar · Interactive practice";
 }
 function getActiveArea(){
   const area=localStorage.getItem(ACCESS_ACTIVE_KEY);
@@ -1159,7 +1159,7 @@ function getActiveArea(){
 function clearActiveArea(){
   localStorage.removeItem(ACCESS_ACTIVE_KEY);
   const note=document.querySelector(".header-note");
-  if(note)note.textContent="Grades 9–12 · Interactive practice";
+  if(note)note.textContent="Grades 9–12 · Grammar · Interactive practice";
 }
 function formatAccessTime(iso){
   if(!iso)return "";
@@ -1381,9 +1381,9 @@ function renderHome(){
   pageMount.innerHTML=`
     <div class="hero">
       <div class="eyebrow">${accessAreaLabel(getActiveArea())} · English practice library</div>
-      <h1><span class="gradient">Choose your grade.</span></h1>
+      <h1><span class="gradient">Choose your practice area.</span></h1>
     </div>
-    <div class="section-title"><h2>Grades</h2><span><button class="crumb-btn" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></span></div>
+    <div class="section-title"><h2>Practice areas</h2><span><button class="crumb-btn" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></span></div>
     <div class="units">
       ${GRADES.map(g=>`
         <button class="unit-card" onclick="goGrade(${g.id})">
