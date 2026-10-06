@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#FFF8FB">
+<meta name="theme-color" content="#FFF7FB">
 <title>English Practice Hub</title>
 <style>
 :root{
@@ -807,6 +807,306 @@ body:before{
 }
 .semantic-remember b{color:#B4236C}
 .semantic-remember span{color:#5E4352}
+
+
+/* 2026-10-06: Modern Pink SaaS / learning-dashboard palette */
+:root{
+  --bg:#FFF7FB;
+  --panel:#FFFFFF;
+  --soft:#FCE7F3;
+  --text:#3F2735;
+  --muted:#806273;
+  --line:#F0CADC;
+  --accent:#BE185D;
+  --accent2:#F472B6;
+  --good:#16865A;
+  --bad:#D83B62;
+  --shadow:0 24px 64px rgba(92,33,60,.11);
+}
+body{
+  color:var(--text);
+  background:
+    radial-gradient(circle at 7% 5%,rgba(244,114,182,.18),transparent 27%),
+    radial-gradient(circle at 96% 3%,rgba(252,231,243,.95),transparent 31%),
+    linear-gradient(180deg,#FFF7FB 0%,#FFFFFF 52%,#FFF8FC 100%);
+}
+body:before{
+  opacity:.28;
+  background-image:
+    linear-gradient(rgba(190,24,93,.026) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(190,24,93,.026) 1px,transparent 1px);
+}
+.brand{color:#24171E}
+.logo{
+  color:#FFF;
+  background:linear-gradient(135deg,#BE185D,#F472B6);
+  box-shadow:0 12px 30px rgba(190,24,93,.22);
+}
+.header-note{
+  color:#6F5262;
+  background:#FFFFFF;
+  border-color:#F0CADC;
+}
+.panel{
+  background:#FFFFFF;
+  border-color:#F0CADC;
+  box-shadow:var(--shadow);
+}
+.eyebrow{color:#9C3B69}
+.eyebrow:before{background:linear-gradient(90deg,#BE185D,#F472B6)}
+.gradient{
+  background:linear-gradient(90deg,#24171E 0%,#BE185D 48%,#F472B6 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.section-title h2,.unit-card h3,.exercise-card h3,.question,.review-q{color:#24171E}
+.unit-card{
+  background:linear-gradient(145deg,#FFFFFF,#FFF8FC);
+  border-color:#F0CADC;
+  box-shadow:0 8px 24px rgba(92,33,60,.055);
+}
+.unit-card:hover{
+  border-color:#E78AB3;
+  background:#FFFFFF;
+  box-shadow:0 18px 42px rgba(92,33,60,.12);
+}
+.unit-card:after{
+  background:radial-gradient(circle,rgba(244,114,182,.27),transparent 68%);
+}
+.unit-no,.qnum{color:#BE185D}
+.unit-arrow{color:#A56B86}
+.unit-card:hover .unit-arrow{color:#BE185D}
+.status{
+  color:#806273;
+  background:#FFFFFF;
+  border-color:#F0CADC;
+}
+.status.live{
+  color:#14724E;
+  background:#EEFAF4;
+  border-color:#CBEADB;
+}
+.crumb-btn{color:#95506F}
+.crumb-btn:hover{color:#BE185D}
+.unit-hero{
+  background:linear-gradient(135deg,#FCE7F3 0%,#FFF8FC 42%,#FFFFFF 100%);
+  border-color:#EDC3D6;
+}
+.exercise-card,.context-level-card,.diligence-card,.review-item,.stat{
+  background:#FFFFFF;
+  border-color:#F0CADC;
+}
+.exercise-card:hover,.context-level-card:hover{
+  border-color:#E78AB3;
+  background:#FFF5FA;
+}
+.exercise-icon{
+  color:#BE185D;
+  background:#FCE7F3;
+  border-color:#F2BED6;
+}
+.chip,.pill{
+  color:#744F63;
+  background:#FFF8FC;
+  border-color:#F0CADC;
+}
+.empty{border-color:#E5AEC7}
+.empty b,.deep-box b{color:#24171E}
+.primary{
+  color:#FFFFFF;
+  background:linear-gradient(135deg,#BE185D 0%,#DB2777 58%,#F472B6 100%);
+  box-shadow:0 12px 28px rgba(190,24,93,.22);
+}
+.primary:hover{
+  background:linear-gradient(135deg,#A91452 0%,#C91F6B 58%,#EE5DAA 100%);
+  filter:none;
+}
+.secondary{
+  color:#543747;
+  background:#FFFFFF;
+  border-color:#EBC1D3;
+}
+.secondary:hover{
+  color:#BE185D;
+  background:#FFF1F7;
+  border-color:#E59AB9;
+}
+.quiz-top{
+  background:#FFFFFF;
+  border-color:#F0CADC;
+  box-shadow:0 8px 20px rgba(92,33,60,.04);
+}
+.progress-track{background:#F6DDE8}
+.progress{background:linear-gradient(90deg,#BE185D,#F472B6)}
+.counter{color:#806273}
+.answer{
+  color:#3F2735;
+  background:#FFFFFF;
+  border-color:#EBC8D7;
+  box-shadow:0 4px 12px rgba(92,33,60,.025);
+}
+.answer:hover{
+  border-color:#E78AB3;
+  background:#FFF8FC;
+}
+.answer.selected{
+  border-color:#BE185D;
+  background:#FCE7F3;
+  box-shadow:0 0 0 3px rgba(190,24,93,.06);
+}
+.answer.selected .letter{
+  background:#BE185D;
+  border-color:#BE185D;
+  color:#FFF;
+}
+.answer.correct{
+  border-color:#64B591;
+  background:#F0FAF5;
+}
+.answer.correct .letter{
+  background:#16865A;
+  border-color:#16865A;
+  color:#FFF;
+}
+.answer.wrong-choice{
+  border-color:#E47C96;
+  background:#FFF2F6;
+}
+.answer.wrong-choice .letter{
+  background:#D83B62;
+  border-color:#D83B62;
+  color:#FFF;
+}
+.feedback{
+  background:#FFFFFF;
+  border-color:#F0CADC;
+}
+.feedback.correct{
+  border-color:#BFE4D2;
+  background:#F7FCF9;
+}
+.feedback.wrong{
+  border-color:#F0C5D0;
+  background:#FFF7F9;
+}
+.feedback.correct .feedback-title{color:#14724E}
+.feedback.wrong .feedback-title{color:#C52F53}
+.feedback p{color:#654A59}
+.deep-box{
+  background:#FFF9FC;
+  border-color:#EFD0DE;
+}
+.word-family-row{
+  background:#FFF0F6;
+  border-color:#F0CADC;
+}
+.word-family-row b,.sentence-translation strong{color:#BE185D}
+.word-family-row span,.sentence-translation{color:#624654}
+.score-ring{
+  background:conic-gradient(#BE185D 0deg,rgba(190,24,93,.10) 0deg);
+}
+.score-ring:after{background:#FFFFFF}
+.nickname-box input,.wordform-input{
+  color:#3F2735;
+  background:#FFFFFF;
+  border-color:#E8BDD0;
+}
+.nickname-box input:focus,.wordform-input:focus{
+  border-color:#BE185D;
+  box-shadow:0 0 0 4px rgba(190,24,93,.08);
+}
+.diligence-row{background:#FFF5FA}
+.tag{
+  color:#765469;
+  background:#FFF0F6;
+}
+.tag.good{color:#14724E;background:#ECF8F2}
+.tag.bad{color:#C52F53;background:#FFF0F4}
+.footer{color:#A17389}
+.toast{
+  color:#3F2735;
+  background:#FFFFFF;
+  border-color:#F0CADC;
+  box-shadow:0 16px 38px rgba(92,33,60,.14);
+}
+.reading-passage{
+  background:#FFF6FA;
+  border-color:#F0CADC;
+  color:#4E3543;
+}
+.reading-pane{
+  background:#FFF9FC;
+}
+.reading-pane-head,
+.reading-question-pane .nav{
+  background:rgba(255,255,255,.98);
+  border-color:#F0CADC;
+}
+.reading-pane-head b{color:#BE185D}
+.reading-text{color:#3F2D37}
+.reading-focus{
+  background:#FBCFE8;
+  box-shadow:0 0 0 1px #F3A8CA;
+  color:#7E214D;
+}
+.context-reading-layout>.reading-pane::-webkit-scrollbar-thumb,
+.context-reading-layout>.reading-question-pane::-webkit-scrollbar-thumb{
+  background:#DFA1BE;
+}
+.context-reading-layout>.reading-pane::-webkit-scrollbar-track,
+.context-reading-layout>.reading-question-pane::-webkit-scrollbar-track{
+  background:#FFF3F8;
+}
+.cg-note{
+  border-color:#E8BFD1;
+  background:#FFF5FA;
+}
+.question-mode{
+  border-color:#E6ACC5;
+  background:#FCE7F3;
+  color:#BE185D;
+}
+.vocab-target{text-decoration-color:#BE185D}
+.semantic-feedback{
+  background:#FFFFFF;
+  border-color:#F0CADC;
+}
+.semantic-feedback>.feedback-title{
+  background:#F4FBF7;
+  border-color:#D6EDE2;
+}
+.semantic-step{border-color:#F0CADC}
+.semantic-step-label>span{
+  color:#FFFFFF;
+  background:linear-gradient(135deg,#BE185D,#F472B6);
+  border-color:#BE185D;
+}
+.semantic-step-label b,
+.semantic-option-head b,
+.semantic-example-title b{color:#24171E}
+.semantic-step-label small{color:#8B6A7B}
+.semantic-prose p{color:#5D4251}
+.semantic-option,.semantic-example{
+  background:#FFFFFF;
+  border-color:#EFD0DE;
+}
+.semantic-option.correct-analysis{
+  border-color:#C2E5D4;
+  background:#F4FBF7;
+}
+.semantic-option-head>span,.semantic-example-title>span{
+  color:#BE185D;
+  background:#FCE7F3;
+  border-color:#F1BFD6;
+}
+.semantic-option-head em{color:#896A79}
+.semantic-option p,.semantic-example .example-en{color:#5B4050}
+.semantic-example .example-vi{color:#866878}
+.semantic-remember{
+  border-color:#E7B8CD;
+  background:#FFF2F8;
+}
+.semantic-remember b{color:#BE185D}
+.semantic-remember span{color:#5D4251}
 
 </style>
 </head>
@@ -2661,7 +2961,7 @@ function finishLearning(){
   document.getElementById("correctStat").textContent=mastered;
   document.getElementById("wrongStat").textContent=totalMistakes;
   document.getElementById("answeredStat").textContent=firstTry;
-  document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent) ${pct*3.6}deg,rgba(180,35,108,.10) 0deg)`;
+  document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent) ${pct*3.6}deg,rgba(190,24,93,.10) 0deg)`;
   document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Review the tricky contrasts below.";
   buildReview();
   if(activeMode!=="grammar")submitLeaderboardScore(firstTry,totalMistakes,activeQuestions.length);
