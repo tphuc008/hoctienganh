@@ -1462,6 +1462,7 @@ body:before{
 <script src="grade12-unit5-semantic.js?v=20261006-semantic-all-v1"></script>
 <script src="grade12-unit6-semantic.js?v=20261006-semantic-all-v1"></script>
 <script src="grade12-unit7-semantic.js?v=20261006-semantic-all-v1"></script>
+<script src="grade12-basic-review.js?v=20261006-basic-review-v1"></script>
 <script src="listening-entertainment.js?v=20261006-listening-v8"></script>
 <script src="listening-news.js?v=20261006-news-v1"></script>
 <script>
@@ -1488,6 +1489,7 @@ const UNITS = [
   {grade:12,id:5,title:"Unit 5",subtitle:"The World of Work",live:true},
   {grade:12,id:6,title:"Unit 6",subtitle:"Artificial Intelligence",live:true},
   {grade:12,id:7,title:"Unit 7",subtitle:"The World of Mass Media",live:true},
+  {grade:12,id:8,title:"Ôn lại cơ bản",subtitle:"100% nằm trong vocab đã học",live:true,review:true},
 ];
 
 const BANKS={
@@ -1503,7 +1505,8 @@ const BANKS={
   "12-4":window.G12_U4_SEMANTIC_BANK,
   "12-5":window.G12_U5_SEMANTIC_BANK,
   "12-6":window.G12_U6_SEMANTIC_BANK,
-  "12-7":window.G12_U7_SEMANTIC_BANK
+  "12-7":window.G12_U7_SEMANTIC_BANK,
+  "12-8":window.G12_BASIC_REVIEW_BANK
 };
 
 function explanationGloss(question,detail,answer){
@@ -2204,8 +2207,15 @@ function getSetCount(setNo){return activeLevelConfig[setNo]?.sessionSize||active
 function getSetLevel(setNo){return activeLevelConfig[setNo]?.label||"B1–B2"}
 function getSetLevelName(setNo){return activeLevelConfig[setNo]?.name||"Medium"}
 function getSetNote(setNo){return activeLevelConfig[setNo]?.note||getSetLevelName(setNo)}
+function currentUnitLabel(){
+  return activeBank?.reviewMode?"Ôn lại cơ bản":"Unit "+activeUnit;
+}
+function currentUnitEyebrow(){
+  return activeBank?.reviewMode?"Ôn lại cơ bản":"Unit "+String(activeUnit).padStart(2,"0");
+}
 function getSetTitle(setNo){
   const cfg=activeLevelConfig[setNo];
+  if(activeBank?.reviewMode)return "Ôn tập · Set "+setNo;
   return cfg?.contextGuessing?"Context Guessing Reading":"Vocabulary Practice "+setNo;
 }
 function getSetIcon(setNo){
@@ -2700,7 +2710,7 @@ function renderGrade(id){
       ${units.map(u=>`
         <button class="unit-card" ${u.live?`onclick="goUnit(${u.id},${id})"`:"disabled"} style="${u.live?"":"cursor:default;opacity:.68"}">
           <div class="unit-top">
-            <span class="unit-no">UNIT ${String(u.id).padStart(2,"0")}</span>
+            <span class="unit-no">${u.review?"UNIT ÔN LẠI CƠ BẢN":"UNIT "+String(u.id).padStart(2,"0")}</span>
             <span class="status ${u.live?"live":""}">${u.live?"Exercises available":"Coming soon"}</span>
           </div>
           <h3>${esc(u.title)}</h3>
@@ -2769,10 +2779,10 @@ function renderUnit(grade,id){
   pageMount.innerHTML=`
     <div class="breadcrumbs">
       <button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span>
-      <button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span><span>Unit ${activeUnit}</span>
+      <button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span><span>${esc(currentUnitLabel())}</span>
     </div>
     <div class="unit-hero">
-      <div class="eyebrow">Grade ${activeGrade} · Unit ${String(activeUnit).padStart(2,"0")}</div>
+      <div class="eyebrow">Grade ${activeGrade} · ${esc(currentUnitEyebrow())}</div>
       <h1>${esc(activeBank.title)}</h1>
     </div>
     ${exerciseHTML}`;
@@ -2821,11 +2831,11 @@ function renderExercise(grade,id,setNo){
     <div class="breadcrumbs">
       <button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span>
       <button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span>
-      <button class="crumb-btn" onclick="goUnit(${activeUnit},${activeGrade})">Unit ${activeUnit}</button><span>›</span><span>Vocabulary Practice ${activeSet}</span>
+      <button class="crumb-btn" onclick="goUnit(${activeUnit},${activeGrade})">${esc(currentUnitLabel())}</button><span>›</span><span>${activeBank?.reviewMode?"Ôn tập Set "+activeSet:"Vocabulary Practice "+activeSet}</span>
     </div>
     <div class="exercise-intro">
-      <div class="eyebrow">Grade ${activeGrade} · Unit ${activeUnit} · Set ${activeSet}</div>
-      <h1><span class="gradient">Vocabulary Practice ${activeSet}</span></h1>
+      <div class="eyebrow">Grade ${activeGrade} · ${esc(currentUnitLabel())} · Set ${activeSet}</div>
+      <h1><span class="gradient">${activeBank?.reviewMode?"Ôn tập · Set "+activeSet:"Vocabulary Practice "+activeSet}</span></h1>
       <div class="pills"><span class="pill">${activeLevel.note||activeLevel.name}</span><span class="pill">${count} questions</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
       ${nicknameHTML}
       <button class="primary" style="margin-top:16px" onclick="startQuiz(true)">Start exercise →</button>
@@ -2858,8 +2868,8 @@ function showQuizShell(){
   document.getElementById("exitQuizBtn").textContent=activeMode==="grammar"
     ? "← "+activeBank.title+" · Set "+activeSet
     : (activeLevel?.contextGuessing
-      ? "← Unit "+activeUnit+" · Context Guessing"
-      : "← Unit "+activeUnit+" · Set "+activeSet);
+      ? "← "+currentUnitLabel()+" · Context Guessing"
+      : "← "+currentUnitLabel()+" · Set "+activeSet);
   quizShell.style.display="block";
   renderQuestion();
   window.scrollTo({top:0,behavior:"smooth"});
@@ -3262,9 +3272,9 @@ function finishLearning(){
       backUnitBtn.onclick=()=>goGrammarUnit(activeGrammarSlug);
     }
   }else{
-    if(resultCrumbs) resultCrumbs.innerHTML=`<button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span><button class="crumb-btn" onclick="goUnit(${activeUnit},${activeGrade})">Unit ${activeUnit}</button><span>›</span><span>Set ${activeSet} Result</span>`;
+    if(resultCrumbs) resultCrumbs.innerHTML=`<button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span><button class="crumb-btn" onclick="goUnit(${activeUnit},${activeGrade})">${esc(currentUnitLabel())}</button><span>›</span><span>Set ${activeSet} Result</span>`;
     if(backUnitBtn){
-      backUnitBtn.textContent="Back to Unit "+activeUnit;
+      backUnitBtn.textContent=activeBank?.reviewMode?"Back to Ôn lại cơ bản":"Back to Unit "+activeUnit;
       backUnitBtn.onclick=()=>goUnit(activeUnit,activeGrade);
     }
   }
