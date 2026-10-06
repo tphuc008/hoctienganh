@@ -6,31 +6,31 @@ As the project gained national attention, Dr. An deliberately (8) ______ public 
 const questions = [
   {
     id:"u1-sem-01", lockOptions:true,
-    q:"Her formative years working alongside disadvantaged children strongly influenced the kind of leader she later became. The word “formative” is closest in meaning to ______.",
+    promptType:"SYNONYM", target:"formative", q:"Her formative years working alongside disadvantaged children strongly influenced the kind of leader she later became.",
     o:["educational","influential","memorable","preliminary"], a:1,
     e:"formative = có ảnh hưởng mạnh đến sự hình thành/phát triển."
   },
   {
     id:"u1-sem-02", lockOptions:true,
-    q:"Despite repeated rejection from publishers, the young writer showed remarkable tenacity and continued revising her manuscript for years. The word “tenacity” is closest in meaning to ______.",
+    promptType:"SYNONYM", target:"tenacity", q:"Despite repeated rejection from publishers, the young writer showed remarkable tenacity and continued revising her manuscript for years.",
     o:["resilience","perseverance","endurance","confidence"], a:1,
     e:"tenacity = sự kiên trì, bền bỉ không dễ bỏ cuộc."
   },
   {
     id:"u1-sem-03", lockOptions:true,
-    q:"Winning the scholarship proved to be a pivotal moment in his life, allowing him to study abroad and completely change the direction of his career. The word “pivotal” is closest in meaning to ______.",
+    promptType:"SYNONYM", target:"pivotal", q:"Winning the scholarship proved to be a pivotal moment in his life, allowing him to study abroad and completely change the direction of his career.",
     o:["prominent","decisive","beneficial","exceptional"], a:1,
     e:"pivotal = có tính quyết định, tạo bước ngoặt."
   },
   {
     id:"u1-sem-04", lockOptions:true,
-    q:"Her first major scientific paper received widespread acclaim from researchers around the world. The word “acclaim” is closest in meaning to ______.",
+    promptType:"SYNONYM", target:"acclaim", q:"Her first major scientific paper received widespread acclaim from researchers around the world.",
     o:["recognition","approval","praise","prestige"], a:2,
     e:"acclaim = sự ca ngợi nhiệt liệt, rộng rãi."
   },
   {
     id:"u1-sem-05", lockOptions:true,
-    q:"Although the reformer died decades ago, her ideas about equal access to education remain an important part of her legacy. The word “legacy” is closest in meaning to ______.",
+    promptType:"SYNONYM", target:"legacy", q:"Although the reformer died decades ago, her ideas about equal access to education remain an important part of her legacy.",
     o:["reputation","inheritance","contribution","lasting influence"], a:3,
     e:"legacy = ảnh hưởng hoặc giá trị còn tồn tại sau một người."
   },
