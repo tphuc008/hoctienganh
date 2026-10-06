@@ -1462,7 +1462,8 @@ body:before{
 <script src="grade12-unit5-semantic.js?v=20261006-semantic-all-v1"></script>
 <script src="grade12-unit6-semantic.js?v=20261006-semantic-all-v1"></script>
 <script src="grade12-unit7-semantic.js?v=20261006-semantic-all-v1"></script>
-<script src="listening-entertainment.js?v=20261006-listening-v7"></script>
+<script src="listening-entertainment.js?v=20261006-listening-v8"></script>
+<script src="listening-news.js?v=20261006-news-v1"></script>
 <script>
 
 
@@ -2443,6 +2444,7 @@ function hideAll(){
 async function route(){
   const hash=location.hash.replace(/^#/,"");
   if(typeof destroyEntertainmentPlayer==="function")destroyEntertainmentPlayer();
+  if(typeof destroyNewsPlayer==="function")destroyNewsPlayer();
   hideAll();
 
   if(!hash){renderPortal();return}
@@ -2497,6 +2499,8 @@ async function route(){
   if(hash==="listening"){renderListeningHome();return}
   if(hash==="listening/entertainment"){renderEntertainment();return}
   if(hash==="listening/entertainment/change-your-life-one-tiny-step-at-a-time"){renderEntertainmentVideo();return}
+  if(hash==="listening/news"){renderNews();return}
+  if(hash==="listening/news/former-openai-employee-ai-might-really-kill-us-all"){renderNewsVideo();return}
 
   if(hash==="grammar"){renderGrammarHome();return}
 
