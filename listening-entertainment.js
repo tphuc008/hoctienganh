@@ -324,7 +324,7 @@ function bindWorkspace(){
   panel.addEventListener("click",function(e){
     var card=e.target.closest(".listening-q");
     if(!card||!submitted||!card.classList.contains("wrong"))return;
-    if(e.target.closest("input,label,button"))return;
+    if(e.target.closest("button"))return;
     seekQuestion(card.dataset.qid);
   });
 }
