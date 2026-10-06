@@ -80,6 +80,7 @@ const syn=[
 ];
 // supplemental aliases required by questions
 defs["responsible"]=defs["responsible"];
+defs["durability"]=["độ bền lâu","Nhấn mạnh khả năng vật liệu/sản phẩm chịu sử dụng và tồn tại lâu mà không hỏng; khác resilience ở khả năng phục hồi sau cú sốc.","product durability","Designers increased the durability of the reusable container.","Nhà thiết kế tăng độ bền của hộp tái sử dụng."];
 defs["replenishable"]=["có thể được bổ sung lại","Nhấn mạnh nguồn có khả năng được phục hồi hoặc tái tạo sau khi sử dụng.","a replenishable resource","Groundwater is replenishable only if extraction remains below the recharge rate.","Nước ngầm chỉ có thể được bổ sung nếu mức khai thác thấp hơn tốc độ tái nạp."];
 defs["preservation"]=["sự bảo tồn","Nhấn mạnh giữ tài nguyên, di sản hoặc môi trường khỏi bị hư hại/mất đi.","habitat preservation","The reserve supports habitat preservation for native species.","Khu bảo tồn hỗ trợ việc giữ gìn môi trường sống cho các loài bản địa."];
 defs["reprocessable"]=["có thể được xử lý lại","Nhấn mạnh vật liệu có thể qua một quy trình công nghiệp để dùng lại làm nguyên liệu.","reprocessable material","Clean aluminium is highly reprocessable.","Nhôm sạch có khả năng được xử lý lại rất cao."];
