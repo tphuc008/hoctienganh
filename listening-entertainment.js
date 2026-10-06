@@ -3,6 +3,10 @@
 
 var VIDEO_ID="75d_29QWELk";
 var VIDEO_TITLE="Change Your Life – One Tiny Step at a Time";
+var VIDEO_SLUG="change-your-life-one-tiny-step-at-a-time";
+var ENTERTAINMENT_VIDEOS=[
+  {id:VIDEO_ID,slug:VIDEO_SLUG,title:VIDEO_TITLE,channel:"Kurzgesagt – In a Nutshell",thumbnail:"https://i.ytimg.com/vi/"+VIDEO_ID+"/hqdefault.jpg"}
+];
 var player=null;
 var activePart=1;
 
@@ -74,6 +78,15 @@ function injectStyles(){
     ".listening-compact-title{display:flex;align-items:center;gap:10px;min-width:0;margin:0 0 16px;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,rgba(139,92,246,.09),rgba(34,211,238,.045))}",
     ".listening-compact-title .eyebrow{flex:0 0 auto;font-size:10px;letter-spacing:.11em}",
     ".listening-compact-title h1{min-width:0;margin:0;font-size:clamp(18px,2vw,27px);line-height:1.2;letter-spacing:-.025em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+    ".entertainment-video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}",
+    ".entertainment-video-card{display:block;padding:0;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));color:var(--text);text-align:left;cursor:pointer;transition:.2s ease}",
+    ".entertainment-video-card:hover{transform:translateY(-3px);border-color:rgba(103,232,249,.38)}",
+    ".entertainment-thumb{position:relative;aspect-ratio:16/9;background:#020617;overflow:hidden}",
+    ".entertainment-thumb img{width:100%;height:100%;display:block;object-fit:cover}",
+    ".entertainment-play{position:absolute;left:14px;bottom:12px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(6,17,31,.86);border:1px solid rgba(255,255,255,.2);font-size:16px}",
+    ".entertainment-video-info{padding:14px 15px 16px}",
+    ".entertainment-video-info h3{margin:0 0 6px;font-size:17px;line-height:1.35}",
+    ".entertainment-video-info p{margin:0;color:var(--muted);font-size:12px}",
     ".listening-workspace{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}",
     ".listening-video-column{position:sticky;top:14px;min-width:0}",
     ".video-shell{border:1px solid var(--line);background:rgba(0,0,0,.22);border-radius:20px;overflow:hidden}",
@@ -121,8 +134,8 @@ function injectStyles(){
     ".listening-actions-btns{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}",
     ".listening-actions .primary,.listening-actions .secondary{padding:9px 11px;border-radius:11px;font-size:11.5px}",
     "@media(max-width:1120px){.listening-workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}",
-    "@media(max-width:900px){.listening-compact-title{margin-bottom:10px;padding:9px 12px}.listening-compact-title .eyebrow{display:none}.listening-compact-title h1{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.listening-workspace{grid-template-columns:1fr;gap:10px}.listening-video-column{position:relative;top:auto}.video-shell{border-radius:14px}.video-meta{display:none}.listening-tip{display:none}.listening-questions{height:clamp(320px,calc(100dvh - 330px),560px);min-height:320px;max-height:560px;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;scrollbar-gutter:stable}.listening-part-tabs{position:sticky;top:0}.listening-actions{position:sticky;bottom:0}.listening-q-list{padding-bottom:92px}}",
-    "@media(max-width:560px){.listening-compact-title{display:block;padding:8px 10px}.listening-compact-title h1{font-size:15px}.listening-part-tabs{gap:6px;padding:8px}.listening-part-tab{padding:8px 9px}.listening-q-list{padding-left:7px;padding-right:7px;padding-bottom:96px}.listening-q{padding:12px}.listening-questions{height:clamp(300px,calc(100dvh - 300px),520px);min-height:300px}.listening-actions{align-items:flex-start;flex-direction:column;padding:10px}.listening-actions-btns{width:100%;justify-content:stretch}.listening-actions-btns button{flex:1}}"
+    "@media(max-width:900px){.entertainment-video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.listening-compact-title{margin-bottom:10px;padding:9px 12px}.listening-compact-title .eyebrow{display:none}.listening-compact-title h1{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.listening-workspace{grid-template-columns:1fr;gap:10px}.listening-video-column{position:relative;top:auto}.video-shell{border-radius:14px}.video-meta{display:none}.listening-tip{display:none}.listening-questions{height:clamp(320px,calc(100dvh - 330px),560px);min-height:320px;max-height:560px;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;scrollbar-gutter:stable}.listening-part-tabs{position:sticky;top:0}.listening-actions{position:sticky;bottom:0}.listening-q-list{padding-bottom:92px}}",
+    "@media(max-width:560px){.entertainment-video-grid{grid-template-columns:1fr}.entertainment-video-info{padding:12px 13px 14px}.listening-compact-title{display:block;padding:8px 10px}.listening-compact-title h1{font-size:15px}.listening-part-tabs{gap:6px;padding:8px}.listening-part-tab{padding:8px 9px}.listening-q-list{padding-left:7px;padding-right:7px;padding-bottom:96px}.listening-q{padding:12px}.listening-questions{height:clamp(300px,calc(100dvh - 300px),520px);min-height:300px}.listening-actions{align-items:flex-start;flex-direction:column;padding:10px}.listening-actions-btns{width:100%;justify-content:stretch}.listening-actions-btns button{flex:1}}"
   ].join("");
   document.head.appendChild(s);
 }
@@ -369,15 +382,35 @@ function renderListeningHome(){
   mount.innerHTML=
     '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><span>Listening</span></div>'+
     '<div class="unit-hero"><div class="eyebrow">Listening</div><h1>Listening</h1><p>Video-based listening practice with IELTS-style questions and replay for incorrect answers.</p></div>'+
-    '<div class="section-title"><h2>Units</h2><span>1 unit</span></div>'+
+    '<div class="section-title"><h2>Videos</h2><span>Entertainment</span></div>'+
     '<div class="units"><button class="unit-card listening-unit-card" onclick="location.hash=\'listening/entertainment\'">'+
-      '<div class="unit-top"><span class="unit-no">UNIT 01</span><span class="status live">Available</span></div>'+
-      '<h3>Entertainment</h3><p>Watch, answer by section, submit, then replay only the parts you missed.</p><span class="unit-arrow">→</span>'+
+      '<div class="unit-top"><span class="unit-no">ENTERTAINMENT</span><span class="status live">Available</span></div>'+
+      '<h3>Entertainment</h3><p>Video listening practice organised by individual videos.</p><span class="unit-arrow">→</span>'+
     '</button></div>';
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function renderEntertainment(){
+  injectStyles();
+  var mount=document.getElementById("pageMount");
+  if(!mount)return;
+  mount.style.display="block";
+  mount.innerHTML=
+    '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'listening\'">Listening</button><span>›</span><span>Entertainment</span></div>'+
+    '<div class="unit-hero"><div class="eyebrow">Entertainment</div><h1>Entertainment</h1><p>Choose a video to start its listening practice.</p></div>'+
+    '<div class="section-title"><h2>Videos</h2><span>'+ENTERTAINMENT_VIDEOS.length+' video'+(ENTERTAINMENT_VIDEOS.length===1?"":"s")+'</span></div>'+
+    '<div class="entertainment-video-grid">'+
+      ENTERTAINMENT_VIDEOS.map(function(video){
+        return '<button class="entertainment-video-card" type="button" onclick="location.hash=\'listening/entertainment/'+escHtml(video.slug)+'\'">'+
+          '<div class="entertainment-thumb"><img src="'+escHtml(video.thumbnail)+'" alt="'+escHtml(video.title)+' thumbnail" loading="lazy"><span class="entertainment-play">▶</span></div>'+
+          '<div class="entertainment-video-info"><h3>'+escHtml(video.title)+'</h3><p>'+escHtml(video.channel)+'</p></div>'+
+        '</button>';
+      }).join("")+
+    '</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderEntertainmentVideo(){
   injectStyles();
   PARTS.forEach(function(part){state[part.id]={submitted:false,answersVisible:false,results:{}};});
   activePart=1;
@@ -385,7 +418,7 @@ function renderEntertainment(){
   if(!mount)return;
   mount.style.display="block";
   mount.innerHTML=
-    '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'listening\'">Listening</button><span>›</span><span>Entertainment</span></div>'+
+    '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'listening\'">Listening</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'listening/entertainment\'">Entertainment</button><span>›</span><span>'+escHtml(VIDEO_TITLE)+'</span></div>'+
     '<div class="listening-compact-title"><div class="eyebrow">Entertainment</div><h1>'+escHtml(VIDEO_TITLE)+'</h1></div>'+
     '<div class="listening-workspace">'+
       '<section class="listening-video-column">'+
@@ -408,6 +441,7 @@ function renderEntertainment(){
 injectStyles();
 window.renderListeningHome=renderListeningHome;
 window.renderEntertainment=renderEntertainment;
+window.renderEntertainmentVideo=renderEntertainmentVideo;
 window.submitEntertainmentListening=submitPart;
 window.toggleEntertainmentAnswers=toggleAnswers;
 window.resetEntertainmentListening=resetPart;
