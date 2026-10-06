@@ -240,6 +240,9 @@ h1,h2,h3,p{margin-top:0}
 }
 
 /* Grade 12 Unit 1 semantic-precision pilot */
+.question-mode{display:block;width:max-content;margin-bottom:10px;padding:5px 9px;border-radius:999px;border:1px solid rgba(103,232,249,.24);background:rgba(34,211,238,.07);color:#67e8f9;font-size:11px;font-weight:900;letter-spacing:.12em}
+.vocab-target{text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:#67e8f9}
+
 .done-chip{border-color:rgba(52,211,153,.38)!important;background:rgba(52,211,153,.10)!important;color:#a7f3d0!important}
 .semantic-feedback{padding:0;overflow:hidden;background:linear-gradient(180deg,rgba(8,23,39,.96),rgba(8,18,32,.96));border:1px solid rgba(103,232,249,.18)}
 .semantic-feedback>.feedback-title{padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(52,211,153,.07)}
@@ -1753,6 +1756,20 @@ function correctAnswerText(q){
 function normalizeQuizInput(value){
   return String(value??"").toLowerCase().replace(/[’‘]/g,"'").replace(/[.,!?;:]+$/g,"").replace(/\s+/g," ").trim();
 }
+function questionPromptHTML(q){
+  const raw=String(q?.q||"");
+  let body=esc(raw);
+  const target=String(q?.target||"").trim();
+  if(target){
+    const pos=raw.toLowerCase().indexOf(target.toLowerCase());
+    if(pos>=0){
+      body=esc(raw.slice(0,pos))+'<u class="vocab-target">'+esc(raw.slice(pos,pos+target.length))+'</u>'+esc(raw.slice(pos+target.length));
+    }
+  }
+  const label=q?.promptType?'<span class="question-mode">'+esc(q.promptType)+'</span>':"";
+  return label+body;
+}
+
 function readingPassageHTML(q){
   let plain=String(q?.context||"").replace(/\*\*/g,"");
   let html=esc(plain).replace(/\n/g,"<br>");
@@ -1813,7 +1830,7 @@ function renderQuestion(){
           </section>
           <section class="reading-question-pane" id="readingQuestionPane">
             <div class="kicker"><span class="qnum">QUESTION ${String(current+1).padStart(2,"0")}</span><span>${solvedCount} mastered</span></div>
-            <h2 class="question">${esc(q.q)}</h2>
+            <h2 class="question">${questionPromptHTML(q)}</h2>
             ${answerBlock}
             ${q.type==="context_guessing"?navBlock:""}
             <div id="feedbackMount">${feedback}</div>
@@ -1837,7 +1854,7 @@ function renderQuestion(){
       <div class="question-card">
         <div class="kicker"><span class="qnum">QUESTION ${String(current+1).padStart(2,"0")}</span><span>${solvedCount} mastered</span></div>
         ${legacyContext}
-        <h2 class="question">${esc(q.q)}</h2>
+        <h2 class="question">${questionPromptHTML(q)}</h2>
         ${answerBlock}
         <div id="feedbackMount">${feedback}</div>
         ${navBlock}
