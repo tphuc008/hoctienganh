@@ -51,9 +51,9 @@ var PARTS=[
       {id:26,type:"mc",time:510,prompt:"How does the narrator suggest making a new action easier to repeat?",options:["Make the behavior itself more enjoyable.","Give yourself a large reward every time.","Wait until motivation is very high."],answer:"A"},
       {id:27,type:"fill",time:532,prompt:"The time required to establish a habit may depend partly on a person's ______.",answerText:"stress levels",answers:["stress levels"]},
       {id:28,type:"mc",time:548,prompt:"What does the narrator say about the time needed for a new habit to become automatic?",options:["It is almost always two weeks.","It can range widely, from about 15 to 250 days.","It is fixed once the trigger is chosen."],answer:"B"},
-      {id:29,type:"fill",time:566,prompt:"According to the narrator, starting is the ______.",answerText:"easy part",answers:["easy part","the easy part"]},
+      {id:29,type:"fill",time:566,prompt:"According to the narrator, starting is the ______.",answerText:"easy part",answers:["easy part"]},
       {id:30,type:"mc",time:586,prompt:"What broader message follows the statement that there are no 'silver bullets' for change?",options:["Change is possible regardless of age, and even small improvements count.","Only young people can build new habits reliably.","A habit is successful only if it completely transforms your life."],answer:"A"},
-      {id:31,type:"fill",time:602,prompt:"In the conclusion, change is described as ______, not a destination.",answerText:"a direction",answers:["a direction","direction"]},
+      {id:31,type:"fill",time:602,prompt:"In the conclusion, change is described as ______, not a destination.",answerText:"a direction",answers:["a direction"]},
       {id:32,type:"mc",time:625,prompt:"What is the main purpose of the habit journal described near the end?",options:["To track progress toward a desired behavior","To replace the need for routines","To compare users with other people"],answer:"A"},
       {id:33,type:"fill",time:644,prompt:"During the guided process, users receive ______ and reflect on their progress.",answerText:"helpful pointers",answers:["helpful pointers"]},
       {id:34,type:"mc",time:668,prompt:"How is the journal physically described?",options:["As a digital-only workbook","As a cloth-bound book with a hardcover and illustrations","As a loose collection of printable pages"],answer:"B"}
@@ -150,10 +150,12 @@ function questionHtml(part,q){
       return '<label class="listening-option"><input type="radio" name="ent-p'+part.id+'-q-'+q.id+'" value="'+letter+'"><span><b>'+letter+'.</b> '+escHtml(opt)+'</span></label>';
     }).join("")+'</div>';
   }else{
-    body='<input class="listening-fill" id="ent-p'+part.id+'-input-'+q.id+'" autocomplete="off" spellcheck="false" placeholder="Điền 1–3 từ"><div class="listening-fill-note">1–3 words from the audio</div>';
+    var requiredWords=String(q.answerText||"").trim().split(/\s+/).filter(Boolean).length;
+    body='<input class="listening-fill" id="ent-p'+part.id+'-input-'+q.id+'" autocomplete="off" spellcheck="false" placeholder="Điền đúng '+requiredWords+' từ"><div class="listening-fill-note">Cần điền đúng '+requiredWords+' từ từ audio</div>';
   }
+  var typeLabel=q.type==="mc"?"Multiple Choice":"Note Completion · "+String(q.answerText||"").trim().split(/\s+/).filter(Boolean).length+" từ";
   return '<article class="listening-q" id="ent-p'+part.id+'-q-'+q.id+'" data-part="'+part.id+'" data-qid="'+q.id+'">'+
-    '<div class="listening-q-top"><span class="listening-q-num">QUESTION '+q.id+'</span><span class="listening-q-type">'+(q.type==="mc"?"Multiple Choice":"Note Completion")+'</span></div>'+
+    '<div class="listening-q-top"><span class="listening-q-num">QUESTION '+q.id+'</span><span class="listening-q-type">'+typeLabel+'</span></div>'+
     '<div class="listening-prompt">'+escHtml(q.prompt)+'</div>'+body+
     '<div class="listening-status" id="ent-p'+part.id+'-status-'+q.id+'"></div>'+
     '<div class="listening-answer" id="ent-p'+part.id+'-answer-'+q.id+'"></div>'+
