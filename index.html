@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#fff7fb">
+<meta name="theme-color" content="#FFF8FB">
 <title>English Practice Hub</title>
 <style>
 :root{
@@ -531,6 +531,282 @@ body:before{
   .reading-layout{display:block;height:auto}
   .site-header{padding:0 4px}
 }
+
+
+/* 2026-10-06: Soft Rose Academic palette */
+:root{
+  --bg:#FFF8FB;
+  --panel:rgba(255,255,255,.97);
+  --soft:#FCE7F0;
+  --text:#3A2632;
+  --muted:#7C6170;
+  --line:#EBCFDA;
+  --accent:#B4236C;
+  --accent2:#E879A9;
+  --good:#16865A;
+  --bad:#D73D61;
+  --shadow:0 22px 60px rgba(122,48,83,.10);
+}
+body{
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 7%,rgba(248,215,229,.58),transparent 31%),
+    radial-gradient(circle at 94% 3%,rgba(252,231,240,.88),transparent 28%),
+    linear-gradient(180deg,#FFF8FB 0%,#FFFDFE 46%,#FFF8FB 100%);
+}
+body:before{
+  opacity:.34;
+  background-image:
+    linear-gradient(rgba(180,35,108,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(180,35,108,.022) 1px,transparent 1px);
+}
+.logo{
+  background:linear-gradient(135deg,#B4236C,#E879A9);
+  box-shadow:0 10px 26px rgba(180,35,108,.19);
+}
+.header-note{
+  color:#715363;
+  background:rgba(255,255,255,.90);
+  border-color:#EBCFDA;
+}
+.panel{
+  background:rgba(255,255,255,.96);
+  border-color:#EBCFDA;
+  box-shadow:var(--shadow);
+}
+.eyebrow{color:#8B526F}
+.eyebrow:before{background:linear-gradient(90deg,#B4236C,transparent)}
+.gradient{
+  background:linear-gradient(90deg,#24171E 0%,#8F2558 48%,#D55391 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.unit-card{
+  background:#FFFFFF;
+  border-color:#EBCFDA;
+  box-shadow:0 8px 24px rgba(122,48,83,.055);
+}
+.unit-card:hover{
+  border-color:#D991B1;
+  box-shadow:0 16px 36px rgba(122,48,83,.10);
+}
+.unit-card:after{
+  background:radial-gradient(circle,rgba(248,215,229,.82),transparent 68%);
+}
+.unit-no,.qnum{color:#B4236C}
+.unit-arrow{color:#9A6A82}
+.unit-card:hover .unit-arrow{color:#B4236C}
+.status{background:#FFF;color:#7C6170}
+.status.live{
+  color:#16734F;
+  background:#F0FAF5;
+  border-color:#CBEBDD;
+}
+.crumb-btn{color:#89546F}
+.crumb-btn:hover{color:#B4236C}
+.unit-hero{
+  background:linear-gradient(135deg,#FFF6FA 0%,#FFFFFF 68%);
+  border-color:#EBCFDA;
+}
+.exercise-card,.context-level-card,.diligence-card,.review-item,.stat{
+  background:#FFFFFF;
+  border-color:#EBCFDA;
+}
+.exercise-card:hover,.context-level-card:hover{
+  border-color:#D991B1;
+  background:#FFF7FA;
+}
+.exercise-icon{
+  color:#B4236C;
+  background:#FCE7F0;
+  border-color:#F0C5D7;
+}
+.chip,.pill{
+  color:#76576A;
+  background:#FFF;
+  border-color:#EBCFDA;
+}
+.empty{border-color:#DFB5C7}
+.empty b,.deep-box b{color:#3A2632}
+.primary{
+  color:#FFFFFF;
+  background:#B4236C;
+  box-shadow:0 10px 24px rgba(180,35,108,.18);
+}
+.primary:hover{
+  background:#9E1F60;
+  filter:none;
+}
+.secondary{
+  color:#633E52;
+  background:#FFFFFF;
+  border-color:#E5C3D1;
+}
+.secondary:hover{background:#FFF1F6}
+.quiz-top{
+  background:rgba(255,255,255,.96);
+  border-color:#EBCFDA;
+}
+.progress-track{background:#F4E2EA}
+.progress{background:linear-gradient(90deg,#B4236C,#E879A9)}
+.answer{
+  color:#3A2632;
+  background:#FFFFFF;
+  border-color:#E7CBD6;
+}
+.answer:hover{
+  border-color:#D991B1;
+  background:#FFFAFC;
+}
+.answer.selected{
+  border-color:#D9468D;
+  background:#FCE7F0;
+}
+.answer.selected .letter{
+  background:#B4236C;
+  border-color:#B4236C;
+  color:#FFF;
+}
+.answer.correct{
+  border-color:#65B995;
+  background:#F1FAF6;
+}
+.answer.correct .letter{
+  background:#16865A;
+  border-color:#16865A;
+  color:#FFF;
+}
+.answer.wrong-choice{
+  border-color:#E17A93;
+  background:#FFF3F6;
+}
+.answer.wrong-choice .letter{
+  background:#D73D61;
+  border-color:#D73D61;
+  color:#FFF;
+}
+.feedback{background:#FFFFFF;border-color:#EBCFDA}
+.feedback.correct{
+  border-color:#BFE5D4;
+  background:#F7FCF9;
+}
+.feedback.wrong{
+  border-color:#F0C5D0;
+  background:#FFF7F9;
+}
+.feedback.correct .feedback-title{color:#16734F}
+.feedback.wrong .feedback-title{color:#C43255}
+.feedback p{color:#674C5B}
+.deep-box{
+  background:#FFFFFF;
+  border-color:#E8CDD8;
+}
+.word-family-row{
+  background:#FFF4F8;
+  border-color:#EBCFDA;
+}
+.word-family-row b,.sentence-translation strong{color:#B4236C}
+.word-family-row span,.sentence-translation{color:#654A59}
+.score-ring{
+  background:conic-gradient(#B4236C 0deg,rgba(180,35,108,.10) 0deg);
+}
+.score-ring:after{background:#FFFFFF}
+.nickname-box input,.wordform-input{
+  color:#3A2632;
+  background:#FFFFFF;
+  border-color:#E2C1CF;
+}
+.nickname-box input:focus,.wordform-input:focus{
+  border-color:#C95489;
+  box-shadow:0 0 0 3px rgba(180,35,108,.08);
+}
+.diligence-row{background:#FFF7FA}
+.tag{background:#FFF1F6;color:#76576A}
+.tag.good{color:#16734F;background:#EEF9F4}
+.tag.bad{color:#C43255;background:#FFF0F4}
+.footer{color:#987487}
+.toast{
+  color:#4F3442;
+  background:#FFFFFF;
+  border-color:#EBCFDA;
+  box-shadow:0 14px 34px rgba(122,48,83,.12);
+}
+.reading-passage{
+  background:#FFF7FA;
+  border-color:#EBCFDA;
+  color:#533846;
+}
+.reading-pane{background:#FFFBFD}
+.reading-pane-head,
+.reading-question-pane .nav{
+  background:rgba(255,255,255,.97);
+  border-color:#EBCFDA;
+}
+.reading-pane-head b{color:#B4236C}
+.reading-text{color:#49313E}
+.reading-focus{
+  background:#F8D7E5;
+  box-shadow:0 0 0 1px #E7B4CA;
+  color:#75234E;
+}
+.context-reading-layout>.reading-pane::-webkit-scrollbar-thumb,
+.context-reading-layout>.reading-question-pane::-webkit-scrollbar-thumb{
+  background:#D9A8BD;
+}
+.context-reading-layout>.reading-pane::-webkit-scrollbar-track,
+.context-reading-layout>.reading-question-pane::-webkit-scrollbar-track{
+  background:#FFF5F9;
+}
+.cg-note{
+  border-color:#E7C3D2;
+  background:#FFF7FA;
+}
+.question-mode{
+  border-color:#E0B4C7;
+  background:#FFF1F6;
+  color:#B4236C;
+}
+.vocab-target{text-decoration-color:#B4236C}
+.semantic-feedback{
+  background:#FFFFFF;
+  border-color:#EBCFDA;
+}
+.semantic-feedback>.feedback-title{
+  background:#F5FBF8;
+  border-color:#D6EEE4;
+}
+.semantic-step{border-color:#EBCFDA}
+.semantic-step-label>span{
+  color:#FFF;
+  background:#B4236C;
+  border-color:#B4236C;
+}
+.semantic-step-label b,
+.semantic-option-head b,
+.semantic-example-title b{color:#3A2632}
+.semantic-step-label small{color:#8B6B7C}
+.semantic-prose p{color:#5E4352}
+.semantic-option,.semantic-example{
+  background:#FFFFFF;
+  border-color:#E8CDD8;
+}
+.semantic-option.correct-analysis{
+  border-color:#C4E8D8;
+  background:#F6FCF9;
+}
+.semantic-option-head>span,.semantic-example-title>span{
+  color:#9D205D;
+  background:#FCE7F0;
+  border-color:#F0C5D7;
+}
+.semantic-option-head em{color:#87697A}
+.semantic-option p,.semantic-example .example-en{color:#5C4050}
+.semantic-example .example-vi{color:#876B79}
+.semantic-remember{
+  border-color:#E5BCCF;
+  background:#FFF5F9;
+}
+.semantic-remember b{color:#B4236C}
+.semantic-remember span{color:#5E4352}
 
 </style>
 </head>
@@ -2385,7 +2661,7 @@ function finishLearning(){
   document.getElementById("correctStat").textContent=mastered;
   document.getElementById("wrongStat").textContent=totalMistakes;
   document.getElementById("answeredStat").textContent=firstTry;
-  document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent2) ${pct*3.6}deg,rgba(255,255,255,.08) 0deg)`;
+  document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent) ${pct*3.6}deg,rgba(180,35,108,.10) 0deg)`;
   document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Review the tricky contrasts below.";
   buildReview();
   if(activeMode!=="grammar")submitLeaderboardScore(firstTry,totalMistakes,activeQuestions.length);
