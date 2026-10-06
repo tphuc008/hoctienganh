@@ -382,11 +382,17 @@ function renderListeningHome(){
   mount.innerHTML=
     '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><span>Listening</span></div>'+
     '<div class="unit-hero"><div class="eyebrow">Listening</div><h1>Listening</h1><p>Video-based listening practice with IELTS-style questions and replay for incorrect answers.</p></div>'+
-    '<div class="section-title"><h2>Videos</h2><span>Entertainment</span></div>'+
-    '<div class="units"><button class="unit-card listening-unit-card" onclick="location.hash=\'listening/entertainment\'">'+
-      '<div class="unit-top"><span class="unit-no">ENTERTAINMENT</span><span class="status live">Available</span></div>'+
-      '<h3>Entertainment</h3><p>Video listening practice organised by individual videos.</p><span class="unit-arrow">→</span>'+
-    '</button></div>';
+    '<div class="section-title"><h2>Videos</h2><span>Choose a category</span></div>'+
+    '<div class="units">'+
+      '<button class="unit-card listening-unit-card" onclick="location.hash=\'listening/entertainment\'">'+
+        '<div class="unit-top"><span class="unit-no">ENTERTAINMENT</span><span class="status live">Available</span></div>'+
+        '<h3>Entertainment</h3><p>Video listening practice organised by individual videos.</p><span class="unit-arrow">→</span>'+
+      '</button>'+
+      '<button class="unit-card listening-unit-card" onclick="location.hash=\'listening/news\'">'+
+        '<div class="unit-top"><span class="unit-no">NEWS</span><span class="status live">Available</span></div>'+
+        '<h3>News</h3><p>Current-affairs listening practice organised by individual videos.</p><span class="unit-arrow">→</span>'+
+      '</button>'+
+    '</div>';
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
