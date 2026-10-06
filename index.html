@@ -31,7 +31,7 @@ body:before{
 }
 button{font:inherit}
 a{color:inherit}
-.wrap{width:min(1120px,calc(100% - 28px));margin:auto;padding:24px 0 52px;position:relative;z-index:2}
+.wrap{width:min(1680px,calc(100% - 24px));margin:auto;padding:24px 0 52px;position:relative;z-index:2}
 .site-header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
 .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:-.01em;cursor:pointer}
 .logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 34px rgba(34,211,238,.15)}
@@ -324,6 +324,7 @@ h1,h2,h3,p{margin-top:0}
 <script src="grammar-prefix-suffix-bank.js?v=20261005-prefix-suffix-v1"></script>
 <script src="sentence-translations.js?v=20261001-translations-v1"></script>
 <script src="grade12-unit1-semantic-pilot.js?v=20261006-semantic-pilot-v1"></script>
+<script src="listening-entertainment.js?v=20261006-listening-v1"></script>
 <script>
 
 
@@ -1291,6 +1292,7 @@ function hideAll(){
 
 async function route(){
   const hash=location.hash.replace(/^#/,"");
+  if(typeof destroyEntertainmentPlayer==="function")destroyEntertainmentPlayer();
   hideAll();
 
   if(!hash){renderPortal();return}
@@ -1341,6 +1343,9 @@ async function route(){
   const area=await ensureActiveAccess();
   if(!area){renderPortal();return}
   if(area!=="tutoring"){location.hash="school";return}
+
+  if(hash==="listening"){renderListeningHome();return}
+  if(hash==="listening/entertainment"){renderEntertainment();return}
 
   if(hash==="grammar"){renderGrammarHome();return}
 
@@ -1393,6 +1398,15 @@ function renderHome(){
           <span class="unit-arrow">→</span>
         </button>
       `).join("")}
+      <button class="unit-card" onclick="location.hash=\'listening\'">
+        <div class="unit-top">
+          <span class="unit-no">LISTENING</span>
+          <span class="status live">Available</span>
+        </div>
+        <h3>Listening</h3>
+        <p>Video listening practice · IELTS-style questions · timestamp replay</p>
+        <span class="unit-arrow">→</span>
+      </button>
       <button class="unit-card" onclick="goGrammar()">
         <div class="unit-top">
           <span class="unit-no">GRAMMAR</span>
