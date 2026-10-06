@@ -17,7 +17,7 @@ var PARTS=[
       {id:1,type:"mc",time:0,prompt:"What problem does the narrator introduce at the beginning?",options:["People set goals that are too easy.","There is a gap between who people are and who they want to be.","People spend too much time choosing hobbies."],answer:"B"},
       {id:2,type:"mc",time:19,prompt:"Which activity is contrasted with actually doing a hobby?",options:["Reading more","Learning a language","Browsing Reddit"],answer:"C"},
       {id:3,type:"mc",time:39,prompt:"What often happens after people initially succeed at changing themselves?",options:["They permanently lose interest in the goal.","They slip back into their old ways.","They choose a more difficult goal immediately."],answer:"B"},
-      {id:4,type:"fill",time:58,prompt:"The narrator stresses that change is ______.",answerText:"actually hard",answers:["actually hard"]},
+      {id:4,type:"fill",time:58,prompt:"The narrator stresses that change is ______.",answerText:"hard",answers:["hard"]},
       {id:5,type:"mc",time:78,prompt:"What does the jungle analogy mainly show about making decisions and taking action?",options:["It can require energy and effort.","It becomes impossible in adulthood.","It depends mainly on motivation."],answer:"A"},
       {id:6,type:"fill",time:96,prompt:"When a behavior begins, it creates rough, ______ through the undergrowth.",answerText:"improvised trails",answers:["improvised trails"]},
       {id:7,type:"mc",time:113,prompt:"What happens to a repeatedly used mental path over time?",options:["It disappears when the brain gets bored.","It develops from a path into a street and eventually a highway.","It becomes harder to use because it requires more attention."],answer:"B"},
