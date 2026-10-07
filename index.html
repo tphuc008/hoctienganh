@@ -1994,7 +1994,6 @@ const SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
 
 const LEARNER_AUTH_KEY="hoctienganh_learner_auth_v1";
-const LEARNER_REDIRECT_URL="https://tphuc008.github.io/hoctienganh/";
 
 function normalizeLearnerUsername(value){
   return String(value||"").trim().toLowerCase();
@@ -2128,10 +2127,9 @@ function consumeLearnerAuthCallback(){
 }
 function authErrorMessage(error){
   const m=String(error?.message||"");
-  if(/invalid login credentials/i.test(m))return "Email hoặc mật khẩu không đúng.";
-  if(/email not confirmed/i.test(m))return "Bạn cần xác nhận email trước khi đăng nhập.";
-  if(/user already registered/i.test(m))return "Email này đã có tài khoản.";
-  if(/database error saving new user/i.test(m))return "Email hoặc tên đăng nhập đã được sử dụng.";
+  if(/invalid login credentials/i.test(m))return "Tài khoản hoặc mật khẩu không đúng.";
+  if(/user already registered/i.test(m))return "Tài khoản này đã được sử dụng.";
+  if(/database error saving new user/i.test(m))return "Tài khoản này đã được sử dụng.";
   if(/password/i.test(m)&&/least/i.test(m))return "Mật khẩu chưa đủ mạnh hoặc quá ngắn.";
   return m||"Không thể xử lý tài khoản lúc này.";
 }
@@ -2153,17 +2151,15 @@ function renderAccountGate(mode="login",message="",success=false){
         ${signup?`
           <div class="auth-fields">
             <div class="auth-field"><label for="signupDisplayName">Tên học viên</label><input id="signupDisplayName" maxlength="40" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh"></div>
-            <div class="auth-field"><label for="signupUsername">Tên đăng nhập</label><input id="signupUsername" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Ví dụ: minhanh12"></div>
-            <div class="auth-field"><label for="signupEmail">Email</label><input id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com"></div>
+            <div class="auth-field"><label for="signupUsername">Tài khoản</label><input id="signupUsername" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Ví dụ: minhanh12"></div>
             <div class="auth-field"><label for="signupPassword">Mật khẩu</label><input id="signupPassword" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Tối thiểu 8 ký tự"></div>
-            <div class="auth-field"><label for="signupPassword2">Nhập lại mật khẩu</label><input id="signupPassword2" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Nhập lại mật khẩu"></div>
-            <div class="auth-help">Tên đăng nhập gồm 3–24 ký tự: chữ thường a–z, số, dấu chấm, gạch dưới hoặc gạch ngang.</div>
+            <div class="auth-help">Tài khoản gồm 3–24 ký tự: chữ thường a–z, số, dấu chấm, gạch dưới hoặc gạch ngang.</div>
           </div>
           <div class="auth-message ${success?"success":""}" id="authMessage">${esc(message)}</div>
           <button class="primary" id="authSubmitBtn" type="button" style="width:100%;margin-top:8px" onclick="submitLearnerSignup()">Tạo tài khoản →</button>
         `:`
           <div class="auth-fields">
-            <div class="auth-field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="email" placeholder="name@example.com"></div>
+            <div class="auth-field"><label for="loginUsername">Tài khoản</label><input id="loginUsername" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Ví dụ: minhanh12"></div>
             <div class="auth-field"><label for="loginPassword">Mật khẩu</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Mật khẩu"></div>
           </div>
           <div class="auth-message ${success?"success":""}" id="authMessage">${esc(message)}</div>
@@ -2171,23 +2167,24 @@ function renderAccountGate(mode="login",message="",success=false){
         `}
       </div>
     </div>`;
-  const ids=signup?["signupDisplayName","signupUsername","signupEmail","signupPassword","signupPassword2"]:["loginEmail","loginPassword"];
+  const ids=signup?["signupDisplayName","signupUsername","signupPassword"]:["loginUsername","loginPassword"];
   ids.forEach(id=>document.getElementById(id)?.addEventListener("keydown",e=>{
     if(e.key!=="Enter")return;
     e.preventDefault();
     signup?submitLearnerSignup():submitLearnerLogin();
   }));
-  setTimeout(()=>document.getElementById(signup?"signupDisplayName":"loginEmail")?.focus(),0);
+  setTimeout(()=>document.getElementById(signup?"signupDisplayName":"loginUsername")?.focus(),0);
 }
 async function submitLearnerLogin(){
-  const email=String(document.getElementById("loginEmail")?.value||"").trim().toLowerCase();
+  const username=normalizeLearnerUsername(document.getElementById("loginUsername")?.value);
   const password=String(document.getElementById("loginPassword")?.value||"");
   const msg=document.getElementById("authMessage");
   const btn=document.getElementById("authSubmitBtn");
-  if(!email||!password){if(msg)msg.textContent="Nhập đầy đủ email và mật khẩu.";return}
+  if(!username||!password){if(msg)msg.textContent="Nhập đầy đủ tài khoản và mật khẩu.";return}
   if(btn){btn.disabled=true;btn.textContent="Đang đăng nhập…"}
   if(msg){msg.textContent="";msg.classList.remove("success")}
   try{
+    const email=username+"@learners.hoctienganh.local";
     const data=await learnerAuthRequest("/auth/v1/token?grant_type=password",{
       method:"POST",
       body:JSON.stringify({email,password})
@@ -2205,36 +2202,32 @@ async function submitLearnerLogin(){
 async function submitLearnerSignup(){
   const displayName=String(document.getElementById("signupDisplayName")?.value||"").trim().replace(/\s+/g," ");
   const username=normalizeLearnerUsername(document.getElementById("signupUsername")?.value);
-  const email=String(document.getElementById("signupEmail")?.value||"").trim().toLowerCase();
   const password=String(document.getElementById("signupPassword")?.value||"");
-  const password2=String(document.getElementById("signupPassword2")?.value||"");
   const msg=document.getElementById("authMessage");
   const btn=document.getElementById("authSubmitBtn");
   if(displayName.length<2){if(msg)msg.textContent="Nhập tên học viên ít nhất 2 ký tự.";return}
-  if(!/^[a-z0-9][a-z0-9._-]{2,23}$/.test(username)){if(msg)msg.textContent="Tên đăng nhập chưa đúng định dạng.";return}
-  if(!email||!email.includes("@")){if(msg)msg.textContent="Nhập email hợp lệ.";return}
+  if(!/^[a-z0-9][a-z0-9._-]{2,23}$/.test(username)){if(msg)msg.textContent="Tài khoản chưa đúng định dạng.";return}
   if(password.length<8){if(msg)msg.textContent="Mật khẩu phải có ít nhất 8 ký tự.";return}
-  if(password!==password2){if(msg)msg.textContent="Hai mật khẩu chưa khớp.";return}
   if(btn){btn.disabled=true;btn.textContent="Đang tạo tài khoản…"}
   if(msg){msg.textContent="";msg.classList.remove("success")}
   try{
-    const redirect=encodeURIComponent(LEARNER_REDIRECT_URL);
-    const data=await learnerAuthRequest("/auth/v1/signup?redirect_to="+redirect,{
+    const signupRes=await fetch(SUPABASE_URL+"/functions/v1/learner-signup",{
       method:"POST",
-      body:JSON.stringify({
-        email,
-        password,
-        data:{username,display_name:displayName,account_type:"learner"}
-      })
+      headers:{"apikey":SUPABASE_KEY,"Content-Type":"application/json"},
+      body:JSON.stringify({username,displayName,password})
     });
-    if(data.access_token){
-      saveLearnerSession(data);
-      clearActiveArea();
-      history.replaceState(null,"",location.pathname+location.search);
-      await route();
-      return;
-    }
-    renderAccountGate("login","Đã tạo tài khoản. Hãy mở email xác nhận, sau đó quay lại đây để đăng nhập.",true);
+    const signupData=await signupRes.json().catch(()=>({}));
+    if(!signupRes.ok||!signupData?.ok)throw new Error(signupData?.error||"Không thể tạo tài khoản lúc này.");
+
+    const email=username+"@learners.hoctienganh.local";
+    const data=await learnerAuthRequest("/auth/v1/token?grant_type=password",{
+      method:"POST",
+      body:JSON.stringify({email,password})
+    });
+    saveLearnerSession(data);
+    clearActiveArea();
+    history.replaceState(null,"",location.pathname+location.search);
+    await route();
   }catch(e){
     if(msg)msg.textContent=authErrorMessage(e);
   }finally{
