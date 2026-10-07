@@ -3502,11 +3502,13 @@ async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
   if(scoreSubmitted||!currentNickname||!quizStartedAt)return;
   scoreSubmitted=true;
   const duration=Math.max(1,Math.round((Date.now()-quizStartedAt)/1000));
-  const payload={nickname:currentNickname,grade:activeGrade,unit_no:activeUnit,set_no:activeSet,difficulty:activeLevel.name,first_try_correct:firstTry,total_questions:totalQuestions,mistakes:totalMistakes,duration_seconds:Math.min(duration,7200)};
   try{
-    const res=await fetch(SUPABASE_URL+"/rest/v1/scores",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(payload)});
+    const session=await ensureLearnerSession();
+    if(!session?.user?.id||!session?.access_token)throw new Error("Learner session unavailable");
+    const payload={user_id:session.user.id,nickname:currentNickname,grade:activeGrade,unit_no:activeUnit,set_no:activeSet,difficulty:activeLevel.name,first_try_correct:firstTry,total_questions:totalQuestions,mistakes:totalMistakes,duration_seconds:Math.min(duration,7200)};
+    const res=await fetch(SUPABASE_URL+"/rest/v1/scores",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(payload)});
     if(!res.ok)throw new Error("Score submit failed");
-    toast("Đã ghi nhận bài hoàn thành");
+    toast("Đã ghi nhận bài hoàn thành vào tài khoản");
   }catch(err){
     scoreSubmitted=false;
     console.error(err);
