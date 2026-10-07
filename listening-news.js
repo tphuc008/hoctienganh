@@ -225,7 +225,8 @@ function submitNewsPart(partId){
   if(note)note.textContent="Câu sai vẫn chưa hiện đáp án. Bấm vào câu màu đỏ để nghe lại đúng đoạn.";
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
-  if(typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("listening_news_part");
+  var streakAnswered=part.questions.filter(function(q){return readNewsAnswer(part,q).trim()!=="";}).length;
+  if(streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("listening_news_part");
   var firstWrong=part.questions.find(function(q){return !st.results[q.id];});
   if(firstWrong){
     var c=document.getElementById("news-p"+part.id+"-q-"+firstWrong.id);
