@@ -1404,6 +1404,35 @@ body:before{
 .account-banner span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 @media(max-width:620px){.header-actions{gap:6px}.header-logout{padding:8px 9px}.account-card{padding:20px 16px}.account-banner{align-items:flex-start;flex-direction:column}}
 
+
+/* Global Tutoring streak */
+.tutoring-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(520px,680px);gap:28px;align-items:start;margin-bottom:22px}
+.tutoring-top .hero{margin:0;padding-top:16px}
+.global-streak-card{display:grid;grid-template-columns:minmax(0,1fr) 170px;background:rgba(255,255,255,.92);border:1px solid rgba(148,163,184,.28);border-radius:22px;box-shadow:0 18px 45px rgba(30,64,175,.08);overflow:hidden;min-height:238px}
+.streak-heatmap-pane{padding:24px 22px 20px;min-width:0}
+.streak-months{display:grid;grid-template-columns:repeat(27,11px);gap:4px;margin-left:45px;height:22px;align-items:end;color:var(--muted);font-size:11px;font-weight:750;white-space:nowrap}
+.streak-months span{grid-row:1}
+.streak-chart-row{display:flex;align-items:flex-start;gap:10px}
+.streak-weekdays{display:grid;grid-template-rows:repeat(7,11px);gap:4px;width:35px;color:var(--muted);font-size:10px;line-height:11px;text-align:right;flex:0 0 35px}
+.streak-weekdays span{height:11px}
+.streak-heatmap{display:grid;grid-template-rows:repeat(7,11px);grid-auto-flow:column;grid-auto-columns:11px;gap:4px;min-width:401px}
+.streak-cell{width:11px;height:11px;border-radius:3px;background:#E8ECF2;border:1px solid rgba(148,163,184,.08)}
+.streak-cell.level-1{background:#C7F2DB}
+.streak-cell.level-2{background:#79DFA9}
+.streak-cell.level-3{background:#25B96E}
+.streak-cell.level-4{background:#7057E8}
+.streak-cell.future{background:rgba(226,232,240,.34);border-color:transparent}
+.streak-legend{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:16px;color:var(--muted);font-size:11px}
+.streak-legend-cells{display:flex;gap:4px}
+.streak-legend .streak-cell{display:block;flex:0 0 11px}
+.streak-summary{border-left:1px solid rgba(148,163,184,.25);padding:30px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.streak-flame{font-size:42px;line-height:1;margin-bottom:8px}
+.streak-number{font-size:50px;line-height:1;font-weight:950;letter-spacing:-.05em;color:var(--text)}
+.streak-label{margin-top:8px;font-size:15px;font-weight:850;color:var(--text)}
+.streak-note{margin-top:14px;color:var(--muted);font-size:11px;line-height:1.45;font-style:italic}
+@media(max-width:1180px){.tutoring-top{grid-template-columns:1fr}.global-streak-card{max-width:760px}}
+@media(max-width:700px){.global-streak-card{grid-template-columns:1fr}.streak-summary{border-left:0;border-top:1px solid rgba(148,163,184,.25);padding:20px}.streak-heatmap-pane{overflow-x:auto}.streak-number{font-size:44px}}
+
 </style>
 </head>
 <body>
@@ -2834,45 +2863,165 @@ async function route(){
 
   goAreaHome();
 }
+
+const STREAK_WEEKS=27;
+function vnDateKey(date=new Date()){
+  const parts=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Ho_Chi_Minh",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);
+  const pick=t=>parts.find(p=>p.type===t)?.value||"";
+  return pick("year")+"-"+pick("month")+"-"+pick("day");
+}
+function utcDateFromKey(key){
+  const a=String(key).split("-").map(Number);
+  return new Date(Date.UTC(a[0],a[1]-1,a[2]));
+}
+function dateKeyUTC(date){
+  return date.getUTCFullYear()+"-"+String(date.getUTCMonth()+1).padStart(2,"0")+"-"+String(date.getUTCDate()).padStart(2,"0");
+}
+function addDaysKey(key,days){
+  const d=utcDateFromKey(key);
+  d.setUTCDate(d.getUTCDate()+days);
+  return dateKeyUTC(d);
+}
+function streakHeatmapStart(todayKey=vnDateKey()){
+  const today=utcDateFromKey(todayKey);
+  const sundayOffset=today.getUTCDay();
+  const currentSunday=new Date(today);
+  currentSunday.setUTCDate(today.getUTCDate()-sundayOffset);
+  currentSunday.setUTCDate(currentSunday.getUTCDate()-(STREAK_WEEKS-1)*7);
+  return dateKeyUTC(currentSunday);
+}
+function streakLevel(count){
+  const n=Number(count)||0;
+  if(n<=0)return 0;
+  if(n===1)return 1;
+  if(n===2)return 2;
+  if(n<=4)return 3;
+  return 4;
+}
+function calculateCurrentStreak(activityMap,todayKey=vnDateKey()){
+  let cursor=activityMap[todayKey]>0?todayKey:addDaysKey(todayKey,-1);
+  if(!(activityMap[cursor]>0))return 0;
+  let streak=0;
+  while(activityMap[cursor]>0){
+    streak++;
+    cursor=addDaysKey(cursor,-1);
+  }
+  return streak;
+}
+function renderTutoringStreak(rows=[]){
+  const heat=document.getElementById("tutoringStreakHeatmap");
+  const months=document.getElementById("tutoringStreakMonths");
+  const number=document.getElementById("tutoringStreakNumber");
+  if(!heat||!months||!number)return;
+  const today=vnDateKey();
+  const start=streakHeatmapStart(today);
+  const map={};
+  rows.forEach(r=>{map[String(r.activity_date)]=Number(r.activity_count)||0});
+  const cells=[];
+  const monthSlots=[];
+  let previousMonth="";
+  const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  for(let week=0;week<STREAK_WEEKS;week++){
+    const weekStart=addDaysKey(start,week*7);
+    const d=utcDateFromKey(weekStart);
+    const month=d.getUTCMonth();
+    const monthKey=d.getUTCFullYear()+"-"+month;
+    if(monthKey!==previousMonth){
+      monthSlots.push('<span style="grid-column:'+(week+1)+'">'+monthNames[month]+'</span>');
+      previousMonth=monthKey;
+    }
+    for(let day=0;day<7;day++){
+      const key=addDaysKey(weekStart,day);
+      const count=map[key]||0;
+      const future=key>today;
+      const level=future?0:streakLevel(count);
+      const label=future?"":key+" · "+count+" hoạt động";
+      cells.push('<span class="streak-cell '+(future?"future":"level-"+level)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'"></span>');
+    }
+  }
+  months.innerHTML=monthSlots.join("");
+  heat.innerHTML=cells.join("");
+  number.textContent=String(calculateCurrentStreak(map,today));
+}
+async function loadTutoringStreak(){
+  if(!document.getElementById("tutoringStreakCard"))return;
+  const session=await ensureLearnerSession();
+  if(!session?.user?.id||!session?.access_token)return;
+  const start=streakHeatmapStart();
+  try{
+    const query="?select=activity_date,activity_count&user_id=eq."+encodeURIComponent(session.user.id)+"&activity_date=gte."+encodeURIComponent(start)+"&order=activity_date.asc";
+    const res=await fetch(SUPABASE_URL+"/rest/v1/learner_daily_activity"+query,{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token}});
+    if(!res.ok)throw new Error("Streak fetch failed");
+    renderTutoringStreak(await res.json());
+  }catch(err){
+    console.error(err);
+    const number=document.getElementById("tutoringStreakNumber");
+    if(number)number.textContent="—";
+  }
+}
+async function recordTutoringActivity(eventType="study"){
+  try{
+    const session=await ensureLearnerSession();
+    if(!session?.access_token)return;
+    const res=await fetch(SUPABASE_URL+"/rest/v1/rpc/record_tutoring_activity",{
+      method:"POST",
+      headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"return=representation"},
+      body:JSON.stringify({p_event_type:String(eventType||"study").slice(0,64)})
+    });
+    if(!res.ok)throw new Error("Streak activity submit failed");
+    if(document.getElementById("tutoringStreakCard"))loadTutoringStreak();
+  }catch(err){console.error(err)}
+}
+window.recordTutoringActivity=recordTutoringActivity;
+
 function renderHome(){
   pageMount.style.display="block";
   pageMount.innerHTML=`
-    <div class="hero">
-      <div class="eyebrow">${accessAreaLabel(getActiveArea())} · English practice library</div>
-      <h1><span class="gradient">Choose your practice area.</span></h1>
+    <div class="tutoring-top">
+      <div class="hero">
+        <div class="eyebrow">${accessAreaLabel(getActiveArea())} · English practice library</div>
+        <h1><span class="gradient">Choose your practice area.</span></h1>
+      </div>
+      <section class="global-streak-card" id="tutoringStreakCard" aria-label="Learning streak">
+        <div class="streak-heatmap-pane">
+          <div class="streak-months" id="tutoringStreakMonths"></div>
+          <div class="streak-chart-row">
+            <div class="streak-weekdays" aria-hidden="true"><span></span><span></span><span>Tue</span><span></span><span>Thu</span><span></span><span>Sat</span></div>
+            <div class="streak-heatmap" id="tutoringStreakHeatmap" aria-label="Daily learning activity"></div>
+          </div>
+          <div class="streak-legend">
+            <span>Ít</span>
+            <span class="streak-legend-cells" aria-hidden="true"><i class="streak-cell level-0"></i><i class="streak-cell level-1"></i><i class="streak-cell level-2"></i><i class="streak-cell level-3"></i><i class="streak-cell level-4"></i></span>
+            <span>Nhiều</span>
+          </div>
+        </div>
+        <div class="streak-summary">
+          <div class="streak-flame" aria-hidden="true">🔥</div>
+          <div class="streak-number" id="tutoringStreakNumber">0</div>
+          <div class="streak-label">Day streak</div>
+          <div class="streak-note">*Streak ngày mới bắt đầu lúc 0h giờ VN</div>
+        </div>
+      </section>
     </div>
     <div class="section-title"><h2>Practice areas</h2><span><button class="crumb-btn" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></span></div>
     <div class="units">
       ${GRADES.map(g=>`
         <button class="unit-card" onclick="goGrade(${g.id})">
-          <div class="unit-top">
-            <span class="unit-no">GRADE ${g.id}</span>
-            <span class="status ${g.live?"live":""}">${g.live?"Available":"Coming soon"}</span>
-          </div>
-          <h3>${g.title}</h3>
-          <p>${g.live?"Vocabulary practice":"Coming soon"}</p>
-          <span class="unit-arrow">→</span>
+          <div class="unit-top"><span class="unit-no">GRADE ${g.id}</span><span class="status ${g.live?"live":""}">${g.live?"Available":"Coming soon"}</span></div>
+          <h3>${g.title}</h3><p>${g.live?"Vocabulary practice":"Coming soon"}</p><span class="unit-arrow">→</span>
         </button>
       `).join("")}
-      <button class="unit-card" onclick="location.hash=\'listening\'">
-        <div class="unit-top">
-          <span class="unit-no">LISTENING</span>
-          <span class="status live">Available</span>
-        </div>
-        <h3>Listening</h3>
-        <p>Video listening practice · IELTS-style questions · timestamp replay</p>
-        <span class="unit-arrow">→</span>
+      <button class="unit-card" onclick="location.hash='listening'">
+        <div class="unit-top"><span class="unit-no">LISTENING</span><span class="status live">Available</span></div>
+        <h3>Listening</h3><p>Video listening practice · IELTS-style questions · timestamp replay</p><span class="unit-arrow">→</span>
       </button>
       <button class="unit-card" onclick="goGrammar()">
-        <div class="unit-top">
-          <span class="unit-no">GRAMMAR</span>
-          <span class="status live">Available</span>
-        </div>
-        <h3>Grammar</h3>
-        <p>Grammar practice</p>
-        <span class="unit-arrow">→</span>
+        <div class="unit-top"><span class="unit-no">GRAMMAR</span><span class="status live">Available</span></div>
+        <h3>Grammar</h3><p>Grammar practice</p><span class="unit-arrow">→</span>
       </button>
     </div>`;
+  renderTutoringStreak([]);
+  loadTutoringStreak();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -3540,6 +3689,7 @@ function finishLearning(){
   document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent) ${pct*3.6}deg,rgba(190,24,93,.10) 0deg)`;
   document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Review the tricky contrasts below.";
   buildReview();
+  recordTutoringActivity(activeMode==="grammar"?"grammar_set":"vocabulary_set");
   if(activeMode!=="grammar")submitLeaderboardScore(firstTry,totalMistakes,activeQuestions.length);
   if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
