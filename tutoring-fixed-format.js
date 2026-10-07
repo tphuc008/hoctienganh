@@ -240,7 +240,9 @@
     return out;
   }
 
-  // Context Guessing uses a large rotating bank. Grade 12 now has 30 unique topic-linked targets per unit.\n// A session samples adaptively from the combined unit pool with no fixed B1-B2/C1-C2 quota.\n  const CG_CATALOG={
+  // Context Guessing uses a large rotating bank. Grade 12 now has 30 unique topic-linked targets per unit.
+// A session samples adaptively from the combined unit pool with no fixed B1-B2/C1-C2 quota.
+  const CG_CATALOG={
     b1b2:{
       "chary":["cautious and reluctant",["immediately enthusiastic","careless and impulsive","completely unaware"],"At first, people were **{w}** about {P}: they hesitated, watched carefully and delayed agreeing to take part.","The hesitation, careful watching and delayed agreement point to caution plus reluctance.","Chary is uncommon and slightly formal; it often implies both caution and unwillingness.","be chary of/about something","wary is more common; chary more strongly suggests reluctance as well as caution."],
       "jury-rigged":["improvised quickly from available materials",["built permanently to a high standard","hidden from public view","designed mainly for decoration"],"The first setup was **{w}**, assembled quickly from {M} while a permanent arrangement was still being prepared.","Assembled quickly from whatever was available, before a permanent solution existed, directly signals improvisation.","Jury-rigged stresses an improvised construction made from materials at hand.","jury-rigged equipment/system/repair","makeshift is broader; jury-rigged especially suggests something assembled or repaired ingeniously on the spot."],
