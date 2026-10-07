@@ -2951,7 +2951,6 @@ async function loadTutoringStreak(){
   if(!document.getElementById("tutoringStreakCard"))return;
   const session=await ensureLearnerSession();
   if(!session?.user?.id||!session?.access_token)return;
-  const start=streakHeatmapStart();
   try{
     const query="?select=activity_date,activity_count&user_id=eq."+encodeURIComponent(session.user.id)+"&order=activity_date.asc";
     const res=await fetch(SUPABASE_URL+"/rest/v1/learner_daily_activity"+query,{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token}});
@@ -3643,7 +3642,7 @@ function move(step){
   current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
-async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
+async function submitLearningScore(firstTry,totalMistakes,totalQuestions){
   if(activeMode==="grammar")return;
   if(scoreSubmitted||!currentNickname||!quizStartedAt)return;
   scoreSubmitted=true;
@@ -3694,7 +3693,7 @@ function finishLearning(){
   document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Review the tricky contrasts below.";
   buildReview();
   recordTutoringActivity(activeMode==="grammar"?"grammar_set":"vocabulary_set");
-  if(activeMode!=="grammar")submitLeaderboardScore(firstTry,totalMistakes,activeQuestions.length);
+  if(activeMode!=="grammar")submitLearningScore(firstTry,totalMistakes,activeQuestions.length);
   if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
