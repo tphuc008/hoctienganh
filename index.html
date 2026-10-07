@@ -1490,7 +1490,7 @@ body:before{
 <script src="school-grade10-midterm1.js?v=20261002-school-g10-midterm1-v1"></script>
 <script src="school-grade10-explanations.js?v=20261002-school-g10-explanations-v1"></script>
 <script src="school-ui.js?v=20261004-school-reading-order-v6"></script>
-<script src="tutoring-fixed-format.js?v=20261004-context-bank-v5"></script>
+<script src="tutoring-fixed-format.js?v=20261007-audit-v1"></script>
 <script src="grammar-prefix-suffix-bank.js?v=20261005-prefix-suffix-v1"></script>
 <script src="sentence-translations.js?v=20261001-translations-v1"></script>
 <script src="grade12-unit1-semantic-pilot.js?v=20261006-semantic-pilot-v1"></script>
@@ -2330,8 +2330,12 @@ function useGrammarBank(slug){
   return true;
 }
 
+function learnerStorageScope(){
+  const userId=readLearnerSession()?.user?.id;
+  return userId?String(userId):"no-user";
+}
 function vocabProgressKey(){
-  return "g12_vocab_progress_v2_u"+activeUnit;
+  return "g12_vocab_progress_v3_"+learnerStorageScope()+"_u"+activeUnit;
 }
 function readVocabProgress(){
   if(activeGrade!==12)return {version:0,items:{}};
@@ -2347,7 +2351,7 @@ function writeVocabProgress(data){
   try{localStorage.setItem(vocabProgressKey(),JSON.stringify(data))}catch(_){}
 }
 function contextProgressKey(){
-  return "context_guessing_progress_v1_g"+activeGrade+"_u"+activeUnit;
+  return "context_guessing_progress_v2_"+learnerStorageScope()+"_g"+activeGrade+"_u"+activeUnit;
 }
 function readContextProgress(){
   try{
@@ -2434,7 +2438,7 @@ function recordVocabProgress(question,wrongCount){
   writeVocabProgress(data);
 }
 function setCompletionKey(grade,unit){
-  return "set_completion_v1_g"+grade+"_u"+unit;
+  return "set_completion_v2_"+learnerStorageScope()+"_g"+grade+"_u"+unit;
 }
 function completedSets(grade,unit){
   try{return JSON.parse(localStorage.getItem(setCompletionKey(grade,unit))||"{}")}catch(_){return {}}
@@ -2965,6 +2969,7 @@ async function recordTutoringActivity(eventType="study"){
     if(!session?.access_token)return;
     const res=await fetch(SUPABASE_URL+"/rest/v1/rpc/record_tutoring_activity",{
       method:"POST",
+      keepalive:true,
       headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"return=representation"},
       body:JSON.stringify({p_event_type:String(eventType||"study").slice(0,64)})
     });
@@ -3229,7 +3234,7 @@ function renderExercise(grade,id,setNo){
   activeSet=Number(setNo);
   activeLevel=activeLevelConfig[activeSet];
   activeSublevelKey="";
-  const nicknameHTML=`<div class="nickname-box"><label for="nicknameInput">Nickname for leaderboard</label><input id="nicknameInput" maxlength="24" autocomplete="nickname" placeholder="Enter nickname" value="${esc(currentNickname)}"></div>`;
+  const nicknameHTML=`<div class="nickname-box"><label>Học viên</label><div style="padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);font-weight:850">${esc(learnerDisplayName())}</div></div>`;
 
   if(activeLevel.contextGuessing){
     pageMount.style.display="block";
@@ -3286,9 +3291,8 @@ function initQuizState(){
   readingContextText="";
 }
 function readNickname(){
-  const nicknameInput=document.getElementById("nicknameInput");
-  const nickname=(nicknameInput?nicknameInput.value:currentNickname).trim().replace(/\s+/g," ");
-  if(nickname.length<2){toast("Nhập nickname ít nhất 2 ký tự");return false}
+  const nickname=String(learnerDisplayName()||learnerUsername()||"").trim().replace(/\s+/g," ");
+  if(nickname.length<2){toast("Không đọc được tên học viên từ tài khoản");return false}
   currentNickname=nickname.slice(0,24);
   localStorage.setItem("vocabNickname",currentNickname);
   return true;
@@ -3648,7 +3652,7 @@ async function submitLeaderboardScore(firstTry,totalMistakes,totalQuestions){
     const session=await ensureLearnerSession();
     if(!session?.user?.id||!session?.access_token)throw new Error("Learner session unavailable");
     const payload={user_id:session.user.id,nickname:currentNickname,grade:activeGrade,unit_no:activeUnit,set_no:activeSet,difficulty:activeLevel.name,first_try_correct:firstTry,total_questions:totalQuestions,mistakes:totalMistakes,duration_seconds:Math.min(duration,7200)};
-    const res=await fetch(SUPABASE_URL+"/rest/v1/scores",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(payload)});
+    const res=await fetch(SUPABASE_URL+"/rest/v1/scores",{method:"POST",keepalive:true,headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(payload)});
     if(!res.ok)throw new Error("Score submit failed");
     toast("Đã ghi nhận bài hoàn thành vào tài khoản");
   }catch(err){
