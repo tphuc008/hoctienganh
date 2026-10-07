@@ -291,6 +291,7 @@ function submitPart(partId){
   if(note)note.textContent="Câu sai vẫn chưa hiện đáp án. Bấm vào câu màu đỏ để nghe lại đúng đoạn.";
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
+  if(typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("listening_entertainment_part");
   var firstWrong=part.questions.find(function(q){return !st.results[q.id];});
   if(firstWrong){
     var c=document.getElementById("ent-p"+part.id+"-q-"+firstWrong.id);
