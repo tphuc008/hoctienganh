@@ -2152,7 +2152,7 @@ function renderAccountGate(mode="login",message="",success=false){
           <div class="auth-fields">
             <div class="auth-field"><label for="signupDisplayName">Tên học viên</label><input id="signupDisplayName" maxlength="40" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh"></div>
             <div class="auth-field"><label for="signupUsername">Tài khoản</label><input id="signupUsername" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Ví dụ: minhanh12"></div>
-            <div class="auth-field"><label for="signupPassword">Mật khẩu</label><input id="signupPassword" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Tối thiểu 8 ký tự"></div>
+            <div class="auth-field"><label for="signupPassword">Mật khẩu</label><input id="signupPassword" type="password" minlength="6" maxlength="72" autocomplete="new-password" placeholder="Tối thiểu 6 ký tự · chỉ chữ cũng được"></div>
             <div class="auth-help">Tài khoản gồm 3–24 ký tự: chữ thường a–z, số, dấu chấm, gạch dưới hoặc gạch ngang.</div>
           </div>
           <div class="auth-message ${success?"success":""}" id="authMessage">${esc(message)}</div>
@@ -2207,7 +2207,7 @@ async function submitLearnerSignup(){
   const btn=document.getElementById("authSubmitBtn");
   if(displayName.length<2){if(msg)msg.textContent="Nhập tên học viên ít nhất 2 ký tự.";return}
   if(!/^[a-z0-9][a-z0-9._-]{2,23}$/.test(username)){if(msg)msg.textContent="Tài khoản chưa đúng định dạng.";return}
-  if(password.length<8){if(msg)msg.textContent="Mật khẩu phải có ít nhất 8 ký tự.";return}
+  if(password.length<6){if(msg)msg.textContent="Mật khẩu phải có ít nhất 6 ký tự. Chỉ dùng chữ cũng được.";return}
   if(btn){btn.disabled=true;btn.textContent="Đang tạo tài khoản…"}
   if(msg){msg.textContent="";msg.classList.remove("success")}
   try{
