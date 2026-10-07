@@ -154,4 +154,250 @@ passageIntro:"This passage examines {theme} and the semantic distinctions needed
 defs,syn,cloze
 };
 window.G12_U6_SEMANTIC_BANK=window.buildSemanticUnitBank(config);
+
+// Custom note-based set requested 2026-10-07.
+// Form chung: 5 synonym/antonym items + 5 semantic cloze items, all grounded in Unit 6 note.
+(()=>{
+  const bank=window.G12_U6_SEMANTIC_BANK;
+  const setNo=11;
+  const questions=[];
+  const explanations=[];
+
+  const exp=(step1,opts,examples,remember)=>({
+    mode:"semantic_precision",
+    step1:Array.isArray(step1)?step1:[step1],
+    options:opts,
+    examples,
+    remember
+  });
+  const opt=(label,word,meaning,analysis)=>({label,word,meaning,analysis});
+  const ex=(label,word,en,vi)=>({label,word,en,vi});
+
+  const add=(q,e)=>{
+    const idx=bank.questions.length;
+    bank.questions.push(q);
+    bank.explanations.push(e);
+    bank.explanationById[q.id]=e;
+    questions.push(idx);
+    explanations.push(e);
+  };
+
+  add({
+    id:"u6-latest-1",lockOptions:true,promptType:"SYNONYM",target:"unreliable",
+    q:"Users should fact-check AI-generated information because some outputs may be unreliable.",
+    o:["truthful","untrustworthy","practical","realistic"],a:1,e:"unreliable → untrustworthy"
+  },exp(
+    "Unreliable = không đáng tin cậy. Trong câu, việc người dùng phải fact-check cho thấy đầu ra AI không thể được tin ngay; vì vậy untrustworthy là từ gần nghĩa chính xác nhất.",
+    [
+      opt("A","truthful","đúng sự thật, trung thực","Trái hướng nghĩa: truthful nói thông tin phù hợp sự thật, trong khi unreliable nhấn mạnh không thể dựa vào."),
+      opt("B","untrustworthy","không đáng tin","Đúng: cả hai đều mô tả nguồn/thông tin không đủ đáng tin để dựa vào mà không kiểm chứng."),
+      opt("C","practical","thiết thực, thực tế","Nói tính hữu dụng hoặc khả năng áp dụng, không nói độ đáng tin."),
+      opt("D","realistic","thực tế, giống thật","Một nội dung có thể realistic nhưng vẫn sai hoặc bịa; realistic không đồng nghĩa reliable.")
+    ],
+    [
+      ex("A","truthful","The witness gave a truthful account of what happened.","Nhân chứng đưa ra lời kể đúng sự thật về điều đã xảy ra."),
+      ex("B","untrustworthy","The website was considered untrustworthy because it cited no sources.","Trang web bị xem là không đáng tin vì không trích nguồn."),
+      ex("C","practical","The teacher gave students practical advice on checking AI answers.","Giáo viên đưa lời khuyên thiết thực về cách kiểm tra câu trả lời AI."),
+      ex("D","realistic","The AI-generated image looked realistic at first glance.","Hình ảnh do AI tạo trông rất giống thật khi nhìn qua.")
+    ],
+    "unreliable/untrustworthy tập trung vào độ đáng tin; realistic tập trung vào mức giống thực tế."
+  ));
+
+  add({
+    id:"u6-latest-2",lockOptions:true,promptType:"SYNONYM",target:"impair",
+    q:"Over-dependence on AI can impair workers’ decision-making ability.",
+    o:["promote","weaken","optimize","standardise"],a:1,e:"impair → weaken"
+  },exp(
+    "Impair = làm suy giảm/làm yếu khả năng hoạt động. Cụm impair decision-making ability nói năng lực ra quyết định trở nên kém hiệu quả; weaken diễn đạt đúng cơ chế này.",
+    [
+      opt("A","promote","thúc đẩy","Mang nghĩa làm tăng/phát triển, đối lập với impair."),
+      opt("B","weaken","làm suy yếu","Đúng: weaken an ability gần nghĩa trực tiếp với impair an ability."),
+      opt("C","optimize","tối ưu hóa","Làm cho hiệu quả hơn, trái với việc khiến năng lực kém đi."),
+      opt("D","standardise","chuẩn hóa","Làm cho theo một tiêu chuẩn thống nhất; không nói sự suy giảm năng lực.")
+    ],
+    [
+      ex("A","promote","The programme promotes responsible use of AI in schools.","Chương trình thúc đẩy việc sử dụng AI có trách nhiệm trong trường học."),
+      ex("B","weaken","Constant reliance on suggestions may weaken independent judgment.","Phụ thuộc liên tục vào gợi ý có thể làm suy yếu khả năng phán đoán độc lập."),
+      ex("C","optimize","Engineers optimized the system to reduce processing time.","Kỹ sư tối ưu hệ thống để giảm thời gian xử lý."),
+      ex("D","standardise","The company standardised its data-review procedure across all offices.","Công ty chuẩn hóa quy trình rà soát dữ liệu ở tất cả văn phòng.")
+    ],
+    "impair thường đi với ability, function, performance, judgment; nghĩa là làm chúng hoạt động kém đi."
+  ));
+
+  add({
+    id:"u6-latest-3",lockOptions:true,promptType:"SYNONYM",target:"obsolete",
+    q:"Some simple clerical jobs have become obsolete because software can perform the same tasks faster.",
+    o:["advanced","outmoded","updated","multinational"],a:1,e:"obsolete → outmoded"
+  },exp(
+    "Obsolete = lỗi thời/không còn cần thiết vì đã có thứ mới thay thế. Chi tiết software can perform the same tasks faster là clue cho việc công việc cũ mất tính cần thiết; outmoded gần nghĩa nhất.",
+    [
+      opt("A","advanced","tiên tiến","Ngược hướng: advanced nói mức phát triển cao, không phải lỗi thời."),
+      opt("B","outmoded","lỗi thời","Đúng: mô tả thứ không còn phù hợp vì phương pháp/công nghệ mới đã thay thế."),
+      opt("C","updated","được cập nhật","Mang nghĩa mới hơn, hiện hành hơn; đối lập với obsolete."),
+      opt("D","multinational","đa quốc gia","Mô tả phạm vi hoạt động của công ty, không liên quan mức độ lỗi thời.")
+    ],
+    [
+      ex("A","advanced","The hospital installed an advanced AI diagnostic system.","Bệnh viện lắp một hệ thống chẩn đoán AI tiên tiến."),
+      ex("B","outmoded","The firm replaced its outmoded filing system with cloud software.","Công ty thay hệ thống lưu hồ sơ lỗi thời bằng phần mềm đám mây."),
+      ex("C","updated","Always use the updated version of the security software.","Luôn dùng phiên bản phần mềm bảo mật đã được cập nhật."),
+      ex("D","multinational","She works for a multinational technology company.","Cô ấy làm cho một công ty công nghệ đa quốc gia.")
+    ],
+    "obsolete mạnh hơn outdated: obsolete thường hàm ý không còn được dùng/cần nữa, còn outdated có thể vẫn đang được sử dụng."
+  ));
+
+  add({
+    id:"u6-latest-4",lockOptions:true,promptType:"SYNONYM",target:"tangible",
+    q:"The integration of AI into healthcare has produced tangible benefits for doctors and patients.",
+    o:["imaginary","concrete","indolent","theoretical"],a:1,e:"tangible → concrete"
+  },exp(
+    "Tangible benefits = những lợi ích rõ ràng, thực tế, có thể nhận thấy. Concrete cũng có nghĩa 'cụ thể/rõ ràng' khi đi với benefit, evidence, result nên là từ gần nghĩa phù hợp.",
+    [
+      opt("A","imaginary","tưởng tượng, không có thật","Trái với tangible vì tangible nhấn mạnh lợi ích có thật và nhận thấy được."),
+      opt("B","concrete","cụ thể, rõ ràng","Đúng: concrete benefits/results là những kết quả cụ thể chứ không chỉ lý thuyết."),
+      opt("C","indolent","lười biếng, ít hoạt động","Mô tả người/lối sống, không mô tả tính cụ thể của lợi ích."),
+      opt("D","theoretical","mang tính lý thuyết","Đối lập về sắc thái: theoretical chưa chắc đã biểu hiện thành kết quả thực tế.")
+    ],
+    [
+      ex("A","imaginary","The story describes an imaginary robot that can read minds.","Câu chuyện mô tả một robot tưởng tượng có thể đọc suy nghĩ."),
+      ex("B","concrete","The pilot project delivered concrete improvements in response time.","Dự án thí điểm mang lại cải thiện cụ thể về thời gian phản hồi."),
+      ex("C","indolent","An indolent lifestyle can increase health risks.","Lối sống lười vận động có thể làm tăng nguy cơ sức khỏe."),
+      ex("D","theoretical","The idea is theoretically possible but has not been tested.","Ý tưởng khả thi về mặt lý thuyết nhưng chưa được thử nghiệm.")
+    ],
+    "tangible/concrete thường đối lập với abstract/theoretical khi nói benefit, evidence, result."
+  ));
+
+  add({
+    id:"u6-latest-5",lockOptions:true,promptType:"ANTONYM",target:"tight",
+    q:"Government rules on data privacy must be tight to prevent companies from misusing personal information.",
+    o:["strict","stern","flexible","fixed"],a:2,e:"tight ↔ flexible"
+  },exp(
+    "Tight rules = quy định chặt chẽ/nghiêm ngặt. Câu nói về bảo vệ dữ liệu nên tight mang nghĩa strict; từ trái nghĩa là flexible = linh hoạt, ít cứng nhắc hơn.",
+    [
+      opt("A","strict","nghiêm ngặt","Gần nghĩa với tight trong cụm tight/strict rules, nên không phải trái nghĩa."),
+      opt("B","stern","nghiêm khắc","Thường mô tả người, giọng điệu hoặc cách xử lý nghiêm; vẫn cùng hướng nghĩa nghiêm khắc."),
+      opt("C","flexible","linh hoạt","Đúng: đối lập với tight/strict khi nói mức độ cứng nhắc của quy định."),
+      opt("D","fixed","cố định","Nhấn mạnh không thay đổi, không phải đối nghĩa trực tiếp của tight trong ngữ cảnh rules.")
+    ],
+    [
+      ex("A","strict","The school has strict rules about protecting student data.","Trường có quy định nghiêm ngặt về bảo vệ dữ liệu học sinh."),
+      ex("B","stern","The manager gave a stern warning after the privacy breach.","Quản lý đưa ra cảnh báo nghiêm khắc sau vụ vi phạm quyền riêng tư."),
+      ex("C","flexible","The company allows flexible working hours for its staff.","Công ty cho phép giờ làm việc linh hoạt cho nhân viên."),
+      ex("D","fixed","The system charges a fixed monthly fee.","Hệ thống tính một khoản phí cố định hằng tháng.")
+    ],
+    "tight rules ≈ strict rules; flexible rules là quy định có thể điều chỉnh theo hoàn cảnh."
+  ));
+
+  const passage="Responsible use of artificial intelligence requires more than simply adopting new tools. A user should begin with a clear (6) ______ so the model understands the task. In factories, (7) ______ can reduce the need for repetitive manual work. Recommendation platforms rely on an (8) ______ to analyse patterns and rank content. However, applications may (9) ______ users when they deliver more information than people can process. These systems are also developed and deployed by many (10) ______ companies operating across several countries.";
+
+  add({
+    id:"u6-latest-6",lockOptions:true,type:"reading",context:passage,
+    q:"Which option best fits blank (6)?",o:["report","prompt","algorithm","connectivity"],a:1,e:"prompt"
+  },exp(
+    "Blank (6) cần danh từ chỉ phần chỉ dẫn/đầu vào người dùng đưa cho AI. Cụm clear prompt khớp trực tiếp với 'so the model understands the task'.",
+    [
+      opt("A","report","báo cáo","Là văn bản trình bày thông tin/kết quả, không phải đầu vào hướng dẫn mô hình."),
+      opt("B","prompt","câu lệnh/chỉ dẫn đầu vào cho AI","Đúng: a clear prompt giúp mô hình hiểu nhiệm vụ cần thực hiện."),
+      opt("C","algorithm","thuật toán","Là chuỗi quy tắc/bước xử lý của hệ thống, không phải chỉ dẫn do người dùng nhập."),
+      opt("D","connectivity","khả năng kết nối","Nói khả năng liên kết mạng/người/hệ thống, không phù hợp với clear + nhiệm vụ.")
+    ],
+    [
+      ex("A","report","The agency released a report on AI-related security risks.","Cơ quan công bố một báo cáo về rủi ro bảo mật liên quan AI."),
+      ex("B","prompt","A detailed prompt can help the model produce a more relevant answer.","Một prompt chi tiết có thể giúp mô hình tạo câu trả lời phù hợp hơn."),
+      ex("C","algorithm","The platform uses an algorithm to rank recommended videos.","Nền tảng dùng thuật toán để xếp hạng video được đề xuất."),
+      ex("D","connectivity","Improved connectivity helps remote teams work together.","Khả năng kết nối tốt hơn giúp các nhóm từ xa làm việc cùng nhau.")
+    ],
+    "Collocation trọng tâm trong note: clear/detailed prompt."
+  ));
+
+  add({
+    id:"u6-latest-7",lockOptions:true,type:"reading",context:passage,
+    q:"Which option best fits blank (7)?",o:["automation","retirement","settlement","companionship"],a:0,e:"automation"
+  },exp(
+    "Blank (7) nói việc giảm repetitive manual work trong nhà máy. Automation = tự động hóa, tức dùng máy/hệ thống để thực hiện công việc với ít can thiệp thủ công.",
+    [
+      opt("A","automation","tự động hóa","Đúng: trực tiếp giải thích vì sao nhu cầu lao động thủ công lặp lại giảm."),
+      opt("B","retirement","sự nghỉ hưu","Liên quan chấm dứt công việc do tuổi/sự nghiệp, không phải quy trình nhà máy."),
+      opt("C","settlement","sự định cư/thỏa thuận","Không có quan hệ nghĩa với việc máy thực hiện tác vụ."),
+      opt("D","companionship","tình bạn/sự bầu bạn","Liên quan quan hệ giữa người với người, không phù hợp ngữ cảnh sản xuất.")
+    ],
+    [
+      ex("A","automation","Factory automation can speed up repetitive production tasks.","Tự động hóa nhà máy có thể tăng tốc các tác vụ sản xuất lặp lại."),
+      ex("B","retirement","He plans to travel after retirement.","Ông ấy dự định đi du lịch sau khi nghỉ hưu."),
+      ex("C","settlement","The two companies reached a legal settlement.","Hai công ty đạt được một thỏa thuận pháp lý."),
+      ex("D","companionship","Pets can provide companionship to people who live alone.","Thú cưng có thể mang lại sự bầu bạn cho người sống một mình.")
+    ],
+    "automation = quá trình tự động hóa; automated = được tự động hóa; automatic = tự động."
+  ));
+
+  add({
+    id:"u6-latest-8",lockOptions:true,type:"reading",context:passage,
+    q:"Which option best fits blank (8)?",o:["algorithm","privacy violation","report","family tie"],a:0,e:"algorithm"
+  },exp(
+    "Clue 'analyse patterns and rank content' mô tả đúng chức năng của algorithm: một tập hợp các bước/quy tắc xử lý dữ liệu để tạo kết quả hoặc quyết định.",
+    [
+      opt("A","algorithm","thuật toán","Đúng: recommendation platforms dùng thuật toán để phân tích sở thích và xếp hạng nội dung."),
+      opt("B","privacy violation","vi phạm quyền riêng tư","Là hành vi xâm phạm quy tắc/quyền dữ liệu, không phải cơ chế xếp hạng."),
+      opt("C","report","báo cáo","Là sản phẩm trình bày thông tin, không phải quy trình tính toán phân tích pattern."),
+      opt("D","family tie","mối quan hệ gia đình","Không thuộc ngữ cảnh kỹ thuật của recommendation platform.")
+    ],
+    [
+      ex("A","algorithm","The recommendation algorithm learns from users’ viewing patterns.","Thuật toán gợi ý học từ mẫu hành vi xem của người dùng."),
+      ex("B","privacy violation","Using a person's photo without permission may be a privacy violation.","Dùng ảnh của một người không có phép có thể là vi phạm quyền riêng tư."),
+      ex("C","report","The team wrote a report on the system's performance.","Nhóm viết báo cáo về hiệu suất hệ thống."),
+      ex("D","family tie","Regular communication can strengthen family ties.","Giao tiếp thường xuyên có thể củng cố quan hệ gia đình.")
+    ],
+    "algorithm thường đi với recommendation/search/ranking algorithm."
+  ));
+
+  add({
+    id:"u6-latest-9",lockOptions:true,type:"reading",context:passage,
+    q:"Which option best fits blank (9)?",o:["promote","overwhelm","cut","deploy"],a:1,e:"overwhelm"
+  },exp(
+    "Mệnh đề 'when they deliver more information than people can process' là clue trực tiếp cho overwhelm = làm ai đó quá tải vì lượng thông tin/nhiệm vụ vượt khả năng xử lý.",
+    [
+      opt("A","promote","thúc đẩy","Không diễn đạt tác động tiêu cực của quá nhiều thông tin."),
+      opt("B","overwhelm","làm quá tải/choáng ngợp","Đúng: overwhelm users with information là collocation tự nhiên và khớp clue."),
+      opt("C","cut","cắt giảm","Cần tân ngữ là thứ bị giảm; không thể hiện việc người dùng bị quá tải."),
+      opt("D","deploy","triển khai","Dùng với system/tool/resource, không dùng để diễn tả người dùng nhận quá nhiều thông tin.")
+    ],
+    [
+      ex("A","promote","Schools should promote responsible AI use.","Trường học nên thúc đẩy việc sử dụng AI có trách nhiệm."),
+      ex("B","overwhelm","Too many notifications can overwhelm users.","Quá nhiều thông báo có thể làm người dùng quá tải."),
+      ex("C","cut","Automation helped the factory cut production costs.","Tự động hóa giúp nhà máy cắt giảm chi phí sản xuất."),
+      ex("D","deploy","The hospital will deploy the new AI system next month.","Bệnh viện sẽ triển khai hệ thống AI mới vào tháng tới.")
+    ],
+    "Cấu trúc: overwhelm somebody with something."
+  ));
+
+  add({
+    id:"u6-latest-10",lockOptions:true,type:"reading",context:passage,
+    q:"Which option best fits blank (10)?",o:["domestic","multinational","indolent","primitive"],a:1,e:"multinational"
+  },exp(
+    "Cụm 'operating across several countries' định nghĩa trực tiếp multinational = hoạt động ở nhiều quốc gia. Vì blank bổ nghĩa cho companies nên cần tính từ này.",
+    [
+      opt("A","domestic","trong nước","Thường chỉ phạm vi một quốc gia, trái với across several countries."),
+      opt("B","multinational","đa quốc gia","Đúng: multinational companies hoạt động có tổ chức ở nhiều quốc gia."),
+      opt("C","indolent","lười biếng, ít hoạt động","Mô tả người/lối sống, không mô tả phạm vi địa lý của doanh nghiệp."),
+      opt("D","primitive","thô sơ","Mô tả mức phát triển đơn giản/lạc hậu, không nói số quốc gia hoạt động.")
+    ],
+    [
+      ex("A","domestic","The startup first focused on the domestic market.","Công ty khởi nghiệp ban đầu tập trung thị trường trong nước."),
+      ex("B","multinational","A multinational company may employ staff in many countries.","Một công ty đa quốc gia có thể tuyển nhân viên ở nhiều nước."),
+      ex("C","indolent","An indolent routine may reduce physical activity.","Một thói quen lười vận động có thể làm giảm hoạt động thể chất."),
+      ex("D","primitive","The early prototype used a primitive rule-based system.","Nguyên mẫu ban đầu dùng một hệ thống dựa trên quy tắc khá thô sơ.")
+    ],
+    "multinational company/corporation = công ty/tập đoàn đa quốc gia."
+  ));
+
+  bank.levelConfig[setNo]={
+    label:"B2–C1",
+    name:"Bài mới nhất",
+    title:"Bài mới nhất",
+    note:"5 Synonym/Antonym · 5 Semantic Cloze",
+    fixedOrder:true,
+    sessionSize:10,
+    pool:questions
+  };
+})();
+
 })();
