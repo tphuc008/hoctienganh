@@ -2949,7 +2949,7 @@ async function loadTutoringStreak(){
   if(!session?.user?.id||!session?.access_token)return;
   const start=streakHeatmapStart();
   try{
-    const query="?select=activity_date,activity_count&user_id=eq."+encodeURIComponent(session.user.id)+"&activity_date=gte."+encodeURIComponent(start)+"&order=activity_date.asc";
+    const query="?select=activity_date,activity_count&user_id=eq."+encodeURIComponent(session.user.id)+"&order=activity_date.asc";
     const res=await fetch(SUPABASE_URL+"/rest/v1/learner_daily_activity"+query,{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token}});
     if(!res.ok)throw new Error("Streak fetch failed");
     renderTutoringStreak(await res.json());
