@@ -1380,6 +1380,30 @@ body:before{
 .semantic-remember b{color:#2563EB}
 .semantic-remember span{color:#475569}
 
+
+/* Learner account gate */
+.header-actions{display:flex;align-items:center;gap:9px}
+.header-logout{display:none;border:1px solid var(--line);background:rgba(255,255,255,.72);color:var(--text);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:800;cursor:pointer}
+.header-logout:hover{background:rgba(255,255,255,.96)}
+.account-shell{max-width:760px;margin:24px auto 8px}
+.account-card{border:1px solid var(--line);background:rgba(255,255,255,.86);border-radius:24px;padding:26px;box-shadow:0 18px 50px rgba(37,99,235,.08)}
+.account-card h1{font-size:clamp(34px,5vw,56px);letter-spacing:-.045em;margin:12px 0 8px}
+.account-sub{color:var(--muted);line-height:1.65;margin-bottom:20px}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:5px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.58);margin-bottom:18px}
+.auth-tab{border:0;border-radius:12px;padding:11px 12px;background:transparent;color:var(--muted);font-weight:850;cursor:pointer}
+.auth-tab.active{background:#fff;color:var(--text);box-shadow:0 5px 18px rgba(37,99,235,.09)}
+.auth-fields{display:grid;gap:12px}
+.auth-field label{display:block;margin-bottom:6px;color:var(--muted);font-size:12px;font-weight:850;letter-spacing:.03em}
+.auth-field input{width:100%;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:14px;padding:13px 14px;font:inherit;outline:none}
+.auth-field input:focus{border-color:#2563EB;box-shadow:0 0 0 3px rgba(37,99,235,.09)}
+.auth-help{color:var(--muted);font-size:12px;line-height:1.55;margin-top:4px}
+.auth-message{min-height:22px;margin:12px 0 0;color:#C43255;font-size:13px}
+.auth-message.success{color:#16734F}
+.account-banner{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:18px 0 8px;padding:13px 15px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.74)}
+.account-banner b{display:block}
+.account-banner span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+@media(max-width:620px){.header-actions{gap:6px}.header-logout{padding:8px 9px}.account-card{padding:20px 16px}.account-banner{align-items:flex-start;flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -1387,7 +1411,10 @@ body:before{
 <div class="wrap">
   <header class="site-header">
     <div class="brand" id="brandBtn"><div class="logo">✦</div><div>English Practice Hub</div></div>
-    <div class="header-note">Grades 9–12 · Grammar · Interactive practice</div>
+    <div class="header-actions">
+      <div class="header-note">Learner account</div>
+      <button class="header-logout" id="learnerLogoutBtn" type="button" onclick="logoutLearner()">Đăng xuất</button>
+    </div>
   </header>
 
   <main class="panel">
@@ -1966,6 +1993,276 @@ let scoreSubmitted=false;
 const SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
 
+const LEARNER_AUTH_KEY="hoctienganh_learner_auth_v1";
+const LEARNER_REDIRECT_URL="https://tphuc008.github.io/hoctienganh/";
+
+function normalizeLearnerUsername(value){
+  return String(value||"").trim().toLowerCase();
+}
+function readLearnerSession(){
+  try{
+    const data=JSON.parse(localStorage.getItem(LEARNER_AUTH_KEY)||"null");
+    return data&&data.access_token?data:null;
+  }catch(_){return null}
+}
+function saveLearnerSession(data){
+  const old=readLearnerSession()||{};
+  const expiresAt=data.expires_at
+    ? Number(data.expires_at)*1000
+    : Date.now()+Math.max(60,Number(data.expires_in)||3600)*1000;
+  const session={
+    access_token:data.access_token||old.access_token||"",
+    refresh_token:data.refresh_token||old.refresh_token||"",
+    token_type:data.token_type||old.token_type||"bearer",
+    expires_at_ms:expiresAt,
+    user:data.user||old.user||null
+  };
+  localStorage.setItem(LEARNER_AUTH_KEY,JSON.stringify(session));
+  const meta=session.user?.user_metadata||{};
+  const learnerName=String(meta.display_name||meta.username||"").trim();
+  if(learnerName){
+    currentNickname=learnerName.slice(0,24);
+    localStorage.setItem("vocabNickname",currentNickname);
+  }
+  return session;
+}
+function clearLearnerSession(){
+  localStorage.removeItem(LEARNER_AUTH_KEY);
+}
+function learnerMeta(){
+  const s=readLearnerSession();
+  return s?.user?.user_metadata||{};
+}
+function learnerDisplayName(){
+  const m=learnerMeta();
+  return String(m.display_name||m.username||"Học viên");
+}
+function learnerUsername(){
+  const m=learnerMeta();
+  return String(m.username||"");
+}
+function syncLearnerHeader(){
+  const session=readLearnerSession();
+  const note=document.querySelector(".header-note");
+  const logout=document.getElementById("learnerLogoutBtn");
+  if(logout)logout.style.display=session?"inline-flex":"none";
+  if(!note)return;
+  if(!session){
+    note.textContent="Learner account";
+    return;
+  }
+  const username=learnerUsername();
+  note.textContent=username?"@"+username+" · Learner account":"Learner account";
+}
+async function learnerAuthRequest(path,init={}){
+  const headers={
+    "apikey":SUPABASE_KEY,
+    "Content-Type":"application/json",
+    ...((init.headers)||{})
+  };
+  const res=await fetch(SUPABASE_URL+path,{...init,headers});
+  const raw=await res.text();
+  let data=null;
+  if(raw){try{data=JSON.parse(raw)}catch(_){data={message:raw}}}
+  if(!res.ok){
+    const err=new Error(data?.msg||data?.message||data?.error_description||data?.error||"Authentication failed");
+    err.status=res.status;
+    throw err;
+  }
+  return data||{};
+}
+async function hydrateLearnerUser(session){
+  if(!session?.access_token)return null;
+  if(session.user)return session;
+  try{
+    const user=await learnerAuthRequest("/auth/v1/user",{
+      method:"GET",
+      headers:{"Authorization":"Bearer "+session.access_token}
+    });
+    return saveLearnerSession({...session,user});
+  }catch(_){
+    return null;
+  }
+}
+async function refreshLearnerSession(session){
+  if(!session?.refresh_token)return null;
+  try{
+    const data=await learnerAuthRequest("/auth/v1/token?grant_type=refresh_token",{
+      method:"POST",
+      body:JSON.stringify({refresh_token:session.refresh_token})
+    });
+    return saveLearnerSession(data);
+  }catch(_){
+    clearLearnerSession();
+    return null;
+  }
+}
+async function ensureLearnerSession(){
+  let session=readLearnerSession();
+  if(!session)return null;
+  if(!session.expires_at_ms||session.expires_at_ms<Date.now()+60000){
+    session=await refreshLearnerSession(session);
+    if(!session)return null;
+  }
+  if(!session.user){
+    session=await hydrateLearnerUser(session);
+    if(!session){clearLearnerSession();return null}
+  }
+  return session;
+}
+function consumeLearnerAuthCallback(){
+  const raw=location.hash.replace(/^#/,"");
+  if(!raw.includes("access_token="))return false;
+  const p=new URLSearchParams(raw);
+  const accessToken=p.get("access_token");
+  const refreshToken=p.get("refresh_token");
+  if(!accessToken)return false;
+  saveLearnerSession({
+    access_token:accessToken,
+    refresh_token:refreshToken||"",
+    token_type:p.get("token_type")||"bearer",
+    expires_in:Number(p.get("expires_in"))||3600
+  });
+  history.replaceState(null,"",location.pathname+location.search);
+  return true;
+}
+function authErrorMessage(error){
+  const m=String(error?.message||"");
+  if(/invalid login credentials/i.test(m))return "Email hoặc mật khẩu không đúng.";
+  if(/email not confirmed/i.test(m))return "Bạn cần xác nhận email trước khi đăng nhập.";
+  if(/user already registered/i.test(m))return "Email này đã có tài khoản.";
+  if(/database error saving new user/i.test(m))return "Email hoặc tên đăng nhập đã được sử dụng.";
+  if(/password/i.test(m)&&/least/i.test(m))return "Mật khẩu chưa đủ mạnh hoặc quá ngắn.";
+  return m||"Không thể xử lý tài khoản lúc này.";
+}
+function renderAccountGate(mode="login",message="",success=false){
+  clearActiveArea();
+  syncLearnerHeader();
+  pageMount.style.display="block";
+  const signup=mode==="signup";
+  pageMount.innerHTML=`
+    <div class="account-shell">
+      <div class="account-card">
+        <div class="eyebrow">English Practice Hub</div>
+        <h1><span class="gradient">${signup?"Tạo tài khoản học viên":"Đăng nhập để bắt đầu"}</span></h1>
+        <p class="account-sub">Mỗi học viên có tài khoản riêng. Sau khi đăng nhập, bạn mới chọn Học thêm hoặc Học trên trường.</p>
+        <div class="auth-tabs">
+          <button class="auth-tab ${signup?"":"active"}" type="button" onclick="renderAccountGate('login')">Đăng nhập</button>
+          <button class="auth-tab ${signup?"active":""}" type="button" onclick="renderAccountGate('signup')">Tạo tài khoản</button>
+        </div>
+        ${signup?`
+          <div class="auth-fields">
+            <div class="auth-field"><label for="signupDisplayName">Tên học viên</label><input id="signupDisplayName" maxlength="40" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh"></div>
+            <div class="auth-field"><label for="signupUsername">Tên đăng nhập</label><input id="signupUsername" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Ví dụ: minhanh12"></div>
+            <div class="auth-field"><label for="signupEmail">Email</label><input id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com"></div>
+            <div class="auth-field"><label for="signupPassword">Mật khẩu</label><input id="signupPassword" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Tối thiểu 8 ký tự"></div>
+            <div class="auth-field"><label for="signupPassword2">Nhập lại mật khẩu</label><input id="signupPassword2" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Nhập lại mật khẩu"></div>
+            <div class="auth-help">Tên đăng nhập gồm 3–24 ký tự: chữ thường a–z, số, dấu chấm, gạch dưới hoặc gạch ngang.</div>
+          </div>
+          <div class="auth-message ${success?"success":""}" id="authMessage">${esc(message)}</div>
+          <button class="primary" id="authSubmitBtn" type="button" style="width:100%;margin-top:8px" onclick="submitLearnerSignup()">Tạo tài khoản →</button>
+        `:`
+          <div class="auth-fields">
+            <div class="auth-field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="email" placeholder="name@example.com"></div>
+            <div class="auth-field"><label for="loginPassword">Mật khẩu</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Mật khẩu"></div>
+          </div>
+          <div class="auth-message ${success?"success":""}" id="authMessage">${esc(message)}</div>
+          <button class="primary" id="authSubmitBtn" type="button" style="width:100%;margin-top:8px" onclick="submitLearnerLogin()">Đăng nhập →</button>
+        `}
+      </div>
+    </div>`;
+  const ids=signup?["signupDisplayName","signupUsername","signupEmail","signupPassword","signupPassword2"]:["loginEmail","loginPassword"];
+  ids.forEach(id=>document.getElementById(id)?.addEventListener("keydown",e=>{
+    if(e.key!=="Enter")return;
+    e.preventDefault();
+    signup?submitLearnerSignup():submitLearnerLogin();
+  }));
+  setTimeout(()=>document.getElementById(signup?"signupDisplayName":"loginEmail")?.focus(),0);
+}
+async function submitLearnerLogin(){
+  const email=String(document.getElementById("loginEmail")?.value||"").trim().toLowerCase();
+  const password=String(document.getElementById("loginPassword")?.value||"");
+  const msg=document.getElementById("authMessage");
+  const btn=document.getElementById("authSubmitBtn");
+  if(!email||!password){if(msg)msg.textContent="Nhập đầy đủ email và mật khẩu.";return}
+  if(btn){btn.disabled=true;btn.textContent="Đang đăng nhập…"}
+  if(msg){msg.textContent="";msg.classList.remove("success")}
+  try{
+    const data=await learnerAuthRequest("/auth/v1/token?grant_type=password",{
+      method:"POST",
+      body:JSON.stringify({email,password})
+    });
+    saveLearnerSession(data);
+    clearActiveArea();
+    history.replaceState(null,"",location.pathname+location.search);
+    await route();
+  }catch(e){
+    if(msg)msg.textContent=authErrorMessage(e);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Đăng nhập →"}
+  }
+}
+async function submitLearnerSignup(){
+  const displayName=String(document.getElementById("signupDisplayName")?.value||"").trim().replace(/\s+/g," ");
+  const username=normalizeLearnerUsername(document.getElementById("signupUsername")?.value);
+  const email=String(document.getElementById("signupEmail")?.value||"").trim().toLowerCase();
+  const password=String(document.getElementById("signupPassword")?.value||"");
+  const password2=String(document.getElementById("signupPassword2")?.value||"");
+  const msg=document.getElementById("authMessage");
+  const btn=document.getElementById("authSubmitBtn");
+  if(displayName.length<2){if(msg)msg.textContent="Nhập tên học viên ít nhất 2 ký tự.";return}
+  if(!/^[a-z0-9][a-z0-9._-]{2,23}$/.test(username)){if(msg)msg.textContent="Tên đăng nhập chưa đúng định dạng.";return}
+  if(!email||!email.includes("@")){if(msg)msg.textContent="Nhập email hợp lệ.";return}
+  if(password.length<8){if(msg)msg.textContent="Mật khẩu phải có ít nhất 8 ký tự.";return}
+  if(password!==password2){if(msg)msg.textContent="Hai mật khẩu chưa khớp.";return}
+  if(btn){btn.disabled=true;btn.textContent="Đang tạo tài khoản…"}
+  if(msg){msg.textContent="";msg.classList.remove("success")}
+  try{
+    const redirect=encodeURIComponent(LEARNER_REDIRECT_URL);
+    const data=await learnerAuthRequest("/auth/v1/signup?redirect_to="+redirect,{
+      method:"POST",
+      body:JSON.stringify({
+        email,
+        password,
+        data:{username,display_name:displayName,account_type:"learner"}
+      })
+    });
+    if(data.access_token){
+      saveLearnerSession(data);
+      clearActiveArea();
+      history.replaceState(null,"",location.pathname+location.search);
+      await route();
+      return;
+    }
+    renderAccountGate("login","Đã tạo tài khoản. Hãy mở email xác nhận, sau đó quay lại đây để đăng nhập.",true);
+  }catch(e){
+    if(msg)msg.textContent=authErrorMessage(e);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Tạo tài khoản →"}
+  }
+}
+async function logoutLearner(){
+  const session=readLearnerSession();
+  if(session?.access_token){
+    try{
+      await learnerAuthRequest("/auth/v1/logout",{
+        method:"POST",
+        headers:{"Authorization":"Bearer "+session.access_token},
+        body:"{}"
+      });
+    }catch(_){}
+  }
+  clearLearnerSession();
+  clearActiveArea();
+  clearStoredAccess("school");
+  clearStoredAccess("tutoring");
+  localStorage.removeItem("vocabNickname");
+  currentNickname="";
+  history.replaceState(null,"",location.pathname+location.search);
+  renderAccountGate("login","Đã đăng xuất.",true);
+}
+
+
 function shuffled(items){
   const copy=[...items];
   for(let i=copy.length-1;i>0;i--){
@@ -2297,9 +2594,10 @@ async function validateStoredAccess(area){
 function setActiveArea(area){
   localStorage.setItem(ACCESS_ACTIVE_KEY,area);
   const note=document.querySelector(".header-note");
-  if(note)note.textContent=area==="school"
+  const who=learnerUsername();
+  if(note)note.textContent=(area==="school"
     ?"School · Lớp 10 · Ôn tập trên trường"
-    :"Tutoring · Grades 9–12 · Grammar · Interactive practice";
+    :"Tutoring · Grades 9–12 · Grammar · Interactive practice")+(who?" · @"+who:"");
 }
 function getActiveArea(){
   const area=localStorage.getItem(ACCESS_ACTIVE_KEY);
@@ -2308,7 +2606,9 @@ function getActiveArea(){
 function clearActiveArea(){
   localStorage.removeItem(ACCESS_ACTIVE_KEY);
   const note=document.querySelector(".header-note");
-  if(note)note.textContent="Grades 9–12 · Grammar · Interactive practice";
+  const session=readLearnerSession();
+  const username=learnerUsername();
+  if(note)note.textContent=session?(username?"@"+username+" · Chọn khu vực học tập":"Chọn khu vực học tập"):"Learner account";
 }
 function formatAccessTime(iso){
   if(!iso)return "";
@@ -2323,11 +2623,16 @@ function accessRememberedText(area){
 }
 function renderPortal(){
   clearActiveArea();
+  syncLearnerHeader();
   pageMount.style.display="block";
   pageMount.innerHTML=`
     <div class="hero">
       <div class="eyebrow">English Practice Hub</div>
       <h1><span class="gradient">Chọn khu vực học tập.</span></h1>
+    </div>
+    <div class="account-banner">
+      <div><b>${esc(learnerDisplayName())}</b><span>${learnerUsername()?"@"+esc(learnerUsername())+" · ":""}Tài khoản học viên</span></div>
+      <button class="secondary" type="button" onclick="logoutLearner()">Đăng xuất</button>
     </div>
     <div class="section-title"><h2>Access</h2><span>2 areas</span></div>
     <div class="units">
@@ -2436,10 +2741,19 @@ function hideAll(){
 }
 
 async function route(){
+  consumeLearnerAuthCallback();
   const hash=location.hash.replace(/^#/,"");
   if(typeof destroyEntertainmentPlayer==="function")destroyEntertainmentPlayer();
   if(typeof destroyNewsPlayer==="function")destroyNewsPlayer();
   hideAll();
+
+  const learnerSession=await ensureLearnerSession();
+  if(!learnerSession){
+    clearActiveArea();
+    renderAccountGate("login");
+    return;
+  }
+  syncLearnerHeader();
 
   if(!hash){renderPortal();return}
 
