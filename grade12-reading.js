@@ -55,7 +55,7 @@ function tick(){
  if(seconds<=0&&!state.submitted)submit(true);
 }
 function fresh(){
- return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],note:"",mobileTab:"reading",split:55};
+ return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],mobileTab:"reading",split:52};
 }
 function exitPage(){
  if(state&&!state.submitted&&!window.confirm("Bạn muốn thoát bài đang làm? Tiến độ và thời gian sẽ vẫn được lưu trong tab này."))return;
@@ -99,7 +99,7 @@ function markText(text,p){
 function passageHTML(){
  return '<div class="mis-kicker">IELTS Academic Reading · Passage 3</div><h1 class="mis-passage-title">Marketing and the Information Age</h1>'+
  '<div class="mis-passage-sub">Reading Passage · Paragraphs A–H</div>'+
- '<div class="mis-reading-tools"><button type="button" onclick="misHighlight()">✎ Highlight</button><button type="button" onclick="misToggleNotes()">▤ Notes</button><button type="button" onclick="misDictionary()">⚑ Tra từ (Cambridge)</button></div>'+
+ '<div class="mis-reading-tools"><button type="button" onclick="misHighlight()">✎ Highlight</button><button type="button" onclick="misDictionary()">⚑ Tra từ (Cambridge)</button></div>'+
  '<div class="mis-selection-status" id="mis-selection-status">Chọn một đoạn chữ, sau đó nhấn Highlight hoặc Tra từ.</div>'+
  PASSAGE.map(function(p,i){return '<p class="mis-paragraph'+(state.submitted&&Q.some(function(q){return q.id===Number(state.focus)&&q.p===i})?" mis-current-para":"")+'" id="mis-p-'+i+'" data-p="'+i+'"><strong>'+String.fromCharCode(65+i)+'.</strong> '+markText(p,i)+'</p>'}).join("");
 }
@@ -170,7 +170,7 @@ function renderReader(){
  mount.innerHTML='<div id="mis-app" class="mis-app" data-tab="'+html(state.mobileTab||"questions")+'">'+
  '<header class="mis-topbar"><div class="mis-top-left"><button class="mis-exit" aria-label="Thoát bài Reading" onclick="misExit()">×</button><div><div class="mis-title">Marketing and the Information Age</div><div class="mis-subtitle">IELTS Academic Reading · Passage 3 · Questions 27–40</div></div></div>'+
  '<div class="mis-top-mid"><span class="mis-clock" id="mis-clock">25:00</span><span class="mis-score-mini" id="mis-status"></span></div>'+
- '<div class="mis-top-actions"><button type="button" class="mis-tool mis-hide-mobile" onclick="misToggleNotes()">▤ Ghi chú</button><button type="button" class="mis-tool" onclick="misToggleNotes()" aria-label="Mở ghi chú">✎</button>'+
+ '<div class="mis-top-actions">'+
  (state.submitted?'<button type="button" class="mis-submit" onclick="misReset()">Làm bài khác ↻</button>':'<button type="button" class="mis-submit" onclick="misSubmit(false)">Nộp bài →</button>')+
  '</div></header>'+
  '<div class="mis-mobile-switch"><button type="button" data-tab="reading" class="'+((state.mobileTab||"questions")==="reading"?"active":"")+'" onclick="misSwitchTab(\'reading\')">Bài đọc</button><button type="button" data-tab="questions" class="'+((state.mobileTab||"questions")==="questions"?"active":"")+'" onclick="misSwitchTab(\'questions\')">Câu hỏi</button></div>'+
@@ -179,8 +179,7 @@ function renderReader(){
  '<div class="mis-right" id="mis-question-pane">'+questionsHTML()+'</div></div>'+
  '<footer class="mis-bottom"><div class="mis-progress-grid" aria-label="Điều hướng câu hỏi">'+navHTML()+'</div><div class="mis-bottom-actions">'+
  (state.submitted?'<button type="button" class="mis-footer-btn" onclick="misReset()">Làm lại bài</button>':'<button type="button" class="mis-footer-btn" onclick="misSubmit(false)">Nộp bài</button>')+
- '<button type="button" class="mis-footer-btn mis-hide-mobile" onclick="misExit()">Về Reading</button></div></footer>'+
- '<div id="mis-notes" class="mis-notes-box" hidden><h3>Ghi chú cá nhân</h3><textarea id="mis-note-text" placeholder="Nhập ghi chú của bạn..." oninput="misSaveNotes(this.value)">'+html(state.note||"")+'</textarea><button type="button" class="mis-tool" onclick="misToggleNotes()">Đóng</button></div></div>';
+ '</div></footer></div>';
  const passage=el("mis-passage-pane");
  passage.addEventListener("mouseup",captureSelection);
  passage.addEventListener("keyup",captureSelection);
@@ -261,8 +260,6 @@ function dictionary(){
  const term=selection.text.trim().split(/\s+/).slice(0,5).join(" ");
  window.open("https://dictionary.cambridge.org/dictionary/english/"+encodeURIComponent(term),"_blank","noopener,noreferrer");
 }
-function toggleNotes(){const p=el("mis-notes");if(!p)return;p.hidden=!p.hidden;if(!p.hidden)el("mis-note-text")?.focus()}
-function saveNotes(v){if(!state)return;state.note=v;save()}
 function setupDivider(){
  const handle=el("mis-divider"),layout=el("mis-layout");
  if(!handle||!layout)return;
@@ -296,7 +293,7 @@ function exercise(){
  const mount=el("pageMount");mount.style.display="block";
  mount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-12/reading\'">Reading</button><span>›</span><span>Marketing and the Information Age</span></div>'+
  '<div class="exercise-intro"><div class="eyebrow">IELTS Academic Reading · Passage 3</div><h1><span class="gradient">Marketing and the Information Age</span></h1>'+
- '<p>8 đoạn (A–H) · 14 câu hỏi (27–40) · Thời gian giới hạn 25 phút. Hai cột bài đọc và câu hỏi cuộn độc lập; có highlight, ghi chú, tra từ và điều hướng nhanh.</p>'+
+ '<p>8 đoạn (A–H) · 14 câu hỏi (27–40) · Thời gian giới hạn 25 phút. Hai cột bài đọc và câu hỏi cuộn độc lập; có highlight, tra từ và điều hướng nhanh.</p>'+
  '<div class="pills"><span class="pill">Matching Information</span><span class="pill">YES / NO / NOT GIVEN</span><span class="pill">Flow-chart Completion</span><span class="pill">Chỉ hiện đáp án sau khi nộp</span></div>'+
  '<p><strong>Quy định:</strong> Đồng hồ bắt đầu khi nhấn nút dưới đây. Hết 25 phút sẽ tự động nộp bài; câu chưa trả lời được tính sai.</p>'+
  '<button class="primary" onclick="misContinue()">Bắt đầu làm bài →</button></div>';
@@ -314,7 +311,5 @@ window.misSubmit=submit;
 window.misGoQuestion=goQuestion;
 window.misHighlight=highlight;
 window.misDictionary=dictionary;
-window.misToggleNotes=toggleNotes;
-window.misSaveNotes=saveNotes;
 window.misSwitchTab=switchTab;
 })();
