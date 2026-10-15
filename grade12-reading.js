@@ -55,7 +55,7 @@ function tick(){
  if(seconds<=0&&!state.submitted)submit(true);
 }
 function fresh(){
- return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],note:"",mobileTab:"questions",split:55};
+ return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],note:"",mobileTab:"reading",split:55};
 }
 function exitPage(){
  if(state&&!state.submitted&&!window.confirm("Bạn muốn thoát bài đang làm? Tiến độ và thời gian sẽ vẫn được lưu trong tab này."))return;
@@ -136,7 +136,7 @@ function inputHTML(q){
 }
 function diagramHTML(){
  return '<div class="mis-diagram-scroll" aria-label="Sơ đồ Marketing Information System có 4 ô trống 37 đến 40">'+
- '<svg class="mis-diagram" viewBox="0 0 920 420" role="img" aria-label="Marketing managers 37, find out their information needs 38, developed through internal records 39, processed by analysis unit 40 and timely distribution." xmlns="http://www.w3.org/2000/svg">'+
+ '<svg class="mis-diagram" viewBox="0 0 920 420" role="img" aria-label="Sơ đồ quy trình MIS với bốn chỗ trống đánh số 37, 38, 39 và 40." xmlns="http://www.w3.org/2000/svg">'+
  '<defs><marker id="mis-arr" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#171717"/></marker></defs>'+
  '<text x="460" y="33" text-anchor="middle" font-size="23" font-weight="700" fill="#171717">The Marketing Information System (MIS)</text>'+
  '<g fill="white" stroke="#262626" stroke-width="2"><rect x="25" y="90" width="136" height="285"/><rect x="245" y="90" width="184" height="165"/><rect x="521" y="90" width="375" height="165"/><rect x="245" y="290" width="184" height="86"/><rect x="521" y="290" width="375" height="86"/></g>'+
