@@ -164,9 +164,19 @@ function questionsHTML(){
 function navHTML(){
  return Q.map(function(q){return '<button id="mis-nav-'+q.id+'" type="button" class="mis-jump" onclick="misGoQuestion('+q.id+')" aria-label="Đến câu '+q.id+'">'+q.id+'</button>'}).join("");
 }
+function ensureMISRoot(){
+ let root=el("mis-reading-root");
+ if(!root){
+  root=document.createElement("div");
+  root.id="mis-reading-root";
+  document.body.appendChild(root);
+ }
+ return root;
+}
 function renderReader(){
  stopTimer();selection=null;document.body.classList.add("mis-reading-mode");
- const mount=el("pageMount");mount.style.display="block";
+ const page=el("pageMount");if(page)page.style.display="none";
+ const mount=ensureMISRoot();
  mount.innerHTML='<div id="mis-app" class="mis-app" data-tab="'+html(state.mobileTab||"questions")+'">'+
  '<header class="mis-topbar"><div class="mis-top-left"><button class="mis-exit" aria-label="Thoát bài Reading" onclick="misExit()">×</button><div><div class="mis-title">Marketing and the Information Age</div><div class="mis-subtitle">IELTS Academic Reading · Passage 3 · Questions 27–40</div></div></div>'+
  '<div class="mis-top-mid"><span class="mis-clock" id="mis-clock">25:00</span><span class="mis-score-mini" id="mis-status"></span></div>'+
@@ -174,7 +184,7 @@ function renderReader(){
  (state.submitted?'<button type="button" class="mis-submit" onclick="misReset()">Làm bài khác ↻</button>':'<button type="button" class="mis-submit" onclick="misSubmit(false)">Nộp bài →</button>')+
  '</div></header>'+
  '<div class="mis-mobile-switch"><button type="button" data-tab="reading" class="'+((state.mobileTab||"questions")==="reading"?"active":"")+'" onclick="misSwitchTab(\'reading\')">Bài đọc</button><button type="button" data-tab="questions" class="'+((state.mobileTab||"questions")==="questions"?"active":"")+'" onclick="misSwitchTab(\'questions\')">Câu hỏi</button></div>'+
- '<div class="mis-workspace" id="mis-layout" style="grid-template-columns:minmax(320px,'+Number(state.split||55)+'fr) 8px minmax(320px,'+(100-Number(state.split||55))+'fr)">'+
+ '<div class="mis-workspace" id="mis-layout" style="grid-template-columns:minmax(320px,'+Number(state.split||52)+'fr) 8px minmax(320px,'+(100-Number(state.split||52))+'fr)">'+
  '<div class="mis-left" id="mis-passage-pane">'+passageHTML()+'</div><div class="mis-divider" id="mis-divider" title="Kéo để điều chỉnh độ rộng hai cột" role="separator" aria-orientation="vertical"></div>'+
  '<div class="mis-right" id="mis-question-pane">'+questionsHTML()+'</div></div>'+
  '<footer class="mis-bottom"><div class="mis-progress-grid" aria-label="Điều hướng câu hỏi">'+navHTML()+'</div><div class="mis-bottom-actions">'+
@@ -301,7 +311,10 @@ function exercise(){
 }
 window.renderMISReadingHome=landing;
 window.renderMISReadingExercise=exercise;
-window.destroyMISReading=function(){stopTimer();document.body.classList.remove("mis-reading-mode")};
+window.destroyMISReading=function(){
+ stopTimer();document.body.classList.remove("mis-reading-mode");
+ const root=el("mis-reading-root");if(root)root.remove();
+};
 window.misExit=exitPage;
 window.misContinue=continueReading;
 window.misReset=resetReading;
