@@ -196,6 +196,11 @@ function renderReader(){
  setupDivider();
  updateProgress();
  tick();
+ if(state.submitted){
+  if(state.savedToSupabase)setSaveStatus("Đã lưu lên Supabase ✓",false);
+  else if(state.saveError)setSaveStatus("Chưa lưu kết quả. Hãy bấm Lưu lại.",true);
+  else if(!state.savingToSupabase)persistSubmission();
+ }
  if(!state.submitted)timer=setInterval(tick,600);
 }
 function updateProgress(){
