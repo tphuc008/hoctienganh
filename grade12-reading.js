@@ -55,7 +55,7 @@ function tick(){
  if(seconds<=0&&!state.submitted)submit(true);
 }
 function fresh(){
- return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],mobileTab:"reading",split:52};
+ return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],mobileTab:"reading",split:52,submissionId:(crypto.randomUUID?crypto.randomUUID():("mis-"+Date.now()+"-"+Math.random().toString(36).slice(2)))};
 }
 function exitPage(){
  if(state&&!state.submitted&&!window.confirm("Bạn muốn thoát bài đang làm? Tiến độ và thời gian sẽ vẫn được lưu trong tab này."))return;
@@ -179,9 +179,9 @@ function renderReader(){
  const mount=ensureMISRoot();
  mount.innerHTML='<div id="mis-app" class="mis-app" data-tab="'+html(state.mobileTab||"questions")+'">'+
  '<header class="mis-topbar"><div class="mis-top-left"><button class="mis-exit" aria-label="Thoát bài Reading" onclick="misExit()">×</button><div><div class="mis-title">Marketing and the Information Age</div><div class="mis-subtitle">IELTS Academic Reading · Passage 3 · Questions 27–40</div></div></div>'+
- '<div class="mis-top-mid"><span class="mis-clock" id="mis-clock">25:00</span><span class="mis-score-mini" id="mis-status"></span></div>'+
+ '<div class="mis-top-mid"><span class="mis-clock" id="mis-clock">25:00</span><span class="mis-score-mini" id="mis-status"></span><span class="mis-save-status" id="mis-save-status" role="status"></span></div>'+
  '<div class="mis-top-actions">'+
- (state.submitted?'<button type="button" class="mis-submit" onclick="misReset()">Làm bài khác ↻</button>':'<button type="button" class="mis-submit" onclick="misSubmit(false)">Nộp bài →</button>')+
+ (state.submitted?'<button type="button" class="mis-submit" onclick="misReset()">Làm bài khác ↻</button><button type="button" class="mis-save-retry" id="mis-save-retry" onclick="misSaveSubmission()" hidden>Lưu lại</button>':'<button type="button" class="mis-submit" onclick="misSubmit(false)">Nộp bài →</button>')+
  '</div></header>'+
  '<div class="mis-mobile-switch"><button type="button" data-tab="reading" class="'+((state.mobileTab||"questions")==="reading"?"active":"")+'" onclick="misSwitchTab(\'reading\')">Bài đọc</button><button type="button" data-tab="questions" class="'+((state.mobileTab||"questions")==="questions"?"active":"")+'" onclick="misSwitchTab(\'questions\')">Câu hỏi</button></div>'+
  '<div class="mis-workspace" id="mis-layout" style="grid-template-columns:minmax(320px,'+Number(state.split||52)+'fr) 8px minmax(320px,'+(100-Number(state.split||52))+'fr)">'+
@@ -225,11 +225,76 @@ function submit(automatic){
  if(invalid.length&&!automatic){window.alert("Câu "+invalid.map(function(q){return q.id}).join(", ")+" vượt quá TWO WORDS. Vui lòng sửa đáp án trước khi nộp.");return}
  const missing=14-completed();
  if(!automatic&&!window.confirm("Nộp bài ngay? "+(missing?"Bạn còn "+missing+" câu chưa trả lời. ":"")+"Đáp án và giải thích sẽ hiện sau khi nộp."))return;
- state.submitted=true;state.submittedAt=automatic?state.startedAt+LIMIT*1000:Date.now();state.focus=27;save();
- const scroll=el("mis-question-pane")?.scrollTop||0;
+ state.submitted=true;state.submittedAt=automatic?state.startedAt+LIMIT*1000:Date.now();state.focus=27;state.submissionType=automatic?"timeout":"manual";save();
  renderReader();
  const qp=el("mis-question-pane");if(qp)qp.scrollTop=0;
+ persistSubmission();
 }
+const MIS_SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
+const MIS_SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
+const MIS_LEARNER_AUTH_KEY="hoctienganh_learner_auth_v1";
+function learnerAuthForReading(){
+ try{return JSON.parse(localStorage.getItem(MIS_LEARNER_AUTH_KEY)||"null")}catch(_){return null}
+}
+function setSaveStatus(message,isError){
+ const status=el("mis-save-status"),retry=el("mis-save-retry");
+ if(status){status.textContent=message;status.classList.toggle("error",!!isError);status.classList.toggle("success",!isError&&!!message)}
+ if(retry)retry.hidden=!isError;
+}
+async function persistSubmission(){
+ if(!state||!state.submitted||state.savedToSupabase||state.savingToSupabase)return;
+ state.savingToSupabase=true;save();
+ setSaveStatus("Đang lưu kết quả…",false);
+ const session=learnerAuthForReading();
+ if(!session?.access_token||!session?.user?.id){
+  state.savingToSupabase=false;state.saveError="Không tìm thấy phiên đăng nhập.";
+  save();setSaveStatus("Chưa lưu: vui lòng đăng nhập lại rồi bấm Lưu lại.",true);return;
+ }
+ const meta=session.user.user_metadata||{};
+ const duration=Math.max(1,Math.min(LIMIT,Math.round(((state.submittedAt||Date.now())-state.startedAt)/1000)));
+ const answers={};
+ Q.forEach(function(q){
+  answers[String(q.id)]={answer:state.answers[q.id]??"",correct_answer:q.answer,is_correct:correct(q),question_type:q.type};
+ });
+ const payload={
+  submission_id:state.submissionId||(state.submissionId=crypto.randomUUID()),
+  user_id:session.user.id,
+  username:String(meta.username||"").slice(0,24),
+  display_name:String(meta.display_name||meta.username||"Học viên").slice(0,40),
+  exercise_slug:PATH,
+  exercise_title:"Marketing and the Information Age",
+  score:score(),
+  total_questions:Q.length,
+  answers,
+  duration_seconds:duration,
+  submission_type:state.submissionType==="timeout"?"timeout":"manual",
+  started_at:new Date(state.startedAt).toISOString(),
+  submitted_at:new Date(state.submittedAt||Date.now()).toISOString()
+ };
+ try{
+  const response=await fetch(MIS_SUPABASE_URL+"/rest/v1/reading_submissions?on_conflict=submission_id",{
+   method:"POST",
+   headers:{
+    "apikey":MIS_SUPABASE_KEY,
+    "Authorization":"Bearer "+session.access_token,
+    "Content-Type":"application/json",
+    "Prefer":"resolution=ignore-duplicates,return=minimal"
+   },
+   body:JSON.stringify(payload)
+  });
+  if(!response.ok){
+   const details=await response.text().catch(()=> "");
+   throw new Error("HTTP "+response.status+(details?" · "+details.slice(0,180):""));
+  }
+  state.savedToSupabase=true;state.savingToSupabase=false;state.saveError="";
+  save();setSaveStatus("Đã lưu lên Supabase ✓",false);
+ }catch(error){
+  state.savingToSupabase=false;state.saveError=String(error?.message||"Lỗi kết nối");
+  save();setSaveStatus("Chưa lưu kết quả. Hãy bấm Lưu lại.",true);
+  console.error("[Reading] Supabase save failed:",error);
+ }
+}
+
 function goQuestion(id){
  if(!state||!Q.some(function(q){return q.id===Number(id)}))return;
  state.focus=Number(id);save();
@@ -321,6 +386,7 @@ window.misReset=resetReading;
 window.misSetChoice=setChoice;
 window.misSetInput=setInput;
 window.misSubmit=submit;
+window.misSaveSubmission=persistSubmission;
 window.misGoQuestion=goQuestion;
 window.misHighlight=highlight;
 window.misDictionary=dictionary;
