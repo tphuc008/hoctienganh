@@ -54,8 +54,15 @@ function tick(){
  el("mis-clock").classList.toggle("warning",!state.submitted&&seconds<=120);
  if(seconds<=0&&!state.submitted)submit(true);
 }
+function newSubmissionId(){
+ if(window.crypto&&typeof window.crypto.randomUUID==="function")return window.crypto.randomUUID();
+ return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(ch){
+  const r=Math.floor(Math.random()*16);
+  return (ch==="x"?r:(r&3|8)).toString(16);
+ });
+}
 function fresh(){
- return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],mobileTab:"reading",split:52,submissionId:(crypto.randomUUID?crypto.randomUUID():("mis-"+Date.now()+"-"+Math.random().toString(36).slice(2)))};
+ return {startedAt:Date.now(),submitted:false,submittedAt:null,answers:{},focus:27,highlights:[],mobileTab:"reading",split:52,submissionId:newSubmissionId()};
 }
 function exitPage(){
  if(state&&!state.submitted&&!window.confirm("Bạn muốn thoát bài đang làm? Tiến độ và thời gian sẽ vẫn được lưu trong tab này."))return;
@@ -65,6 +72,9 @@ function start(reset){
  const old=read();
  if(reset&&old&&!old.submitted&&!window.confirm("Làm lại từ đầu? Câu trả lời đã nhập và thời gian hiện tại sẽ bị xóa."))return;
  state=reset||!old?fresh():old;
+ // A previous page may have closed while the network request was in flight.
+ // Re-enable the idempotent save attempt when reopening an unsaved submission.
+ if(state.submitted&&!state.savedToSupabase)state.savingToSupabase=false;
  save();renderReader();
 }
 function continueReading(){start(false)}
@@ -262,7 +272,7 @@ async function persistSubmission(){
   answers[String(q.id)]={answer:state.answers[q.id]??"",correct_answer:q.answer,is_correct:correct(q),question_type:q.type};
  });
  const payload={
-  submission_id:state.submissionId||(state.submissionId=crypto.randomUUID()),
+  submission_id:state.submissionId||(state.submissionId=newSubmissionId()),
   user_id:session.user.id,
   username:String(meta.username||"").slice(0,24),
   display_name:String(meta.display_name||meta.username||"Học viên").slice(0,40),
