@@ -222,3 +222,14 @@
 @media(prefers-reduced-motion:reduce){
  .mis-app *{transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Supabase persistence feedback */
+.mis-save-status{font-size:11px;font-weight:750;color:#64748b;white-space:nowrap}
+.mis-save-status.success{color:#15803d}
+.mis-save-status.error{color:#b91c1c}
+.mis-save-retry{border:1px solid #fecaca;background:#fff1f2;color:#b91c1c;border-radius:9px;padding:8px 10px;font-size:12px;font-weight:800;cursor:pointer}
+.mis-save-retry[hidden]{display:none!important}
+@media(max-width:730px){
+ .mis-save-status{font-size:10px;white-space:normal;max-width:125px}
+ .mis-save-retry{padding:6px 8px;font-size:11px}
+}
