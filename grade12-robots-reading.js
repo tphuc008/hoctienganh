@@ -165,7 +165,7 @@ function renderReader(){
  const page=el("pageMount");if(page)page.style.display="none";
  const mount=ensureMISRoot();
  mount.innerHTML='<div id="mis-app" class="mis-app" data-tab="'+html(state.mobileTab||"questions")+'">'+
- '<header class="mis-topbar"><div class="mis-top-left"><button class="mis-exit" aria-label="Thoát bài Reading" onclick="robotsExit()">×</button><div><div class="mis-title">Marketing and the Information Age</div><div class="mis-subtitle">IELTS Academic Reading · Passage 3 · Questions 27–40</div></div></div>'+
+ '<header class="mis-topbar"><div class="mis-top-left"><button class="mis-exit" aria-label="Thoát bài Reading" onclick="robotsExit()">×</button><div><div class="mis-title">Robots and us</div><div class="mis-subtitle">IELTS Academic Reading · Passage 3 · Questions 27–40</div></div></div>'+
  '<div class="mis-top-mid"><span class="mis-clock" id="mis-clock">20:00</span><span class="mis-score-mini" id="mis-status"></span><span class="mis-save-status" id="mis-save-status" role="status"></span></div>'+
  '<div class="mis-top-actions">'+
  (state.submitted?'<button type="button" class="mis-submit" onclick="robotsReset()">Làm bài khác ↻</button><button type="button" class="mis-save-retry" id="mis-save-retry" onclick="robotsSaveSubmission()" hidden>Lưu lại</button>':'<button type="button" class="mis-submit" onclick="robotsSubmit(false)">Nộp bài →</button>')+
