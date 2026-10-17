@@ -156,7 +156,7 @@ function questionsHTML(){
  return resultHead+
  '<section class="mis-q-section"><h2>Questions 27–31</h2><p class="mis-q-instruction"><strong>Matching Information.</strong> Which paragraph A–H contains each piece of information? Choose the correct letter.</p>'+matching+'</section>'+
  '<section class="mis-q-section"><h2>Questions 32–38</h2><p class="mis-q-instruction"><strong>YES / NO / NOT GIVEN.</strong> YES: agrees with the passage; NO: contradicts it; NOT GIVEN: no information.</p>'+ynng+'</section>'+
- '<section class="mis-q-section"><h2>Questions 39–40</h2><p class="mis-q-instruction"><strong>Sentence Completion.</strong> Complete each sentence using <strong>NO MORE THAN TWO WORDS</strong> from the passage.</p>'<div class="mis-flow-fields">'+blanks+'</div></section>';
+ '<section class="mis-q-section"><h2>Questions 39–40</h2><p class="mis-q-instruction"><strong>Sentence Completion.</strong> Complete each sentence using <strong>NO MORE THAN TWO WORDS</strong> from the passage.</p><div class="mis-flow-fields">'+blanks+'</div></section>';
 }
 function navHTML(){
  return Q.map(function(q){return '<button id="mis-nav-'+q.id+'" type="button" class="mis-jump" onclick="robotsGoQuestion('+q.id+')" aria-label="Đến câu '+q.id+'">'+q.id+'</button>'}).join("");
