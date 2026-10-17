@@ -372,7 +372,7 @@ function landing(){
  const old=read();
  const mount=el("pageMount");mount.style.display="block";
  mount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span><span>Reading</span></div>'+
- '<div class="unit-hero"><div class="eyebrow">Grade 12 · IELTS Reading</div><h1>Reading</h1><p>Luyện tập Reading theo dạng bài IELTS Academic, chấm điểm và giải thích tiếng Việt sau khi nộp.</p></div>'+
+ '<div class="unit-hero"><div class="eyebrow">Grade 12 · IELTS Reading</div><h1>Reading</h1><p>IELTS Academic Reading · Chấm điểm và giải thích sau khi nộp.</p></div>'+
  '<div class="section-title"><h2>Reading Passages</h2><span>2 bài đọc</span></div>'+
  '<div class="exercise-grid"><button class="exercise-card" onclick="location.hash=\''+PATH+'\'"><div class="exercise-icon">📖</div><h3>Marketing and the Information Age</h3><p>Passage 3 · Matching Information · YES/NO/NOT GIVEN · Flow-chart Completion</p><div class="meta"><span class="chip">25 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích chi tiết tiếng Việt</span>'+(old?.startedAt?'<span class="chip">'+(old.submitted?"Đã làm · "+Q.filter(function(q){return cleaned(old.answers?.[q.id])===cleaned(q.answer)}).length+"/14":"Đang làm dở")+'</span>':"")+'</div></button><button class="exercise-card" onclick="location.hash=\'grade-12/reading/robots-and-us\'"><div class="exercise-icon">🤖</div><h3>Robots and us</h3><p>Passage 3 · Matching Features · Matching Sentence Endings · Multiple Choice</p><div class="meta"><span class="chip">20 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích chi tiết tiếng Việt</span></div></button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
@@ -383,9 +383,9 @@ function exercise(){
  const mount=el("pageMount");mount.style.display="block";
  mount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-12/reading\'">Reading</button><span>›</span><span>Marketing and the Information Age</span></div>'+
  '<div class="exercise-intro"><div class="eyebrow">IELTS Academic Reading · Passage 3</div><h1><span class="gradient">Marketing and the Information Age</span></h1>'+
- '<p>8 đoạn (A–H) · 14 câu hỏi (27–40) · Thời gian giới hạn 25 phút. Hai cột bài đọc và câu hỏi cuộn độc lập; có highlight, tra từ và điều hướng nhanh.</p>'+
- '<div class="pills"><span class="pill">Matching Information</span><span class="pill">YES / NO / NOT GIVEN</span><span class="pill">Flow-chart Completion</span><span class="pill">Chỉ hiện đáp án sau khi nộp</span></div>'+
- '<p><strong>Quy định:</strong> Đồng hồ bắt đầu khi nhấn nút dưới đây. Hết 25 phút sẽ tự động nộp bài; câu chưa trả lời được tính sai.</p>'+
+ '<p>14 câu hỏi (27–40) · 25 phút.</p>'+
+ '<div class="pills"><span class="pill">Matching Information</span><span class="pill">YES / NO / NOT GIVEN</span><span class="pill">Flow-chart Completion</span></div>'+
+ '<p><strong>Lưu ý:</strong> Bấm bắt đầu để chạy giờ. Hết giờ, bài tự nộp.</p>'+
  '<button class="primary" onclick="misContinue()">Bắt đầu làm bài →</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
