@@ -1508,7 +1508,6 @@ body:before{
 <script src="listening-entertainment.js?v=20261007-streak-v2"></script>
 <script src="listening-news.js?v=20261007-streak-v2"></script>
 <script src="grade12-reading.js?v=20261017-v3"></script>
-<script src="grade12-robots-reading.js?v=20261017-v2"></script>
 <script>
 
 
@@ -2777,7 +2776,6 @@ async function route(){
   if(typeof destroyNewsPlayer==="function")destroyNewsPlayer();
   hideAll();
   if(typeof window.destroyMISReading==="function")window.destroyMISReading();
-  if(typeof window.destroyRobotsReading==="function")window.destroyRobotsReading();
 
   const learnerSession=await ensureLearnerSession();
   if(!learnerSession){
@@ -2844,7 +2842,6 @@ async function route(){
 
   if(hash==="grade-12/reading"){window.renderMISReadingHome();return}
   if(hash==="grade-12/reading/marketing-and-the-information-age"){window.renderMISReadingExercise();return}
-  if(hash==="grade-12/reading/robots-and-us"){window.renderRobotsReadingExercise();return}
 
   if(hash==="grammar"){renderGrammarHome();return}
 
