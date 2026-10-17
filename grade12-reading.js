@@ -374,8 +374,7 @@ function landing(){
  mount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span><span>Reading</span></div>'+
  '<div class="unit-hero"><div class="eyebrow">Grade 12 · IELTS Reading</div><h1>Reading</h1><p>Luyện tập Reading theo dạng bài IELTS Academic, chấm điểm và giải thích tiếng Việt sau khi nộp.</p></div>'+
  '<div class="section-title"><h2>Reading Passages</h2><span>1 bài đọc</span></div>'+
- '<div class="exercise-grid"><button class="exercise-card" onclick="location.hash=\''+PATH+'\'"><div class="exercise-icon">📖</div><h3>Marketing and the Information Age</h3><p>Passage 3 · Matching Information · YES/NO/NOT GIVEN · Flow-chart Completion</p><div class="meta"><span class="chip">25 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích chi tiết tiếng Việt</span>'+(old?.startedAt?'<span class="chip">'+(old.submitted?"Đã làm · "+Q.filter(function(q){return cleaned(old.answers?.[q.id])===cleaned(q.answer)}).length+"/14":"Đang làm dở")+'</span>':"")+'</div></button>'+
- '</div></button></div>'
+ '<div class="exercise-grid"><button class="exercise-card" onclick="location.hash=\''+PATH+'\'"><div class="exercise-icon">📖</div><h3>Marketing and the Information Age</h3><p>Passage 3 · Matching Information · YES/NO/NOT GIVEN · Flow-chart Completion</p><div class="meta"><span class="chip">25 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích chi tiết tiếng Việt</span>'+(old?.startedAt?'<span class="chip">'+(old.submitted?"Đã làm · "+Q.filter(function(q){return cleaned(old.answers?.[q.id])===cleaned(q.answer)}).length+"/14":"Đang làm dở")+'</span>':"")+'</div></button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
 function exercise(){
