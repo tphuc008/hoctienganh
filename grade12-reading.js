@@ -4,7 +4,7 @@
 (function(){
 "use strict";
 const PATH="grade-12/reading/marketing-and-the-information-age";
-const STORE="grade12-mis-reading-v1";
+const STORE="grade12-mis-reading-v1"; // account-scoped storage handled by the site
 const LIMIT=25*60;
 const PASSAGE=[
 "For the early practitioners of marketing in the late 19th and early 20th centuries, the business of selling was simply a matter of continually finding new customers. By contrast, marketing managers in the current era recognise the importance of gathering information about the market and about potential customers. They recognise that if companies are to be profitable, customers must gain and retain their perceptions of value from the brands they buy over a long time frame, rather than from a single transaction. This also means that customers must see value in returning continually to the stores where they shop, as well as to the service providers they deal with.",
