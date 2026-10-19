@@ -53,6 +53,7 @@ const applyAnswers=function applyAnswers(tests){
  }
  return tests;
 };
+FLAGS["3-35"]="Đoạn văn không nhắc việc phát miễn phí nhạc cụ (A); đồng thời không nêu rõ rằng thí sinh nhận phản hồi từ giám khảo (một phần của C). Vì thế câu hỏi ‘NOT mentioned’ không loại trừ dứt khoát C. Khi tự luyện, cả A và C được chấp nhận, nhưng đáp án dự kiến của đề là A.";
 FLAGS["6-26"]="Đề in tạo câu ghép bằng dấu phẩy với lựa chọn B (‘In addition, they can save water, they can reduce ...’), không chuẩn về dấu câu. Cần sửa lại câu nguồn để có một mệnh đề đúng ngữ pháp trước khi dùng chấm điểm chính thức.";
 FLAGS["6-29"]="Lựa chọn A truyền đạt ý giáo dục môi trường, nhưng vị trí cụm ‘By providing environmental education’ đứng trước ‘students can learn’ gây lỗi gắn chủ thể: người cung cấp giáo dục là nhà trường, không phải học sinh. Cần chỉnh câu nguồn nếu dùng thi chính thức.";
 window.G10_MIDTERM_PARSE=(text)=>applyAnswers(parseSource(text));
