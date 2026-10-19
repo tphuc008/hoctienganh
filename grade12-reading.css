@@ -146,6 +146,25 @@
 .mis-review .mis-paraphrase{
   padding:7px 9px;margin:7px 0;background:#FFFFFF;border-radius:7px;border:1px solid #D9E7F5
 }
+/* Detailed evidence-led feedback for Grade 12 IELTS Reading */
+.mis-review-student,.mis-review-translation{margin:5px 0 8px}
+.mis-review-translation{padding:8px 10px;background:#FFFFFF;border:1px solid #D9E7F5;border-radius:7px}
+.mis-review-section{margin-top:13px;padding-top:10px;border-top:1px solid #CCDCD9}
+.mis-review-section h4{font-size:13px;line-height:1.45;color:#173B53;margin:0 0 8px;font-weight:800}
+.mis-review-section p{margin:5px 0 8px}
+.mis-review-evidence{margin:0 0 9px}
+.mis-review-evidence blockquote{margin:5px 0 4px;white-space:normal;overflow-wrap:anywhere}
+.mis-review-section ol,.mis-review-section ul{margin:6px 0 6px 0;padding-left:19px}
+.mis-review-section li{margin:0 0 8px;line-height:1.6}
+.mis-review-section li:last-child{margin-bottom:0}
+.mis-review-options{list-style:none;padding-left:0!important}
+.mis-review-options li{padding:8px 10px;border:1px solid #DAE3E7;border-radius:8px;background:#FFFFFF}
+.mis-review-option-correct{border-left:3px solid #22A06B!important}
+.mis-review-option-wrong{border-left:3px solid #D8878F!important}
+.mis-review-options li div{margin-top:3px}
+.mis-review-pairs{padding-left:18px}
+.mis-review-pairs li{overflow-wrap:anywhere}
+@media(max-width:640px){.mis-review{padding:10px}.mis-review-section{margin-top:11px}.mis-review-options li{padding:7px 8px}}
 .mis-bottom{
   height:46px;flex:0 0 46px;padding:5px 12px;background:#F8FBFF;
   border-top:1px solid var(--mis-line);display:flex;align-items:center;gap:10px;
