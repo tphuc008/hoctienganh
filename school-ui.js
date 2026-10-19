@@ -1,4 +1,45 @@
 let schoolSession=null;
+function schoolAttemptId(setNo){return "grade-10/midterm-1/set-"+setNo}
+function persistSchoolAttempt(){
+  if(!schoolSession)return;
+  const s=schoolSession;
+  LearningCore.writeDraft("school",schoolAttemptId(s.setNo),{
+    ...s,wrongChoices:s.wrongChoices.map(x=>[...x])
+  });
+}
+function restoreSchoolAttempt(setNo){
+  const d=LearningCore.readDraft("school",schoolAttemptId(setNo));
+  if(!d||d.setNo!==Number(setNo)||!Array.isArray(d.items)||!d.items.length
+    ||d.solved?.length!==d.items.length||d.mistakes?.length!==d.items.length)return null;
+  if(d.items.length!==schoolSetItems(setNo).length)return null;
+  return {...d,wrongChoices:d.items.map((_,i)=>new Set(Array.isArray(d.wrongChoices?.[i])?d.wrongChoices[i]:[]))};
+}
+async function saveSchoolOutcome(){
+  const s=schoolSession;
+  if(!s||!s.finished||s.remoteSaved||s.saving)return;
+  s.saving=true;
+  const status=document.getElementById("schoolSaveStatus");
+  if(status)status.textContent="Đang lưu kết quả…";
+  try{
+    await LearningCore.submitPractice({
+      category:"school",slug:"school/"+schoolAttemptId(s.setNo),
+      correct:s.mistakes.filter(x=>x===0).length,total:s.items.length,
+      duration:Math.max(0,Math.round((Date.now()-s.startedAt)/1000)),
+      submissionId:s.submissionId,details:{mistakes:s.mistakes.reduce((a,b)=>a+b,0)}
+    });
+    s.remoteSaved=true;
+    persistSchoolAttempt();
+    if(status)status.textContent="✓ Đã lưu kết quả vào tài khoản";
+    if(!s.activityTracked&&typeof window.recordTutoringActivity==="function"){
+      s.activityTracked=true;persistSchoolAttempt();
+      window.recordTutoringActivity("school_set");
+    }
+  }catch(err){
+    console.error("School result save failed",err);
+    if(status)status.textContent="Chưa lưu được kết quả. Bấm thử lại để đồng bộ.";
+  }finally{s.saving=false;persistSchoolAttempt()}
+}
+
 
 function schoolReviewData(){
   return window.SCHOOL_G10_MIDTERM1||null;
@@ -215,12 +256,20 @@ function renderSchoolSetIntro(setNo){
     </div>`;
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function startSchoolQuiz(setNo){
+function startSchoolQuiz(setNo,forceNew=false){
   const sourceItems=schoolSetItems(setNo);
   if(!sourceItems.length)return;
+  if(!forceNew){
+    schoolSession=restoreSchoolAttempt(setNo);
+    if(schoolSession){
+      if(schoolSession.finished){finishSchoolQuiz();return}
+      renderSchoolQuestion();return;
+    }
+  }else LearningCore.clearDraft("school",schoolAttemptId(setNo));
   const items=schoolPrepareQuizItems(sourceItems);
   schoolSession={
     setNo:Number(setNo),
+    startedAt:Date.now(),submissionId:LearningCore.uuid(),remoteSaved:false,finished:false,
     items,
     current:0,
     solved:Array(items.length).fill(false),
@@ -229,10 +278,12 @@ function startSchoolQuiz(setNo){
     drafts:Array(items.length).fill(""),
     lastWrong:Array(items.length).fill(false)
   };
+  persistSchoolAttempt();
   renderSchoolQuestion();
 }
 function renderSchoolQuestion(){
   if(!schoolSession)return;
+  persistSchoolAttempt();
   const s=schoolSession,q=s.items[s.current],solved=s.solved[s.current];
   const progressPct=((s.current+1)/s.items.length*100);
   const context=q.ctx?schoolReviewData()?.contexts?.[q.ctx]:"";
@@ -298,7 +349,9 @@ function renderSchoolQuestion(){
   if(q.kind==="input"&&!solved){
     const inp=document.getElementById("schoolAnswerInput");
     inp?.focus();
-    inp?.addEventListener("input",()=>{if(schoolSession)schoolSession.drafts[schoolSession.current]=inp.value});
+    inp?.addEventListener("input",()=>{
+      if(schoolSession){schoolSession.drafts[schoolSession.current]=inp.value;persistSchoolAttempt()}
+    });
     inp?.addEventListener("keydown",e=>{
       if(e.key==="Enter"){
         e.preventDefault();
@@ -357,6 +410,8 @@ function moveSchoolQuestion(step){
 function finishSchoolQuiz(){
   const s=schoolSession;
   if(!s||s.solved.some(x=>!x))return;
+  s.finished=true;
+  persistSchoolAttempt();
   const firstTry=s.mistakes.filter(x=>x===0).length;
   const totalMistakes=s.mistakes.reduce((a,b)=>a+b,0);
   const pct=Math.round(firstTry/s.items.length*100);
@@ -390,15 +445,21 @@ function finishSchoolQuiz(){
           <div class="stat"><b>${totalMistakes}</b><span>Total mistakes</span></div>
           <div class="stat"><b>${firstTry}</b><span>First-try correct</span></div>
         </div>
-        <button class="primary" onclick="startSchoolQuiz(${s.setNo})">Làm lại set</button>
+        <button class="primary" onclick="startSchoolQuiz(${s.setNo},true)">Làm lại set</button>
         <button class="secondary" style="margin-left:8px" onclick="location.hash='school/grade-10/midterm-1'">Về Ôn tập giữa kì 1</button>
       </div>
     </div>
+    <div id="schoolSaveStatus" role="status" style="margin:12px 0">Kết quả đang được đồng bộ…</div>
+    <button class="secondary" type="button" onclick="saveSchoolOutcome()" style="margin-bottom:12px">Thử lưu lại kết quả</button>
     <div class="review"><h3>Answer review</h3><div class="review-list">${review}</div></div>`;
+  const status=document.getElementById("schoolSaveStatus");
+  if(s.remoteSaved&&status)status.textContent="✓ Đã lưu kết quả vào tài khoản";
+  if(!s.remoteSaved)saveSchoolOutcome();
   if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
+window.saveSchoolOutcome=saveSchoolOutcome;
 document.addEventListener("keydown",e=>{
   if(e.key!=="Enter"||!schoolSession)return;
   if(!document.querySelector("[data-school-quiz='1']"))return;
