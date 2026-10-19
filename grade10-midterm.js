@@ -105,6 +105,20 @@ function mtDeepExplanation(q,context){
  '<section class="semantic-step"><div class="semantic-step-label"><span>3</span><div><b>Ví dụ thực tế cho từng đáp án</b><small>Đúng một ví dụ tiếng Anh và nghĩa tiếng Việt cho mỗi lựa chọn</small></div></div><div class="semantic-examples-grid">'+samples+'</div></section>'+
  '<div class="semantic-remember"><b>Điểm cần nhớ</b><span>'+mtEsc(d.remember)+'</span></div></div>';
 }
+function mtWrittenCorrect(q,input){
+ const typed=String(input||"").trim(),answer=String(q.answer||"").trim();
+ if(!typed)return false;
+ if(mtNormal(typed)===mtNormal(answer))return true;
+ if(mtSection(q)==="Sentence Rearrangement"){
+  const letters=answer.split("-").map(x=>x.trim()),parts=mtReorderParts(q);
+  if(typed.length<=32&&typed.toLowerCase().replace(/[^a-g]/g,"")===letters.join(""))return true;
+  const composed=letters.map(k=>parts[k]||"").join(" ");
+  const normalizedTyped=mtNormal(typed),normalizedComposed=mtNormal(composed);
+  return normalizedComposed.length>30&&normalizedTyped.includes(normalizedComposed);
+ }
+ const norm=mtNormal(typed),required=mtNormal(answer);
+ return required.length>=8&&norm.includes(required);
+}
 function mtRender(){
  mtStyles();
  const test=mtCurrent(),q=test.questions[mtState.index],total=test.questions.length;
@@ -112,7 +126,7 @@ function mtRender(){
  const answerChoices=q.options?q.options.map((v,i)=>{
   const key="ABCD"[i];return '<label class="mt-option '+(input===key?'selected':'')+'"><input type="radio" name="mtChoice" value="'+key+'" '+(input===key?'checked':'')+' '+(checked?'disabled':'')+' onchange="mtChoose(\''+key+'\')"><b>'+key+'.</b><span>'+mtEsc(v)+'</span></label>';
  }).join(""):'<label class="mt-subtle" for="mtWrittenInput">Nhập đáp án (thứ tự chữ cái hoặc phần câu cần điền):</label><textarea id="mtWrittenInput" class="mt-written" '+(checked?'disabled':'')+' placeholder="Nhập đáp án của bạn…" oninput="mtType(this.value)">'+mtEsc(input)+'</textarea>';
- const result=checked?(()=>{const alt={"3-27":["A","B"],"4-16":["A","C","D"],"5-29":["A","B"],"6-22":["C","D"],"3-35":["A","C"]};const acceptable=alt[q.id]||[q.answer];const pass=q.options?acceptable.includes(input):mtNormal(input)===mtNormal(q.answer)||mtNormal(input).includes(mtNormal(q.answer));return '<div class="mt-note" style="border-color:'+(pass?'#16a34a':'#dc2626')+'"><b>'+(mtState.revealed[q.id]?'Đã mở lời giải':pass?'✓ Chính xác':'✕ Chưa chính xác')+'</b>'+(q.options?' · Bạn chọn '+mtEsc(input)+'.':"")+' '+(pass&&q.warning?'Có lưu ý về tính không duy nhất của đáp án.':'')+'</div>'})():"";
+ const result=checked?(()=>{const alt={"3-27":["A","B"],"4-16":["A","C","D"],"5-29":["A","B"],"6-22":["C","D"],"3-35":["A","C"]};const acceptable=alt[q.id]||[q.answer];const pass=q.options?acceptable.includes(input):mtWrittenCorrect(q,input);return '<div class="mt-note" style="border-color:'+(pass?'#16a34a':'#dc2626')+'"><b>'+(mtState.revealed[q.id]?'Đã mở lời giải':pass?'✓ Chính xác':'✕ Chưa chính xác')+'</b>'+(q.options?' · Bạn chọn '+mtEsc(input)+'.':"")+' '+(pass&&q.warning?'Có lưu ý về tính không duy nhất của đáp án.':'')+'</div>'})():"";
  const buttons='<div class="mt-controls"><button class="secondary" onclick="mtPrev()" '+(mtState.index===0?'disabled':'')+'>← Câu trước</button>'+
  (!checked?'<button class="primary" onclick="mtCheck()">Kiểm tra đáp án</button><button class="secondary" onclick="mtReveal()">Xem đáp án & lời giải</button>':'<button class="primary" onclick="'+(mtState.index+1===total?'mtResults()':'mtNext()')+'">'+(mtState.index+1===total?'Xem kết quả':'Câu tiếp theo →')+'</button>')+
  '<span class="mt-count">Câu '+(mtState.index+1)+' / '+total+'</span></div>';
@@ -134,7 +148,7 @@ function mtJump(i){mtState.index=Math.max(0,Math.min(mtCurrent().questions.lengt
 function mtResults(){
  const test=mtCurrent();if(!test)return;
  const done=test.questions.filter(q=>mtState.checked[q.id]).length;const alt={"3-27":["A","B"],"4-16":["A","C","D"],"5-29":["A","B"],"6-22":["C","D"],"3-35":["A","C"]};
- const scored=test.questions.map(q=>{const input=mtState.answers[q.id]||"";return {q,checked:!!mtState.checked[q.id],right:!mtState.revealed[q.id]&&!!mtState.checked[q.id]&&(q.options?(alt[q.id]||[q.answer]).includes(input):mtNormal(input)===mtNormal(q.answer)||mtNormal(input).includes(mtNormal(q.answer)))}}),right=scored.filter(x=>x.right).length;
+ const scored=test.questions.map(q=>{const input=mtState.answers[q.id]||"";return {q,checked:!!mtState.checked[q.id],right:!mtState.revealed[q.id]&&!!mtState.checked[q.id]&&(q.options?(alt[q.id]||[q.answer]).includes(input):mtWrittenCorrect(q,input))}}),right=scored.filter(x=>x.right).length;
  const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-10/mid-term-test\'">Mid Term Test</button><span>›</span><span>'+mtEsc(test.title)+'</span></div><div class="unit-hero"><div class="eyebrow">Mid Term Test · '+mtEsc(test.title)+'</div><h1>Tiến độ làm bài</h1><p class="mt-score">'+right+'/'+test.questions.length+' câu khớp đáp án tham khảo · Đã kiểm tra '+done+'/'+test.questions.length+'</p><p class="mt-subtle">Các câu có nhiều cách trả lời hợp lệ được ghi chú riêng. Kết quả này là tự kiểm tra, không thay thế chấm thi chính thức.</p></div><div class="mt-review-grid">'+scored.map((x,i)=>'<button class="'+(x.checked?(x.right?'completed':'missed'):'')+'" onclick="mtJump('+i+')">'+(x.q.section==="Main"?x.q.number:x.q.section.slice(-1)+"-"+x.q.number)+'</button>').join("")+'</div><div class="mt-controls"><button class="primary" onclick="mtJump('+Math.min(mtState.index,test.questions.length-1)+')">Tiếp tục xem lời giải</button><button class="secondary" onclick="location.hash=\'grade-10/mid-term-test\'">Quay lại các đề</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
