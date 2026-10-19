@@ -54,6 +54,24 @@
       const v=Math.floor(Math.random()*16);return (c==="x"?v:(v&3|8)).toString(16);
     });
   }
+  function pendingKey(id){return "hoctienganh:pending:v1:"+id}
+  function readPending(id){try{return JSON.parse(localStorage.getItem(pendingKey(id))||"{}")||{}}catch(_){return {}}}
+  function updatePending(id,submissionId,payload){
+    try{
+      const all=readPending(id);
+      if(payload)all[submissionId]=payload;else delete all[submissionId];
+      localStorage.setItem(pendingKey(id),JSON.stringify(all));
+    }catch(e){console.warn("Could not persist pending submission",e)}
+  }
+  async function postPractice(session,payload){
+    const resp=await fetch(global.SUPABASE_URL+"/rest/v1/practice_submissions?on_conflict=submission_id",{
+      method:"POST",keepalive:true,headers:{
+        apikey:global.SUPABASE_KEY,Authorization:"Bearer "+session.access_token,
+        "Content-Type":"application/json","Prefer":"resolution=ignore-duplicates,return=minimal"
+      },body:JSON.stringify(payload)
+    });
+    if(!resp.ok)throw new Error("Saving result failed ("+resp.status+")");
+  }
   async function submitPractice(data){
     if(!["school","listening","grammar","vocabulary","reading"].includes(data.category))throw new Error("Invalid practice category");
     if(!data.slug||!Number.isInteger(data.total)||data.total<1||data.total>200)throw new Error("Invalid practice result");
@@ -65,17 +83,29 @@
     const payload={
       submission_id:submissionId,user_id:session.user.id,category:data.category,
       exercise_slug:String(data.slug).slice(0,160),correct_answers:correct,
-      total_questions:data.total,duration_seconds:duration,
-      details:data.details||{}
+      total_questions:data.total,duration_seconds:duration,details:data.details||{}
     };
-    const resp=await fetch(global.SUPABASE_URL+"/rest/v1/practice_submissions?on_conflict=submission_id",{
-      method:"POST",keepalive:true,headers:{
-        apikey:global.SUPABASE_KEY,Authorization:"Bearer "+session.access_token,
-        "Content-Type":"application/json","Prefer":"resolution=ignore-duplicates,return=minimal"
-      },body:JSON.stringify(payload)
-    });
-    if(!resp.ok)throw new Error("Saving result failed ("+resp.status+")");
+    updatePending(session.user.id,submissionId,payload);
+    await postPractice(session,payload);
+    updatePending(session.user.id,submissionId,null);
     return submissionId;
+  }
+  let flushing=false;
+  async function flushPending(){
+    if(flushing)return;
+    const session=typeof global.ensureLearnerSession==="function"?await global.ensureLearnerSession():null;
+    if(!session?.user?.id||!session.access_token)return;
+    flushing=true;
+    try{
+      const all=readPending(session.user.id);
+      for(const [submissionId,payload] of Object.entries(all)){
+        try{
+          if(payload.user_id!==session.user.id)continue;
+          await postPractice(session,payload);
+          updatePending(session.user.id,submissionId,null);
+        }catch(e){console.warn("Pending result not yet synced",e)}
+      }
+    }finally{flushing=false}
   }
   // Generic Listening state adapter: same persistence behavior for any video/category.
   function attachListening(opts){
@@ -125,6 +155,6 @@
     return persist;
   }
   global.LearningCore=Object.freeze({
-    register,list,resolve,renderRoute,userId,draftKey,readDraft,writeDraft,clearDraft,uuid,submitPractice,attachListening
+    register,list,resolve,renderRoute,userId,draftKey,readDraft,writeDraft,clearDraft,uuid,submitPractice,flushPending,attachListening
   });
 })(window);
