@@ -91,6 +91,29 @@ const sample= {
 window.G10_MIDTERM_QUALITY_PREV=window.G10_MIDTERM_EXPLAIN;
 window.G10_MIDTERM_EXPLAIN=function(q,context){
  const d=window.G10_MIDTERM_QUALITY_PREV(q,context);
+ const isOrderQuestion=(q.options||[]).every(x=>/^[a-g](?:\s*[-–—]\s*[a-g]){2,}$/i.test(x.trim()));
+ if(isOrderQuestion){
+  const bits={};
+  for(const line of String(q.stem).split("\n")){const m=line.match(/^([a-g])\.\s*(.*)$/);if(m)bits[m[1]]=m[2]}
+  const order=x=>x.split(/\s*[-–—]\s*/).map(c=>c.toLowerCase());
+  const key=order(q.options["ABCD".indexOf(q.answer)]),pairs=new Set(key.slice(0,-1).map((x,i)=>x+key[i+1]));
+  d.options=d.options.map((o,i)=>{
+    const seq=order(q.options[i]),bad=seq.slice(0,-1).map((x,j)=>[x,seq[j+1]]).find(x=>!pairs.has(x.join("")));
+    o.meaning="Trình tự: "+seq.join(" → ");
+    o.analysis=!bad
+       ?"Các cặp nối liên tiếp khớp với mạch hợp lý "+key.join(" → ")+". "+q.hint+"."
+       :"Sai ở điểm nối "+bad.join(" → ")+": “"+(bits[bad[0]]||bad[0])+"” đứng ngay trước “"+(bits[bad[1]]||bad[1])+"”, nhưng trong mạch hợp lý vị trí sau "+bad[0]+" là "+(key[key.indexOf(bad[0])+1]||"kết thúc")+". Cần đối chiếu chức năng câu và lượt lời, không chỉ nhìn các từ nối.";
+    return o;
+  });
+  d.examples=d.examples.map((e,i)=>{
+    const seq=order(q.options[i]),bad=seq.slice(0,-1).map((x,j)=>[x,seq[j+1]]).find(x=>!pairs.has(x.join("")));
+    const pair=bad||seq.slice(0,2);
+    return {...e,en:(bits[pair[0]]||pair[0])+" → "+(bits[pair[1]]||pair[1]),vi:bad?"Ví dụ cặp câu bị sắp sai: đối chiếu lại lượt lời hoặc quan hệ thời gian/đại từ.":"Ví dụ một cặp câu nối tiếp hợp logic trong thứ tự đúng."};
+  });
+  d.step1[2]="Thứ tự phù hợp: "+key.join(" → ")+". "+q.hint+". Hãy kiểm tra điểm bắt đầu, từng cặp liền kề và câu kết; các phương án nhiễu thường đảo một cặp làm đứt quan hệ hỏi–đáp hoặc diễn tiến thông tin.";
+  d.remember="Với sắp xếp: kiểm tra cặp hỏi–đáp, người nói, đại từ hồi chỉ, trật tự thời gian và chức năng của câu kết. Kiểm tra mọi điểm nối giữa hai câu trước khi chọn "+q.answer+".";
+  return d;
+ }
  const fallback=/The teacher asked us to check the word choice|In a classroom discussion, a student considered the claim/;
  const good=String(q.options?.[("ABCD".indexOf(q.answer))]||"");
  const correctProfile=vocab[good.toLowerCase()];
