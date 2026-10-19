@@ -191,10 +191,11 @@ function updateNewsProgress(partId){
   var el=document.getElementById("newsProgress"+part.id);
   if(el)el.textContent=answered+" / "+part.questions.length+" answered";
 }
-function submitNewsPart(partId){
+function submitNewsPart(partId,restoring=false){
   var part=getNewsPart(partId);
   if(!part)return;
   var st=newsState[part.id];
+  if(st.submitted&&!restoring)return;
   st.submitted=true;
   st.answersVisible=false;
   st.results={};
@@ -226,14 +227,35 @@ function submitNewsPart(partId){
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
   var streakAnswered=part.questions.filter(function(q){return readNewsAnswer(part,q).trim()!=="";}).length;
-  if(streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("listening_news_part");
+  if(!restoring){
+    st.submissionId=st.submissionId||LearningCore.uuid();
+    persistListening();
+  }
+  if(!st.remoteSaved&&!st.saving){
+    st.submissionId=st.submissionId||LearningCore.uuid();
+    st.saving=true;
+    LearningCore.submitPractice({
+      category:"listening",slug:"listening/news/"+NEWS_VIDEO_ID+"/part-"+part.id,
+      correct,total:part.questions.length,
+      duration:Math.max(0,Math.round((Date.now()-(st.startedAt||Date.now()))/1000)),
+      submissionId:st.submissionId,details:{answered:streakAnswered}
+    }).then(function(){
+      st.remoteSaved=true;
+      if(!st.activityTracked&&streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function"){
+        st.activityTracked=true;
+        window.recordTutoringActivity("listening_news_part");
+      }
+    }).catch(function(err){console.error("Listening save failed",err)}).finally(function(){
+      st.saving=false;persistListening();
+    });
+  }
   var firstWrong=part.questions.find(function(q){return !st.results[q.id];});
   if(firstWrong){
     var c=document.getElementById("news-p"+part.id+"-q-"+firstWrong.id);
     if(c)c.scrollIntoView({behavior:"smooth",block:"center"});
   }
 }
-function toggleNewsPartAnswers(partId){
+function toggleNewsPartAnswers(partId,silent=false){
   var part=getNewsPart(partId);
   if(!part)return;
   var st=newsState[part.id];
@@ -247,11 +269,12 @@ function toggleNewsPartAnswers(partId){
   });
   var btn=document.getElementById("newsShowAnswers"+part.id);
   if(btn)btn.textContent=st.answersVisible?"Ẩn đáp án":"Hiện đáp án";
+  if(!silent)persistListening();
 }
 function resetNewsPart(partId){
   var part=getNewsPart(partId);
   if(!part)return;
-  newsState[part.id]={submitted:false,answersVisible:false,results:{}};
+  newsState[part.id]={submitted:false,answersVisible:false,results:{},startedAt:Date.now()};
   part.questions.forEach(function(q){
     var card=document.getElementById("news-p"+part.id+"-q-"+q.id);
     if(card)card.classList.remove("correct","wrong");
@@ -272,6 +295,7 @@ function resetNewsPart(partId){
   if(showBtn)showBtn.style.display="none";
   if(submitBtn){submitBtn.textContent="Nộp đáp án";submitBtn.disabled=false;}
   updateNewsProgress(part.id);
+  persistListening();
 }
 function switchNewsPart(partId){
   activeNewsPart=Number(partId);
@@ -329,8 +353,9 @@ function renderNews(){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
+var persistListening=function(){};
 function renderNewsVideo(){
-  NEWS_PARTS.forEach(function(part){newsState[part.id]={submitted:false,answersVisible:false,results:{}};});
+  NEWS_PARTS.forEach(function(part){newsState[part.id]={submitted:false,answersVisible:false,results:{},startedAt:Date.now()};});
   activeNewsPart=1;
   var mount=document.getElementById("pageMount");
   if(!mount)return;
@@ -352,6 +377,12 @@ function renderNewsVideo(){
       '</section>'+
     '</div>';
   bindNewsWorkspace();
+  persistListening=LearningCore.attachListening({
+    id:"news/"+NEWS_VIDEO_ID,parts:NEWS_PARTS,state:newsState,
+    prefix:"news",panelId:"newsListeningQuestionPanel",
+    readAnswer:readNewsAnswer,restoreSubmitted:submitNewsPart,
+    restoreAnswers:toggleNewsPartAnswers,updateProgress:updateNewsProgress
+  });
   initNewsPlayer();
   window.scrollTo({top:0,behavior:"smooth"});
 }
