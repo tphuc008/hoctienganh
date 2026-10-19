@@ -31,7 +31,7 @@ const parseSource=function parseSource(text){
     }
     if(arr.length===4&&arr.map(x=>x.letter).join("")==="ABCD"){options=arr.map(x=>x.value);stem=full.slice(0,start).trim()}
    }
-   tests.find(x=>x.id===test).questions.push({id:uid,number:no,section,stem,options,context:previousTail});
+   tests.find(x=>x.id===test).questions.push({id:uid,number:no,section,stem:stem||`Choose the correct option for blank (${no}) in the passage.`,options,context:previousTail});
    previousTail=tail;
   }
   previousTail="";
