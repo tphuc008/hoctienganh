@@ -2023,6 +2023,8 @@ let skipped=[];
 let quizStartedAt=0;
 let currentNickname=localStorage.getItem("vocabNickname")||"";
 let scoreSubmitted=false;
+let quizFinished=false;
+let wordformDraft="";
 
 const SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
@@ -2545,7 +2547,7 @@ const counter=document.getElementById("counter");
 
 document.getElementById("brandBtn").onclick=()=>{location.hash=""};
 document.getElementById("exitQuizBtn").onclick=exitCurrentQuiz;
-document.getElementById("retryBtn").onclick=()=>startQuiz(true);
+document.getElementById("retryBtn").onclick=()=>startQuiz(true,true);
 window.addEventListener("hashchange",route);
 
 const ACCESS_FUNCTION_URL=SUPABASE_URL+"/functions/v1/access-gate";
@@ -3309,9 +3311,43 @@ function initQuizState(){
   skipped=Array(activeQuestions.length).fill(false);
   quizStartedAt=Date.now();
   scoreSubmitted=false;
+  quizFinished=false;
+  wordformDraft="";
   readingScrollTop=0;
   readingQuestionScrollTop=0;
   readingContextText="";
+}
+function quizAttemptIdentity(){
+  return activeMode==="grammar"
+    ?"grammar/"+activeGrammarSlug+"/set-"+activeSet
+    :"grade-"+activeGrade+"/unit-"+activeUnit+"/set-"+activeSet+(activeLevel?.contextGuessing?"/context":"");
+}
+function saveQuizAttempt(){
+  if(!quizStartedAt||quizFinished||!activeQuestions?.length)return;
+  LearningCore.writeDraft("quiz",quizAttemptIdentity(),{
+    version:activeBank?.version||1,startedAt:quizStartedAt,
+    indices:activeQuestionIndices,questions:activeQuestions,current,
+    answers,solved,mistakes,wrongChoices:wrongChoices.map(x=>[...x]),skipped,
+    wordformDraft,sublevel:activeSublevelKey
+  });
+}
+function restoreQuizAttempt(){
+  const d=LearningCore.readDraft("quiz",quizAttemptIdentity());
+  if(!d||d.version!==(activeBank?.version||1)||!Array.isArray(d.questions)
+    ||!d.questions.length||!Array.isArray(d.indices)||d.indices.length!==d.questions.length
+    ||d.solved?.length!==d.questions.length||d.mistakes?.length!==d.questions.length
+    ||d.indices.some(i=>!Number.isInteger(i)||!activeBank.questions[i]))return false;
+  activeQuestionIndices=d.indices;
+  activeQuestions=d.questions;
+  activeExplanations=d.indices.map((i,p)=>activeBank?.explanationById?.[d.questions[p]?.id]||activeBank.explanations[i]||{});
+  current=Math.max(0,Math.min(d.questions.length-1,Number(d.current)||0));
+  answers=Array.isArray(d.answers)&&d.answers.length===d.questions.length?d.answers:Array(d.questions.length).fill(null);
+  solved=d.solved.map(Boolean);mistakes=d.mistakes.map(x=>Math.max(0,Number(x)||0));
+  wrongChoices=d.questions.map((_,i)=>new Set(Array.isArray(d.wrongChoices?.[i])?d.wrongChoices[i]:[]));
+  skipped=Array.isArray(d.skipped)&&d.skipped.length===d.questions.length?d.skipped.map(Boolean):Array(d.questions.length).fill(false);
+  quizStartedAt=Number(d.startedAt)||Date.now();scoreSubmitted=false;quizFinished=false;
+  wordformDraft=String(d.wordformDraft||"");activeSublevelKey=d.sublevel||activeSublevelKey;
+  return true;
 }
 function readNickname(){
   const nickname=String(learnerDisplayName()||learnerUsername()||"").trim().replace(/\s+/g," ");
@@ -3339,6 +3375,8 @@ function startContextGuessing(levelKey,fromRetry=false){
 
   activeLevel=cfg;
   activeSublevelKey="mixed";
+  if(!fromRetry&&restoreQuizAttempt()){showQuizShell();return}
+  if(fromRetry)LearningCore.clearDraft("quiz",quizAttemptIdentity());
   const progress=readContextProgress();
   const combinedPool=[...(cfg.pool||[])];
   const picked=pickContextAdaptive(combinedPool,cfg.sessionSize||10,progress);
@@ -3355,13 +3393,15 @@ function startContextGuessing(levelKey,fromRetry=false){
   initQuizState();
   showQuizShell();
 }
-function startQuiz(reset=false){
+function startQuiz(reset=false,forceNew=false){
   if(reset&&activeLevel?.contextGuessing&&activeSublevelKey){
-    startContextGuessing(activeSublevelKey,true);
+    startContextGuessing(activeSublevelKey,forceNew);
     return;
   }
   if(reset){
     if(activeMode!=="grammar"&&!readNickname())return;
+    if(!forceNew&&restoreQuizAttempt()){showQuizShell();return}
+    LearningCore.clearDraft("quiz",quizAttemptIdentity());
     selectSet(activeSet);
     initQuizState();
   }
@@ -3401,6 +3441,7 @@ function readingPassageHTML(q){
   return html;
 }
 function renderQuestion(){
+  saveQuizAttempt();
   const q=activeQuestions[current],isSolved=solved[current];
   const solvedCount=solved.filter(Boolean).length;
   progress.style.width=((current+1)/activeQuestions.length*100)+"%";
@@ -3414,7 +3455,7 @@ function renderQuestion(){
   const answerBlock=q.kind==="input"
     ? `<div class="wordform-wrap">
         <input class="wordform-input" id="wordformInput" type="text" autocomplete="off" spellcheck="false"
-          placeholder="Type your answer" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):""}">
+          placeholder="Type your answer" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):esc(wordformDraft)}">
         <button class="primary" id="wordformSubmit" ${isSolved?"disabled":""}>Check</button>
       </div>`
     : `<div class="answers">
@@ -3486,6 +3527,7 @@ function renderQuestion(){
   const skipBtn=document.getElementById("skipWordformBtn");
   if(skipBtn)skipBtn.onclick=skipWordformQuestion;
   if(input&&!isSolved){
+    input.addEventListener("input",()=>{wordformDraft=input.value;saveQuizAttempt()});
     if(submit)submit.onclick=()=>checkInputAnswer(input.value);
     input.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
@@ -3509,7 +3551,7 @@ function checkInputAnswer(value){
 
   const accepted=(q.answers||[q.answer]).filter(Boolean).map(normalizeQuizInput);
   if(accepted.includes(entered)){
-    answers[current]=value.trim();
+    answers[current]=value.trim();wordformDraft="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
     renderQuestion();
@@ -3549,7 +3591,7 @@ function checkAnswer(i){
   const q=activeQuestions[current];
   if(solved[current])return;
   if(i===q.a){
-    answers[current]=i;
+    answers[current]=i;wordformDraft="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
     renderQuestion();
@@ -3663,7 +3705,7 @@ function move(step){
   const n=current+step;
   if(n<0||n>=activeQuestions.length)return;
   if(step>0&&!solved[current])return;
-  current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+  current=n;wordformDraft="";renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
 async function submitLearningScore(firstTry,totalMistakes,totalQuestions){
@@ -3686,8 +3728,11 @@ async function submitLearningScore(firstTry,totalMistakes,totalQuestions){
 }
 
 function finishLearning(){
+  if(quizFinished)return;
   const mastered=solved.filter(Boolean).length;
   if(mastered<activeQuestions.length)return;
+  quizFinished=true;
+  LearningCore.clearDraft("quiz",quizAttemptIdentity());
   const totalMistakes=mistakes.reduce((a,b)=>a+b,0);
   const firstTry=mistakes.filter(x=>x===0).length;
   const pct=Math.round(firstTry/activeQuestions.length*100);
@@ -3718,6 +3763,12 @@ function finishLearning(){
   buildReview();
   recordTutoringActivity(activeMode==="grammar"?"grammar_set":"vocabulary_set");
   if(activeMode!=="grammar")submitLearningScore(firstTry,totalMistakes,activeQuestions.length);
+  LearningCore.submitPractice({
+    category:activeMode==="grammar"?"grammar":"vocabulary",slug:quizAttemptIdentity(),
+    correct:firstTry,total:activeQuestions.length,
+    duration:Math.max(0,Math.round((Date.now()-quizStartedAt)/1000)),
+    submissionId:LearningCore.uuid(),details:{mistakes:totalMistakes,firstTryAccuracy:pct}
+  }).catch(err=>{console.error("Unified result save failed",err);toast("Chưa đồng bộ được kết quả bổ sung")});
   if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
