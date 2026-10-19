@@ -248,6 +248,12 @@ function submit(automatic){
  renderReader();
  const qp=el("mis-question-pane");if(qp)qp.scrollTop=0;
  persistSubmission();
+ const submissionId=state.submissionId||(state.submissionId=newSubmissionId());
+ save();
+ LearningCore.submitPractice({category:"reading",slug:PATH,correct:score(),total:Q.length,
+   duration:Math.max(1,Math.min(LIMIT,Math.round(((state.submittedAt||Date.now())-state.startedAt)/1000))),
+   submissionId,details:{submissionType:state.submissionType||"manual"}
+ }).catch(e=>console.warn("Reading history sync is queued for retry",e));
  if(typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("reading_submission");
 }
 const MIS_SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
