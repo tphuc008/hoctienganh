@@ -2,6 +2,13 @@
 
 The site uses one **shared contract** for every learning activity, while retaining subject-specific interfaces.
 
+## Source layout
+- `core/`: content/route registry, account-scoped drafts and submission API.
+- `features/`: independent UI features that register themselves.
+- `migrations/`: backwards-compatible database changes.
+- `tests/`: regression tests runnable with `npm test` (no dependencies).
+- Existing grade, School, Reading and Listening modules remain at the root to preserve existing URLs during gradual migration; place **new** modules in descriptive feature/content directories.
+
 ## Adding content
 - Register each lesson with `LearningCore.register({id, route, title, category, grade?, unit?, render})`.
 - Use a stable ID and URL slug. Avoid duplicating route literals in the main router or page cards.
