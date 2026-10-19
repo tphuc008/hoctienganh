@@ -2827,11 +2827,8 @@ async function route(){
     }
     setActiveArea("school");
 
-    if(hash==="school/grade-10"){renderSchoolGrade10();return}
-    if(hash==="school/grade-10/midterm-1"){renderSchoolMidterm1();return}
+    if(LearningCore.renderRoute(hash))return;
 
-    const schoolSet=hash.match(/^school\/grade-10\/midterm-1\/set-(\d+)$/);
-    if(schoolSet){renderSchoolSetIntro(Number(schoolSet[1]));return}
 
     location.hash="school";
     return;
@@ -2842,15 +2839,6 @@ async function route(){
   if(area!=="tutoring"){location.hash="school";return}
 
   if(LearningCore.renderRoute(hash))return;
-  if(hash==="listening"){renderListeningHome();return}
-  if(hash==="listening/entertainment"){renderEntertainment();return}
-  if(hash==="listening/entertainment/change-your-life-one-tiny-step-at-a-time"){renderEntertainmentVideo();return}
-  if(hash==="listening/news"){renderNews();return}
-  if(hash==="listening/news/former-openai-employee-ai-might-really-kill-us-all"){renderNewsVideo();return}
-
-  if(hash==="grade-12/reading"){window.renderMISReadingHome();return}
-  if(hash==="grade-12/reading/marketing-and-the-information-age"){window.renderMISReadingExercise();return}
-  if(hash==="grade-12/reading/robots-and-us"){window.renderRobotsReadingExercise();return}
 
   if(hash==="grammar"){renderGrammarHome();return}
 
@@ -3810,15 +3798,23 @@ document.addEventListener("keydown",e=>{
 });
 // Content catalogue provides a stable route contract for future lessons.
 [
+  {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",render:()=>window.renderSchoolGrade10()},
+  {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",render:()=>window.renderSchoolMidterm1()},
   {id:"reading-home",route:"grade-12/reading",title:"Reading",category:"reading-home",grade:12,render:()=>window.renderMISReadingHome()},
   {id:"reading-marketing",route:"grade-12/reading/marketing-and-the-information-age",title:"Marketing and the Information Age",category:"reading",grade:12,listing:true,questions:14,minutes:25,render:()=>window.renderMISReadingExercise()},
-  {id:"reading-robots",route:"grade-12/reading/robots-and-us",title:"Robots and Us",category:"reading",grade:12,listing:true,questions:14,minutes:25,render:()=>window.renderRobotsReadingExercise()},
+  {id:"reading-robots",route:"grade-12/reading/robots-and-us",title:"Robots and Us",category:"reading",grade:12,listing:true,questions:14,minutes:20,render:()=>window.renderRobotsReadingExercise()},
   {id:"listening-home",route:"listening",title:"Listening",category:"listening-home",render:()=>window.renderListeningHome()},
   {id:"listening-entertainment-home",route:"listening/entertainment",title:"Entertainment",category:"listening-home",render:()=>window.renderEntertainment()},
   {id:"listening-entertainment-habits",route:"listening/entertainment/change-your-life-one-tiny-step-at-a-time",title:"Change Your Life",category:"listening",render:()=>window.renderEntertainmentVideo()},
   {id:"listening-news-home",route:"listening/news",title:"News",category:"listening-home",render:()=>window.renderNews()},
   {id:"listening-news-ai",route:"listening/news/former-openai-employee-ai-might-really-kill-us-all",title:"Former OpenAI employee",category:"listening",render:()=>window.renderNewsVideo()}
 ].forEach(item=>LearningCore.register(item));
+for(let setNo=1;setNo<=7;setNo++){
+  LearningCore.register({id:"school-g10-midterm1-set-"+setNo,
+    route:"school/grade-10/midterm-1/set-"+setNo,
+    title:"Ôn tập giữa kì 1 · Set "+setNo,category:"school",grade:10,
+    render:()=>window.renderSchoolSetIntro(setNo)});
+}
 route();
 </script>
 </body>
