@@ -67,8 +67,26 @@ var PARTS=[
 
 var state={};
 PARTS.forEach(function(part){
-  state[part.id]={submitted:false,answersVisible:false,results:{}};
+  state[part.id]={submitted:false,answersVisible:false,results:{},startedAt:Date.now()};
 });
+function listeningProgressKey(){
+  var uid=typeof readLearnerSession==="function"?readLearnerSession()?.user?.id:null;
+  return uid?"entertainment_progress_v2_"+uid+"_"+VIDEO_ID:"";
+}
+function readListeningProgress(){
+  try{var key=listeningProgressKey();return key?JSON.parse(localStorage.getItem(key)||"null"):null;}catch(e){return null;}
+}
+function writeListeningProgress(){
+  var key=listeningProgressKey();if(!key)return;
+  var sections={};
+  PARTS.forEach(function(part){
+    var answers={};
+    part.questions.forEach(function(q){answers[q.id]=readAnswer(part,q);});
+    var st=state[part.id];
+    sections[part.id]={answers:answers,submitted:st.submitted,answersVisible:st.answersVisible,startedAt:st.startedAt,submissionId:st.submissionId||null};
+  });
+  try{localStorage.setItem(key,JSON.stringify(sections));}catch(e){console.error("Listening progress save failed",e);}
+}
 
 function injectStyles(){
   if(document.getElementById("listeningStyles"))return;
