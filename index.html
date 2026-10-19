@@ -1482,6 +1482,7 @@ body:before{
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="learning-core.js?v=20261019-v1"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit2.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit3.js?v=20261001-deep-v5"></script>
@@ -2026,6 +2027,8 @@ let scoreSubmitted=false;
 const SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
 
+window.SUPABASE_URL=SUPABASE_URL;
+window.SUPABASE_KEY=SUPABASE_KEY;
 const LEARNER_AUTH_KEY="hoctienganh_learner_auth_v1";
 
 function normalizeLearnerUsername(value){
@@ -2836,6 +2839,7 @@ async function route(){
   if(!area){renderPortal();return}
   if(area!=="tutoring"){location.hash="school";return}
 
+  if(LearningCore.renderRoute(hash))return;
   if(hash==="listening"){renderListeningHome();return}
   if(hash==="listening/entertainment"){renderEntertainment();return}
   if(hash==="listening/entertainment/change-your-life-one-tiny-step-at-a-time"){renderEntertainmentVideo();return}
@@ -3176,9 +3180,10 @@ function renderGrade(id){
 
   const readingHTML=id===12?[
     '<div class="section-title"><h2>Reading</h2><span>IELTS Academic</span></div>',
-    '<div class="exercise-grid"><button type="button" class="exercise-card" onclick="location.hash=&quot;grade-12/reading&quot;">',
-    '<div class="exercise-icon">📖</div><h3>Reading</h3><p>Academic passages · 25-minute practice · detailed Vietnamese feedback</p>',
-    '<div class="meta"><span class="chip">Marketing and the Information Age</span><span class="chip">14 câu · 25 phút</span></div></button></div>'
+    '<div class="exercise-grid">'+LearningCore.list({category:"reading",grade:12,listing:true})
+      .map(item=>'<button type="button" class="exercise-card" data-reading-route="'+esc(item.route)+'">'+
+      '<div class="exercise-icon">📖</div><h3>'+esc(item.title)+'</h3><p>'+esc(item.description||"IELTS Academic Reading")+'</p>'+
+      '<div class="meta"><span class="chip">'+esc(item.questions||14)+' câu</span><span class="chip">'+esc(item.minutes||25)+' phút</span></div></button>').join("")+'</div>'
   ].join(""):"";
 
   pageMount.innerHTML=`
@@ -3193,6 +3198,7 @@ function renderGrade(id){
 
     ${unitsHTML}
     ${readingHTML}`;
+  pageMount.querySelectorAll("[data-reading-route]").forEach(btn=>btn.addEventListener("click",()=>{location.hash=btn.dataset.readingRoute}));
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function goUnit(id,grade){
@@ -3751,6 +3757,17 @@ document.addEventListener("keydown",e=>{
   if(current<activeQuestions.length-1)move(1);
   else finishLearning();
 });
+// Content catalogue provides a stable route contract for future lessons.
+[
+  {id:"reading-home",route:"grade-12/reading",title:"Reading",category:"reading-home",grade:12,render:()=>window.renderMISReadingHome()},
+  {id:"reading-marketing",route:"grade-12/reading/marketing-and-the-information-age",title:"Marketing and the Information Age",category:"reading",grade:12,listing:true,questions:14,minutes:25,render:()=>window.renderMISReadingExercise()},
+  {id:"reading-robots",route:"grade-12/reading/robots-and-us",title:"Robots and Us",category:"reading",grade:12,listing:true,questions:14,minutes:25,render:()=>window.renderRobotsReadingExercise()},
+  {id:"listening-home",route:"listening",title:"Listening",category:"listening-home",render:()=>window.renderListeningHome()},
+  {id:"listening-entertainment-home",route:"listening/entertainment",title:"Entertainment",category:"listening-home",render:()=>window.renderEntertainment()},
+  {id:"listening-entertainment-habits",route:"listening/entertainment/change-your-life-one-tiny-step-at-a-time",title:"Change Your Life",category:"listening",render:()=>window.renderEntertainmentVideo()},
+  {id:"listening-news-home",route:"listening/news",title:"News",category:"listening-home",render:()=>window.renderNews()},
+  {id:"listening-news-ai",route:"listening/news/former-openai-employee-ai-might-really-kill-us-all",title:"Former OpenAI employee",category:"listening",render:()=>window.renderNewsVideo()}
+].forEach(item=>LearningCore.register(item));
 route();
 </script>
 </body>
