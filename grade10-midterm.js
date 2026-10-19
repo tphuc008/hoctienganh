@@ -140,8 +140,8 @@ function mtRender(){
 }
 function mtChoose(val){const q=mtCurrent().questions[mtState.index];if(mtState.checked[q.id])return;mtState.answers[q.id]=val;document.querySelectorAll(".mt-option").forEach(x=>x.classList.toggle("selected",!!x.querySelector("input:checked")))}
 function mtType(s){const q=mtCurrent().questions[mtState.index];if(!mtState.checked[q.id])mtState.answers[q.id]=s}
-function mtCheck(){const q=mtCurrent().questions[mtState.index];if(!String(mtState.answers[q.id]||"").trim()){alert("Hãy chọn hoặc nhập câu trả lời trước khi kiểm tra.");return}mtState.checked[q.id]=true;mtRender()}
-function mtReveal(){const q=mtCurrent().questions[mtState.index];mtState.revealed[q.id]=true;mtState.checked[q.id]=true;mtRender()}
+function mtCheck(){const q=mtCurrent().questions[mtState.index];if(!String(mtState.answers[q.id]||"").trim()){alert("Hãy chọn hoặc nhập câu trả lời trước khi kiểm tra.");return}mtState.checked[q.id]=true;mtRender();document.querySelector(".mt-note")?.scrollIntoView({behavior:"smooth",block:"center"})}
+function mtReveal(){const q=mtCurrent().questions[mtState.index];mtState.revealed[q.id]=true;mtState.checked[q.id]=true;mtRender();document.querySelector(".semantic-feedback")?.scrollIntoView({behavior:"smooth",block:"start"})}
 function mtPrev(){if(mtState.index>0){mtState.index--;mtRender()}}
 function mtNext(){if(mtState.index+1<mtCurrent().questions.length){mtState.index++;mtRender()}else mtResults()}
 function mtJump(i){mtState.index=Math.max(0,Math.min(mtCurrent().questions.length-1,Number(i)||0));mtRender()}
