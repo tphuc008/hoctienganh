@@ -56,5 +56,13 @@ const applyAnswers=function applyAnswers(tests){
 FLAGS["3-35"]="Đoạn văn không nhắc việc phát miễn phí nhạc cụ (A); đồng thời không nêu rõ rằng thí sinh nhận phản hồi từ giám khảo (một phần của C). Vì thế câu hỏi ‘NOT mentioned’ không loại trừ dứt khoát C. Khi tự luyện, cả A và C được chấp nhận, nhưng đáp án dự kiến của đề là A.";
 FLAGS["6-26"]="Đề in tạo câu ghép bằng dấu phẩy với lựa chọn B (‘In addition, they can save water, they can reduce ...’), không chuẩn về dấu câu. Cần sửa lại câu nguồn để có một mệnh đề đúng ngữ pháp trước khi dùng chấm điểm chính thức.";
 FLAGS["6-29"]="Lựa chọn A truyền đạt ý giáo dục môi trường, nhưng vị trí cụm ‘By providing environmental education’ đứng trước ‘students can learn’ gây lỗi gắn chủ thể: người cung cấp giáo dục là nhà trường, không phải học sinh. Cần chỉnh câu nguồn nếu dùng thi chính thức.";
+
+FLAGS["3-26"]="C (although) và D (but) đều tạo được quan hệ nhượng bộ/tương phản đúng ngữ pháp sau dấu phẩy; đề không phân biệt được một đáp án duy nhất.";
+FLAGS["4-11"]="B là câu điều kiện loại 1, còn C là điều kiện loại 2. Cả hai đều đúng ngữ pháp và có nghĩa hợp lý nếu người nói thay đổi mức độ giả định; đề chưa ràng buộc rõ tình huống.";
+FLAGS["4-16"]="Các phương án A, B, C và D đều có thể nêu lý do hợp lý cho tính tiện lợi của tài liệu số. Câu thiếu điều kiện phân biệt đáp án, không dùng để tính điểm.";
+FLAGS["5-13"]="C (will recycle) là quyết định tại thời điểm nói; B (am going to recycle) là kế hoạch sẵn có. Với câu ‘I think I ...’, cả hai có thể tự nhiên tùy ý định của người nói.";
+FLAGS["5-14"]="B (are going to clean) phù hợp nếu đã có kế hoạch; C (will clean) có thể đúng nếu quyết định tại lúc thấy rác. Câu không nói rõ thời điểm hình thành quyết định.";
+FLAGS["6-26"]="Không có lựa chọn nào tạo câu hoàn toàn chuẩn như in đề: B cho ý đúng nhưng gây comma splice. Phiên bản sửa: 'In addition, they can save water by taking shorter showers and fixing leaking taps.' Không tính điểm câu gốc.";
+FLAGS["6-29"]="Không có lựa chọn nào tạo câu hoàn toàn hợp ngữ pháp/nghĩa như in đề. A gây dangling modifier: chủ ngữ của 'by providing' phải là schools, không phải students. Viết lại: 'By providing environmental education, schools can help students understand ...'. Không tính điểm câu gốc.";
 window.G10_MIDTERM_PARSE=(text)=>applyAnswers(parseSource(text));
 })();
