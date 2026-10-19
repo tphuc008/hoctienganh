@@ -2791,6 +2791,7 @@ async function route(){
     return;
   }
   syncLearnerHeader();
+  LearningCore.flushPending().catch(console.warn);
 
   if(!hash){renderPortal();return}
 
