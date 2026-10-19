@@ -77,7 +77,49 @@
     if(!resp.ok)throw new Error("Saving result failed ("+resp.status+")");
     return submissionId;
   }
+  // Generic Listening state adapter: same persistence behavior for any video/category.
+  function attachListening(opts){
+    const {id,parts,state,prefix,panelId,readAnswer,restoreSubmitted,restoreAnswers,updateProgress}=opts;
+    const snapshot=readDraft("listening",id)||{};
+    function persist(){
+      const saved={};
+      parts.forEach(part=>{
+        const answers={};
+        part.questions.forEach(q=>{answers[q.id]=readAnswer(part,q)});
+        const st=state[part.id];
+        saved[part.id]={answers,submitted:!!st.submitted,answersVisible:!!st.answersVisible,
+          startedAt:st.startedAt,submissionId:st.submissionId||null};
+      });
+      writeDraft("listening",id,saved);
+    }
+    parts.forEach(part=>{
+      const previous=snapshot[part.id];
+      if(!previous||typeof previous!=="object")return;
+      state[part.id].startedAt=Number(previous.startedAt)||Date.now();
+      state[part.id].submissionId=previous.submissionId||null;
+      part.questions.forEach(q=>{
+        const value=String(previous.answers?.[q.id]||"");
+        if(q.type==="mc"){
+          document.querySelectorAll('input[name="'+prefix+'-p'+part.id+'-q-'+q.id+'"]').forEach(x=>{x.checked=x.value===value});
+        }else{
+          const input=document.getElementById(prefix+"-p"+part.id+"-input-"+q.id);
+          if(input)input.value=value;
+        }
+      });
+      updateProgress(part.id);
+      if(previous.submitted){
+        restoreSubmitted(part.id,true);
+        if(previous.answersVisible)restoreAnswers(part.id,true);
+      }
+    });
+    const panel=document.getElementById(panelId);
+    if(panel){
+      panel.addEventListener("input",persist);
+      panel.addEventListener("change",persist);
+    }
+    return persist;
+  }
   global.LearningCore=Object.freeze({
-    register,list,resolve,renderRoute,userId,draftKey,readDraft,writeDraft,clearDraft,uuid,submitPractice
+    register,list,resolve,renderRoute,userId,draftKey,readDraft,writeDraft,clearDraft,uuid,submitPractice,attachListening
   });
 })(window);
