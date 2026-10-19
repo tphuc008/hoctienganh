@@ -139,7 +139,7 @@ window.G10_MIDTERM_EXPLAIN=function(q,context){
  const isOrderQuestion=(q.options||[]).every(x=>/^[a-g](?:\s*[-–—]\s*[a-g]){2,}(?:\s*[-–—]\s*)?$/i.test(x.trim()));
  if(isOrderQuestion){
   const bits={};
-  for(const line of String(q.stem).split("\n")){const m=line.match(/^([a-g])\.\s*(.*)$/);if(m)bits[m[1]]=m[2]}
+  for(const line of String(q.stem).split("\n")){const m=line.match(/^([a-g])\.\s*(.*)$/i);if(m)bits[m[1].toLowerCase()]=m[2]}
   const order=x=>x.split(/\s*[-–—]\s*/).map(c=>c.toLowerCase()).filter(Boolean);
   const key=order(q.options["ABCD".indexOf(q.answer)]),pairs=new Set(key.slice(0,-1).map((x,i)=>x+key[i+1]));
   d.options=d.options.map((o,i)=>{
