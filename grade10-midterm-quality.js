@@ -136,16 +136,18 @@ const extraExamples={
 window.G10_MIDTERM_QUALITY_PREV=window.G10_MIDTERM_EXPLAIN;
 window.G10_MIDTERM_EXPLAIN=function(q,context){
  const d=window.G10_MIDTERM_QUALITY_PREV(q,context);
- const isOrderQuestion=(q.options||[]).every(x=>/^[a-g](?:\s*[-–—]\s*[a-g]){2,}$/i.test(x.trim()));
+ const isOrderQuestion=(q.options||[]).every(x=>/^[a-g](?:\s*[-–—]\s*[a-g]){2,}(?:\s*[-–—]\s*)?$/i.test(x.trim()));
  if(isOrderQuestion){
   const bits={};
   for(const line of String(q.stem).split("\n")){const m=line.match(/^([a-g])\.\s*(.*)$/);if(m)bits[m[1]]=m[2]}
-  const order=x=>x.split(/\s*[-–—]\s*/).map(c=>c.toLowerCase());
+  const order=x=>x.split(/\s*[-–—]\s*/).map(c=>c.toLowerCase()).filter(Boolean);
   const key=order(q.options["ABCD".indexOf(q.answer)]),pairs=new Set(key.slice(0,-1).map((x,i)=>x+key[i+1]));
   d.options=d.options.map((o,i)=>{
     const seq=order(q.options[i]),bad=seq.slice(0,-1).map((x,j)=>[x,seq[j+1]]).find(x=>!pairs.has(x.join("")));
     o.meaning="Trình tự: "+seq.join(" → ");
-    o.analysis=!bad
+    o.analysis=seq.length!==key.length
+       ?"Phương án in không đủ "+key.length+" thành phần: chỉ có "+seq.length+" thành phần, không thể là một thứ tự hoàn chỉnh."
+       :!bad
        ?"Các cặp nối liên tiếp khớp với mạch hợp lý "+key.join(" → ")+". "+q.hint+"."
        :"Sai ở điểm nối "+bad.join(" → ")+": “"+(bits[bad[0]]||bad[0])+"” đứng ngay trước “"+(bits[bad[1]]||bad[1])+"”, nhưng trong mạch hợp lý vị trí sau "+bad[0]+" là "+(key[key.indexOf(bad[0])+1]||"kết thúc")+". Cần đối chiếu chức năng câu và lượt lời, không chỉ nhìn các từ nối.";
     return o;
