@@ -85,10 +85,13 @@
       const saved={};
       parts.forEach(part=>{
         const answers={};
-        part.questions.forEach(q=>{answers[q.id]=readAnswer(part,q)});
+        const panel=document.getElementById(panelId);
+        const old=readDraft("listening",id)?.[part.id]?.answers||{};
+        part.questions.forEach(q=>{answers[q.id]=panel&&panel.isConnected?readAnswer(part,q):(old[q.id]||"")});
         const st=state[part.id];
         saved[part.id]={answers,submitted:!!st.submitted,answersVisible:!!st.answersVisible,
-          startedAt:st.startedAt,submissionId:st.submissionId||null};
+          startedAt:st.startedAt,submissionId:st.submissionId||null,
+          remoteSaved:!!st.remoteSaved,activityTracked:!!st.activityTracked};
       });
       writeDraft("listening",id,saved);
     }
@@ -97,6 +100,8 @@
       if(!previous||typeof previous!=="object")return;
       state[part.id].startedAt=Number(previous.startedAt)||Date.now();
       state[part.id].submissionId=previous.submissionId||null;
+      state[part.id].remoteSaved=!!previous.remoteSaved;
+      state[part.id].activityTracked=!!previous.activityTracked;
       part.questions.forEach(q=>{
         const value=String(previous.answers?.[q.id]||"");
         if(q.type==="mc"){
