@@ -2024,7 +2024,7 @@ let quizStartedAt=0;
 let currentNickname=localStorage.getItem("vocabNickname")||"";
 let scoreSubmitted=false;
 let quizFinished=false;
-let wordformDraft="";
+let wordformDrafts=[];
 
 const SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
@@ -3302,7 +3302,7 @@ function initQuizState(){
   quizStartedAt=Date.now();
   scoreSubmitted=false;
   quizFinished=false;
-  wordformDraft="";
+  wordformDrafts=Array(activeQuestions.length).fill("");
   readingScrollTop=0;
   readingQuestionScrollTop=0;
   readingContextText="";
@@ -3318,7 +3318,7 @@ function saveQuizAttempt(){
     version:activeBank?.version||1,startedAt:quizStartedAt,
     indices:activeQuestionIndices,questions:activeQuestions,current,
     answers,solved,mistakes,wrongChoices:wrongChoices.map(x=>[...x]),skipped,
-    wordformDraft,sublevel:activeSublevelKey
+    wordformDrafts,sublevel:activeSublevelKey
   });
 }
 function restoreQuizAttempt(){
@@ -3336,7 +3336,8 @@ function restoreQuizAttempt(){
   wrongChoices=d.questions.map((_,i)=>new Set(Array.isArray(d.wrongChoices?.[i])?d.wrongChoices[i]:[]));
   skipped=Array.isArray(d.skipped)&&d.skipped.length===d.questions.length?d.skipped.map(Boolean):Array(d.questions.length).fill(false);
   quizStartedAt=Number(d.startedAt)||Date.now();scoreSubmitted=false;quizFinished=false;
-  wordformDraft=String(d.wordformDraft||"");activeSublevelKey=d.sublevel||activeSublevelKey;
+  wordformDrafts=Array.isArray(d.wordformDrafts)&&d.wordformDrafts.length===d.questions.length?d.wordformDrafts:Array(d.questions.length).fill("");
+  activeSublevelKey=d.sublevel||activeSublevelKey;
   return true;
 }
 function readNickname(){
@@ -3445,7 +3446,7 @@ function renderQuestion(){
   const answerBlock=q.kind==="input"
     ? `<div class="wordform-wrap">
         <input class="wordform-input" id="wordformInput" type="text" autocomplete="off" spellcheck="false"
-          placeholder="Type your answer" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):esc(wordformDraft)}">
+          placeholder="Type your answer" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):esc(wordformDrafts[current]||"")}">
         <button class="primary" id="wordformSubmit" ${isSolved?"disabled":""}>Check</button>
       </div>`
     : `<div class="answers">
@@ -3517,7 +3518,7 @@ function renderQuestion(){
   const skipBtn=document.getElementById("skipWordformBtn");
   if(skipBtn)skipBtn.onclick=skipWordformQuestion;
   if(input&&!isSolved){
-    input.addEventListener("input",()=>{wordformDraft=input.value;saveQuizAttempt()});
+    input.addEventListener("input",()=>{wordformDrafts[current]=input.value;saveQuizAttempt()});
     if(submit)submit.onclick=()=>checkInputAnswer(input.value);
     input.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
@@ -3541,7 +3542,7 @@ function checkInputAnswer(value){
 
   const accepted=(q.answers||[q.answer]).filter(Boolean).map(normalizeQuizInput);
   if(accepted.includes(entered)){
-    answers[current]=value.trim();wordformDraft="";
+    answers[current]=value.trim();wordformDrafts[current]="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
     renderQuestion();
@@ -3581,7 +3582,7 @@ function checkAnswer(i){
   const q=activeQuestions[current];
   if(solved[current])return;
   if(i===q.a){
-    answers[current]=i;wordformDraft="";
+    answers[current]=i;wordformDrafts[current]="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
     renderQuestion();
@@ -3695,7 +3696,7 @@ function move(step){
   const n=current+step;
   if(n<0||n>=activeQuestions.length)return;
   if(step>0&&!solved[current])return;
-  current=n;wordformDraft="";renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+  current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
 async function submitLearningScore(firstTry,totalMistakes,totalQuestions){
