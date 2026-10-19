@@ -411,11 +411,11 @@ window.renderMISReadingHome=function(){
   grid.innerHTML=entries.map(item=>{
     const status=item.route===PATH&&existing?.startedAt
       ?'<span class="chip">'+(existing.submitted?"Đã làm":"Đang làm dở")+'</span>':"";
-    return '<button type="button" class="exercise-card" data-reading-path="'+esc(item.route)+'">'+
-      '<div class="exercise-icon">📖</div><h3>'+esc(item.title)+'</h3>'+
-      '<p>'+esc(item.description||"IELTS Academic Reading")+'</p>'+
-      '<div class="meta"><span class="chip">'+esc(item.minutes||25)+' phút</span>'+
-      '<span class="chip">'+esc(item.questions||14)+' câu</span>'+status+'</div></button>';
+    return '<button type="button" class="exercise-card" data-reading-path="'+html(item.route)+'">'+
+      '<div class="exercise-icon">📖</div><h3>'+html(item.title)+'</h3>'+
+      '<p>'+html(item.description||"IELTS Academic Reading")+'</p>'+
+      '<div class="meta"><span class="chip">'+html(item.minutes||25)+' phút</span>'+
+      '<span class="chip">'+html(item.questions||14)+' câu</span>'+status+'</div></button>';
   }).join("");
   grid.querySelectorAll("[data-reading-path]").forEach(btn=>btn.addEventListener("click",()=>{
     location.hash=btn.dataset.readingPath;
