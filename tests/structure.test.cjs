@@ -9,10 +9,13 @@ const read=name=>fs.readFileSync(path.join(root,name),"utf8");
 test("Every loaded script exists and all JavaScript parses",()=>{
   const html=read("index.html");
   const paths=[...html.matchAll(/<script\s+src="([^"]+)"/g)].map(x=>x[1].split("?")[0]);
-  assert.ok(paths.includes("learning-core.js"));
+  assert.ok(paths.includes("core/learning-core.js"));
   const files=fs.readdirSync(root).filter(f=>f.endsWith(".js"));
   for(const name of files)new vm.Script(read(name),{filename:name});
-  for(const name of paths)assert.ok(fs.existsSync(path.join(root,name)),"Missing script: "+name);
+  for(const name of paths){
+    assert.ok(fs.existsSync(path.join(root,name)),"Missing script: "+name);
+    new vm.Script(read(name),{filename:name});
+  }
   const inline=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
   assert.ok(inline.length>0,"Expected main inline application script");
   for(const match of inline)new vm.Script(match[1],{filename:"index.html inline"});
@@ -36,7 +39,7 @@ function setup(){
     return {ok:!fail,status:fail?503:201};
   };
   const context=vm.createContext({window,localStorage,fetch,console,document:{},crypto:{randomUUID:()=> "00000000-0000-4000-8000-000000000001"}});
-  vm.runInContext(read("learning-core.js"),context,{filename:"learning-core.js"});
+  vm.runInContext(read("core/learning-core.js"),context,{filename:"core/learning-core.js"});
   return {core:window.LearningCore,data,requests,setUser:x=>user=x,setFail:x=>fail=x};
 }
 
