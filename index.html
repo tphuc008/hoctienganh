@@ -1483,6 +1483,7 @@ body:before{
 <div class="toast" id="toast"></div>
 
 <script src="learning-core.js?v=20261019-v1"></script>
+<script src="learning-history.js?v=20261019-v1"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit2.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit3.js?v=20261001-deep-v5"></script>
@@ -1492,7 +1493,6 @@ body:before{
 <script src="school-grade10-midterm1.js?v=20261002-school-g10-midterm1-v1"></script>
 <script src="school-grade10-explanations.js?v=20261002-school-g10-explanations-v1"></script>
 <script src="school-ui.js?v=20261004-school-reading-order-v6"></script>
-<script src="tutoring-fixed-format.js?v=20261007-audit-v1"></script>
 <script src="grammar-prefix-suffix-bank.js?v=20261005-prefix-suffix-v1"></script>
 <script src="sentence-translations.js?v=20261001-translations-v1"></script>
 <script src="grade12-unit1-semantic-pilot.js?v=20261006-semantic-pilot-v1"></script>
@@ -2667,7 +2667,7 @@ function renderPortal(){
     </div>
     <div class="account-banner">
       <div><b>${esc(learnerDisplayName())}</b><span>${learnerUsername()?"@"+esc(learnerUsername())+" · ":""}Tài khoản học viên</span></div>
-      <button class="secondary" type="button" onclick="logoutLearner()">Đăng xuất</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="secondary" type="button" onclick="location.hash='history'">Lịch sử học tập</button><button class="secondary" type="button" onclick="logoutLearner()">Đăng xuất</button></div>
     </div>
     <div class="section-title"><h2>Access</h2><span>2 areas</span></div>
     <div class="units">
@@ -2794,6 +2794,7 @@ async function route(){
   LearningCore.flushPending().catch(console.warn);
 
   if(!hash){renderPortal();return}
+  if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash==="school"){
     if(await validateStoredAccess("school")){
