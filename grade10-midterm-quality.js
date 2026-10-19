@@ -2,7 +2,7 @@
    Each entry provides specific usage, a real English example, and a Vietnamese translation.
    The Grade 12 three-step renderer remains unchanged. */
 (()=>{
-const entries=String.raw\`
+const entries=String.raw`
 natural habitat|môi trường sống tự nhiên|Chỉ nơi sinh sống của động thực vật; không phải sự cân bằng thời gian làm việc và sinh hoạt.|Deforestation destroys the natural habitat of many species.|Nạn phá rừng hủy hoại môi trường sống tự nhiên của nhiều loài.
 personal skills|kỹ năng cá nhân|Năng lực một người rèn luyện; không phải tài nguyên bị hao phí khi để thiết bị điện chạy.|Communication is one of the most useful personal skills.|Giao tiếp là một trong những kỹ năng cá nhân hữu ích nhất.
 family values|giá trị gia đình|Những niềm tin và chuẩn mực gia đình coi trọng; không phải điện năng hay tài nguyên bị lãng phí.|Respect for elders is an important family value in many households.|Tôn trọng người lớn là một giá trị gia đình quan trọng trong nhiều gia đình.
@@ -51,7 +51,7 @@ ought to|nên, cần nên|Lời khuyên đạo đức, yếu hơn lệnh cấm m
 consume|tiêu thụ|Dùng cho điện năng, thực phẩm hoặc tài nguyên, không đồng nghĩa sử dụng lại.|This appliance consumes less electricity.|Thiết bị này tiêu thụ ít điện hơn.
 recycle|tái chế|Chuyển rác vật liệu thành nguyên liệu/sản phẩm mới, khác tái sử dụng trực tiếp.|We recycle glass bottles whenever possible.|Chúng tôi tái chế chai thủy tinh khi có thể.
 reuse|tái sử dụng|Dùng lại sản phẩm hiện có, không nhất thiết qua quá trình tái chế.|You can reuse this glass jar for storage.|Bạn có thể tái sử dụng lọ thủy tinh để đựng đồ.
-\`;
+`;
 const vocab={};for(const line of entries.trim().split("\n")){const [k,vi,scope,en,tr]=line.split("|");if(k&&tr)vocab[k.toLowerCase()]={vi,scope,en,tr}}
 const notices={
 "3-23":["Sau encourage all students cần to-infinitive; 'to use' song song với 'walk' được hiểu lược bỏ 'to' ở nhánh hai.","'use' thiếu 'to' nếu theo ngay sau encourage all students.","'using' không theo cấu trúc encourage somebody to do.","'used' là dạng quá khứ, sai chức năng sau encourage students."],
