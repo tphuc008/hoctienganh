@@ -4,7 +4,11 @@
 (function(){
 "use strict";
 const PATH="grade-12/reading/marketing-and-the-information-age";
-const STORE="grade12-mis-reading-v1"; // account-scoped storage handled by the site
+const STORE_BASE="grade12-mis-reading-v1";
+function storeKey(){
+ const uid=(typeof readLearnerSession==="function"?readLearnerSession()?.user?.id:null);
+ return uid?STORE_BASE+"_"+uid:null;
+}
 const LIMIT=25*60;
 const PASSAGE=[
 "For the early practitioners of marketing in the late 19th and early 20th centuries, the business of selling was simply a matter of continually finding new customers. By contrast, marketing managers in the current era recognise the importance of gathering information about the market and about potential customers. They recognise that if companies are to be profitable, customers must gain and retain their perceptions of value from the brands they buy over a long time frame, rather than from a single transaction. This also means that customers must see value in returning continually to the stores where they shop, as well as to the service providers they deal with.",
@@ -37,8 +41,8 @@ let timer=null;
 let selection=null;
 function el(id){return document.getElementById(id)}
 function html(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function read(){try{return JSON.parse(sessionStorage.getItem(STORE)||"null")}catch(e){return null}}
-function save(){try{sessionStorage.setItem(STORE,JSON.stringify(state))}catch(e){}}
+function read(){try{const key=storeKey();return key?JSON.parse(localStorage.getItem(key)||"null"):null}catch(e){return null}}
+function save(){try{const key=storeKey();if(key)localStorage.setItem(key,JSON.stringify(state))}catch(e){}}
 function cleaned(s){return String(s||"").trim().replace(/\s+/g," ").toLowerCase()}
 function correct(q){return cleaned(state.answers[q.id])===cleaned(q.answer)}
 function answered(q){return !!cleaned(state.answers[q.id])}
@@ -244,6 +248,7 @@ function submit(automatic){
  renderReader();
  const qp=el("mis-question-pane");if(qp)qp.scrollTop=0;
  persistSubmission();
+ if(typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("reading_submission");
 }
 const MIS_SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const MIS_SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
