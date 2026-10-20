@@ -34,7 +34,19 @@ const assert=require("node:assert/strict");
   });
   async function open(route,selector){
    await page.goto(base+"#"+route,{waitUntil:"domcontentloaded"});
-   await page.locator(selector).first().waitFor({timeout:25000});
+   try{await page.locator(selector).first().waitFor({timeout:12000})}
+   catch(e){
+     const debug=await page.evaluate(()=>({
+       url:location.href,
+       text:document.querySelector("#pageMount")?.innerText?.slice(0,900),
+       html:document.querySelector("#pageMount")?.innerHTML?.slice(0,1300),
+       uid:window.LearningCore?.userId?.(),
+       registry:window.LearningCore?.list?.().length,
+       active:localStorage.getItem("hoctienganh_active_area")
+     }));
+     console.error("FAILED ROUTE",route,JSON.stringify(debug),"PAGE ERRORS",JSON.stringify(errors));
+     throw e;
+   }
    console.log("ROUTE "+route+": OK");
   }
   await open("grade-12/reading",".exercise-grid");
