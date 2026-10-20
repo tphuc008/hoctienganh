@@ -169,7 +169,7 @@ function html(data,groups,mode){
    keys.push('<span><b>'+esc(number)+'.</b> '+esc(q.shortAnswer??q.answer??"—")+'</span>');
    if(mode==="detailed"){
     part+='<div class="explain"><strong>Đáp án: '+esc(q.answer||"—")+'</strong>';
-    if(q.detailHtml)part+=q.detailHtml;
+    if(q.detailHtml)part+=q.detailHtml.replace(/class="ev1-details"/g,'class="ev1-details" open').replace(/Xem giải thích chi tiết/g,"Giải thích chi tiết");
     else if(q.details?.length)part+=q.details.map(d=>'<section><h3>'+esc(d.title||"Giải thích")+'</h3><p>'+esc(d.text||"")+'</p></section>').join("");
     else part+='<p class="notice">Chưa có lời giải chi tiết được biên soạn.</p>';
     if(q.detailAvailable===false)part+='<p class="notice">Chưa có phân tích chuyên sâu cho câu này. Có thể đối chiếu đáp án và nghe lại tại mốc nêu trên.</p>';
