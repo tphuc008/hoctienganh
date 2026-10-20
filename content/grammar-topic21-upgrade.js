@@ -96,6 +96,46 @@ d.detectives.push({
  correct:0,why:"Neither + have + I đúng với hiện tại hoàn thành phủ định.",
  clues:["Hasn't seen là hiện tại hoàn thành, cần have.", "Sau Neither đảo trợ động từ lên trước chủ ngữ: Neither have I."]
 });
+// One-line Vietnamese meaning aids; English stays the primary learning text.
+const quickMeanings={
+ mechanics:{
+  terms:"Never = chưa từng · Rarely = hiếm khi",
+  examples:["Tôi chưa từng gặp vấn đề nào như thế này.","Cô ấy hiếm khi mắc những lỗi như vậy."]
+ },
+ negative:{
+  terms:"Little did I know = tôi nào ngờ · Not only ... but also = không chỉ ... mà còn",
+  examples:["Tôi đâu ngờ vấn đề lại nghiêm trọng đến thế.","Cô ấy không chỉ giải thích kế hoạch mà còn đề nghị giúp đỡ."]
+ },
+ only:{
+  terms:"Only after = chỉ sau khi ... mới · Not until = mãi đến khi ... mới",
+  examples:["Chỉ sau khi đọc báo cáo, chúng tôi mới hiểu những hậu quả.","Mãi đến khi bằng chứng xuất hiện, cô ấy mới thừa nhận sai lầm."]
+ },
+ time:{
+  terms:"Hardly/Barely ... when = vừa ... thì · No sooner ... than = vừa ... thì",
+  examples:["Tôi vừa mới ngồi xuống thì điện thoại reo.","Tàu vừa rời ga thì cơn bão bắt đầu."]
+ },
+ conditional:{
+  terms:"Had I known = giá như tôi đã biết · Should you need = nếu bạn cần",
+  examples:["Nếu lúc đó nhận được tin nhắn, tôi đã trả lời.","Nếu cần hỗ trợ, vui lòng liên hệ với chúng tôi."]
+ },
+ "so-such":{
+  terms:"So + tính từ/trạng từ ... that = ... đến mức · Such ... that = đến mức mà",
+  examples:["Vấn đề phức tạp đến mức không ai giải quyết được.","Tác động lớn đến mức luật đã được thay đổi."]
+ },
+ full:{
+  terms:"Here comes ... = ... đến rồi · Beside the river = bên dòng sông",
+  examples:["Bên dòng sông có một ngôi nhà nhỏ cũ.","Xe buýt đến rồi! / Nó đến rồi!"]
+ },
+ agreement:{
+  terms:"So do I = tôi cũng vậy · Neither/Nor can I = tôi cũng không",
+  examples:["Mai thích khoa học. Tôi cũng thích.","Tom không biết bơi. Tôi cũng không."]
+ }
+};
+for(const section of d.sections){
+ const vi=quickMeanings[section.id];
+ if(!vi||vi.examples.length!==section.examples.length||!vi.examples.every(Boolean))throw Error("Missing Vietnamese micro-meaning: "+section.id);
+ section.vi=vi;
+}
 const ids=new Set();
 for(const item of [...d.sections.flatMap(s=>s.checks),...d.practice,...d.mastery,...d.repairs,...d.review]){
  if(ids.has(item.id)||item.options.length!==4||item.correct<0||item.correct>=4)throw Error("Invalid/duplicate Topic 21 question "+item.id);
