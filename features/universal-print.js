@@ -205,7 +205,11 @@ function sync(){
  const allow=!!source()&&(!global.readLearnerSession||!!global.readLearnerSession())&&
    !document.getElementById("accessPassInput")&&!document.querySelector(".account-card");
  if(host.hidden===allow)host.hidden=!allow;
- if(hash()!==currentRoute){currentRoute=hash();data=null;close();}
+ if(hash()!==currentRoute){
+  currentRoute=hash();data=null;close();
+  const shortMode=host.querySelector('input[name="pc-format"][value="key"]');
+  if(shortMode)shortMode.checked=true;
+ }
 }
 function queueSync(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;sync();});}
 function boot(){
