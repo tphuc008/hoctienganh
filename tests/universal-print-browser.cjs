@@ -65,6 +65,17 @@ function pdfText(buf){
   assert.ok(!z.text.includes("Dịch nghĩa + giải thích ngữ cảnh"));
   await z.tab.close();
 
+  const catalog=await page.evaluate(()=>ContentManifest.vocabulary.map(x=>({grade:x.grade,id:x.id})));
+  for(const item of catalog){
+    const route="grade-"+item.grade+"/unit-"+item.id+"/vocabulary-practice-1";
+    await go(route,".exercise-intro");
+    const printed=await page.evaluate(()=>window.UniversalPrint.source().get());
+    assert.ok(printed?.groups?.[0]?.questions?.length>=5,
+      "Published vocabulary set cannot be printed: "+route);
+    assert.ok(printed.groups[0].questions.every(q=>q.answer&&q.detailHtml),
+      "Incomplete answers or explanations: "+route);
+  }
+  console.log("PRINT COVERAGE: "+catalog.length+" published vocabulary units");
   await go("grade-12/unit-7/vocabulary-practice-1",".exercise-intro");
   const semantic=await page.evaluate(()=>window.getUniversalVocabPrintData?.());
   assert.ok(semantic?.groups[0]?.questions?.length>0,"Semantic vocabulary set must be printable");
@@ -93,6 +104,14 @@ function pdfText(buf){
   assert.equal(school.groups[0].questions.length,12);
   assert.ok(school.groups[0].questions.every(x=>x.detailHtml||x.details?.length));
   z=await popup("key");assert.match(z.text,/ANSWER KEY/);await z.tab.close();
+  for(let set=1;set<=7;set++){
+    await go("school/grade-10/midterm-1/set-"+set,".exercise-intro");
+    const setPrint=await page.evaluate(()=>window.UniversalPrint.source().get());
+    assert.ok(setPrint?.groups?.[0]?.questions?.length>=10,
+      "School Set "+set+" is not printable");
+  }
+  console.log("PRINT COVERAGE: 7 School sets");
+
 
   await page.goto(base+"tutoring",{waitUntil:"domcontentloaded"});
   await page.locator(".units").first().waitFor({state:"visible",timeout:12000});
@@ -130,6 +149,14 @@ function pdfText(buf){
   const exam=await page.evaluate(()=>window.getUniversalMidtermPrintData?.());
   assert.ok(exam?.groups.flatMap(x=>x.questions).length>=30);
   assert.ok(exam.groups.flatMap(x=>x.questions).every(x=>x.detailHtml));
+  for(const examId of [3,4,5,6]){
+    await go("grade-10/mid-term-test/test-"+examId,".mt-question");
+    const testData=await page.evaluate(()=>window.UniversalPrint.source().get());
+    assert.ok(testData?.groups?.flatMap(g=>g.questions).length>=30,
+      "Midterm Test "+examId+" is not printable");
+  }
+  console.log("PRINT COVERAGE: 4 complete Midterm Tests");
+
   assert.deepEqual(errors,[],"Browser JavaScript errors");
   console.log("UNIVERSAL PRINT: vocab, semantic, grammar, school, reading, listening, exam, A4 PDFs PASS");
  }finally{await browser.close()}
