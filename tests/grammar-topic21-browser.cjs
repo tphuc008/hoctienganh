@@ -60,7 +60,7 @@ const assert=require("node:assert/strict");
   });
   await page.locator('[data-g21="submit"][data-kind="mastery"]').click();
   assert.match(await page.locator(".g21-main").innerText(),/Đạt chuẩn thử nghiệm/);
-  await page.locator('[data-g21="tab"][data-tab="review"]').click();
+  await page.locator('.g21-tabs [data-g21="tab"][data-tab="review"]').click();
   assert.match(await page.locator(".g21-main").innerText(),/Review 1/);
   console.log("TOPIC 21 MASTERY + REVIEW: OK");
   await page.setViewportSize({width:390,height:844});
