@@ -30,6 +30,14 @@ function load(uid){
       state.exerciseLayoutVersion=2;
     }
     for(const item of ["guidedDiscovery","guidedStages","guidedFocus","detective"]){if(!state[item]||typeof state[item]!=="object")state[item]={};}
+    // Keep old answers; reopen already-submitted sets when v2 adds questions.
+    if(state.lessonContentVersion!==2){
+      for(const kind of ["practice","mastery","review"]){
+        if(state[kind+"Submitted"])state[kind+"Submitted"]=false;
+      }
+      state.masteryAt=null;
+      state.lessonContentVersion=2;
+    }
   }catch(_){state=initial;}
 }
 function getScores(items,values){
@@ -53,8 +61,8 @@ function scoreBySkill(){
 function isMastered(){
   if(!state.masterySubmitted)return false;
   const sc=getScores(d.mastery,state.mastery);
-  const must=["mechanics","only","time","conditional"];
-  return sc.correct>=8&&must.every(id=>d.mastery.filter(q=>q.skill===id).some(q=>state.mastery[q.id]===q.correct));
+  const must=["mechanics","only","time","conditional","agreement"];
+  return sc.correct>=Math.ceil(d.mastery.length*0.8)&&must.every(id=>d.mastery.filter(q=>q.skill===id).some(q=>state.mastery[q.id]===q.correct));
 }
 function progressHTML(){
   const done=completeCount(),percent=Math.round(done/d.sections.length*100);
@@ -69,7 +77,7 @@ function hero(){
   return '<header class="g21-hero"><div class="g21-hero-copy"><span class="g21-label">GRAMMAR STUDIO <span aria-hidden="true">/</span> CHUYÊN ĐỀ 21</span>'+
     '<h1>Đảo ngữ <span>Inversions</span></h1>'+
     '<p>Học rõ từng cấu trúc. Luyện một câu mỗi lần. Xem lời giải khi cần.</p></div>'+
-    '<div class="g21-hero-progress"><strong>'+done+' / 7</strong><span>bài đã hoàn thành</span></div></header>';
+    '<div class="g21-hero-progress"><strong>'+done+' / '+d.sections.length+'</strong><span>bài đã hoàn thành</span></div></header>';
 }
 function tabs(){
   return '<nav class="g21-tabs" aria-label="Các giai đoạn tự học">'+tabNames.map(t=>
@@ -83,7 +91,7 @@ function side(){
   return '<aside class="g21-course-outline g21-reader-rail">'+
     '<details class="g21-outline" aria-label="Danh sách bài học"'+(desktopOutlineOpen()?' open':'')+'>'+
     '<summary><span class="g21-outline-icon" aria-hidden="true">☰</span><span><strong>Lộ trình bài học</strong>'+
-      '<small>Bài '+(state.lesson+1)+'/7 · '+esc(selected.title)+'</small></span><span class="g21-outline-chevron">⌄</span></summary>'+
+      '<small>Bài '+(state.lesson+1)+'/'+d.sections.length+' · '+esc(selected.title)+'</small></span><span class="g21-outline-chevron">⌄</span></summary>'+
     '<div class="g21-outline-body">'+progressHTML()+
     '<div class="g21-side-list">'+d.sections.map((sec,i)=>{
       const done=sec.checks.every(q=>state.guided[q.id]?.correct===true);
@@ -115,7 +123,7 @@ function stageRail(kind){
   }
   const groups=scoreBySkill();
   return '<aside class="g21-course-outline g21-stage-rail g21-clinic-rail">'+
-    '<div class="g21-rail-heading"><span class="g21-label">SKILL MAP</span><strong>7 nhóm kiến thức</strong>'+
+    '<div class="g21-rail-heading"><span class="g21-label">SKILL MAP</span><strong>'+d.skills.length+' nhóm kiến thức</strong>'+
       '<p>Điểm số từ các bài đã nộp</p></div>'+
     '<div class="g21-rail-skills">'+groups.map(gr=>'<div class="g21-rail-skill"><span>'+esc(gr.skill.title)+'</span><strong>'+
        (gr.total?gr.correct+'/'+gr.total:'—')+'</strong></div>').join('')+'</div>'+
@@ -147,7 +155,7 @@ function feedback(q,pick,wasCorrect,kind){
   const retry=(kind==="guided"||kind==="repair")&&!good;
   const reasons=optionOrder(q).filter(i=>i!==q.correct);
   return '<div class="g21-feedback '+(good?"good":"bad")+'" role="status">'+
-    '<strong>'+(good?"✓ Chính xác":"Chưa đúng, thử lại nhé")+'</strong>'+
+    '<strong>'+(good?"✓ Chính xác":retry?"Chưa đúng, thử lại nhé":"Chưa đúng. Xem lời giải bên dưới")+'</strong>'+
     (retry?
       '<p>'+esc(specific||"Kiểm tra lại dấu hiệu đảo ngữ trong câu.")+'</p>'+
       '<p class="g21-feedback-hint">'+esc(note.clue||"Hãy tìm cụm đứng đầu và thì của mệnh đề.")+'</p>':
@@ -237,7 +245,7 @@ function guidedWizard(section){
       '<div class="g21-guided-final">'+question(q,current+1,"guided")+
       (done?'<div class="g21-actions">'+(current<questions.length-1?
          '<button class="g21-btn primary" data-g21="guided-next" data-section="'+esc(section.id)+'">Câu tiếp theo →</button>':
-         '<span class="g21-done-inline">✓ Bạn đã hoàn thành 2 câu của bài này.</span>')+'</div>':"")+
+         '<span class="g21-done-inline">✓ Bạn đã hoàn thành '+questions.length+' câu của bài này.</span>')+'</div>':"")+
       '</div>')+
     (current>0?'<div class="g21-actions"><button class="g21-btn" data-g21="guided-prev" data-section="'+esc(section.id)+'">← Câu trước</button></div>':"")+
   '</section>';
@@ -246,7 +254,7 @@ function learn(){
   const s=d.sections[state.lesson],done=completeCount();
   return '<div class="g21-layout">'+side()+
     '<article class="g21-main g21-lesson">'+
-      '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / 07</span>'+
+      '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / '+String(d.sections.length).padStart(2,"0")+'</span>'+
         '<span class="g21-time">◷ '+s.minutes+' phút</span></div>'+
       '<h2>'+esc(s.title)+'</h2><p class="g21-lead">'+esc(s.outcome)+'</p>'+
       '<div class="g21-progress-track">'+progressHTML()+'</div>'+
@@ -256,6 +264,8 @@ function learn(){
         '<div class="g21-contrast"><b>CẦN PHÂN BIỆT</b><p>'+esc(s.contrast)+'</p></div>'+
       '</section>'+
       '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. Xem ví dụ đối chiếu</h3></div>'+examples(s)+'</section>'+
+       (s.extras?.length?'<details class="g21-more g21-supplement"><summary>Kiến thức bổ sung & trường hợp dễ nhầm ('+s.extras.length+') <span aria-hidden="true">⌄</span></summary>'+
+       '<div class="g21-more-body">'+s.extras.map(x=>'<div class="g21-note g21-concept" style="margin-bottom:12px"><b>'+esc(x.title)+'</b><p>'+esc(x.rule)+'</p><p class="g21-solution-sentence" style="margin-top:7px">'+esc(x.example)+'</p></div>').join("")+'</div></details>':"")+
       '<details class="g21-more"><summary>Xem cách suy luận và lỗi thường gặp <span aria-hidden="true">⌄</span></summary>'+
         '<div class="g21-more-body"><h3>Cách làm từng bước</h3><ol class="g21-rulelist">'+s.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+
           '<div class="g21-note warning"><b>Lỗi cần tránh</b><p>'+esc(s.misconception)+'</p></div></div></details>'+
@@ -264,7 +274,7 @@ function learn(){
         (state.lesson<d.sections.length-1?
           '<button class="g21-btn primary" data-g21="next">Bài tiếp theo →</button>':
           '<button class="g21-btn primary" data-g21="tab" data-tab="practice">Sang phần luyện tập →</button>')+
-      '</div><p class="g21-foot">Đã hoàn thành '+done+'/7 bài. Tiến độ câu hỏi vẫn được giữ khi quay lại.</p>'+
+      '</div><p class="g21-foot">Đã hoàn thành '+done+'/'+d.sections.length+' bài. Tiến độ câu hỏi vẫn được giữ khi quay lại.</p>'+
     '</article></div>';
 }
 function scoreHeader(items,values,kind){
@@ -280,11 +290,17 @@ const writing=[
     checks:["Not until + mệnh đề phụ trật tự thường","did + we + understand ở mệnh đề chính","Giữ nguyên ý nghĩa thời gian"]},
   {id:"w2",task:"Rewrite without 'if': If I had received the invitation, I would have attended the event.",
     model:"Had I received the invitation, I would have attended the event.",
-    checks:["Bỏ if nhưng giữ tính điều kiện","Had + I + received","Giữ would have attended"]}
+    checks:["Bỏ if nhưng giữ tính điều kiện","Had + I + received","Giữ would have attended"]},
+  {id:"w3",task:"Rewrite using negative agreement: Lan has not finished her report. I have not finished mine either.",
+    model:"Lan has not finished her report. Neither have I.",
+    checks:["Câu đầu phủ định","Neither + have + I","Dùng trợ động từ của hiện tại hoàn thành"]},
+  {id:"w4",task:"Begin with 'Only by': We discovered the mistake only by comparing the two versions.",
+    model:"Only by comparing the two versions did we discover the mistake.",
+    checks:["Only by + V-ing","did + we + discover","Giữ nghĩa 'chỉ bằng cách so sánh'"]}
 ];
 function transfer(){
   return '<hr class="g21-divider"><div class="g21-sectionhead"><h3>Writing Transfer</h3><span class="g21-chip">Tự viết · Không chấm tự động</span></div>'+
-   '<p class="g21-lead">Hai câu sản sinh ngôn ngữ. Viết trước rồi đối chiếu với đáp án gợi ý; câu diễn đạt tương đương có thể đúng dù khác từng chữ.</p>'+
+   '<p class="g21-lead">Viết '+writing.length+' câu. Viết trước rồi đối chiếu với đáp án gợi ý; câu diễn đạt tương đương có thể đúng dù khác từng chữ.</p>'+
    writing.map((w,i)=>'<div class="g21-question"><div class="g21-qmeta">WRITING CHALLENGE '+(i+1)+'</div>'+
     '<p class="g21-prompt">'+esc(w.task)+'</p>'+
     '<textarea class="g21-fill" rows="3" style="min-height:86px;max-width:100%" data-g21-write="'+w.id+'" placeholder="Viết câu hoàn chỉnh bằng tiếng Anh...">'+esc(state.writes[w.id]||"")+'</textarea>'+
@@ -316,8 +332,8 @@ function exam(kind){
     '<span class="g21-label">'+(master?"KIỂM TRA CUỐI":"LUYỆN TẬP ĐỘC LẬP")+'</span>'+
     '<h2>'+(master?"Kiểm tra mức độ thành thạo":"Luyện tập vận dụng")+'</h2>'+
     '<p class="g21-lead">'+(master?
-       "10 câu vận dụng chưa xuất hiện trong phần học. Mục tiêu thử nghiệm: đúng từ 8/10 và đáp ứng các kỹ năng cốt lõi.":
-       "16 câu hỏi trộn các nhóm kiến thức. Bạn tự làm trước; đáp án và giải thích chỉ hiện sau khi nộp.")+'</p>'+
+       items.length+" câu vận dụng chưa xuất hiện trong phần học. Chuẩn thử nghiệm: đúng từ "+Math.ceil(items.length*0.8)+"/"+items.length+" và đúng các kỹ năng cốt lõi (gồm So/Neither/Nor).":
+       items.length+" câu hỏi trộn các nhóm kiến thức. Bạn tự làm trước; đáp án và giải thích chỉ hiện sau khi nộp.")+'</p>'+
     (!submitted?'<div class="g21-assessment-progress"><span>Đã trả lời <strong>'+summary.answered+'/'+summary.total+'</strong> câu</span>'+
       '<div class="g21-progress" aria-label="Đã trả lời '+summary.answered+' trên '+summary.total+' câu"><span style="width:'+Math.round(summary.answered/summary.total*100)+'%"></span></div></div>':
       scoreHeader(items,picks,kind))+
@@ -331,7 +347,7 @@ function exam(kind){
          '<button class="g21-btn primary" data-g21="tab" data-tab="clinic">Xem phân tích lỗi →</button>')+
       (master&&submitted?'<button class="g21-btn" data-g21="tab" data-tab="review">Lộ trình ôn tập →</button>':"")+
     '</div>'+
-    (!master&&submitted?'<details class="g21-more g21-transfer"><summary>Thử thêm 2 câu viết lại câu <span aria-hidden="true">⌄</span></summary><div class="g21-more-body">'+transfer()+'</div></details>':"")+
+    (!master&&submitted?'<details class="g21-more g21-transfer"><summary>Thử thêm '+writing.length+' câu viết lại câu <span aria-hidden="true">⌄</span></summary><div class="g21-more-body">'+transfer()+'</div></details>':"")+
     '</article>';
 }
 function detectiveChallenge(q){
@@ -364,7 +380,7 @@ function clinic(){
   return '<article class="g21-main g21-clinic"><span class="g21-label">ERROR CLINIC · FIND & FIX</span>'+
     '<h2>Tìm lỗi, rồi tự sửa</h2>'+
     '<p class="g21-lead">Chỉ những nhóm kiến thức bạn trả lời sai mới được đưa ra luyện lại. Mở một nhóm để làm một câu sửa lỗi ngắn.</p>'+
-    '<div class="g21-sectionhead"><h3>Tổng quan 7 kỹ năng</h3></div>'+
+    '<div class="g21-sectionhead"><h3>Tổng quan '+d.skills.length+' kỹ năng</h3></div>'+
     '<div class="g21-skill-list">'+groups.map(gr=>{
       const pct=gr.total?Math.round(100*gr.correct/gr.total):0;
       return '<div class="g21-skill"><div class="g21-skill-head"><h3>'+esc(gr.skill.title)+'</h3><span class="g21-pill">'+(gr.total?gr.correct+"/"+gr.total:"Chưa kiểm tra")+'</span></div>'+
@@ -397,8 +413,8 @@ function review(){
    '<div class="g21-dategrid">'+due.map((x,i)=>'<div class="g21-date"><b>Review '+(i+1)+' · +'+x.day+' ngày</b><span>'+(passed?dateText(x.time):"Chưa kích hoạt")+'</span></div>').join("")+'</div>'+
    '<div class="g21-note '+(passed?"form":"warning")+'" style="margin:16px 0"><b>TRẠNG THÁI</b>'+
    (passed?"Đã đạt chuẩn thử nghiệm. Lịch nhắc phía trên dựa trên thời điểm đạt Mastery và được tính tại trình duyệt.":"Chưa đạt Mastery nên lịch ôn tập chưa được kích hoạt. Giáo viên vẫn có thể xem trước bộ câu hỏi ôn tập.")+'</div>'+
-   '<div class="g21-sectionhead"><h3>Mini Retrieval Quiz</h3><span class="g21-chip">5 câu · Bộ riêng</span></div>'+
-   '<p class="g21-lead">Làm 5 câu không xem lại lý thuyết, sau đó kiểm tra các điểm còn sai. Đây là một vòng ôn tập mẫu, chưa tự tạo bộ câu hỏi khác nhau cho mỗi ngày.</p>'+
+   '<div class="g21-sectionhead"><h3>Mini Retrieval Quiz</h3><span class="g21-chip">'+d.review.length+' câu · Bộ riêng</span></div>'+
+   '<p class="g21-lead">Làm '+d.review.length+' câu không xem lại lý thuyết, sau đó kiểm tra các điểm còn sai. Đây là một vòng ôn tập mẫu, chưa tự tạo bộ câu hỏi khác nhau cho mỗi ngày.</p>'+
    (state.reviewSubmitted?'<div class="g21-note form"><b>REVIEW RESULT</b>'+sc.correct+'/'+sc.total+' câu đúng</div>':"")+
    d.review.map((q,i)=>question(q,i+1,"review")).join("")+
    '<div class="g21-actions">'+(!state.reviewSubmitted?
@@ -412,14 +428,14 @@ function home(){
   return topbar()+'<div class="g21-hero"><div class="g21-label">TEACHER PREVIEW / GRAMMAR LIBRARY</div>'+
     '<h1>25 chuyên đề ngữ pháp</h1>'+
     '<p>Chuyên đề 21 là bài mẫu hoàn chỉnh cho hành trình tự học. Các chuyên đề khác sẽ được xuất bản sau khi kiểm thử trải nghiệm này.</p>'+
-    '<div class="g21-statrow"><div class="g21-stat"><b>01/25</b>Chuyên đề mẫu</div><div class="g21-stat"><b>07</b>Bài học nhỏ</div></div></div>'+
+    '<div class="g21-statrow"><div class="g21-stat"><b>01/25</b>Chuyên đề mẫu</div><div class="g21-stat"><b>'+String(d.sections.length).padStart(2,"0")+'</b>Bài học nhỏ</div></div></div>'+
     '<div class="g21-card" style="padding:24px"><div class="g21-header"><span class="g21-label">TOPIC 21 · C1/C2 PRACTICE</span><span class="g21-chip">Pilot</span></div>'+
     '<h2 style="font-size:clamp(26px,4vw,36px);margin-bottom:8px">CHUYÊN ĐỀ 21. ĐẢO NGỮ – INVERSIONS</h2>'+
     '<p class="g21-lead">Từ cơ chế đảo trợ động từ đến điều kiện giả định, not until, hardly/no sooner, so/such và full inversion.</p>'+
     progressHTML()+
-    '<div class="g21-statrow" style="margin-bottom:17px"><span class="g21-pill">7 lessons</span><span class="g21-pill">14 Quick Checks</span><span class="g21-pill">16 Practice</span><span class="g21-pill">10 Mastery</span></div>'+
+    '<div class="g21-statrow" style="margin-bottom:17px"><span class="g21-pill">'+d.sections.length+' lessons</span><span class="g21-pill">'+d.sections.flatMap(s=>s.checks).length+' Quick Checks</span><span class="g21-pill">'+d.practice.length+' Practice</span><span class="g21-pill">'+d.mastery.length+' Mastery</span></div>'+
     '<div class="g21-actions"><button class="g21-btn primary" data-g21="open">Bắt đầu từ Learn →</button>'+
-    (state.masterySubmitted?'<span class="g21-pill">Mastery '+sc.correct+'/10</span>':"")+'</div></div>'+
+    (state.masterySubmitted?'<span class="g21-pill">Mastery '+sc.correct+'/'+d.mastery.length</span>':"")+'</div></div>'+
     '<p class="g21-foot">Không có Diagnostic Test. Nội dung đang ở khu vực giáo viên và chưa được xuất bản cho học sinh.</p>';
 }
 function render(preserveScroll){
