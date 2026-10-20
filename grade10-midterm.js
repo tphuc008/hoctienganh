@@ -127,17 +127,21 @@ function mtWrittenFeedback(q){
  return '<div class="feedback correct semantic-feedback"><div class="feedback-title">✓ Đáp án tham khảo: '+mtEsc(answer)+'</div><section class="semantic-step"><div class="semantic-step-label"><span>1</span><div><b>Dịch nghĩa + giải thích ngữ cảnh</b></div></div><div class="semantic-prose"><p>Câu chủ động gốc: '+mtEsc(q.stem.split("\n")[0])+'</p><p>Cần chuyển sang bị động '+mtEsc(t)+' mà không đổi thời điểm, số lượng hoặc quan hệ ai thực hiện – ai nhận hành động.</p><p><b>Phân tích riêng câu này:</b> '+mtEsc(passiveNotes[q.id]||"Kiểm tra chính xác chủ ngữ mới, thì của động từ và tác nhân trong câu chủ động.")+'</p></div></section><section class="semantic-step"><div class="semantic-step-label"><span>2</span><div><b>Phân tích cấu trúc & các bước chuyển</b></div></div><p><b>Công thức:</b> '+mtEsc(formula)+'.</p><p>1. Xác định tân ngữ trong câu chủ động và đưa lên làm chủ ngữ bị động.<br>2. Giữ nguyên thời và điều chỉnh be theo chủ ngữ mới.<br>3. Đưa động từ chính về phân từ hai (V3).<br>4. Giữ trạng ngữ thời gian, thêm by + tác nhân nếu cần.</p></section><section class="semantic-step"><div class="semantic-step-label"><span>3</span><div><b>Ví dụ thực tế theo từng cấu trúc</b></div></div><div class="semantic-examples-grid">'+examples.map((ex,i)=>'<div class="semantic-example"><div class="semantic-example-title"><span>'+(i+1)+'</span><b>'+["Present Simple","Present Continuous","Past Simple","Future Simple"][i]+'</b></div><p class="example-en">'+mtEsc(ex[0])+'</p><p class="example-vi">→ '+mtEsc(ex[1])+'</p></div>').join("")+'</div></section><div class="semantic-remember"><b>Điểm cần nhớ</b><span>Thì được thể hiện bằng động từ be; hành động chính luôn dùng V3. Không bỏ dấu hiệu thời gian của câu gốc và không tự động thêm by nếu tác nhân không quan trọng.</span></div></div>';
 }
 function mtDeepExplanation(q,context){
- if(!q.options)return mtWrittenFeedback(q);
- const d=window.G10_MIDTERM_EXPLAIN(q,context);
- const pairs=d.options.map(o=>'<div class="semantic-option '+(o.label===q.answer?'correct-analysis':'')+'"><div class="semantic-option-head"><span>'+mtEsc(o.label)+'</span><b>'+mtEsc(o.word)+'</b><em>'+mtEsc(o.meaning)+'</em></div><p>'+mtEsc(o.analysis)+'</p></div>').join("");
- const samples=d.examples.map(e=>'<div class="semantic-example"><div class="semantic-example-title"><span>'+mtEsc(e.label)+'</span><b>'+mtEsc(e.word)+'</b></div><p class="example-en">'+mtEsc(e.en)+'</p><p class="example-vi">→ '+mtEsc(e.vi)+'</p></div>').join("");
- const flag=q.warning?'<div class="mt-note"><b><span aria-hidden="true">⚠</span> Lưu ý về đề gốc:</b> '+mtEsc(q.warning)+'</div>':"";
- return '<div class="feedback correct semantic-feedback"><div class="feedback-title">✓ Đáp án tham khảo: '+mtEsc(mtAnswerLabel(q))+'</div>'+flag+
- '<section class="semantic-step"><div class="semantic-step-label"><span>1</span><div><b>Dịch nghĩa + giải thích ngữ cảnh</b><small>Meaning · context · collocation · why this answer</small></div></div><div class="semantic-prose">'+d.step1.map(p=>'<p>'+mtEsc(p)+'</p>').join("")+'</div></section>'+
- '<section class="semantic-step"><div class="semantic-step-label"><span>2</span><div><b>So sánh A, B, C, D</b><small>Ngữ pháp · sắc thái · collocation · phạm vi nghĩa</small></div></div><div class="semantic-options-grid">'+pairs+'</div></section>'+
- '<section class="semantic-step"><div class="semantic-step-label"><span>3</span><div><b>Ví dụ thực tế cho từng đáp án</b><small>Đúng một ví dụ tiếng Anh và nghĩa tiếng Việt cho mỗi lựa chọn</small></div></div><div class="semantic-examples-grid">'+samples+'</div></section>'+
- '<div class="semantic-remember"><b>Điểm cần nhớ</b><span>'+mtEsc(d.remember)+'</span></div></div>';
+ if(!window.ExplanationV1)return "";
+ if(!q.options){
+   // Preserve the original verified/specialized written explanation verbatim,
+   // and mark it for structured review instead of fabricating evidence.
+   return window.ExplanationV1.render({
+     type:"written",answer:mtAnswerLabel(q),quickReason:"",
+     evidence:[],reasoning:"",legacyHtml:mtWrittenFeedback(q),
+     needsReview:true,application:q.warning?"Lưu ý đề gốc: "+q.warning:""
+   });
+ }
+ const detail=window.G10_MIDTERM_EXPLAIN(q,context);
+ return window.ExplanationV1.render(window.ExplanationV1.midterm(q,detail))+
+   (q.warning?'<div class="mt-note"><b>⚠ Lưu ý về đề gốc:</b> '+mtEsc(q.warning)+'</div>':"");
 }
+
 function mtWrittenCorrect(q,input){
  const typed=String(input||"").trim(),answer=String(q.answer||"").trim();
  if(!typed)return false;
