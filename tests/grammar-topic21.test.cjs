@@ -8,6 +8,7 @@ function bootData(){
   const browser={};
   vm.runInNewContext(fs.readFileSync(path.join(root,"content/grammar-topic21-data.js"),"utf8"),{window:browser});
   vm.runInNewContext(fs.readFileSync(path.join(root,"content/grammar-topic21-explanations.js"),"utf8"),{window:browser});
+  vm.runInNewContext(fs.readFileSync(path.join(root,"content/grammar-topic21-interactions.js"),"utf8"),{window:browser});
   return browser.GrammarTopic21Data;
 }
 function bootStudio(){
@@ -34,6 +35,8 @@ test("Topic 21 is a complete Learn-first course with unique checked answers",()=
   assert.equal(d.mastery.length,10);
   assert.equal(d.repairs.length,7);
   assert.equal(d.review.length,5);
+  assert.equal(d.detectives.length,7);
+  d.sections.flatMap(x=>x.checks).forEach(q=>assert.ok(q.discovery?.prompt&&q.discovery?.options.length===2));
   const all=[...d.sections.flatMap(x=>x.checks),...d.practice,...d.mastery,...d.repairs,...d.review];
   assert.equal(new Set(all.map(x=>x.id)).size,all.length);
   const skillSet=new Set(d.skills.map(x=>x.id));
@@ -53,26 +56,31 @@ test("Topic 21 is a complete Learn-first course with unique checked answers",()=
     assert.equal(s.checks.length,2);
   });
 });
-test("Topic 21 renders Learn without diagnostic, then gives specific instant feedback",()=>{
-  const t=bootStudio();
+test("Learn presents two reasoning steps and no solution before final answer",()=>{
+  const t=bootStudio(),q=t.data.sections[0].checks[0];
   assert.match(t.mount.innerHTML,/Cơ chế đảo trợ động từ/);
-  assert.match(t.mount.innerHTML,/CONCEPT/);
-  assert.match(t.mount.innerHTML,/FORM/);
-  assert.match(t.mount.innerHTML,/CONTRAST/);
+  assert.match(t.mount.innerHTML,/Nhận diện/);
+  assert.match(t.mount.innerHTML,/Chọn đáp án/);
   assert.doesNotMatch(t.mount.innerHTML,/Diagnostic Test/);
-  const q=t.data.sections[0].checks[0];
-  const wrong=[0,1,2,3].find(x=>x!==q.correct);
+  assert.equal((t.mount.innerHTML.match(/g21-question/g)||[]).length>0,true);
+  assert.doesNotMatch(t.mount.innerHTML,/data-kind="guided"/);
+  const wrongDiscovery=1-q.discovery.correct;
+  t.click("detect",{id:q.id,index:String(wrongDiscovery)});
+  assert.match(t.mount.innerHTML,/Chưa đúng/);
+  t.click("detect",{id:q.id,index:String(q.discovery.correct)});
+  t.click("discovery-next",{id:q.id});
+  assert.match(t.mount.innerHTML,/data-kind="guided"/);
+  const wrong=[0,1,2,3].find(i=>i!==q.correct);
   t.click("answer",{kind:"guided",id:q.id,index:String(wrong)});
-  assert.match(t.mount.innerHTML,/Vì sao chưa đúng/);
-  assert.match(t.mount.innerHTML,/Gợi ý: nhìn dấu hiệu/);
+  assert.match(t.mount.innerHTML,/Chưa đúng/);
   assert.doesNotMatch(t.mount.innerHTML,/Câu hoàn chỉnh \/ Đáp án đúng/);
   t.click("answer",{kind:"guided",id:q.id,index:String(q.correct)});
   assert.match(t.mount.innerHTML,/Chính xác/);
+  assert.match(t.mount.innerHTML,/Xem lời giải chi tiết/);
   assert.match(t.mount.innerHTML,/1\. Nhìn dấu hiệu trong câu/);
-  assert.match(t.mount.innerHTML,/2\. Suy ra cách viết đúng/);
-  assert.match(t.mount.innerHTML,/3\. Câu hoàn chỉnh \/ Đáp án đúng/);
-  assert.match(t.mount.innerHTML,/Vì sao các đáp án khác sai/);
   assert.ok([...t.cache.values()].some(v=>v.includes('"correct":true')));
+  t.click("guided-next",{section:t.data.sections[0].id});
+  assert.match(t.mount.innerHTML,/l1q2/);
 });
 test("Independent practice withholds feedback until submission, then clinic identifies errors",()=>{
   const t=bootStudio();
@@ -91,6 +99,10 @@ test("Independent practice withholds feedback until submission, then clinic iden
   t.click("tab",{tab:"clinic"});
   assert.match(t.mount.innerHTML,/Repair question/);
   assert.match(t.mount.innerHTML,/Cơ chế đảo trợ động từ/);
+  assert.match(t.mount.innerHTML,/CÂU CÓ LỖI/);
+  assert.match(t.mount.innerHTML,/data-g21="detective-answer"/);
+  t.click("detective-answer",{id:"e01",index:"0"});
+  assert.match(t.mount.innerHTML,/Bạn đã sửa đúng lỗi/);
 });
 test("Final mastery requires 8/10 plus essential skills; answer positions are shuffled for display",()=>{
   const t=bootStudio();
