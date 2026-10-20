@@ -203,60 +203,77 @@ function transfer(){
     (state.writeReveals[w.id]?'<div class="g21-feedback"><strong>Model answer (không chấm máy)</strong><p>'+esc(w.model)+'</p><p><b>Checklist:</b></p><ul>'+w.checks.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>':"")+
    '</div>').join("");
 }
+const EXAM_PAGE_SIZE=4;
+function pageNav(kind,total){
+  const count=Math.ceil(total/EXAM_PAGE_SIZE);
+  const current=Math.max(0,Math.min(count-1,Number(state.pages?.[kind])||0));
+  return '<nav class="g21-page-nav" aria-label="Điều hướng câu hỏi"><span>Trang '+(current+1)+' / '+count+'</span>'+
+    '<div class="g21-page-controls">'+
+      '<button class="g21-btn" data-g21="page" data-kind="'+kind+'" data-page="'+(current-1)+'"'+(current===0?" disabled":"")+'>← Trước</button>'+
+      '<button class="g21-btn" data-g21="page" data-kind="'+kind+'" data-page="'+(current+1)+'"'+(current===count-1?" disabled":"")+'>Tiếp →</button>'+
+    '</div></nav>';
+}
 function exam(kind){
   const master=kind==="mastery",items=master?d.mastery:d.practice;
   const picks=master?state.mastery:state.practice;
   const submitted=master?state.masterySubmitted:state.practiceSubmitted;
   const summary=getScores(items,picks);
-  return '<div class="g21-main" style="width:100%">'+
-   '<span class="g21-label">'+(master?"MASTERY CHECK":"INDEPENDENT PRACTICE")+'</span>'+
-   '<h2>'+(master?"Kiểm tra vận dụng độc lập":"Vận dụng hỗn hợp sau khi học")+'</h2>'+
-   '<p class="g21-lead">'+(master?
-     "10 câu chưa xuất hiện trong phần Learn. Mục tiêu thử nghiệm: đúng ít nhất 8/10 và làm đúng ít nhất một câu ở từng nhóm cơ chế, only/not until, trình tự thời gian, điều kiện.":
-     "16 câu trộn 7 nhóm kiến thức. Gồm nhận diện công thức, phân biệt lỗi và chọn câu viết lại tương đương. Chưa hiển thị lời giải trước khi nộp.")+'</p>'+
-   (!submitted?'<div class="g21-note form"><b>YOUR PROGRESS</b>Đã chọn '+summary.answered+'/'+summary.total+' câu. Bạn có thể quay lại và đổi đáp án trước khi nộp.</div>':
-    scoreHeader(items,picks,kind))+
-   (master&&submitted?'<div class="g21-note '+(isMastered()?"form":"warning")+'" style="margin:12px 0"><b>MASTERY STATUS</b>'+
-     (isMastered()?"Đạt chuẩn thử nghiệm. Lộ trình ôn tập 1–3–7 ngày đã được tạo.":"Chưa đạt chuẩn thử nghiệm. Hãy vào Error Clinic, học lại nhóm còn yếu và làm bài kiểm tra mới khi có bộ câu hỏi thay thế.")+'</div>':"")+
-   '<div class="g21-sectionhead"><h3>'+(master?"Final Assessment":"Mixed Practice")+'</h3><span class="g21-chip">'+items.length+' Questions</span></div>'+
-   items.map((q,i)=>question(q,i+1,kind)).join("")+
-   '<div class="g21-actions">'+
-     (!submitted?'<button class="g21-btn primary" data-g21="submit" data-kind="'+kind+'"'+(summary.answered!==items.length?' disabled title="Trả lời đủ câu trước khi nộp"':"")+'>Nộp bài & xem phân tích →</button>':
-      '<button class="g21-btn primary" data-g21="tab" data-tab="clinic">Xem phân tích lỗi →</button>')+
-     (master&&submitted?'<button class="g21-btn" data-g21="tab" data-tab="review">Lộ trình ôn tập →</button>':"")+
-   '</div>'+
-   (!master?transfer():"")+
-   '</div>';
+  const page=Math.max(0,Math.min(Math.ceil(items.length/EXAM_PAGE_SIZE)-1,Number(state.pages?.[kind])||0));
+  const start=page*EXAM_PAGE_SIZE;
+  return '<article class="g21-main g21-assessment">'+
+    '<span class="g21-label">'+(master?"KIỂM TRA CUỐI":"LUYỆN TẬP ĐỘC LẬP")+'</span>'+
+    '<h2>'+(master?"Kiểm tra mức độ thành thạo":"Luyện tập vận dụng")+'</h2>'+
+    '<p class="g21-lead">'+(master?
+       "10 câu vận dụng chưa xuất hiện trong phần học. Mục tiêu thử nghiệm: đúng từ 8/10 và đáp ứng các kỹ năng cốt lõi.":
+       "16 câu hỏi trộn các nhóm kiến thức. Bạn tự làm trước; đáp án và giải thích chỉ hiện sau khi nộp.")+'</p>'+
+    (!submitted?'<div class="g21-assessment-progress"><span>Đã trả lời <strong>'+summary.answered+'/'+summary.total+'</strong> câu</span>'+
+      '<div class="g21-progress" aria-label="Đã trả lời '+summary.answered+' trên '+summary.total+' câu"><span style="width:'+Math.round(summary.answered/summary.total*100)+'%"></span></div></div>':
+      scoreHeader(items,picks,kind))+
+    (master&&submitted?'<div class="g21-note '+(isMastered()?"form":"warning")+'"><b>MASTERY STATUS</b>'+
+       '<p>'+(isMastered()?"Đạt chuẩn thử nghiệm. Có thể chuyển sang phần ôn tập.":"Chưa đạt chuẩn thử nghiệm. Hãy vào Chữa lỗi để học lại các kỹ năng còn yếu.")+'</p></div>':"")+
+    '<div class="g21-sectionhead g21-assessment-heading"><h3>Câu '+(start+1)+'–'+Math.min(items.length,start+EXAM_PAGE_SIZE)+'</h3><span>'+items.length+' câu tất cả</span></div>'+
+    items.slice(start,start+EXAM_PAGE_SIZE).map((q,i)=>question(q,start+i+1,kind)).join("")+
+    pageNav(kind,items.length)+
+    '<div class="g21-actions g21-submit-actions">'+
+      (!submitted?'<button class="g21-btn primary" data-g21="submit" data-kind="'+kind+'"'+(summary.answered!==items.length?' disabled title="Trả lời đủ câu trước khi nộp"':"")+'>Nộp bài và xem giải thích →</button>':
+         '<button class="g21-btn primary" data-g21="tab" data-tab="clinic">Xem phân tích lỗi →</button>')+
+      (master&&submitted?'<button class="g21-btn" data-g21="tab" data-tab="review">Lộ trình ôn tập →</button>':"")+
+    '</div>'+
+    (!master&&submitted?'<details class="g21-more g21-transfer"><summary>Thử thêm 2 câu viết lại câu <span aria-hidden="true">⌄</span></summary><div class="g21-more-body">'+transfer()+'</div></details>':"")+
+    '</article>';
 }
 function clinic(){
   const groups=scoreBySkill();
   if(!state.practiceSubmitted&&!state.masterySubmitted){
-    return '<div class="g21-main"><div class="g21-label">ERROR CLINIC</div><h2>Chữa đúng điểm yếu</h2>'+
-    '<div class="g21-empty">Chưa có dữ liệu để nhận diện lỗi. Hãy làm và nộp phần Practice hoặc Mastery. Hệ thống sẽ phân loại lỗi theo 7 nhóm kiến thức.</div>'+
-    '<div class="g21-actions"><button class="g21-btn primary" data-g21="tab" data-tab="practice">Đến Practice →</button></div></div>';
+    return '<article class="g21-main"><span class="g21-label">CHỮA LỖI</span><h2>Học lại đúng phần đang yếu</h2>'+
+      '<p class="g21-lead">Sau khi nộp một bài luyện tập hoặc kiểm tra, hệ thống sẽ phân loại các lỗi và hướng dẫn bạn học lại.</p>'+
+      '<div class="g21-empty">Chưa có bài đã nộp để phân tích.</div>'+
+      '<div class="g21-actions"><button class="g21-btn primary" data-g21="tab" data-tab="practice">Đến phần luyện tập →</button></div></article>';
   }
   const weak=groups.filter(x=>x.wrong.length>0).sort((a,b)=>a.correct/(a.total||1)-b.correct/(b.total||1));
-  return '<div class="g21-main"><span class="g21-label">ERROR CLINIC · SKILL MAP</span><h2>Không chỉ biết sai bao nhiêu — phải biết sai ở đâu</h2>'+
-   '<p class="g21-lead">Phân tích dựa trên câu đã nộp (không tính Quick Checks có trợ giúp). Mỗi nhóm sai có hướng học lại và một câu luyện bù riêng.</p>'+
-   '<div class="g21-sectionhead"><h3>Bản đồ năng lực</h3><span class="g21-chip">'+groups.reduce((x,g)=>x+g.total,0)+' câu đã chấm</span></div>'+
-   groups.map(gr=>{
-     const pct=gr.total?Math.round(100*gr.correct/gr.total):0;
-     return '<div class="g21-skill"><div class="g21-skill-head"><h3>'+esc(gr.skill.title)+'</h3><span class="g21-pill">'+(gr.total?gr.correct+"/"+gr.total:"Chưa đủ dữ liệu")+'</span></div>'+
-       '<div class="g21-meter" aria-label="'+pct+' phần trăm đúng"><span style="width:'+pct+'%"></span></div>'+
-       '<p style="font-size:12px;color:#64748b;margin:8px 0">'+esc(gr.skill.outcome)+'</p></div>';
-   }).join("")+
-   '<div class="g21-sectionhead"><h3>Targeted Repair</h3><span class="g21-chip">'+weak.length+' nhóm cần ôn lại</span></div>'+
-   (weak.length?weak.map(gr=>{
-     const lesson=d.sections.findIndex(s=>s.id===gr.skill.id);
-     const repair=d.repairs.find(q=>q.skill===gr.skill.id);
-     return '<section class="g21-skill"><div class="g21-skill-head"><h3>'+esc(gr.skill.title)+'</h3><span class="g21-pill">Sai '+gr.wrong.length+' câu</span></div>'+
-     '<p class="g21-lead">Bạn còn nhầm ở những câu: '+gr.wrong.map(x=>esc(x.q.id.toUpperCase())).join(", ")+'.</p>'+
-     '<div class="g21-note"><b>ÔN LẠI ĐÚNG KIẾN THỨC</b>'+esc(d.sections[lesson].misconception)+'</div>'+
-     '<div class="g21-actions"><button class="g21-btn" data-g21="lesson" data-index="'+lesson+'">Ôn lại bài '+(lesson+1)+' →</button></div>'+
-     (repair?'<div class="g21-sectionhead"><h3>Repair question</h3></div>'+question(repair,1,"repair"):"")+
-     '</section>';
-   }).join(""):'<div class="g21-empty">Chưa phát hiện lỗi trong các câu đã nộp. Bạn có thể chuyển sang Mastery để kiểm tra khả năng vận dụng ở ngữ cảnh mới.</div>')+
-   '</div>';
+  return '<article class="g21-main g21-clinic"><span class="g21-label">CHỮA LỖI · ERROR CLINIC</span>'+
+    '<h2>Những phần bạn cần ôn lại</h2>'+
+    '<p class="g21-lead">Kết quả dựa trên những câu đã nộp. Chọn một nhóm kiến thức bên dưới để xem giải thích và luyện bù.</p>'+
+    '<div class="g21-sectionhead"><h3>Tổng quan 7 kỹ năng</h3></div>'+
+    '<div class="g21-skill-list">'+groups.map(gr=>{
+      const pct=gr.total?Math.round(100*gr.correct/gr.total):0;
+      return '<div class="g21-skill"><div class="g21-skill-head"><h3>'+esc(gr.skill.title)+'</h3>'+
+        '<span class="g21-pill">'+(gr.total?gr.correct+"/"+gr.total:"Chưa kiểm tra")+'</span></div>'+
+        '<div class="g21-meter" aria-label="'+pct+' phần trăm đúng"><span style="width:'+pct+'%"></span></div></div>';
+    }).join("")+'</div>'+
+    '<div class="g21-sectionhead"><h3>Ôn tập đúng điểm yếu</h3><span>'+weak.length+' nhóm cần xem lại</span></div>'+
+    (weak.length?weak.map(gr=>{
+      const lesson=d.sections.findIndex(s=>s.id===gr.skill.id);
+      const repair=d.repairs.find(q=>q.skill===gr.skill.id);
+      return '<details class="g21-more g21-repair"><summary><strong>'+esc(gr.skill.title)+'</strong>'+
+        '<small>'+gr.wrong.length+' câu sai</small><span aria-hidden="true">⌄</span></summary>'+
+        '<div class="g21-more-body"><p>'+esc(d.sections[lesson].misconception)+'</p>'+
+        '<div class="g21-actions"><button class="g21-btn" data-g21="lesson" data-index="'+lesson+'">Xem lại bài '+(lesson+1)+' →</button></div>'+
+        (repair?'<div class="g21-sectionhead"><h3>Repair question · Câu luyện bù</h3></div>'+question(repair,1,"repair"):"")+
+        '</div></details>';
+      }).join(""):
+      '<div class="g21-empty">Bạn chưa có câu sai trong các bài đã nộp. Có thể tiếp tục sang Kiểm tra để đánh giá với các câu hỏi mới.</div>')+
+    '</article>';
 }
 function dateText(timestamp){
   try{return new Intl.DateTimeFormat("vi-VN",{dateStyle:"medium"}).format(new Date(timestamp))}catch(_){return "—"}
@@ -350,6 +367,14 @@ mount.addEventListener("click",function(e){
     render(false);return;
   }
   if(a==="prev"||a==="next"){state.lesson=Math.min(d.sections.length-1,Math.max(0,state.lesson+(a==="next"?1:-1)));save();render(false);return;}
+  if(a==="page"){
+    const kind=btn.dataset.kind;
+    const allowed={practice:d.practice.length,mastery:d.mastery.length,review:d.review.length};
+    if(!Object.prototype.hasOwnProperty.call(allowed,kind))return;
+    const next=Number(btn.dataset.page),count=Math.ceil(allowed[kind]/EXAM_PAGE_SIZE);
+    if(!Number.isInteger(next)||next<0||next>=count)return;
+    state.pages[kind]=next;save();render(false);return;
+  }
   if(a==="answer"){updateAnswer(btn.dataset.kind,btn.dataset.id,Number(btn.dataset.index));return;}
   if(a==="submit"){
     const kind=btn.dataset.kind;
