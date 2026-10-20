@@ -18,11 +18,32 @@ function listeningData(type){
    detailAvailable:false};
  })}))};
 }
+
+function schoolFallback(){
+ const match=hash().match(/^school\/grade-10\/midterm-1\/set-(\d+)$/);
+ const data=global.SCHOOL_G10_MIDTERM1;if(!match||!Array.isArray(data?.items))return null;
+ const bounds=[[0,12],[12,27],[27,39],[39,51],[51,66],[66,81],[81,96]];
+ const idx=Number(match[1])-1,range=bounds[idx];
+ if(!range)return null;
+ return {title:"Lớp 10 · Ôn tập giữa kì 1 · Set "+(idx+1),
+ groups:[{label:"Set "+(idx+1),questions:data.items.slice(...range).map((q,i)=>{
+  const info=global.SCHOOL_G10_EXPLANATIONS?.[q.sourceNo]||{};
+  const opts=q.kind==="mcq"?q.o||[]:[];
+  const short=q.kind==="mcq"?"ABCD"[q.a]:q.answers?.[0]||"";
+  return {number:q.sourceNo||i+1,prompt:q.q,context:data.contexts?.[q.ctx]||"",
+   options:opts,answer:q.kind==="mcq"?short+". "+String(opts[q.a]||""):short,shortAnswer:short,
+   details:[{title:"Khái niệm",text:info.concept||q.note||""},
+    {title:"Vì sao đúng",text:info.why||q.note||""},
+    {title:"Cấu trúc và cách dùng",text:info.usage||""},
+    {title:"Phân biệt phương án",text:info.contrast||""}].filter(x=>x.text)};
+ })}]};
+}
+
 function source(){
  const r=hash();
  if(/^grade-12\/lesson-plans\/unit-\d+(?:\/(?:practice|print))?$/.test(r))return {redirect:true};
  if(/^grade-(9|10|12)\/unit-\d+\/vocabulary-practice-\d+$/.test(r)||/^grammar\/[^/]+\/set-\d+$/.test(r))return {get:()=>global.getUniversalVocabPrintData?.()};
- if(/^school\/grade-10\/midterm-1\/set-\d+$/.test(r))return {get:()=>global.getUniversalSchoolPrintData?.()};
+ if(/^school\/grade-10\/midterm-1\/set-\d+$/.test(r))return {get:()=>global.getUniversalSchoolPrintData?.()||schoolFallback()};
  if(/^grade-10\/mid-term-test\/test-[3-6]$/.test(r))return {get:()=>global.getUniversalMidtermPrintData?.()};
  if(r==="grade-12/reading/marketing-and-the-information-age")return {get:()=>global.getUniversalMISPrintData?.()};
  if(r==="grade-12/reading/robots-and-us")return {get:()=>global.getUniversalRobotsPrintData?.()};
