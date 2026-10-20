@@ -48,6 +48,10 @@ const assert=require("node:assert/strict");
   const initial=await inspect();
   for(const name of lazy)assert.ok(!initial.scripts.includes(name),"Eager script "+name);
   assert.ok(initial.css.some(x=>x.startsWith("styles/site.css")),"Extracted stylesheet not found");
+  assert.ok(initial.css.some(x=>x.startsWith("styles/study-workspace.css")),"Shared responsive study design not loaded");
+  const grid=await page.locator(".units").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length);
+  assert.ok(grid>=3,"Desktop discovery should show a scannable multi-column course grid");
+  assert.equal(await page.locator(".study-access-settings").count(),1,"Secondary access control should be collapsible");
   assert.ok(initial.scripts.length<=26,"Initial scripts not reduced: "+initial.scripts.length);
   const source=await (await context.request.get(base)).text();
   assert.ok(Buffer.byteLength(source,"utf8")<120000,"HTML still has a large inline CSS payload");
@@ -77,6 +81,17 @@ const assert=require("node:assert/strict");
   assert.equal(motion,"auto","Reduced motion preference must disable smooth scrolling");
   await page.emulateMedia({reducedMotion:"no-preference"});
   console.log("SHARED ACCESSIBILITY CSS: PASS");
+  await page.setViewportSize({width:390,height:844});
+  await open("grade-12",".exercise-grid");
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+4),
+    "Mobile course catalogue should not create horizontal page scrolling");
+  assert.equal(await page.locator(".exercise-grid").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),1,
+    "Mobile course catalogue must use one column");
+  await open("grade-12/unit-1",".exercise-grid");
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+4),
+    "Mobile exercise overview should fit the viewport");
+  await page.setViewportSize({width:1280,height:820});
+  console.log("SHARED STUDY WORKSPACE DESKTOP/MOBILE: PASS");
   assert.deepEqual(missing,[],"Missing JS/CSS requests");
   assert.deepEqual(errors,[],"Uncaught errors during direct lazy navigation");
   console.log("ALL UI AND PERFORMANCE CHECKS PASSED");
