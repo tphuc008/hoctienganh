@@ -106,45 +106,12 @@
   }
 
   function semanticExplanation(q,k,forPrint=false){
-    if(!k)return "";
-    const idx=k.correctIndex,correct=q.options[idx]||"";
-    const first=Array.isArray(k.step1)&&k.step1.length?k.step1:
-      [k.correctMeaning||"",k.why||""].filter(Boolean);
-    const choiceItems=Array.isArray(k.options)&&k.options.length===4?k.options:
-      (Array.isArray(k.choices)?k.choices:[]);
-    const exampleItems=Array.isArray(k.examples)?k.examples:
-      (Array.isArray(k.choices)?k.choices.map((ch,j)=>({
-        label:String.fromCharCode(65+j),word:q.options[j],en:ch.example||"",vi:ch.exampleVi||""
-      })):[]);
-    const remember=k.remember||(k.targetVocabulary?
-      "Ghi nhớ cách dùng “"+k.targetVocabulary+"” trong đúng ngữ cảnh của câu hỏi; phân biệt nghĩa và collocation với những lựa chọn còn lại.":"Khi các đáp án gần nghĩa, hãy xét collocation và dấu hiệu ngữ cảnh thay vì chỉ dịch từng từ riêng lẻ.");
-    const comparisons=choiceItems.map((ch,j)=>{
-      const word=ch.word||ch.label||q.options[j]||"";
-      const letter=String.fromCharCode(65+j);
-      return '<div class="semantic-option '+(j===idx?"correct-analysis":"")+'"><div class="semantic-option-head">'+
-        '<span>'+letter+'</span><b>'+esc(word)+'</b>'+
-        (ch.meaning?'<em>'+esc(ch.meaning)+'</em>':"")+'</div>'+
-        '<p>'+esc(ch.analysis||ch.explanation||"")+'</p></div>';
-    }).join("");
-    const examples=exampleItems.map((ex,j)=>{
-      const letter=String.fromCharCode(65+j);
-      return '<div class="semantic-example"><div class="semantic-example-title"><span>'+letter+
-        '</span><b>'+esc(ex.word||q.options[j]||"")+'</b></div>'+
-        '<p class="example-en">'+esc(ex.en||ex.example||"")+'</p>'+
-        (ex.vi?'<p class="example-vi">→ '+esc(ex.vi)+'</p>':"")+'</div>';
-    }).join("");
-    return '<div class="feedback correct semantic-feedback lp-semantic-feedback'+(forPrint?" lp-semantic-print":"")+'">'+
-      '<div class="feedback-title">✓ Đáp án '+String.fromCharCode(65+idx)+' — '+esc(correct)+'</div>'+
-      '<section class="semantic-step"><div class="semantic-step-label"><span>1</span><div>'+
-      '<b>Dịch nghĩa + giải thích ngữ cảnh</b><small>Meaning · context · collocation · why this answer</small>'+
-      '</div></div><div class="semantic-prose">'+first.map(t=>'<p>'+esc(t)+'</p>').join("")+'</div></section>'+
-      '<section class="semantic-step"><div class="semantic-step-label"><span>2</span><div>'+
-      '<b>So sánh A, B, C, D</b><small>Nuance · collocation · phạm vi nghĩa</small>'+
-      '</div></div><div class="semantic-options-grid">'+comparisons+'</div></section>'+
-      '<section class="semantic-step"><div class="semantic-step-label"><span>3</span><div>'+
-      '<b>Ví dụ thực tế cho từng đáp án</b><small>1 ví dụ cho mỗi phương án A–D</small>'+
-      '</div></div><div class="semantic-examples-grid">'+examples+'</div></section>'+
-      '<div class="semantic-remember"><b>Điểm cần nhớ</b><span>'+esc(remember)+'</span></div></div>';
+    // Private solution payload is passed only after getKey/accessAllowed has
+    // authorized access. This renderer never requests or exposes locked data.
+    if(!k || !accessAllowed() || !global.ExplanationV1)return "";
+    return global.ExplanationV1.render(global.ExplanationV1.lesson(q,k),{
+      print:forPrint,className:"lp-semantic-feedback"+(forPrint?" lp-semantic-print":"")
+    });
   }
 
   function originalQuestion(q,n){
