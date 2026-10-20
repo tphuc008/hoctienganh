@@ -26,7 +26,10 @@ test("Lesson page uses protected Semantic Precision explanations",()=>{
  const js=read("features/lesson-plans.js");
  assert.match(js,/function originalQuestion\(q,n\)/);
  assert.match(js,/getKey\(q\.id\)/);
- assert.match(js,/class="lp-inline-answer"/);
+ assert.match(js,/data-lp-original-check/);
+ assert.match(js,/data-lp-original-reset/);
+ assert.match(js,/lp-inline-result/);
+ assert.doesNotMatch(js,/<details class="lp-inline-answer"/);
  assert.match(js,/function semanticExplanation\(q,k,forPrint=false\)/);
  assert.match(js,/class="semantic-step"/);
  assert.match(js,/semantic-options-grid/);
@@ -74,4 +77,15 @@ test("Print page has part selection, two answer formats, and short keys at the e
  assert.doesNotMatch(js,/\["questions","Đề bài"\]/);
  assert.doesNotMatch(js,/printMode="questions"/);
  assert.match(js,/!accessAllowed\(\)\|\|!selected.length/);
+});
+
+test("Original answers are scored on user action without exposing locked keys",()=>{
+ const js=read("features/lesson-plans.js");
+ assert.match(js,/originalChecked\[id\]=true/);
+ assert.match(js,/page!=="lesson"\|\|!accessAllowed\(\)/);
+ assert.match(js,/const k=accessAllowed\(\)\?getKey\(q\.id\):null/);
+ assert.match(js,/graded&&k/);
+ assert.match(js,/Làm lại câu này/);
+ assert.match(js,/semanticExplanation\(q,k\)/);
+ assert.match(read("index.html"),/styles\/blue-unified\.css/);
 });
