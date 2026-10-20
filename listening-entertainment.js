@@ -500,6 +500,7 @@ function renderEntertainmentVideo(){
     readAnswer:readAnswer,restoreSubmitted:submitPart,
     restoreAnswers:toggleAnswers,updateProgress:updateProgress
   });
+  PARTS.forEach(part=>updateProgress(part.id));
   initPlayer();
   window.scrollTo({top:0,behavior:"smooth"});
 }
