@@ -87,7 +87,7 @@ const assert=require("node:assert/strict");
   await open("grade-12",".exercise-grid");
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+4),
     "Mobile course catalogue should not create horizontal page scrolling");
-  assert.equal(await page.locator(".exercise-grid").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),1,
+  assert.equal(await page.locator(".exercise-grid").first().evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),1,
     "Mobile course catalogue must use one column");
   await open("grade-12/unit-1",".exercise-grid");
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+4),
