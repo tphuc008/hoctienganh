@@ -63,9 +63,17 @@ async function main(){
   await check("Synthetic learner initialized without real Supabase writes",async()=>{
     await page.goto(BASE,{waitUntil:"domcontentloaded",timeout:45000});
     await page.locator("#pageMount .hero").waitFor({timeout:16000});
-    const result=await page.evaluate(()=>({id:LearningCore.userId(),lessons:LearningCore.list().length}));
+    const result=await page.evaluate(()=>({
+      id:LearningCore.userId(),lessons:LearningCore.list().length,
+      scripts:[...document.querySelectorAll("script[src]")].map(x=>new URL(x.src).pathname.split("/").pop()),
+      css:[...document.querySelectorAll('link[rel="stylesheet"]')].map(x=>x.getAttribute("href"))
+    }));
     assert.equal(result.id,uuid);
     assert.ok(result.lessons>=20);
+    assert.equal(result.scripts.length,25,"Unexpected initial script count (new lazy deployment missing)");
+    assert.ok(result.css.some(x=>x.startsWith("styles/site.css")),"New cacheable site CSS not present");
+    for(const name of ["school-ui.js","grade12-reading.js","listening-news.js","grade10-midterm.js"])
+      assert.ok(!result.scripts.includes(name),"Optional module loaded on homepage: "+name);
   });
   async function open(route,selector,area){
     const kind=area||(route.startsWith("school/")?"school":"tutoring");
