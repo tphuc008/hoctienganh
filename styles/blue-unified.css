@@ -1,0 +1,75 @@
+/* English Practice Hub: one cohesive blue academic identity.
+   Loaded after shared and feature styles. Success/error still use meaningful green/red. */
+:root{--bg:#f8fbff;--panel:#fff;--soft:#eff6ff;--selected:#dbeafe;--text:#1e293b;--muted:#64748b;--line:#d9e7f5;--accent:#2563eb;--accent-hover:#1d4ed8;--accent2:#60a5fa}
+.lp-preview-hero{background:linear-gradient(125deg,#eff6ff,#fff 72%,#f8fbff);border-color:#bfdbfe;box-shadow:0 12px 32px rgba(37,99,235,.07)}
+.lp-preview-hero h1,.lp-preview-section-head h2{color:#1e3a8a}
+.lp-preview-hero p,.lp-preview-section-head p{color:#475569}
+.lp-eyebrow,.lp-inline-question-number,.lp-doc-label{color:#2563eb}
+.lp-inline-doc-link{color:#1d4ed8;border-color:#bfdbfe;background:#fff}
+.lp-inline-doc-link:hover{color:#1e40af;background:#eff6ff}
+.lp-page-nav a,.lp-page-footer a,.lp-inline-nav button{color:#1d4ed8;border-color:#d9e7f5;background:#fff}
+.lp-page-nav a:hover,.lp-page-nav a:focus-visible,.lp-page-footer a:hover,.lp-inline-nav button:hover{border-color:#60a5fa;color:#1d4ed8;background:#eff6ff}
+.lp-page-nav a.is-active{color:#1d4ed8;background:#dbeafe;border-color:#60a5fa;box-shadow:inset 0 0 0 1px #93c5fd}
+.lp-inline-section,.lp-preview-body,.lp-inline-question,.lp-preview-card,.lp-practice-settings{background:#fff;border-color:#d9e7f5;color:#1e293b}
+.lp-inline-prompt,.lp-inline-option span,.lp-quiz-question{color:#334155}
+.lp-inline-access,.lp-preview-note,.lp-note{background:#eff6ff;border-color:#bfdbfe;color:#475569}
+.lp-inline-access strong,.lp-practice-settings h3,.lp-preview-card h3{color:#1e40af}
+.lp-inline-access p,.lp-preview-note p{color:#475569}
+.lp-inline-group-heading{background:#eff6ff;border-left-color:#2563eb}
+.lp-inline-group-heading h3{color:#1e40af}
+.lp-inline-group-heading p{color:#475569}
+.lp-inline-option,.lp-choice-option{border-color:#d9e7f5;background:#fff}
+.lp-inline-option:hover,.lp-choice-option:hover{border-color:#93c5fd;background:#f8fbff}
+.lp-inline-option:has(input:checked),.lp-choice-option:has(input:checked){background:#dbeafe;border-color:#60a5fa}
+.lp-inline-option input,.lp-choice-option input,.lp-print-part-option input{accent-color:#2563eb}
+.lp-inline-option.is-correct,.lp-inline-option.is-correct:has(input:checked){background:#ecfdf5;border-color:#16a34a}
+.lp-inline-option.is-incorrect,.lp-inline-option.is-incorrect:has(input:checked){background:#fef2f2;border-color:#dc2626}
+.lp-inline-locked-note{color:#64748b;border-top-color:#dbeafe}
+.lp-inline-progress{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:9px;padding:13px 16px;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff;color:#1d4ed8;font-size:13px;margin-bottom:18px}
+.lp-inline-progress span{color:#475569}
+.lp-inline-check-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}
+.lp-inline-check,.lp-inline-reset{border:1px solid #1d4ed8;border-radius:10px;padding:10px 16px;background:#2563eb;color:#fff;cursor:pointer;font-size:13px;font-weight:800;font-family:inherit}
+.lp-inline-check:hover,.lp-inline-reset:hover{background:#1d4ed8}
+.lp-inline-check:disabled{opacity:.5;cursor:not-allowed}
+.lp-inline-reset{display:inline-flex;margin-left:10px;padding:6px 10px;background:transparent;color:#1d4ed8}
+.lp-inline-reset:hover{color:#fff}
+.lp-inline-result{border-radius:11px;margin:14px 0;padding:12px 14px;font-weight:800;font-size:13px;line-height:1.6}
+.lp-inline-result.is-correct{border:1px solid #86efac;background:#f0fdf4;color:#166534}
+.lp-inline-result.is-incorrect{border:1px solid #fecaca;background:#fef2f2;color:#991b1b}
+.lp-inline-answer-body{padding:0!important}
+.lp-inline-answer-body .lp-semantic-feedback{border:1px solid #bfdbfe;border-radius:12px;overflow:hidden;background:#fff;margin:0}
+.lp-inline-answer-body .lp-semantic-feedback>.feedback-title{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.lp-inline-answer-body .lp-semantic-feedback .semantic-step{border-color:#d9e7f5}
+.lp-inline-answer-body .lp-semantic-feedback .semantic-option,.lp-inline-answer-body .lp-semantic-feedback .semantic-example{background:#fff;border-color:#d9e7f5}
+.lp-inline-answer-body .lp-semantic-feedback .semantic-step-label>span{background:#2563eb;border-color:#2563eb}
+.lp-inline-answer-body .lp-semantic-feedback .semantic-remember{background:#eff6ff;border-color:#bfdbfe}
+.lp-action,.lp-print-actions button{background:#2563eb;color:#fff}
+.lp-action:hover,.lp-print-actions button:hover{background:#1d4ed8;color:#fff}
+.lp-refresh,.lp-switches button,.lp-choice-line button{border-color:#bfdbfe;color:#1d4ed8;background:#fff}
+.lp-refresh:hover,.lp-switches button:hover{background:#eff6ff}
+.lp-switches button.is-active,.lp-choice-line button.is-active{background:#2563eb;color:#fff;border-color:#2563eb}
+.lp-practice-total{background:#eff6ff;color:#1d4ed8}
+.lp-practice-total strong{color:#2563eb}
+.lp-count-select{color:#334155;border-color:#bfdbfe}
+.lp-print-parts,.lp-print-preview{border-color:#bfdbfe}
+.lp-print-parts legend,.lp-print-preview>summary{color:#1d4ed8}
+.lp-print-part-option{border-color:#d9e7f5;background:#fff}
+.lp-print-part-option:has(input:checked){border-color:#60a5fa;background:#eff6ff}
+.lp-print-part-option strong{color:#1e3a8a}
+.lp-print-part-option small{color:#64748b}
+.lp-print-count{color:#475569}
+.lp-paper-wrap{background:#eff6ff;border-color:#bfdbfe}
+.lp-paper{background:#fff;border-color:#d9e7f5;color:#334155}
+.lp-paper h2,.lp-paper-section-title{color:#1d4ed8}
+.lp-paper-section-title{border-color:#bfdbfe}
+.lp-preview-tag,.lp-lock-status,.lp-demo-pill,.lp-style-id{color:#1d4ed8;background:#dbeafe;border-color:#bfdbfe}
+.lp-solution-locked,.lp-solution-open{background:#f8fbff;border-color:#d9e7f5;color:#334155}
+.lp-solution-open h3,.lp-solution-locked h3{color:#1e3a8a}
+.lp-explain-row{border-color:#bfdbfe}
+.lp-explain-row strong{color:#1d4ed8}
+.lp-explain-row span{color:#475569}
+.lp-examples{background:#eff6ff;border-left-color:#2563eb}
+.lp-print-sheet{background:#fff;color:#111827}
+.lp-print-sheet .lp-semantic-print .semantic-option,.lp-print-sheet .lp-semantic-print .semantic-example{border-color:#d1d5db;background:#fff}
+@media(max-width:620px){.lp-inline-progress{align-items:flex-start;flex-direction:column}.lp-inline-reset{margin-left:0;margin-top:8px}}
+@media print{.lp-print-sheet,.lp-print-sheet *{color:#111827}.lp-inline-result,.lp-inline-progress,.lp-inline-check-actions{display:none!important}}
