@@ -42,7 +42,7 @@ function pdfText(buf){
  async function popup(mode="key"){
   await page.locator(".pc-toggle").click();
   await page.locator(".pc-dialog").waitFor({state:"visible"});
-  if(mode==="detailed")await page.locator('input[name="pc-format"][value="detailed"]').check();
+  await page.locator('input[name="pc-format"][value="'+mode+'"]').check();
   const [tab]=await Promise.all([
    page.waitForEvent("popup",{timeout:15000}),
    page.locator(".pc-print").click()
