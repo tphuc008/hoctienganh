@@ -195,5 +195,27 @@ function mtResults(){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
+window.getUniversalMidtermPrintData=function(){
+ const route=location.hash.replace(/^#/,""),m=route.match(/^grade-10\/mid-term-test\/test-([3-6])$/);
+ if(!m||!Array.isArray(mtState.tests))return null;
+ const test=mtState.tests.find(t=>t.id===Number(m[1]));if(!test)return null;
+ const groups=[],sections=new Map();
+ for(const q of test.questions){
+  const key=String(q.section||"Main");
+  if(!sections.has(key)){const group={label:key,questions:[]};sections.set(key,group);groups.push(group);}
+  const context=mtContext(test,q);
+  const possible=MT_ALTERNATIVES[q.id];
+  const warnings=[q.warning||"",possible?.length>1?"Đề gốc có nhiều phương án chấp nhận được: "+possible.join(", "):"",
+    MT_NO_SCORE.has(q.id)?"Câu này không tính điểm do lỗi/độ mơ hồ của đề gốc.":""].filter(Boolean);
+  const detailHtml=mtDeepExplanation(q,context)+warnings.map(w=>'<div class="mt-note">'+mtEsc(w)+'</div>').join("");
+  const label=q.section==="Main"?String(q.number):q.section+" · "+q.number;
+  sections.get(key).questions.push({number:label,prompt:q.stem,
+   context,options:q.options||[],answer:mtAnswerLabel(q),
+   shortAnswer:MT_NO_SCORE.has(q.id)?"Không chấm":possible?.length>1?possible.join("/"):q.answer,
+   detailHtml});
+ }
+ return {title:"Lớp 10 · "+test.title,groups};
+};
+
 window.renderG10MidTermHome=mtHome;
 window.renderG10MidTermTest=mtOpenTest;
