@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "name": "hoctienganh-structure",
+  "version": "1.0.0",
+  "description": "Dependency-free website source and learning-state checks",
+  "scripts": {"test": "node --test tests/*.test.cjs"}
+}
