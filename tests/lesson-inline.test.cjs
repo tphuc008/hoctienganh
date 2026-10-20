@@ -31,10 +31,12 @@ test("Lesson page uses protected Semantic Precision explanations",()=>{
  assert.match(js,/lp-inline-result/);
  assert.doesNotMatch(js,/<details class="lp-inline-answer"/);
  assert.match(js,/function semanticExplanation\(q,k,forPrint=false\)/);
- assert.match(js,/class="semantic-step"/);
- assert.match(js,/semantic-options-grid/);
- assert.match(js,/semantic-examples-grid/);
- assert.match(js,/semantic-remember/);
+ const shared=read("features/explanation-v1.js");
+ assert.match(js,/ExplanationV1\.render\(global\.ExplanationV1\.lesson/);
+ assert.match(shared,/class="semantic-step/);
+ assert.match(shared,/semantic-options-grid/);
+ assert.match(shared,/semantic-examples-grid/);
+ assert.match(shared,/semantic-remember/);
  assert.match(js,/accessAllowed\(\)/);
  assert.doesNotMatch(js,/data-lp-tab/);
  assert.match(js,/loadAccess\(n\)/);
