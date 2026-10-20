@@ -6,6 +6,10 @@ function mtKey(id){return "grade-10/mid-term-test/test-"+id}
 function mtSave(){
  if(!mtState.chosenTest||!LearningCore.userId()||mtState.owner!==LearningCore.userId())return;
  LearningCore.writeDraft("exam",mtKey(mtState.chosenTest),{index:mtState.index,answers:mtState.answers,checked:mtState.checked,revealed:mtState.revealed,startedAt:mtState.startedAt,submissionId:mtState.submissionId,recorded:mtState.recorded,sourceVersion:LearningCore.fingerprint(mtCurrent().questions)});
+ const test=mtCurrent(),done=test.questions.filter(q=>mtState.checked[q.id]).length;
+ LearningFlow.track({category:"exam",slug:mtKey(test.id),ownerId:mtState.owner,
+   started:true,startedAt:mtState.startedAt,done,total:test.questions.length,
+   completed:done===test.questions.length,mode:"submit"});
 }
 function mtRestore(test){
  const saved=LearningCore.readDraft("exam",mtKey(test.id));
@@ -25,6 +29,7 @@ function mtRestore(test){
 function mtRestart(){
  const test=mtCurrent();if(!test)return;
  LearningCore.clearDraft("exam",mtKey(test.id));
+ LearningFlow.reset("exam",mtKey(test.id));
  mtState.chosenTest=null;mtOpenTest(test.id);
 }
 function mtEsc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
@@ -159,7 +164,7 @@ function mtRender(){
  (!checked?'<button class="primary" onclick="mtCheck()">Kiểm tra đáp án</button><button class="secondary" onclick="mtReveal()">Xem đáp án & lời giải</button>':'<button class="primary" onclick="'+(mtState.index+1===total?'mtResults()':'mtNext()')+'">'+(mtState.index+1===total?'Xem kết quả':'Câu tiếp theo →')+'</button>')+
  '<span class="mt-count">Câu '+(mtState.index+1)+' / '+total+'</span></div>';
  const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-10/mid-term-test\'">Mid Term Test</button><span>›</span><span>'+mtEsc(test.title)+'</span></div>'+
- '<div class="unit-hero"><div class="eyebrow">Grade 10 · Mid Term Test · '+mtEsc(test.title)+'</div><h1>'+mtEsc(test.title)+'</h1><p>Giữ nguyên nội dung đề gốc; trả lời từng câu và xem lời giải chi tiết sau khi kiểm tra.</p></div>'+mtProgress(test)+
+ '<div class="unit-hero"><div class="eyebrow">Grade 10 · Mid Term Test · '+mtEsc(test.title)+'</div><h1>'+mtEsc(test.title)+'</h1>'+LearningFlow.markup({started:true,done:test.questions.filter(x=>mtState.checked[x.id]).length,total,completed:test.questions.every(x=>mtState.checked[x.id]),mode:"submit"})+'<p>Giữ nguyên nội dung đề gốc; trả lời từng câu và xem lời giải chi tiết sau khi kiểm tra.</p></div>'+mtProgress(test)+
  '<section class="mt-question"><div class="mt-badge">'+mtEsc(section)+'</div><div class="mt-stem"><b>Question '+mtEsc(q.section==="Main"?q.number:q.section+" · "+q.number)+'.</b> '+mtEsc(q.stem)+'</div>'+
  (context?'<details class="mt-passage" open><summary>Đoạn văn / ngữ cảnh gốc</summary><div class="mt-passage-text">'+mtEsc(context)+'</div></details>':"")+
  '<div class="mt-answers">'+answerChoices+'</div>'+buttons+result+(checked?mtDeepExplanation(q,context):"")+'</section>'+
@@ -187,7 +192,7 @@ function mtResults(){
    }).then(()=>{if(typeof recordTutoringActivity==="function")recordTutoringActivity("study")})
      .catch(e=>console.warn("Mid-term exam result queued for retry",e));
  }
- const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-10/mid-term-test\'">Mid Term Test</button><span>›</span><span>'+mtEsc(test.title)+'</span></div><div class="unit-hero"><div class="eyebrow">Mid Term Test · '+mtEsc(test.title)+'</div><h1>Tiến độ làm bài</h1><p class="mt-score">'+right+'/'+(test.questions.length-test.questions.filter(q=>MT_NO_SCORE.has(q.id)).length)+' câu khớp đáp án tham khảo · Đã kiểm tra '+done+'/'+test.questions.length+'</p><p class="mt-subtle">Các câu có nhiều cách trả lời hợp lệ được ghi chú riêng. Kết quả này là tự kiểm tra, không thay thế chấm thi chính thức.</p></div><div class="mt-review-grid">'+scored.map((x,i)=>'<button class="'+(x.checked?(x.right?'completed':'missed'):'')+'" onclick="mtJump('+i+')">'+(x.q.section==="Main"?x.q.number:x.q.section.slice(-1)+"-"+x.q.number)+'</button>').join("")+'</div><div class="mt-controls"><button class="primary" onclick="mtJump('+Math.min(mtState.index,test.questions.length-1)+')">Tiếp tục xem lời giải</button><button class="secondary" onclick="location.hash=\'grade-10/mid-term-test\'">Quay lại các đề</button></div>';
+ const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-10/mid-term-test\'">Mid Term Test</button><span>›</span><span>'+mtEsc(test.title)+'</span></div><div class="unit-hero"><div class="eyebrow">Mid Term Test · '+mtEsc(test.title)+'</div><h1>Tiến độ làm bài</h1>'+LearningFlow.markup({started:true,done,total:test.questions.length,completed:done===test.questions.length,mode:"submit"})+'<p class="mt-score">'+right+'/'+(test.questions.length-test.questions.filter(q=>MT_NO_SCORE.has(q.id)).length)+' câu khớp đáp án tham khảo · Đã kiểm tra '+done+'/'+test.questions.length+'</p><p class="mt-subtle">Các câu có nhiều cách trả lời hợp lệ được ghi chú riêng. Kết quả này là tự kiểm tra, không thay thế chấm thi chính thức.</p></div><div class="mt-review-grid">'+scored.map((x,i)=>'<button class="'+(x.checked?(x.right?'completed':'missed'):'')+'" onclick="mtJump('+i+')">'+(x.q.section==="Main"?x.q.number:x.q.section.slice(-1)+"-"+x.q.number)+'</button>').join("")+'</div><div class="mt-controls"><button class="primary" onclick="mtJump('+Math.min(mtState.index,test.questions.length-1)+')">Tiếp tục xem lời giải</button><button class="secondary" onclick="location.hash=\'grade-10/mid-term-test\'">Quay lại các đề</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
