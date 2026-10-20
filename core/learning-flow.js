@@ -6,6 +6,9 @@
   "use strict";
   const PHASES=Object.freeze({ready:"ready",inProgress:"in_progress",completed:"completed"});
   const categories=new Set(["vocabulary","grammar","school","listening","reading","exam"]);
+  const labels=Object.freeze({start:"Bắt đầu làm bài",resume:"Tiếp tục làm bài",
+    check:"Kiểm tra đáp án",previous:"Câu trước",next:"Câu tiếp theo",
+    review:"Xem kết quả",submit:"Nộp bài",retry:"Làm lại bài"});
   function snapshot(input={}){
     const total=Number(input.total);
     const count=Number(input.done);
@@ -70,5 +73,5 @@
   styles.id="learningFlowStyles";
   styles.textContent=".learning-flow-badge{display:inline-flex;align-items:center;gap:5px;max-width:100%;padding:5px 10px;border-radius:999px;border:1px solid var(--line,rgba(120,130,140,.2));background:var(--soft,rgba(80,90,110,.09));color:var(--text,inherit);font-size:12px;font-weight:750;white-space:nowrap;line-height:1.4}.learning-flow-badge[data-learning-phase=completed]{border-color:rgba(52,211,153,.35);color:var(--good,#15803d)}";
   document.head.appendChild(styles);
-  global.LearningFlow=Object.freeze({PHASES,snapshot,track,read,reset,markup,paint});
+  global.LearningFlow=Object.freeze({PHASES,labels,snapshot,track,read,reset,markup,paint});
 })(window);
