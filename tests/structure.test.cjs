@@ -10,6 +10,7 @@ test("Every loaded script exists and all JavaScript parses",()=>{
   const html=read("index.html");
   const paths=[...html.matchAll(/<script\s+src="([^"]+)"/g)].map(x=>x[1].split("?")[0]);
   assert.ok(paths.includes("core/learning-core.js"));
+  assert.ok(paths.includes("content/manifest.js"));
   const files=fs.readdirSync(root).filter(f=>f.endsWith(".js"));
   for(const name of files)new vm.Script(read(name),{filename:name});
   for(const name of paths){
@@ -93,10 +94,11 @@ test("Core module never exposes results to another account",()=>{
 
 test("Legacy Grade 10 midterm routes and all new routes remain intact",()=>{
   const html=read("index.html");
-  assert.match(html,/grade-10\/mid-term-test\/test-/);
-  assert.match(html,/renderG10MidTermTest/);
-  assert.match(html,/grade-12\/reading\/robots-and-us/);
-  assert.match(html,/LearningCore\.register/);
+  const manifest=read("content/manifest.js");
+  assert.match(manifest,/grade-10\/mid-term-test\/test-/);
+  assert.match(manifest,/renderG10MidTermTest/);
+  assert.match(manifest,/grade-12\/reading\/robots-and-us/);
+  assert.match(html,/ContentManifest\.entries/);
   assert.match(html,/LearningCore\.renderRoute/);
   for(const file of ["grade10-midterm.js","grade10-midterm-source.txt","school-ui.js","listening-news.js","listening-entertainment.js","grade12-reading.js"])
     assert.ok(fs.existsSync(path.join(root,file)),"Missing legacy feature: "+file);
