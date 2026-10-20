@@ -1,37 +1,85 @@
-# Website Học Tiếng Anh — cấu trúc dùng chung
+# Website Học Tiếng Anh — Content Manifest v1
 
-Đây là kiến trúc **mở rộng dần, tương thích ngược** với website đã xuất bản. Không thay đổi đề gốc, đáp án hoặc lời giải khi chỉ muốn thêm bài.
+## Nguyên tắc
 
-## Cấu trúc mã nguồn
+`content/manifest.js` là **nguồn duy nhất** cho danh sách Grade, Unit Vocabulary,
+bài Grammar và đường dẫn của Reading, Listening, School, Mid-term.
+`index.html` không còn chứa bản sao của `GRADES`, `UNITS`, `BANKS`
+hay bộ định tuyến từng bài.
 
-- `core/learning-core.js`: đăng ký bài học, kiểm tra ID và route trùng nhau, autosave theo tài khoản, chữ ký phiên bản nội dung, hàng đợi đồng bộ kết quả và idempotent submission ID.
-- `features/`: các tính năng độc lập như lịch sử học tập.
-- `grade*.js`, `school-ui.js`, `listening-*.js`: các engine hiện có, giữ nguyên cơ chế tương tác theo môn.
-- `grade10-midterm.js`: các đề lớp 10, vẫn tải dữ liệu gốc từ `grade10-midterm-source.txt`.
-- `tests/`, `.github/workflows/`: kiểm tra tĩnh, logic lưu bài, Chromium học sinh giả lập.
-- `migrations/`: thay đổi SQL cộng thêm, không xóa lịch sử.
+`core/learning-core.js` giữ registry, draft theo tài khoản, kết quả và retry queue.
+Manifest điều khiển **nội dung ở đâu và mở bằng engine nào**, không thay đổi ngân hàng đề,
+đáp án, lời giải hoặc logic chấm của các engine hiện có.
 
-## Quy tắc phát hành nội dung
+## Thêm Unit Vocabulary mới (ví dụ: Grade 12 Unit 9)
 
-1. Mỗi bài có ID và route **duy nhất, cố định**: `LearningCore.register({id,route,title,category,grade,render})`. Không sao chép nguyên engine chỉ để tạo một bài khác.
-2. Dữ liệu bài (câu hỏi/đáp án/giải thích) nằm trong module nội dung; giao diện, đồng hồ, nhập đáp án và giải thích nằm trong engine tương ứng.
-3. Chỉ ghi bài theo ID tài khoản đăng nhập. `LearningCore.writeDraft/readDraft` giữ tiến độ; chữ ký `fingerprint` vô hiệu hóa bản nháp khi đề nguồn đã đổi.
-4. Điểm các hoạt động dùng `LearningCore.submitPractice` vào `public.practice_submissions`; category hiện dùng: `school`, `listening`, `grammar`, `vocabulary`, `reading`, `exam`. Giữ cả bảng lịch sử cũ `scores`, `reading_submissions`.
-5. UUID của một lượt nộp bài không đổi khi thử gửi lại. Không cộng streak chỉ vì học sinh tải lại màn hình kết quả.
-6. Bổ sung unit/bài mới bằng module dữ liệu và một mục registry tương ứng. **Chưa có CMS tự động nhập nội dung**; đây là nền tảng chuẩn hóa, không phải hệ thống xuất bản one-click.
-7. Không lưu thông tin xác thực nhạy cảm vào kho mã. Chỉ dùng public publishable key ở trình duyệt; các secret của Supabase phải ở phía server.
+1. Tạo file `grade12-unit9.js` ở thư mục gốc, trong đó xuất ngân hàng dữ liệu qua
+   `window.G12_U9_BANK`. Dữ liệu cần có tối thiểu `grade`, `unit`,
+   `title`, `questions`, `explanations`, `levelConfig`.
+   `levelConfig` liệt kê các set và chỉ số câu hỏi trong mỗi set.
+2. Thêm **một mục** vào mảng `vocabulary` trong `content/manifest.js`, ví dụ:
 
-## Cơ sở dữ liệu
+   - `grade:12`, `id:9`
+   - `title:"Unit 9"`, `subtitle:"Tên chủ đề"`
+   - `bankGlobal:"G12_U9_BANK"`, `source:"grade12-unit9.js"`
 
-Hai migration mở rộng `practice_submissions` và quyền đọc điểm học sinh đã được áp dụng trong đợt sửa 19/10. Migration `migrations/20261020_exam_category.sql` bổ sung category `exam` đã áp dụng thành công ngày 20/10. Mọi ràng buộc RLS sẵn có vẫn giữ nguyên.
+3. Đẩy hai file lên GitHub. Website tự hiển thị Unit ở lớp 12,
+   hỗ trợ route `grade-12/unit-9` và các link
+   `grade-12/unit-9/vocabulary-practice-N` dựa trên `levelConfig`.
+   **Không thêm script tag, không sửa `UNITS` hay `BANKS` trong `index.html`.**
 
-## Cổng kiểm soát chất lượng trước khi merge
+File mới phải là **bank độc lập**, đã định nghĩa đúng dạng câu hỏi và lời giải hiện có.
+Đừng yêu cầu formatter cũ chạy lại trên tất cả Unit chỉ để thêm một Unit mới.
+Muốn thêm Grade 11 lần đầu thì chuyển `grades[].live` của Grade 11 thành `true`
+trong cùng Manifest.
 
-- `npm test`: kiểm tra cú pháp JS, file liên kết, ID route, account isolation, khôi phục và đồng bộ thất bại.
-- GitHub Actions `Chromium learner journeys`: đăng nhập giả, các route lớp 10, Reading/Listening và refresh/resume School/Midterm, **không gọi Supabase thật**.
-- Kiểm thử bằng tài khoản thử thật trên máy tính và điện thoại: đăng nhập, truy cập khu vực, làm/nộp/làm lại bài, đồng bộ Supabase, âm thanh YouTube, hiển thị mobile.
-- Lưu một nhánh backup của `main` trước khi triển khai; quay lại commit trước nếu phát hiện lỗi nghiêm trọng.
+## Thêm bài Grammar
 
-## Chưa tự động hóa
+- File dữ liệu mới phải nối thêm vào `window.GRAMMAR_BANKS[slug]`
+  (không ghi đè các Grammar bank đang có).
+- Thêm một mục `{slug,title,subtitle,source,bankGlobal:"GRAMMAR_BANKS"}`
+  vào mảng `grammar` ở Manifest.
+- Đường dẫn danh mục, bài và Set được suy ra tự động từ `slug` và `levelConfig`.
 
-Bật Supabase Auth leaked-password protection trong Supabase Dashboard và rà soát RPC `record_tutoring_activity` về rate limiting / chống gọi lặp. Đây là cấu hình bảo mật vận hành riêng, không thể được xác nhận chỉ bằng kiểm thử frontend.
+## Thêm trang Reading / Listening / School / Exam
+
+Đối với bài sử dụng renderer riêng, thêm một mục vào `pages`:
+
+- `id`: duy nhất toàn website
+- `route`: duy nhất, cố định
+- `title`, `category`, `grade` (nếu có), `listing` (nếu muốn vào danh sách Reading)
+- `kind:"handler"`
+- `handler:"tênHàmToànCục"` mà file nội dung đăng ký trên `window`
+- `source:"duong-dan-file.js"` để Manifest tự tải nếu renderer chưa có sẵn
+- `args:[...]` nếu renderer cần tham số
+
+Danh mục và đường dẫn sẽ có mặt trong LearningCore Registry.
+Các nội dung có cách trình bày đặc thù vẫn dùng engine/renderer riêng; Manifest
+không biến các bài khác cấu trúc thành cùng một kiểu quiz.
+
+## Quy tắc an toàn bắt buộc
+
+- Không đổi ID/route đã phát hành: bản nháp, điểm và bookmark của học sinh
+  có thể tham chiếu các giá trị này.
+- Không xóa hay đổi tên bảng `scores`, `reading_submissions`,
+  `practice_submissions` khi chuyển sang Manifest.
+- Không thay đổi ngân hàng câu hỏi hoặc lời giải cũ trong một PR cấu trúc.
+- Trước khi merge: chạy `npm test` và hai bài Chromium
+  `tests/browser-smoke.cjs`, `tests/manifest-browser.cjs`.
+- Test Manifest xác nhận ID/route duy nhất, file nguồn tồn tại, link Set trực tiếp,
+  và mô phỏng thêm một Vocabulary Unit + một trang Reading chỉ bằng file mới và mục Manifest.
+- Luôn giữ nhánh backup; deployment production chỉ sau khi PR đạt toàn bộ test.
+- Dữ liệu đăng nhập giả được sử dụng trong Chromium; không gửi bài kiểm thử
+  đến Supabase thật.
+
+## Giới hạn / tiếp theo
+
+- Các **module cũ** vẫn được nạp qua script tag trước đây, để giữ nguyên thứ tự
+  phụ thuộc của bộ formatter Semantic Precision và các bộ giải thích. **Bài mới**
+  nạp động theo `source` trong Manifest; làm sạch toàn bộ script tag cũ và
+  lazy-load từng module là hạng mục hiệu năng riêng, không nên gộp với bước di chuyển catalogue.
+- Manifest quản lý việc xuất bản từ **mã nguồn**, chưa có trình soạn thảo/CMS.
+  Với quy trình tạo nội dung bằng ChatGPT/Google Docs, cần xuất gói dữ liệu
+  theo schema của engine rồi đăng ký vào Manifest.
+- Lịch sử kết quả vẫn đọc bảng chung và bảng cũ; giải trùng và thay đổi streak
+  là ưu tiên riêng, tránh sửa lẫn khi đang thay đổi routing.
