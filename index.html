@@ -1472,7 +1472,7 @@ body:before{
             <div class="stat"><b id="wrongStat">0</b><span>Total mistakes</span></div>
             <div class="stat"><b id="answeredStat">0</b><span>First-try correct</span></div>
           </div>
-          <button class="primary" id="retryBtn">Try again</button>
+          <button class="primary" id="retryBtn">Làm lại bài</button>
           <button class="secondary" id="backUnitBtn" style="margin-left:8px">Back to Unit</button>
         </div>
       </div>
@@ -3077,7 +3077,7 @@ function renderGrammarExercise(slug,setNo){
         <span class="pill">${esc(activeLevel.label)}</span>
         <span class="pill">Immediate feedback</span>
       </div>
-      <button class="primary" style="margin-top:16px" onclick="startQuiz(true)">Start exercise →</button>
+      <button class="primary" style="margin-top:16px" onclick="startQuiz(true)">${LearningFlow.labels.start} →</button>
     </div>`;
 }
 
@@ -3232,7 +3232,7 @@ function renderExercise(grade,id,setNo){
       <h1><span class="gradient">${activeBank?.reviewMode?"Ôn tập · Set "+activeSet:"Vocabulary Practice "+activeSet}</span></h1>
       <div class="pills"><span class="pill">${activeLevel.note||activeLevel.name}</span><span class="pill">${count} questions</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
       ${nicknameHTML}
-      <button class="primary" style="margin-top:16px" onclick="startQuiz(true)">Start exercise →</button>
+      <button class="primary" style="margin-top:16px" onclick="startQuiz(true)">${LearningFlow.labels.start} →</button>
     </div>`;
 }
 
@@ -3399,8 +3399,8 @@ function renderQuestion(){
   const answerBlock=q.kind==="input"
     ? `<div class="wordform-wrap">
         <input class="wordform-input" id="wordformInput" type="text" autocomplete="off" spellcheck="false"
-          placeholder="Type your answer" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):esc(wordformDrafts[current]||"")}">
-        <button class="primary" id="wordformSubmit" ${isSolved?"disabled":""}>Check</button>
+          placeholder="Nhập đáp án" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):esc(wordformDrafts[current]||"")}">
+        <button class="primary" id="wordformSubmit" ${isSolved?"disabled":""}>Kiểm tra</button>
       </div>`
     : `<div class="answers">
         ${q.o.map((opt,i)=>{
@@ -3413,11 +3413,11 @@ function renderQuestion(){
       </div>`;
   const navBlock=`
       <div class="nav ${q.type==="context_guessing"?"context-nav":""}">
-        <button class="secondary" id="prevBtn" ${current===0?"disabled":""}>← Previous</button>
+        <button class="secondary" id="prevBtn" ${current===0?"disabled":""}>← ${LearningFlow.labels.previous}</button>
         ${isSolved
           ? (current===activeQuestions.length-1
-              ? '<button class="primary" id="finishBtn">Finish ✓</button>'
-              : '<button class="primary" id="nextBtn">Next →</button>')
+              ? '<button class="primary" id="finishBtn">Xem kết quả ✓</button>'
+              : '<button class="primary" id="nextBtn">Câu tiếp theo →</button>')
           : '<span class="next-lock">Trả lời đúng để tiếp tục →</span>'}
       </div>`;
   const isReading=!!q.context&&(q.type==="reading"||q.type==="context_guessing")&&activeBank?.pilotFixedFormat;
