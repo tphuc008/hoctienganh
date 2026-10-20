@@ -164,7 +164,7 @@ async function main(){
       const previous=mockWrites.length;
       await page.locator(button).click();
       await page.waitForFunction(p=>{
-        const key=Object.keys(localStorage).find(k=>k.includes("listening")&&k.includes(encodeURIComponent(p)));
+        const key=Object.keys(localStorage).find(k=>k.includes(":listening:")&&k.includes(encodeURIComponent(p)));
         if(!key)return false;
         try{return !!JSON.parse(localStorage.getItem(key)).data[1].remoteSaved}catch(e){return false}
       },prefix,{timeout:12000});
