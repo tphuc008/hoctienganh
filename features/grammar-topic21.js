@@ -94,6 +94,16 @@ function feedback(q,pick,wasCorrect,kind){
     '<p><b>Quy tắc cần nhớ:</b> '+esc(q.why)+'</p>'+
     (good?'<p><b>Đáp án:</b> '+esc(q.options[q.correct])+'</p>':kind==="guided"?"<p>Đọc lại phân tích trên rồi thử chọn đáp án khác.</p>":'<p><b>Đáp án đúng:</b> '+esc(q.options[q.correct])+'</p>')+'</div>';
 }
+/* Stable per-account option shuffling prevents answer-letter patterns while retaining
+ * canonical correctness and feedback indices in the source question bank. */
+function optionOrder(q){
+  let seed=2166136261;
+  const input=String(q.id)+":"+userId;
+  for(let i=0;i<input.length;i++){seed=Math.imul(seed^input.charCodeAt(i),16777619)>>>0;}
+  const order=[0,1,2,3];
+  for(let i=3;i>0;i--){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const j=seed%(i+1);const t=order[i];order[i]=order[j];order[j]=t;}
+  return order;
+}
 function question(q,num,kind){
   const guided=kind==="guided",repair=kind==="repair",independent=kind==="practice",mastery=kind==="mastery",review=kind==="review";
   const val=guided?state.guided[q.id]?.pick:repair?state.repairs[q.id]?.pick:state[kind]?.[q.id];
@@ -105,10 +115,11 @@ function question(q,num,kind){
   return '<article class="g21-question" id="g21-'+esc(q.id)+'">'+
     '<div class="g21-qmeta"><span>QUESTION '+String(num).padStart(2,"0")+'</span><span>'+esc(d.skills.find(s=>s.id===q.skill)?.title||q.skill)+'</span></div>'+
     '<p class="g21-prompt">'+esc(q.stem)+'</p>'+
-    '<div class="g21-options" role="group" aria-label="Đáp án câu '+num+'">'+q.options.map((opt,i)=>{
-      const mark=selected===i;
-      return '<button type="button" class="g21-option'+(mark?" selected":"")+'" data-g21="answer" data-kind="'+field+'" data-id="'+esc(q.id)+'" data-index="'+i+'" aria-pressed="'+mark+'"'+(submitted?' disabled aria-disabled="true"':"")+'>'+
-      '<span class="g21-letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(opt)+'</span></button>';
+    '<div class="g21-options" role="group" aria-label="Đáp án câu '+num+'">'+optionOrder(q).map((originalIndex,displayIndex)=>{
+      const opt=q.options[originalIndex];
+      const mark=selected===originalIndex;
+      return '<button type="button" class="g21-option'+(mark?" selected":"")+'" data-g21="answer" data-kind="'+field+'" data-id="'+esc(q.id)+'" data-index="'+originalIndex+'" aria-pressed="'+mark+'"'+(submitted?' disabled aria-disabled="true"':"")+'>'+
+      '<span class="g21-letter">'+String.fromCharCode(65+displayIndex)+'</span><span>'+esc(opt)+'</span></button>';
     }).join("")+'</div>'+
     (reveal?feedback(q,selected,complete,kind):"")+
     (guided&&complete?'<div class="g21-foot">Đã hiểu và trả lời đúng. Tiếp tục câu tiếp theo.</div>':"")+'</article>';
