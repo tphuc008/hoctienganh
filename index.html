@@ -1486,7 +1486,8 @@ body:before{
 <script src="core/learning-core.js?v=20261020-v1"></script>
 <script src="core/learning-flow.js?v=20261020-v1"></script>
 <script src="content/manifest.js"></script>
-<script src="features/learning-history.js?v=20261020-v1"></script>
+<script src="core/history-core.js"></script>
+<script src="features/learning-history.js?v=20261020-priority3"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit2.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit3.js?v=20261001-deep-v5"></script>
@@ -2912,21 +2913,8 @@ async function loadTutoringStreak(){
     if(number)number.textContent="—";
   }
 }
-async function recordTutoringActivity(eventType="study"){
-  try{
-    const session=await ensureLearnerSession();
-    if(!session?.access_token)return;
-    const res=await fetch(SUPABASE_URL+"/rest/v1/rpc/record_tutoring_activity",{
-      method:"POST",
-      keepalive:true,
-      headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"return=representation"},
-      body:JSON.stringify({p_event_type:String(eventType||"study").slice(0,64)})
-    });
-    if(!res.ok)throw new Error("Streak activity submit failed");
-    if(document.getElementById("tutoringStreakCard"))loadTutoringStreak();
-  }catch(err){console.error(err)}
-}
-window.recordTutoringActivity=recordTutoringActivity;
+// Streak credit is now awarded atomically by a database trigger when an
+// eligible result is first inserted. The browser must never increment it.
 
 function renderHome(){
   pageMount.style.display="block";
@@ -3652,7 +3640,7 @@ function move(step){
   current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 
-async function submitLearningScore(firstTry,totalMistakes,totalQuestions){
+async function submitLearningScore(firstTry,totalMistakes,totalQuestions,submissionId){
   if(activeMode==="grammar")return;
   if(scoreSubmitted||!currentNickname||!quizStartedAt)return;
   scoreSubmitted=true;
@@ -3660,8 +3648,8 @@ async function submitLearningScore(firstTry,totalMistakes,totalQuestions){
   try{
     const session=await ensureLearnerSession();
     if(!session?.user?.id||!session?.access_token)throw new Error("Learner session unavailable");
-    const payload={user_id:session.user.id,nickname:currentNickname,grade:activeGrade,unit_no:activeUnit,set_no:activeSet,difficulty:activeLevel.name,first_try_correct:firstTry,total_questions:totalQuestions,mistakes:totalMistakes,duration_seconds:Math.min(duration,7200)};
-    const res=await fetch(SUPABASE_URL+"/rest/v1/scores",{method:"POST",keepalive:true,headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(payload)});
+    const payload={user_id:session.user.id,nickname:currentNickname,grade:activeGrade,unit_no:activeUnit,set_no:activeSet,difficulty:activeLevel.name,practice_submission_id:submissionId,first_try_correct:firstTry,total_questions:totalQuestions,mistakes:totalMistakes,duration_seconds:Math.min(duration,7200)};
+    const res=await fetch(SUPABASE_URL+"/rest/v1/scores?on_conflict=practice_submission_id",{method:"POST",keepalive:true,headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,"Content-Type":"application/json","Prefer":"resolution=ignore-duplicates,return=minimal"},body:JSON.stringify(payload)});
     if(!res.ok)throw new Error("Score submit failed");
     toast("Đã ghi nhận bài hoàn thành vào tài khoản");
   }catch(err){
@@ -3710,13 +3698,13 @@ function finishLearning(){
   document.getElementById("scoreRing").style.background=`conic-gradient(var(--accent) ${pct*3.6}deg,rgba(190,24,93,.10) 0deg)`;
   document.getElementById("resultTitle").textContent=totalMistakes===0?"Excellent — all first try.":totalMistakes<=8?"Strong vocabulary control.":"Review the tricky contrasts below.";
   buildReview();
-  recordTutoringActivity(activeMode==="grammar"?"grammar_set":"vocabulary_set");
-  if(activeMode!=="grammar")submitLearningScore(firstTry,totalMistakes,activeQuestions.length);
+  const completedSubmissionId=LearningCore.uuid();
+  if(activeMode!=="grammar")submitLearningScore(firstTry,totalMistakes,activeQuestions.length,completedSubmissionId);
   LearningCore.submitPractice({
     category:activeMode==="grammar"?"grammar":"vocabulary",slug:quizAttemptIdentity(),
     correct:firstTry,total:activeQuestions.length,
     duration:Math.max(0,Math.round((Date.now()-quizStartedAt)/1000)),
-    submissionId:LearningCore.uuid(),details:{mistakes:totalMistakes,firstTryAccuracy:pct}
+    submissionId:completedSubmissionId,details:{mistakes:totalMistakes,firstTryAccuracy:pct}
   }).catch(err=>{console.error("Unified result save failed",err);toast("Chưa đồng bộ được kết quả bổ sung")});
   if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
