@@ -3748,8 +3748,18 @@ function renderManifestItem(item){
   if(item.kind==="grade"){renderGrade(item.grade);return}
   if(item.kind==="handler"){
     const handler=window[item.handler];
-    if(typeof handler!=="function")throw new Error("Missing page renderer: "+item.handler);
-    handler(...(item.args||[]));return;
+    if(typeof handler==="function"){handler(...(item.args||[]));return}
+    const requested=item.route;
+    pageMount.style.display="block";
+    pageMount.innerHTML='<div class="empty"><b>Đang tải nội dung bài học…</b>Vui lòng chờ trong giây lát.</div>';
+    ContentManifest.ensureHandler(item).then(fn=>{
+      if(location.hash.slice(1)===requested)fn(...(item.args||[]));
+    }).catch(err=>{
+      if(location.hash.slice(1)!==requested)return;
+      console.error("Content Manifest renderer load failed",err);
+      pageMount.innerHTML='<div class="empty"><b>Không tải được bài học</b>'+esc(err.message||String(err))+'</div>';
+    });
+    return;
   }
   if(item.kind==="vocabulary-unit"||item.kind==="vocabulary-set"||
      item.kind==="grammar-unit"||item.kind==="grammar-set"){
