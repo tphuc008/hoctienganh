@@ -1623,7 +1623,7 @@ function renderHome(){
         </div>
       </section>
     </div>
-    <div class="section-title"><h2>Thư viện bài học</h2><span><button class="crumb-btn" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></span></div>
+    <div class="section-title"><h2>Thư viện bài học</h2></div>
     <div class="units">
       ${GRADES.map(g=>`
         <button class="unit-card" onclick="goGrade(${g.id})">
@@ -1639,7 +1639,8 @@ function renderHome(){
         <div class="unit-top"><span class="unit-no">GRAMMAR</span><span class="status live">Available</span></div>
         <h3>Grammar</h3><p>Luyện ngữ pháp theo chủ điểm</p><span class="unit-arrow">→</span>
       </button>
-    </div>`;
+    </div>
+    <details class="study-access-settings"><summary>Quản lý quyền trên thiết bị</summary><div><button class="secondary" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></div></details>`;
   renderTutoringStreak([]);
   loadTutoringStreak();
   window.scrollTo({top:0,behavior:"smooth"});
