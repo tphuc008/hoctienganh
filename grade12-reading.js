@@ -42,7 +42,13 @@ let selection=null;
 function el(id){return document.getElementById(id)}
 function html(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function read(){try{const key=storeKey();return key?JSON.parse(localStorage.getItem(key)||"null"):null}catch(e){return null}}
-function save(){try{const key=storeKey();if(key)localStorage.setItem(key,JSON.stringify(state))}catch(e){}}
+function save(){
+ try{const key=storeKey();if(key)localStorage.setItem(key,JSON.stringify(state))}catch(e){}
+ if(state&&LearningCore.userId())LearningFlow.track({
+   category:"reading",slug:PATH,started:true,startedAt:state.startedAt,
+   done:Q.filter(answered).length,total:Q.length,completed:!!state.submitted,mode:"submit"
+ });
+}
 function cleaned(s){return String(s||"").trim().replace(/\s+/g," ").toLowerCase()}
 function correct(q){return cleaned(state.answers[q.id])===cleaned(q.answer)}
 function answered(q){return !!cleaned(state.answers[q.id])}
@@ -75,6 +81,7 @@ function exitPage(){
 function start(reset){
  const old=read();
  if(reset&&old&&!old.submitted&&!window.confirm("Làm lại từ đầu? Câu trả lời đã nhập và thời gian hiện tại sẽ bị xóa."))return;
+ if(reset)LearningFlow.reset("reading",PATH);
  state=reset||!old?fresh():old;
  // A previous page may have closed while the network request was in flight.
  // Re-enable the idempotent save attempt when reopening an unsaved submission.
@@ -193,7 +200,7 @@ function renderReader(){
  const mount=ensureMISRoot();
  mount.innerHTML='<div id="mis-app" class="mis-app" data-tab="'+html(state.mobileTab||"questions")+'">'+
  '<header class="mis-topbar"><div class="mis-top-left"><button class="mis-exit" aria-label="Thoát bài Reading" onclick="misExit()">×</button><div><div class="mis-title">Marketing and the Information Age</div><div class="mis-subtitle">IELTS Academic Reading · Passage 3 · Questions 27–40</div></div></div>'+
- '<div class="mis-top-mid"><span class="mis-clock" id="mis-clock">25:00</span><span class="mis-score-mini" id="mis-status"></span><span class="mis-save-status" id="mis-save-status" role="status"></span></div>'+
+ '<div class="mis-top-mid"><span class="mis-clock" id="mis-clock">25:00</span><span class="mis-score-mini" id="mis-status"></span><span id="readingFlowStatus"></span><span class="mis-save-status" id="mis-save-status" role="status"></span></div>'+
  '<div class="mis-top-actions">'+
  (state.submitted?'<button type="button" class="mis-submit" onclick="misReset()">Làm bài khác ↻</button><button type="button" class="mis-save-retry" id="mis-save-retry" onclick="misSaveSubmission()" hidden>Lưu lại</button>':'<button type="button" class="mis-submit" onclick="misSubmit(false)">Nộp bài →</button>')+
  '</div></header>'+
@@ -224,6 +231,7 @@ function updateProgress(){
   n.className="mis-jump"+(state.submitted?(correct(q)?" right":" wrong"):(answered(q)?" done":""))+(q.id===Number(state.focus)?" focused":"");
  });
  if(el("mis-status"))el("mis-status").innerHTML=state.submitted?'<strong>'+score()+'/14</strong> câu đúng':'<strong>'+completed()+'/14</strong> đã làm';
+ LearningFlow.paint(el("readingFlowStatus"),{started:true,done:completed(),total:Q.length,completed:!!state.submitted,mode:"submit"});
 }
 function setChoice(id,value){
  if(!state||state.submitted)return;
