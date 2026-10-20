@@ -14,7 +14,7 @@ function validated(s){
  const hasExamples=Array.isArray(s.examples)&&s.examples.length===4&&
    s.examples.every((x,i)=>plain(x.en)&&plain(x.vi)&&(!options[i]||plain(x.word)===plain(options[i].word)));
  const evidence=Array.isArray(s.evidence)?s.evidence.filter(Boolean):[s.evidence].filter(Boolean);
- const requirements=plain(s.quickReason)&&evidence.length>0&&plain(s.reasoning||s.legacyHtml);
+ const requirements=plain(s.quickReason)&&evidence.length>0&&plain(s.reasoning||s.analysisHtml||s.legacyHtml);
  const vocabulary=s.type==="vocabulary";
  return {options,hasOptions,hasExamples,evidence,
   status:requirements&&(!options.length||hasOptions)&&(!vocabulary||hasExamples)&&!s.needsReview?"ready":"needs_review"};
@@ -32,15 +32,15 @@ function render(spec,opts){
  const app=(examples?'<div class="semantic-examples-grid">'+examples+'</div>':"")+
     (plain(s.application)?'<p>'+h(s.application)+'</p>':"")+
     (plain(s.remember)?'<div class="semantic-remember"><b>Điểm cần nhớ</b><span>'+h(s.remember)+'</span></div>':"");
- const body='<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>1</span><div><b>Bằng chứng</b></div></div><div class="semantic-prose">'+evidence+anchor(s.translation,"Dịch / diễn giải")+'</div></section>'+
+ const body='<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>1</span><div><b>Bằng chứng</b></div></div><div class="semantic-prose">'+ (s.evidenceHtml||evidence)+anchor(s.translation,"Dịch / diễn giải")+'</div></section>'+
     '<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>2</span><div><b>Phân tích'+(v.options.length===4?" A–D":" cách giải")+'</b></div></div>'+
-      '<div class="semantic-prose">'+paragraphs(s.reasoning)+
+      '<div class="semantic-prose">'+ (s.analysisHtml||paragraphs(s.reasoning))+
       (v.options.length?'<div class="semantic-options-grid">'+choices+'</div>':"")+
       (s.legacyHtml?'<div class="ev1-legacy">'+s.legacyHtml+'</div>':"")+
       (!v.options.length&&!s.legacyHtml&&!plain(s.reasoning)?'<p class="ev1-muted">Chưa có phân tích đủ bằng chứng để công bố.</p>':"")+
       '</div></section>'+
     '<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>3</span><div><b>Vận dụng</b></div></div><div class="semantic-prose">'+
-      (app||'<p class="ev1-muted">Ví dụ hoặc quy tắc vận dụng đang chờ kiểm duyệt.</p>')+'</div></section>';
+      (s.applicationHtml||app||'<p class="ev1-muted">Ví dụ hoặc quy tắc vận dụng đang chờ kiểm duyệt.</p>')+'</div></section>';
  return '<div class="ev1 feedback semantic-feedback'+(o.className?" "+h(o.className):"")+'" data-explanation-v1="1" data-review-status="'+v.status+'">'+
    '<div class="feedback-title ev1-answer">Đáp án: '+h(answer||"Đang kiểm tra đáp án")+'</div>'+
    (s.quickReason?'<p class="ev1-short">'+h(s.quickReason)+'</p>':'<p class="ev1-short ev1-muted">Chưa có lý do ngắn đã được đối chiếu nguồn.</p>')+
