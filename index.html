@@ -1252,9 +1252,10 @@ function ensureTeacherGrammar21(){
   if(window.TeacherGrammar21)return Promise.resolve();
   if(!grammar21AssetsPromise){
     grammar21AssetsPromise=(async()=>{
-      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261020-clean2");
+      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261020-explain1");
       await loadGrammar21Asset("script","content/grammar-topic21-data.js?v=20261020-pilot1");
-      await loadGrammar21Asset("script","features/grammar-topic21.js?v=20261020-clean2");
+      await loadGrammar21Asset("script","content/grammar-topic21-explanations.js?v=20261020-explain1");
+      await loadGrammar21Asset("script","features/grammar-topic21.js?v=20261020-explain1");
       if(!window.TeacherGrammar21)throw new Error("Grammar preview chưa khởi tạo.");
     })().catch(err=>{grammar21AssetsPromise=null;throw err});
   }
