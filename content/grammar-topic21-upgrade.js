@@ -96,45 +96,70 @@ d.detectives.push({
  correct:0,why:"Neither + have + I đúng với hiện tại hoàn thành phủ định.",
  clues:["Hasn't seen là hiện tại hoàn thành, cần have.", "Sau Neither đảo trợ động từ lên trước chủ ngữ: Neither have I."]
 });
-// One-line Vietnamese meaning aids; English stays the primary learning text.
-const quickMeanings={
+// Each inversion pattern has ONE concise semantic explanation in Vietnamese.
+// Each normal/inverted example pair has ONE translation only; no duplicate gloss.
+const vietnamese={
  mechanics:{
-  terms:"Never = chưa từng · Rarely = hiếm khi",
-  examples:["Tôi chưa từng gặp vấn đề nào như thế này.","Cô ấy hiếm khi mắc những lỗi như vậy."]
+  meaning:"Never ... = chưa bao giờ ...; Rarely/Seldom ... = hiếm khi ... . Đưa các từ này lên đầu câu để nhấn mạnh, nhưng ý nghĩa sự việc không thay đổi.",
+  examples:["Tôi chưa từng gặp vấn đề nào như thế này.","Cô ấy hiếm khi mắc những lỗi như vậy."],
+  extras:["Tôi chưa bao giờ cảm thấy nhẹ nhõm đến thế; anh ấy hiếm khi phàn nàn."]
  },
  negative:{
-  terms:"Little did I know = tôi nào ngờ · Not only ... but also = không chỉ ... mà còn",
-  examples:["Tôi đâu ngờ vấn đề lại nghiêm trọng đến thế.","Cô ấy không chỉ giải thích kế hoạch mà còn đề nghị giúp đỡ."]
+  meaning:"Little did ... know/realise = ... nào ngờ/hầu như không biết; Not only ... but also ... = không chỉ ... mà còn ...; Under no circumstances ... = trong bất kỳ hoàn cảnh nào cũng không ... .",
+  examples:["Tôi nào ngờ vấn đề lại nghiêm trọng đến thế.","Cô ấy không chỉ giải thích kế hoạch mà còn đề nghị giúp đỡ."],
+  extras:["Anna không chỉ hát mà còn nhảy.","Không chỉ Anna mà Ben cũng tham dự cuộc họp.","Tôi không hề nghi ngờ lời giải thích của cô ấy dù chỉ một khoảnh khắc."]
  },
  only:{
-  terms:"Only after = chỉ sau khi ... mới · Not until = mãi đến khi ... mới",
-  examples:["Chỉ sau khi đọc báo cáo, chúng tôi mới hiểu những hậu quả.","Mãi đến khi bằng chứng xuất hiện, cô ấy mới thừa nhận sai lầm."]
+  meaning:"Only when/after ... = chỉ khi/sau khi ... mới ...; Only by ... = chỉ bằng cách ... mới ...; Not until ... = mãi đến khi ... mới ... . Các mẫu này nhấn mạnh điều kiện hoặc thời điểm cần thiết.",
+  examples:["Chỉ sau khi đã đọc báo cáo, chúng tôi mới hiểu được những hậu quả.","Mãi đến khi bằng chứng xuất hiện, cô ấy mới thừa nhận sai lầm."],
+  extras:["Chỉ nhờ kiểm tra dữ liệu, chúng tôi mới phát hiện lỗi.","Mãi về sau cô ấy mới nhận ra điều đã xảy ra.","Chỉ khi luyện tập, bạn mới tiến bộ; giá mà tôi có thêm thời gian!","Mãi đến trưa anh ấy mới đến."]
  },
  time:{
-  terms:"Hardly/Barely ... when = vừa ... thì · No sooner ... than = vừa ... thì",
-  examples:["Tôi vừa mới ngồi xuống thì điện thoại reo.","Tàu vừa rời ga thì cơn bão bắt đầu."]
+  meaning:"Hardly/Scarcely/Barely ... when ... và No sooner ... than ... đều có nghĩa 'vừa mới ... thì ...', nhấn mạnh hai sự việc xảy ra gần như ngay sau nhau.",
+  examples:["Tôi vừa ngồi xuống thì điện thoại reo.","Tàu vừa rời ga thì cơn bão bắt đầu."],
+  extras:["Công viên vừa mở cửa thì trời bắt đầu mưa."]
  },
  conditional:{
-  terms:"Had I known = giá như tôi đã biết · Should you need = nếu bạn cần",
-  examples:["Nếu lúc đó nhận được tin nhắn, tôi đã trả lời.","Nếu cần hỗ trợ, vui lòng liên hệ với chúng tôi."]
+  meaning:"Had + S + V3 = nếu ... đã ... (giả định về quá khứ); Were + S + to V = giả sử ...; Should + S + V = nếu ... (khả năng trong tương lai). Đây là cách diễn đạt câu điều kiện mà không cần dùng if.",
+  examples:["Nếu lúc đó tôi nhận được tin nhắn, tôi đã trả lời rồi.","Nếu cần hỗ trợ, vui lòng liên hệ với chúng tôi."],
+  extras:["Nếu không có sự giúp đỡ của bạn, tôi sẽ chẳng biết phải làm sao.","Nếu khi đó không có sự giúp đỡ của bạn, chúng tôi đã thất bại rồi."]
  },
  "so-such":{
-  terms:"So + tính từ/trạng từ ... that = ... đến mức · Such ... that = đến mức mà",
-  examples:["Vấn đề phức tạp đến mức không ai giải quyết được.","Tác động lớn đến mức luật đã được thay đổi."]
+  meaning:"So/Such ... that ... = ... đến mức/đến nỗi ... . Phần so/such nhấn mạnh mức độ, còn phần that nói kết quả của mức độ ấy.",
+  examples:["Vấn đề phức tạp đến mức không ai có thể giải quyết được.","Tác động lớn đến mức luật đã được thay đổi."],
+  extras:["Cô ấy giải thích rõ ràng đến mức mọi người đều hiểu."]
  },
  full:{
-  terms:"Here comes ... = ... đến rồi · Beside the river = bên dòng sông",
-  examples:["Bên dòng sông có một ngôi nhà nhỏ cũ.","Xe buýt đến rồi! / Nó đến rồi!"]
+  meaning:"Here comes ... = ... đến rồi; Beside/On ... stood ... = ở ... có/đứng ... . Cách đảo này thường dùng để giới thiệu sự xuất hiện hoặc vị trí của sự vật.",
+  examples:["Bên dòng sông có một ngôi nhà nhỏ cũ.","Xe buýt đến rồi!"],
+  extras:["Một tảng đá lớn lăn xuống đồi.","Dù mệt mỏi, cô ấy vẫn tiếp tục làm việc."]
  },
  agreement:{
-  terms:"So do I = tôi cũng vậy · Neither/Nor can I = tôi cũng không",
-  examples:["Mai thích khoa học. Tôi cũng thích.","Tom không biết bơi. Tôi cũng không."]
+  meaning:"So + trợ động từ + S = ... cũng vậy (đồng tình với câu khẳng định); Neither/Nor + trợ động từ + S = ... cũng không (đồng tình với câu phủ định).",
+  examples:["Mai thích khoa học và tôi cũng vậy.","Tom không biết bơi và tôi cũng không."],
+  extras:["A: Cô ấy thích thơ. B: Tôi cũng vậy. / A: Bạn thực sự thích thơ đấy. B: Đúng vậy.","A: Tôi không thể dự cuộc họp. B: Tôi cũng không."]
  }
 };
 for(const section of d.sections){
- const vi=quickMeanings[section.id];
- if(!vi||vi.examples.length!==section.examples.length||!vi.examples.every(Boolean))throw Error("Missing Vietnamese micro-meaning: "+section.id);
- section.vi=vi;
+ const vi=vietnamese[section.id];
+ if(!vi||!vi.meaning||vi.examples.length!==section.examples.length||vi.extras.length!==(section.extras||[]).length){
+  throw Error("Missing or mismatched Vietnamese meaning for "+section.id);
+ }
+ section.vi={meaning:vi.meaning,examples:vi.examples};
+ section.extras.forEach((item,index)=>{item.vi=vi.extras[index]});
+}
+// For the full-inversion contrast, show one English transformation per pair.
+// The pronoun variant remains explained under Contrast and Why.
+const fullSection=d.sections.find(s=>s.id==="full");
+if(fullSection?.examples?.[1]?.inverted==="Here comes the bus. / Here it comes."){
+ fullSection.examples[1].inverted="Here comes the bus.";
+}
+for(const example of d.sections.find(s=>s.id==="time").examples){
+ if(example.inverted.startsWith("Barely had")){
+  example.why="Đưa Barely lên đầu rồi đảo had lên trước chủ ngữ I; when nối với sự kiện xảy ra ngay sau đó.";
+ }else if(example.inverted.startsWith("No sooner had")){
+  example.why="Đưa No sooner lên đầu rồi đảo had lên trước the train; cấu trúc này dùng than cho sự kiện tiếp theo.";
+ }
 }
 const ids=new Set();
 for(const item of [...d.sections.flatMap(s=>s.checks),...d.practice,...d.mastery,...d.repairs,...d.review]){
