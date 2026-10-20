@@ -117,33 +117,12 @@ function schoolExplanationLayout(detail){
   return labels[mode]||["Kiến thức trọng tâm","Vì sao đúng","Cách dùng","Điểm dễ nhầm"];
 }
 function schoolDeepFeedback(item){
-  const d=schoolExplanationData(item);
-  if(!d){
-    return `<div class="feedback correct standard-feedback">
-      <div class="feedback-title">✓ Đúng — ${esc(schoolExpected(item))}</div>
-      <div class="deep-grid">
-        <div class="deep-box wide"><b>Giải thích</b><span>${esc(item.note||"")}</span></div>
-      </div>
-    </div>`;
-  }
-  const labels=schoolExplanationLayout(d);
-  const translation=d.translation
-    ? `<div class="sentence-translation"><strong>Dịch câu</strong> ${esc(d.translation)}</div>`
-    : "";
-  const family=d.family
-    ? `<div class="word-family-row"><b>Word family</b><span>${esc(d.family)}</span></div>`
-    : "";
-  return `<div class="feedback correct standard-feedback">
-    <div class="feedback-title">✓ Đúng — ${esc(schoolExpected(item))}</div>
-    <div class="deep-grid school-deep-grid">
-      <div class="deep-box"><b>${labels[0]}</b><span>${esc(d.concept||item.note||"")}</span>${translation}</div>
-      <div class="deep-box"><b>${labels[1]}</b><span>${esc(d.why||item.note||"")}</span></div>
-      <div class="deep-box wide"><b>${labels[2]}</b><span>${esc(d.usage||"")}</span></div>
-      <div class="deep-box wide"><b>${labels[3]}</b><span>${esc(d.contrast||"")}</span></div>
-      ${family}
-    </div>
-  </div>`;
+  const detail=schoolExplanationData(item);
+  if(!window.ExplanationV1)return "";
+  const safeItem={...item,o:Array.isArray(item.o)?item.o.map(schoolPlain):item.o};
+  return window.ExplanationV1.render(window.ExplanationV1.school(safeItem,detail));
 }
+
 function normalizeSchoolAnswer(value){
   return String(value??"")
     .toLowerCase()
