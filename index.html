@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="features/lesson-plans.css?v=20261020-inline1">
 <link rel="stylesheet" href="styles/blue-unified.css?v=20261020-v1">
 <link rel="stylesheet" href="styles/study-workspace.css?v=20261020-workspace-v1">
+<link rel="stylesheet" href="features/explanation-v1.css?v=20261020-exp1">
 <link rel="stylesheet" href="styles/universal-print.css?v=20261020-allprint1">
 </head>
 <body>
@@ -86,6 +87,7 @@
 <script src="grade12-unit7-latest.js?v=20261015-comments-v1"></script>
 <script src="grade12-basic-review.js?v=20261006-basic-review-v1"></script>
 <script src="features/universal-print.js?v=20261020-allprint3"></script>
+<script src="features/explanation-v1.js?v=20261020-exp1"></script>
 <script>
 
 
@@ -2251,6 +2253,10 @@ function wrongFeedback(index){
 
 function deepFeedback(index){
   const q=activeQuestions[index],d=activeExplanations[index]||{};
+  // Grammar testing is intentionally excluded from Explanation Standard V1.
+  if(activeMode!=="grammar"&&window.ExplanationV1){
+    return ExplanationV1.render(ExplanationV1.vocab(q,d));
+  }
   if(d.mode==="semantic_precision"){
     const step1=(d.step1||[]).map(p=>`<p>${esc(p)}</p>`).join("");
     const comparisons=(d.options||[]).map(opt=>`
