@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="features/lesson-plans.css?v=20261020-inline1">
 <link rel="stylesheet" href="styles/blue-unified.css?v=20261020-v1">
 <link rel="stylesheet" href="styles/study-workspace.css?v=20261020-workspace-v1">
+<link rel="stylesheet" href="styles/universal-print.css?v=20261020-allprint1">
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -84,6 +85,7 @@
 <script src="grade12-unit7-semantic.js?v=20261006-semantic-all-v1"></script>
 <script src="grade12-unit7-latest.js?v=20261015-comments-v1"></script>
 <script src="grade12-basic-review.js?v=20261006-basic-review-v1"></script>
+<script src="features/universal-print.js?v=20261020-allprint1"></script>
 <script>
 
 
@@ -2479,6 +2481,33 @@ function renderManifestItem(item){
   throw new Error("Unsupported page in Content Manifest: "+item.id);
 }
 ContentManifest.entries.forEach(item=>LearningCore.register({...item,render:()=>renderManifestItem(item)}));
+
+/* Current quiz questions are the authoritative, already-shuffled attempt.
+   Print these exact questions, including contextual passages and full existing explanations. */
+window.getUniversalVocabPrintData=function(){
+  if(!Array.isArray(activeQuestions)||!activeQuestions.length||!activeBank)return null;
+  const id=location.hash.replace(/^#/,"");
+  if(!(/^grade-(9|10|12)\/unit-\d+\/vocabulary-practice-\d+$/.test(id)||
+      /^grammar\/[^/]+\/set-\d+$/.test(id)))return null;
+  const firstContext=String(activeQuestions[0]?.context||"");
+  const sharedContext=firstContext&&activeQuestions.every(q=>String(q.context||"")===firstContext)
+    ?firstContext:"";
+  const name=activeMode==="grammar"?activeBank.title+" · Set "+activeSet:
+    "Lớp "+activeGrade+" · "+currentUnitLabel()+" · "+getSetTitle(activeSet);
+  return {title:name,groups:[{label:activeMode==="grammar"?"Grammar":"Vocabulary Practice",
+    passage:sharedContext,
+    questions:activeQuestions.map((q,index)=>{
+      const input=q.kind==="input";
+      return {number:index+1,prompt:q.q||"",
+        context:q.context&&!sharedContext?q.context:"",
+        options:input?[]:(Array.isArray(q.o)?q.o:[]),
+        answer:correctAnswerText(q),
+        shortAnswer:input?correctAnswerText(q):Number.isInteger(q.a)?"ABCD"[q.a]:"—",
+        detailHtml:deepFeedback(index)};
+    })
+  }]};
+};
+
 route();
 </script>
 </body>
