@@ -3,7 +3,7 @@ const assert=require("node:assert/strict");
 const BASE="https://tphuc008.github.io/hoctienganh/";
 const ORIGIN=new URL(BASE).origin;
 const SUBA="https://ouicitkpfukterkilqzu.supabase.co/";
-const errors=[],checks=[],assetErrors=[];
+const errors=[],checks=[],assetErrors=[],mockWrites=[];
 const uuid="00000000-0000-4000-8000-000000000042";
 const delay=ms=>new Promise(r=>setTimeout(r,ms));
 async function check(name,fn){
@@ -31,6 +31,9 @@ async function main(){
   const ctx=await browser.newContext({viewport:{width:1365,height:850}});
   await ctx.route(SUBA+"**",route=>{
     const url=route.request().url();
+    if(route.request().method()==="POST"&&url.includes("/rest/v1/practice_submissions")){
+      mockWrites.push(JSON.parse(route.request().postData()||"{}"));
+    }
     const payload=url.includes("/rest/v1/")?"[]":JSON.stringify({ok:true});
     return route.fulfill({status:200,contentType:"application/json",body:payload,
       headers:{"access-control-allow-origin":"*","access-control-allow-headers":"*"}});
@@ -150,6 +153,31 @@ async function main(){
       const inputAgain=page.locator(panel+" .listening-part.active input:not([disabled])").first();
       const changed=type==="radio"?await inputAgain.isChecked():await inputAgain.inputValue()==="test answer";
       assert.ok(changed,"Response was not restored");
+    });
+  }
+  for(const [label,route,button,prefix] of [
+    ["Entertainment","listening/entertainment/change-your-life-one-tiny-step-at-a-time","#submitListeningBtn1","entertainment/"],
+    ["News","listening/news/former-openai-employee-ai-might-really-kill-us-all","#newsSubmit1","news/"]
+  ]){
+    await check("Live "+label+" score upload and no duplication after reload (Supabase mocked)",async()=>{
+      await open(route,".listening-part.active");
+      const previous=mockWrites.length;
+      await page.locator(button).click();
+      await page.waitForFunction(p=>{
+        const key=Object.keys(localStorage).find(k=>k.includes("listening")&&k.includes(encodeURIComponent(p)));
+        if(!key)return false;
+        try{return !!JSON.parse(localStorage.getItem(key)).data[1].remoteSaved}catch(e){return false}
+      },prefix,{timeout:12000});
+      const sent=mockWrites.slice(previous);
+      assert.equal(sent.length,1,"Unexpected number of submissions");
+      assert.equal(sent[0].category,"listening");
+      assert.equal(sent[0].user_id,uuid);
+      assert.ok(sent[0].total_questions>0);
+      await page.reload({waitUntil:"domcontentloaded"});
+      await page.locator(button).waitFor({timeout:9000});
+      assert.equal(await page.locator(button).isDisabled(),true,"Submitted answers not locked");
+      await delay(250);
+      assert.equal(mockWrites.length,previous+1,"Reload caused duplicate score upload");
     });
   }
   await check("No missing same-origin scripts or CSS",async()=>{
