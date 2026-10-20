@@ -126,11 +126,23 @@
       throw new Error("Dữ liệu Vocabulary không hợp lệ: "+descriptor.grade+"-"+descriptor.id);
     return bank;
   }
+  // Only a legacy renderer's true prerequisites are loaded, in their original order.
+  // All routes for a renderer share this mapping; pages remain declarative.
+  const handlerDependencies=Object.freeze({
+    "school-ui.js":["school-grade10-midterm1.js","school-grade10-explanations.js"],
+    "grade10-midterm.js":[
+      "grade10-midterm-data.js","grade10-midterm-explanations.js",
+      "grade10-midterm-precision.js","grade10-midterm-reading-details.js",
+      "grade10-midterm-quality.js"
+    ]
+  });
   async function ensureHandler(item){
     if(!item||item.kind!=="handler"||typeof item.handler!=="string")
       throw new Error("Content Manifest: invalid page renderer");
     if(typeof global[item.handler]!=="function"){
       if(!item.source)throw new Error("Page renderer is unavailable: "+item.handler);
+      for(const dependency of (item.dependencies||handlerDependencies[item.source]||[]))
+        await loadScript(dependency);
       await loadScript(item.source);
     }
     if(typeof global[item.handler]!=="function")
