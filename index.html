@@ -1233,6 +1233,44 @@ function teacherPreviewCards(){
     '</div>'
   ].join("");
 }
+/* Lazily load the teacher-only Topic 21 preview after Supabase teacher-role validation.
+ * Source files are public on GitHub Pages; keep unpublished/secret content on the server.
+ */
+let grammar21AssetsPromise=null;
+function loadGrammar21Asset(tag,url){
+  return new Promise((resolve,reject)=>{
+    const node=document.createElement(tag);
+    if(tag==="link"){node.rel="stylesheet";node.href=url}
+    else{node.src=url;node.async=false}
+    node.onload=()=>resolve();
+    node.onerror=()=>reject(new Error("Không thể tải tệp "+url));
+    document.head.appendChild(node);
+  });
+}
+function ensureTeacherGrammar21(){
+  if(window.TeacherGrammar21)return Promise.resolve();
+  if(!grammar21AssetsPromise){
+    grammar21AssetsPromise=(async()=>{
+      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261020-pilot1");
+      await loadGrammar21Asset("script","content/grammar-topic21-data.js?v=20261020-pilot1");
+      await loadGrammar21Asset("script","features/grammar-topic21.js?v=20261020-pilot1");
+      if(!window.TeacherGrammar21)throw new Error("Grammar preview chưa khởi tạo.");
+    })().catch(err=>{grammar21AssetsPromise=null;throw err});
+  }
+  return grammar21AssetsPromise;
+}
+async function renderTeacherGrammar21(hash,session){
+  pageMount.style.display="block";
+  pageMount.innerHTML='<div class="empty"><b>Đang tải chuyên đề 21</b>Đang chuẩn bị bài học tương tác…</div>';
+  try{
+    await ensureTeacherGrammar21();
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    window.TeacherGrammar21.open(hash,session);
+  }catch(err){
+    pageMount.innerHTML='<div class="empty"><b>Không thể tải bài học</b>'+esc(err?.message||"Vui lòng tải lại trang.")+'</div>';
+  }
+}
+
 function renderTeacherPreviewPage(hash){
   const grammar=hash==="teacher/grammar";
   const title=grammar?"Grammar":"HSG tỉnh";
@@ -1388,7 +1426,7 @@ async function route(){
   if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash.startsWith("teacher/")){
-    if(hash!=="teacher/grammar"&&hash!=="teacher/hsg-tinh"){
+    if(hash!=="teacher/grammar"&&hash!=="teacher/grammar/topic-21"&&hash!=="teacher/hsg-tinh"){
       location.hash="";
       return;
     }
@@ -1398,7 +1436,11 @@ async function route(){
       pageMount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button></div><div class="empty"><b>Không có quyền truy cập</b>Khu vực thử nghiệm này chỉ dành cho giáo viên.</div>';
       return;
     }
-    renderTeacherPreviewPage(hash);
+    if(hash==="teacher/grammar"||hash==="teacher/grammar/topic-21"){
+      await renderTeacherGrammar21(hash,learnerSession);
+    }else{
+      renderTeacherPreviewPage(hash);
+    }
     return;
   }
 
