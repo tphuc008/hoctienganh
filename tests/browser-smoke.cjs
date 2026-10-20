@@ -34,6 +34,7 @@ const assert=require("node:assert/strict");
   });
   await page.reload({waitUntil:"domcontentloaded"});
   assert.equal(await page.evaluate(()=>window.LearningCore.userId()),"00000000-0000-4000-8000-000000000042","mock learner session");
+  await page.locator("#pageMount .hero").waitFor({timeout:12000});
   async function open(route,selector){
    // The portal intentionally clears the active area; emulate entering the right area.
    await page.evaluate(area=>localStorage.setItem("hoctienganh_active_area",area),
