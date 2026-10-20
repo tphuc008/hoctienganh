@@ -395,6 +395,31 @@ function exercise(){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 window.renderRobotsReadingHome=landing;
+
+window.getUniversalRobotsPrintData=function(){
+ const passage=PASSAGE.map((p,i)=>String.fromCharCode(65+i)+". "+p).join("\n\n");
+ const endings=["robots to explore outer space.","advances made in machine intelligence so far.",
+   "changes made to other planets for our own benefit.","the harm already done by artificial intelligence."];
+ return {title:"IELTS Reading · Robots and us",
+ groups:[{label:"Questions 27–40 · Matching, Sentence Endings, Multiple Choice",passage,
+ questions:Q.map(q=>{
+  const d=REVIEWS[q.id]||{},options=q.type==="match"?
+    ["Martin Rees","Daniel Wolpert","Kathleen Richardson"]:
+    q.type==="ending"?endings:q.type==="mcq"?
+      ["A","B","C","D"].map(k=>CHOICES[q.id]?.[k]||""):[];
+  const detail=[
+   ...(d.translation?[{title:"Dịch câu hỏi",text:d.translation}]:[]),
+   ...(d.evidence||[]).map(x=>({title:"Dẫn chứng đoạn "+x[0],text:x[1]+"\n"+x[2]})),
+   ...(d.steps||[]).map((x,i)=>({title:"Bước phân tích "+(i+1),text:x})),
+   ...(d.options||[]).map(x=>({title:"So sánh "+x[0],text:x[2]})),
+   ...(d.pairs||[]).map(x=>({title:"Paraphrase",text:x[0]+" ↔ "+x[1]}))
+  ];
+  return {number:q.id,prompt:q.question,options,answer:q.answer,shortAnswer:q.answer,
+    details:detail.length?detail:[{title:"Dẫn chứng",text:q.quote||""}]};
+ })
+ }]};
+};
+
 window.renderRobotsReadingExercise=exercise;
 window.destroyRobotsReading=function(){
  stopTimer();document.body.classList.remove("mis-reading-mode");
