@@ -435,7 +435,7 @@ function home(){
     progressHTML()+
     '<div class="g21-statrow" style="margin-bottom:17px"><span class="g21-pill">'+d.sections.length+' lessons</span><span class="g21-pill">'+d.sections.flatMap(s=>s.checks).length+' Quick Checks</span><span class="g21-pill">'+d.practice.length+' Practice</span><span class="g21-pill">'+d.mastery.length+' Mastery</span></div>'+
     '<div class="g21-actions"><button class="g21-btn primary" data-g21="open">Bắt đầu từ Learn →</button>'+
-    (state.masterySubmitted?'<span class="g21-pill">Mastery '+sc.correct+'/'+d.mastery.length</span>':"")+'</div></div>'+
+    (state.masterySubmitted?'<span class="g21-pill">Mastery '+sc.correct+'/'+d.mastery.length+'</span>':"")+'</div></div>'+
     '<p class="g21-foot">Không có Diagnostic Test. Nội dung đang ở khu vực giáo viên và chưa được xuất bản cho học sinh.</p>';
 }
 function render(preserveScroll){
