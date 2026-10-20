@@ -249,10 +249,7 @@ function submitNewsPart(partId,restoring=false){
     }).then(function(){
       st.remoteSaved=true;
       updateNewsProgress(part.id);
-      if(!st.activityTracked&&streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function"){
-        st.activityTracked=true;
-        window.recordTutoringActivity("listening_news_part");
-      }
+
     }).catch(function(err){console.error("Listening save failed",err)}).finally(function(){
       st.saving=false;persistListening();
     });
