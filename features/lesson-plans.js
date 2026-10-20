@@ -9,7 +9,7 @@
   let unitId=7,page="lesson",accessRequestId=0,access={loading:false,teacher:false,unlocked:false,solutions:null,error:""},
     mcqCount=0,readingCount=0,quiz=null,printMode="key",
     printParts={context:true,closest:true,opposite:true},
-    originalAnswers={},printOpenedPreview=false;
+    originalAnswers={},originalChecked={},printOpenedPreview=false;
   const catalog=global.LessonPlanCatalog;
   const partDefs=[
     {id:"context",number:"I",title:"Vocabulary in Context",range:"1–28"},
@@ -97,7 +97,7 @@
       allowed?"Lời giải đã sẵn sàng":"Lời giải hiện đang khóa";
     return '<aside class="lp-inline-access" aria-label="Trạng thái lời giải">'+
       '<div><strong>'+(allowed?"🔓 ":"🔒 ")+status+'</strong><p>'+
-      (allowed?"Nhấn “Xem lời giải” ngay dưới từng câu để đọc phân tích A–D.":
+      (allowed?"Chọn A–D rồi nhấn Kiểm tra đáp án; kết quả và Semantic Precision hiển thị ngay dưới câu.":
         "Vẫn có thể đọc và làm toàn bộ câu hỏi. Giáo viên sẽ mở khóa lời giải khi phù hợp.")+
       '</p></div><div class="lp-inline-access-actions">'+
       (access.teacher?'<button type="button" class="lp-action lp-teacher-toggle" data-lp-unlock="'+(!access.unlocked)+'">'+
@@ -151,18 +151,28 @@
   function originalQuestion(q,n){
     let prompt=esc(q.text);
     if(q.target){const at=prompt.indexOf(esc(q.target));if(at>=0)prompt=prompt.slice(0,at)+'<u>'+esc(q.target)+'</u>'+prompt.slice(at+esc(q.target).length);}
-    const opts=q.options.map((opt,j)=>
-      '<label class="lp-inline-option"><input type="radio" name="lp-original-'+esc(q.id)+'" data-lp-original-answer="'+esc(q.id)+'" value="'+j+'" '+
-      (originalAnswers[q.id]===j?"checked":"")+'/><span><b>'+String.fromCharCode(65+j)+'.</b> '+esc(opt)+'</span></label>').join("");
+    const selected=originalAnswers[q.id],graded=originalChecked[q.id]===true;
     const k=accessAllowed()?getKey(q.id):null;
-    let explanation='<div class="lp-inline-locked-note">🔒 Lời giải sẽ xuất hiện tại đây khi giáo viên mở khóa.</div>';
-    if(accessAllowed()){
-      explanation=k?'<details class="lp-inline-answer"><summary>📖 Xem lời giải Semantic Precision · Câu '+n+'</summary>'+
-        '<div class="lp-inline-answer-body">'+semanticExplanation(q,k)+'</div></details>':
-        '<div class="lp-inline-locked-note">Chưa có lời giải khớp với ID câu hỏi này.</div>';
+    const opts=q.options.map((opt,j)=>{
+      const marked=graded&&k&&j===k.correctIndex?" is-correct":graded&&k&&j===selected?" is-incorrect":"";
+      return '<label class="lp-inline-option'+marked+'"><input type="radio" name="lp-original-'+esc(q.id)+'" data-lp-original-answer="'+esc(q.id)+'" value="'+j+'" '+
+        (selected===j?"checked":"")+(graded?" disabled":"")+'/><span><b>'+String.fromCharCode(65+j)+'.</b> '+esc(opt)+'</span></label>';
+    }).join("");
+    let result="";
+    if(graded&&k){
+      const correct=selected===k.correctIndex;
+      result='<div class="lp-inline-result '+(correct?"is-correct":"is-incorrect")+'" role="status">'+
+        (correct?"✓ Chính xác!":"✕ Chưa chính xác.")+' Đáp án đúng: '+String.fromCharCode(65+k.correctIndex)+
+        '. <button type="button" class="lp-inline-reset" data-lp-original-reset="'+esc(q.id)+'">Làm lại câu này</button></div>'+
+        '<div class="lp-inline-answer-body">'+semanticExplanation(q,k)+'</div>';
+    }else if(!accessAllowed()){
+      result='<div class="lp-inline-locked-note">🔒 Bạn vẫn có thể chọn A–D. Giáo viên cần mở khóa lời giải để kiểm tra và xem Semantic Precision.</div>';
     }
+    const check='<div class="lp-inline-check-actions"><button type="button" class="lp-inline-check" data-lp-original-check="'+esc(q.id)+'"'+
+      (selected===undefined||graded||!k?" disabled":"")+'>'+
+      (graded?"Đã kiểm tra":"Kiểm tra đáp án")+'</button></div>';
     return '<article class="lp-inline-question" id="lp-question-'+n+'"><div class="lp-inline-question-number">QUESTION '+String(n).padStart(2,"0")+'</div>'+
-      '<p class="lp-inline-prompt"><b>'+n+'.</b> '+prompt+'</p><div class="lp-inline-options">'+opts+'</div>'+explanation+'</article>';
+      '<p class="lp-inline-prompt"><b>'+n+'.</b> '+prompt+'</p><div class="lp-inline-options">'+opts+'</div>'+check+result+'</article>';
   }
   function lesson(u){
     const items=u.lessonPublished&&Array.isArray(u.originalExercises)?u.originalExercises.filter(validQ):[];
@@ -171,9 +181,12 @@
       ["closest","PART II · Closest in Meaning","Chọn từ hoặc cụm từ gần nghĩa nhất với phần được gạch chân."],
       ["opposite","PART III · Opposite in Meaning","Chọn từ hoặc cụm từ trái nghĩa với phần được gạch chân."]
     ];
+    const graded=items.filter(q=>originalChecked[q.id]===true&&accessAllowed()&&getKey(q.id));
+    const correct=graded.filter(q=>originalAnswers[q.id]===getKey(q.id).correctIndex).length;
     return section("01 / ORIGINAL STUDENT HANDOUT","Bài học & bài tập gốc",
-      "Nội dung được đưa trực tiếp từ tài liệu Unit 7 lên website. Chọn đáp án và mở lời giải ngay tại từng câu khi có quyền truy cập.")+
+      "Chọn A–D rồi bấm Kiểm tra đáp án để xem đúng/sai và lời giải Semantic Precision ngay bên dưới, không cần bấm mở lời giải.")+
       solutionStatus()+
+      (accessAllowed()?'<div class="lp-inline-progress" role="status"><b>Đã kiểm tra '+graded.length+' / '+items.length+' câu</b><span>Trả lời đúng: '+correct+'</span></div>':"")+
       (items.length?'<div class="lp-inline-groups">'+groups.map(([id,title,note])=>{
         const subset=items.filter(q=>q.part===id);
         return subset.length?'<section class="lp-inline-group"><div class="lp-inline-group-heading"><h3>'+title+'</h3><p>'+note+'</p></div>'+
@@ -318,7 +331,7 @@
   function openUnitPage(id,chosenPage){
     const n=Number(id);
     if(!getUnit(n)){location.hash=HOME;return}
-    if(n!==unitId){originalAnswers={};quiz=null;mcqCount=0;readingCount=0;printMode="key";printParts={context:true,closest:true,opposite:true};}
+    if(n!==unitId){originalAnswers={};originalChecked={};quiz=null;mcqCount=0;readingCount=0;printMode="key";printParts={context:true,closest:true,opposite:true};}
     unitId=n;
     page=["lesson","practice","print"].includes(chosenPage)?chosenPage:"lesson";
     access={loading:true,teacher:false,unlocked:false,solutions:null,error:""};
@@ -396,7 +409,15 @@
       if(button.hasAttribute("data-lp-route")){location.hash=get("data-lp-route");return}
       if(!location.hash.includes(HOME+"/unit-"))return;
       if(button.hasAttribute("data-lp-refresh"))loadAccess(unitId);
-      else if(button.hasAttribute("data-lp-unlock"))changeUnlock(get("data-lp-unlock")==="true");
+      else if(button.hasAttribute("data-lp-original-check")){
+        const id=get("data-lp-original-check"),selected=originalAnswers[id];
+        if(page!=="lesson"||!accessAllowed()||originalChecked[id]||!Number.isInteger(selected)||!getKey(id))return;
+        originalChecked[id]=true;renderUnit(unitId,true);
+      }else if(button.hasAttribute("data-lp-original-reset")){
+        const id=get("data-lp-original-reset");
+        if(page!=="lesson"||!accessAllowed()||!originalChecked[id])return;
+        delete originalChecked[id];delete originalAnswers[id];renderUnit(unitId,true);
+      }else if(button.hasAttribute("data-lp-unlock"))changeUnlock(get("data-lp-unlock")==="true");
       else if(button.hasAttribute("data-lp-start"))startQuiz();
       else if(button.hasAttribute("data-lp-exit")){quiz=null;renderUnit(unitId,true)}
       else if(button.hasAttribute("data-lp-submit")){if(quiz){quiz.submitted=true;rememberQuiz();renderUnit(unitId,true)}}
@@ -418,7 +439,11 @@
       const node=e.target;
       if(!location.hash.includes(HOME+"/unit-"))return;
       if(node.matches("[data-lp-original-answer]")){
-        originalAnswers[node.getAttribute("data-lp-original-answer")]=Number(node.value);
+        const id=node.getAttribute("data-lp-original-answer");
+        if(originalChecked[id])return;
+        originalAnswers[id]=Number(node.value);
+        const check=node.closest(".lp-inline-question")?.querySelector("[data-lp-original-check]");
+        if(check&&accessAllowed())check.disabled=false;
         return;
       }
       if(node.matches("[data-lp-print-part]")){
