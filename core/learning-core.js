@@ -73,21 +73,28 @@
     if(!resp.ok)throw new Error("Saving result failed ("+resp.status+")");
   }
   async function submitPractice(data){
-    if(!["school","listening","grammar","vocabulary","reading"].includes(data.category))throw new Error("Invalid practice category");
-    if(!data.slug||!Number.isInteger(data.total)||data.total<1||data.total>200)throw new Error("Invalid practice result");
-    const correct=Math.max(0,Math.min(data.total,Number(data.correct)||0));
-    const duration=Math.max(0,Math.min(14400,Math.round(Number(data.duration)||0)));
-    const session=typeof global.ensureLearnerSession==="function"?await global.ensureLearnerSession():null;
-    if(!session||!session.user||!session.access_token)throw new Error("Please sign in again before saving your score");
+    if(!["school","listening","grammar","vocabulary","reading","exam"].includes(data.category))
+      throw new Error("Invalid practice category");
+    if(!data.slug||!Number.isInteger(data.total)||data.total<1||data.total>200)
+      throw new Error("Invalid practice result");
+    const owner=userId();
+    if(!owner)throw new Error("A learner account is required to save results");
     const submissionId=data.submissionId||uuid();
     const payload={
-      submission_id:submissionId,user_id:session.user.id,category:data.category,
-      exercise_slug:String(data.slug).slice(0,160),correct_answers:correct,
-      total_questions:data.total,duration_seconds:duration,details:data.details||{}
+      submission_id:submissionId,user_id:owner,category:data.category,
+      exercise_slug:String(data.slug).slice(0,160),
+      correct_answers:Math.max(0,Math.min(data.total,Math.floor(Number(data.correct)||0))),
+      total_questions:data.total,
+      duration_seconds:Math.max(0,Math.min(14400,Math.round(Number(data.duration)||0))),
+      details:data.details||{}
     };
-    updatePending(session.user.id,submissionId,payload);
+    // Queue before awaiting the network, so a lost connection never discards a finished attempt.
+    updatePending(owner,submissionId,payload);
+    const session=typeof global.ensureLearnerSession==="function"?await global.ensureLearnerSession():null;
+    if(!session||!session.user||!session.access_token||session.user.id!==owner)
+      throw new Error("Session unavailable or switched accounts; result queued for retry");
     await postPractice(session,payload);
-    updatePending(session.user.id,submissionId,null);
+    updatePending(owner,submissionId,null);
     return submissionId;
   }
   let flushing=false;
