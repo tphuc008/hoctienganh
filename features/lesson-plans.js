@@ -1,215 +1,304 @@
-/* Grade 12 Lesson Plans & Practice — Unit 7 format previews.
- * This is MOCK content only. No Google Doc, locked key, or exercise bank is published.
- * Real locked solutions must be fetched from a protected backend after authorisation.
+/* Grade 12 Lesson Plans & Practice — live lesson pages (no sample content or answers).
+ * Published lessons/MCQs are loaded from the public lesson catalog.
+ * Answer keys must never be stored in this repository. Supabase RLS enforces teacher/unlock access.
  */
 (function(global){
   "use strict";
   const HOME="grade-12/lesson-plans";
   const mount=document.getElementById("pageMount");
+  const tabs=[["lesson","Google Docs"],["solutions","Detailed Solutions"],["practice","After-class Practice"],["print","In đề"]];
+  let tab="lesson", unitId=7,access={loading:false,teacher:false,unlocked:false,solutions:null,error:""},
+    mcqCount=0,readingCount=0,quiz=null,printMode="questions";
   const catalog=global.LessonPlanCatalog;
-  let currentTab="lesson";
-  let currentStyle="classic";
-  let solutionView="student";
-  let mcqCount=20;
-  let passageCount=1;
-  let printMode="questions";
-  const tabs=[
-    ["lesson","01","Google Docs"],
-    ["solutions","02","Lời giải & Unlock"],
-    ["practice","03","After-class Practice"],
-    ["print","04","In đề"]
-  ];
-  const styles=[
-    ["classic","A","Classic Pink","Inter · 11.5pt · giãn dòng 1.45"],
-    ["editorial","B","Rose Editorial","Tiêu đề nổi bật · nhiều khoảng thở"],
-    ["workbook","C","Pink Workbook","Gọn, chia khối rõ · tiện ôn tập"]
-  ];
-  const sampleQuestions=[
-    ["Q1 · PART I","Researchers proposed safeguards to ______ the harmful effects of the chemical before it reached nearby rivers.",
-      ["mitigate","estimate","attribute","observe"]],
-    ["Q29 · PART II","The spokesperson gave a <u>candid</u> account of the investigation.",
-      ["ambiguous","frank","incomplete","cautious"]],
-    ["Q35 · PART III","The organisation adopted a <u>transparent</u> approach to reporting its expenditure.",
-      ["systematic","accessible","secretive","meticulous"]]
-  ];
-  function navHtml(path,text){return '<button type="button" class="crumb-btn" data-lp-route="'+path+'">'+text+'</button>'}
-  function sampleQuestion(item,numberOnly){
-    return '<div class="lp-doc-question"><span class="lp-doc-label">'+item[0]+'</span>'+
-      '<p>'+item[1]+'</p>'+
-      '<div class="lp-doc-choices">'+item[2].map(function(o,i){return '<span>'+String.fromCharCode(65+i)+'. '+o+'</span>'}).join("")+'</div></div>';
+  const sessionPrefix="lesson-practice:";
+  function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function docLink(input){
+    try{const u=new URL(input);return u.protocol==="https:"&&u.hostname==="docs.google.com"&&/^\/document\/d\/[^/]+/.test(u.pathname)?u.href:"";}
+    catch(_){return ""}
   }
-  function renderHome(){
+  function getUnit(n){return (catalog?.units||[]).find(u=>Number(u.id)===Number(n))||null}
+  function bank(u){
+    const p=u.practicePublished?u.practice||{}:{};
+    const mcqs=Array.isArray(p.mcqs)?p.mcqs.filter(validQ):[];
+    const passages=Array.isArray(p.passages)?p.passages.filter(v=>v&&typeof v.passage==="string"&&Array.isArray(v.questions)&&v.questions.length===5&&v.questions.every(validQ)):[];
+    return {mcqs,passages};
+  }
+  function validQ(q){return q&&typeof q.id==="string"&&typeof q.text==="string"&&Array.isArray(q.options)&&q.options.length===4&&q.options.every(v=>typeof v==="string")}
+  function nav(path,label){return '<button class="crumb-btn" type="button" data-lp-route="'+esc(path)+'">'+esc(label)+'</button>'}
+  function home(){
     mount.style.display="block";
-    mount.innerHTML=
-      '<div class="breadcrumbs">'+navHtml("grade-12","Lớp 12")+'<span>›</span><span>Lesson Plans &amp; Practice</span></div>'+
-      '<div class="unit-hero lp-hero"><div class="eyebrow">Grade 12</div>'+
-      '<h1>Lesson Plans <span class="gradient">&amp; Practice</span></h1>'+
-      '<p>Trang học từ vựng và bài tập sau buổi học.</p></div>'+
-      '<div class="section-title"><h2>Lesson Units</h2><span>1 Unit thử nghiệm</span></div>'+
-      '<div class="units lp-units"><button type="button" class="unit-card lp-unit-card" data-lp-route="'+HOME+'/unit-7">'+
-      '<div class="unit-top"><span class="unit-no">UNIT 07</span><span class="status">Format preview</span></div>'+
-      '<h3>Unit 7</h3><p>Xem và duyệt mẫu Google Docs, lời giải, bài tập và trang in trước khi triển khai.</p>'+
-      '<span class="unit-arrow" aria-hidden="true">→</span></button></div>';
+    const units=catalog?.units||[];
+    mount.innerHTML='<div class="breadcrumbs">'+nav("grade-12","Lớp 12")+'<span>›</span><span>Lesson Plans &amp; Practice</span></div>'+
+      '<div class="unit-hero lp-hero"><div class="eyebrow">Grade 12</div><h1>Lesson Plans <span class="gradient">&amp; Practice</span></h1>'+
+      '<p>Google Docs bài học, lời giải được kiểm soát và ngân hàng luyện tập sau buổi học.</p></div>'+
+      '<div class="section-title"><h2>Lesson Units</h2><span>'+units.length+' Unit</span></div>'+
+      (units.length?'<div class="units lp-units">'+units.map(u=>{
+        const b=bank(u),ready=Boolean(u.lessonPublished&&docLink(u.docUrl));
+        return '<button type="button" class="unit-card lp-unit-card" data-lp-route="'+HOME+'/unit-'+Number(u.id)+'">'+
+          '<div class="unit-top"><span class="unit-no">UNIT '+String(u.id).padStart(2,"0")+'</span>'+
+          '<span class="status '+(ready?"live":"")+'">'+(ready?"Lesson available":"Đang chuẩn bị")+'</span></div>'+
+          '<h3>'+esc(u.title||"Unit "+u.id)+'</h3>'+
+          '<p>'+(u.description?esc(u.description):"Google Docs · Lời giải · After-class Practice")+'</p>'+
+          '<div class="lp-unit-meta"><span>'+b.mcqs.length+' MCQs</span><span>'+b.passages.length+' readings</span></div>'+
+          '<span class="unit-arrow" aria-hidden="true">→</span></button>';
+      }).join("")+'</div>':'<div class="empty"><b>Chưa có Unit</b>Nội dung sẽ được thêm khi giáo viên xuất bản.</div>');
     global.scrollTo(0,0);
   }
-  function header(){
-    return '<div class="breadcrumbs">'+navHtml("grade-12","Lớp 12")+'<span>›</span>'+
-      navHtml(HOME,"Lesson Plans &amp; Practice")+'<span>›</span><span>Unit 7</span></div>'+
-      '<div class="lp-preview-hero"><div class="lp-preview-headline">'+
-      '<div><div class="lp-eyebrow">UNIT 07 / FORMAT LAB</div><h1>Thiết kế Unit 7</h1>'+
-      '<p>Xem trước cách hiển thị cho học sinh và giáo viên. Các câu hỏi bên dưới chỉ là ví dụ minh họa.</p></div>'+
-      '<span class="lp-preview-tag">BẢN MẪU · CHƯA XUẤT BẢN</span></div>'+
-      '<div class="lp-flow"><span><b>01</b> Upload file Word</span><span class="lp-flow-arrow">→</span>'+
-      '<span><b>02</b> Tạo Google Docs + lời giải</span><span class="lp-flow-arrow">→</span>'+
-      '<span><b>03</b> Đọc comments sau buổi học</span><span class="lp-flow-arrow">→</span>'+
-      '<span><b>04</b> Đăng bài tập lên website</span></div></div>';
+  function head(u){
+    return '<div class="breadcrumbs">'+nav("grade-12","Lớp 12")+'<span>›</span>'+nav(HOME,"Lesson Plans & Practice")+
+      '<span>›</span><span>'+esc(u.title||"Unit "+u.id)+'</span></div>'+
+      '<div class="lp-preview-hero"><div class="lp-preview-headline"><div><div class="lp-eyebrow">LESSON PLAN · UNIT '+String(u.id).padStart(2,"0")+'</div>'+
+      '<h1>'+esc(u.title||"Unit "+u.id)+'</h1>'+
+      '<p>'+(u.description?esc(u.description):"Tài liệu bài giảng, lời giải và luyện tập sau buổi học.")+'</p></div></div></div>'+
+      '<div class="lp-preview-tabs" role="tablist" aria-label="Nội dung Unit">'+tabs.map((t,i)=>
+      '<button type="button" role="tab" aria-selected="'+(tab===t[0])+'" class="'+(tab===t[0]?"is-active":"")+
+      '" data-lp-tab="'+t[0]+'"><span>0'+(i+1)+'</span>'+t[1]+'</button>').join("")+'</div>';
   }
-  function navTabs(){
-    return '<div class="lp-preview-tabs" role="tablist" aria-label="Các phần xem trước">'+tabs.map(function(tab){
-      const active=tab[0]===currentTab;
-      return '<button type="button" role="tab" aria-selected="'+active+'" class="'+(active?"is-active":"")+
-        '" data-lp-tab="'+tab[0]+'"><span>'+tab[1]+'</span>'+tab[2]+'</button>';
-    }).join("")+'</div>';
+  function section(tag,title,detail){
+    return '<div class="lp-preview-section-head"><div><div class="lp-eyebrow">'+tag+'</div><h2>'+title+
+      '</h2><p>'+detail+'</p></div></div>';
   }
-  function panelHead(eyebrow,title,detail){
-    return '<div class="lp-preview-section-head"><div><div class="lp-eyebrow">'+eyebrow+
-      '</div><h2>'+title+'</h2><p>'+detail+'</p></div></div>';
+  function lesson(u){
+    const url=docLink(u.docUrl),ready=Boolean(u.lessonPublished&&url);
+    return section("01 / LESSON PLAN","Google Docs Lesson Plan","Tài liệu dùng để học trong buổi học hoặc xem lại nếu vắng mặt.")+
+      (ready?'<div class="lp-solution-open"><h3>'+esc(u.title||"Unit "+u.id)+'</h3>'+
+       '<p>Mở tài liệu Google Docs của bài học. Nội dung có thể được giáo viên cập nhật và thêm comments trong giờ học.</p>'+
+       '<a class="lp-action" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">📄 Mở Google Docs ↗</a></div>':
+       '<div class="lp-solution-locked"><div class="lp-lock-icon">📄</div><h3>Chưa có Google Docs</h3>'+
+       '<p>Khi giáo viên cung cấp file Word và tạo Google Docs, đường dẫn sẽ xuất hiện tại đây.</p></div>')+
+       '<div class="lp-preview-note">Google Docs chỉ chứa phần tài liệu phù hợp cho học sinh. Lời giải chưa mở khóa không được công khai tại đây.</div>';
   }
-  function lessonBody(){
-    const docSamples='<div class="lp-paper lp-paper--'+currentStyle+'">'+
-      '<div class="lp-paper-head"><div class="lp-paper-kicker">ENGLISH VOCABULARY · UNIT 7</div>'+
-      '<h2>VOCABULARY PRACTICE</h2><p>Master Structure V1.0 · sample layout only</p></div>'+
-      '<div class="lp-paper-section"><div class="lp-paper-section-title">PART I. Vocabulary in Context <small>28 questions</small></div>'+
-      '<p class="lp-paper-instructions"><i>Mark the letter A, B, C, or D on your answer sheet to indicate the correct answer to each of the following questions.</i></p>'+
-      sampleQuestion(sampleQuestions[0])+'</div>'+
-      '<div class="lp-paper-section"><div class="lp-paper-section-title">PART II. Closest in Meaning <small>6 questions</small></div>'+
-      '<p class="lp-paper-instructions"><i>Mark the letter A, B, C, or D to indicate the word or phrase that is CLOSEST in meaning to the underlined word or phrase in each question.</i></p>'+
-      sampleQuestion(sampleQuestions[1])+'</div>'+
-      '<div class="lp-paper-section"><div class="lp-paper-section-title">PART III. Opposite in Meaning <small>6 questions</small></div>'+
-      '<p class="lp-paper-instructions"><i>Mark the letter A, B, C, or D to indicate the word or phrase that is OPPOSITE in meaning to the underlined word or phrase in each question.</i></p>'+
-      sampleQuestion(sampleQuestions[2])+'</div>'+
-      '<div class="lp-paper-footer">INTER · 11.5 PT · PAGELESS · EXAMPLE ONLY</div></div>';
-    return panelHead("01 / LESSON PLAN","Google Docs — các mẫu trình bày",
-        "Mẫu A bám sát tông hồng bạn hay dùng. Mẫu B và C là phương án để so sánh, chưa được chọn.")+
-      '<div class="lp-style-grid">'+styles.map(function(style){
-        const selected=style[0]===currentStyle;
-        return '<button type="button" class="lp-style-option '+(selected?"is-selected":"")+
-          '" aria-pressed="'+selected+'" data-lp-style="'+style[0]+'"><span class="lp-style-id">'+style[1]+'</span>'+
-          '<strong>'+style[2]+'</strong><small>'+style[3]+'</small></button>';
-      }).join("")+'</div>'+
-      '<div class="lp-paper-wrap">'+docSamples+'</div>'+
-      '<div class="lp-preview-note"><strong>Nguyên tắc nội dung:</strong> 40 câu (28 + 6 + 6), nguồn 24/16, CEFR 12 B1 · 12 B2 · 12 C1 · 4 C2. '+
-      'Trong bản thật, ChatGPT chỉ đưa Google Docs link vào Unit 7 sau khi tạo và xác minh tài liệu.</div>';
+  function solutionRows(){
+    if(!Array.isArray(access.solutions)||!access.solutions.length)
+      return '<div class="lp-note">Lời giải chi tiết chưa được tải lên hệ thống bảo mật.</div>';
+    return access.solutions.filter(o=>o&&typeof o==="object").map((o,i)=>
+      '<article class="lp-solution-open lp-answer-article"><h3>'+esc(o.title||"Question "+(i+1))+'</h3>'+
+      (o.correctMeaning?'<p><b>Đáp án & nghĩa:</b> '+esc(o.correctMeaning)+'</p>':"")+
+      (o.why?'<p><b>Lý do:</b> '+esc(o.why)+'</p>':"")+
+      (Array.isArray(o.choices)?o.choices.map((choice,j)=>
+        '<div class="lp-explain-row"><strong>'+String.fromCharCode(65+j)+'. '+esc(choice.label||"")+'</strong><span>'+esc(choice.explanation||"")+'</span></div>').join(""):"")+
+      (o.examples?'<p class="lp-examples">'+esc(o.examples)+'</p>':"")+'</article>').join("");
   }
-  function solutionBody(){
-    const locked=solutionView==="student";
-    return panelHead("02 / DETAILED SOLUTIONS","Lời giải & Teacher Unlock",
-        "Hai trạng thái minh họa để bạn duyệt bố cục. Chưa có nút mở khóa thật hoặc dữ liệu đáp án thật.")+
-      '<div class="lp-switches">'+
-      '<button type="button" data-lp-view="student" class="'+(locked?"is-active":"")+'">🔒 Student · Locked</button>'+
-      '<button type="button" data-lp-view="teacher" class="'+(!locked?"is-active":"")+'">🔓 Unlocked preview</button></div>'+
-      (locked?
-        '<div class="lp-solution-locked"><div class="lp-lock-icon">🔒</div><h3>Detailed Solutions are locked</h3>'+
-        '<p>Lời giải của Unit 7 chưa được giáo viên mở. Học sinh vẫn có thể xem Lesson Plan khi đã xuất bản.</p>'+
-        '<div class="lp-lock-status">Chờ Teacher Unlock</div></div>':
-        '<div class="lp-solution-open"><span class="lp-demo-pill">MINH HỌA — KHÔNG PHẢI ĐÁP ÁN THẬT</span>'+
-        '<h3>Question 1 — A. mitigate</h3>'+
-        '<p><b>Đáp án đúng:</b> <i>mitigate</i> = giảm nhẹ mức độ nghiêm trọng. “Mitigate the harmful effects” diễn tả việc giảm tác động tiêu cực; “safeguards” là biện pháp được đề xuất nhằm đạt kết quả này.</p>'+
-        '<div class="lp-explain-row"><strong>A. mitigate</strong><span>Giảm nhẹ tác hại; phù hợp với mục đích của các biện pháp phòng ngừa.</span></div>'+
-        '<div class="lp-explain-row"><strong>B. estimate</strong><span>Ước tính quy mô tác động, không nhất thiết làm giảm tác động đó.</span></div>'+
-        '<div class="lp-explain-row"><strong>C. attribute</strong><span>Quy một kết quả cho nguyên nhân; thường dùng “attribute something to something”.</span></div>'+
-        '<div class="lp-explain-row"><strong>D. observe</strong><span>Quan sát hoặc ghi nhận; không biểu đạt chức năng làm giảm tác hại.</span></div>'+
-        '<p class="lp-examples"><b>Ví dụ ứng dụng:</b> Future policies could mitigate air pollution. / Engineers estimate the repair costs. / She attributed the failure to poor planning. / Scientists observed changes in the water.</p>'+
-        '</div>')+
-      '<div class="lp-preview-note"><strong>Bảo mật khi làm thật:</strong> đáp án chưa Unlock không được đưa vào GitHub public hoặc mã JavaScript gửi cho học sinh. '+
-      'Trạng thái trong mẫu này chỉ để so sánh giao diện.</div>';
+  function solutions(u){
+    const status=access.loading?"Đang kiểm tra quyền truy cập…":access.error?"Không thể kiểm tra quyền. "+esc(access.error):
+      access.unlocked?"Đã mở lời giải":"Lời giải đang bị khóa";
+    const allowed=!access.loading&&!access.error&&(access.teacher||access.unlocked);
+    return section("02 / DETAILED SOLUTIONS","Đáp án và lời giải","Giáo viên mở khóa riêng cho từng Unit. Quyền xem được xác thực ở Supabase.")+
+      '<div class="lp-solution-locked"><div class="lp-lock-icon">'+(allowed?"🔓":"🔒")+'</div>'+
+      '<h3>'+status+'</h3><p>'+(access.unlocked?"Học sinh được phép xem lời giải của Unit này.":
+        "Học sinh không thể xem lời giải cho đến khi giáo viên cho phép.")+'</p>'+
+      (access.teacher?'<button type="button" class="lp-action lp-teacher-toggle" data-lp-unlock="'+(!access.unlocked)+'">'+
+      (access.unlocked?"🔒 Lock solutions":"🔓 Unlock solutions")+'</button>':"")+
+      (!access.loading?'<button class="lp-refresh" type="button" data-lp-refresh="1">Kiểm tra lại trạng thái</button>':"")+
+      '</div>'+
+      (allowed?'<div class="lp-answers">'+solutionRows()+'</div>':"")+
+      '<div class="lp-preview-note">Lời giải được tải qua Supabase và chỉ trả về cho giáo viên hoặc học sinh sau khi Unlock. Repository GitHub công khai không chứa đáp án.</div>';
   }
-  function practiceBody(){
-    const total=mcqCount+passageCount*5;
-    return panelHead("03 / AFTER-CLASS PRACTICE","Bài tập tạo từ Google Docs comments",
-      "Cuối buổi, ChatGPT đọc lại Docs theo yêu cầu của bạn để tạo một ngân hàng dùng chung (10–30 MCQ, 1–3 passages × 5 câu).")+
-      '<div class="lp-practice-settings"><div><h3>Choose your practice</h3>'+
-      '<label>Số câu Multiple Choice</label><div class="lp-choice-line">'+[10,20,30].map(function(n){
-        return '<button type="button" class="'+(mcqCount===n?"is-active":"")+'" data-lp-mcq="'+n+'">'+n+' câu</button>';
-      }).join("")+'</div>'+
-      '<label>Số Reading Passages</label><div class="lp-choice-line">'+[0,1,2,3].map(function(n){
-        return '<button type="button" class="'+(passageCount===n?"is-active":"")+'" data-lp-passages="'+n+'">'+n+' passage'+(n>1?"s":"")+'</button>';
-      }).join("")+'</div></div>'+
-      '<div class="lp-practice-total"><span>BÀI LUYỆN TẬP ĐƯỢC CHỌN</span><strong>'+total+'</strong><span>'+
-      mcqCount+' câu ABCD + '+passageCount+' × 5 câu Reading</span></div></div>'+
-      '<div class="lp-sample-grid"><article class="lp-preview-card"><span class="lp-demo-pill">MCQ SAMPLE</span>'+
-      '<h3>Vocabulary in Context</h3>'+
-      '<p>The committee decided to ______ its decision after receiving new evidence.</p>'+
-      '<div class="lp-demo-options"><div>A. postpone</div><div>B. reconsider</div><div>C. resist</div><div>D. anticipate</div></div>'+
-      '<small>Mỗi câu có 4 phương án; đáp án không hiện trước khi làm bài.</small></article>'+
-      '<article class="lp-preview-card"><span class="lp-demo-pill">READING SAMPLE</span>'+
-      '<h3>When Communities Share Information</h3>'+
-      '<p>In a coastal town, local volunteers created a simple information network before the storm season. Rather than sending warnings only once, they updated residents as conditions changed. This helped people decide when to protect their property and where to find reliable information.</p>'+
-      '<div class="lp-reading-questions"><strong>5 questions per passage</strong>'+
-      '<p>1. Why did the volunteers update the warnings?</p>'+
-      '<p>2. What does the passage suggest about reliable information?</p>'+
-      '<p>3–5. Additional comprehension questions in the full lesson.</p></div>'+
-      '<small>Passage và câu hỏi này chỉ để duyệt cách trình bày, không phải ngân hàng đã xuất bản.</small></article></div>'+
-      '<div class="lp-preview-note">Các con số lựa chọn phía trên chỉ là mô phỏng khi ngân hàng đã có đủ dữ liệu. '+
-      'Hiện Unit 7 chưa có câu hỏi thật và không có bài nào được ghi nhận.</div>';
+  function choices(u){
+    const b=bank(u),m=b.mcqs.length,p=b.passages.length;
+    if(!m&&!p)return '<div class="lp-solution-locked"><div class="lp-lock-icon">📝</div>'+
+      '<h3>Chưa có bài tập sau buổi học</h3><p>Khi giáo viên yêu cầu đọc lại Google Docs và comments, bài tập được tạo và xuất bản tại đây.</p></div>';
+    mcqCount=Math.min(Math.max(0,mcqCount),m);
+    readingCount=Math.min(Math.max(0,readingCount),p);
+    return '<div class="lp-practice-settings"><div><h3>Chọn số lượng bài tập</h3>'+
+      '<label for="lpMcqCount">Multiple Choice ('+m+' câu có sẵn)</label>'+
+      '<select id="lpMcqCount" class="lp-count-select" data-lp-input="mcq">'+
+      Array.from({length:m+1},(_,i)=>'<option value="'+i+'" '+(i===mcqCount?"selected":"")+'>'+i+' câu</option>').join("")+'</select>'+
+      '<label for="lpReadingCount">Reading ('+p+' passages có sẵn)</label>'+
+      '<select id="lpReadingCount" class="lp-count-select" data-lp-input="reading">'+
+      Array.from({length:p+1},(_,i)=>'<option value="'+i+'" '+(i===readingCount?"selected":"")+'>'+i+' passages</option>').join("")+'</select>'+
+      '<div style="margin-top:15px"><button class="lp-action lp-start" type="button" data-lp-start="1" '+
+      (!(mcqCount+readingCount)?"disabled":"") +'>Bắt đầu làm bài →</button></div></div>'+
+      '<div class="lp-practice-total"><span>TỔNG SỐ CÂU ĐƯỢC CHỌN</span><strong>'+ (mcqCount+readingCount*5) +
+      '</strong><span>'+mcqCount+' ABCD + '+readingCount+' passages × 5 câu</span></div></div>';
   }
-  function printBody(){
-    const modes=[
-      ["questions","A","Question Paper","Chỉ in đề để học sinh làm bài."],
-      ["key","B","Compact Answer Key","Đáp án chữ cái gọn ở cuối đề."],
-      ["detailed","C","Detailed Solutions","Lời giải dài trong tài liệu riêng."]
-    ];
-    const answer=printMode==="key"?'<div class="lp-print-extra"><h4>ANSWER KEY · SAMPLE</h4><p>1. A &nbsp; 2. B &nbsp; 3. C</p></div>':
-      printMode==="detailed"?'<div class="lp-print-extra"><h4>DETAILED SOLUTIONS · SAMPLE</h4>'+
-        '<p><b>1. A — mitigate:</b> Giảm mức độ nghiêm trọng của tác động. B, C và D khác chức năng nghĩa hoặc cấu trúc.</p>'+
-        '<p>Khi hoàn thiện, phần này sẽ phân tích từng lựa chọn và đưa ví dụ ứng dụng.</p></div>':"";
-    return panelHead("04 / PRINT","Mẫu in — chưa chốt format đáp án",
-      "So sánh ba phương án. Bạn có thể in thử đúng một trang demo, chưa phải đề Unit 7 thật.")+
-      '<div class="lp-style-grid">'+modes.map(function(mode){
-        const active=mode[0]===printMode;
-        return '<button type="button" class="lp-style-option '+(active?"is-selected":"")+
-          '" aria-pressed="'+active+'" data-lp-print="'+mode[0]+'"><span class="lp-style-id">'+mode[1]+'</span>'+
-          '<strong>'+mode[2]+'</strong><small>'+mode[3]+'</small></button>';
-      }).join("")+'</div>'+
-      '<div class="lp-print-sheet"><div class="lp-print-sheet-top"><span>ENGLISH PRACTICE HUB</span><span>UNIT 7 · DEMO</span></div>'+
-      '<h3>'+ (printMode==="detailed"?"DETAILED SOLUTIONS":"VOCABULARY PRACTICE") +'</h3>'+
-      '<p>1. Researchers proposed safeguards to ______ the harmful effects of the chemical before it reached nearby rivers.</p>'+
-      '<div class="lp-print-options"><span>A. mitigate</span><span>B. estimate</span><span>C. attribute</span><span>D. observe</span></div>'+
-      answer+'<div class="lp-print-foot">Preview only · chưa có đề học sinh thật</div></div>'+
-      '<div class="lp-print-actions"><button type="button" data-lp-print-now="yes">🖨 In thử trang demo</button>'+
-      '<span>Mẫu dài sẽ được in ra trang riêng để tránh chiếm chỗ của đề.</span></div>'+
-      '<div class="lp-preview-note">In đáp án/lời giải sẽ cần tuân thủ quyền Unlock khi triển khai thật. Hiện chỉ in nội dung ví dụ.</div>';
-  }
-  function renderUnit(unitId,keepScroll){
-    if(!catalog?.units?.some(function(u){return Number(u.id)===Number(unitId)})){
-      location.hash=HOME;return;
+  function questionBlock(q,index,print){
+    const choices=q.options.map((opt,j)=>{
+      const code=String.fromCharCode(65+j);
+      const checked=quiz?.answers?.[q.id]===j;
+      return print?'<span>'+code+'. '+esc(opt)+'</span>':
+        '<label class="lp-choice-option"><input type="radio" name="lp-q-'+esc(q.id)+'" data-lp-answer="'+esc(q.id)+
+        '" value="'+j+'" '+(checked?"checked":"")+' '+(quiz?.submitted?"disabled":"")+'/><span>'+code+'. '+esc(opt)+'</span></label>';
+    }).join("");
+    let prompt=esc(q.text);
+    if(typeof q.target==="string"&&q.target){
+      const pattern=esc(q.target),at=prompt.indexOf(pattern);
+      if(at>=0)prompt=prompt.slice(0,at)+'<u>'+pattern+'</u>'+prompt.slice(at+pattern.length);
     }
-    const originalScroll=global.scrollY||0;
+    return '<div class="lp-quiz-question"><p><b>'+index+'.</b> '+prompt+'</p><div class="'+(print?"lp-print-options":"lp-question-choices")+'">'+choices+'</div></div>';
+  }
+  function questions(){
+    if(!quiz)return "";
+    let no=0;
+    return quiz.mcqs.map(q=>questionBlock(q,++no,false)).join("")+
+      quiz.passages.map(p=>'<section class="lp-passage"><h3>'+esc(p.title||"Reading")+'</h3>'+
+        '<div class="lp-passage-text">'+esc(p.passage).replace(/\n/g,"<br>")+'</div>'+
+        p.questions.map(q=>questionBlock(q,++no,false)).join("")+'</section>').join("");
+  }
+  function quizView(){
+    const total=quiz.mcqs.length+quiz.passages.reduce((a,p)=>a+p.questions.length,0);
+    const answered=Object.keys(quiz.answers).length;
+    return '<div class="lp-quiz-head"><span>'+answered+' / '+total+' câu đã chọn</span>'+
+      '<button type="button" class="lp-refresh" data-lp-exit="1">← Chọn lại bài tập</button></div>'+
+      '<div class="lp-quiz-sheet">'+questions()+'</div>'+
+      (quiz.submitted?'<div class="lp-preview-note"><b>Đã hoàn thành lượt làm.</b> Các lựa chọn đã được lưu trong trình duyệt. '+
+        'Để xem hoặc chấm theo lời giải, giáo viên cần mở khóa và xuất bản đáp án.</div>':
+        '<button type="button" class="lp-action lp-finish" data-lp-submit="1">Hoàn thành bài làm</button>');
+  }
+  function practice(u){
+    const b=bank(u);
+    return section("03 / AFTER-CLASS PRACTICE","Luyện tập sau buổi học",
+      "Ngân hàng câu hỏi được tạo một lần từ nội dung và comments của Google Docs. Học sinh chọn số lượng muốn làm.")+
+      (quiz?quizView():choices(u))+
+      (b.mcqs.length||b.passages.length?'<div class="lp-preview-note">Bộ câu hỏi hiện có: '+b.mcqs.length+
+        ' MCQ và '+b.passages.length+' Reading passages. Đáp án chưa công khai sẽ không xuất hiện trong mã nguồn.</div>':"");
+  }
+  function selectedForPrint(u){
+    const b=bank(u);
+    return {mcqs:quiz?.mcqs||b.mcqs.slice(0,mcqCount),passages:quiz?.passages||b.passages.slice(0,readingCount)};
+  }
+  function getKey(id){
+    const item=Array.isArray(access.solutions)?access.solutions.find(x=>x&&x.questionId===id):null;
+    return item&&Number.isInteger(item.correctIndex)&&item.correctIndex>=0&&item.correctIndex<=3?item:null;
+  }
+  function printSheet(u){
+    const p=selectedForPrint(u);let no=0;
+    const all=[...p.mcqs,...p.passages.flatMap(x=>x.questions)];
+    return '<div class="lp-print-sheet"><div class="lp-print-sheet-top"><span>ENGLISH PRACTICE HUB</span><span>UNIT '+u.id+'</span></div>'+
+      '<h3>'+(printMode==="detailed"?"DETAILED SOLUTIONS":esc(u.title||"VOCABULARY PRACTICE"))+'</h3>'+
+      p.mcqs.map(q=>questionBlock(q,++no,true)).join("")+
+      p.passages.map(x=>'<section class="lp-passage"><h4>'+esc(x.title||"Reading")+'</h4><p class="lp-passage-text">'+
+        esc(x.passage).replace(/\n/g,"<br>")+'</p>'+x.questions.map(q=>questionBlock(q,++no,true)).join("")+'</section>').join("")+
+      (printMode!=="questions"?'<div class="lp-print-extra"><h4>'+(printMode==="key"?"ANSWER KEY":"DETAILED SOLUTIONS")+'</h4>'+
+       all.map((q,i)=>{const k=getKey(q.id);return '<p><b>'+(i+1)+'. '+(k?String.fromCharCode(65+k.correctIndex):"—")+
+         '</b>'+(printMode==="detailed"&&k?.why?" — "+esc(k.why):"")+'</p>'}).join("")+'</div>':"")+
+      '<div class="lp-print-foot">English Practice Hub · Unit '+u.id+'</div></div>';
+  }
+  function printing(u){
+    const b=bank(u),picked=selectedForPrint(u),total=picked.mcqs.length+picked.passages.length*5;
+    const hasKeys=access.unlocked&&Array.isArray(access.solutions)&&access.solutions.length>0;
+    if(!b.mcqs.length&&!b.passages.length)return section("04 / PRINT","In đề bài","Bài tập sẽ có thể in sau khi được xuất bản.")+
+      '<div class="lp-solution-locked"><h3>Chưa có bài tập để in</h3><p>Hãy thêm dữ liệu từ file Vocabulary và comments trước.</p></div>';
+    if(printMode!=="questions"&&!hasKeys)printMode="questions";
+    return section("04 / PRINT","In đề bài","Đề bài, đáp án ngắn hoặc lời giải chi tiết được in riêng để tiết kiệm giấy.")+
+      '<div class="lp-switches">'+[["questions","Đề bài"],["key","Đáp án ngắn"],["detailed","Lời giải chi tiết"]].map(([id,label])=>
+        '<button type="button" data-lp-print-mode="'+id+'" class="'+(id===printMode?"is-active":"")+
+        '" '+(id!=="questions"&&!hasKeys?"disabled title=\"Chỉ có thể in đáp án khi đã Unlock\"":"")+ '>'+label+'</button>').join("")+'</div>'+
+      '<p class="lp-print-count">Đang chọn '+total+' câu. Để thay đổi số lượng, vào tab After-class Practice.</p>'+
+      printSheet(u)+'<div class="lp-print-actions"><button type="button" data-lp-print-now="1">🖨 In đề</button></div>';
+  }
+  function renderUnit(n,preserve){
+    const u=getUnit(n);
+    if(!u){location.hash=HOME;return}
+    unitId=Number(n);
+    const oldY=global.scrollY||0;
     mount.style.display="block";
-    const bodies={lesson:lessonBody,solutions:solutionBody,practice:practiceBody,print:printBody};
-    mount.innerHTML=header()+navTabs()+'<div class="lp-preview-body" role="tabpanel">'+
-      (bodies[currentTab]||lessonBody)()+'</div>';
-    if(keepScroll)global.scrollTo(0,originalScroll);
-    else global.scrollTo(0,0);
+    const screens={lesson,solutions,practice,print:printing};
+    mount.innerHTML=head(u)+'<div class="lp-preview-body" role="tabpanel">'+screens[tab](u)+'</div>';
+    if(preserve)global.scrollTo(0,oldY);else global.scrollTo(0,0);
   }
-  mount.addEventListener("click",function(event){
-    const btn=event.target.closest("button");
-    if(!btn||!mount.contains(btn))return;
-    if(btn.hasAttribute("data-lp-route")){location.hash=btn.getAttribute("data-lp-route");return}
-    if(!location.hash.includes(HOME+"/unit-7"))return;
-    const handlers={
-      "data-lp-tab":function(v){currentTab=v},
-      "data-lp-style":function(v){currentStyle=v},
-      "data-lp-view":function(v){solutionView=v},
-      "data-lp-mcq":function(v){mcqCount=Number(v)},
-      "data-lp-passages":function(v){passageCount=Number(v)},
-      "data-lp-print":function(v){printMode=v}
-    };
-    for(const attr in handlers){
-      if(btn.hasAttribute(attr)){handlers[attr](btn.getAttribute(attr));renderUnit(7,true);return}
-    }
-    if(btn.hasAttribute("data-lp-print-now"))global.print();
-  });
-  global.renderLessonPlansHome=renderHome;
-  global.renderLessonPlansUnit=renderUnit;
+  async function callRest(path,opts){
+    if(typeof global.ensureLearnerSession!=="function")throw Error("Cần đăng nhập tài khoản học sinh.");
+    const session=await global.ensureLearnerSession();
+    if(!session?.access_token)throw Error("Phiên đăng nhập không còn hiệu lực.");
+    const response=await fetch(global.SUPABASE_URL+"/rest/v1/"+path,{
+      ...opts,
+      headers:{"apikey":global.SUPABASE_KEY,"Authorization":"Bearer "+session.access_token,
+        "Content-Type":"application/json",...(opts?.headers||{})}
+    });
+    if(!response.ok)throw Error("Supabase "+response.status);
+    return response.status===204?null:response.json();
+  }
+  async function loadAccess(n){
+    const u=getUnit(n);if(!u)return;
+    const key="grade12-unit"+n;
+    access={loading:true,teacher:false,unlocked:false,solutions:null,error:""};
+    if(tab==="solutions"&&unitId===n)renderUnit(n,true);
+    try{
+      const [roles,status]=await Promise.all([
+        callRest("lesson_teacher_roles?select=user_id&limit=1"),
+        callRest("lesson_unlocks?select=unlocked&unit_key=eq."+encodeURIComponent(key)+"&limit=1")
+      ]);
+      if(unitId!==n)return;
+      access.teacher=Array.isArray(roles)&&roles.length>0;
+      access.unlocked=Boolean(Array.isArray(status)&&status[0]?.unlocked);
+      if(access.teacher||access.unlocked){
+        const rows=await callRest("lesson_solutions?select=payload&unit_key=eq."+encodeURIComponent(key)+"&limit=1");
+        if(unitId!==n)return;
+        access.solutions=Array.isArray(rows)&&Array.isArray(rows[0]?.payload)?rows[0].payload:[];
+      }
+    }catch(e){if(unitId===n)access.error=e.message||"Không thể kiểm tra quyền"}
+    finally{if(unitId===n){access.loading=false;if(tab==="solutions"||tab==="print")renderUnit(n,true)}}
+  }
+  async function changeUnlock(value){
+    if(!access.teacher||access.loading)return;
+    const n=unitId,prev=access.unlocked;
+    access.loading=true;renderUnit(n,true);
+    try{
+      const out=await callRest("lesson_unlocks?unit_key=eq.grade12-unit"+n,{
+        method:"PATCH",headers:{"Prefer":"return=representation"},body:JSON.stringify({unlocked:value})
+      });
+      if(!Array.isArray(out)||out.length!==1)throw Error("Không có quyền thay đổi trạng thái Unlock");
+      if(unitId===n){access.unlocked=Boolean(out[0].unlocked);access.error=""}
+    }catch(e){if(unitId===n){access.unlocked=prev;access.error=e.message||"Cập nhật thất bại"}}
+    finally{if(unitId===n){access.loading=false;renderUnit(n,true)}}
+  }
+  function rememberQuiz(){
+    if(quiz&&global.LearningCore?.writeDraft)
+      global.LearningCore.writeDraft("lesson-plans","unit-"+unitId,{
+        ids:quiz.mcqs.map(x=>x.id).concat(quiz.passages.map(x=>x.id)),answers:quiz.answers,submitted:quiz.submitted
+      });
+  }
+  function startQuiz(){
+    const u=getUnit(unitId);if(!u)return;
+    const b=bank(u);
+    if(!mcqCount&&!readingCount)return;
+    const mcqs=b.mcqs.slice(0,mcqCount),passages=b.passages.slice(0,readingCount);
+    const ids=mcqs.map(x=>x.id).concat(passages.map(x=>x.id));
+    const prior=global.LearningCore?.readDraft?.("lesson-plans","unit-"+unitId);
+    const same=prior&&JSON.stringify(prior.ids)===JSON.stringify(ids);
+    quiz={mcqs,passages,answers:same&&prior.answers?prior.answers:{},submitted:!!(same&&prior.submitted)};
+    renderUnit(unitId,true);
+  }
+  function bind(){
+    mount.addEventListener("click",async e=>{
+      const button=e.target.closest("button");if(!button||!mount.contains(button))return;
+      const get=attr=>button.getAttribute(attr);
+      if(button.hasAttribute("data-lp-route")){location.hash=get("data-lp-route");return}
+      if(!location.hash.includes(HOME+"/unit-"))return;
+      if(button.hasAttribute("data-lp-tab")){
+        tab=get("data-lp-tab");
+        if(tab==="practice"&&!quiz){const b=bank(getUnit(unitId));mcqCount=Math.min(b.mcqs.length,10);readingCount=Math.min(b.passages.length,1)}
+        renderUnit(unitId,true);
+        if(tab==="solutions"||tab==="print")loadAccess(unitId);
+      }else if(button.hasAttribute("data-lp-refresh"))loadAccess(unitId);
+      else if(button.hasAttribute("data-lp-unlock"))changeUnlock(get("data-lp-unlock")==="true");
+      else if(button.hasAttribute("data-lp-start"))startQuiz();
+      else if(button.hasAttribute("data-lp-exit")){quiz=null;renderUnit(unitId,true)}
+      else if(button.hasAttribute("data-lp-submit")){if(quiz){quiz.submitted=true;rememberQuiz();renderUnit(unitId,true)}}
+      else if(button.hasAttribute("data-lp-print-mode")){
+        const wanted=get("data-lp-print-mode");
+        if(wanted!=="questions"&&!(access.unlocked&&Array.isArray(access.solutions)&&access.solutions.length))return;
+        printMode=wanted;renderUnit(unitId,true);
+      }else if(button.hasAttribute("data-lp-print-now")){
+        if(!global.document.body.classList.contains("lp-printing"))global.document.body.classList.add("lp-printing");
+        global.print();
+      }
+    });
+    mount.addEventListener("change",e=>{
+      const node=e.target;
+      if(!location.hash.includes(HOME+"/unit-"))return;
+      if(node.matches('[data-lp-input="mcq"]'))mcqCount=Number(node.value)||0;
+      else if(node.matches('[data-lp-input="reading"]'))readingCount=Number(node.value)||0;
+      else if(node.matches("[data-lp-answer]")){
+        if(quiz&&!quiz.submitted){quiz.answers[node.getAttribute("data-lp-answer")]=Number(node.value);rememberQuiz()}
+        return;
+      }else return;
+      renderUnit(unitId,true);
+    });
+    global.addEventListener("afterprint",()=>global.document.body.classList.remove("lp-printing"));
+  }
+  bind();
+  global.renderLessonPlansHome=home;
+  global.renderLessonPlansUnit=function(id){tab="lesson";quiz=null;access={loading:false,teacher:false,unlocked:false,solutions:null,error:""};renderUnit(id,false)};
 })(window);
