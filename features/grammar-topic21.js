@@ -88,15 +88,39 @@ function examples(s){
     '<p class="g21-why">'+esc(x.why)+'</p></div>'
   ).join("")+'</div>';
 }
+function filledExample(q){
+  const original=q.stem;
+  const answer=q.options[q.correct];
+  const blank=original.indexOf("___");
+  return blank>=0?
+    esc(original.slice(0,blank))+'<strong class="g21-answer-word">'+esc(answer)+'</strong>'+esc(original.slice(blank+3)):
+    esc(answer);
+}
 function feedback(q,pick,wasCorrect,kind){
   const good=pick===q.correct;
+  const note=q.explain||{};
   const selected=q.options[pick]||"";
-  const specific=!good?q.wrong?.[pick]:"";
-  return '<div class="g21-feedback '+(good?"good":"bad")+'" role="status"><strong>'+(good?"✓ Chính xác":"✦ Cần kiểm tra lại")+'</strong>'+
-    (!good?'<p><b>Bạn chọn:</b> '+esc(selected)+'</p>':'')+
-    (specific?'<p><b>Vì sao chưa đúng:</b> '+esc(specific)+'</p>':'')+
-    '<p><b>Quy tắc cần nhớ:</b> '+esc(q.why)+'</p>'+
-    (good?'<p><b>Đáp án:</b> '+esc(q.options[q.correct])+'</p>':kind==="guided"?"<p>Đọc lại phân tích trên rồi thử chọn đáp án khác.</p>":'<p><b>Đáp án đúng:</b> '+esc(q.options[q.correct])+'</p>')+'</div>';
+  const specific=note.wrong?.[pick]||(!good?q.wrong?.[pick]:"");
+  const retry=(kind==="guided"||kind==="repair")&&!good;
+  const reasons=optionOrder(q).filter(i=>i!==q.correct);
+  return '<div class="g21-feedback '+(good?"good":"bad")+'" role="status">'+
+    '<strong>'+(good?"✓ Chính xác — bạn đã nhận ra cấu trúc":"✦ Cần kiểm tra lại")+'</strong>'+
+    (!good?'<p><b>Vì sao chưa đúng?</b> Bạn chọn “'+esc(selected)+'”. '+esc(specific||"Hãy kiểm tra lại điều kiện đảo ngữ và dạng động từ.")+'</p>':"")+
+    (retry?
+      '<div class="g21-reason-step"><b>Gợi ý: nhìn dấu hiệu</b><p>'+esc(note.clue||q.why)+'</p></div>'+
+      '<p class="g21-feedback-hint">Đọc gợi ý rồi chọn lại. Đáp án sẽ được giải thích đầy đủ khi bạn làm đúng.</p>':
+      '<div class="g21-explanation-steps">'+
+        '<div class="g21-reason-step"><b>1. Nhìn dấu hiệu trong câu</b><p>'+esc(note.clue||"Xác định từ/cụm từ mở đầu và thì của mệnh đề.")+'</p></div>'+
+        '<div class="g21-reason-step"><b>2. Suy ra cách viết đúng</b><p>'+esc(note.rule||q.why)+'</p></div>'+
+        '<div class="g21-reason-step"><b>3. Câu hoàn chỉnh / Đáp án đúng</b><p class="g21-solution-sentence">'+filledExample(q)+'</p></div>'+
+      '</div><p class="g21-rule-reminder"><b>Quy tắc cần nhớ:</b> '+esc(q.why)+'</p>'+
+      '<details class="g21-other-choices"><summary>Vì sao các đáp án khác sai? <span aria-hidden="true">⌄</span></summary>'+
+        '<div class="g21-other-choices-body">'+reasons.map(i=>{
+          const label=String.fromCharCode(65+optionOrder(q).indexOf(i));
+          return '<div class="g21-choice-reason"><b>'+label+'. '+esc(q.options[i])+'</b><p>'+esc(note.wrong?.[i]||q.wrong?.[i]||"Phương án này không đáp ứng cấu trúc được yêu cầu.")+'</p></div>';
+        }).join("")+'</div></details>'
+    )+
+  '</div>';
 }
 /* Balance correct positions within each quiz bank. Correct answers are fixed in
  * canonical data; only display positions move. This reduces letter-based guessing. */
@@ -156,8 +180,8 @@ function learn(){
       '<p class="g21-lead">'+esc(s.outcome)+'</p>'+
       '<div class="g21-progress-track">'+progressHTML()+'</div>'+
       '<section class="g21-teaching"><div class="g21-sectionhead"><h3>1. Hiểu quy tắc</h3></div>'+
-        '<div class="g21-note g21-concept"><b>CONCEPT · Ý nghĩa</b><p>'+esc(s.concept)+'</p></div>'+
-        '<div class="g21-note form"><b>FORM · Công thức</b><p>'+esc(s.form)+'</p></div>'+
+        '<div class="g21-note g21-concept"><b>CONCEPT · Hiểu đơn giản</b><p>'+esc(s.concept)+'</p></div>'+
+        '<div class="g21-note form"><b>FORM · Công thức</b><p>'+esc(s.form)+'</p><small class="g21-form-legend">S = chủ ngữ · V = động từ · V3 = quá khứ phân từ · Trợ động từ: do, does, did, have, had, can…</small></div>'+
         '<div class="g21-contrast"><b>CONTRAST · Phân biệt</b><p>'+esc(s.contrast)+'</p></div>'+
       '</section>'+
       '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. So sánh qua ví dụ</h3></div>'+examples(s)+'</section>'+
