@@ -1296,20 +1296,20 @@ function renderPortal(teacherPreview=false){
   pageMount.innerHTML=`
     <div class="hero">
       <div class="eyebrow">English Practice Hub</div>
-      <h1><span class="gradient">Chọn khu vực học tập.</span></h1>
+      <h1><span class="gradient">Học tiếng Anh</span></h1>
     </div>
     <div class="account-banner">
       <div><b>${esc(learnerDisplayName())}</b><span>${learnerUsername()?"@"+esc(learnerUsername())+" · ":""}${teacherPreview?"Tài khoản giáo viên":"Tài khoản học viên"}</span></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="secondary" type="button" onclick="location.hash='history'">Lịch sử học tập</button><button class="secondary" type="button" onclick="logoutLearner()">Đăng xuất</button></div>
     </div>
-    <div class="section-title"><h2>Access</h2><span>2 areas</span></div>
+    <div class="section-title"><h2>Chọn khu vực học</h2></div>
     <div class="units">
       <button class="unit-card" onclick="enterArea('school')">
-        <div class="unit-top"><span class="unit-no">SCHOOL</span><span class="status live">${getStoredAccess("school")?"Remembered":"Protected"}</span></div>
+        <div class="unit-top"><span class="unit-no">SCHOOL</span><span class="status live access-state">${getStoredAccess("school")?"Đã lưu quyền":"Cần mã truy cập"}</span></div>
         <h3>Học trên trường</h3><p>${esc(accessRememberedText("school"))}</p><span class="unit-arrow">→</span>
       </button>
       <button class="unit-card" onclick="enterArea('tutoring')">
-        <div class="unit-top"><span class="unit-no">TUTORING</span><span class="status live">${getStoredAccess("tutoring")?"Remembered":"Protected"}</span></div>
+        <div class="unit-top"><span class="unit-no">TUTORING</span><span class="status live access-state">${getStoredAccess("tutoring")?"Đã lưu quyền":"Cần mã truy cập"}</span></div>
         <h3>Học thêm</h3><p>${esc(accessRememberedText("tutoring"))}</p><span class="unit-arrow">→</span>
       </button>
     </div>
