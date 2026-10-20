@@ -202,7 +202,8 @@ function printSelected(){
 }
 let scheduled=false;
 function sync(){
- const allow=!!source()&&(!global.readLearnerSession||!!global.readLearnerSession());
+ const allow=!!source()&&(!global.readLearnerSession||!!global.readLearnerSession())&&
+   !document.getElementById("accessPassInput")&&!document.querySelector(".account-card");
  if(host.hidden===allow)host.hidden=!allow;
  if(hash()!==currentRoute){currentRoute=hash();data=null;close();}
 }
