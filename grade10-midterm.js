@@ -1,7 +1,32 @@
 /* Grade 10 midterm interactive quizzes, Grade 12-style semantic explanations. */
-const mtState={"tests":null,"chosenTest":null,"index":0,"answers":{},"checked":{},"revealed":{},"loading":null,"results":false};
+const mtState={"tests":null,"chosenTest":null,"index":0,"answers":{},"checked":{},"revealed":{},"loading":null,"results":false,"startedAt":0,"submissionId":null,"recorded":false,"owner":null};
 const MT_ALTERNATIVES={"3-26":["C","D"],"3-27":["A","B"],"3-35":["A","C"],"4-11":["B","C"],"4-16":["A","B","C","D"],"5-13":["B","C"],"5-14":["B","C"],"5-29":["A","B"],"6-22":["C","D"]};
 const MT_NO_SCORE=new Set(["4-16","6-26","6-29"]);
+function mtKey(id){return "grade-10/mid-term-test/test-"+id}
+function mtSave(){
+ if(!mtState.chosenTest||!LearningCore.userId()||mtState.owner!==LearningCore.userId())return;
+ LearningCore.writeDraft("exam",mtKey(mtState.chosenTest),{index:mtState.index,answers:mtState.answers,checked:mtState.checked,revealed:mtState.revealed,startedAt:mtState.startedAt,submissionId:mtState.submissionId,recorded:mtState.recorded,sourceVersion:LearningCore.fingerprint(mtCurrent().questions)});
+}
+function mtRestore(test){
+ const saved=LearningCore.readDraft("exam",mtKey(test.id));
+ mtState.chosenTest=test.id;mtState.owner=LearningCore.userId();
+ mtState.index=0;mtState.answers={};mtState.checked={};mtState.revealed={};
+ mtState.startedAt=Date.now();mtState.submissionId=LearningCore.uuid();mtState.results=false;mtState.recorded=false;
+ if(saved&&typeof saved==="object"&&saved.sourceVersion===LearningCore.fingerprint(test.questions)){
+  const ids=new Set(test.questions.map(q=>q.id));
+  const valid=obj=>Object.fromEntries(Object.entries(obj||{}).filter(([k])=>ids.has(k)));
+  mtState.answers=valid(saved.answers);mtState.checked=valid(saved.checked);mtState.revealed=valid(saved.revealed);
+  mtState.index=Math.max(0,Math.min(test.questions.length-1,Number(saved.index)||0));
+  mtState.startedAt=Number(saved.startedAt)||Date.now();
+  mtState.submissionId=saved.submissionId||LearningCore.uuid();mtState.recorded=!!saved.recorded;
+ }
+ mtSave();
+}
+function mtRestart(){
+ const test=mtCurrent();if(!test)return;
+ LearningCore.clearDraft("exam",mtKey(test.id));
+ mtState.chosenTest=null;mtOpenTest(test.id);
+}
 function mtEsc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
 function mtNormal(s){return String(s??"").toLowerCase().replace(/[–—−]/g,"-").replace(/[’‘]/g,"'").replace(/[^a-z0-9áàạảãâăđêếệểễíìịỉĩóòọỏõôơúùụủũưýỳỷỹ\s'-]/gi," ").replace(/\s+/g," ").trim()}
 function mtSection(q){
@@ -49,7 +74,7 @@ async function mtHome(){
 }
 async function mtOpenTest(id){
  mtShowLoading();try{const tests=await mtLoad();if(location.hash!="#grade-10/mid-term-test/test-"+id)return;const test=tests.find(t=>t.id===+id);if(!test)throw new Error("Không tìm thấy bài kiểm tra.");
- if(mtState.chosenTest!==test.id){mtState.chosenTest=test.id;mtState.index=0;mtState.answers={};mtState.checked={};mtState.revealed={};mtState.results=false}
+ if(mtState.chosenTest!==test.id||mtState.owner!==LearningCore.userId())mtRestore(test);
  mtRender();
  }catch(err){mtShowError(err)}
 }
@@ -141,17 +166,27 @@ function mtRender(){
  '<div class="mt-controls"><button class="secondary" onclick="mtResults()">Xem tiến độ & chọn câu</button><button class="secondary" onclick="location.hash=\'grade-10/mid-term-test\'">← Tất cả đề thi</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
-function mtChoose(val){const q=mtCurrent().questions[mtState.index];if(mtState.checked[q.id])return;mtState.answers[q.id]=val;document.querySelectorAll(".mt-option").forEach(x=>x.classList.toggle("selected",!!x.querySelector("input:checked")))}
-function mtType(s){const q=mtCurrent().questions[mtState.index];if(!mtState.checked[q.id])mtState.answers[q.id]=s}
-function mtCheck(){const q=mtCurrent().questions[mtState.index];if(!String(mtState.answers[q.id]||"").trim()){alert("Hãy chọn hoặc nhập câu trả lời trước khi kiểm tra.");return}mtState.checked[q.id]=true;mtRender();document.querySelector(".mt-note")?.scrollIntoView({behavior:"smooth",block:"center"})}
-function mtReveal(){const q=mtCurrent().questions[mtState.index];mtState.revealed[q.id]=true;mtState.checked[q.id]=true;mtRender();document.querySelector(".semantic-feedback")?.scrollIntoView({behavior:"smooth",block:"start"})}
-function mtPrev(){if(mtState.index>0){mtState.index--;mtRender()}}
-function mtNext(){if(mtState.index+1<mtCurrent().questions.length){mtState.index++;mtRender()}else mtResults()}
-function mtJump(i){mtState.index=Math.max(0,Math.min(mtCurrent().questions.length-1,Number(i)||0));mtRender()}
+function mtChoose(val){const q=mtCurrent().questions[mtState.index];if(mtState.checked[q.id])return;mtState.answers[q.id]=val;mtSave();document.querySelectorAll(".mt-option").forEach(x=>x.classList.toggle("selected",!!x.querySelector("input:checked")))}
+function mtType(s){const q=mtCurrent().questions[mtState.index];if(!mtState.checked[q.id]){mtState.answers[q.id]=s;mtSave()}}
+function mtCheck(){const q=mtCurrent().questions[mtState.index];if(!String(mtState.answers[q.id]||"").trim()){alert("Hãy chọn hoặc nhập câu trả lời trước khi kiểm tra.");return}mtState.checked[q.id]=true;mtSave();mtRender();document.querySelector(".mt-note")?.scrollIntoView({behavior:"smooth",block:"center"})}
+function mtReveal(){const q=mtCurrent().questions[mtState.index];mtState.revealed[q.id]=true;mtState.checked[q.id]=true;mtSave();mtRender();document.querySelector(".semantic-feedback")?.scrollIntoView({behavior:"smooth",block:"start"})}
+function mtPrev(){if(mtState.index>0){mtState.index--;mtSave();mtRender()}}
+function mtNext(){if(mtState.index+1<mtCurrent().questions.length){mtState.index++;mtSave();mtRender()}else mtResults()}
+function mtJump(i){mtState.index=Math.max(0,Math.min(mtCurrent().questions.length-1,Number(i)||0));mtSave();mtRender()}
 function mtResults(){
  const test=mtCurrent();if(!test)return;
  const done=test.questions.filter(q=>mtState.checked[q.id]).length;const alt=MT_ALTERNATIVES;
  const scored=test.questions.map(q=>{const input=mtState.answers[q.id]||"";return {q,checked:!!mtState.checked[q.id],right:!MT_NO_SCORE.has(q.id)&&!mtState.revealed[q.id]&&!!mtState.checked[q.id]&&(q.options?(alt[q.id]||[q.answer]).includes(input):mtWrittenCorrect(q,input))}}),right=scored.filter(x=>x.right).length;
+ if(done===test.questions.length&&!mtState.recorded){
+   mtState.recorded=true;mtSave();
+   const eligible=test.questions.filter(q=>!MT_NO_SCORE.has(q.id)).length;
+   LearningCore.submitPractice({
+     category:"exam",slug:mtKey(test.id),correct:right,total:eligible,
+     duration:Math.max(0,Math.round((Date.now()-mtState.startedAt)/1000)),
+     submissionId:mtState.submissionId,details:{checked:done,sourceQuestions:test.questions.length}
+   }).then(()=>{if(typeof recordTutoringActivity==="function")recordTutoringActivity("study")})
+     .catch(e=>console.warn("Mid-term exam result queued for retry",e));
+ }
  const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-10/mid-term-test\'">Mid Term Test</button><span>›</span><span>'+mtEsc(test.title)+'</span></div><div class="unit-hero"><div class="eyebrow">Mid Term Test · '+mtEsc(test.title)+'</div><h1>Tiến độ làm bài</h1><p class="mt-score">'+right+'/'+(test.questions.length-test.questions.filter(q=>MT_NO_SCORE.has(q.id)).length)+' câu khớp đáp án tham khảo · Đã kiểm tra '+done+'/'+test.questions.length+'</p><p class="mt-subtle">Các câu có nhiều cách trả lời hợp lệ được ghi chú riêng. Kết quả này là tự kiểm tra, không thay thế chấm thi chính thức.</p></div><div class="mt-review-grid">'+scored.map((x,i)=>'<button class="'+(x.checked?(x.right?'completed':'missed'):'')+'" onclick="mtJump('+i+')">'+(x.q.section==="Main"?x.q.number:x.q.section.slice(-1)+"-"+x.q.number)+'</button>').join("")+'</div><div class="mt-controls"><button class="primary" onclick="mtJump('+Math.min(mtState.index,test.questions.length-1)+')">Tiếp tục xem lời giải</button><button class="secondary" onclick="location.hash=\'grade-10/mid-term-test\'">Quay lại các đề</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
