@@ -28,6 +28,16 @@ const assert=require("node:assert/strict");
   await page.locator('[data-g21="open"]').click();
   await page.locator(".g21-main").waitFor({timeout:20000});
   assert.match(await page.locator(".g21-main").innerText(),/Cơ chế đảo trợ động từ/);
+  const desktopLayout=await page.evaluate(()=>{
+    const main=document.querySelector(".g21-main").getBoundingClientRect();
+    const rail=document.querySelector(".g21-reader-rail").getBoundingClientRect();
+    return {mainWidth:main.width,railLeft:rail.left,mainLeft:main.left,
+      readingWidth:getComputedStyle(document.querySelector(".g21-lesson .g21-note p")).maxWidth};
+  });
+  assert.ok(desktopLayout.mainWidth>=790,"Desktop study region should use available width");
+  assert.ok(desktopLayout.mainLeft>desktopLayout.railLeft,"Lesson outline should sit left of the reader");
+  assert.equal(desktopLayout.readingWidth,"74ch","Reading measure must stay constrained");
+
   assert.equal(await page.locator(".g21-main .g21-question").count(),1);
   await page.locator('[data-g21="detect"][data-id="l1q1"][data-index="0"]').click();
   await page.locator('[data-g21="discovery-next"][data-id="l1q1"]').click();
@@ -79,7 +89,16 @@ const assert=require("node:assert/strict");
   await page.locator('.g21-tabs [data-g21="tab"][data-tab="review"]').click();
   assert.match(await page.locator(".g21-main").innerText(),/Review 1/);
   console.log("TOPIC 21 MASTERY + REVIEW: OK");
+  await page.setViewportSize({width:1600,height:900});
+  const wide=await page.evaluate(()=>document.querySelector(".g21-main").getBoundingClientRect().width);
+  assert.ok(wide>=980&&wide<=1060,"Wide desktop should use the workspace without excessively long lines");
+  console.log("TOPIC 21 WIDE DESKTOP WORKSPACE: OK");
   await page.setViewportSize({width:390,height:844});
+  await page.reload({waitUntil:"domcontentloaded"});
+  await page.locator(".g21-main").waitFor({timeout:20000});
+  assert.equal(await page.locator(".g21-layout").evaluate(el=>getComputedStyle(el).display),"block",
+    "Mobile should use a single-column layout");
+
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+3),"Topic 21 must not overflow mobile viewport");
   teacher=false;
   await page.goto(base+"#teacher/grammar/topic-21",{waitUntil:"domcontentloaded"});
