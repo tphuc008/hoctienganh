@@ -62,6 +62,8 @@ const assert=require("node:assert/strict");
   console.log("Grammar cards, direct set link and engine: passed");
   await open("school/grade-10/midterm-1/set-7",".exercise-intro");
   console.log("School manifest routes and access separation: passed");
+  // These three lessons are in Tutoring, whereas the preceding test opened School.
+  await open("tutoring",".units");
   await open("grade-12/lesson-plans/unit-7",".lp-inline-question");
   assert.equal(await page.locator(".lp-inline-question").count(),40,"Lesson page should show 40 original questions");
   assert.equal(await page.locator("#lp-section-practice").count(),0,"Practice page must not be on the lesson page");

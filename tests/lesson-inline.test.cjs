@@ -29,7 +29,8 @@ test("Continuous page includes protected, question-linked explanations",()=>{
  assert.match(js,/class="lp-inline-answer"/);
  assert.match(js,/accessAllowed\(\)/);
  assert.doesNotMatch(js,/data-lp-tab/);
- assert.match(js,/loadAccess\(Number\(id\)\)/);
+ assert.match(js,/loadAccess\(n\)/);
+ assert.match(js,/function openUnitPage\(id,chosenPage\)/);
 });
 
 test("Unit 7 has three distinct, addressable learning pages",()=>{
