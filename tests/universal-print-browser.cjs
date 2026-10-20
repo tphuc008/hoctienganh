@@ -25,6 +25,12 @@ function pdfText(buf){
    token,area:"tutoring",expiresAt:new Date(now+3600000).toISOString()
   }));
   sessionStorage.setItem("hoctienganh_valid_tutoring",JSON.stringify({token,until:now+3600000}));
+  localStorage.setItem("hoctienganh_access_school",JSON.stringify({
+    token:"mock-school",area:"school",expiresAt:new Date(now+3600000).toISOString()
+  }));
+  sessionStorage.setItem("hoctienganh_valid_school",JSON.stringify({
+    token:"mock-school",until:now+3600000
+  }));
   localStorage.setItem("hoctienganh_active_area","tutoring");
  });
  const base="http://127.0.0.1:4173/#";
@@ -73,6 +79,8 @@ function pdfText(buf){
   assert.ok(grammar.groups[0].questions.some(x=>!x.options.length),"Word form input should be included");
 
   await go("school/grade-10/midterm-1/set-1",".exercise-intro");
+  assert.equal(await page.locator("#accessPassInput").count(),0,
+    "School session must be validated; access prompt is not an exercise.");
   const school=await page.evaluate(()=>window.UniversalPrint?.source()?.get());
   if(!school)console.log("SCHOOL PRINT DIAGNOSTIC",await page.evaluate(()=>({
    hash:location.hash,providerType:typeof window.getUniversalSchoolPrintData,
@@ -86,6 +94,8 @@ function pdfText(buf){
   assert.ok(school.groups[0].questions.every(x=>x.detailHtml||x.details?.length));
   z=await popup("key");assert.match(z.text,/ANSWER KEY/);await z.tab.close();
 
+  await page.goto(base+"tutoring",{waitUntil:"domcontentloaded"});
+  await page.locator(".units").first().waitFor({state:"visible",timeout:12000});
   await go("grade-12/reading/marketing-and-the-information-age",".exercise-intro");
   const mis=await page.evaluate(()=>window.getUniversalMISPrintData?.());
   assert.equal(mis.groups[0].questions.length,14);
