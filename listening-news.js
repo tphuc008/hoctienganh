@@ -110,7 +110,7 @@ function newsQuestionHtml(part,q){
 }
 function newsPartHtml(part){
   return '<section class="listening-part '+(part.id===1?"active":"")+'" id="newsPart'+part.id+'">'+
-    '<div class="listening-part-head"><h2>'+newsEsc(part.label)+'</h2><span class="listening-progress" id="newsProgress'+part.id+'">0 / '+part.questions.length+' answered</span></div>'+
+    '<div class="listening-part-head"><h2>'+newsEsc(part.label)+'</h2><span class="listening-progress" id="newsProgress'+part.id+'">0 / '+part.questions.length+' answered</span><span id="newsProgressFlow'+part.id+'"></span></div>'+
     '<div class="listening-q-list">'+part.questions.map(function(q){return newsQuestionHtml(part,q);}).join("")+'</div>'+
     '<div class="listening-actions">'+
       '<div class="listening-actions-left"><div class="listening-score" id="newsScore'+part.id+'">Chưa nộp</div><div class="listening-score-note" id="newsScoreNote'+part.id+'">Đáp án chỉ được hiện khi bạn chủ động bấm “Hiện đáp án”.</div></div>'+
@@ -184,12 +184,18 @@ function newsAnswerLabel(q){
   }
   return q.answerText;
 }
+var sharedListeningOwner=null;
 function updateNewsProgress(partId){
   var part=getNewsPart(partId);
   if(!part)return;
   var answered=part.questions.filter(function(q){return readNewsAnswer(part,q).trim()!=="";}).length;
   var el=document.getElementById("newsProgress"+part.id);
   if(el)el.textContent=answered+" / "+part.questions.length+" answered";
+  const flowStatus={started:true,done:answered,total:part.questions.length,
+    completed:!!newsState[part.id].submitted,mode:"submit"};
+  LearningFlow.paint(document.getElementById("newsProgressFlow"+part.id),flowStatus);
+  LearningFlow.track({category:"listening",slug:"listening/news/"+NEWS_VIDEO_ID+"/part-"+part.id,ownerId:sharedListeningOwner,
+    startedAt:newsState[part.id].startedAt,...flowStatus,synced:!!newsState[part.id].remoteSaved});
 }
 function submitNewsPart(partId,restoring=false){
   var part=getNewsPart(partId);
@@ -226,6 +232,7 @@ function submitNewsPart(partId,restoring=false){
   if(note)note.textContent="Câu sai vẫn chưa hiện đáp án. Bấm vào câu màu đỏ để nghe lại đúng đoạn.";
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
+  updateNewsProgress(part.id);
   var streakAnswered=part.questions.filter(function(q){return readNewsAnswer(part,q).trim()!=="";}).length;
   if(!restoring){
     st.submissionId=st.submissionId||LearningCore.uuid();
@@ -241,6 +248,7 @@ function submitNewsPart(partId,restoring=false){
       submissionId:st.submissionId,details:{answered:streakAnswered}
     }).then(function(){
       st.remoteSaved=true;
+      updateNewsProgress(part.id);
       if(!st.activityTracked&&streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function"){
         st.activityTracked=true;
         window.recordTutoringActivity("listening_news_part");
@@ -355,6 +363,7 @@ function renderNews(){
 
 var persistListening=function(){};
 function renderNewsVideo(){
+  sharedListeningOwner=LearningCore.userId();
   NEWS_PARTS.forEach(function(part){newsState[part.id]={submitted:false,answersVisible:false,results:{},startedAt:Date.now()};});
   activeNewsPart=1;
   var mount=document.getElementById("pageMount");
