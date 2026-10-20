@@ -28,41 +28,51 @@ const assert=require("node:assert/strict");
   await page.locator('[data-g21="open"]').click();
   await page.locator(".g21-main").waitFor({timeout:20000});
   assert.match(await page.locator(".g21-main").innerText(),/Cơ chế đảo trợ động từ/);
-  assert.equal(await page.locator(".g21-main .g21-question").count(),2);
+  assert.equal(await page.locator(".g21-main .g21-question").count(),1);
+  await page.locator('[data-g21="detect"][data-id="l1q1"][data-index="0"]').click();
+  await page.locator('[data-g21="discovery-next"][data-id="l1q1"]').click();
   await page.locator('[data-g21="answer"][data-id="l1q1"][data-index="0"]').click();
-  assert.match(await page.locator("#g21-l1q1 .g21-feedback").innerText(),/Cần kiểm tra lại/);
+  assert.match(await page.locator("#g21-l1q1 .g21-feedback").innerText(),/Chưa đúng/);
   await page.locator('[data-g21="answer"][data-id="l1q1"][data-index="1"]').click();
   assert.match(await page.locator("#g21-l1q1 .g21-feedback").innerText(),/Chính xác/);
+  await page.locator('[data-g21="guided-next"]').click();
+  await page.locator('[data-g21="detect"][data-id="l1q2"][data-index="0"]').click();
+  await page.locator('[data-g21="discovery-next"][data-id="l1q2"]').click();
   await page.locator('[data-g21="answer"][data-id="l1q2"][data-index="0"]').click();
   await page.reload({waitUntil:"domcontentloaded"});
   await page.locator(".g21-main").waitFor({timeout:20000});
   assert.match(await page.locator(".g21-progress-track .g21-progress-label").innerText(),/1\/7/);
-  console.log("TOPIC 21 LEARN + RESUME: OK");
+  console.log("TOPIC 21 GUIDED LEARN + RESUME: OK");
   await page.locator('[data-g21="tab"][data-tab="practice"]').click();
   assert.equal(await page.locator(".g21-main .g21-feedback").count(),0);
-  async function answerWholeStage(kind){
+  async function answerWholeStage(kind,wrongFirst=false){
     const counts={practice:16,mastery:10};
-    const pages=Math.ceil(counts[kind]/4);
-    for(let p=0;p<pages;p++){
-      await page.evaluate(({kind,pageIndex})=>{
-        const questions=window.GrammarTopic21Data[kind].slice(pageIndex*4,pageIndex*4+4);
-        for(const q of questions){
-          const btn=document.querySelector('[data-g21="answer"][data-kind="'+kind+'"][data-id="'+q.id+'"][data-index="'+q.correct+'"]');
-          if(!btn)throw Error("Missing visible answer for "+q.id);
-          btn.click();
-        }
-      },{kind,pageIndex:p});
-      if(p<pages-1)await page.locator('[data-g21="page"][data-kind="'+kind+'"][data-page="'+(p+1)+'"]').click();
+    for(let p=0;p<counts[kind];p++){
+      await page.evaluate(({kind,index,wrongFirst})=>{
+        const q=window.GrammarTopic21Data[kind][index];
+        const answer=wrongFirst&&index===0?[0,1,2,3].find(i=>i!==q.correct):q.correct;
+        const btn=document.querySelector('[data-g21="answer"][data-kind="'+kind+'"][data-id="'+q.id+'"][data-index="'+answer+'"]');
+        if(!btn)throw Error("Expected visible question "+q.id);
+        btn.click();
+      },{kind,index:p,wrongFirst});
+      if(p<counts[kind]-1)await page.locator('[data-g21="page"][data-kind="'+kind+'"][data-page="'+(p+1)+'"]').click();
     }
   }
-  await answerWholeStage("practice");
+  assert.equal(await page.locator(".g21-assessment .g21-question").count(),1);
+  await answerWholeStage("practice",true);
   assert.equal(await page.locator(".g21-main .g21-feedback").count(),0);
   await page.locator('[data-g21="submit"][data-kind="practice"]').click();
-  assert.match(await page.locator(".g21-assessment").innerText(),/16\/16/);
-  assert.equal(await page.locator(".g21-main .g21-feedback.good").count(),4,"Four questions shown per page");
-  console.log("TOPIC 21 PAGINATED PRACTICE: OK");
+  assert.match(await page.locator(".g21-assessment").innerText(),/15\/16/);
+  assert.equal(await page.locator(".g21-main .g21-feedback").count(),1);
+  await page.locator('.g21-tabs [data-g21="tab"][data-tab="clinic"]').click();
+  const repair=page.locator('.g21-repair[data-g21-skill="mechanics"]');
+  await repair.locator("summary").click();
+  assert.match(await repair.locator(".g21-broken").innerText(),/Rarely does she makes/);
+  await repair.locator('[data-g21="detective-answer"][data-index="0"]').click();
+  assert.match(await repair.locator(".g21-feedback").innerText(),/sửa đúng/);
+  console.log("TOPIC 21 SINGLE-QUESTION PRACTICE + ERROR DETECTIVE: OK");
   await page.locator('.g21-tabs [data-g21="tab"][data-tab="mastery"]').click();
-  assert.equal(await page.locator(".g21-main .g21-question").count(),4);
+  assert.equal(await page.locator(".g21-main .g21-question").count(),1);
   await answerWholeStage("mastery");
   await page.locator('[data-g21="submit"][data-kind="mastery"]').click();
   assert.match(await page.locator(".g21-main").innerText(),/Đạt chuẩn thử nghiệm/);
