@@ -38,9 +38,10 @@ function setup(){
     requests.push({url,options});
     return {ok:!fail,status:fail?503:201};
   };
-  const context=vm.createContext({window,localStorage,fetch,console,document:{},crypto:{randomUUID:()=> "00000000-0000-4000-8000-000000000001"}});
+  const document={};
+  const context=vm.createContext({window,localStorage,fetch,console,document,crypto:{randomUUID:()=> "00000000-0000-4000-8000-000000000001"}});
   vm.runInContext(read("core/learning-core.js"),context,{filename:"core/learning-core.js"});
-  return {core:window.LearningCore,data,requests,setUser:x=>user=x,setFail:x=>fail=x};
+  return {core:window.LearningCore,data,requests,document,setUser:x=>user=x,setFail:x=>fail=x};
 }
 
 test("Lesson IDs and routes are unique and discoverable",()=>{
@@ -88,4 +89,54 @@ test("Core module never exposes results to another account",()=>{
   core.writeDraft("listening","news/video-a",{part:1,submitted:true});
   setUser("learner-b");
   assert.equal(core.readDraft("listening","news/video-a"),null);
+});
+
+test("Legacy Grade 10 midterm routes and all new routes remain intact",()=>{
+  const html=read("index.html");
+  assert.match(html,/grade-10\\/mid-term-test\\/test-/);
+  assert.match(html,/renderG10MidTermTest/);
+  assert.match(html,/grade-12\\/reading\\/robots-and-us/);
+  assert.match(html,/LearningCore\\.register/);
+  assert.match(html,/LearningCore\\.renderRoute/);
+  for(const file of ["grade10-midterm.js","grade10-midterm-source.txt","school-ui.js","listening-news.js","listening-entertainment.js","grade12-reading.js"])
+    assert.ok(fs.existsSync(path.join(root,file)),"Missing legacy feature: "+file);
+});
+
+test("Listening progress restores MCQ, text and submitted state without credit twice",()=>{
+  const {core,document,setUser}=setup();
+  const radioA={value:"A",checked:false},radioB={value:"B",checked:false},fill={value:""};
+  const listeners={};
+  const panel={isConnected:true,addEventListener:(type,callback)=>{listeners[type]=callback}};
+  document.getElementById=id=>id==="video-panel"?panel:id==="ent-p1-input-2"?fill:null;
+  document.querySelectorAll=()=>[radioA,radioB];
+  const parts=[{id:1,questions:[{id:1,type:"mc"},{id:2,type:"fill"}]}];
+  const state={1:{submitted:false,startedAt:1,answersVisible:false}};
+  let restores=0;
+  const opts={id:"video-unique-id",parts,state,prefix:"ent",panelId:"video-panel",
+    readAnswer:(p,q)=>q.type==="mc"?(radioB.checked?"B":radioA.checked?"A":""):fill.value,
+    restoreSubmitted:(id,silent)=>{assert.equal(silent,true);restores++;state[1].submitted=true;},
+    restoreAnswers:()=>{},updateProgress:()=>{}};
+  core.attachListening(opts);
+  radioB.checked=true;fill.value="ocean";listeners.change();
+  state[1].submitted=true;
+  const saved=core.readDraft("listening","video-unique-id");
+  assert.equal(saved[1].answers[1],"B");assert.equal(saved[1].answers[2],"ocean");
+  // A rerender uses a fresh set of controls and recovers the saved work.
+  state[1]={submitted:false,startedAt:123,answersVisible:false};
+  radioA.checked=false;radioB.checked=false;fill.value="";
+  core.attachListening(opts);
+  assert.equal(radioB.checked,true);assert.equal(fill.value,"ocean");
+  assert.equal(restores,0,"Submission must not be restored until its state has been persisted");
+  setUser("learner-b");
+  radioB.checked=false;fill.value="other";
+  listeners.change();
+  assert.equal(core.readDraft("listening","video-unique-id"),null);
+});
+
+test("Midterm answers are stored under the learner and completion is guarded",()=>{
+  const source=read("grade10-midterm.js");
+  assert.match(source,/function mtRestore\\(test\\)/);
+  assert.match(source,/LearningCore\\.writeDraft\\("exam"/);
+  assert.match(source,/if\\(done===test\\.questions\\.length&&!mtState\\.recorded\\)/);
+  assert.match(source,/category:"exam"/);
 });
