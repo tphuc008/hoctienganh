@@ -25,3 +25,4 @@ jobs:
         run: |
           node tests/browser-smoke.cjs
           node tests/manifest-browser.cjs
+          node tests/flow-browser.cjs
