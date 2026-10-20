@@ -66,24 +66,63 @@ function topbar(){
 }
 function hero(){
   const done=completeCount();
-  return '<header class="g21-hero"><div class="g21-hero-copy"><span class="g21-label">CHUYÊN ĐỀ 21 · GRAMMAR</span>'+
+  return '<header class="g21-hero"><div class="g21-hero-copy"><span class="g21-label">GRAMMAR STUDIO <span aria-hidden="true">/</span> CHUYÊN ĐỀ 21</span>'+
     '<h1>Đảo ngữ <span>Inversions</span></h1>'+
-    '<p>Học từng cấu trúc, hiểu vì sao cần đảo và áp dụng vào câu mới.</p></div>'+
-    '<div class="g21-hero-progress"><strong>'+done+'/7</strong><span>bài đã hoàn thành</span></div></header>';
+    '<p>Học rõ từng cấu trúc. Luyện một câu mỗi lần. Xem lời giải khi cần.</p></div>'+
+    '<div class="g21-hero-progress"><strong>'+done+' / 7</strong><span>bài đã hoàn thành</span></div></header>';
 }
 function tabs(){
   return '<nav class="g21-tabs" aria-label="Các giai đoạn tự học">'+tabNames.map(t=>
    '<button type="button" class="g21-tab'+(state.tab===t[0]?" active":"")+'" data-g21="tab" data-tab="'+t[0]+'" aria-current="'+(state.tab===t[0]?"step":"false")+'">'+esc(t[1])+'</button>').join("")+'</nav>';
 }
+function desktopOutlineOpen(){
+  return typeof window.matchMedia==="function"&&window.matchMedia("(min-width: 1040px)").matches;
+}
 function side(){
-  return '<div class="g21-course-outline"><details class="g21-outline" aria-label="Danh sách bài học">'+
-    '<summary><span class="g21-outline-icon" aria-hidden="true">☰</span><span><strong>7 bài học trong chuyên đề</strong><small>Chọn bài khác hoặc học lại phần đã hoàn thành</small></span><span class="g21-outline-chevron">⌄</span></summary>'+
+  const selected=d.sections[state.lesson];
+  return '<aside class="g21-course-outline g21-reader-rail">'+
+    '<details class="g21-outline" aria-label="Danh sách bài học"'+(desktopOutlineOpen()?' open':'')+'>'+
+    '<summary><span class="g21-outline-icon" aria-hidden="true">☰</span><span><strong>Lộ trình bài học</strong>'+
+      '<small>Bài '+(state.lesson+1)+'/7 · '+esc(selected.title)+'</small></span><span class="g21-outline-chevron">⌄</span></summary>'+
     '<div class="g21-outline-body">'+progressHTML()+
-    '<div class="g21-side-list">'+d.sections.map((s,i)=>{
-      const done=s.checks.every(q=>state.guided[q.id]?.correct===true);
-      return '<button type="button" class="g21-lesson-btn'+(state.lesson===i?" active":"")+(done?" done":"")+'" data-g21="lesson" data-index="'+i+'">'+
-      '<span class="g21-step">'+(done?"✓":i+1)+'</span><span>'+esc(s.title)+'</span></button>';
-    }).join("")+'</div></div></details></div>';
+    '<div class="g21-side-list">'+d.sections.map((sec,i)=>{
+      const done=sec.checks.every(q=>state.guided[q.id]?.correct===true);
+      return '<button type="button" class="g21-lesson-btn'+(state.lesson===i?' active':'')+(done?' done':'')+'" data-g21="lesson" data-index="'+i+'"'+(state.lesson===i?' aria-current="step"':'')+'>'+
+      '<span class="g21-step">'+(done?'✓':i+1)+'</span><span>'+esc(sec.title)+'</span></button>';
+    }).join('')+'</div></div></details>'+
+    '<p class="g21-rail-foot">Học theo nhịp riêng. Kết quả của bạn được lưu trên thiết bị này.</p>'+
+    '</aside>';
+}
+function stageRail(kind){
+  if(kind==='practice'||kind==='mastery'){
+    const items=kind==='practice'?d.practice:d.mastery,picks=state[kind],submitted=state[kind+'Submitted'];
+    const answered=items.filter(q=>Number.isInteger(picks[q.id])).length;
+    const current=Math.max(0,Math.min(items.length-1,Number(state.pages[kind])||0));
+    const label=kind==='practice'?'Luyện tập':'Kiểm tra';
+    return '<aside class="g21-course-outline g21-stage-rail">'+
+      '<div class="g21-rail-heading"><span class="g21-label">QUESTION MAP</span><strong>'+label+'</strong>'+
+      '<p>'+answered+'/'+items.length+' câu đã trả lời</p></div>'+
+      '<div class="g21-progress" aria-label="Đã chọn '+answered+' trên '+items.length+' câu"><span style="width:'+Math.round(answered/items.length*100)+'%"></span></div>'+
+      '<nav class="g21-number-grid" aria-label="Chọn câu hỏi đã làm">'+items.map((q,i)=>{
+        const visited=Number.isInteger(picks[q.id]);
+        const canGo=submitted||i===current||visited;
+        return '<button type="button" class="g21-number-btn'+(visited?' answered':'')+(i===current?' active':'')+
+          '" data-g21="jump" data-kind="'+kind+'" data-page="'+i+'"'+(canGo?'':' disabled')+
+          (i===current?' aria-current="step"':'')+' aria-label="Câu '+(i+1)+(visited?', đã trả lời':'')+'">'+(i+1)+'</button>';
+      }).join('')+'</nav>'+
+      '<p class="g21-rail-foot">Chọn số câu đã làm để xem lại. Đáp án và giải thích chỉ hiện sau khi nộp.</p>'+
+      '</aside>';
+  }
+  const groups=scoreBySkill();
+  return '<aside class="g21-course-outline g21-stage-rail g21-clinic-rail">'+
+    '<div class="g21-rail-heading"><span class="g21-label">SKILL MAP</span><strong>7 nhóm kiến thức</strong>'+
+      '<p>Điểm số từ các bài đã nộp</p></div>'+
+    '<div class="g21-rail-skills">'+groups.map(gr=>'<div class="g21-rail-skill"><span>'+esc(gr.skill.title)+'</span><strong>'+
+       (gr.total?gr.correct+'/'+gr.total:'—')+'</strong></div>').join('')+'</div>'+
+    '<p class="g21-rail-foot">Mở từng nhóm lỗi trong phần chính để luyện sửa câu.</p></aside>';
+}
+function stageFrame(kind,content){
+  return '<div class="g21-layout g21-stage-layout">'+stageRail(kind)+content+'</div>';
 }
 function examples(s){
   return '<div class="g21-example-list">'+s.examples.map((x,i)=>
@@ -391,7 +430,7 @@ function render(preserveScroll){
   mount.style.display="block";
   mount.innerHTML='<div class="g21">'+(location.hash.replace(/^#/,"")==="teacher/grammar"?
     home():topbar()+hero()+tabs()+
-    (state.tab==="learn"?learn():state.tab==="practice"?exam("practice"):state.tab==="clinic"?clinic():state.tab==="mastery"?exam("mastery"):review())+
+    (state.tab==="learn"?learn():state.tab==="practice"?stageFrame("practice",exam("practice")):state.tab==="clinic"?stageFrame("clinic",clinic()):state.tab==="mastery"?stageFrame("mastery",exam("mastery")):stageFrame("review",review()))+
     '<p class="g21-foot">Sources: <a href="https://dictionary.cambridge.org/grammar/british-grammar/inversion" target="_blank" rel="noopener noreferrer">Cambridge Grammar · Inversion</a> · <a href="https://learnenglish.britishcouncil.org/free-resources/grammar/c1/inversion-after-negative-adverbials" target="_blank" rel="noopener noreferrer">British Council · Negative adverbials</a>. Điểm và tiến độ bản thử nghiệm lưu cục bộ theo tài khoản, chưa đồng bộ trên các thiết bị.</p>')+'</div>';
   if(opened.length&&mount.querySelectorAll){
     mount.querySelectorAll(".g21-repair").forEach(node=>{if(opened.includes(node.getAttribute("data-g21-skill")))node.open=true;});
@@ -469,6 +508,14 @@ mount.addEventListener("click",function(e){
     save();render(true);return;
   }
   if(a==="prev"||a==="next"){state.lesson=Math.min(d.sections.length-1,Math.max(0,state.lesson+(a==="next"?1:-1)));save();render(false);return;}
+  if(a==="jump"){
+    const kind=btn.dataset.kind,items=kind==="practice"?d.practice:kind==="mastery"?d.mastery:null;
+    if(!items)return;
+    const n=Number(btn.dataset.page);
+    if(!Number.isInteger(n)||n<0||n>=items.length)return;
+    if(!state[kind+"Submitted"]&&!Number.isInteger(state[kind]?.[items[n].id])&&n!==(Number(state.pages[kind])||0))return;
+    state.pages[kind]=n;save();render(false);return;
+  }
   if(a==="page"){
     const kind=btn.dataset.kind;
     const allowed={practice:d.practice.length,mastery:d.mastery.length,review:d.review.length};
