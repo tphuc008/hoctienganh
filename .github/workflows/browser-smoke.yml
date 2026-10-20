@@ -28,6 +28,7 @@ jobs:
           node tests/browser-smoke.cjs
           node tests/manifest-browser.cjs
           node tests/lesson-quiz-print-browser.cjs
+          node tests/universal-print-browser.cjs
           node tests/flow-browser.cjs
           node tests/history-browser.cjs
           node tests/interface-performance-browser.cjs
