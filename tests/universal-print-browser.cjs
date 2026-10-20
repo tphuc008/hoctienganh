@@ -73,9 +73,10 @@ function pdfText(buf){
   assert.ok(grammar.groups[0].questions.some(x=>!x.options.length),"Word form input should be included");
 
   await go("school/grade-10/midterm-1/set-1",".exercise-intro");
-  const school=await page.evaluate(()=>window.getUniversalSchoolPrintData?.());
+  const school=await page.evaluate(()=>window.UniversalPrint?.source()?.get());
+  assert.ok(school?.groups?.length,"School route must resolve printable question data");
   assert.equal(school.groups[0].questions.length,12);
-  assert.ok(school.groups[0].questions.every(x=>x.detailHtml));
+  assert.ok(school.groups[0].questions.every(x=>x.detailHtml||x.details?.length));
   z=await popup("key");assert.match(z.text,/ANSWER KEY/);await z.tab.close();
 
   await go("grade-12/reading/marketing-and-the-information-age",".exercise-intro");
