@@ -80,9 +80,6 @@ const assert=require("node:assert/strict");
   ]){
     await open(route,panel);
     await page.locator(panel+" .learning-flow-badge").first().waitFor();
-    const item=await page.evaluate(prefix=>{
-      return Object.values(LearningFlow).length, null
-    },slug);
     const input=page.locator(panel+" .listening-part.active input").first();
     const type=await input.getAttribute("type");
     if(type==="radio")await input.check();else await input.fill("some answer");
