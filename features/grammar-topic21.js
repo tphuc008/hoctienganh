@@ -25,6 +25,10 @@ function load(uid){
     if(!Array.isArray(d.sections)||!d.sections[state.lesson])state.lesson=0;
     if(!tabNames.some(t=>t[0]===state.tab))state.tab="learn";
     state.pages=Object.assign({practice:0,mastery:0,review:0},state.pages||{});
+    if(state.exerciseLayoutVersion!==2){
+      for(const kind of ["practice","mastery"])state.pages[kind]=Math.max(0,Number(state.pages[kind])||0)*4;
+      state.exerciseLayoutVersion=2;
+    }
     for(const item of ["guidedDiscovery","guidedStages","guidedFocus","detective"]){if(!state[item]||typeof state[item]!=="object")state[item]={};}
   }catch(_){state=initial;}
 }
@@ -249,14 +253,17 @@ function transfer(){
     (state.writeReveals[w.id]?'<div class="g21-feedback"><strong>Model answer (không chấm máy)</strong><p>'+esc(w.model)+'</p><p><b>Checklist:</b></p><ul>'+w.checks.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>':"")+
    '</div>').join("");
 }
-const EXAM_PAGE_SIZE=4;
+const EXAM_PAGE_SIZE=1;
 function pageNav(kind,total){
   const count=Math.ceil(total/EXAM_PAGE_SIZE);
   const current=Math.max(0,Math.min(count-1,Number(state.pages?.[kind])||0));
-  return '<nav class="g21-page-nav" aria-label="Điều hướng câu hỏi"><span>Trang '+(current+1)+' / '+count+'</span>'+
+  const question=(kind==="practice"?d.practice:kind==="mastery"?d.mastery:d.review)[current];
+  const selected=Number.isInteger(state[kind]?.[question?.id]);
+  const submitted=Boolean(state[kind+"Submitted"]);
+  return '<nav class="g21-page-nav" aria-label="Điều hướng câu hỏi"><span>Câu '+(current+1)+' / '+count+'</span>'+
     '<div class="g21-page-controls">'+
       '<button class="g21-btn" data-g21="page" data-kind="'+kind+'" data-page="'+(current-1)+'"'+(current===0?" disabled":"")+'>← Trước</button>'+
-      '<button class="g21-btn" data-g21="page" data-kind="'+kind+'" data-page="'+(current+1)+'"'+(current===count-1?" disabled":"")+'>Tiếp →</button>'+
+      '<button class="g21-btn primary" data-g21="page" data-kind="'+kind+'" data-page="'+(current+1)+'"'+(current===count-1||(!selected&&!submitted)?" disabled":"")+'>Câu tiếp →</button>'+
     '</div></nav>';
 }
 function exam(kind){
@@ -277,7 +284,7 @@ function exam(kind){
       scoreHeader(items,picks,kind))+
     (master&&submitted?'<div class="g21-note '+(isMastered()?"form":"warning")+'"><b>MASTERY STATUS</b>'+
        '<p>'+(isMastered()?"Đạt chuẩn thử nghiệm. Có thể chuyển sang phần ôn tập.":"Chưa đạt chuẩn thử nghiệm. Hãy vào Chữa lỗi để học lại các kỹ năng còn yếu.")+'</p></div>':"")+
-    '<div class="g21-sectionhead g21-assessment-heading"><h3>Câu '+(start+1)+'–'+Math.min(items.length,start+EXAM_PAGE_SIZE)+'</h3><span>'+items.length+' câu tất cả</span></div>'+
+    '<div class="g21-sectionhead g21-assessment-heading"><h3>Câu '+(start+1)+' / '+items.length+'</h3><span>Một câu mỗi lần</span></div>'+
     items.slice(start,start+EXAM_PAGE_SIZE).map((q,i)=>question(q,start+i+1,kind)).join("")+
     pageNav(kind,items.length)+
     '<div class="g21-actions g21-submit-actions">'+
@@ -288,38 +295,54 @@ function exam(kind){
     (!master&&submitted?'<details class="g21-more g21-transfer"><summary>Thử thêm 2 câu viết lại câu <span aria-hidden="true">⌄</span></summary><div class="g21-more-body">'+transfer()+'</div></details>':"")+
     '</article>';
 }
+function detectiveChallenge(q){
+  const record=state.detective[q.id];
+  const pick=record?.pick,solved=record?.solved===true;
+  return '<article class="g21-question g21-detective" id="g21-'+q.id+'">'+
+   '<div class="g21-qmeta"><span>ERROR DETECTIVE · FIND & FIX</span></div>'+
+   '<p class="g21-prompt">Câu dưới đây có lỗi đảo ngữ. Hãy chọn cách viết đúng.</p>'+
+   '<div class="g21-broken"><span>CÂU CÓ LỖI</span><p>'+esc(q.wrongSentence)+'</p></div>'+
+   '<div class="g21-options g21-fix-options">'+q.choices.map((choice,i)=>
+      '<button class="g21-option'+(pick===i?" selected":"")+'" type="button" data-g21="detective-answer" data-id="'+q.id+'" data-index="'+i+'" aria-pressed="'+(pick===i)+'"'+(solved?" disabled":"")+'>'+
+      '<span class="g21-letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(choice)+'</span></button>'
+   ).join("")+'</div>'+
+   (Number.isInteger(pick)?'<div class="g21-feedback '+(solved?"good":"bad")+'" role="status"><strong>'+
+     (solved?"✓ Bạn đã sửa đúng lỗi!":"Chưa đúng — hãy thử cách sửa còn lại.")+'</strong>'+
+     '<p>'+(solved?esc(q.why):esc(q.clues[0]))+'</p>'+
+     (solved?'<details class="g21-more g21-explain-more"><summary>Xem cách phát hiện lỗi <span aria-hidden="true">⌄</span></summary><div class="g21-more-body"><ol class="g21-rulelist">'+q.clues.map(v=>'<li>'+esc(v)+'</li>').join("")+'</ol></div></details>':"")+
+     '</div>':"")+
+   '</article>';
+}
 function clinic(){
   const groups=scoreBySkill();
   if(!state.practiceSubmitted&&!state.masterySubmitted){
-    return '<article class="g21-main"><span class="g21-label">CHỮA LỖI</span><h2>Học lại đúng phần đang yếu</h2>'+
-      '<p class="g21-lead">Sau khi nộp một bài luyện tập hoặc kiểm tra, hệ thống sẽ phân loại các lỗi và hướng dẫn bạn học lại.</p>'+
-      '<div class="g21-empty">Chưa có bài đã nộp để phân tích.</div>'+
-      '<div class="g21-actions"><button class="g21-btn primary" data-g21="tab" data-tab="practice">Đến phần luyện tập →</button></div></article>';
+    return '<article class="g21-main"><span class="g21-label">CHỮA LỖI</span><h2>Tìm và sửa lỗi đảo ngữ</h2>'+
+     '<p class="g21-lead">Hoàn thành Practice hoặc Mastery để hệ thống xác định nhóm lỗi và mở bài sửa lỗi tương ứng.</p>'+
+     '<div class="g21-empty">Chưa có bài đã nộp để phân tích.</div>'+
+     '<div class="g21-actions"><button class="g21-btn primary" data-g21="tab" data-tab="practice">Đến phần luyện tập →</button></div></article>';
   }
   const weak=groups.filter(x=>x.wrong.length>0).sort((a,b)=>a.correct/(a.total||1)-b.correct/(b.total||1));
-  return '<article class="g21-main g21-clinic"><span class="g21-label">CHỮA LỖI · ERROR CLINIC</span>'+
-    '<h2>Những phần bạn cần ôn lại</h2>'+
-    '<p class="g21-lead">Kết quả dựa trên những câu đã nộp. Chọn một nhóm kiến thức bên dưới để xem giải thích và luyện bù.</p>'+
+  return '<article class="g21-main g21-clinic"><span class="g21-label">ERROR CLINIC · FIND & FIX</span>'+
+    '<h2>Tìm lỗi, rồi tự sửa</h2>'+
+    '<p class="g21-lead">Chỉ những nhóm kiến thức bạn trả lời sai mới được đưa ra luyện lại. Mở một nhóm để làm một câu sửa lỗi ngắn.</p>'+
     '<div class="g21-sectionhead"><h3>Tổng quan 7 kỹ năng</h3></div>'+
     '<div class="g21-skill-list">'+groups.map(gr=>{
       const pct=gr.total?Math.round(100*gr.correct/gr.total):0;
-      return '<div class="g21-skill"><div class="g21-skill-head"><h3>'+esc(gr.skill.title)+'</h3>'+
-        '<span class="g21-pill">'+(gr.total?gr.correct+"/"+gr.total:"Chưa kiểm tra")+'</span></div>'+
-        '<div class="g21-meter" aria-label="'+pct+' phần trăm đúng"><span style="width:'+pct+'%"></span></div></div>';
+      return '<div class="g21-skill"><div class="g21-skill-head"><h3>'+esc(gr.skill.title)+'</h3><span class="g21-pill">'+(gr.total?gr.correct+"/"+gr.total:"Chưa kiểm tra")+'</span></div>'+
+       '<div class="g21-meter" aria-label="'+pct+' phần trăm đúng"><span style="width:'+pct+'%"></span></div></div>';
     }).join("")+'</div>'+
-    '<div class="g21-sectionhead"><h3>Ôn tập đúng điểm yếu</h3><span>'+weak.length+' nhóm cần xem lại</span></div>'+
+    '<div class="g21-sectionhead"><h3>Bài tập sửa lỗi</h3><span>'+weak.length+' nhóm cần ôn</span></div>'+
     (weak.length?weak.map(gr=>{
       const lesson=d.sections.findIndex(s=>s.id===gr.skill.id);
-      const repair=d.repairs.find(q=>q.skill===gr.skill.id);
-      return '<details class="g21-more g21-repair"><summary><strong>'+esc(gr.skill.title)+'</strong>'+
-        '<small>'+gr.wrong.length+' câu sai</small><span aria-hidden="true">⌄</span></summary>'+
-        '<div class="g21-more-body"><p>'+esc(d.sections[lesson].misconception)+'</p>'+
-        '<div class="g21-actions"><button class="g21-btn" data-g21="lesson" data-index="'+lesson+'">Xem lại bài '+(lesson+1)+' →</button></div>'+
-        (repair?'<div class="g21-sectionhead"><h3>Repair question · Câu luyện bù</h3></div>'+question(repair,1,"repair"):"")+
-        '</div></details>';
-      }).join(""):
-      '<div class="g21-empty">Bạn chưa có câu sai trong các bài đã nộp. Có thể tiếp tục sang Kiểm tra để đánh giá với các câu hỏi mới.</div>')+
-    '</article>';
+      const detective=d.detectives.find(x=>x.skill===gr.skill.id);
+      return '<details class="g21-more g21-repair" data-g21-skill="'+esc(gr.skill.id)+'">'+
+       '<summary><strong>'+esc(gr.skill.title)+'</strong><small>'+gr.wrong.length+' câu sai</small><span aria-hidden="true">⌄</span></summary>'+
+       '<div class="g21-more-body"><p>'+esc(d.sections[lesson].misconception)+'</p>'+
+       '<div class="g21-actions"><button class="g21-btn" data-g21="lesson" data-index="'+lesson+'">Xem lại bài '+(lesson+1)+' →</button></div>'+
+       '<div class="g21-sectionhead"><h3>Repair question · Tìm và sửa lỗi</h3></div>'+
+       (detective?detectiveChallenge(detective):"")+'</div></details>';
+    }).join(""):'<div class="g21-empty">Chưa phát hiện lỗi trong những câu bạn đã nộp. Có thể tiếp tục sang Kiểm tra để thử sức với tình huống mới.</div>')+
+   '</article>';
 }
 function dateText(timestamp){
   try{return new Intl.DateTimeFormat("vi-VN",{dateStyle:"medium"}).format(new Date(timestamp))}catch(_){return "—"}
