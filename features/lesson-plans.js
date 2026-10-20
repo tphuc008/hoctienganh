@@ -6,11 +6,11 @@
   "use strict";
   const HOME="grade-12/lesson-plans";
   const mount=document.getElementById("pageMount");
-  let unitId=7,access={loading:false,teacher:false,unlocked:false,solutions:null,error:""},
+  let unitId=7,page="lesson",accessRequestId=0,access={loading:false,teacher:false,unlocked:false,solutions:null,error:""},
     mcqCount=0,readingCount=0,quiz=null,printMode="questions",
     originalAnswers={},printOpenedPreview=false;
   const catalog=global.LessonPlanCatalog;
-    function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
   function docLink(input){
     try{const u=new URL(input);return u.protocol==="https:"&&u.hostname==="docs.google.com"&&/^\/document\/d\/[^/]+/.test(u.pathname)?u.href:"";}
     catch(_){return ""}
@@ -43,20 +43,39 @@
       }).join("")+'</div>':'<div class="empty"><b>Chưa có Unit</b>Nội dung sẽ được thêm khi giáo viên xuất bản.</div>');
     global.scrollTo(0,0);
   }
+  function unitRoute(u,sectionId){
+    const base=HOME+"/unit-"+Number(u.id);
+    return sectionId==="lesson"?base:base+"/"+sectionId;
+  }
+  function pageLink(u,sectionId,label){
+    const active=page===sectionId;
+    return '<a class="'+(active?"is-active":"")+'" href="#'+esc(unitRoute(u,sectionId))+'"'+
+      (active?' aria-current="page"':"")+'>'+label+'</a>';
+  }
   function head(u){
     const url=docLink(u.docUrl),original=Array.isArray(u.originalExercises)?u.originalExercises.length:0;
-    return '<div class="breadcrumbs">'+nav("grade-12","Lớp 12")+'<span>›</span>'+nav(HOME,"Lesson Plans & Practice")+
-      '<span>›</span><span>'+esc(u.title||"Unit "+u.id)+'</span></div>'+
+    const sectionName={lesson:"Bài học & câu hỏi",practice:"Luyện tập thêm",print:"In đề"}[page]||"Bài học";
+    return '<div class="breadcrumbs">'+nav("grade-12","Lớp 12")+'<span>›</span>'+
+      nav(HOME,"Lesson Plans & Practice")+'<span>›</span>'+
+      nav(unitRoute(u,"lesson"),u.title||"Unit "+u.id)+'<span>›</span><span>'+sectionName+'</span></div>'+
       '<div class="lp-preview-hero lp-inline-hero"><div class="lp-preview-headline"><div>'+
       '<div class="lp-eyebrow">GRADE 12 / UNIT '+String(u.id).padStart(2,"0")+'</div>'+
       '<h1>'+esc(u.title||"Unit "+u.id)+'</h1>'+
-      '<p>Bài học và câu hỏi gốc ngay trên website · '+original+' câu · Lời giải có kiểm soát</p></div>'+
+      '<p>'+sectionName+' · '+original+' câu hỏi gốc · Lời giải có kiểm soát</p></div>'+
       (url?'<a class="lp-inline-doc-link" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'" aria-label="Mở tài liệu gốc Google Docs">📄 Google Docs ↗</a>':"")+
       '</div></div>'+
-      '<nav class="lp-inline-nav" aria-label="Chuyển đến phần học">'+
-      '<button type="button" data-lp-scroll="lp-section-study">01 · Bài học &amp; câu hỏi</button>'+
-      '<button type="button" data-lp-scroll="lp-section-practice">02 · Luyện tập thêm</button>'+
-      '<button type="button" data-lp-scroll="lp-section-print">03 · In đề</button></nav>';
+      '<nav class="lp-page-nav" aria-label="Ba trang của bài học">'+
+      pageLink(u,"lesson","01 · Bài học & câu hỏi")+
+      pageLink(u,"practice","02 · Luyện tập thêm")+
+      pageLink(u,"print","03 · In đề")+'</nav>';
+  }
+  function pageFooter(u){
+    const ids=["lesson","practice","print"],index=ids.indexOf(page);
+    const previous=index>0?ids[index-1]:null,next=index<ids.length-1?ids[index+1]:null;
+    const labels={lesson:"Bài học & câu hỏi",practice:"Luyện tập thêm",print:"In đề"};
+    return '<div class="lp-page-footer">'+
+      (previous?'<a href="#'+esc(unitRoute(u,previous))+'">← '+labels[previous]+'</a>':'<span></span>')+
+      (next?'<a href="#'+esc(unitRoute(u,next))+'">'+labels[next]+' →</a>':'<span></span>')+'</div>';
   }
   function section(tag,title,detail){
     return '<div class="lp-preview-section-head"><div><div class="lp-eyebrow">'+tag+'</div><h2>'+title+
@@ -230,11 +249,22 @@
     unitId=Number(n);
     const oldY=global.scrollY||0;
     mount.style.display="block";
+    const screens={lesson,practice,print:printing};
+    const ids={lesson:"lp-section-study",practice:"lp-section-practice",print:"lp-section-print"};
     mount.innerHTML=head(u)+'<div class="lp-inline-page">'+
-      '<section class="lp-inline-section" id="lp-section-study">'+lesson(u)+'</section>'+
-      '<section class="lp-inline-section" id="lp-section-practice">'+practice(u)+'</section>'+
-      '<section class="lp-inline-section" id="lp-section-print">'+printing(u)+'</section></div>';
+      '<section class="lp-inline-section" id="'+ids[page]+'">'+screens[page](u)+'</section>'+
+      pageFooter(u)+'</div>';
     if(preserve)global.scrollTo(0,oldY);else global.scrollTo(0,0);
+  }
+  function openUnitPage(id,chosenPage){
+    const n=Number(id);
+    if(!getUnit(n)){location.hash=HOME;return}
+    if(n!==unitId){originalAnswers={};quiz=null;mcqCount=0;readingCount=0;printMode="questions";}
+    unitId=n;
+    page=["lesson","practice","print"].includes(chosenPage)?chosenPage:"lesson";
+    access={loading:true,teacher:false,unlocked:false,solutions:null,error:""};
+    renderUnit(n,false);
+    loadAccess(n);
   }
   async function callRest(path,opts){
     if(typeof global.ensureLearnerSession!=="function")throw Error("Cần đăng nhập tài khoản học sinh.");
@@ -250,6 +280,7 @@
   }
   async function loadAccess(n){
     const u=getUnit(n);if(!u)return;
+    const requestId=++accessRequestId;
     const key="grade12-unit"+n;
     access={loading:true,teacher:false,unlocked:false,solutions:null,error:""};
     if(unitId===n)renderUnit(n,true);
@@ -258,16 +289,16 @@
         callRest("lesson_teacher_roles?select=user_id&limit=1"),
         callRest("lesson_unlocks?select=unlocked&unit_key=eq."+encodeURIComponent(key)+"&limit=1")
       ]);
-      if(unitId!==n)return;
+      if(unitId!==n||requestId!==accessRequestId)return;
       access.teacher=Array.isArray(roles)&&roles.length>0;
       access.unlocked=Boolean(Array.isArray(status)&&status[0]?.unlocked);
       if(access.teacher||access.unlocked){
         const rows=await callRest("lesson_solutions?select=payload&unit_key=eq."+encodeURIComponent(key)+"&limit=1");
-        if(unitId!==n)return;
+        if(unitId!==n||requestId!==accessRequestId)return;
         access.solutions=Array.isArray(rows)&&Array.isArray(rows[0]?.payload)?rows[0].payload:[];
       }
-    }catch(e){if(unitId===n)access.error=e.message||"Không thể kiểm tra quyền";}
-    finally{if(unitId===n){access.loading=false;renderUnit(n,true);}}
+    }catch(e){if(unitId===n&&requestId===accessRequestId)access.error=e.message||"Không thể kiểm tra quyền";}
+    finally{if(unitId===n&&requestId===accessRequestId){access.loading=false;renderUnit(n,true);}}
   }
   async function changeUnlock(value){
     if(!access.teacher||access.loading)return;
@@ -305,11 +336,7 @@
       const get=attr=>button.getAttribute(attr);
       if(button.hasAttribute("data-lp-route")){location.hash=get("data-lp-route");return}
       if(!location.hash.includes(HOME+"/unit-"))return;
-      if(button.hasAttribute("data-lp-scroll")){
-        const id=get("data-lp-scroll");
-        const section=mount.querySelector("#"+id);
-        if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
-      }else if(button.hasAttribute("data-lp-refresh"))loadAccess(unitId);
+      if(button.hasAttribute("data-lp-refresh"))loadAccess(unitId);
       else if(button.hasAttribute("data-lp-unlock"))changeUnlock(get("data-lp-unlock")==="true");
       else if(button.hasAttribute("data-lp-start"))startQuiz();
       else if(button.hasAttribute("data-lp-exit")){quiz=null;renderUnit(unitId,true)}
@@ -349,5 +376,7 @@
   }
   bind();
   global.renderLessonPlansHome=home;
-  global.renderLessonPlansUnit=function(id){originalAnswers={};quiz=null;access={loading:false,teacher:false,unlocked:false,solutions:null,error:""};renderUnit(id,false);loadAccess(Number(id))};
+  global.renderLessonPlansUnit=function(id){openUnitPage(id,"lesson")};
+  global.renderLessonPlansPractice=function(id){openUnitPage(id,"practice")};
+  global.renderLessonPlansPrint=function(id){openUnitPage(id,"print")};
 })(window);

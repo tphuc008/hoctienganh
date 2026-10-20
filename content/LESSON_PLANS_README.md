@@ -106,3 +106,12 @@ The original Google Docs *student handout* is published as `originalExercises` (
 Each question renders its complete sentence and A–D choices inline. Only when the server grants access does an adjacent, expandable answer explanation appear. Answers are matched using `questionId` in the protected Supabase `lesson_solutions` payload. Do not add solutions, comments, or student-private material to `originalExercises`.
 
 The continuous page also contains after-class practice (published separately) and printing. Original questions can be printed even before the after-class bank has been published. Printing protected answer keys or explanations requires successful secure loading from Supabase.
+
+## Three separate Unit 7 pages
+
+The previous all-in-one layout has been split into three independently shareable route paths:
+- `#grade-12/lesson-plans/unit-7` — the original handout, all 40 student questions, and secure in-context explanations.
+- `#grade-12/lesson-plans/unit-7/practice` — teacher-published after-class MCQ and reading practice.
+- `#grade-12/lesson-plans/unit-7/print` — print original handout or selected practice, with keys only when Supabase authorizes access.
+
+All three pages share a compact Google Docs source link, a three-item navigation bar, and previous/next navigation. Switching pages in the same loaded session preserves in-browser student choice state and practice session state. Supabase authorization refreshes on navigation and answer payloads remain protected by RLS.

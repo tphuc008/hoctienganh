@@ -31,3 +31,28 @@ test("Continuous page includes protected, question-linked explanations",()=>{
  assert.doesNotMatch(js,/data-lp-tab/);
  assert.match(js,/loadAccess\(Number\(id\)\)/);
 });
+
+test("Unit 7 has three distinct, addressable learning pages",()=>{
+ const window={};
+ vm.runInNewContext(read("content/manifest.js"),{window,document:{},console});
+ const entries=window.ContentManifest.entries;
+ const pages=[
+   ["grade-12/lesson-plans/unit-7","renderLessonPlansUnit"],
+   ["grade-12/lesson-plans/unit-7/practice","renderLessonPlansPractice"],
+   ["grade-12/lesson-plans/unit-7/print","renderLessonPlansPrint"]
+ ];
+ for(const [route,handler] of pages){
+   const item=entries.find(x=>x.route===route);
+   assert.ok(item,"Missing Unit 7 page "+route);
+   assert.equal(item.kind,"handler");
+   assert.equal(item.handler,handler);
+ }
+ const js=read("features/lesson-plans.js");
+ assert.match(js,/const screens=\{lesson,practice,print:printing\}/);
+ assert.match(js,/screens\[page\]\(u\)/);
+ assert.match(js,/pageLink\(u,"lesson"/);
+ assert.match(js,/pageLink\(u,"practice"/);
+ assert.match(js,/pageLink\(u,"print"/);
+ assert.match(js,/requestId!==accessRequestId/);
+ assert.doesNotMatch(js,/lesson\(u\)\+'<\/section>'\+/);
+});
