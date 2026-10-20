@@ -248,6 +248,12 @@ function submit(automatic){
  renderReader();
  const qp=el("mis-question-pane");if(qp)qp.scrollTop=0;
  persistSubmission();
+ const submissionId=state.submissionId||(state.submissionId=newSubmissionId());
+ save();
+ LearningCore.submitPractice({category:"reading",slug:PATH,correct:score(),total:Q.length,
+   duration:Math.max(1,Math.min(LIMIT,Math.round(((state.submittedAt||Date.now())-state.startedAt)/1000))),
+   submissionId,details:{submissionType:state.submissionType||"manual"}
+ }).catch(e=>console.warn("Reading history sync is queued for retry",e));
  if(typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("reading_submission");
 }
 const MIS_SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
@@ -394,7 +400,27 @@ function exercise(){
  '<button class="primary" onclick="misContinue()">Bắt đầu làm bài →</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
-window.renderMISReadingHome=landing;
+window.renderMISReadingHome=function(){
+  landing();
+  const entries=LearningCore.list({category:"reading",grade:12,listing:true});
+  const grid=document.querySelector("#pageMount .exercise-grid");
+  if(!grid)return;
+  const label=document.querySelector("#pageMount .section-title span");
+  if(label)label.textContent=entries.length+" bài đọc";
+  const existing=read();
+  grid.innerHTML=entries.map(item=>{
+    const status=item.route===PATH&&existing?.startedAt
+      ?'<span class="chip">'+(existing.submitted?"Đã làm":"Đang làm dở")+'</span>':"";
+    return '<button type="button" class="exercise-card" data-reading-path="'+html(item.route)+'">'+
+      '<div class="exercise-icon">📖</div><h3>'+html(item.title)+'</h3>'+
+      '<p>'+html(item.description||"IELTS Academic Reading")+'</p>'+
+      '<div class="meta"><span class="chip">'+html(item.minutes||25)+' phút</span>'+
+      '<span class="chip">'+html(item.questions||14)+' câu</span>'+status+'</div></button>';
+  }).join("");
+  grid.querySelectorAll("[data-reading-path]").forEach(btn=>btn.addEventListener("click",()=>{
+    location.hash=btn.dataset.readingPath;
+  }));
+};
 window.renderMISReadingExercise=exercise;
 window.destroyMISReading=function(){
  stopTimer();document.body.classList.remove("mis-reading-mode");
