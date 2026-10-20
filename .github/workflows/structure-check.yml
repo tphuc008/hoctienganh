@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - feat/interface-performance-20261020
       - feat/unified-history-streak-20261020
       - feat/shared-quiz-lifecycle-20261020
       - fix/safe-structure-main-20261020
