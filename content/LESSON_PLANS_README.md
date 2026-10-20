@@ -97,3 +97,12 @@ solution payload.
 The current Unit 7 is intentionally empty until its first Word/PDF Vocabulary
 file is provided. No sample questions, placeholder answer keys, or fictitious
 Google Docs links are published.
+
+
+## Student-facing all-in-one page (Format 1)
+
+The original Google Docs *student handout* is published as `originalExercises` (question IDs `u7-v10-01` ... `u7-v10-40`) in the public catalogue, grouped into context, synonyms and antonyms. There are **no answer keys in that catalogue**. The Google Doc link is a small reference link rather than the main page content.
+
+Each question renders its complete sentence and A–D choices inline. Only when the server grants access does an adjacent, expandable answer explanation appear. Answers are matched using `questionId` in the protected Supabase `lesson_solutions` payload. Do not add solutions, comments, or student-private material to `originalExercises`.
+
+The continuous page also contains after-class practice (published separately) and printing. Original questions can be printed even before the after-class bank has been published. Printing protected answer keys or explanations requires successful secure loading from Supabase.

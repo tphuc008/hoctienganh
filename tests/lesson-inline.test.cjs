@@ -1,0 +1,33 @@
+const test=require("node:test");
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const path=require("node:path");
+const vm=require("node:vm");
+const root=path.join(__dirname,"..");
+const read=p=>fs.readFileSync(path.join(root,p),"utf8");
+test("Unit 7 publishes the complete original handout without solutions",()=>{
+ const window={};vm.runInNewContext(read("content/lesson-plans-data.js"),{window});
+ const unit=window.LessonPlanCatalog.units.find(u=>u.id===7);
+ assert.ok(unit.lessonPublished);
+ assert.equal(unit.originalExercises.length,40);
+ assert.equal(new Set(unit.originalExercises.map(q=>q.id)).size,40);
+ for(let i=0;i<40;i++){
+   const q=unit.originalExercises[i];
+   assert.equal(q.id,"u7-v10-"+String(i+1).padStart(2,"0"));
+   assert.equal(q.options.length,4);
+   assert.ok(q.text.length>25);
+   for(const forbidden of ["answer","correctIndex","explanation","why","choices"])assert.ok(!(forbidden in q),"Private answer field exposed: "+forbidden);
+ }
+ assert.equal(unit.originalExercises.filter(q=>q.part==="context").length,28);
+ assert.equal(unit.originalExercises.filter(q=>q.part==="closest").length,6);
+ assert.equal(unit.originalExercises.filter(q=>q.part==="opposite").length,6);
+});
+test("Continuous page includes protected, question-linked explanations",()=>{
+ const js=read("features/lesson-plans.js");
+ assert.match(js,/function originalQuestion\(q,n\)/);
+ assert.match(js,/getKey\(q\.id\)/);
+ assert.match(js,/class="lp-inline-answer"/);
+ assert.match(js,/accessAllowed\(\)/);
+ assert.doesNotMatch(js,/data-lp-tab/);
+ assert.match(js,/loadAccess\(Number\(id\)\)/);
+});

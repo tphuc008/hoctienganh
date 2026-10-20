@@ -6,12 +6,11 @@
   "use strict";
   const HOME="grade-12/lesson-plans";
   const mount=document.getElementById("pageMount");
-  const tabs=[["lesson","Google Docs"],["solutions","Detailed Solutions"],["practice","After-class Practice"],["print","In đề"]];
-  let tab="lesson", unitId=7,access={loading:false,teacher:false,unlocked:false,solutions:null,error:""},
-    mcqCount=0,readingCount=0,quiz=null,printMode="questions";
+  let unitId=7,access={loading:false,teacher:false,unlocked:false,solutions:null,error:""},
+    mcqCount=0,readingCount=0,quiz=null,printMode="questions",
+    originalAnswers={},printOpenedPreview=false;
   const catalog=global.LessonPlanCatalog;
-  const sessionPrefix="lesson-practice:";
-  function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+    function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
   function docLink(input){
     try{const u=new URL(input);return u.protocol==="https:"&&u.hostname==="docs.google.com"&&/^\/document\/d\/[^/]+/.test(u.pathname)?u.href:"";}
     catch(_){return ""}
@@ -45,54 +44,81 @@
     global.scrollTo(0,0);
   }
   function head(u){
+    const url=docLink(u.docUrl),original=Array.isArray(u.originalExercises)?u.originalExercises.length:0;
     return '<div class="breadcrumbs">'+nav("grade-12","Lớp 12")+'<span>›</span>'+nav(HOME,"Lesson Plans & Practice")+
       '<span>›</span><span>'+esc(u.title||"Unit "+u.id)+'</span></div>'+
-      '<div class="lp-preview-hero"><div class="lp-preview-headline"><div><div class="lp-eyebrow">LESSON PLAN · UNIT '+String(u.id).padStart(2,"0")+'</div>'+
+      '<div class="lp-preview-hero lp-inline-hero"><div class="lp-preview-headline"><div>'+
+      '<div class="lp-eyebrow">GRADE 12 / UNIT '+String(u.id).padStart(2,"0")+'</div>'+
       '<h1>'+esc(u.title||"Unit "+u.id)+'</h1>'+
-      '<p>'+(u.description?esc(u.description):"Tài liệu bài giảng, lời giải và luyện tập sau buổi học.")+'</p></div></div></div>'+
-      '<div class="lp-preview-tabs" role="tablist" aria-label="Nội dung Unit">'+tabs.map((t,i)=>
-      '<button type="button" role="tab" aria-selected="'+(tab===t[0])+'" class="'+(tab===t[0]?"is-active":"")+
-      '" data-lp-tab="'+t[0]+'"><span>0'+(i+1)+'</span>'+t[1]+'</button>').join("")+'</div>';
+      '<p>Bài học và câu hỏi gốc ngay trên website · '+original+' câu · Lời giải có kiểm soát</p></div>'+
+      (url?'<a class="lp-inline-doc-link" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'" aria-label="Mở tài liệu gốc Google Docs">📄 Google Docs ↗</a>':"")+
+      '</div></div>'+
+      '<nav class="lp-inline-nav" aria-label="Chuyển đến phần học">'+
+      '<button type="button" data-lp-scroll="lp-section-study">01 · Bài học &amp; câu hỏi</button>'+
+      '<button type="button" data-lp-scroll="lp-section-practice">02 · Luyện tập thêm</button>'+
+      '<button type="button" data-lp-scroll="lp-section-print">03 · In đề</button></nav>';
   }
   function section(tag,title,detail){
     return '<div class="lp-preview-section-head"><div><div class="lp-eyebrow">'+tag+'</div><h2>'+title+
       '</h2><p>'+detail+'</p></div></div>';
   }
-  function lesson(u){
-    const url=docLink(u.docUrl),ready=Boolean(u.lessonPublished&&url);
-    return section("01 / LESSON PLAN","Google Docs Lesson Plan","Tài liệu dùng để học trong buổi học hoặc xem lại nếu vắng mặt.")+
-      (ready?'<div class="lp-solution-open"><h3>'+esc(u.title||"Unit "+u.id)+'</h3>'+
-       '<p>Mở tài liệu Google Docs của bài học. Nội dung có thể được giáo viên cập nhật và thêm comments trong giờ học.</p>'+
-       '<a class="lp-action" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">📄 Mở Google Docs ↗</a></div>':
-       '<div class="lp-solution-locked"><div class="lp-lock-icon">📄</div><h3>Chưa có Google Docs</h3>'+
-       '<p>Khi giáo viên cung cấp file Word và tạo Google Docs, đường dẫn sẽ xuất hiện tại đây.</p></div>')+
-       '<div class="lp-preview-note">Google Docs chỉ chứa phần tài liệu phù hợp cho học sinh. Lời giải chưa mở khóa không được công khai tại đây.</div>';
+  function accessAllowed(){
+    return !access.loading&&!access.error&&(access.teacher||access.unlocked)&&Array.isArray(access.solutions);
   }
-  function solutionRows(){
-    if(!Array.isArray(access.solutions)||!access.solutions.length)
-      return '<div class="lp-note">Lời giải chi tiết chưa được tải lên hệ thống bảo mật.</div>';
-    return access.solutions.filter(o=>o&&typeof o==="object").map((o,i)=>
-      '<article class="lp-solution-open lp-answer-article"><h3>'+esc(o.title||"Question "+(i+1))+'</h3>'+
-      (o.correctMeaning?'<p><b>Đáp án & nghĩa:</b> '+esc(o.correctMeaning)+'</p>':"")+
-      (o.why?'<p><b>Lý do:</b> '+esc(o.why)+'</p>':"")+
-      (Array.isArray(o.choices)?o.choices.map((choice,j)=>
-        '<div class="lp-explain-row"><strong>'+String.fromCharCode(65+j)+'. '+esc(choice.label||"")+'</strong><span>'+esc(choice.explanation||"")+'</span></div>').join(""):"")+
-      (o.examples?'<p class="lp-examples">'+esc(o.examples)+'</p>':"")+'</article>').join("");
-  }
-  function solutions(u){
-    const status=access.loading?"Đang kiểm tra quyền truy cập…":access.error?"Không thể kiểm tra quyền. "+esc(access.error):
-      access.unlocked?"Đã mở lời giải":"Lời giải đang bị khóa";
-    const allowed=!access.loading&&!access.error&&(access.teacher||access.unlocked);
-    return section("02 / DETAILED SOLUTIONS","Đáp án và lời giải","Giáo viên mở khóa riêng cho từng Unit. Quyền xem được xác thực ở Supabase.")+
-      '<div class="lp-solution-locked"><div class="lp-lock-icon">'+(allowed?"🔓":"🔒")+'</div>'+
-      '<h3>'+status+'</h3><p>'+(access.unlocked?"Học sinh được phép xem lời giải của Unit này.":
-        "Học sinh không thể xem lời giải cho đến khi giáo viên cho phép.")+'</p>'+
+  function solutionStatus(){
+    const allowed=accessAllowed();
+    const status=access.loading?"Đang kiểm tra quyền xem lời giải…":
+      access.error?"Không thể kiểm tra quyền: "+esc(access.error):
+      allowed?"Lời giải đã sẵn sàng":"Lời giải hiện đang khóa";
+    return '<aside class="lp-inline-access" aria-label="Trạng thái lời giải">'+
+      '<div><strong>'+(allowed?"🔓 ":"🔒 ")+status+'</strong><p>'+
+      (allowed?"Nhấn “Xem lời giải” ngay dưới từng câu để đọc phân tích A–D.":
+        "Vẫn có thể đọc và làm toàn bộ câu hỏi. Giáo viên sẽ mở khóa lời giải khi phù hợp.")+
+      '</p></div><div class="lp-inline-access-actions">'+
       (access.teacher?'<button type="button" class="lp-action lp-teacher-toggle" data-lp-unlock="'+(!access.unlocked)+'">'+
-      (access.unlocked?"🔒 Lock solutions":"🔓 Unlock solutions")+'</button>':"")+
-      (!access.loading?'<button class="lp-refresh" type="button" data-lp-refresh="1">Kiểm tra lại trạng thái</button>':"")+
-      '</div>'+
-      (allowed?'<div class="lp-answers">'+solutionRows()+'</div>':"")+
-      '<div class="lp-preview-note">Lời giải được tải qua Supabase và chỉ trả về cho giáo viên hoặc học sinh sau khi Unlock. Repository GitHub công khai không chứa đáp án.</div>';
+        (access.unlocked?"🔒 Khóa lời giải":"🔓 Mở lời giải cho học sinh")+'</button>':"")+
+      (!access.loading?'<button class="lp-refresh" type="button" data-lp-refresh="1">Kiểm tra quyền</button>':"")+
+      '</div></aside>';
+  }
+  function originalQuestion(q,n){
+    let prompt=esc(q.text);
+    if(q.target){const at=prompt.indexOf(esc(q.target));if(at>=0)prompt=prompt.slice(0,at)+'<u>'+esc(q.target)+'</u>'+prompt.slice(at+esc(q.target).length);}
+    const opts=q.options.map((opt,j)=>
+      '<label class="lp-inline-option"><input type="radio" name="lp-original-'+esc(q.id)+'" data-lp-original-answer="'+esc(q.id)+'" value="'+j+'" '+
+      (originalAnswers[q.id]===j?"checked":"")+'/><span><b>'+String.fromCharCode(65+j)+'.</b> '+esc(opt)+'</span></label>').join("");
+    const k=accessAllowed()?getKey(q.id):null;
+    let explanation='<div class="lp-inline-locked-note">🔒 Lời giải sẽ xuất hiện tại đây khi giáo viên mở khóa.</div>';
+    if(accessAllowed()){
+      explanation=k?'<details class="lp-inline-answer"><summary>📖 Xem lời giải chi tiết · Câu '+n+'</summary>'+
+        '<div class="lp-inline-answer-body"><p><b>Đáp án: '+String.fromCharCode(65+k.correctIndex)+
+        (k.choices?.[k.correctIndex]?.label?" — "+esc(k.choices[k.correctIndex].label):"")+'</b></p>'+
+        (k.correctMeaning?'<p><b>Nghĩa:</b> '+esc(k.correctMeaning)+'</p>':"")+
+        (k.why?'<p><b>Vì sao chọn đáp án này?</b> '+esc(k.why)+'</p>':"")+
+        (Array.isArray(k.choices)?k.choices.map((choice,j)=>
+          '<div class="lp-explain-row"><strong>'+String.fromCharCode(65+j)+'. '+esc(choice.label||q.options[j]||"")+
+          '</strong><span>'+esc(choice.explanation||"")+'</span></div>').join(""):"")+
+        (k.examples?'<p class="lp-examples">'+esc(k.examples)+'</p>':"")+
+        '</div></details>':'<div class="lp-inline-locked-note">Chưa có lời giải khớp với ID câu hỏi này.</div>';
+    }
+    return '<article class="lp-inline-question" id="lp-question-'+n+'"><div class="lp-inline-question-number">QUESTION '+String(n).padStart(2,"0")+'</div>'+
+      '<p class="lp-inline-prompt"><b>'+n+'.</b> '+prompt+'</p><div class="lp-inline-options">'+opts+'</div>'+explanation+'</article>';
+  }
+  function lesson(u){
+    const items=u.lessonPublished&&Array.isArray(u.originalExercises)?u.originalExercises.filter(validQ):[];
+    const groups=[
+      ["context","PART I · Vocabulary in Context","Chọn đáp án A, B, C hoặc D phù hợp nhất với ngữ cảnh."],
+      ["closest","PART II · Closest in Meaning","Chọn từ hoặc cụm từ gần nghĩa nhất với phần được gạch chân."],
+      ["opposite","PART III · Opposite in Meaning","Chọn từ hoặc cụm từ trái nghĩa với phần được gạch chân."]
+    ];
+    return section("01 / ORIGINAL STUDENT HANDOUT","Bài học & bài tập gốc",
+      "Nội dung được đưa trực tiếp từ tài liệu Unit 7 lên website. Chọn đáp án và mở lời giải ngay tại từng câu khi có quyền truy cập.")+
+      solutionStatus()+
+      (items.length?'<div class="lp-inline-groups">'+groups.map(([id,title,note])=>{
+        const subset=items.filter(q=>q.part===id);
+        return subset.length?'<section class="lp-inline-group"><div class="lp-inline-group-heading"><h3>'+title+'</h3><p>'+note+'</p></div>'+
+          subset.map(q=>originalQuestion(q,Number(q.id.slice(-2)))).join("")+'</section>':"";
+      }).join("")+'</div>':
+        '<div class="lp-note">Nội dung bài học trực tiếp chưa được xuất bản cho Unit này. Giáo viên đang chuẩn bị tài liệu.</div>');
   }
   function choices(u){
     const b=bank(u),m=b.mcqs.length,p=b.passages.length;
@@ -147,7 +173,7 @@
   }
   function practice(u){
     const b=bank(u);
-    return section("03 / AFTER-CLASS PRACTICE","Luyện tập sau buổi học",
+    return section("02 / AFTER-CLASS PRACTICE","Luyện tập sau buổi học",
       "Ngân hàng câu hỏi được tạo một lần từ nội dung và comments của Google Docs. Học sinh chọn số lượng muốn làm.")+
       (quiz?quizView():choices(u))+
       (b.mcqs.length||b.passages.length?'<div class="lp-preview-note">Bộ câu hỏi hiện có: '+b.mcqs.length+
@@ -155,37 +181,48 @@
   }
   function selectedForPrint(u){
     const b=bank(u);
+    if(!b.mcqs.length&&!b.passages.length&&Array.isArray(u.originalExercises))
+      return {mcqs:u.originalExercises.filter(validQ),passages:[]};
     return {mcqs:quiz?.mcqs||b.mcqs.slice(0,mcqCount),passages:quiz?.passages||b.passages.slice(0,readingCount)};
   }
   function getKey(id){
     const item=Array.isArray(access.solutions)?access.solutions.find(x=>x&&x.questionId===id):null;
     return item&&Number.isInteger(item.correctIndex)&&item.correctIndex>=0&&item.correctIndex<=3?item:null;
   }
+  function printAnswer(q,n){
+    if(printMode==="questions")return "";
+    const k=getKey(q.id);
+    if(!k)return '<div class="lp-print-answer">'+n+'. — Chưa có lời giải</div>';
+    const letter=String.fromCharCode(65+k.correctIndex);
+    return '<div class="lp-print-answer"><b>Đáp án '+n+': '+letter+'</b>'+
+      (printMode==="detailed"?
+        (k.correctMeaning?'<p><b>Nghĩa:</b> '+esc(k.correctMeaning)+'</p>':"")+
+        (k.why?'<p><b>Giải thích:</b> '+esc(k.why)+'</p>':"")+
+        (Array.isArray(k.choices)?k.choices.map((x,j)=>'<p>'+String.fromCharCode(65+j)+'. '+esc(x.label||q.options[j]||"")+': '+esc(x.explanation||"")+'</p>').join(""):"")+
+        (k.examples?'<p>'+esc(k.examples)+'</p>':""):"")+'</div>';
+  }
   function printSheet(u){
     const p=selectedForPrint(u);let no=0;
-    const all=[...p.mcqs,...p.passages.flatMap(x=>x.questions)];
     return '<div class="lp-print-sheet"><div class="lp-print-sheet-top"><span>ENGLISH PRACTICE HUB</span><span>UNIT '+u.id+'</span></div>'+
       '<h3>'+(printMode==="detailed"?"DETAILED SOLUTIONS":esc(u.title||"VOCABULARY PRACTICE"))+'</h3>'+
-      p.mcqs.map(q=>questionBlock(q,++no,true)).join("")+
+      p.mcqs.map(q=>{const n=++no;return questionBlock(q,n,true)+printAnswer(q,n)}).join("")+
       p.passages.map(x=>'<section class="lp-passage"><h4>'+esc(x.title||"Reading")+'</h4><p class="lp-passage-text">'+
-        esc(x.passage).replace(/\n/g,"<br>")+'</p>'+x.questions.map(q=>questionBlock(q,++no,true)).join("")+'</section>').join("")+
-      (printMode!=="questions"?'<div class="lp-print-extra"><h4>'+(printMode==="key"?"ANSWER KEY":"DETAILED SOLUTIONS")+'</h4>'+
-       all.map((q,i)=>{const k=getKey(q.id);return '<p><b>'+(i+1)+'. '+(k?String.fromCharCode(65+k.correctIndex):"—")+
-         '</b>'+(printMode==="detailed"&&k?.why?" — "+esc(k.why):"")+'</p>'}).join("")+'</div>':"")+
+        esc(x.passage).replace(/\\n/g,"<br>")+'</p>'+x.questions.map(q=>{const n=++no;return questionBlock(q,n,true)+printAnswer(q,n)}).join("")+'</section>').join("")+
       '<div class="lp-print-foot">English Practice Hub · Unit '+u.id+'</div></div>';
   }
   function printing(u){
-    const b=bank(u),picked=selectedForPrint(u),total=picked.mcqs.length+picked.passages.length*5;
-    const hasKeys=access.unlocked&&Array.isArray(access.solutions)&&access.solutions.length>0;
-    if(!b.mcqs.length&&!b.passages.length)return section("04 / PRINT","In đề bài","Bài tập sẽ có thể in sau khi được xuất bản.")+
-      '<div class="lp-solution-locked"><h3>Chưa có bài tập để in</h3><p>Hãy thêm dữ liệu từ file Vocabulary và comments trước.</p></div>';
+    const b=bank(u),picked=selectedForPrint(u),total=picked.mcqs.length+picked.passages.reduce((s,p)=>s+p.questions.length,0);
+    const hasKeys=accessAllowed()&&access.solutions.length>0;
+    if(!total)return section("03 / PRINT","In đề bài","Bài tập sẽ có thể in khi được xuất bản.")+
+      '<div class="lp-note">Chưa có bài tập để in.</div>';
     if(printMode!=="questions"&&!hasKeys)printMode="questions";
-    return section("04 / PRINT","In đề bài","Đề bài, đáp án ngắn hoặc lời giải chi tiết được in riêng để tiết kiệm giấy.")+
+    return section("03 / PRINT","In đề bài","Chọn in đề, đáp án ngắn hoặc lời giải chi tiết. Đáp án chỉ có khi đã được mở khóa.")+
       '<div class="lp-switches">'+[["questions","Đề bài"],["key","Đáp án ngắn"],["detailed","Lời giải chi tiết"]].map(([id,label])=>
         '<button type="button" data-lp-print-mode="'+id+'" class="'+(id===printMode?"is-active":"")+
-        '" '+(id!=="questions"&&!hasKeys?"disabled title=\"Chỉ có thể in đáp án khi đã Unlock\"":"")+ '>'+label+'</button>').join("")+'</div>'+
-      '<p class="lp-print-count">Đang chọn '+total+' câu. Để thay đổi số lượng, vào tab After-class Practice.</p>'+
-      printSheet(u)+'<div class="lp-print-actions"><button type="button" data-lp-print-now="1">🖨 In đề</button></div>';
+        '" '+(id!=="questions"&&!hasKeys?'disabled title="Chỉ in được đáp án khi đã mở khóa"':"")+'>'+label+'</button>').join("")+'</div>'+
+      '<p class="lp-print-count">'+total+' câu · '+(b.mcqs.length||b.passages.length?"Ngân hàng luyện tập":"Bài tập gốc từ Google Docs")+'</p>'+
+      '<details class="lp-print-preview"><summary>📄 Xem trước nội dung bản in</summary>'+printSheet(u)+'</details>'+
+      '<div class="lp-print-actions"><button type="button" data-lp-print-now="1">🖨 In nội dung đang chọn</button></div>';
   }
   function renderUnit(n,preserve){
     const u=getUnit(n);
@@ -193,8 +230,10 @@
     unitId=Number(n);
     const oldY=global.scrollY||0;
     mount.style.display="block";
-    const screens={lesson,solutions,practice,print:printing};
-    mount.innerHTML=head(u)+'<div class="lp-preview-body" role="tabpanel">'+screens[tab](u)+'</div>';
+    mount.innerHTML=head(u)+'<div class="lp-inline-page">'+
+      '<section class="lp-inline-section" id="lp-section-study">'+lesson(u)+'</section>'+
+      '<section class="lp-inline-section" id="lp-section-practice">'+practice(u)+'</section>'+
+      '<section class="lp-inline-section" id="lp-section-print">'+printing(u)+'</section></div>';
     if(preserve)global.scrollTo(0,oldY);else global.scrollTo(0,0);
   }
   async function callRest(path,opts){
@@ -213,7 +252,7 @@
     const u=getUnit(n);if(!u)return;
     const key="grade12-unit"+n;
     access={loading:true,teacher:false,unlocked:false,solutions:null,error:""};
-    if(tab==="solutions"&&unitId===n)renderUnit(n,true);
+    if(unitId===n)renderUnit(n,true);
     try{
       const [roles,status]=await Promise.all([
         callRest("lesson_teacher_roles?select=user_id&limit=1"),
@@ -227,8 +266,8 @@
         if(unitId!==n)return;
         access.solutions=Array.isArray(rows)&&Array.isArray(rows[0]?.payload)?rows[0].payload:[];
       }
-    }catch(e){if(unitId===n)access.error=e.message||"Không thể kiểm tra quyền"}
-    finally{if(unitId===n){access.loading=false;if(tab==="solutions"||tab==="print")renderUnit(n,true)}}
+    }catch(e){if(unitId===n)access.error=e.message||"Không thể kiểm tra quyền";}
+    finally{if(unitId===n){access.loading=false;renderUnit(n,true);}}
   }
   async function changeUnlock(value){
     if(!access.teacher||access.loading)return;
@@ -266,11 +305,10 @@
       const get=attr=>button.getAttribute(attr);
       if(button.hasAttribute("data-lp-route")){location.hash=get("data-lp-route");return}
       if(!location.hash.includes(HOME+"/unit-"))return;
-      if(button.hasAttribute("data-lp-tab")){
-        tab=get("data-lp-tab");
-        if((tab==="practice"||tab==="print")&&!quiz&&mcqCount===0&&readingCount===0){const b=bank(getUnit(unitId));mcqCount=Math.min(b.mcqs.length,10);readingCount=Math.min(b.passages.length,1)}
-        renderUnit(unitId,true);
-        if(tab==="solutions"||tab==="print")loadAccess(unitId);
+      if(button.hasAttribute("data-lp-scroll")){
+        const id=get("data-lp-scroll");
+        const section=mount.querySelector("#"+id);
+        if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
       }else if(button.hasAttribute("data-lp-refresh"))loadAccess(unitId);
       else if(button.hasAttribute("data-lp-unlock"))changeUnlock(get("data-lp-unlock")==="true");
       else if(button.hasAttribute("data-lp-start"))startQuiz();
@@ -278,16 +316,23 @@
       else if(button.hasAttribute("data-lp-submit")){if(quiz){quiz.submitted=true;rememberQuiz();renderUnit(unitId,true)}}
       else if(button.hasAttribute("data-lp-print-mode")){
         const wanted=get("data-lp-print-mode");
-        if(wanted!=="questions"&&!(access.unlocked&&Array.isArray(access.solutions)&&access.solutions.length))return;
+        if(wanted!=="questions"&&!accessAllowed())return;
         printMode=wanted;renderUnit(unitId,true);
       }else if(button.hasAttribute("data-lp-print-now")){
-        if(!global.document.body.classList.contains("lp-printing"))global.document.body.classList.add("lp-printing");
+        const preview=mount.querySelector(".lp-print-preview");
+        printOpenedPreview=Boolean(preview&&!preview.open);
+        if(preview)preview.open=true;
+        global.document.body.classList.add("lp-printing");
         global.print();
       }
     });
     mount.addEventListener("change",e=>{
       const node=e.target;
       if(!location.hash.includes(HOME+"/unit-"))return;
+      if(node.matches("[data-lp-original-answer]")){
+        originalAnswers[node.getAttribute("data-lp-original-answer")]=Number(node.value);
+        return;
+      }
       if(node.matches('[data-lp-input="mcq"]'))mcqCount=Number(node.value)||0;
       else if(node.matches('[data-lp-input="reading"]'))readingCount=Number(node.value)||0;
       else if(node.matches("[data-lp-answer]")){
@@ -296,9 +341,13 @@
       }else return;
       renderUnit(unitId,true);
     });
-    global.addEventListener("afterprint",()=>global.document.body.classList.remove("lp-printing"));
+    global.addEventListener("afterprint",()=>{
+      global.document.body.classList.remove("lp-printing");
+      if(printOpenedPreview){const preview=mount.querySelector(".lp-print-preview");if(preview)preview.open=false;}
+      printOpenedPreview=false;
+    });
   }
   bind();
   global.renderLessonPlansHome=home;
-  global.renderLessonPlansUnit=function(id){tab="lesson";quiz=null;access={loading:false,teacher:false,unlocked:false,solutions:null,error:""};renderUnit(id,false)};
+  global.renderLessonPlansUnit=function(id){originalAnswers={};quiz=null;access={loading:false,teacher:false,unlocked:false,solutions:null,error:""};renderUnit(id,false);loadAccess(Number(id))};
 })(window);
