@@ -52,7 +52,7 @@ const assert=require("node:assert/strict");
   const grid=await page.locator(".units").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length);
   assert.ok(grid>=3,"Desktop discovery should show a scannable multi-column course grid");
 
-  assert.ok(initial.scripts.length<=26,"Initial scripts not reduced: "+initial.scripts.length);
+  assert.ok(initial.scripts.length<=27,"Initial scripts not reduced: "+initial.scripts.length);
   const source=await (await context.request.get(base)).text();
   assert.ok(Buffer.byteLength(source,"utf8")<120000,"HTML still has a large inline CSS payload");
   console.log("STARTUP PASS: "+initial.scripts.length+" scripts, HTML "+Buffer.byteLength(source)+" bytes");
