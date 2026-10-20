@@ -3340,6 +3340,7 @@ function saveQuizAttempt(){
   LearningCore.writeDraft("quiz",quizAttemptIdentity(),{
     version:activeBank?.version||1,startedAt:quizStartedAt,
     indices:activeQuestionIndices,questions:activeQuestions,current,
+    sourceHashes:activeQuestionIndices.map(i=>LearningCore.fingerprint(activeBank.questions[i])),
     answers,solved,mistakes,wrongChoices:wrongChoices.map(x=>[...x]),skipped,
     wordformDrafts,sublevel:activeSublevelKey
   });
@@ -3349,7 +3350,8 @@ function restoreQuizAttempt(){
   if(!d||d.version!==(activeBank?.version||1)||!Array.isArray(d.questions)
     ||!d.questions.length||!Array.isArray(d.indices)||d.indices.length!==d.questions.length
     ||d.solved?.length!==d.questions.length||d.mistakes?.length!==d.questions.length
-    ||d.indices.some(i=>!Number.isInteger(i)||!activeBank.questions[i]))return false;
+    ||d.sourceHashes?.length!==d.indices.length
+    ||d.indices.some((i,pos)=>!Number.isInteger(i)||!activeBank.questions[i]||d.sourceHashes[pos]!==LearningCore.fingerprint(activeBank.questions[i])))return false;
   activeQuestionIndices=d.indices;
   activeQuestions=d.questions;
   activeExplanations=d.indices.map((i,p)=>activeBank?.explanationById?.[d.questions[p]?.id]||activeBank.explanations[i]||{});
