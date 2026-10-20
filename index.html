@@ -1482,6 +1482,8 @@ body:before{
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="core/learning-core.js?v=20261020-v1"></script>
+<script src="features/learning-history.js?v=20261020-v1"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit2.js?v=20261001-deep-v5"></script>
 <script src="grade9-unit3.js?v=20261001-deep-v5"></script>
@@ -2029,10 +2031,14 @@ let skipped=[];
 let quizStartedAt=0;
 let currentNickname=localStorage.getItem("vocabNickname")||"";
 let scoreSubmitted=false;
+let quizFinished=false;
+let wordformDrafts=[];
 
 const SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
 
+window.SUPABASE_URL=SUPABASE_URL;
+window.SUPABASE_KEY=SUPABASE_KEY;
 const LEARNER_AUTH_KEY="hoctienganh_learner_auth_v1";
 
 function normalizeLearnerUsername(value){
@@ -2549,7 +2555,7 @@ const counter=document.getElementById("counter");
 
 document.getElementById("brandBtn").onclick=()=>{location.hash=""};
 document.getElementById("exitQuizBtn").onclick=exitCurrentQuiz;
-document.getElementById("retryBtn").onclick=()=>startQuiz(true);
+document.getElementById("retryBtn").onclick=()=>startQuiz(true,true);
 window.addEventListener("hashchange",route);
 
 const ACCESS_FUNCTION_URL=SUPABASE_URL+"/functions/v1/access-gate";
@@ -2669,7 +2675,7 @@ function renderPortal(){
     </div>
     <div class="account-banner">
       <div><b>${esc(learnerDisplayName())}</b><span>${learnerUsername()?"@"+esc(learnerUsername())+" · ":""}Tài khoản học viên</span></div>
-      <button class="secondary" type="button" onclick="logoutLearner()">Đăng xuất</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="secondary" type="button" onclick="location.hash='history'">Lịch sử học tập</button><button class="secondary" type="button" onclick="logoutLearner()">Đăng xuất</button></div>
     </div>
     <div class="section-title"><h2>Access</h2><span>2 areas</span></div>
     <div class="units">
@@ -2793,8 +2799,9 @@ async function route(){
     return;
   }
   syncLearnerHeader();
-
+  LearningCore.flushPending().catch(e=>console.warn("Pending score sync failed",e));
   if(!hash){renderPortal();return}
+  if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash==="school"){
     if(await validateStoredAccess("school")){
@@ -2829,6 +2836,7 @@ async function route(){
     }
     setActiveArea("school");
 
+    if(LearningCore.renderRoute(hash))return;
     if(hash==="school/grade-10"){renderSchoolGrade10();return}
     if(hash==="school/grade-10/midterm-1"){renderSchoolMidterm1();return}
 
@@ -2843,6 +2851,7 @@ async function route(){
   if(!area){renderPortal();return}
   if(area!=="tutoring"){location.hash="school";return}
 
+  if(LearningCore.renderRoute(hash))return;
   if(hash==="listening"){renderListeningHome();return}
   if(hash==="listening/entertainment"){renderEntertainment();return}
   if(hash==="listening/entertainment/change-your-life-one-tiny-step-at-a-time"){renderEntertainmentVideo();return}
@@ -3186,9 +3195,10 @@ function renderGrade(id){
 
   const readingHTML=id===12?[
     '<div class="section-title"><h2>Reading</h2><span>IELTS Academic</span></div>',
-    '<div class="exercise-grid"><button type="button" class="exercise-card" onclick="location.hash=&quot;grade-12/reading&quot;">',
-    '<div class="exercise-icon">📖</div><h3>Reading</h3><p>Academic passages · 25-minute practice · detailed Vietnamese feedback</p>',
-    '<div class="meta"><span class="chip">Marketing and the Information Age</span><span class="chip">14 câu · 25 phút</span></div></button></div>'
+    '<div class="exercise-grid">'+LearningCore.list({category:"reading",grade:12,listing:true})
+      .map(item=>'<button type="button" class="exercise-card" data-reading-route="'+esc(item.route)+'">'+
+      '<div class="exercise-icon">📖</div><h3>'+esc(item.title)+'</h3><p>'+esc(item.description||"IELTS Academic Reading")+'</p>'+
+      '<div class="meta"><span class="chip">'+esc(item.questions||14)+' câu</span><span class="chip">'+esc(item.minutes||25)+' phút</span></div></button>').join("")+'</div>'
   ].join(""):"";
 
   pageMount.innerHTML=`
@@ -3203,6 +3213,7 @@ function renderGrade(id){
 
     ${unitsHTML}
     ${readingHTML}`;
+  pageMount.querySelectorAll("[data-reading-route]").forEach(btn=>btn.addEventListener("click",()=>{location.hash=btn.dataset.readingRoute}));
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function goUnit(id,grade){
@@ -3313,9 +3324,44 @@ function initQuizState(){
   skipped=Array(activeQuestions.length).fill(false);
   quizStartedAt=Date.now();
   scoreSubmitted=false;
+  quizFinished=false;
+  wordformDrafts=Array(activeQuestions.length).fill("");
   readingScrollTop=0;
   readingQuestionScrollTop=0;
   readingContextText="";
+}
+function quizAttemptIdentity(){
+  return activeMode==="grammar"
+    ?"grammar/"+activeGrammarSlug+"/set-"+activeSet
+    :"grade-"+activeGrade+"/unit-"+activeUnit+"/set-"+activeSet+(activeLevel?.contextGuessing?"/context":"");
+}
+function saveQuizAttempt(){
+  if(!quizStartedAt||quizFinished||!activeQuestions?.length)return;
+  LearningCore.writeDraft("quiz",quizAttemptIdentity(),{
+    version:activeBank?.version||1,startedAt:quizStartedAt,
+    indices:activeQuestionIndices,questions:activeQuestions,current,
+    answers,solved,mistakes,wrongChoices:wrongChoices.map(x=>[...x]),skipped,
+    wordformDrafts,sublevel:activeSublevelKey
+  });
+}
+function restoreQuizAttempt(){
+  const d=LearningCore.readDraft("quiz",quizAttemptIdentity());
+  if(!d||d.version!==(activeBank?.version||1)||!Array.isArray(d.questions)
+    ||!d.questions.length||!Array.isArray(d.indices)||d.indices.length!==d.questions.length
+    ||d.solved?.length!==d.questions.length||d.mistakes?.length!==d.questions.length
+    ||d.indices.some(i=>!Number.isInteger(i)||!activeBank.questions[i]))return false;
+  activeQuestionIndices=d.indices;
+  activeQuestions=d.questions;
+  activeExplanations=d.indices.map((i,p)=>activeBank?.explanationById?.[d.questions[p]?.id]||activeBank.explanations[i]||{});
+  current=Math.max(0,Math.min(d.questions.length-1,Number(d.current)||0));
+  answers=Array.isArray(d.answers)&&d.answers.length===d.questions.length?d.answers:Array(d.questions.length).fill(null);
+  solved=d.solved.map(Boolean);mistakes=d.mistakes.map(x=>Math.max(0,Number(x)||0));
+  wrongChoices=d.questions.map((_,i)=>new Set(Array.isArray(d.wrongChoices?.[i])?d.wrongChoices[i]:[]));
+  skipped=Array.isArray(d.skipped)&&d.skipped.length===d.questions.length?d.skipped.map(Boolean):Array(d.questions.length).fill(false);
+  quizStartedAt=Number(d.startedAt)||Date.now();scoreSubmitted=false;quizFinished=false;
+  wordformDrafts=Array.isArray(d.wordformDrafts)&&d.wordformDrafts.length===d.questions.length?d.wordformDrafts:Array(d.questions.length).fill("");
+  activeSublevelKey=d.sublevel||activeSublevelKey;
+  return true;
 }
 function readNickname(){
   const nickname=String(learnerDisplayName()||learnerUsername()||"").trim().replace(/\s+/g," ");
@@ -3343,6 +3389,8 @@ function startContextGuessing(levelKey,fromRetry=false){
 
   activeLevel=cfg;
   activeSublevelKey="mixed";
+  if(!fromRetry&&restoreQuizAttempt()){showQuizShell();return}
+  if(fromRetry)LearningCore.clearDraft("quiz",quizAttemptIdentity());
   const progress=readContextProgress();
   const combinedPool=[...(cfg.pool||[])];
   const picked=pickContextAdaptive(combinedPool,cfg.sessionSize||10,progress);
@@ -3359,13 +3407,15 @@ function startContextGuessing(levelKey,fromRetry=false){
   initQuizState();
   showQuizShell();
 }
-function startQuiz(reset=false){
+function startQuiz(reset=false,forceNew=false){
   if(reset&&activeLevel?.contextGuessing&&activeSublevelKey){
-    startContextGuessing(activeSublevelKey,true);
+    startContextGuessing(activeSublevelKey,forceNew);
     return;
   }
   if(reset){
     if(activeMode!=="grammar"&&!readNickname())return;
+    if(!forceNew&&restoreQuizAttempt()){showQuizShell();return}
+    LearningCore.clearDraft("quiz",quizAttemptIdentity());
     selectSet(activeSet);
     initQuizState();
   }
@@ -3405,6 +3455,7 @@ function readingPassageHTML(q){
   return html;
 }
 function renderQuestion(){
+  saveQuizAttempt();
   const q=activeQuestions[current],isSolved=solved[current];
   const solvedCount=solved.filter(Boolean).length;
   progress.style.width=((current+1)/activeQuestions.length*100)+"%";
@@ -3418,7 +3469,7 @@ function renderQuestion(){
   const answerBlock=q.kind==="input"
     ? `<div class="wordform-wrap">
         <input class="wordform-input" id="wordformInput" type="text" autocomplete="off" spellcheck="false"
-          placeholder="Type your answer" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):""}">
+          placeholder="Type your answer" ${isSolved?"disabled":""} value="${isSolved?esc(correctAnswerText(q)):esc(wordformDrafts[current]||"")}">
         <button class="primary" id="wordformSubmit" ${isSolved?"disabled":""}>Check</button>
       </div>`
     : `<div class="answers">
@@ -3490,6 +3541,7 @@ function renderQuestion(){
   const skipBtn=document.getElementById("skipWordformBtn");
   if(skipBtn)skipBtn.onclick=skipWordformQuestion;
   if(input&&!isSolved){
+    input.addEventListener("input",()=>{wordformDrafts[current]=input.value;saveQuizAttempt()});
     if(submit)submit.onclick=()=>checkInputAnswer(input.value);
     input.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
@@ -3513,7 +3565,7 @@ function checkInputAnswer(value){
 
   const accepted=(q.answers||[q.answer]).filter(Boolean).map(normalizeQuizInput);
   if(accepted.includes(entered)){
-    answers[current]=value.trim();
+    answers[current]=value.trim();wordformDrafts[current]="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
     renderQuestion();
@@ -3553,7 +3605,7 @@ function checkAnswer(i){
   const q=activeQuestions[current];
   if(solved[current])return;
   if(i===q.a){
-    answers[current]=i;
+    answers[current]=i;wordformDrafts[current]="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
     renderQuestion();
@@ -3690,8 +3742,11 @@ async function submitLearningScore(firstTry,totalMistakes,totalQuestions){
 }
 
 function finishLearning(){
+  if(quizFinished)return;
   const mastered=solved.filter(Boolean).length;
   if(mastered<activeQuestions.length)return;
+  quizFinished=true;
+  LearningCore.clearDraft("quiz",quizAttemptIdentity());
   const totalMistakes=mistakes.reduce((a,b)=>a+b,0);
   const firstTry=mistakes.filter(x=>x===0).length;
   const pct=Math.round(firstTry/activeQuestions.length*100);
@@ -3722,6 +3777,12 @@ function finishLearning(){
   buildReview();
   recordTutoringActivity(activeMode==="grammar"?"grammar_set":"vocabulary_set");
   if(activeMode!=="grammar")submitLearningScore(firstTry,totalMistakes,activeQuestions.length);
+  LearningCore.submitPractice({
+    category:activeMode==="grammar"?"grammar":"vocabulary",slug:quizAttemptIdentity(),
+    correct:firstTry,total:activeQuestions.length,
+    duration:Math.max(0,Math.round((Date.now()-quizStartedAt)/1000)),
+    submissionId:LearningCore.uuid(),details:{mistakes:totalMistakes,firstTryAccuracy:pct}
+  }).catch(err=>{console.error("Unified result save failed",err);toast("Chưa đồng bộ được kết quả bổ sung")});
   if(pct>=75)confetti();
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -3761,6 +3822,30 @@ document.addEventListener("keydown",e=>{
   if(current<activeQuestions.length-1)move(1);
   else finishLearning();
 });
+[
+  {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",render:()=>window.renderSchoolGrade10()},
+  {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",render:()=>window.renderSchoolMidterm1()},
+  {id:"reading-home",route:"grade-12/reading",title:"Reading",category:"reading-home",grade:12,render:()=>window.renderMISReadingHome()},
+  {id:"reading-marketing",route:"grade-12/reading/marketing-and-the-information-age",title:"Marketing and the Information Age",category:"reading",grade:12,listing:true,questions:14,minutes:25,render:()=>window.renderMISReadingExercise()},
+  {id:"reading-robots",route:"grade-12/reading/robots-and-us",title:"Robots and us",category:"reading",grade:12,listing:true,questions:14,minutes:20,render:()=>window.renderRobotsReadingExercise()},
+  {id:"listening-home",route:"listening",title:"Listening",category:"listening-home",render:()=>window.renderListeningHome()},
+  {id:"listening-entertainment-home",route:"listening/entertainment",title:"Entertainment",category:"listening-home",render:()=>window.renderEntertainment()},
+  {id:"listening-entertainment-habits",route:"listening/entertainment/change-your-life-one-tiny-step-at-a-time",title:"Change Your Life",category:"listening",render:()=>window.renderEntertainmentVideo()},
+  {id:"listening-news-home",route:"listening/news",title:"News",category:"listening-home",render:()=>window.renderNews()},
+  {id:"listening-news-ai",route:"listening/news/former-openai-employee-ai-might-really-kill-us-all",title:"Former OpenAI employee",category:"listening",render:()=>window.renderNewsVideo()},
+  {id:"grade10-midterm",route:"grade-10/mid-term-test",title:"Grade 10 Mid-term Test",category:"exam",grade:10,render:()=>window.renderG10MidTermHome()}
+].forEach(item=>LearningCore.register(item));
+for(let setNo=1;setNo<=7;setNo++){
+  LearningCore.register({id:"school-g10-midterm1-set-"+setNo,
+    route:"school/grade-10/midterm-1/set-"+setNo,
+    title:"Ôn tập giữa kì 1 · Set "+setNo,category:"school",grade:10,
+    render:()=>window.renderSchoolSetIntro(setNo)});
+}
+for(const n of [3,4,5,6]){
+  LearningCore.register({id:"grade10-midterm-test-"+n,route:"grade-10/mid-term-test/test-"+n,
+    title:"Grade 10 Mid-term · Test "+n,grade:10,category:"exam",
+    render:()=>window.renderG10MidTermTest(n)});
+}
 route();
 </script>
 </body>
