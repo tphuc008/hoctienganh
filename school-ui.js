@@ -257,7 +257,7 @@ function renderSchoolSetIntro(setNo){
         <span class="pill">Immediate feedback</span>
         <span class="pill">First-try accuracy</span>
       </div>
-      <button class="primary" onclick="startSchoolQuiz(${setNo})">Start exercise →</button>
+      <button class="primary" onclick="startSchoolQuiz(${setNo})">${LearningFlow.labels.start} →</button>
     </div>`;
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -345,11 +345,11 @@ function renderSchoolQuestion(){
         ${answerHTML}
         <div id="feedbackMount">${feedback}</div>
         <div class="nav">
-          <button class="secondary" onclick="moveSchoolQuestion(-1)" ${s.current===0?"disabled":""}>← Previous</button>
+          <button class="secondary" onclick="moveSchoolQuestion(-1)" ${s.current===0?"disabled":""}>← ${LearningFlow.labels.previous}</button>
           ${solved
             ? (s.current===s.items.length-1
-                ? '<button class="primary" onclick="finishSchoolQuiz()">Finish ✓</button>'
-                : '<button class="primary" onclick="moveSchoolQuestion(1)">Next →</button>')
+                ? '<button class="primary" onclick="finishSchoolQuiz()">Xem kết quả ✓</button>'
+                : '<button class="primary" onclick="moveSchoolQuestion(1)">Câu tiếp theo →</button>')
             : '<span class="next-lock">Trả lời đúng để tiếp tục →</span>'}
         </div>
       </div>
@@ -454,7 +454,7 @@ function finishSchoolQuiz(){
           <div class="stat"><b>${totalMistakes}</b><span>Total mistakes</span></div>
           <div class="stat"><b>${firstTry}</b><span>First-try correct</span></div>
         </div>
-        <button class="primary" onclick="startSchoolQuiz(${s.setNo},true)">Làm lại set</button>
+        <button class="primary" onclick="startSchoolQuiz(${s.setNo},true)">Làm lại bài</button>
         <button class="secondary" style="margin-left:8px" onclick="location.hash='school/grade-10/midterm-1'">Về Ôn tập giữa kì 1</button>
       </div>
     </div>
