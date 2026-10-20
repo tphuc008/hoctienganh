@@ -248,7 +248,7 @@ function submit(automatic){
    duration:Math.max(1,Math.min(LIMIT,Math.round(((state.submittedAt||Date.now())-state.startedAt)/1000))),
    submissionId,details:{submissionType:state.submissionType||"manual"}
  }).catch(e=>console.warn("Reading history sync is queued for retry",e));
- if(typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("reading_submission");
+
 }
 const MIS_SUPABASE_URL="https://ouicitkpfukterkilqzu.supabase.co";
 const MIS_SUPABASE_KEY="sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
