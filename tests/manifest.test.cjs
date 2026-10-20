@@ -88,6 +88,7 @@ test("Every existing manifest-declared source file exists",()=>{
     ...manifest.entries.filter(x=>x.source).map(x=>x.source)
   ];
   for(const file of new Set(sources)){
-    assert.ok(fs.existsSync(path.join(root,file)),"Missing content source: "+file);
+    const relativePath=file.split(/[?#]/)[0]; // Cache-busting URL params are not part of the filesystem path.
+    assert.ok(fs.existsSync(path.join(root,relativePath)),"Missing content source: "+file);
   }
 });
