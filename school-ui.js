@@ -35,10 +35,7 @@ async function saveSchoolOutcome(){
     s.remoteSaved=true;
     persistSchoolAttempt();
     if(status)status.textContent="✓ Đã lưu kết quả vào tài khoản";
-    if(!s.activityTracked&&typeof window.recordTutoringActivity==="function"){
-      s.activityTracked=true;persistSchoolAttempt();
-      window.recordTutoringActivity("school_set");
-    }
+
   }catch(err){
     console.error("School result save failed",err);
     if(status)status.textContent="Chưa lưu được kết quả. Bấm thử lại để đồng bộ.";
