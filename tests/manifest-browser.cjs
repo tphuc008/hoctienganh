@@ -1,0 +1,72 @@
+const {chromium}=require("playwright");
+const assert=require("node:assert/strict");
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ const ctx=await browser.newContext({viewport:{width:1280,height:840}});
+ const page=await ctx.newPage(),errors=[],missing=[];
+ page.on("pageerror",e=>errors.push(e.message));
+ page.on("response",r=>{if(r.url().startsWith("http://127.0.0.1:4173/")&&r.status()>=400)missing.push(r.status()+" "+r.url())});
+ await page.route("https://ouicitkpfukterkilqzu.supabase.co/**",route=>route.fulfill({
+   status:200,contentType:"application/json",body:route.request().url().includes("/rest/v1/")?"[]":"{}",
+   headers:{"access-control-allow-origin":"*"}
+ }));
+ await page.addInitScript(()=>{
+  const userId="00000000-0000-4000-8000-000000000042";
+  localStorage.setItem("hoctienganh_learner_auth_v1",JSON.stringify({
+   access_token:"fake-manifest-test",refresh_token:"fake",
+   expires_at_ms:Date.now()+3600000,user:{id:userId,user_metadata:{username:"audit",display_name:"Manifest Auditor"}}
+  }));
+  const token="mock-tutoring";
+  localStorage.setItem("hoctienganh_access_tutoring",JSON.stringify({token,area:"tutoring",
+   expiresAt:new Date(Date.now()+3600000).toISOString()}));
+  sessionStorage.setItem("hoctienganh_valid_tutoring",JSON.stringify({token,until:Date.now()+3600000}));
+  localStorage.setItem("hoctienganh_active_area","tutoring");
+ });
+ const base="http://127.0.0.1:4173/";
+ async function open(route,selector){
+  await page.goto(base+"#"+route,{waitUntil:"domcontentloaded",timeout:22000});
+  try{await page.locator(selector).first().waitFor({timeout:15000,state:"visible"})}
+  catch(e){throw Error("Route "+route+" did not show "+selector+"; body="+
+     (await page.locator("#pageMount").innerText()).slice(0,500)+"; error="+e.message)}
+  assert.equal(new URL(page.url()).hash.slice(1),route);
+ }
+ try{
+  await open("grade-12",".units");
+  const catalogue=await page.evaluate(()=>({
+   count:ContentManifest.vocabulary.length,
+   routes:ContentManifest.entries.map(x=>x.route),
+   valid:ContentManifest.validate(),
+   units:ContentManifest.vocabulary.map(x=>({grade:x.grade,unit:x.id,route:"grade-"+x.grade+"/unit-"+x.id}))
+  }));
+  assert.equal(catalogue.valid,true);
+  assert.equal(catalogue.count,14);
+  assert.equal(new Set(catalogue.routes).size,catalogue.routes.length);
+  console.log("Manifest catalogue: "+catalogue.count+" Vocabulary units and "+catalogue.routes.length+" unique pages");
+  for(const u of catalogue.units){
+   await open(u.route,".exercise-grid");
+   const counts=await page.evaluate(({grade,unit})=>({
+    real:Object.keys(window.ContentManifest.loadedBanks()[grade+"-"+unit].levelConfig).length,
+    displayed:document.querySelectorAll("#pageMount .exercise-card").length
+   }),u);
+   assert.equal(counts.real,counts.displayed,"Mismatch for "+u.route);
+   await open(u.route+"/vocabulary-practice-1",".exercise-intro");
+   console.log("PASS "+u.route+" and vocabulary-practice-1");
+  }
+  await open("grammar",".units");
+  const grammarCards=await page.locator("#pageMount .unit-card").count();
+  assert.equal(grammarCards,1);
+  await open("grammar/prefix-suffix",".exercise-grid");
+  await open("grammar/prefix-suffix/set-1",".exercise-intro");
+  await page.locator(".exercise-intro button.primary").click();
+  await page.locator("#quizShell").waitFor({state:"visible",timeout:12000});
+  console.log("Grammar cards, direct set link and engine: passed");
+  await open("school/grade-10/midterm-1/set-7",".exercise-intro").catch(async e=>{
+    // This is a school-only route; must request the school area, not misrender as tutoring.
+    assert.match((await page.locator("#pageMount").innerText()),/mã truy cập|School|Học trên trường/i);
+    console.log("School access separation preserved");
+  });
+  assert.deepEqual(missing,[],"Missing same-origin source assets");
+  assert.deepEqual(errors,[],"Uncaught browser JS errors");
+  console.log("ALL CONTENT MANIFEST BROWSER REGRESSIONS PASSED");
+ }finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exitCode=1});
