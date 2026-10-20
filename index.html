@@ -7,6 +7,7 @@
 <title>English Practice Hub</title>
 <link rel="stylesheet" href="styles/site.css?v=20261020-ui4">
 <link rel="stylesheet" href="grade12-reading.css?v=20261016-v1">
+<link rel="stylesheet" href="features/lesson-plans.css?v=20261020-v1">
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -1676,6 +1677,17 @@ function renderGrade(id){
       '<div class="meta"><span class="chip">'+esc(item.questions||14)+' câu</span><span class="chip">'+esc(item.minutes||25)+' phút</span></div></button>').join("")+'</div>'
   ].join(""):"";
 
+  const lessonPlansHTML=id===12?`
+    <div class="section-title"><h2>Lesson Plans &amp; Practice</h2><span>New learning area</span></div>
+    <div class="exercise-grid">
+      <button type="button" class="exercise-card lp-entry-card" data-lesson-plan-route="grade-12/lesson-plans">
+        <div class="exercise-icon">📚</div>
+        <h3>Lesson Plans &amp; Practice</h3>
+        <p>Google Docs bài giảng, lời giải theo quyền mở khóa của giáo viên và bài tập tạo từ comments sau buổi học.</p>
+        <div class="meta"><span class="chip">7 Lesson Units</span><span class="chip">MCQ + Reading</span></div>
+      </button>
+    </div>`:"";
+
   pageMount.innerHTML=`
     <div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><span>Lớp ${id}</span></div>
 
@@ -1687,8 +1699,10 @@ function renderGrade(id){
     </div>
 
     ${unitsHTML}
-    ${readingHTML}`;
+    ${readingHTML}
+    ${lessonPlansHTML}`;
   pageMount.querySelectorAll("[data-reading-route]").forEach(btn=>btn.addEventListener("click",()=>{location.hash=btn.dataset.readingRoute}));
+  pageMount.querySelectorAll("[data-lesson-plan-route]").forEach(btn=>btn.addEventListener("click",()=>{location.hash=btn.dataset.lessonPlanRoute}));
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function goUnit(id,grade){
