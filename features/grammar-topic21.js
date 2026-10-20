@@ -137,6 +137,7 @@ function examples(s){
     '<div class="g21-example"><span class="g21-example-index">Ví dụ '+(i+1)+'</span>'+
     '<p class="g21-before"><span>Câu thường</span>'+esc(x.normal)+'</p>'+
     '<p class="g21-after"><span>Đảo ngữ</span>'+esc(x.inverted)+'</p>'+
+    (s.vi?.examples?.[i]?'<p class="g21-example-meaning"><span>Nghĩa</span>'+esc(s.vi.examples[i])+'</p>':"")+
     '<p class="g21-why">'+esc(x.why)+'</p></div>'
   ).join("")+'</div>';
 }
@@ -260,6 +261,7 @@ function learn(){
       '<div class="g21-progress-track">'+progressHTML()+'</div>'+
       '<section class="g21-teaching"><div class="g21-sectionhead"><h3>1. Hiểu quy tắc</h3></div>'+
         '<div class="g21-note g21-concept"><b>HIỂU ĐƠN GIẢN</b><p>'+esc(s.concept)+'</p></div>'+
+        (s.vi?.terms?'<p class="g21-quick-vi"><span>Nghĩa nhanh</span>'+esc(s.vi.terms)+'</p>':"")+
         '<div class="g21-note form"><b>CÔNG THỨC</b><p>'+esc(s.form)+'</p><small class="g21-form-legend">S = chủ ngữ · V = động từ · V3 = quá khứ phân từ</small></div>'+
         '<div class="g21-contrast"><b>CẦN PHÂN BIỆT</b><p>'+esc(s.contrast)+'</p></div>'+
       '</section>'+
