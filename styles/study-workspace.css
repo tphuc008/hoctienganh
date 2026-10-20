@@ -48,7 +48,7 @@ body:not(.mis-reading-mode) .unit-card p{font-size:12px;line-height:1.6;max-widt
 body:not(.mis-reading-mode) .unit-no{font-size:10px;letter-spacing:.09em}
 body:not(.mis-reading-mode) .unit-card .status.live{display:none}
 body:not(.mis-reading-mode) .unit-arrow{font-size:18px}
-body:not(.mis-reading-mode) .exercise-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:13px}
+body:not(.mis-reading-mode) .exercise-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,375px),1fr));gap:13px}
 body:not(.mis-reading-mode) .exercise-card{
  padding:20px 22px;min-height:165px;border:1px solid var(--study-line);
  border-radius:15px;background:#fff;box-shadow:var(--study-shadow);
@@ -126,9 +126,6 @@ body:not(.mis-reading-mode) :where(.primary,.secondary){border-radius:10px;min-h
 body:not(.mis-reading-mode) :where(button,a,[role="button"]):focus-visible{outline:3px solid #60a5fa;outline-offset:3px}
 body:not(.mis-reading-mode) .account-shell{margin:32px auto}
 body:not(.mis-reading-mode) .account-card{border-radius:17px;box-shadow:var(--study-shadow)}
-@media(min-width:1250px){
- body:not(.mis-reading-mode) .exercise-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
 @media(max-width:1180px){
  body:not(.mis-reading-mode) .tutoring-top{grid-template-columns:1fr;gap:14px}
  body:not(.mis-reading-mode) .global-streak-card{max-width:640px}
