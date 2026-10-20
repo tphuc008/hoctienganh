@@ -117,8 +117,10 @@
   // Generic Listening state adapter: same persistence behavior for any video/category.
   function attachListening(opts){
     const {id,parts,state,prefix,panelId,readAnswer,restoreSubmitted,restoreAnswers,updateProgress}=opts;
+    const owner=userId();
     const snapshot=readDraft("listening",id)||{};
     function persist(){
+      if(!owner||userId()!==owner)return;
       const saved={};
       parts.forEach(part=>{
         const answers={};
