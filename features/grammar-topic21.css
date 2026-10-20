@@ -170,3 +170,25 @@
  .g21-card{padding:19px}
 }
 @media(prefers-reduced-motion:reduce){.g21 *{transition:none!important}}
+
+
+/* Plain-language feedback: progressive disclosure, not another dense card. */
+.g21-form-legend{display:block;margin-top:10px;padding-top:10px;border-top:1px solid #dbeafe;color:#64748b;font-size:11px;line-height:1.7}
+.g21-feedback .g21-explanation-steps{display:grid;gap:0;margin-top:13px;border-top:1px solid #e2e8f0}
+.g21-reason-step{padding:12px 0;border-bottom:1px solid #e2e8f0}
+.g21-reason-step:last-child{border-bottom:0}
+.g21-reason-step>b{display:block;font-size:12px;color:#334155;margin-bottom:5px}
+.g21-reason-step>p{margin:0;color:#475569;line-height:1.8}
+.g21-feedback p.g21-solution-sentence{color:#1e3a8a;font-weight:650;line-height:1.85}
+.g21-answer-word{color:#1d4ed8;background:#dbeafe;border-radius:4px;padding:1px 5px;font-weight:900}
+.g21-feedback-hint{color:#64748b;font-size:12px}
+.g21-rule-reminder{padding:9px 0 2px;font-size:12px;color:#475569}
+.g21-other-choices{margin:15px 0 0;border-top:1px solid #e2e8f0;padding-top:10px}
+.g21-other-choices>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;cursor:pointer;color:#1d4ed8;font-size:12px;font-weight:800;padding:7px 0}
+.g21-other-choices>summary::-webkit-details-marker{display:none}
+.g21-other-choices>summary span{color:#94a3b8;transition:transform .15s}
+.g21-other-choices[open]>summary span{transform:rotate(180deg)}
+.g21-other-choices-body{display:grid;gap:11px;margin:11px 0 0}
+.g21-choice-reason{border-left:2px solid #cbd5e1;padding:2px 0 3px 12px;font-size:12px}
+.g21-choice-reason>b{display:block;color:#334155;line-height:1.6;overflow-wrap:anywhere}
+.g21-choice-reason>p{margin:4px 0 0!important;color:#64748b;line-height:1.75}
