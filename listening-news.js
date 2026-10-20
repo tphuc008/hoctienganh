@@ -392,6 +392,7 @@ function renderNewsVideo(){
     readAnswer:readNewsAnswer,restoreSubmitted:submitNewsPart,
     restoreAnswers:toggleNewsPartAnswers,updateProgress:updateNewsProgress
   });
+  NEWS_PARTS.forEach(part=>updateNewsProgress(part.id));
   initNewsPlayer();
   window.scrollTo({top:0,behavior:"smooth"});
 }
