@@ -129,12 +129,26 @@ function mtWrittenFeedback(q){
 function mtDeepExplanation(q,context){
  if(!window.ExplanationV1)return "";
  if(!q.options){
-   // Preserve the original verified/specialized written explanation verbatim,
-   // and mark it for structured review instead of fabricating evidence.
+   // Reuse the three authored stages of the original written solution.
+   // DOM extraction moves trusted, already-escaped material; it does not
+   // synthesize reasons, alter scoring, or duplicate nested step numbering.
+   const holder=document.createElement("div");
+   holder.innerHTML=mtWrittenFeedback(q);
+   const stages=[...holder.querySelectorAll(".semantic-step")];
+   const stageBody=section=>{
+     if(!section)return "";
+     const copy=section.cloneNode(true);
+     copy.querySelector(".semantic-step-label")?.remove();
+     return copy.innerHTML;
+   };
+   const reason=stages[0]?.querySelector("p")?.textContent||"";
    return window.ExplanationV1.render({
-     type:"written",answer:mtAnswerLabel(q),quickReason:"",
-     evidence:[],reasoning:"",legacyHtml:mtWrittenFeedback(q),
-     needsReview:true,application:q.warning?"Lưu ý đề gốc: "+q.warning:""
+     type:"written",answer:mtAnswerLabel(q),quickReason:reason,
+     evidence:reason?[reason]:[],evidenceHtml:stageBody(stages[0]),
+     analysisHtml:stageBody(stages[1]),applicationHtml:stageBody(stages[2]),
+     remember:holder.querySelector(".semantic-remember span")?.textContent||"",
+     needsReview:stages.length!==3,
+     application:q.warning?"Lưu ý đề gốc: "+q.warning:""
    });
  }
  const detail=window.G10_MIDTERM_EXPLAIN(q,context);
