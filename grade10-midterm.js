@@ -1,7 +1,32 @@
 /* Grade 10 midterm interactive quizzes, Grade 12-style semantic explanations. */
-const mtState={"tests":null,"chosenTest":null,"index":0,"answers":{},"checked":{},"revealed":{},"loading":null,"results":false};
+const mtState={"tests":null,"chosenTest":null,"index":0,"answers":{},"checked":{},"revealed":{},"loading":null,"results":false,"startedAt":0,"submissionId":null,"recorded":false,"owner":null};
 const MT_ALTERNATIVES={"3-26":["C","D"],"3-27":["A","B"],"3-35":["A","C"],"4-11":["B","C"],"4-16":["A","B","C","D"],"5-13":["B","C"],"5-14":["B","C"],"5-29":["A","B"],"6-22":["C","D"]};
 const MT_NO_SCORE=new Set(["4-16","6-26","6-29"]);
+function mtKey(id){return "grade-10/mid-term-test/test-"+id}
+function mtSave(){
+ if(!mtState.chosenTest||!LearningCore.userId()||mtState.owner!==LearningCore.userId())return;
+ LearningCore.writeDraft("exam",mtKey(mtState.chosenTest),{index:mtState.index,answers:mtState.answers,checked:mtState.checked,revealed:mtState.revealed,startedAt:mtState.startedAt,submissionId:mtState.submissionId,recorded:mtState.recorded});
+}
+function mtRestore(test){
+ const saved=LearningCore.readDraft("exam",mtKey(test.id));
+ mtState.chosenTest=test.id;mtState.owner=LearningCore.userId();
+ mtState.index=0;mtState.answers={};mtState.checked={};mtState.revealed={};
+ mtState.startedAt=Date.now();mtState.submissionId=LearningCore.uuid();mtState.results=false;mtState.recorded=false;
+ if(saved&&typeof saved==="object"){
+  const ids=new Set(test.questions.map(q=>q.id));
+  const valid=obj=>Object.fromEntries(Object.entries(obj||{}).filter(([k])=>ids.has(k)));
+  mtState.answers=valid(saved.answers);mtState.checked=valid(saved.checked);mtState.revealed=valid(saved.revealed);
+  mtState.index=Math.max(0,Math.min(test.questions.length-1,Number(saved.index)||0));
+  mtState.startedAt=Number(saved.startedAt)||Date.now();
+  mtState.submissionId=saved.submissionId||LearningCore.uuid();mtState.recorded=!!saved.recorded;
+ }
+ mtSave();
+}
+function mtRestart(){
+ const test=mtCurrent();if(!test)return;
+ LearningCore.clearDraft("exam",mtKey(test.id));
+ mtState.chosenTest=null;mtOpenTest(test.id);
+}
 function mtEsc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
 function mtNormal(s){return String(s??"").toLowerCase().replace(/[–—−]/g,"-").replace(/[’‘]/g,"'").replace(/[^a-z0-9áàạảãâăđêếệểễíìịỉĩóòọỏõôơúùụủũưýỳỷỹ\s'-]/gi," ").replace(/\s+/g," ").trim()}
 function mtSection(q){
@@ -49,7 +74,7 @@ async function mtHome(){
 }
 async function mtOpenTest(id){
  mtShowLoading();try{const tests=await mtLoad();if(location.hash!="#grade-10/mid-term-test/test-"+id)return;const test=tests.find(t=>t.id===+id);if(!test)throw new Error("Không tìm thấy bài kiểm tra.");
- if(mtState.chosenTest!==test.id){mtState.chosenTest=test.id;mtState.index=0;mtState.answers={};mtState.checked={};mtState.revealed={};mtState.results=false}
+ if(mtState.chosenTest!==test.id||mtState.owner!==LearningCore.userId())mtRestore(test);
  mtRender();
  }catch(err){mtShowError(err)}
 }
@@ -141,13 +166,13 @@ function mtRender(){
  '<div class="mt-controls"><button class="secondary" onclick="mtResults()">Xem tiến độ & chọn câu</button><button class="secondary" onclick="location.hash=\'grade-10/mid-term-test\'">← Tất cả đề thi</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
-function mtChoose(val){const q=mtCurrent().questions[mtState.index];if(mtState.checked[q.id])return;mtState.answers[q.id]=val;document.querySelectorAll(".mt-option").forEach(x=>x.classList.toggle("selected",!!x.querySelector("input:checked")))}
-function mtType(s){const q=mtCurrent().questions[mtState.index];if(!mtState.checked[q.id])mtState.answers[q.id]=s}
-function mtCheck(){const q=mtCurrent().questions[mtState.index];if(!String(mtState.answers[q.id]||"").trim()){alert("Hãy chọn hoặc nhập câu trả lời trước khi kiểm tra.");return}mtState.checked[q.id]=true;mtRender();document.querySelector(".mt-note")?.scrollIntoView({behavior:"smooth",block:"center"})}
-function mtReveal(){const q=mtCurrent().questions[mtState.index];mtState.revealed[q.id]=true;mtState.checked[q.id]=true;mtRender();document.querySelector(".semantic-feedback")?.scrollIntoView({behavior:"smooth",block:"start"})}
-function mtPrev(){if(mtState.index>0){mtState.index--;mtRender()}}
-function mtNext(){if(mtState.index+1<mtCurrent().questions.length){mtState.index++;mtRender()}else mtResults()}
-function mtJump(i){mtState.index=Math.max(0,Math.min(mtCurrent().questions.length-1,Number(i)||0));mtRender()}
+function mtChoose(val){const q=mtCurrent().questions[mtState.index];if(mtState.checked[q.id])return;mtState.answers[q.id]=val;mtSave();document.querySelectorAll(".mt-option").forEach(x=>x.classList.toggle("selected",!!x.querySelector("input:checked")))}
+function mtType(s){const q=mtCurrent().questions[mtState.index];if(!mtState.checked[q.id]){mtState.answers[q.id]=s;mtSave()}}
+function mtCheck(){const q=mtCurrent().questions[mtState.index];if(!String(mtState.answers[q.id]||"").trim()){alert("Hãy chọn hoặc nhập câu trả lời trước khi kiểm tra.");return}mtState.checked[q.id]=true;mtSave();mtRender();document.querySelector(".mt-note")?.scrollIntoView({behavior:"smooth",block:"center"})}
+function mtReveal(){const q=mtCurrent().questions[mtState.index];mtState.revealed[q.id]=true;mtState.checked[q.id]=true;mtSave();mtRender();document.querySelector(".semantic-feedback")?.scrollIntoView({behavior:"smooth",block:"start"})}
+function mtPrev(){if(mtState.index>0){mtState.index--;mtSave();mtRender()}}
+function mtNext(){if(mtState.index+1<mtCurrent().questions.length){mtState.index++;mtSave();mtRender()}else mtResults()}
+function mtJump(i){mtState.index=Math.max(0,Math.min(mtCurrent().questions.length-1,Number(i)||0));mtSave();mtRender()}
 function mtResults(){
  const test=mtCurrent();if(!test)return;
  const done=test.questions.filter(q=>mtState.checked[q.id]).length;const alt=MT_ALTERNATIVES;
