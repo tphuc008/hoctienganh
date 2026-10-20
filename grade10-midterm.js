@@ -177,6 +177,16 @@ function mtResults(){
  const test=mtCurrent();if(!test)return;
  const done=test.questions.filter(q=>mtState.checked[q.id]).length;const alt=MT_ALTERNATIVES;
  const scored=test.questions.map(q=>{const input=mtState.answers[q.id]||"";return {q,checked:!!mtState.checked[q.id],right:!MT_NO_SCORE.has(q.id)&&!mtState.revealed[q.id]&&!!mtState.checked[q.id]&&(q.options?(alt[q.id]||[q.answer]).includes(input):mtWrittenCorrect(q,input))}}),right=scored.filter(x=>x.right).length;
+ if(done===test.questions.length&&!mtState.recorded){
+   mtState.recorded=true;mtSave();
+   const eligible=test.questions.filter(q=>!MT_NO_SCORE.has(q.id)).length;
+   LearningCore.submitPractice({
+     category:"exam",slug:mtKey(test.id),correct:right,total:eligible,
+     duration:Math.max(0,Math.round((Date.now()-mtState.startedAt)/1000)),
+     submissionId:mtState.submissionId,details:{checked:done,sourceQuestions:test.questions.length}
+   }).then(()=>{if(typeof recordTutoringActivity==="function")recordTutoringActivity("study")})
+     .catch(e=>console.warn("Mid-term exam result queued for retry",e));
+ }
  const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'grade-10/mid-term-test\'">Mid Term Test</button><span>›</span><span>'+mtEsc(test.title)+'</span></div><div class="unit-hero"><div class="eyebrow">Mid Term Test · '+mtEsc(test.title)+'</div><h1>Tiến độ làm bài</h1><p class="mt-score">'+right+'/'+(test.questions.length-test.questions.filter(q=>MT_NO_SCORE.has(q.id)).length)+' câu khớp đáp án tham khảo · Đã kiểm tra '+done+'/'+test.questions.length+'</p><p class="mt-subtle">Các câu có nhiều cách trả lời hợp lệ được ghi chú riêng. Kết quả này là tự kiểm tra, không thay thế chấm thi chính thức.</p></div><div class="mt-review-grid">'+scored.map((x,i)=>'<button class="'+(x.checked?(x.right?'completed':'missed'):'')+'" onclick="mtJump('+i+')">'+(x.q.section==="Main"?x.q.number:x.q.section.slice(-1)+"-"+x.q.number)+'</button>').join("")+'</div><div class="mt-controls"><button class="primary" onclick="mtJump('+Math.min(mtState.index,test.questions.length-1)+')">Tiếp tục xem lời giải</button><button class="secondary" onclick="location.hash=\'grade-10/mid-term-test\'">Quay lại các đề</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
