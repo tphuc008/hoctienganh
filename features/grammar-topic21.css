@@ -373,3 +373,40 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
  .g21-stage-layout .g21-assessment .g21-page-controls{gap:5px}
  .g21-stage-layout .g21-assessment .g21-page-nav .g21-btn{padding:9px}
 }
+
+/* Topic 21 Vietnamese micro-meanings: light annotations, not full translations. */
+.g21-lesson .g21-quick-vi{
+  margin:-8px 0 15px;
+  padding:0;
+  color:#64748b;
+  font-size:12.5px;
+  line-height:1.65;
+}
+.g21-lesson .g21-quick-vi span{
+  font-size:10px;
+  font-weight:800;
+  color:#64748b;
+  letter-spacing:.035em;
+  text-transform:uppercase;
+  margin-right:9px;
+}
+.g21-lesson .g21-example-meaning{
+  display:grid;
+  grid-template-columns:110px minmax(0,1fr);
+  gap:13px;
+  margin:3px 0 7px;
+  font-size:12.5px;
+  font-weight:450;
+  color:#64748b;
+  line-height:1.65;
+}
+.g21-lesson .g21-example-meaning span{
+  font-size:11px;
+  font-weight:650;
+  color:#94a3b8;
+}
+@media(max-width:700px){
+  .g21-lesson .g21-example-meaning{display:block;margin:4px 0 9px}
+  .g21-lesson .g21-example-meaning span{display:inline;margin-right:8px}
+}
+/* End Topic 21 Vietnamese micro-meanings */
