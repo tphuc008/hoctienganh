@@ -115,3 +115,19 @@ The previous all-in-one layout has been split into three independently shareable
 - `#grade-12/lesson-plans/unit-7/print` — print original handout or selected practice, with keys only when Supabase authorizes access.
 
 All three pages share a compact Google Docs source link, a three-item navigation bar, and previous/next navigation. Switching pages in the same loaded session preserves in-browser student choice state and practice session state. Supabase authorization refreshes on navigation and answer payloads remain protected by RLS.
+
+## Semantic Precision & selective answer printing (Unit 7)
+
+The original on-page detailed explanation follows the existing Semantic Precision UI's three stages:
+(1) meaning/context/collocation, (2) explain A–D, (3) example for each option, plus a remembered takeaway.
+The site uses the private `lesson_solutions` payload, not public GitHub answer keys.
+Legacy data uses `correctMeaning`, `why`, `choices[].explanation`, and `choices[].example`;
+future protected `mode: "semantic_precision"` data may also have `step1`, `options`, `examples[]`, and `remember`.
+Only render supplied Vietnamese example translations when such data exists; do not invent them.
+
+The Print page offers exactly two options: “In đề + đáp án ngắn” and “In đề + giải chi tiết”.
+It has checkboxes for Parts I (1–28), II (29–34), and III (35–40), with at least one required.
+Original question numbers are preserved even for subsets. In short-key format, all selected questions
+come first and only the answer letters appear on a new final answer-key page. Detailed format
+places the full Semantic Precision analysis directly below each printed question.
+Both modes require authorized Supabase solution access; when locked, the preview and print action are disabled.

@@ -7,9 +7,15 @@
   const HOME="grade-12/lesson-plans";
   const mount=document.getElementById("pageMount");
   let unitId=7,page="lesson",accessRequestId=0,access={loading:false,teacher:false,unlocked:false,solutions:null,error:""},
-    mcqCount=0,readingCount=0,quiz=null,printMode="questions",
+    mcqCount=0,readingCount=0,quiz=null,printMode="key",
+    printParts={context:true,closest:true,opposite:true},
     originalAnswers={},printOpenedPreview=false;
   const catalog=global.LessonPlanCatalog;
+  const partDefs=[
+    {id:"context",number:"I",title:"Vocabulary in Context",range:"1–28"},
+    {id:"closest",number:"II",title:"Closest in Meaning",range:"29–34"},
+    {id:"opposite",number:"III",title:"Opposite in Meaning",range:"35–40"}
+  ];
   function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
   function docLink(input){
     try{const u=new URL(input);return u.protocol==="https:"&&u.hostname==="docs.google.com"&&/^\/document\/d\/[^/]+/.test(u.pathname)?u.href:"";}
@@ -99,6 +105,49 @@
       (!access.loading?'<button class="lp-refresh" type="button" data-lp-refresh="1">Kiểm tra quyền</button>':"")+
       '</div></aside>';
   }
+
+  function semanticExplanation(q,k,forPrint=false){
+    if(!k)return "";
+    const idx=k.correctIndex,correct=q.options[idx]||"";
+    const first=Array.isArray(k.step1)&&k.step1.length?k.step1:
+      [k.correctMeaning||"",k.why||""].filter(Boolean);
+    const choiceItems=Array.isArray(k.options)&&k.options.length===4?k.options:
+      (Array.isArray(k.choices)?k.choices:[]);
+    const exampleItems=Array.isArray(k.examples)?k.examples:
+      (Array.isArray(k.choices)?k.choices.map((ch,j)=>({
+        label:String.fromCharCode(65+j),word:q.options[j],en:ch.example||"",vi:ch.exampleVi||""
+      })):[]);
+    const remember=k.remember||(k.targetVocabulary?
+      "Ghi nhớ cách dùng “"+k.targetVocabulary+"” trong đúng ngữ cảnh của câu hỏi; phân biệt nghĩa và collocation với những lựa chọn còn lại.":"Khi các đáp án gần nghĩa, hãy xét collocation và dấu hiệu ngữ cảnh thay vì chỉ dịch từng từ riêng lẻ.");
+    const comparisons=choiceItems.map((ch,j)=>{
+      const word=ch.word||ch.label||q.options[j]||"";
+      const letter=String.fromCharCode(65+j);
+      return '<div class="semantic-option '+(j===idx?"correct-analysis":"")+'"><div class="semantic-option-head">'+
+        '<span>'+letter+'</span><b>'+esc(word)+'</b>'+
+        (ch.meaning?'<em>'+esc(ch.meaning)+'</em>':"")+'</div>'+
+        '<p>'+esc(ch.analysis||ch.explanation||"")+'</p></div>';
+    }).join("");
+    const examples=exampleItems.map((ex,j)=>{
+      const letter=String.fromCharCode(65+j);
+      return '<div class="semantic-example"><div class="semantic-example-title"><span>'+letter+
+        '</span><b>'+esc(ex.word||q.options[j]||"")+'</b></div>'+
+        '<p class="example-en">'+esc(ex.en||ex.example||"")+'</p>'+
+        (ex.vi?'<p class="example-vi">→ '+esc(ex.vi)+'</p>':"")+'</div>';
+    }).join("");
+    return '<div class="feedback correct semantic-feedback lp-semantic-feedback'+(forPrint?" lp-semantic-print":"")+'">'+
+      '<div class="feedback-title">✓ Đáp án '+String.fromCharCode(65+idx)+' — '+esc(correct)+'</div>'+
+      '<section class="semantic-step"><div class="semantic-step-label"><span>1</span><div>'+
+      '<b>Dịch nghĩa + giải thích ngữ cảnh</b><small>Meaning · context · collocation · why this answer</small>'+
+      '</div></div><div class="semantic-prose">'+first.map(t=>'<p>'+esc(t)+'</p>').join("")+'</div></section>'+
+      '<section class="semantic-step"><div class="semantic-step-label"><span>2</span><div>'+
+      '<b>So sánh A, B, C, D</b><small>Nuance · collocation · phạm vi nghĩa</small>'+
+      '</div></div><div class="semantic-options-grid">'+comparisons+'</div></section>'+
+      '<section class="semantic-step"><div class="semantic-step-label"><span>3</span><div>'+
+      '<b>Ví dụ thực tế cho từng đáp án</b><small>1 ví dụ cho mỗi phương án A–D</small>'+
+      '</div></div><div class="semantic-examples-grid">'+examples+'</div></section>'+
+      '<div class="semantic-remember"><b>Điểm cần nhớ</b><span>'+esc(remember)+'</span></div></div>';
+  }
+
   function originalQuestion(q,n){
     let prompt=esc(q.text);
     if(q.target){const at=prompt.indexOf(esc(q.target));if(at>=0)prompt=prompt.slice(0,at)+'<u>'+esc(q.target)+'</u>'+prompt.slice(at+esc(q.target).length);}
@@ -108,16 +157,9 @@
     const k=accessAllowed()?getKey(q.id):null;
     let explanation='<div class="lp-inline-locked-note">🔒 Lời giải sẽ xuất hiện tại đây khi giáo viên mở khóa.</div>';
     if(accessAllowed()){
-      explanation=k?'<details class="lp-inline-answer"><summary>📖 Xem lời giải chi tiết · Câu '+n+'</summary>'+
-        '<div class="lp-inline-answer-body"><p><b>Đáp án: '+String.fromCharCode(65+k.correctIndex)+
-        (k.choices?.[k.correctIndex]?.label?" — "+esc(k.choices[k.correctIndex].label):"")+'</b></p>'+
-        (k.correctMeaning?'<p><b>Nghĩa:</b> '+esc(k.correctMeaning)+'</p>':"")+
-        (k.why?'<p><b>Vì sao chọn đáp án này?</b> '+esc(k.why)+'</p>':"")+
-        (Array.isArray(k.choices)?k.choices.map((choice,j)=>
-          '<div class="lp-explain-row"><strong>'+String.fromCharCode(65+j)+'. '+esc(choice.label||q.options[j]||"")+
-          '</strong><span>'+esc(choice.explanation||"")+'</span></div>').join(""):"")+
-        (k.examples?'<p class="lp-examples">'+esc(k.examples)+'</p>':"")+
-        '</div></details>':'<div class="lp-inline-locked-note">Chưa có lời giải khớp với ID câu hỏi này.</div>';
+      explanation=k?'<details class="lp-inline-answer"><summary>📖 Xem lời giải Semantic Precision · Câu '+n+'</summary>'+
+        '<div class="lp-inline-answer-body">'+semanticExplanation(q,k)+'</div></details>':
+        '<div class="lp-inline-locked-note">Chưa có lời giải khớp với ID câu hỏi này.</div>';
     }
     return '<article class="lp-inline-question" id="lp-question-'+n+'"><div class="lp-inline-question-number">QUESTION '+String(n).padStart(2,"0")+'</div>'+
       '<p class="lp-inline-prompt"><b>'+n+'.</b> '+prompt+'</p><div class="lp-inline-options">'+opts+'</div>'+explanation+'</article>';
@@ -198,50 +240,67 @@
       (b.mcqs.length||b.passages.length?'<div class="lp-preview-note">Bộ câu hỏi hiện có: '+b.mcqs.length+
         ' MCQ và '+b.passages.length+' Reading passages. Đáp án chưa công khai sẽ không xuất hiện trong mã nguồn.</div>':"");
   }
+
   function selectedForPrint(u){
-    const b=bank(u);
-    if(!b.mcqs.length&&!b.passages.length&&Array.isArray(u.originalExercises))
-      return {mcqs:u.originalExercises.filter(validQ),passages:[]};
-    return {mcqs:quiz?.mcqs||b.mcqs.slice(0,mcqCount),passages:quiz?.passages||b.passages.slice(0,readingCount)};
+    const all=Array.isArray(u.originalExercises)?u.originalExercises.filter(validQ):[];
+    return all.filter(q=>printParts[q.part]===true);
   }
   function getKey(id){
     const item=Array.isArray(access.solutions)?access.solutions.find(x=>x&&x.questionId===id):null;
     return item&&Number.isInteger(item.correctIndex)&&item.correctIndex>=0&&item.correctIndex<=3?item:null;
   }
-  function printAnswer(q,n){
-    if(printMode==="questions")return "";
-    const k=getKey(q.id);
-    if(!k)return '<div class="lp-print-answer">'+n+'. — Chưa có lời giải</div>';
-    const letter=String.fromCharCode(65+k.correctIndex);
-    return '<div class="lp-print-answer"><b>Đáp án '+n+': '+letter+'</b>'+
-      (printMode==="detailed"?
-        (k.correctMeaning?'<p><b>Nghĩa:</b> '+esc(k.correctMeaning)+'</p>':"")+
-        (k.why?'<p><b>Giải thích:</b> '+esc(k.why)+'</p>':"")+
-        (Array.isArray(k.choices)?k.choices.map((x,j)=>'<p>'+String.fromCharCode(65+j)+'. '+esc(x.label||q.options[j]||"")+': '+esc(x.explanation||"")+'</p>').join(""):"")+
-        (k.examples?'<p>'+esc(k.examples)+'</p>':""):"")+'</div>';
+  function printQuestionNumber(q){
+    const match=String(q.id).match(/-(\d{2})$/);
+    return match?Number(match[1]):0;
   }
   function printSheet(u){
-    const p=selectedForPrint(u);let no=0;
+    const selected=selectedForPrint(u);
+    const parts=partDefs.map(part=>({
+      ...part,items:selected.filter(q=>q.part===part.id)
+    })).filter(part=>part.items.length);
+    const content=parts.map(part=>'<section class="lp-print-part"><h4>PART '+part.number+'. '+part.title+'</h4>'+
+      part.items.map(q=>{
+        const n=printQuestionNumber(q),key=getKey(q.id);
+        return '<div class="lp-print-question">'+questionBlock(q,n,true)+
+          (printMode==="detailed"?semanticExplanation(q,key,true):"")+'</div>';
+      }).join("")+'</section>').join("");
+    const answerKey=printMode==="key"?'<section class="lp-print-answer-key">'+
+      '<h4>ANSWER KEY · ĐÁP ÁN NGẮN</h4>'+
+      '<div class="lp-print-key-grid">'+selected.map(q=>{
+        const n=printQuestionNumber(q),key=getKey(q.id);
+        return '<span><strong>'+n+'.</strong> '+(key?String.fromCharCode(65+key.correctIndex):"—")+'</span>';
+      }).join("")+'</div></section>':"";
     return '<div class="lp-print-sheet"><div class="lp-print-sheet-top"><span>ENGLISH PRACTICE HUB</span><span>UNIT '+u.id+'</span></div>'+
-      '<h3>'+(printMode==="detailed"?"DETAILED SOLUTIONS":esc(u.title||"VOCABULARY PRACTICE"))+'</h3>'+
-      p.mcqs.map(q=>{const n=++no;return questionBlock(q,n,true)+printAnswer(q,n)}).join("")+
-      p.passages.map(x=>'<section class="lp-passage"><h4>'+esc(x.title||"Reading")+'</h4><p class="lp-passage-text">'+
-        esc(x.passage).replace(/\\n/g,"<br>")+'</p>'+x.questions.map(q=>{const n=++no;return questionBlock(q,n,true)+printAnswer(q,n)}).join("")+'</section>').join("")+
+      '<h3>'+esc(u.title||"VOCABULARY PRACTICE")+'</h3>'+
+      '<p class="lp-print-subtitle">'+(printMode==="key"?"Đề bài + đáp án ngắn ở cuối":"Đề bài + giải thích Semantic Precision cho từng câu")+'</p>'+
+      content+answerKey+
       '<div class="lp-print-foot">English Practice Hub · Unit '+u.id+'</div></div>';
   }
   function printing(u){
-    const b=bank(u),picked=selectedForPrint(u),total=picked.mcqs.length+picked.passages.reduce((s,p)=>s+p.questions.length,0);
-    const hasKeys=accessAllowed()&&access.solutions.length>0;
-    if(!total)return section("03 / PRINT","In đề bài","Bài tập sẽ có thể in khi được xuất bản.")+
-      '<div class="lp-note">Chưa có bài tập để in.</div>';
-    if(printMode!=="questions"&&!hasKeys)printMode="questions";
-    return section("03 / PRINT","In đề bài","Chọn in đề, đáp án ngắn hoặc lời giải chi tiết. Đáp án chỉ có khi đã được mở khóa.")+
-      '<div class="lp-switches">'+[["questions","Đề bài"],["key","Đáp án ngắn"],["detailed","Lời giải chi tiết"]].map(([id,label])=>
-        '<button type="button" data-lp-print-mode="'+id+'" class="'+(id===printMode?"is-active":"")+
-        '" '+(id!=="questions"&&!hasKeys?'disabled title="Chỉ in được đáp án khi đã mở khóa"':"")+'>'+label+'</button>').join("")+'</div>'+
-      '<p class="lp-print-count">'+total+' câu · '+(b.mcqs.length||b.passages.length?"Ngân hàng luyện tập":"Bài tập gốc từ Google Docs")+'</p>'+
-      '<details class="lp-print-preview"><summary>📄 Xem trước nội dung bản in</summary>'+printSheet(u)+'</details>'+
-      '<div class="lp-print-actions"><button type="button" data-lp-print-now="1">🖨 In nội dung đang chọn</button></div>';
+    const all=Array.isArray(u.originalExercises)?u.originalExercises.filter(validQ):[];
+    if(!all.length)return section("03 / PRINT","In đề kèm đáp án","Bài tập sẽ có thể in khi được xuất bản.")+
+      '<div class="lp-note">Chưa có bài tập gốc để in.</div>';
+    const selected=selectedForPrint(u),total=selected.length;
+    const allowed=accessAllowed();
+    const complete=allowed&&total>0&&selected.every(q=>Boolean(getKey(q.id)));
+    return section("03 / PRINT","In đề kèm đáp án","Chọn Part cần in, sau đó chọn đáp án ngắn ở cuối đề hoặc lời giải Semantic Precision ngay dưới từng câu.")+
+      '<fieldset class="lp-print-parts"><legend>Chọn phần muốn in</legend>'+
+      '<div class="lp-print-part-options">'+partDefs.map(part=>{
+        const count=all.filter(q=>q.part===part.id).length;
+        return '<label class="lp-print-part-option"><input type="checkbox" data-lp-print-part="'+part.id+
+          '" '+(printParts[part.id]?"checked":"")+'/><span><strong>Part '+part.number+' — '+part.title+'</strong>'+
+          '<small>'+part.range+' · '+count+' câu</small></span></label>';
+      }).join("")+'</div></fieldset>'+
+      '<div class="lp-switches lp-print-modes" aria-label="Chọn định dạng in">'+
+      [["key","In đề + đáp án ngắn"],["detailed","In đề + giải chi tiết"]].map(([id,label])=>
+        '<button type="button" data-lp-print-mode="'+id+'" class="'+(id===printMode?"is-active":"")+'" aria-pressed="'+(id===printMode)+'">'+label+'</button>').join("")+'</div>'+
+      '<p class="lp-print-count">Đã chọn <b>'+total+' / '+all.length+' câu</b> từ '+partDefs.filter(p=>printParts[p.id]).length+' Part.</p>'+
+      (!total?'<div class="lp-note" role="status">Hãy chọn ít nhất một Part để in.</div>':
+        !allowed?'<div class="lp-note" role="status">🔒 Cần được giáo viên mở khóa lời giải trước khi in đáp án hoặc giải chi tiết.</div>':
+        !complete?'<div class="lp-note" role="status">Có câu chưa có lời giải tương ứng, chưa thể in bản đáp án.</div>':
+        '<details class="lp-print-preview"><summary>📄 Xem trước nội dung bản in</summary>'+printSheet(u)+'</details>')+
+      '<div class="lp-print-actions"><button type="button" data-lp-print-now="1" '+(!complete?"disabled":"")+
+      '>🖨 In '+(printMode==="key"?"đề + đáp án ngắn":"đề + lời giải chi tiết")+'</button></div>';
   }
   function renderUnit(n,preserve){
     const u=getUnit(n);
@@ -259,7 +318,7 @@
   function openUnitPage(id,chosenPage){
     const n=Number(id);
     if(!getUnit(n)){location.hash=HOME;return}
-    if(n!==unitId){originalAnswers={};quiz=null;mcqCount=0;readingCount=0;printMode="questions";}
+    if(n!==unitId){originalAnswers={};quiz=null;mcqCount=0;readingCount=0;printMode="key";printParts={context:true,closest:true,opposite:true};}
     unitId=n;
     page=["lesson","practice","print"].includes(chosenPage)?chosenPage:"lesson";
     access={loading:true,teacher:false,unlocked:false,solutions:null,error:""};
@@ -343,9 +402,11 @@
       else if(button.hasAttribute("data-lp-submit")){if(quiz){quiz.submitted=true;rememberQuiz();renderUnit(unitId,true)}}
       else if(button.hasAttribute("data-lp-print-mode")){
         const wanted=get("data-lp-print-mode");
-        if(wanted!=="questions"&&!accessAllowed())return;
+        if(wanted!=="key"&&wanted!=="detailed")return;
         printMode=wanted;renderUnit(unitId,true);
       }else if(button.hasAttribute("data-lp-print-now")){
+        const currentUnit=getUnit(unitId),selected=currentUnit?selectedForPrint(currentUnit):[];
+        if(page!=="print"||!accessAllowed()||!selected.length||!selected.every(q=>Boolean(getKey(q.id))))return;
         const preview=mount.querySelector(".lp-print-preview");
         printOpenedPreview=Boolean(preview&&!preview.open);
         if(preview)preview.open=true;
@@ -358,6 +419,13 @@
       if(!location.hash.includes(HOME+"/unit-"))return;
       if(node.matches("[data-lp-original-answer]")){
         originalAnswers[node.getAttribute("data-lp-original-answer")]=Number(node.value);
+        return;
+      }
+      if(node.matches("[data-lp-print-part]")){
+        const key=node.getAttribute("data-lp-print-part");
+        if(!partDefs.some(x=>x.id===key))return;
+        printParts[key]=Boolean(node.checked);
+        renderUnit(unitId,true);
         return;
       }
       if(node.matches('[data-lp-input="mcq"]'))mcqCount=Number(node.value)||0;

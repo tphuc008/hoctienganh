@@ -22,11 +22,16 @@ test("Unit 7 publishes the complete original handout without solutions",()=>{
  assert.equal(unit.originalExercises.filter(q=>q.part==="closest").length,6);
  assert.equal(unit.originalExercises.filter(q=>q.part==="opposite").length,6);
 });
-test("Continuous page includes protected, question-linked explanations",()=>{
+test("Lesson page uses protected Semantic Precision explanations",()=>{
  const js=read("features/lesson-plans.js");
  assert.match(js,/function originalQuestion\(q,n\)/);
  assert.match(js,/getKey\(q\.id\)/);
  assert.match(js,/class="lp-inline-answer"/);
+ assert.match(js,/function semanticExplanation\(q,k,forPrint=false\)/);
+ assert.match(js,/class="semantic-step"/);
+ assert.match(js,/semantic-options-grid/);
+ assert.match(js,/semantic-examples-grid/);
+ assert.match(js,/semantic-remember/);
  assert.match(js,/accessAllowed\(\)/);
  assert.doesNotMatch(js,/data-lp-tab/);
  assert.match(js,/loadAccess\(n\)/);
@@ -56,4 +61,17 @@ test("Unit 7 has three distinct, addressable learning pages",()=>{
  assert.match(js,/pageLink\(u,"print"/);
  assert.match(js,/requestId!==accessRequestId/);
  assert.doesNotMatch(js,/lesson\(u\)\+'<\/section>'\+/);
+});
+
+test("Print page has part selection, two answer formats, and short keys at the end",()=>{
+ const js=read("features/lesson-plans.js");
+ assert.match(js,/printParts=\{context:true,closest:true,opposite:true\}/);
+ assert.match(js,/data-lp-print-part/);
+ assert.match(js,/\[\["key","In đề \+ đáp án ngắn"\],\["detailed","In đề \+ giải chi tiết"\]\]/);
+ assert.match(js,/const answerKey=printMode==="key"/);
+ assert.match(js,/content\+answerKey/);
+ assert.match(js,/printMode==="detailed"\?semanticExplanation\(q,key,true\)/);
+ assert.doesNotMatch(js,/\["questions","Đề bài"\]/);
+ assert.doesNotMatch(js,/printMode="questions"/);
+ assert.match(js,/!accessAllowed\(\)\|\|!selected.length/);
 });
