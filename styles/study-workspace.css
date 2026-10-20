@@ -181,3 +181,25 @@ body:not(.mis-reading-mode) .account-card{border-radius:17px;box-shadow:var(--st
  body:not(.mis-reading-mode) .lp-paper{box-shadow:none;max-width:none}
  body:not(.mis-reading-mode) .lp-print-sheet{display:block}
 }
+
+
+/* Secondary access controls belong outside the primary discovery surface. */
+.study-access-settings{max-width:380px;margin:25px 0 0;color:#64748b;font-size:12px}
+.study-access-settings>summary{list-style:none;display:inline-flex;align-items:center;gap:7px;cursor:pointer;padding:7px 0;font-weight:650}
+.study-access-settings>summary::-webkit-details-marker{display:none}
+.study-access-settings>summary:before{content:"⚙";font-size:13px;color:#94a3b8}
+.study-access-settings[open]>summary{color:#1d4ed8}
+.study-access-settings>div{padding:8px 0 4px}
+.study-access-settings .secondary{font-size:12px;min-height:36px;padding:8px 12px}
+/* Listening keeps video and answers available together at desktop sizes. */
+@media(min-width:1080px){
+ body:not(.mis-reading-mode) #pageMount .listening-workspace{
+   grid-template-columns:minmax(0,0.92fr) minmax(0,1.08fr);gap:clamp(16px,2vw,28px);align-items:start
+ }
+ body:not(.mis-reading-mode) #pageMount .listening-video-column{top:20px}
+}
+body:not(.mis-reading-mode) #pageMount .entertainment-video-card,
+body:not(.mis-reading-mode) #pageMount .video-shell{
+ border-radius:14px;border-color:var(--study-line);box-shadow:var(--study-shadow)
+}
+body:not(.mis-reading-mode) #pageMount .listening-q{border-radius:12px}
