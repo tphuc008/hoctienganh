@@ -54,7 +54,7 @@ function pdfText(pdf){const z=spawnSync("pdftotext",["-","-"],{input:pdf,encodin
       accessLabel,{timeout:12000});
   }
   try{
-    await open("",".lp-inline-question","Lời giải hiện đang khóa");
+    await open("",".lp-inline-question","Lời giải đang khóa");
     assert.equal(await page.locator(".lp-inline-question").count(),40);
     await page.locator('#lp-question-1 [data-lp-original-answer][value="0"]').check();
     assert.equal(await page.locator('#lp-question-1 [data-lp-original-check]').isDisabled(),true);
@@ -62,7 +62,7 @@ function pdfText(pdf){const z=spawnSync("pdftotext",["-","-"],{input:pdf,encodin
     unlocked=true;
     await page.reload({waitUntil:"domcontentloaded",timeout:22000});
     await page.locator(".lp-inline-question").first().waitFor({state:"visible",timeout:14000});
-    await page.waitForFunction(()=>document.querySelector(".lp-inline-access strong")?.textContent?.includes("Lời giải đã sẵn sàng"),null,{timeout:14000}).catch(async e=>{
+    await page.waitForFunction(()=>document.querySelector(".lp-inline-access strong")?.textContent?.includes("Có lời giải"),null,{timeout:14000}).catch(async e=>{
       throw new Error("Unlock state did not update: "+await page.locator(".lp-inline-access").innerText()+"; "+e.message);
     });
     assert.equal(await page.locator("#lp-question-1 .lp-inline-answer").count(),0);
