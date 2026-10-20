@@ -94,15 +94,33 @@ function feedback(q,pick,wasCorrect,kind){
     '<p><b>Quy tắc cần nhớ:</b> '+esc(q.why)+'</p>'+
     (good?'<p><b>Đáp án:</b> '+esc(q.options[q.correct])+'</p>':kind==="guided"?"<p>Đọc lại phân tích trên rồi thử chọn đáp án khác.</p>":'<p><b>Đáp án đúng:</b> '+esc(q.options[q.correct])+'</p>')+'</div>';
 }
-/* Stable per-account option shuffling prevents answer-letter patterns while retaining
- * canonical correctness and feedback indices in the source question bank. */
+/* Balance correct positions within each quiz bank. Correct answers are fixed in
+ * canonical data; only display positions move. This reduces letter-based guessing. */
+function topic21Hash(value){
+  let x=2166136261;
+  const s=String(value);
+  for(let i=0;i<s.length;i++)x=Math.imul(x^s.charCodeAt(i),16777619)>>>0;
+  return x;
+}
 function optionOrder(q){
-  let seed=2166136261;
-  const input=String(q.id)+":"+userId;
-  for(let i=0;i<input.length;i++){seed=Math.imul(seed^input.charCodeAt(i),16777619)>>>0;}
-  const order=[0,1,2,3];
-  for(let i=3;i>0;i--){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const j=seed%(i+1);const t=order[i];order[i]=order[j];order[j]=t;}
-  return order;
+  const all=[...d.sections.flatMap(s=>s.checks),...d.practice,...d.mastery,...d.repairs,...d.review];
+  const bank=q.id.charAt(0);
+  const related=all.filter(x=>x.id.charAt(0)===bank)
+    .sort((a,b)=>topic21Hash(userId+":"+a.id)-topic21Hash(userId+":"+b.id));
+  const rank=related.findIndex(x=>x.id===q.id);
+  const target=(rank+topic21Hash(userId+":"+bank)%4)%4;
+  const distractors=[0,1,2,3].filter(x=>x!==q.correct);
+  let seed=topic21Hash(q.id+":"+userId+":distractors");
+  for(let i=distractors.length-1;i>0;i--){
+    seed=(Math.imul(seed,1664525)+1013904223)>>>0;
+    const j=seed%(i+1);
+    const t=distractors[i];distractors[i]=distractors[j];distractors[j]=t;
+  }
+  const result=Array(4).fill(-1);
+  result[target]=q.correct;
+  let pos=0;
+  for(let i=0;i<4;i++){if(i!==target)result[i]=distractors[pos++];}
+  return result;
 }
 function question(q,num,kind){
   const guided=kind==="guided",repair=kind==="repair",independent=kind==="practice",mastery=kind==="mastery",review=kind==="review";
