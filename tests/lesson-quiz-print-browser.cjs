@@ -1,5 +1,7 @@
 const {chromium}=require("playwright");
 const assert=require("node:assert/strict");
+const {spawnSync}=require("node:child_process");
+function pdfText(pdf){const z=spawnSync("pdftotext",["-","-"],{input:pdf,encoding:"utf8",maxBuffer:8*1024*1024});if(z.error)throw z.error;assert.equal(z.status,0,"PDF must be readable");return z.stdout;}
 
 (async()=>{
   const browser=await chromium.launch({headless:true});
@@ -15,10 +17,10 @@ const assert=require("node:assert/strict");
   const synthetic=Array.from({length:40},(_,i)=>({
     questionId:"u7-v10-"+String(i+1).padStart(2,"0"),
     correctIndex:(i+1)%4,
-    correctMeaning:"Mocked meaning, not a real answer.",
-    why:"Mocked reason for browser test.",
+    correctMeaning:"Nghĩa từ vựng bằng tiếng Việt.",
+    why:"Phân tích ngữ cảnh bằng tiếng Việt.",
     choices:["alpha","beta","gamma","delta"].map(w=>({
-      label:w,explanation:"Mocked comparison "+w,example:"Example sentence for "+w+"."
+      label:w,explanation:"Giải thích bằng tiếng Việt cho "+w,example:"Example sentence for "+w+".",exampleVi:"Ví dụ tiếng Việt cho "+w
     }))
   }));
   await page.route("https://ouicitkpfukterkilqzu.supabase.co/**",route=>{
@@ -93,29 +95,39 @@ const assert=require("node:assert/strict");
       return Boolean(k&&q.length&&(q[q.length-1].compareDocumentPosition(k)&Node.DOCUMENT_POSITION_FOLLOWING));
     });
     assert.ok(keyLast,"The short-answer key must come after all questions");
-    await page.evaluate(()=>{window.__prints=0;window.print=()=>{window.__prints++}});
-    await page.locator('[data-lp-print-now]').click();
-    assert.equal(await page.evaluate(()=>window.__prints),1,"The print button must actually invoke print");
-    await page.emulateMedia({media:"print"});
-    const pdfKey=await page.pdf({format:"A4",printBackground:true});
-    assert.ok(pdfKey.length>8000,"Short answer output must produce a non-empty PDF");
-    await page.emulateMedia({media:"screen"});
-    await page.evaluate(()=>window.dispatchEvent(new Event("afterprint")));
+    const [keyTab]=await Promise.all([page.waitForEvent("popup"),page.locator('[data-lp-print-now]').click()]);
+    await keyTab.locator('.lp-print-sheet').waitFor({state:'visible',timeout:12000});
+    assert.equal(await keyTab.locator('.lp-quiz-question').count(),6);
+    assert.equal(await keyTab.locator('.lp-print-key-grid span').count(),6);
+    assert.equal(await keyTab.locator('.lp-print-answer-key').count(),1);
+    assert.equal(await keyTab.locator('#print-again').isVisible(),true);
+    assert.equal(await keyTab.locator('link[rel=stylesheet]').count(),0);
+    const keyPdf=await keyTab.pdf({format:'A4',printBackground:true});
+    const extractedKey=pdfText(keyPdf);
+    assert.match(extractedKey,/ANSWER KEY/);
+    assert.ok(extractedKey.includes('29.'));
+    assert.ok(!extractedKey.includes('Phân tích ngữ cảnh bằng tiếng Việt'));
+    await keyTab.close();
     await page.locator('[data-lp-print-mode="detailed"]').click();
     await page.locator(".lp-print-preview > summary").click();
     assert.equal(await page.locator(".lp-print-answer-key").count(),0);
     assert.equal(await page.locator(".lp-semantic-print").count(),6);
     assert.equal(await page.locator(".lp-semantic-print .semantic-step").count(),18);
-    await page.locator('[data-lp-print-now]').click();
-    await page.emulateMedia({media:"print"});
-    const pdfDetailed=await page.pdf({format:"A4",printBackground:true});
-    assert.ok(pdfDetailed.length>12000,"Detailed explanations must print into a non-empty PDF");
-    await page.emulateMedia({media:"screen"});
-    await page.evaluate(()=>window.dispatchEvent(new Event("afterprint")));
+    const [detailTab]=await Promise.all([page.waitForEvent('popup'),page.locator('[data-lp-print-now]').click()]);
+    await detailTab.locator('.lp-print-sheet').waitFor({state:'visible',timeout:12000});
+    assert.equal(await detailTab.locator('.lp-semantic-print').count(),6);
+    assert.equal(await detailTab.locator('.lp-print-answer-key').count(),0);
+    const detailPdf=await detailTab.pdf({format:'A4',printBackground:true});
+    const extractedDetail=pdfText(detailPdf);
+    assert.match(extractedDetail,/Phân tích ngữ cảnh bằng tiếng Việt/);
+    assert.match(extractedDetail,/Giải thích bằng tiếng Việt/);
+    assert.match(extractedDetail,/Ví dụ tiếng Việt/);
+    assert.ok(!extractedDetail.includes('ANSWER KEY'));
+    await detailTab.close();
     await page.locator('[data-lp-print-part="closest"]').uncheck();
     assert.equal(await page.locator('[data-lp-print-now]').isDisabled(),true);
     assert.deepEqual(errors,[],"Browser JS errors");
     assert.deepEqual(missing,[],"Missing website assets");
-    console.log("LESSON CHECK, INLINE FEEDBACK, TWO PRINT MODES, PART SELECTION, A4 PDF: PASS");
+    console.log("UNIT 7: ISOLATED A4 PRINT VIEW, PDF TEXT, PART FILTERS, LOCKING: PASS");
   }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
