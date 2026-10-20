@@ -353,7 +353,11 @@ function toggleAnswers(partId,silent=false){
   part.questions.forEach(function(q){
     var ans=document.getElementById("ent-p"+part.id+"-answer-"+q.id);
     if(!ans)return;
-    ans.textContent="Đáp án: "+answerLabel(q);
+    // Answer-release state still belongs to Listening; Explanation V1 only
+    // receives the already released answer. No fabricated transcript is added.
+    ans.innerHTML=st.answersVisible&&window.ExplanationV1
+      ?window.ExplanationV1.render(window.ExplanationV1.listening(q))
+      :"";
     ans.classList.toggle("show",st.answersVisible);
   });
   var btn=document.getElementById("showAnswersBtn"+part.id);
