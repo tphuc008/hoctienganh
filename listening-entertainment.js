@@ -194,7 +194,7 @@ function questionHtml(part,q){
 }
 function partHtml(part){
   return '<section class="listening-part '+(part.id===1?"active":"")+'" id="listeningPart'+part.id+'">'+
-    '<div class="listening-part-head"><h2>'+escHtml(part.label)+'</h2><span class="listening-progress" id="listeningProgress'+part.id+'">0 / '+part.questions.length+' answered</span></div>'+
+    '<div class="listening-part-head"><h2>'+escHtml(part.label)+'</h2><span class="listening-progress" id="listeningProgress'+part.id+'">0 / '+part.questions.length+' answered</span><span id="listeningProgressFlow'+part.id+'"></span></div>'+
     '<div class="listening-q-list">'+part.questions.map(function(q){return questionHtml(part,q);}).join("")+'</div>'+
     '<div class="listening-actions">'+
       '<div class="listening-actions-left"><div class="listening-score" id="listeningScore'+part.id+'">Chưa nộp</div><div class="listening-score-note" id="listeningScoreNote'+part.id+'">Đáp án chỉ được hiện khi bạn chủ động bấm “Hiện đáp án”.</div></div>'+
@@ -268,12 +268,18 @@ function answerLabel(q){
   }
   return q.answerText;
 }
+var sharedListeningOwner=null;
 function updateProgress(partId){
   var part=getPart(partId);
   if(!part)return;
   var answered=part.questions.filter(function(q){return readAnswer(part,q).trim()!=="";}).length;
   var el=document.getElementById("listeningProgress"+part.id);
   if(el)el.textContent=answered+" / "+part.questions.length+" answered";
+  const flowStatus={started:true,done:answered,total:part.questions.length,
+    completed:!!state[part.id].submitted,mode:"submit"};
+  LearningFlow.paint(document.getElementById("listeningProgressFlow"+part.id),flowStatus);
+  LearningFlow.track({category:"listening",slug:"listening/entertainment/"+VIDEO_ID+"/part-"+part.id,ownerId:sharedListeningOwner,
+    startedAt:state[part.id].startedAt,...flowStatus,synced:!!state[part.id].remoteSaved});
 }
 function submitPart(partId,restoring=false){
   var part=getPart(partId);
@@ -310,6 +316,7 @@ function submitPart(partId,restoring=false){
   if(note)note.textContent="Câu sai vẫn chưa hiện đáp án. Bấm vào câu màu đỏ để nghe lại đúng đoạn.";
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
+  updateProgress(part.id);
   var streakAnswered=part.questions.filter(function(q){return readAnswer(part,q).trim()!=="";}).length;
   if(!restoring){
     st.submissionId=st.submissionId||LearningCore.uuid();
@@ -325,6 +332,7 @@ function submitPart(partId,restoring=false){
       submissionId:st.submissionId,details:{answered:streakAnswered}
     }).then(function(){
       st.remoteSaved=true;
+      updateProgress(part.id);
       if(!st.activityTracked&&streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function"){
         st.activityTracked=true;
         window.recordTutoringActivity("listening_entertainment_part");
@@ -462,6 +470,7 @@ function renderEntertainment(){
 
 var persistListening=function(){};
 function renderEntertainmentVideo(){
+  sharedListeningOwner=LearningCore.userId();
   injectStyles();
   PARTS.forEach(function(part){state[part.id]={submitted:false,answersVisible:false,results:{},startedAt:Date.now()};});
   activePart=1;
