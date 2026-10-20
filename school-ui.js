@@ -7,6 +7,10 @@ function persistSchoolAttempt(){
   LearningCore.writeDraft("school",schoolAttemptId(s.setNo),{
     ...s,sourceVersion:LearningCore.fingerprint(schoolSetItems(s.setNo)),wrongChoices:s.wrongChoices.map(x=>[...x])
   });
+  LearningFlow.track({category:"school",slug:"school/"+schoolAttemptId(s.setNo),
+    ownerId:s.ownerId,started:true,startedAt:s.startedAt,
+    done:s.solved.filter(Boolean).length,total:s.items.length,completed:!!s.finished,
+    synced:!!s.remoteSaved,mode:"mastery"});
 }
 function restoreSchoolAttempt(setNo){
   const d=LearningCore.readDraft("school",schoolAttemptId(setNo));
@@ -266,7 +270,10 @@ function startSchoolQuiz(setNo,forceNew=false){
       if(schoolSession.finished){finishSchoolQuiz();return}
       renderSchoolQuestion();return;
     }
-  }else LearningCore.clearDraft("school",schoolAttemptId(setNo));
+  }else{
+    LearningCore.clearDraft("school",schoolAttemptId(setNo));
+    LearningFlow.reset("school","school/"+schoolAttemptId(setNo));
+  }
   const items=schoolPrepareQuizItems(sourceItems);
   schoolSession={
     setNo:Number(setNo),
@@ -329,6 +336,7 @@ function renderSchoolQuestion(){
       <div class="quiz-top" style="padding:0 0 20px;border:0">
         <div class="progress-track"><div class="progress" style="width:${progressPct}%"></div></div>
         <div class="counter">${s.current+1} / ${s.items.length}</div>
+        ${LearningFlow.markup({started:true,done:s.solved.filter(Boolean).length,total:s.items.length,mode:"mastery"})}
       </div>
       <div class="question-card">
         <div class="kicker"><span class="qnum">CÂU ${s.current+1}</span><span>${esc(q.section)}</span></div>
@@ -450,6 +458,7 @@ function finishSchoolQuiz(){
         <button class="secondary" style="margin-left:8px" onclick="location.hash='school/grade-10/midterm-1'">Về Ôn tập giữa kì 1</button>
       </div>
     </div>
+    <div style="margin:12px 0">${LearningFlow.markup({started:true,done:s.items.length,total:s.items.length,completed:true,mode:"mastery"})}</div>
     <div id="schoolSaveStatus" role="status" style="margin:12px 0">Kết quả đang được đồng bộ…</div>
     <button class="secondary" type="button" onclick="saveSchoolOutcome()" style="margin-bottom:12px">Thử lưu lại kết quả</button>
     <div class="review"><h3>Answer review</h3><div class="review-list">${review}</div></div>`;
