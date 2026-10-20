@@ -192,3 +192,43 @@
 .g21-choice-reason{border-left:2px solid #cbd5e1;padding:2px 0 3px 12px;font-size:12px}
 .g21-choice-reason>b{display:block;color:#334155;line-height:1.6;overflow-wrap:anywhere}
 .g21-choice-reason>p{margin:4px 0 0!important;color:#64748b;line-height:1.75}
+
+
+/* Focus learning v3: 2-step reasoning, one-question testing, error detective. */
+.g21-focus-progress{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:15px 0 10px}
+.g21-focus-step{border-bottom:3px solid #e2e8f0;padding:8px 2px 10px;color:#94a3b8;font-size:12px;text-align:center;font-weight:750}
+.g21-focus-step.active{border-color:#2563eb;color:#1d4ed8}
+.g21-focus-step.done{border-color:#16a34a;color:#166534}
+.g21-discovery,.g21-guided-final{margin:0}
+.g21-discovery .g21-option{padding:16px 18px}
+.g21-discovery-note{background:#f1f5f9;color:#334155;padding:12px 15px;border-radius:9px;font-size:13px;line-height:1.8;margin-top:14px}
+.g21-discovery .g21-actions{justify-content:flex-end}
+.g21-done-inline{color:#166534;background:#f0fdf4;padding:10px 14px;font-size:13px;font-weight:750;border-radius:9px}
+.g21-explain-more{margin:12px 0 0;background:transparent;border-color:#dbe2ea}
+.g21-explain-more>summary{font-weight:700;color:#1d4ed8}
+.g21-explain-more .g21-more-body{background:#fff}
+.g21-feedback-short{font-size:13px;line-height:1.75;color:#475569}
+.g21-wrong-heading{font-size:13px;color:#334155;font-weight:800;margin:16px 0 11px}
+.g21-explain-more .g21-choice-reason{margin:9px 0}
+.g21-assessment .g21-assessment-heading{margin-bottom:2px}
+.g21-assessment>.g21-question{border-top:0}
+.g21-assessment .g21-prompt{font-size:clamp(17px,2.4vw,20px);margin:10px 0 23px;line-height:1.8}
+.g21-assessment .g21-option{padding:17px 18px;margin-bottom:4px}
+.g21-assessment .g21-page-nav{margin-top:15px}
+.g21-assessment .g21-page-nav>span{font-weight:750}
+.g21-assessment .g21-page-controls .g21-btn.primary:disabled{background:#e2e8f0;border-color:#e2e8f0;color:#94a3b8;opacity:1}
+.g21-broken{border-left:3px solid #f59e0b;padding:15px 18px;background:#fffbf1;border-radius:0 10px 10px 0;margin:18px 0 23px}
+.g21-broken>span{display:block;font-size:10px;color:#92400e;letter-spacing:.08em;font-weight:850;margin-bottom:6px}
+.g21-broken p{font-size:16px;font-weight:750;color:#78350f;line-height:1.75;margin:0}
+.g21-fix-options{gap:11px}
+.g21-fix-options .g21-option{padding:17px 18px}
+.g21-repair .g21-question{padding:0 0 6px;border:0}
+.g21-repair .g21-feedback{margin-bottom:13px}
+@media(max-width:680px){
+  .g21-focus-step{font-size:11px}
+  .g21-assessment .g21-option,.g21-fix-options .g21-option{padding:14px 13px}
+  .g21-broken{padding:13px}
+  .g21-page-nav{align-items:center}
+  .g21-page-controls{gap:5px}
+  .g21-page-controls .g21-btn{padding:10px 11px;font-size:12px}
+}
