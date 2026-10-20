@@ -40,10 +40,10 @@
     // Separate lesson-plan catalogue and routes, independent of old Vocabulary Units.
     {id:"g12-lesson-plans-home",route:"grade-12/lesson-plans",title:"Lesson Plans & Practice",
       category:"lesson-plans-home",grade:12,kind:"handler",handler:"renderLessonPlansHome",
-      source:"features/lesson-plans.js?v=20261020-lp-live1",dependencies:["content/lesson-plans-data.js?v=20261020-lp-live1"]},
+      source:"features/lesson-plans.js?v=20261020-unit7-doc1",dependencies:["content/lesson-plans-data.js?v=20261020-unit7-doc1"]},
     {id:"g12-lesson-plans-unit-7",route:"grade-12/lesson-plans/unit-7",title:"Unit 7",
       category:"lesson-plans-unit",grade:12,kind:"handler",handler:"renderLessonPlansUnit",
-      source:"features/lesson-plans.js?v=20261020-lp-live1",dependencies:["content/lesson-plans-data.js?v=20261020-lp-live1"],args:[7]},
+      source:"features/lesson-plans.js?v=20261020-unit7-doc1",dependencies:["content/lesson-plans-data.js?v=20261020-unit7-doc1"],args:[7]},
     {id:"reading-home",route:"grade-12/reading",title:"Reading",category:"reading-home",grade:12,kind:"handler",handler:"renderMISReadingHome",source:"grade12-reading.js"},
     {id:"reading-marketing",route:"grade-12/reading/marketing-and-the-information-age",
       title:"Marketing and the Information Age",category:"reading",grade:12,listing:true,questions:14,minutes:25,
