@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - fix/safe-structure-main-20261020
+      - feat/content-manifest-20261020
   pull_request:
     branches: [main]
 jobs:
