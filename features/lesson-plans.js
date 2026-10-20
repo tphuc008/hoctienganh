@@ -268,7 +268,7 @@
       if(!location.hash.includes(HOME+"/unit-"))return;
       if(button.hasAttribute("data-lp-tab")){
         tab=get("data-lp-tab");
-        if(tab==="practice"&&!quiz){const b=bank(getUnit(unitId));mcqCount=Math.min(b.mcqs.length,10);readingCount=Math.min(b.passages.length,1)}
+        if((tab==="practice"||tab==="print")&&!quiz&&mcqCount===0&&readingCount===0){const b=bank(getUnit(unitId));mcqCount=Math.min(b.mcqs.length,10);readingCount=Math.min(b.passages.length,1)}
         renderUnit(unitId,true);
         if(tab==="solutions"||tab==="print")loadAccess(unitId);
       }else if(button.hasAttribute("data-lp-refresh"))loadAccess(unitId);
