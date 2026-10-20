@@ -163,11 +163,21 @@ async function main(){
       await open(route,".listening-part.active");
       const previous=mockWrites.length;
       await page.locator(button).click();
-      await page.waitForFunction(p=>{
-        const key=Object.keys(localStorage).find(k=>k.includes(":listening:")&&k.includes(encodeURIComponent(p)));
-        if(!key)return false;
-        try{return !!JSON.parse(localStorage.getItem(key)).data[1].remoteSaved}catch(e){return false}
-      },prefix,{timeout:12000});
+      try{
+        await page.waitForFunction(p=>{
+          const key=Object.keys(localStorage).find(k=>k.includes(":listening:")&&k.includes(encodeURIComponent(p)));
+          if(!key)return false;
+          try{return !!JSON.parse(localStorage.getItem(key)).data[1].remoteSaved}catch(e){return false}
+        },prefix,{timeout:12000});
+      }catch(e){
+        const evidence=await page.evaluate(p=>{
+          const keys=Object.keys(localStorage).filter(k=>k.includes(":listening:")&&k.includes(encodeURIComponent(p)));
+          return keys.map(k=>({key:k,parts:JSON.parse(localStorage.getItem(k))?.data,
+            owner:window.LearningCore?.userId?.()}));
+        },prefix);
+        console.error("LISTENING SYNC DEBUG",label,JSON.stringify({evidence,newWrites:mockWrites.slice(previous)}));
+        throw e;
+      }
       const sent=mockWrites.slice(previous);
       assert.equal(sent.length,1,"Unexpected number of submissions");
       assert.equal(sent[0].category,"listening");
