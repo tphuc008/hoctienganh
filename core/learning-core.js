@@ -47,6 +47,16 @@
     const key=draftKey(kind,identity);
     if(key)try{localStorage.removeItem(key)}catch(_){}
   }
+  function fingerprint(value){
+    // Stable content signature: invalidate stale answer orders if a lesson changes.
+    const source=JSON.stringify(value)||"null";
+    let hash=2166136261;
+    for(let i=0;i<source.length;i++){
+      hash^=source.charCodeAt(i);
+      hash=Math.imul(hash,16777619);
+    }
+    return (hash>>>0).toString(36);
+  }
   function uuid(){
     if(global.crypto&&typeof crypto.randomUUID==="function")return crypto.randomUUID();
     // RFC4122 compatible fallback for older browsers.
@@ -118,7 +128,9 @@
   function attachListening(opts){
     const {id,parts,state,prefix,panelId,readAnswer,restoreSubmitted,restoreAnswers,updateProgress}=opts;
     const owner=userId();
-    const snapshot=readDraft("listening",id)||{};
+    const sourceHash=fingerprint(parts);
+    const existing=readDraft("listening",id)||{};
+    const snapshot=existing.__sourceHash===sourceHash?existing:{};
     function persist(){
       if(!owner||userId()!==owner)return;
       const saved={};
@@ -132,6 +144,7 @@
           startedAt:st.startedAt,submissionId:st.submissionId||null,
           remoteSaved:!!st.remoteSaved,activityTracked:!!st.activityTracked};
       });
+      saved.__sourceHash=sourceHash;
       writeDraft("listening",id,saved);
     }
     parts.forEach(part=>{
@@ -164,6 +177,6 @@
     return persist;
   }
   global.LearningCore=Object.freeze({
-    register,list,resolve,renderRoute,userId,draftKey,readDraft,writeDraft,clearDraft,uuid,submitPractice,flushPending,attachListening
+    register,list,resolve,renderRoute,userId,draftKey,readDraft,writeDraft,clearDraft,uuid,fingerprint,submitPractice,flushPending,attachListening
   });
 })(window);
