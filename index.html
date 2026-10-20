@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="grade12-reading.css?v=20261016-v1">
 <link rel="stylesheet" href="features/lesson-plans.css?v=20261020-inline1">
 <link rel="stylesheet" href="styles/blue-unified.css?v=20261020-v1">
+<link rel="stylesheet" href="styles/study-workspace.css?v=20261020-workspace-v1">
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -1599,7 +1600,7 @@ function renderHome(){
     <div class="tutoring-top">
       <div class="hero">
         <div class="eyebrow">${accessAreaLabel(getActiveArea())} · English practice library</div>
-        <h1><span class="gradient">Choose your practice area.</span></h1>
+        <h1><span class="gradient">Tiếp tục học tiếng Anh</span></h1>
       </div>
       <section class="global-streak-card" id="tutoringStreakCard" aria-label="Learning streak">
         <div class="streak-heatmap-pane">
@@ -1622,21 +1623,21 @@ function renderHome(){
         </div>
       </section>
     </div>
-    <div class="section-title"><h2>Practice areas</h2><span><button class="crumb-btn" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></span></div>
+    <div class="section-title"><h2>Thư viện bài học</h2><span><button class="crumb-btn" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></span></div>
     <div class="units">
       ${GRADES.map(g=>`
         <button class="unit-card" onclick="goGrade(${g.id})">
-          <div class="unit-top"><span class="unit-no">GRADE ${g.id}</span><span class="status ${g.live?"live":""}">${g.live?"Available":"Coming soon"}</span></div>
-          <h3>${g.title}</h3><p>${g.live?"Vocabulary practice":"Coming soon"}</p><span class="unit-arrow">→</span>
+          <div class="unit-top"><span class="unit-no">GRADE ${g.id}</span><span class="status ${g.live?"live":""}">${g.live?"Sẵn sàng":"Sắp có"}</span></div>
+          <h3>${g.title}</h3><p>${g.live?"Luyện tập theo chương trình":"Nội dung đang được chuẩn bị"}</p><span class="unit-arrow">→</span>
         </button>
       `).join("")}
       <button class="unit-card" onclick="location.hash='listening'">
         <div class="unit-top"><span class="unit-no">LISTENING</span><span class="status live">Available</span></div>
-        <h3>Listening</h3><p>Video listening practice · IELTS-style questions · timestamp replay</p><span class="unit-arrow">→</span>
+        <h3>Listening</h3><p>Nghe video và luyện câu hỏi IELTS</p><span class="unit-arrow">→</span>
       </button>
       <button class="unit-card" onclick="goGrammar()">
         <div class="unit-top"><span class="unit-no">GRAMMAR</span><span class="status live">Available</span></div>
-        <h3>Grammar</h3><p>Grammar practice</p><span class="unit-arrow">→</span>
+        <h3>Grammar</h3><p>Luyện ngữ pháp theo chủ điểm</p><span class="unit-arrow">→</span>
       </button>
     </div>`;
   renderTutoringStreak([]);
@@ -1672,7 +1673,7 @@ function renderGrammarHome(){
     <div class="unit-hero">
       <div class="eyebrow">Grammar</div>
       <h1>Grammar</h1>
-      <p>Targeted grammar practice organised in unit-style lessons.</p>
+      <p>Chọn chuyên đề để bắt đầu luyện tập.</p>
     </div>
     ${unitsHTML}`;
   window.scrollTo({top:0,behavior:"smooth"});
@@ -1695,7 +1696,7 @@ function renderGrammarUnit(slug){
     <div class="unit-hero">
       <div class="eyebrow">Grammar · Unit 01</div>
       <h1>${esc(activeBank.title)}</h1>
-      <p>Each set has 5 Build the word questions and 5 Choose the correct form in context questions.</p>
+      <p>Mỗi bộ gồm 10 câu luyện tập.</p>
     </div>
     <div class="section-title"><h2>Exercises</h2><span>${setNumbers.length} sets</span></div>
     <div class="exercise-grid">
@@ -1707,7 +1708,6 @@ function renderGrammarUnit(slug){
             <span class="chip">5 Build the word</span>
             <span class="chip">5 Context choices</span>
             <span class="chip">${esc(getSetLevel(setNo))}</span>
-            <span class="chip">Immediate feedback</span>
           </div>
         </button>`).join("")}
     </div>`;
@@ -1841,8 +1841,7 @@ function renderUnit(grade,id){
               <span class="chip">${getSetNote(setNo)}</span>
               <span class="chip">${special?((activeLevelConfig[setNo]?.bankSize||24)+"-word bank · 10 per set"):count+" questions"}</span>
               <span class="chip">${level}</span>
-              <span class="chip">Immediate feedback</span>
-              ${special?"":'<span class="chip">Deep vocabulary notes</span>'}
+
             </div>
           </button>`;
       }).join("")}
@@ -1889,8 +1888,7 @@ function renderExercise(grade,id,setNo){
           <span class="pill">${bankSize}-word rotating bank</span>
           <span class="pill">10 adaptive words per set</span>
           <span class="pill">1 mixed reading</span>
-          <span class="pill">No fixed level quota</span>
-        </div>
+          </div>
         ${nicknameHTML}
         <button class="primary" style="margin-top:18px" onclick="startContextGuessing('mixed')">Start 10-word set →</button>
       </div>`;
