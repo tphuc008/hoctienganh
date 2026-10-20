@@ -20,8 +20,8 @@ const sections=[
   ],
   misconception:"Sai thường gặp: Rarely makes she mistakes. Đây không phải mẫu đảo động từ chính như trong câu có trạng ngữ chỉ nơi chốn.",
   checks:[
-    Q("l1q1","mechanics","Never ___ I witnessed such a convincing performance.",["did","have","was","do"],1,"Never + present perfect: have I witnessed. Không dùng did nếu đang giữ hiện tại hoàn thành.",{0:"Did I witness sẽ chuyển sang quá khứ đơn, không bảo toàn thì của ví dụ này.",2:"Was không kết hợp trực tiếp với witnessed ở đây.",3:"Do không phù hợp với witnessed và ý nghĩa hiện tại hoàn thành."}),
-    Q("l1q2","mechanics","Rarely ___ the committee change its decision after a final vote.",["does","is","has","do"],0,"Chủ ngữ the committee được dùng như một tập thể số ít trong câu này; dùng does + change.",{1:"Is không tạo câu chủ động change như ở đây.",2:"Has change sai cấu trúc; cần has changed ở hiện tại hoàn thành.",3:"Do không hòa hợp với chủ ngữ số ít trong cách dùng này."})
+    Q("l1q1","mechanics","Complete the present perfect version: 'I have never witnessed such a convincing performance.' → Never ___ I witnessed such a convincing performance.",["did","have","was","do"],1,"Never + present perfect: have I witnessed. Không dùng did nếu đang giữ hiện tại hoàn thành.",{0:"Did I witness sẽ chuyển sang quá khứ đơn, không bảo toàn thì của ví dụ này.",2:"Was không kết hợp trực tiếp với witnessed ở đây.",3:"Do không phù hợp với witnessed và ý nghĩa hiện tại hoàn thành."}),
+    Q("l1q2","mechanics","Rarely ___ this student change her answer after receiving feedback.",["does","is","has","do"],0,"Chủ ngữ this student là số ít; dùng does + change.",{1:"Is không tạo câu chủ động change như ở đây.",2:"Has change sai cấu trúc; cần has changed ở hiện tại hoàn thành.",3:"Do không hòa hợp với chủ ngữ số ít trong cách dùng này."})
   ]
 },
 {
@@ -37,7 +37,7 @@ const sections=[
   ],
   misconception:"Không phải mọi từ mang nghĩa phủ định đều đảo ngữ. Ví dụ ‘I never leave early’ vẫn là trật tự bình thường khi never đứng sau chủ ngữ.",
   checks:[
-    Q("l2q1","negative","Under no circumstances ___ exam candidates share their answers.",["do","should","are","have"],1,"Under no circumstances đứng đầu + should + subject + bare infinitive; nghĩa là tuyệt đối không được.",{0:"Do không diễn tả quy định/cấm đoán bằng should như ý câu.",2:"Are share không đúng mẫu động từ.",3:"Have share không đúng dạng động từ."}),
+    Q("l2q1","negative","The exam regulations state: Under no circumstances ___ candidates share their answers.",["do","should","are","have"],1,"Under no circumstances đứng đầu + should + subject + bare infinitive; nghĩa là tuyệt đối không được.",{0:"Do không diễn tả quy định/cấm đoán bằng should như ý câu.",2:"Are share không đúng mẫu động từ.",3:"Have share không đúng dạng động từ."}),
     Q("l2q2","negative","Not only ___ the research team identify the problem, but it also proposed a solution.",["was","had","did","does"],2,"Đảo did the research team identify cho hành động quá khứ.",{0:"Was identify sai cấu trúc.",1:"Had identify phải là had identified và đổi thì.",3:"Does không phù hợp mốc quá khứ proposed."})
   ]
 },
@@ -123,7 +123,7 @@ const sections=[
   misconception:"Không coi mọi trạng ngữ lên đầu là tín hiệu bắt buộc đảo ngữ. ‘Yesterday I met her’ vẫn có thể giữ S–V hoàn toàn bình thường.",
   checks:[
     Q("l7q1","full","Choose the grammatical sentence.",["Here comes it.","Here it comes.","Here does it come.","Here did it comes."],1,"Here it comes: với đại từ it, giữ trật tự chủ ngữ + động từ.",{0:"Here comes it sai kiểu trật tự thông thường với đại từ.",2:"Không có do-support trong câu trần thuật này.",3:"Did it comes vừa sai trật tự vừa sai dạng động từ."}),
-    Q("l7q2","full","Only the head teacher ___ the complete details of the incident.",["did know","has knew","knew","knowing"],2,"Only bổ nghĩa cho chủ ngữ the head teacher nên không bắt buộc đảo ngữ; knew là quá khứ đơn thông thường.",{0:"Did know có thể là dạng nhấn mạnh đặc biệt, nhưng không phải đảo ngữ bắt buộc; trong ngữ cảnh trung tính chọn knew.",1:"Has knew sai vì sau has cần known.",3:"Knowing không tạo vị ngữ hữu hạn."})
+    Q("l7q2","full","In a neutral past-tense statement, only the head teacher ___ the complete details of the incident.",["did knew","has knew","knew","knowing"],2,"Only bổ nghĩa cho chủ ngữ the head teacher nên không bắt buộc đảo ngữ; knew là quá khứ đơn thông thường.",{0:"Did knew sai vì sau did phải dùng dạng nguyên mẫu know. Only + chủ ngữ không yêu cầu đảo ngữ.",1:"Has knew sai vì sau has cần known.",3:"Knowing không tạo vị ngữ hữu hạn."})
   ]
 }
 ];
@@ -135,12 +135,12 @@ const practice=[
  Q("p05","only","Only after everyone had signed the agreement ___ the project begin.",["was","did","had","does"],1,"Only after + mệnh đề S–V, sau đó did the project begin."),
  Q("p06","only","Which part is inverted in 'Not until the lights went out did we notice the warning'?",["the lights went out","until the lights","did we notice","the warning"],2,"Cụm not until đứng đầu; đảo did we notice ở mệnh đề chính."),
  Q("p07","time","Hardly had the speaker begun ___ the microphone stopped working.",["than","then","that","when"],3,"Hardly ... when là cặp điển hình."),
- Q("p08","time","No sooner ___ the doors closed than the crowd started cheering.",["did","were","had","have"],2,"No sooner had the doors closed than ... cho chuỗi sự kiện quá khứ."),
+ Q("p08","time","In the past-perfect sequence, no sooner ___ the doors closed than the crowd started cheering.",["did","were","had","have"],2,"No sooner had the doors closed than ... cho chuỗi sự kiện quá khứ."),
  Q("p09","conditional","If she had taken the warning seriously, she might have avoided the accident. Choose the equivalent.",["Should she take the warning seriously, she might have avoided the accident.","Had she taken the warning seriously, she might have avoided the accident.","Were she taking the warning seriously, she might have avoided the accident.","Did she take the warning seriously, she might have avoided the accident."],1,"Had she taken ... thay If she had taken ... mà không đổi thời gian."),
  Q("p10","conditional","___ the situation to deteriorate, immediate action would be necessary.",["Had","Should","Were","Did"],2,"Were the situation to deteriorate ... là dạng đảo điều kiện giả định."),
  Q("p11","so-such","So persuasive ___ her argument that the committee changed its position.",["was","were","did","had"],0,"So + adj + was + subject + that-clause."),
  Q("p12","so-such","Choose the correct sentence.",["Such remarkable was his patience that ...","Such was his patience that everyone admired him.","So was his patience that everyone admired him.","Such did his patience that everyone admired him."],1,"Such was his patience ... theo cấu trúc danh ngữ."),
- Q("p13","full","Near the entrance ___ a tall stone statue.",["was standing it","did stand","stood","standing"],2,"Near the entrance stood a tall stone statue là full inversion với danh từ làm chủ ngữ."),
+ Q("p13","full","Near the entrance ___ a tall stone statue. Choose the typical full-inversion verb form.",["was standing it","did stood","stood","standing"],2,"Near the entrance stood a tall stone statue là full inversion với danh từ làm chủ ngữ."),
  Q("p14","full","Choose the sentence that does NOT require subject–auxiliary inversion.",["Never she had seen this before.","Only Jenny knew the password.","On no account you must leave early.","Not until Monday we received the result."],1,"Only + chủ ngữ không yêu cầu đảo; những câu còn lại cần đảo trợ động từ trong mẫu này."),
  Q("p15","only","Not until the final witness spoke ___ the truth emerge.",["do","had","did","was"],2,"Not until + clause, did the truth emerge."),
  Q("p16","time","Choose the valid pairing.",["Hardly ... than","No sooner ... than","Scarcely ... than","No sooner ... when"],1,"No sooner ... than; hardly/scarcely thường đi với when.")
@@ -155,7 +155,7 @@ const mastery=[
  Q("m07","full","Choose the correct form.",["Here comes she.","Here she comes.","Here does she come.","Here comes her."],1,"Here she comes: chủ ngữ đại từ không đảo theo mẫu full inversion."),
  Q("m08","only","Choose the correct version.",["Only after the experiment had ended did the researchers review their notes.","Only after had the experiment ended did the researchers review their notes.","Only after the experiment ended the researchers did review their notes.","Only after did the experiment end the researchers reviewed their notes."],0,"Mệnh đề after giữ S–V; did the researchers review nằm ở mệnh đề chính."),
  Q("m09","conditional","___ you require clarification, the instructions are available online.",["Had","Did","Should","Were"],2,"Should you require ... là một dạng điều kiện trang trọng."),
- Q("m10","negative","Select the most appropriate completion: 'At no time ___ the witness claim to have seen the suspect.'",["was","has","did","does"],2,"Trong câu tường thuật quá khứ, At no time did the witness claim ...")
+ Q("m10","negative","Select the most appropriate completion: 'At no time during yesterday's hearing ___ the witness claim to have seen the suspect.'",["was","has","did","does"],2,"Trong câu tường thuật quá khứ, At no time did the witness claim ...")
 ];
 const repairs=[
  Q("r01","mechanics","Never ___ I considered the possibility of a second attempt.",["did","had","was","do"],1,"Never had I considered... giữ quá khứ hoàn thành."),
