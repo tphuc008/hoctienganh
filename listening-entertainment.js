@@ -275,10 +275,11 @@ function updateProgress(partId){
   var el=document.getElementById("listeningProgress"+part.id);
   if(el)el.textContent=answered+" / "+part.questions.length+" answered";
 }
-function submitPart(partId){
+function submitPart(partId,restoring=false){
   var part=getPart(partId);
   if(!part)return;
   var st=state[part.id];
+  if(st.submitted&&!restoring)return;
   st.submitted=true;
   st.answersVisible=false;
   st.results={};
@@ -310,14 +311,35 @@ function submitPart(partId){
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
   var streakAnswered=part.questions.filter(function(q){return readAnswer(part,q).trim()!=="";}).length;
-  if(streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function")window.recordTutoringActivity("listening_entertainment_part");
+  if(!restoring){
+    st.submissionId=st.submissionId||LearningCore.uuid();
+    persistListening();
+  }
+  if(!st.remoteSaved&&!st.saving){
+    st.submissionId=st.submissionId||LearningCore.uuid();
+    st.saving=true;
+    LearningCore.submitPractice({
+      category:"listening",slug:"listening/entertainment/"+VIDEO_ID+"/part-"+part.id,
+      correct,total:part.questions.length,
+      duration:Math.max(0,Math.round((Date.now()-(st.startedAt||Date.now()))/1000)),
+      submissionId:st.submissionId,details:{answered:streakAnswered}
+    }).then(function(){
+      st.remoteSaved=true;
+      if(!st.activityTracked&&streakAnswered===part.questions.length&&typeof window.recordTutoringActivity==="function"){
+        st.activityTracked=true;
+        window.recordTutoringActivity("listening_entertainment_part");
+      }
+    }).catch(function(err){console.error("Listening save failed",err)}).finally(function(){
+      st.saving=false;persistListening();
+    });
+  }
   var firstWrong=part.questions.find(function(q){return !st.results[q.id];});
   if(firstWrong){
     var c=document.getElementById("ent-p"+part.id+"-q-"+firstWrong.id);
     if(c)c.scrollIntoView({behavior:"smooth",block:"center"});
   }
 }
-function toggleAnswers(partId){
+function toggleAnswers(partId,silent=false){
   var part=getPart(partId);
   if(!part)return;
   var st=state[part.id];
@@ -331,11 +353,12 @@ function toggleAnswers(partId){
   });
   var btn=document.getElementById("showAnswersBtn"+part.id);
   if(btn)btn.textContent=st.answersVisible?"Ẩn đáp án":"Hiện đáp án";
+  if(!silent)persistListening();
 }
 function resetPart(partId){
   var part=getPart(partId);
   if(!part)return;
-  state[part.id]={submitted:false,answersVisible:false,results:{}};
+  state[part.id]={submitted:false,answersVisible:false,results:{},startedAt:Date.now()};
   part.questions.forEach(function(q){
     var card=document.getElementById("ent-p"+part.id+"-q-"+q.id);
     if(card)card.classList.remove("correct","wrong");
@@ -356,6 +379,7 @@ function resetPart(partId){
   if(showBtn)showBtn.style.display="none";
   if(submitBtn){submitBtn.textContent="Nộp đáp án";submitBtn.disabled=false;}
   updateProgress(part.id);
+  persistListening();
 }
 function switchPart(partId){
   activePart=Number(partId);
@@ -436,9 +460,10 @@ function renderEntertainment(){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
+var persistListening=function(){};
 function renderEntertainmentVideo(){
   injectStyles();
-  PARTS.forEach(function(part){state[part.id]={submitted:false,answersVisible:false,results:{}};});
+  PARTS.forEach(function(part){state[part.id]={submitted:false,answersVisible:false,results:{},startedAt:Date.now()};});
   activePart=1;
   var mount=document.getElementById("pageMount");
   if(!mount)return;
@@ -460,6 +485,12 @@ function renderEntertainmentVideo(){
       '</section>'+
     '</div>';
   bindWorkspace();
+  persistListening=LearningCore.attachListening({
+    id:"entertainment/"+VIDEO_ID,parts:PARTS,state:state,
+    prefix:"ent",panelId:"listeningQuestionPanel",
+    readAnswer:readAnswer,restoreSubmitted:submitPart,
+    restoreAnswers:toggleAnswers,updateProgress:updateProgress
+  });
   initPlayer();
   window.scrollTo({top:0,behavior:"smooth"});
 }
