@@ -22,4 +22,6 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/hoctienganh-server.log 2>&1 &
           sleep 2
       - name: Exercise learner journeys without production credentials
-        run: node tests/browser-smoke.cjs
+        run: |
+          node tests/browser-smoke.cjs
+          node tests/manifest-browser.cjs
