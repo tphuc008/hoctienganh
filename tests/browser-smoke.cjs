@@ -32,6 +32,8 @@ const assert=require("node:assert/strict");
     }
     localStorage.setItem("hoctienganh_active_area","tutoring");
   });
+  await page.reload({waitUntil:"domcontentloaded"});
+  assert.equal(await page.evaluate(()=>window.LearningCore.userId()),"00000000-0000-4000-8000-000000000042","mock learner session");
   async function open(route,selector){
    await page.goto(base+"#"+route,{waitUntil:"domcontentloaded"});
    try{await page.locator(selector).first().waitFor({timeout:12000})}
