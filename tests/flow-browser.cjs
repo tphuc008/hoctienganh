@@ -103,8 +103,8 @@ const assert=require("node:assert/strict");
   await page.evaluate(()=>window.robotsSetChoice(27,"A"));
   assert.equal((await status("reading","grade-12/reading/robots-and-us")).done,1);
   await page.reload({waitUntil:"domcontentloaded"});
-  await page.locator(".exercise-intro button.primary").click();
-  await page.locator("#readingFlowStatus").waitFor();
+  // Reading resumes straight into the timed workspace; it does not show the intro again.
+  await page.locator("#readingFlowStatus").waitFor({timeout:12000});
   assert.equal((await status("reading","grade-12/reading/robots-and-us")).startedAt,rd.startedAt);
   console.log("READING lifecycle / answer / refresh: PASS");
 
