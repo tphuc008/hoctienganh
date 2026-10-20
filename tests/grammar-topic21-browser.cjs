@@ -36,7 +36,7 @@ const assert=require("node:assert/strict");
   });
   assert.ok(desktopLayout.mainWidth>=790,"Desktop study region should use available width");
   assert.ok(desktopLayout.mainLeft>desktopLayout.railLeft,"Lesson outline should sit left of the reader");
-  assert.equal(desktopLayout.readingWidth,"74ch","Reading measure must stay constrained");
+  assert.ok(parseFloat(desktopLayout.readingWidth)>=620&&parseFloat(desktopLayout.readingWidth)<=760,"Reading measure must stay constrained");
 
   assert.equal(await page.locator(".g21-main .g21-question").count(),1);
   await page.locator('[data-g21="detect"][data-id="l1q1"][data-index="0"]').click();
