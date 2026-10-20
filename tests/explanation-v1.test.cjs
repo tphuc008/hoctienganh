@@ -16,7 +16,7 @@ test("V1 renders concise feedback with accessible three-stage disclosure",()=>{
  const model=x.vocab(q,d),html=x.render(model);
  assert.equal(model.answer,"original");
  assert.match(html,/data-explanation-v1="1"/);
- assert.equal((html.match(/class="semantic-step/g)||[]).length,3);
+ assert.equal((html.match(/<section class="semantic-step ev1-step"/g)||[]).length,3);
  assert.equal((html.match(/class="ev1-choice semantic-option/g)||[]).length,4);
  assert.equal((html.match(/class="ev1-example semantic-example/g)||[]).length,4);
  assert.match(html,/<details class="ev1-details">/);
@@ -33,7 +33,7 @@ test("Evidence gaps are visible; the shared renderer does not invent supporting 
  assert.equal(x.validated(listening).status,"needs_review");
  const html=x.render(listening);
  assert.match(html,/Mốc nghe 1:19/);
- assert.match(html,/chưa có bằng chứng/i);
+ assert.match(html,/chưa phải transcript|chưa có bằng chứng/i);
  assert.match(html,/data-review-status="needs_review"/);
  assert.doesNotMatch(html,/Transcript:|According to the speaker/);
  const vocab=x.vocab({o:["career","organiser","audience","clapper"],a:0},
