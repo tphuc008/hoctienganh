@@ -67,7 +67,7 @@
       '<div class="lp-preview-hero lp-inline-hero"><div class="lp-preview-headline"><div>'+
       '<div class="lp-eyebrow">GRADE 12 / UNIT '+String(u.id).padStart(2,"0")+'</div>'+
       '<h1>'+esc(u.title||"Unit "+u.id)+'</h1>'+
-      '<p>'+sectionName+' · '+original+' câu hỏi gốc · Lời giải có kiểm soát</p></div>'+
+      '<p>'+sectionName+' · '+original+' câu hỏi gốc</p></div>'+
       (url?'<a class="lp-inline-doc-link" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'" aria-label="Mở tài liệu gốc Google Docs">📄 Google Docs ↗</a>':"")+
       '</div></div>'+
       '<nav class="lp-page-nav" aria-label="Ba trang của bài học">'+
@@ -94,12 +94,11 @@
     const allowed=accessAllowed();
     const status=access.loading?"Đang kiểm tra quyền xem lời giải…":
       access.error?"Không thể kiểm tra quyền: "+esc(access.error):
-      allowed?"Lời giải đã sẵn sàng":"Lời giải hiện đang khóa";
+      allowed?"Có lời giải":"Lời giải đang khóa";
     return '<aside class="lp-inline-access" aria-label="Trạng thái lời giải">'+
-      '<div><strong>'+(allowed?"🔓 ":"🔒 ")+status+'</strong><p>'+
-      (allowed?"Chọn A–D rồi nhấn Kiểm tra đáp án; kết quả và Semantic Precision hiển thị ngay dưới câu.":
-        "Vẫn có thể đọc và làm toàn bộ câu hỏi. Giáo viên sẽ mở khóa lời giải khi phù hợp.")+
-      '</p></div><div class="lp-inline-access-actions">'+
+      '<div><strong>'+(allowed?"🔓 ":"🔒 ")+status+'</strong>'+
+      (allowed?"":'<p>Bạn vẫn có thể làm bài. Giáo viên sẽ mở lời giải khi phù hợp.</p>')+
+      '</div><div class="lp-inline-access-actions">'+
       (access.teacher?'<button type="button" class="lp-action lp-teacher-toggle" data-lp-unlock="'+(!access.unlocked)+'">'+
         (access.unlocked?"🔒 Khóa lời giải":"🔓 Mở lời giải cho học sinh")+'</button>':"")+
       (!access.loading?'<button class="lp-refresh" type="button" data-lp-refresh="1">Kiểm tra quyền</button>':"")+
