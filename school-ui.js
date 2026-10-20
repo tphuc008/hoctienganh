@@ -3,20 +3,21 @@ function schoolAttemptId(setNo){return "grade-10/midterm-1/set-"+setNo}
 function persistSchoolAttempt(){
   if(!schoolSession)return;
   const s=schoolSession;
+  if(!s.ownerId||s.ownerId!==LearningCore.userId())return;
   LearningCore.writeDraft("school",schoolAttemptId(s.setNo),{
     ...s,wrongChoices:s.wrongChoices.map(x=>[...x])
   });
 }
 function restoreSchoolAttempt(setNo){
   const d=LearningCore.readDraft("school",schoolAttemptId(setNo));
-  if(!d||d.setNo!==Number(setNo)||!Array.isArray(d.items)||!d.items.length
+  if(!d||d.ownerId!==LearningCore.userId()||d.setNo!==Number(setNo)||!Array.isArray(d.items)||!d.items.length
     ||d.solved?.length!==d.items.length||d.mistakes?.length!==d.items.length)return null;
   if(d.items.length!==schoolSetItems(setNo).length)return null;
   return {...d,wrongChoices:d.items.map((_,i)=>new Set(Array.isArray(d.wrongChoices?.[i])?d.wrongChoices[i]:[]))};
 }
 async function saveSchoolOutcome(){
   const s=schoolSession;
-  if(!s||!s.finished||s.remoteSaved||s.saving)return;
+  if(!s||s.ownerId!==LearningCore.userId()||!s.finished||s.remoteSaved||s.saving)return;
   s.saving=true;
   const status=document.getElementById("schoolSaveStatus");
   if(status)status.textContent="Đang lưu kết quả…";
@@ -269,7 +270,7 @@ function startSchoolQuiz(setNo,forceNew=false){
   const items=schoolPrepareQuizItems(sourceItems);
   schoolSession={
     setNo:Number(setNo),
-    startedAt:Date.now(),submissionId:LearningCore.uuid(),remoteSaved:false,finished:false,
+    ownerId:LearningCore.userId(),startedAt:Date.now(),submissionId:LearningCore.uuid(),remoteSaved:false,finished:false,
     items,
     current:0,
     solved:Array(items.length).fill(false),
