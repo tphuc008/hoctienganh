@@ -20,7 +20,7 @@ const assert=require("node:assert/strict");
   localStorage.setItem("hoctienganh_access_tutoring",JSON.stringify({token,area:"tutoring",
    expiresAt:new Date(Date.now()+3600000).toISOString()}));
   sessionStorage.setItem("hoctienganh_valid_tutoring",JSON.stringify({token,until:Date.now()+3600000}));
-  localStorage.setItem("hoctienganh_active_area","tutoring");
+  localStorage.setItem("hoctienganh_active_area",location.hash.startsWith("#school/")?"school":"tutoring");
  });
  const base="http://127.0.0.1:4173/";
  async function open(route,selector){
@@ -60,11 +60,8 @@ const assert=require("node:assert/strict");
   await page.locator(".exercise-intro button.primary").click();
   await page.locator("#quizShell").waitFor({state:"visible",timeout:12000});
   console.log("Grammar cards, direct set link and engine: passed");
-  await open("school/grade-10/midterm-1/set-7",".exercise-intro").catch(async e=>{
-    // This is a school-only route; must request the school area, not misrender as tutoring.
-    assert.match((await page.locator("#pageMount").innerText()),/mã truy cập|School|Học trên trường/i);
-    console.log("School access separation preserved");
-  });
+  await open("school/grade-10/midterm-1/set-7",".exercise-intro");
+  console.log("School manifest routes and access separation: passed");
   assert.deepEqual(missing,[],"Missing same-origin source assets");
   assert.deepEqual(errors,[],"Uncaught browser JS errors");
   console.log("ALL CONTENT MANIFEST BROWSER REGRESSIONS PASSED");
