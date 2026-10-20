@@ -57,7 +57,7 @@ const agreement={
   {normal:"Tom can't swim. I can't swim either.",inverted:"Tom can't swim. Neither can I.",why:"Câu đầu phủ định với modal can't, nên dùng Neither + can + I."}
  ],
  misconception:"Không viết Neither don't I: Neither/Nor đã mang nghĩa phủ định, nên không thêm not. Đừng nhầm So do I (tôi cũng vậy) với So I do (đúng là tôi có làm như vậy).",
- extras:[{title:"So do I khác So I do",rule:"So do I = đồng tình với thông tin về người khác; So I do = xác nhận một điều vừa được nói về chính mình.",example:"A: She loves poetry. B: So do I. / A: You really love poetry. B: So I do."}],
+ extras:[{title:"So do I khác So I do",rule:"So do I = đồng tình với thông tin về người khác; So I do = xác nhận một điều vừa được nói về chính mình.",example:"A: She loves poetry. B: So do I. / A: You really love poetry. B: So I do."},{title:"Nor như Neither",rule:"Nor + trợ động từ + chủ ngữ cũng diễn tả đồng tình với câu phủ định; trong câu trả lời riêng, Nor thường trang trọng hơn Neither.",example:"A: I can’t attend the meeting. B: Nor can I."}],
  checks:[
   Object.assign(Q("l8q1","agreement","Mai studies at night. So ___ I.",["do","am","can","have"],0,"Studies là động từ hiện tại đơn; I cũng có thói quen như Mai.","Dùng So do I để đồng tình với một phát biểu khẳng định ở hiện tại đơn.",{1:"Am không thay cho trợ động từ do của studies.",2:"Can diễn tả khả năng, không khớp nội dung studies.",3:"Have không đứng một mình thay cho studies trong mẫu này."}),{
    discovery:{prompt:"Trong 'Mai studies at night', studies thuộc thì nào? ",options:["Hiện tại đơn","Hiện tại hoàn thành"],correct:0,why:"Studies là hiện tại đơn; khi đồng tình với chủ ngữ I, chọn do."}
