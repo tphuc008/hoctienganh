@@ -40,24 +40,30 @@ const assert=require("node:assert/strict");
   console.log("TOPIC 21 LEARN + RESUME: OK");
   await page.locator('[data-g21="tab"][data-tab="practice"]').click();
   assert.equal(await page.locator(".g21-main .g21-feedback").count(),0);
-  await page.evaluate(()=>{
-   const root=document.getElementById("pageMount");
-   for(const q of window.GrammarTopic21Data.practice){
-     const btn=root.querySelector('[data-g21="answer"][data-id="'+q.id+'"][data-index="'+q.correct+'"]');
-     if(!btn)throw Error("Missing answer control "+q.id);
-     btn.click();
-   }
-  });
+  async function answerWholeStage(kind){
+    const counts={practice:16,mastery:10};
+    const pages=Math.ceil(counts[kind]/4);
+    for(let p=0;p<pages;p++){
+      await page.evaluate(({kind,pageIndex})=>{
+        const questions=window.GrammarTopic21Data[kind].slice(pageIndex*4,pageIndex*4+4);
+        for(const q of questions){
+          const btn=document.querySelector('[data-g21="answer"][data-kind="'+kind+'"][data-id="'+q.id+'"][data-index="'+q.correct+'"]');
+          if(!btn)throw Error("Missing visible answer for "+q.id);
+          btn.click();
+        }
+      },{kind,pageIndex:p});
+      if(p<pages-1)await page.locator('[data-g21="page"][data-kind="'+kind+'"][data-page="'+(p+1)+'"]').click();
+    }
+  }
+  await answerWholeStage("practice");
   assert.equal(await page.locator(".g21-main .g21-feedback").count(),0);
   await page.locator('[data-g21="submit"][data-kind="practice"]').click();
-  assert.equal(await page.locator(".g21-main .g21-feedback.good").count(),16);
-  console.log("TOPIC 21 INDEPENDENT PRACTICE: OK");
-  await page.locator('[data-g21="tab"][data-tab="mastery"]').click();
-  await page.evaluate(()=>{
-   for(const q of window.GrammarTopic21Data.mastery){
-     document.querySelector('[data-g21="answer"][data-id="'+q.id+'"][data-index="'+q.correct+'"]').click();
-   }
-  });
+  assert.match(await page.locator(".g21-assessment").innerText(),/16\/16/);
+  assert.equal(await page.locator(".g21-main .g21-feedback.good").count(),4,"Four questions shown per page");
+  console.log("TOPIC 21 PAGINATED PRACTICE: OK");
+  await page.locator('.g21-tabs [data-g21="tab"][data-tab="mastery"]').click();
+  assert.equal(await page.locator(".g21-main .g21-question").count(),4);
+  await answerWholeStage("mastery");
   await page.locator('[data-g21="submit"][data-kind="mastery"]').click();
   assert.match(await page.locator(".g21-main").innerText(),/Đạt chuẩn thử nghiệm/);
   await page.locator('.g21-tabs [data-g21="tab"][data-tab="review"]').click();
