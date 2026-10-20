@@ -5,14 +5,14 @@ function persistSchoolAttempt(){
   const s=schoolSession;
   if(!s.ownerId||s.ownerId!==LearningCore.userId())return;
   LearningCore.writeDraft("school",schoolAttemptId(s.setNo),{
-    ...s,wrongChoices:s.wrongChoices.map(x=>[...x])
+    ...s,sourceVersion:LearningCore.fingerprint(schoolSetItems(s.setNo)),wrongChoices:s.wrongChoices.map(x=>[...x])
   });
 }
 function restoreSchoolAttempt(setNo){
   const d=LearningCore.readDraft("school",schoolAttemptId(setNo));
   if(!d||d.ownerId!==LearningCore.userId()||d.setNo!==Number(setNo)||!Array.isArray(d.items)||!d.items.length
     ||d.solved?.length!==d.items.length||d.mistakes?.length!==d.items.length)return null;
-  if(d.items.length!==schoolSetItems(setNo).length)return null;
+  if(d.items.length!==schoolSetItems(setNo).length||d.sourceVersion!==LearningCore.fingerprint(schoolSetItems(setNo)))return null;
   return {...d,wrongChoices:d.items.map((_,i)=>new Set(Array.isArray(d.wrongChoices?.[i])?d.wrongChoices[i]:[]))};
 }
 async function saveSchoolOutcome(){
