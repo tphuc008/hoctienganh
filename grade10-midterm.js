@@ -5,14 +5,14 @@ const MT_NO_SCORE=new Set(["4-16","6-26","6-29"]);
 function mtKey(id){return "grade-10/mid-term-test/test-"+id}
 function mtSave(){
  if(!mtState.chosenTest||!LearningCore.userId()||mtState.owner!==LearningCore.userId())return;
- LearningCore.writeDraft("exam",mtKey(mtState.chosenTest),{index:mtState.index,answers:mtState.answers,checked:mtState.checked,revealed:mtState.revealed,startedAt:mtState.startedAt,submissionId:mtState.submissionId,recorded:mtState.recorded});
+ LearningCore.writeDraft("exam",mtKey(mtState.chosenTest),{index:mtState.index,answers:mtState.answers,checked:mtState.checked,revealed:mtState.revealed,startedAt:mtState.startedAt,submissionId:mtState.submissionId,recorded:mtState.recorded,sourceVersion:LearningCore.fingerprint(mtCurrent().questions)});
 }
 function mtRestore(test){
  const saved=LearningCore.readDraft("exam",mtKey(test.id));
  mtState.chosenTest=test.id;mtState.owner=LearningCore.userId();
  mtState.index=0;mtState.answers={};mtState.checked={};mtState.revealed={};
  mtState.startedAt=Date.now();mtState.submissionId=LearningCore.uuid();mtState.results=false;mtState.recorded=false;
- if(saved&&typeof saved==="object"){
+ if(saved&&typeof saved==="object"&&saved.sourceVersion===LearningCore.fingerprint(test.questions)){
   const ids=new Set(test.questions.map(q=>q.id));
   const valid=obj=>Object.fromEntries(Object.entries(obj||{}).filter(([k])=>ids.has(k)));
   mtState.answers=valid(saved.answers);mtState.checked=valid(saved.checked);mtState.revealed=valid(saved.revealed);
