@@ -134,15 +134,14 @@ function optionsHTML(q){
  }).join("")+"</div>";
 }
 function reviewHTML(q){
- if(!state.submitted)return "";
- return '<div class="mis-review'+(correct(q)?"":" wrong")+'"><h3>'+(correct(q)?"✓ Chính xác":"✕ Chưa chính xác")+' · Đáp án: '+html(q.answer)+'</h3>'+
- '<div><strong>Bạn chọn:</strong> '+html(answered(q)?state.answers[q.id]:"(chưa trả lời)")+'</div>'+
- '<blockquote>Đoạn '+String.fromCharCode(65+q.p)+': “'+html(q.quote)+'”</blockquote>'+
- '<div><strong>Giải thích:</strong> '+html(q.why)+'</div>'+
- '<div class="mis-paraphrase"><strong>Paraphrase / Logic:</strong> '+html(q.paraphrase)+'</div>'+
- '<div><strong>Điểm dễ nhầm:</strong> '+html(q.trap)+'</div>'+
- '<button type="button" class="mis-tool" style="margin-top:9px" onclick="misGoQuestion('+q.id+')">↖ Tô sáng dẫn chứng trong bài đọc</button></div>';
+ if(!state.submitted||!window.ExplanationV1)return "";
+ const selected=answered(q)?state.answers[q.id]:"(chưa trả lời)";
+ return '<div class="mis-review'+(correct(q)?"":" wrong")+'">'+
+   '<p class="mis-review-student"><strong>Bạn chọn:</strong> '+html(selected)+'</p>'+
+   window.ExplanationV1.render(window.ExplanationV1.marketing(q))+
+   '<button type="button" class="mis-tool" style="margin-top:9px" onclick="misGoQuestion('+q.id+')">↖ Tô sáng dẫn chứng trong bài đọc</button></div>';
 }
+
 function questionHTML(q){
  return '<article class="mis-q-card'+(Number(state.focus)===q.id?" mis-focus":"")+'" id="mis-q-'+q.id+'">'+
  '<p class="mis-question-text"><span class="mis-num">'+q.id+'</span> '+html(q.question)+'</p>'+
