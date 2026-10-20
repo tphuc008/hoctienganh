@@ -83,3 +83,33 @@ không biến các bài khác cấu trúc thành cùng một kiểu quiz.
   theo schema của engine rồi đăng ký vào Manifest.
 - Lịch sử kết quả vẫn đọc bảng chung và bảng cũ; giải trùng và thay đổi streak
   là ưu tiên riêng, tránh sửa lẫn khi đang thay đổi routing.
+
+
+## Ưu tiên 2 — vòng đời bài làm thống nhất (LearningFlow)
+
+`core/learning-flow.js` cung cấp cùng một hợp đồng trạng thái cho **Vocabulary, Grammar,
+School, Listening Part, Reading, Mid-term**. Các engine không bị ép dùng cùng thuật toán chấm.
+
+- `ready` / **Chưa bắt đầu**: học sinh chưa khởi động lượt làm.
+- `in_progress` / **Đang làm · đã làm/tổng số câu**: lượt làm đang diễn ra và có thể khôi phục.
+- `completed` / **Đã hoàn thành** (mastery: School/Vocabulary/Grammar), hoặc
+  **Đã nộp** (Reading/Listening/Mid-term): mỗi môn giữ nguyên ngưỡng/chính sách nộp bài.
+- `synced`: chỉ đánh dấu `true` khi engine nhận thành công kết nối lưu tương ứng;
+  không tự suy ra rằng một lượt đã hoàn thành thì Supabase đã lưu.
+- `track` dùng cùng `LearningCore.writeDraft("lifecycle", category+"/"+slug, metadata)`
+  để lưu **bản tóm tắt**, không ghi đè đáp án hay draft của engine.
+- `reset` xóa metadata của lượt làm riêng; các engine vẫn chịu trách nhiệm tạo
+  UUID mới, xoá draft của mình và xác nhận trước thao tác có thể mất dữ liệu.
+- `LearningFlow.markup/paint` hiển thị nhãn và tiến độ theo cùng một cấu trúc;
+  `LearningFlow.labels` thống nhất tên nút phổ biến, trong khi các nút đặc thù như
+  “Hiện đáp án”, “Nghe lại đoạn sai”, “Nộp từng Part” được giữ nguyên.
+
+**Lưu ý phạm vi:** Đây là bản tóm tắt trạng thái trên **thiết bị hiện dùng**, theo tài khoản.
+Chưa triển khai đồng bộ bản nháp xuyên thiết bị hoặc thay cơ chế lưu legacy của Reading.
+Sửa điểm/streak và loại bản ghi lịch sử trùng thuộc ưu tiên 3, không trộn vào refactor này.
+
+Các kiểm thử bổ sung:
+- `tests/learning-flow.test.cjs`: trạng thái hợp lệ, per-account isolation, reset,
+  active vs submitted (không mặc định đủ số câu = đã nộp), metadata và nhãn;
+- `tests/flow-browser.cjs`: tương tác Chromium qua cả 6 nhóm bài và refresh;
+- Hai bộ kiểm thử cũ `browser-smoke.cjs` và `manifest-browser.cjs` phải vẫn đạt.
