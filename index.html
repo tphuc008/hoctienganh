@@ -420,11 +420,18 @@ function usefulExistingContrast(text){
   if(/các lựa chọn còn lại|các phương án còn lại|vì vậy chỉ|câu sẽ chuyển|không còn hợp|khớp chính xác|so với các lựa chọn|đổi nghĩa hoặc sai vai trò/i.test(s))return "";
   return s;
 }
-function semanticClass(gloss,answer){
-  const g=String(gloss||"").toLowerCase();
-  if(/người|nhân viên|thợ|nghệ nhân|ca sĩ|nhà hoạt động|nhà ngoại giao|khán giả|công dân|tình nguyện viên|chú rể/.test(g) || /(er|or|ist|ian|ant|ent)$/.test(String(answer||"").toLowerCase()))return "chỉ người";
-  if(/^(sự|việc|quá trình|trạng thái|quyền|khát vọng|chủ quyền|dinh dưỡng|nhận thức|trách nhiệm|đóng góp|đoàn kết)/.test(g))return "chỉ khái niệm hoặc trạng thái trừu tượng";
-  return "gọi tên đúng loại đối tượng hoặc khái niệm";
+/* Never infer an object's semantic category from a suffix:
+ * career, clapper and organiser can all end in -er/-or, but only one names a person.
+ * Use the curated meaning and actual sentence rather than a guessed ontology.
+ */
+function nounMeaningContrast(answer,gloss,info){
+  const meaning=String(gloss||"").trim();
+  const after=compactSnippet(info.after,100);
+  const before=compactSnippet(info.before,100);
+  const clue=(after&&after.length>=10)?after:before;
+  return "“"+answer+"” có nghĩa là “"+meaning+"”."+
+    (clue?" Khi phân biệt đáp án, đối chiếu ý này với chi tiết “"+clue+"” trong câu.":" Hãy đối chiếu nghĩa này với nội dung thực tế của câu.")+
+    " Một phương án có cùng từ loại vẫn có thể sai nếu không diễn đạt đúng ý đó.";
 }
 function compactWhy(question,detail,answer,gloss,info,pos){
   const q=String(question?.q||"");
@@ -440,11 +447,13 @@ function compactWhy(question,detail,answer,gloss,info,pos){
     return "“"+combo+"” là cách kết hợp tự nhiên; “"+answer+"” tạo đúng sắc thái “"+gloss+"” cho từ đứng cạnh.";
   }
 
-  const grammar=decisiveGrammar(info,pos,answer,gloss);
-  if(grammar)return grammar;
-
+  // Preserve a writer's question-specific explanation before any mechanical
+  // part-of-speech heuristic; these carry the actual evidence for the answer.
   const existing=usefulExistingWhy(detail?.why);
   if(existing)return existing;
+
+  const grammar=decisiveGrammar(info,pos,answer,gloss);
+  if(grammar)return grammar;
 
   return evidenceReason(info,answer,gloss);
 }
@@ -461,9 +470,9 @@ function compactContrast(question,detail,answer,gloss,info,pos){
     const after=String(info.after||"").replace(/^[”"',;:.!?()\s]+/,"").trim();
     const head=(after.match(/^([A-Za-z][A-Za-z'-]*)/)||[])[1]||"";
     if(pos==="adv"){
-      return "“"+answer+"” chọn tự nhiên hành động “"+head+"” và bổ sung sắc thái “"+gloss+"”. Đây là selectional restriction: không phải trạng từ gần nghĩa nào cũng mô tả hành động này với cùng sắc thái.";
+      return "“"+answer+"” mô tả hành động “"+head+"” theo nghĩa “"+gloss+"”. Một trạng từ gần nghĩa khác có thể mô tả cách thực hiện khác, nên cần xét cả động từ được bổ nghĩa.";
     }
-    return "Về mặt ngữ nghĩa, “"+answer+"” kết hợp tự nhiên với “"+head+"” để gán đúng thuộc tính “"+gloss+"”. Điểm phân biệt nằm ở selectional restriction và sắc thái, không chỉ ở từ loại.";
+    return "“"+answer+"” bổ nghĩa cho “"+head+"” theo ý “"+gloss+"”. Khi so sánh đáp án, cần xét đúng đặc điểm được mô tả, không chỉ kiểm tra từ loại.";
   }
 
   const existing=usefulExistingContrast(detail?.contrast);
@@ -477,10 +486,10 @@ function compactContrast(question,detail,answer,gloss,info,pos){
     return "“"+prev+" "+answer+"” tạo một quan hệ nghĩa cụ thể: trạng từ giới hạn phương diện đánh giá, còn “"+answer+"” mang sắc thái “"+gloss+"”. Vì vậy điểm phân biệt nằm ở đúng phương diện nghĩa mà tính từ mô tả.";
   }
   if(pos==="v" && after){
-    return "“"+answer+"” kết hợp tự nhiên với bổ ngữ “"+compactSnippet(after,48)+"” để diễn tả “"+gloss+"”. Đây là selectional restriction: động từ phải phù hợp với đúng loại đối tượng và quan hệ nghĩa.";
+    return "“"+answer+"” đi với phần sau “"+compactSnippet(after,48)+"” để diễn tả “"+gloss+"”. Cần chọn động từ diễn tả đúng hành động và quan hệ với phần bổ nghĩa trong câu.";
   }
   if(pos==="n"){
-    return "“"+answer+"” thuộc đúng nhóm danh từ "+semanticClass(gloss,answer)+". Sự phù hợp nằm ở loại thực thể/khái niệm mà từ có thể gọi tên, không chỉ ở hình thức ngữ pháp.";
+    return nounMeaningContrast(answer,gloss,info);
   }
   if(pos==="adv"){
     return "“"+answer+"” không chỉ đúng từ loại mà còn mang sắc thái “"+gloss+"”, tức mô tả chính xác cách thức hành động diễn ra; đó là điểm phân biệt với các trạng từ có sắc thái khác.";
