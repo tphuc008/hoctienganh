@@ -87,6 +87,14 @@ const assert=require("node:assert/strict");
       const key=Object.keys(localStorage).find(x=>x.includes("hoctienganh:attempt:v1")&&x.includes("lifecycle")&&x.includes(encodeURIComponent("listening/"+p)));
       return key?JSON.parse(localStorage.getItem(key)).data:null;
     },slug);
+    if(!recorded||recorded.done<1){
+      console.error("LISTENING DEBUG",JSON.stringify(await page.evaluate(prefix=>({
+       prefix,
+       keys:Object.keys(localStorage).filter(k=>k.includes("lifecycle")),
+       inputStates:[...document.querySelectorAll("input")].filter(x=>x.checked||x.value).slice(0,12).map(x=>({id:x.id,name:x.name,value:x.value,checked:x.checked})),
+       allSaved:Object.keys(localStorage).filter(k=>k.includes("lifecycle")).map(k=>({key:k,data:JSON.parse(localStorage.getItem(k)).data}))
+      }),slug)));
+    }
     assert.ok(recorded&&recorded.done>=1,"Listening attempt not tracked");
     await page.locator(submit).click();
     const badge=page.locator(panel+" .learning-flow-badge[data-learning-phase='completed']").first();
