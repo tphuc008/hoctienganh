@@ -386,11 +386,16 @@ function home(){
 function render(preserveScroll){
   if(!state)return;
   const y=preserveScroll?window.scrollY:0;
+  const opened=preserveScroll&&state.tab==="clinic"&&mount.querySelectorAll?
+    [...mount.querySelectorAll(".g21-repair[open]")].map(node=>node.getAttribute("data-g21-skill")):[];
   mount.style.display="block";
   mount.innerHTML='<div class="g21">'+(location.hash.replace(/^#/,"")==="teacher/grammar"?
     home():topbar()+hero()+tabs()+
     (state.tab==="learn"?learn():state.tab==="practice"?exam("practice"):state.tab==="clinic"?clinic():state.tab==="mastery"?exam("mastery"):review())+
     '<p class="g21-foot">Sources: <a href="https://dictionary.cambridge.org/grammar/british-grammar/inversion" target="_blank" rel="noopener noreferrer">Cambridge Grammar · Inversion</a> · <a href="https://learnenglish.britishcouncil.org/free-resources/grammar/c1/inversion-after-negative-adverbials" target="_blank" rel="noopener noreferrer">British Council · Negative adverbials</a>. Điểm và tiến độ bản thử nghiệm lưu cục bộ theo tài khoản, chưa đồng bộ trên các thiết bị.</p>')+'</div>';
+  if(opened.length&&mount.querySelectorAll){
+    mount.querySelectorAll(".g21-repair").forEach(node=>{if(opened.includes(node.getAttribute("data-g21-skill")))node.open=true;});
+  }
   if(preserveScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
 }
 function openRoute(hash,session){
@@ -435,6 +440,34 @@ mount.addEventListener("click",function(e){
     if(location.hash!="#teacher/grammar/topic-21"){location.hash="teacher/grammar/topic-21";return;}
     render(false);return;
   }
+  if(a==="detect"){
+    const q=answersById[btn.dataset.id],pick=Number(btn.dataset.index);
+    if(!q?.discovery||![0,1].includes(pick)||state.guidedStages[q.id]===2||state.guided[q.id]?.correct)return;
+    state.guidedDiscovery[q.id]=pick;save();render(true);return;
+  }
+  if(a==="discovery-next"){
+    const q=answersById[btn.dataset.id];
+    if(!q?.discovery||state.guidedDiscovery[q.id]!==q.discovery.correct)return;
+    state.guidedStages[q.id]=2;save();render(true);return;
+  }
+  if(a==="guided-next"||a==="guided-prev"){
+    const sid=btn.dataset.section,section=d.sections.find(x=>x.id===sid);
+    if(!section)return;
+    const oldIndex=Math.max(0,Math.min(1,Number(state.guidedFocus[sid])||0));
+    if(a==="guided-next"&&!section.checks[oldIndex]?.id)return;
+    if(a==="guided-next"&&!state.guided[section.checks[oldIndex].id]?.correct)return;
+    state.guidedFocus[sid]=a==="guided-next"?1:0;
+    save();render(true);
+    mount.querySelector?.(".g21-quickchecks")?.scrollIntoView?.({block:"start"});
+    return;
+  }
+  if(a==="detective-answer"){
+    const q=d.detectives.find(x=>x.id===btn.dataset.id),pick=Number(btn.dataset.index);
+    if(!q||![0,1].includes(pick)||state.detective[q.id]?.solved)return;
+    const old=state.detective[q.id];
+    state.detective[q.id]={pick:pick,solved:pick===q.correct,attempts:(old?.attempts||0)+1};
+    save();render(true);return;
+  }
   if(a==="prev"||a==="next"){state.lesson=Math.min(d.sections.length-1,Math.max(0,state.lesson+(a==="next"?1:-1)));save();render(false);return;}
   if(a==="page"){
     const kind=btn.dataset.kind;
@@ -442,6 +475,9 @@ mount.addEventListener("click",function(e){
     if(!Object.prototype.hasOwnProperty.call(allowed,kind))return;
     const next=Number(btn.dataset.page),count=Math.ceil(allowed[kind]/EXAM_PAGE_SIZE);
     if(!Number.isInteger(next)||next<0||next>=count)return;
+    const current=Math.max(0,Math.min(count-1,Number(state.pages[kind])||0));
+    const question=(kind==="practice"?d.practice:kind==="mastery"?d.mastery:d.review)[current];
+    if(next>current&&!state[kind+"Submitted"]&&!Number.isInteger(state[kind]?.[question?.id]))return;
     state.pages[kind]=next;save();render(false);return;
   }
   if(a==="answer"){updateAnswer(btn.dataset.kind,btn.dataset.id,Number(btn.dataset.index));return;}
