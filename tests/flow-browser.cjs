@@ -45,6 +45,16 @@ const assert=require("node:assert/strict");
   await page.locator("#quizFlowStatus[data-learning-phase='in_progress']").waitFor();
   assert.equal((await status("vocabulary","grade-12/unit-1/set-1")).startedAt,v.startedAt);
   console.log("VOCABULARY lifecycle / refresh: PASS");
+  // Check the real answer-release boundary and the three-step V1 card.
+  const correctChoice=await page.evaluate(()=>activeQuestions[0].a);
+  await page.locator('#questionMount .answer[data-i="'+correctChoice+'"]').click();
+  await page.locator('#questionMount .ev1[data-explanation-v1="1"]').waitFor();
+  assert.equal(await page.locator('#questionMount .ev1-details').evaluate(el=>el.open),false);
+  await page.locator('#questionMount .ev1-details summary').click();
+  assert.equal(await page.locator('#questionMount .ev1-details').evaluate(el=>el.open),true);
+  assert.equal(await page.locator('#questionMount .ev1-step').count(),3);
+  console.log("VOCABULARY EXPLANATION V1: quick-to-deep progressive disclosure: PASS");
+
 
   await open("grammar/prefix-suffix/set-1",".exercise-intro");
   await page.locator(".exercise-intro button.primary").click();
@@ -94,6 +104,15 @@ const assert=require("node:assert/strict");
     await page.reload({waitUntil:"domcontentloaded"});
     await badge.waitFor();
     console.log(route+" lifecycle / submit / refresh: PASS");
+    // A submitted listening exercise still requires explicit answer reveal.
+    assert.equal(await page.locator(panel+" .ev1").count(),0);
+    const reveal=route.includes("/news/")?"#newsShowAnswers1":"#showAnswersBtn1";
+    await page.locator(reveal).click();
+    await page.locator(panel+" .ev1[data-review-status='needs_review']").first().waitFor();
+    await page.locator(reveal).click();
+    assert.equal(await page.locator(panel+" .ev1").count(),0);
+    console.log("LISTENING EXPLANATION V1: opt-in reveal and hide: PASS");
+
   }
   await open("grade-12/reading/robots-and-us",".exercise-intro");
   await page.evaluate(()=>window.robotsContinue());
