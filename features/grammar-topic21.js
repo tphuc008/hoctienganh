@@ -11,7 +11,7 @@ const answersById={};
 [...d.sections.flatMap(s=>s.checks),...d.practice,...d.mastery,...d.repairs,...d.review].forEach(q=>answersById[q.id]=q);
 const tabNames=[["learn","Lý thuyết"],["practice","Luyện tập"],["clinic","Chữa lỗi"],["mastery","Kiểm tra"],["review","Ôn tập"]];
 let userId="",state=null;
-const fresh=()=>({tab:"learn",lesson:0,guided:{},practice:{},practiceSubmitted:false,mastery:{},masterySubmitted:false,masteryAt:null,repairs:{},review:{},reviewSubmitted:false,writes:{},writeReveals:{},pages:{practice:0,mastery:0,review:0}});
+const fresh=()=>({tab:"learn",lesson:0,guided:{},practice:{},practiceSubmitted:false,mastery:{},masterySubmitted:false,masteryAt:null,repairs:{},review:{},reviewSubmitted:false,writes:{},writeReveals:{},pages:{practice:0,mastery:0,review:0},guidedDiscovery:{},guidedStages:{},guidedFocus:{},detective:{}});
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function key(){return "hoctienganh_topic21_preview_v1_"+userId}
 function save(){if(userId&&state)localStorage.setItem(key(),JSON.stringify(state));}
@@ -25,6 +25,7 @@ function load(uid){
     if(!Array.isArray(d.sections)||!d.sections[state.lesson])state.lesson=0;
     if(!tabNames.some(t=>t[0]===state.tab))state.tab="learn";
     state.pages=Object.assign({practice:0,mastery:0,review:0},state.pages||{});
+    for(const item of ["guidedDiscovery","guidedStages","guidedFocus","detective"]){if(!state[item]||typeof state[item]!=="object")state[item]={};}
   }catch(_){state=initial;}
 }
 function getScores(items,values){
@@ -98,28 +99,26 @@ function filledExample(q){
 }
 function feedback(q,pick,wasCorrect,kind){
   const good=pick===q.correct;
-  const note=q.explain||{};
-  const selected=q.options[pick]||"";
+  const note=q.explain||{},selected=q.options[pick]||"";
   const specific=note.wrong?.[pick]||(!good?q.wrong?.[pick]:"");
   const retry=(kind==="guided"||kind==="repair")&&!good;
   const reasons=optionOrder(q).filter(i=>i!==q.correct);
   return '<div class="g21-feedback '+(good?"good":"bad")+'" role="status">'+
-    '<strong>'+(good?"✓ Chính xác — bạn đã nhận ra cấu trúc":"✦ Cần kiểm tra lại")+'</strong>'+
-    (!good?'<p><b>Vì sao chưa đúng?</b> Bạn chọn “'+esc(selected)+'”. '+esc(specific||"Hãy kiểm tra lại điều kiện đảo ngữ và dạng động từ.")+'</p>':"")+
+    '<strong>'+(good?"✓ Chính xác":"Chưa đúng, thử lại nhé")+'</strong>'+
     (retry?
-      '<div class="g21-reason-step"><b>Gợi ý: nhìn dấu hiệu</b><p>'+esc(note.clue||q.why)+'</p></div>'+
-      '<p class="g21-feedback-hint">Đọc gợi ý rồi chọn lại. Đáp án sẽ được giải thích đầy đủ khi bạn làm đúng.</p>':
+      '<p>'+esc(specific||"Kiểm tra lại dấu hiệu đảo ngữ trong câu.")+'</p>'+
+      '<p class="g21-feedback-hint">'+esc(note.clue||"Hãy tìm cụm đứng đầu và thì của mệnh đề.")+'</p>':
+      '<p class="g21-feedback-short">'+(good?"":'<b>Bạn chọn:</b> '+esc(selected)+'. ')+esc(note.rule||q.why)+'</p>'+
+      '<details class="g21-more g21-explain-more"><summary>Xem lời giải chi tiết <span aria-hidden="true">⌄</span></summary>'+
+      '<div class="g21-more-body">'+
       '<div class="g21-explanation-steps">'+
-        '<div class="g21-reason-step"><b>1. Nhìn dấu hiệu trong câu</b><p>'+esc(note.clue||"Xác định từ/cụm từ mở đầu và thì của mệnh đề.")+'</p></div>'+
+        '<div class="g21-reason-step"><b>1. Nhìn dấu hiệu trong câu</b><p>'+esc(note.clue||"Xác định từ đầu câu và thì cần dùng.")+'</p></div>'+
         '<div class="g21-reason-step"><b>2. Suy ra cách viết đúng</b><p>'+esc(note.rule||q.why)+'</p></div>'+
         '<div class="g21-reason-step"><b>3. Câu hoàn chỉnh / Đáp án đúng</b><p class="g21-solution-sentence">'+filledExample(q)+'</p></div>'+
       '</div><p class="g21-rule-reminder"><b>Quy tắc cần nhớ:</b> '+esc(q.why)+'</p>'+
-      '<details class="g21-other-choices"><summary>Vì sao các đáp án khác sai? <span aria-hidden="true">⌄</span></summary>'+
-        '<div class="g21-other-choices-body">'+reasons.map(i=>{
-          const label=String.fromCharCode(65+optionOrder(q).indexOf(i));
-          return '<div class="g21-choice-reason"><b>'+label+'. '+esc(q.options[i])+'</b><p>'+esc(note.wrong?.[i]||q.wrong?.[i]||"Phương án này không đáp ứng cấu trúc được yêu cầu.")+'</p></div>';
-        }).join("")+'</div></details>'
-    )+
+      '<h4 class="g21-wrong-heading">Vì sao các đáp án khác sai?</h4>'+
+      reasons.map(i=>'<div class="g21-choice-reason"><b>'+String.fromCharCode(65+optionOrder(q).indexOf(i))+'. '+esc(q.options[i])+'</b><p>'+esc(note.wrong?.[i]||q.wrong?.[i]||"Không đáp ứng cấu trúc cần dùng.")+'</p></div>').join("")+
+      '</div></details>')+
   '</div>';
 }
 /* Balance correct positions within each quiz bank. Correct answers are fixed in
@@ -170,36 +169,59 @@ function question(q,num,kind){
     (reveal?feedback(q,selected,complete,kind):"")+
     (guided&&complete?'<div class="g21-foot">Đã hiểu và trả lời đúng. Tiếp tục câu tiếp theo.</div>':"")+'</article>';
 }
+function guidedWizard(section){
+  const questions=section.checks;
+  const current=Math.max(0,Math.min(1,Number(state.guidedFocus[section.id])||0));
+  const q=questions[current],done=Boolean(state.guided[q.id]?.correct),phase=state.guidedStages[q.id]===2||done?2:1;
+  const clue=q.discovery;
+  if(!clue)throw new Error("Missing reasoning prompt: "+q.id);
+  const pick=state.guidedDiscovery[q.id];
+  return '<section class="g21-teaching g21-quickchecks"><div class="g21-sectionhead"><h3>3. Luyện theo từng bước</h3><span>Câu '+(current+1)+' / '+questions.length+'</span></div>'+
+    '<p class="g21-lead">Đầu tiên, tìm dấu hiệu ngữ pháp. Sau đó mới chọn đáp án. Mỗi lần chỉ làm một câu.</p>'+
+    '<div class="g21-focus-progress"><span class="g21-focus-step'+(phase===1?" active":" done")+'">1 · Nhận diện</span><span class="g21-focus-step'+(phase===2?" active":"")+'">2 · Chọn đáp án</span></div>'+
+    (phase===1?
+      '<article class="g21-question g21-discovery" id="g21-discovery-'+esc(q.id)+'">'+
+        '<div class="g21-qmeta"><span>STEP 1 · THINK FIRST</span></div>'+
+        '<p class="g21-prompt">'+esc(clue.prompt)+'</p>'+
+        '<div class="g21-options">'+clue.options.map((opt,i)=>
+          '<button type="button" class="g21-option'+(pick===i?" selected":"")+'" data-g21="detect" data-id="'+q.id+'" data-index="'+i+'" aria-pressed="'+(pick===i)+'">'+
+          '<span class="g21-letter">'+String.fromCharCode(65+i)+'</span><span>'+esc(opt)+'</span></button>'
+        ).join("")+'</div>'+
+        (Number.isInteger(pick)?'<p class="g21-discovery-note">'+
+          (pick===clue.correct?"✓ Đúng. "+esc(clue.why):"Chưa đúng. "+esc(clue.why))+'</p>':"")+
+        '<div class="g21-actions"><button type="button" class="g21-btn primary" data-g21="discovery-next" data-id="'+q.id+'"'+(pick!==clue.correct?" disabled":"")+'>Chọn đáp án →</button></div>'+
+      '</article>':
+      '<div class="g21-guided-final">'+question(q,current+1,"guided")+
+      (done?'<div class="g21-actions">'+(current<questions.length-1?
+         '<button class="g21-btn primary" data-g21="guided-next" data-section="'+esc(section.id)+'">Câu tiếp theo →</button>':
+         '<span class="g21-done-inline">✓ Bạn đã hoàn thành 2 câu của bài này.</span>')+'</div>':"")+
+      '</div>')+
+    (current>0?'<div class="g21-actions"><button class="g21-btn" data-g21="guided-prev" data-section="'+esc(section.id)+'">← Câu trước</button></div>':"")+
+  '</section>';
+}
 function learn(){
   const s=d.sections[state.lesson],done=completeCount();
   return '<div class="g21-layout">'+side()+
     '<article class="g21-main g21-lesson">'+
       '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / 07</span>'+
         '<span class="g21-time">◷ '+s.minutes+' phút</span></div>'+
-      '<h2>'+esc(s.title)+'</h2>'+
-      '<p class="g21-lead">'+esc(s.outcome)+'</p>'+
+      '<h2>'+esc(s.title)+'</h2><p class="g21-lead">'+esc(s.outcome)+'</p>'+
       '<div class="g21-progress-track">'+progressHTML()+'</div>'+
       '<section class="g21-teaching"><div class="g21-sectionhead"><h3>1. Hiểu quy tắc</h3></div>'+
-        '<div class="g21-note g21-concept"><b>CONCEPT · Hiểu đơn giản</b><p>'+esc(s.concept)+'</p></div>'+
-        '<div class="g21-note form"><b>FORM · Công thức</b><p>'+esc(s.form)+'</p><small class="g21-form-legend">S = chủ ngữ · V = động từ · V3 = quá khứ phân từ · Trợ động từ: do, does, did, have, had, can…</small></div>'+
-        '<div class="g21-contrast"><b>CONTRAST · Phân biệt</b><p>'+esc(s.contrast)+'</p></div>'+
+        '<div class="g21-note g21-concept"><b>HIỂU ĐƠN GIẢN</b><p>'+esc(s.concept)+'</p></div>'+
+        '<div class="g21-note form"><b>CÔNG THỨC</b><p>'+esc(s.form)+'</p><small class="g21-form-legend">S = chủ ngữ · V = động từ · V3 = quá khứ phân từ</small></div>'+
+        '<div class="g21-contrast"><b>CẦN PHÂN BIỆT</b><p>'+esc(s.contrast)+'</p></div>'+
       '</section>'+
-      '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. So sánh qua ví dụ</h3></div>'+examples(s)+'</section>'+
+      '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. Xem ví dụ đối chiếu</h3></div>'+examples(s)+'</section>'+
       '<details class="g21-more"><summary>Xem cách suy luận và lỗi thường gặp <span aria-hidden="true">⌄</span></summary>'+
-        '<div class="g21-more-body"><h3>Cách áp dụng từng bước</h3>'+
-          '<ol class="g21-rulelist">'+s.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+
-          '<div class="g21-note warning"><b>Lỗi cần tránh</b><p>'+esc(s.misconception)+'</p></div>'+
-        '</div></details>'+
-      '<section class="g21-teaching g21-quickchecks"><div class="g21-sectionhead"><h3>3. Luyện nhanh</h3><span>2 câu hỏi</span></div>'+
-        '<p class="g21-lead">Chọn đáp án để nhận giải thích ngay. Nếu sai, bạn có thể chọn lại.</p>'+
-        s.checks.map((q,i)=>question(q,i+1,"guided")).join("")+
-      '</section>'+
+        '<div class="g21-more-body"><h3>Cách làm từng bước</h3><ol class="g21-rulelist">'+s.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+
+          '<div class="g21-note warning"><b>Lỗi cần tránh</b><p>'+esc(s.misconception)+'</p></div></div></details>'+
+      guidedWizard(s)+
       '<div class="g21-actions g21-lesson-actions"><button class="g21-btn" data-g21="prev"'+(state.lesson===0?" disabled":"")+'>← Bài trước</button>'+
         (state.lesson<d.sections.length-1?
           '<button class="g21-btn primary" data-g21="next">Bài tiếp theo →</button>':
           '<button class="g21-btn primary" data-g21="tab" data-tab="practice">Sang phần luyện tập →</button>')+
-      '</div>'+
-      '<p class="g21-foot">Đã hoàn thành '+done+'/7 bài. Tiến độ được lưu khi chọn đáp án.</p>'+
+      '</div><p class="g21-foot">Đã hoàn thành '+done+'/7 bài. Tiến độ câu hỏi vẫn được giữ khi quay lại.</p>'+
     '</article></div>';
 }
 function scoreHeader(items,values,kind){
