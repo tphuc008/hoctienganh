@@ -261,13 +261,13 @@ function learn(){
       '<div class="g21-progress-track">'+progressHTML()+'</div>'+
       '<section class="g21-teaching"><div class="g21-sectionhead"><h3>1. Hiểu quy tắc</h3></div>'+
         '<div class="g21-note g21-concept"><b>HIỂU ĐƠN GIẢN</b><p>'+esc(s.concept)+'</p></div>'+
-        (s.vi?.terms?'<p class="g21-quick-vi"><span>Nghĩa nhanh</span>'+esc(s.vi.terms)+'</p>':"")+
         '<div class="g21-note form"><b>CÔNG THỨC</b><p>'+esc(s.form)+'</p><small class="g21-form-legend">S = chủ ngữ · V = động từ · V3 = quá khứ phân từ</small></div>'+
+        (s.vi?.meaning?'<p class="g21-quick-vi"><span>Ý NGHĨA CẤU TRÚC</span>'+esc(s.vi.meaning)+'</p>':"")+
         '<div class="g21-contrast"><b>CẦN PHÂN BIỆT</b><p>'+esc(s.contrast)+'</p></div>'+
       '</section>'+
       '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. Xem ví dụ đối chiếu</h3></div>'+examples(s)+'</section>'+
        (s.extras?.length?'<details class="g21-more g21-supplement"><summary>Kiến thức bổ sung & trường hợp dễ nhầm ('+s.extras.length+') <span aria-hidden="true">⌄</span></summary>'+
-       '<div class="g21-more-body">'+s.extras.map(x=>'<div class="g21-note g21-concept" style="margin-bottom:12px"><b>'+esc(x.title)+'</b><p>'+esc(x.rule)+'</p><p class="g21-solution-sentence" style="margin-top:7px">'+esc(x.example)+'</p></div>').join("")+'</div></details>':"")+
+       '<div class="g21-more-body">'+s.extras.map(x=>'<div class="g21-note g21-concept" style="margin-bottom:12px"><b>'+esc(x.title)+'</b><p>'+esc(x.rule)+'</p><p class="g21-solution-sentence" style="margin-top:7px">'+esc(x.example)+'</p>'+(x.vi?'<p class="g21-extra-meaning"><span>Nghĩa:</span> '+esc(x.vi)+'</p>':"")+'</div>').join("")+'</div></details>':"")+
       '<details class="g21-more"><summary>Xem cách suy luận và lỗi thường gặp <span aria-hidden="true">⌄</span></summary>'+
         '<div class="g21-more-body"><h3>Cách làm từng bước</h3><ol class="g21-rulelist">'+s.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+
           '<div class="g21-note warning"><b>Lỗi cần tránh</b><p>'+esc(s.misconception)+'</p></div></div></details>'+
