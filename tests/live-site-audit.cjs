@@ -86,7 +86,7 @@ async function main(){
     ["listening/entertainment",".entertainment-video-grid"],
     ["listening/news/former-openai-employee-ai-might-really-kill-us-all","#newsListeningQuestionPanel"],
     ["listening/entertainment/change-your-life-one-tiny-step-at-a-time","#listeningQuestionPanel"],
-    ["school/grade-10",".units"],["school/grade-10/midterm-1",".exercise-grid"],
+    ["school/grade-10",".exercise-grid"],["school/grade-10/midterm-1",".exercise-grid"],
     ...Array.from({length:7},(_,i)=>["school/grade-10/midterm-1/set-"+(i+1),".exercise-intro"]),
     ["grade-10/mid-term-test",".mt-quiz-grid"],
     ...[3,4,5,6].map(n=>["grade-10/mid-term-test/test-"+n,".mt-question"]),
