@@ -36,7 +36,7 @@ const assert=require("node:assert/strict");
   await page.locator('[data-g21="answer"][data-id="l1q2"][data-index="0"]').click();
   await page.reload({waitUntil:"domcontentloaded"});
   await page.locator(".g21-main").waitFor({timeout:20000});
-  assert.match(await page.locator(".g21-progress-label").innerText(),/1\/7/);
+  assert.match(await page.locator(".g21-progress-track .g21-progress-label").innerText(),/1\/7/);
   console.log("TOPIC 21 LEARN + RESUME: OK");
   await page.locator('[data-g21="tab"][data-tab="practice"]').click();
   assert.equal(await page.locator(".g21-main .g21-feedback").count(),0);
