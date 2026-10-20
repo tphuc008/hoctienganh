@@ -6,7 +6,7 @@
     try{return new Intl.DateTimeFormat("vi-VN",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Ho_Chi_Minh"}).format(new Date(iso))}
     catch(_){return ""}
   }
-  const names={school:"Học trên trường",listening:"Listening",grammar:"Grammar",vocabulary:"Vocabulary",reading:"Reading"};
+  const names={exam:"Đề thi",school:"Học trên trường",listening:"Listening",grammar:"Grammar",vocabulary:"Vocabulary",reading:"Reading"};
   function row(title,subtitle,value,date){
     return '<div class="review-item" style="margin-bottom:10px">'+
       '<div class="review-q">'+esc(title)+'</div>'+
@@ -47,7 +47,7 @@
         x.score+"/"+x.total_questions,x.created_at)).join("");
       list.removeAttribute("role");
       list.innerHTML=(primary?'<div class="section-title"><h2>Kết quả mới</h2><span>'+generic.length+' lượt gần đây</span></div>'+primary:"")+
-        (legacyVocab||legacyReading?'<div class="section-title"><h2>Lịch sử trước khi chuẩn hóa</h2></div>'+legacyVocab+legacyReading:"")+
+        (legacyVocab||legacyReading?'<div class="section-title"><h2>Lịch sử từ hệ thống riêng (có thể trùng kết quả mới)</h2></div>'+legacyVocab+legacyReading:"")+
         (!primary&&!legacyVocab&&!legacyReading?'<div class="empty"><b>Chưa có bài hoàn thành</b>Kết quả sẽ xuất hiện sau khi bạn nộp bài.</div>':"");
     }catch(err){
       console.error(err);
