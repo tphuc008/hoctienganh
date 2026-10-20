@@ -7,6 +7,7 @@ const root=path.join(__dirname,"..");
 function bootData(){
   const browser={};
   vm.runInNewContext(fs.readFileSync(path.join(root,"content/grammar-topic21-data.js"),"utf8"),{window:browser});
+  vm.runInNewContext(fs.readFileSync(path.join(root,"content/grammar-topic21-explanations.js"),"utf8"),{window:browser});
   return browser.GrammarTopic21Data;
 }
 function bootStudio(){
@@ -43,6 +44,10 @@ test("Topic 21 is a complete Learn-first course with unique checked answers",()=
     assert.ok(Number.isInteger(q.correct)&&q.correct>=0&&q.correct<4);
     assert.ok(q.why.length>15);
   });
+  all.forEach(q=>{
+    assert.ok(q.explain?.clue?.length>20&&q.explain?.rule?.length>20,"Missing clear reasoning: "+q.id);
+    [0,1,2,3].filter(i=>i!==q.correct).forEach(i=>assert.ok(q.explain?.wrong?.[i]?.length>20,"Missing wrong-option explanation: "+q.id+"/"+i));
+  });
   d.sections.forEach(s=>{
     assert.ok(s.concept&&s.form&&s.contrast&&s.misconception&&s.steps.length>=3&&s.examples.length>=2);
     assert.equal(s.checks.length,2);
@@ -59,21 +64,30 @@ test("Topic 21 renders Learn without diagnostic, then gives specific instant fee
   const wrong=[0,1,2,3].find(x=>x!==q.correct);
   t.click("answer",{kind:"guided",id:q.id,index:String(wrong)});
   assert.match(t.mount.innerHTML,/Vì sao chưa đúng/);
+  assert.match(t.mount.innerHTML,/Gợi ý: nhìn dấu hiệu/);
+  assert.doesNotMatch(t.mount.innerHTML,/Câu hoàn chỉnh \/ Đáp án đúng/);
   t.click("answer",{kind:"guided",id:q.id,index:String(q.correct)});
   assert.match(t.mount.innerHTML,/Chính xác/);
+  assert.match(t.mount.innerHTML,/1\. Nhìn dấu hiệu trong câu/);
+  assert.match(t.mount.innerHTML,/2\. Suy ra cách viết đúng/);
+  assert.match(t.mount.innerHTML,/3\. Câu hoàn chỉnh \/ Đáp án đúng/);
+  assert.match(t.mount.innerHTML,/Vì sao các đáp án khác sai/);
   assert.ok([...t.cache.values()].some(v=>v.includes('"correct":true')));
 });
 test("Independent practice withholds feedback until submission, then clinic identifies errors",()=>{
   const t=bootStudio();
   t.click("tab",{tab:"practice"});
   assert.doesNotMatch(t.mount.innerHTML,/Quy tắc cần nhớ:/);
+  assert.doesNotMatch(t.mount.innerHTML,/Vì sao các đáp án khác sai/);
   const first=t.data.practice[0];
   const wrong=[0,1,2,3].find(x=>x!==first.correct);
   t.data.practice.forEach((q,i)=>t.click("answer",{kind:"practice",id:q.id,index:String(i===0?wrong:q.correct)}));
   assert.doesNotMatch(t.mount.innerHTML,/Quy tắc cần nhớ:/);
+  assert.doesNotMatch(t.mount.innerHTML,/Vì sao các đáp án khác sai/);
   t.click("submit",{kind:"practice"});
   assert.match(t.mount.innerHTML,/KẾT QUẢ PRACTICE/);
   assert.match(t.mount.innerHTML,/Quy tắc cần nhớ/);
+  assert.match(t.mount.innerHTML,/Vì sao các đáp án khác sai/);
   t.click("tab",{tab:"clinic"});
   assert.match(t.mount.innerHTML,/Repair question/);
   assert.match(t.mount.innerHTML,/Cơ chế đảo trợ động từ/);
