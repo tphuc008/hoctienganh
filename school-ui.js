@@ -467,6 +467,23 @@ function finishSchoolQuiz(){
 }
 
 window.saveSchoolOutcome=saveSchoolOutcome;
+window.getUniversalSchoolPrintData=function(){
+ const route=location.hash.replace(/^#/,""),m=route.match(/^school\/grade-10\/midterm-1\/set-(\d+)$/);
+ if(!m)return null;
+ const setNo=Number(m[1]),data=schoolReviewData();
+ if(!data)return null;
+ const items=schoolSession?.setNo===setNo?schoolSession.items:schoolSetItems(setNo);
+ if(!items?.length)return null;
+ const groups=[{label:"Set "+setNo+" · "+schoolSetTopic(setNo),questions:items.map((q,i)=>{
+  const options=q.kind==="mcq"&&Array.isArray(q.o)?q.o.map(schoolPlain):[];
+  const context=q.ctx?String(data.contexts?.[q.ctx]||""):"";
+  return {number:q.sourceNo||i+1,prompt:schoolPlain(q.q),options,context:schoolPlain(context),
+   answer:schoolExpected(q),shortAnswer:q.kind==="mcq"?"ABCD"[q.a]:q.answers?.[0]||"",
+   detailHtml:schoolDeepFeedback(q)};
+ })}];
+ return {title:"Lớp 10 · Ôn tập giữa kì 1 · Set "+setNo,groups};
+};
+
 document.addEventListener("keydown",e=>{
   if(e.key!=="Enter"||!schoolSession)return;
   if(!document.querySelector("[data-school-quiz='1']"))return;
