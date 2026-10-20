@@ -35,8 +35,8 @@
   ];
   const pages=[
     {id:"grammar-home",route:"grammar",title:"Grammar",category:"grammar-home",kind:"handler",handler:"renderGrammarHome"},
-    {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",kind:"handler",handler:"renderSchoolGrade10",source:"school-ui.js"},
-    {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",kind:"handler",handler:"renderSchoolMidterm1",source:"school-ui.js"},
+    {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",kind:"handler",handler:"renderSchoolGrade10",source:"school-ui.js?v=20261020-allprint1"},
+    {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",kind:"handler",handler:"renderSchoolMidterm1",source:"school-ui.js?v=20261020-allprint1"},
     // Separate lesson-plan catalogue and routes, independent of old Vocabulary Units.
     {id:"g12-lesson-plans-home",route:"grade-12/lesson-plans",title:"Lesson Plans & Practice",
       category:"lesson-plans-home",grade:12,kind:"handler",handler:"renderLessonPlansHome",
@@ -50,13 +50,13 @@
     {id:"g12-lesson-plans-unit-7-print",route:"grade-12/lesson-plans/unit-7/print",title:"Unit 7 · In đề",
       category:"lesson-plans-unit",grade:12,kind:"handler",handler:"renderLessonPlansPrint",
       source:"features/lesson-plans.js?v=20261020-print-fix1",dependencies:["content/lesson-plans-data.js?v=20261020-inline1"],args:[7]},
-    {id:"reading-home",route:"grade-12/reading",title:"Reading",category:"reading-home",grade:12,kind:"handler",handler:"renderMISReadingHome",source:"grade12-reading.js"},
+    {id:"reading-home",route:"grade-12/reading",title:"Reading",category:"reading-home",grade:12,kind:"handler",handler:"renderMISReadingHome",source:"grade12-reading.js?v=20261020-allprint1"},
     {id:"reading-marketing",route:"grade-12/reading/marketing-and-the-information-age",
       title:"Marketing and the Information Age",category:"reading",grade:12,listing:true,questions:14,minutes:25,
-      kind:"handler",handler:"renderMISReadingExercise",source:"grade12-reading.js"},
+      kind:"handler",handler:"renderMISReadingExercise",source:"grade12-reading.js?v=20261020-allprint1"},
     {id:"reading-robots",route:"grade-12/reading/robots-and-us",
       title:"Robots and us",category:"reading",grade:12,listing:true,questions:14,minutes:20,
-      kind:"handler",handler:"renderRobotsReadingExercise",source:"grade12-robots-reading.js"},
+      kind:"handler",handler:"renderRobotsReadingExercise",source:"grade12-robots-reading.js?v=20261020-allprint1"},
     {id:"listening-home",route:"listening",title:"Listening",category:"listening-home",kind:"handler",handler:"renderListeningHome",source:"listening-entertainment.js"},
     {id:"listening-entertainment-home",route:"listening/entertainment",title:"Entertainment",category:"listening-home",kind:"handler",handler:"renderEntertainment",source:"listening-entertainment.js"},
     {id:"listening-entertainment-habits",route:"listening/entertainment/change-your-life-one-tiny-step-at-a-time",
@@ -64,13 +64,13 @@
     {id:"listening-news-home",route:"listening/news",title:"News",category:"listening-home",kind:"handler",handler:"renderNews",source:"listening-news.js"},
     {id:"listening-news-ai",route:"listening/news/former-openai-employee-ai-might-really-kill-us-all",
       title:"Former OpenAI employee",category:"listening",kind:"handler",handler:"renderNewsVideo",source:"listening-news.js"},
-    {id:"grade10-midterm",route:"grade-10/mid-term-test",title:"Grade 10 Mid-term Test",category:"exam",grade:10,kind:"handler",handler:"renderG10MidTermHome",source:"grade10-midterm.js"},
+    {id:"grade10-midterm",route:"grade-10/mid-term-test",title:"Grade 10 Mid-term Test",category:"exam",grade:10,kind:"handler",handler:"renderG10MidTermHome",source:"grade10-midterm.js?v=20261020-allprint1"},
     ...Array.from({length:7},(_,i)=>({id:"school-g10-midterm1-set-"+(i+1),
       route:"school/grade-10/midterm-1/set-"+(i+1),title:"Ôn tập giữa kì 1 · Set "+(i+1),
-      category:"school",grade:10,kind:"handler",handler:"renderSchoolSetIntro",source:"school-ui.js",args:[i+1]})),
+      category:"school",grade:10,kind:"handler",handler:"renderSchoolSetIntro",source:"school-ui.js?v=20261020-allprint1",args:[i+1]})),
     ...[3,4,5,6].map(n=>({id:"grade10-midterm-test-"+n,route:"grade-10/mid-term-test/test-"+n,
       title:"Grade 10 Mid-term · Test "+n,category:"exam",grade:10,
-      kind:"handler",handler:"renderG10MidTermTest",source:"grade10-midterm.js",args:[n]}))
+      kind:"handler",handler:"renderG10MidTermTest",source:"grade10-midterm.js?v=20261020-allprint1",args:[n]}))
   ];
   const entries=[
     ...grades.map(x=>({id:"grade-"+x.id,route:"grade-"+x.id,title:x.title,
@@ -154,7 +154,7 @@
       throw new Error("Content Manifest: invalid page renderer");
     if(typeof global[item.handler]!=="function"){
       if(!item.source)throw new Error("Page renderer is unavailable: "+item.handler);
-      for(const dependency of (item.dependencies||handlerDependencies[item.source]||[]))
+      for(const dependency of (item.dependencies||handlerDependencies[item.source.split("?")[0]]||[]))
         await loadScript(dependency);
       await loadScript(item.source);
     }
