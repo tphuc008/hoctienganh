@@ -444,7 +444,8 @@
         !complete?'<div class="lp-note" role="status">Có câu chưa có lời giải tương ứng, chưa thể in bản đáp án.</div>':
         '<details class="lp-print-preview"><summary>📄 Xem trước nội dung bản in</summary>'+printSheet(u)+'</details>')+
       '<div class="lp-print-actions"><button type="button" data-lp-print-now="1" '+(!complete?"disabled":"")+
-      '>🖨 In '+(printMode==="key"?"đề + đáp án ngắn":"đề + lời giải chi tiết")+'</button></div>';
+      '>🖨 In '+(printMode==="key"?"đề + đáp án ngắn":"đề + lời giải chi tiết")+'</button></div>'+
+      (complete?'<p class="lp-print-count">Bản in mở trong một tab riêng để tránh lỗi bố cục. Nếu hộp thoại in không tự mở, hãy nhấn “In / Lưu PDF” trong tab đó.</p>':"");
   }
   function renderUnit(n,preserve){
     const u=getUnit(n);
