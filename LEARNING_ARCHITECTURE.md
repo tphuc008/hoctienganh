@@ -159,3 +159,52 @@ Backup mã nguồn: `backup/main-before-priority3-20261020`.
 Các trường hợp giới hạn: số liệu chấm vẫn do browser truyền lên, không thể
 được coi là bảng xếp hạng chống gian lận; ngăn client tạo nhiều UUID giả
 phải có chấm điểm authoritative trên server, ngoài phạm vi hiện tại.
+
+
+## Ưu tiên 4 — giao diện đồng nhất và tối ưu tải ban đầu
+
+### Cải thiện hiệu năng không làm đổi nội dung
+
+- CSS giao diện chính đã chuyển từ khối `<style>` 55 KB trong `index.html`
+  sang `styles/site.css` (file có cache-key version).
+- Giảm số script nạp ngay từ 38 xuống **25**. Tổng khoảng **459 KiB**
+  JavaScript nguồn (13 file) được nạp **khi học sinh mở** School,
+  Listening, Reading hoặc Mid-term. Đây là byte nguồn trước nén,
+  **không phải** thời gian mạng hoặc điểm Lighthouse.
+- Cơ chế tải nằm tại `ContentManifest.ensureHandler`: mỗi source
+  có thể khai báo `dependencies`. Các bộ cũ có quan hệ thứ tự
+  dùng một map `handlerDependencies`; dependencies được `await` theo thứ tự
+  cũ và script được nạp một lần cho mỗi phiên trang.
+- Tài khoản, kết quả, logic chấm điểm, đề thi, đáp án và giải thích
+  không đổi. Script Vocabulary semantic cũ **vẫn được nạp sớm**
+  vì dùng những bước tiền xử lý chung có phụ thuộc thứ tự.
+
+### Thống nhất tương tác cơ bản
+
+- Giữ nguyên UI chuyên biệt của từng môn, nhưng thêm
+  `focus-visible`, ngắt dòng nội dung dài và nút điều hướng
+  linh hoạt trên màn hình nhỏ.
+- Tôn trọng tùy chọn `prefers-reduced-motion: reduce`.
+- Đặt ngôn ngữ giao diện chính `lang="vi"`, thay
+  logo điều hướng bằng `button` có thể dùng bàn phím.
+- Thêm nút "Chuyển đến nội dung học" chỉ hiện khi focus;
+  chọn đúng panel đang hiển thị (Unit, Quiz hoặc Kết quả)
+  mà không đổi hash-route.
+
+### Cổng chất lượng bắt buộc
+
+`tests/interface-performance-browser.cjs` kiểm tra Chromium:
+số script khởi động, file CSS ngoài, kích thước HTML, các module
+không bị tải trước khi dùng, đường dẫn vào các môn, dependency
+School/Mid-term, không chèn cùng một script hai lần, hỗ trợ
+giảm chuyển động và chuyển focus bằng bàn phím.
+Toàn bộ suite cũ cũng phải đạt: `browser-smoke.cjs`,
+`manifest-browser.cjs`, `flow-browser.cjs`, `history-browser.cjs`.
+
+### Chưa được tuyên bố
+
+Đây không phải thiết kế lại toàn bộ giao diện hoặc chứng nhận WCAG.
+Không khẳng định % nhanh hơn nếu chưa đo Core Web Vitals tại thiết bị thực.
+Các script Vocabulary lớn còn cần tách dependency một cách an toàn
+và kiểm thử sâu trước khi đưa vào lazy loader. Không dùng trải nghiệm
+lỗi một lần làm lý do xóa bất kỳ ngân hàng đề nào.
