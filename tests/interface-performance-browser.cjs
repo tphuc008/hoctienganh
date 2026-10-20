@@ -51,11 +51,13 @@ const assert=require("node:assert/strict");
   assert.ok(initial.css.some(x=>x.startsWith("styles/study-workspace.css")),"Shared responsive study design not loaded");
   const grid=await page.locator(".units").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length);
   assert.ok(grid>=3,"Desktop discovery should show a scannable multi-column course grid");
-  assert.equal(await page.locator(".study-access-settings").count(),1,"Secondary access control should be collapsible");
+
   assert.ok(initial.scripts.length<=26,"Initial scripts not reduced: "+initial.scripts.length);
   const source=await (await context.request.get(base)).text();
   assert.ok(Buffer.byteLength(source,"utf8")<120000,"HTML still has a large inline CSS payload");
   console.log("STARTUP PASS: "+initial.scripts.length+" scripts, HTML "+Buffer.byteLength(source)+" bytes");
+  await open("tutoring",".study-access-settings");
+  assert.equal(await page.locator(".study-access-settings").count(),1,"Secondary access controls should be collapsed within the course home");
   await open("listening/entertainment/change-your-life-one-tiny-step-at-a-time","#listeningQuestionPanel");
   assert.equal((await inspect()).scripts.filter(x=>x==="listening-entertainment.js").length,1);
   assert.ok(!(await inspect()).scripts.includes("listening-news.js"));
