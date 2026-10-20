@@ -1,0 +1,23 @@
+name: Final cross-module navigation audit
+on:
+  push:
+    branches: [audit/final-cross-module-navigation-20261020]
+jobs:
+  cross-module:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve static website
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/audit-server.log 2>&1 &
+          sleep 2
+      - name: Test navigation without reload and duplicate imports
+        run: node tests/cross-module-navigation.cjs
