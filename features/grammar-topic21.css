@@ -374,28 +374,27 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
  .g21-stage-layout .g21-assessment .g21-page-nav .g21-btn{padding:9px}
 }
 
-/* Topic 21 Vietnamese micro-meanings: light annotations, not full translations. */
+/* Topic 21: brief semantic Vietnamese gloss after each formula. */
 .g21-lesson .g21-quick-vi{
-  margin:-8px 0 15px;
-  padding:0;
-  color:#64748b;
-  font-size:12.5px;
-  line-height:1.65;
+  margin:-5px 0 16px;
+  color:#475569;
+  font-size:13.5px;
+  line-height:1.75;
 }
 .g21-lesson .g21-quick-vi span{
-  font-size:10px;
-  font-weight:800;
+  display:block;
   color:#64748b;
-  letter-spacing:.035em;
-  text-transform:uppercase;
-  margin-right:9px;
+  font-size:10px;
+  font-weight:850;
+  letter-spacing:.05em;
+  margin:0 0 3px;
 }
 .g21-lesson .g21-example-meaning{
   display:grid;
   grid-template-columns:110px minmax(0,1fr);
-  gap:13px;
-  margin:3px 0 7px;
-  font-size:12.5px;
+  column-gap:13px;
+  margin:4px 0 8px;
+  font-size:13px;
   font-weight:450;
   color:#64748b;
   line-height:1.65;
@@ -405,8 +404,21 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
   font-weight:650;
   color:#94a3b8;
 }
+.g21-lesson .g21-supplement .g21-extra-meaning{
+  color:#64748b;
+  font-size:12.5px;
+  font-weight:450;
+  line-height:1.65;
+  margin-top:4px;
+}
+.g21-lesson .g21-supplement .g21-extra-meaning span{
+  font-size:11px;
+  font-weight:700;
+  color:#94a3b8;
+  margin-right:5px;
+}
 @media(max-width:700px){
   .g21-lesson .g21-example-meaning{display:block;margin:4px 0 9px}
   .g21-lesson .g21-example-meaning span{display:inline;margin-right:8px}
 }
-/* End Topic 21 Vietnamese micro-meanings */
+
