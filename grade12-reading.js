@@ -429,6 +429,25 @@ window.renderMISReadingHome=function(){
     location.hash=btn.dataset.readingPath;
   }));
 };
+
+window.getUniversalMISPrintData=function(){
+ const passage=PASSAGE.map((p,i)=>String.fromCharCode(65+i)+". "+p).join("\n\n");
+ return {title:"IELTS Reading · Marketing and the Information Age",
+ groups:[{label:"Questions 27–40 · Matching, YES/NO/NOT GIVEN, Flow-chart",passage,
+ questions:Q.map(q=>({
+  number:q.id,prompt:q.question,
+  options:q.type==="match"?["Paragraph A","Paragraph B","Paragraph C","Paragraph D","Paragraph E","Paragraph F","Paragraph G","Paragraph H"]:q.type==="ynng"?["YES","NO","NOT GIVEN"]:[],
+  answer:q.answer,shortAnswer:q.answer,
+  details:[
+   {title:"Dẫn chứng",text:(q.p!=null?"Đoạn "+String.fromCharCode(65+q.p)+": ":"")+String(q.quote||"")},
+   {title:"Giải thích bằng tiếng Việt",text:q.why||""},
+   {title:"Paraphrase / Logic",text:q.paraphrase||""},
+   {title:"Điểm dễ nhầm",text:q.trap||""}
+  ].filter(x=>x.text)
+ }))
+ }]};
+};
+
 window.renderMISReadingExercise=exercise;
 window.destroyMISReading=function(){
  stopTimer();document.body.classList.remove("mis-reading-mode");
