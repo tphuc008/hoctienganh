@@ -76,12 +76,12 @@ test("Print page has part selection, two answer formats, and short keys at the e
  assert.match(js,/printMode==="detailed"\?semanticExplanation\(q,key,true\)/);
  assert.doesNotMatch(js,/\["questions","Đề bài"\]/);
  assert.doesNotMatch(js,/printMode="questions"/);
- assert.match(js,/!accessAllowed\\(\\)\\|\\|!chosen.length/);
- assert.match(js,/function standalonePrintHtml\\(u\\)/);
- assert.match(js,/function openStandalonePrint\\(u\\)/);
- assert.match(js,/global.open\\("","_blank"\\)/);
- assert.match(js,/printWindow.document.write\\(standalonePrintHtml\\(u\\)\\)/);
- assert.doesNotMatch(js,/global.document.body.classList.add\\("lp-printing"\\)/);
+ assert.match(js,/!accessAllowed\(\)\|\|!chosen.length/);
+ assert.match(js,/function standalonePrintHtml\(u\)/);
+ assert.match(js,/function openStandalonePrint\(u\)/);
+ assert.match(js,/global.open\("","_blank"\)/);
+ assert.match(js,/printWindow.document.write\(standalonePrintHtml\(u\)\)/);
+ assert.doesNotMatch(js,/global.document.body.classList.add\("lp-printing"\)/);
 });
 
 test("Original answers are scored on user action without exposing locked keys",()=>{
