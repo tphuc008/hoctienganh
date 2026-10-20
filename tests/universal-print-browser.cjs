@@ -74,6 +74,13 @@ function pdfText(buf){
 
   await go("school/grade-10/midterm-1/set-1",".exercise-intro");
   const school=await page.evaluate(()=>window.UniversalPrint?.source()?.get());
+  if(!school)console.log("SCHOOL PRINT DIAGNOSTIC",await page.evaluate(()=>({
+   hash:location.hash,providerType:typeof window.getUniversalSchoolPrintData,
+   source:window.UniversalPrint?.source()?.get?.()?.title||null,
+   schoolBank:!!window.SCHOOL_G10_MIDTERM1,schoolExplanations:!!window.SCHOOL_G10_EXPLANATIONS,
+   scripts:[...document.scripts].map(s=>s.src).filter(x=>/school|print/.test(x)),
+   intro:document.querySelector(".exercise-intro")?.innerText?.slice(0,220)
+  })));
   assert.ok(school?.groups?.length,"School route must resolve printable question data");
   assert.equal(school.groups[0].questions.length,12);
   assert.ok(school.groups[0].questions.every(x=>x.detailHtml||x.details?.length));
