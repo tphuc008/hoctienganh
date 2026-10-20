@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,9 +10,10 @@
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
+<button class="skip-link" type="button" onclick="focusLearningContent()">Chuyển đến nội dung học</button>
 <div class="wrap">
   <header class="site-header">
-    <div class="brand" id="brandBtn"><div class="logo">✦</div><div>English Practice Hub</div></div>
+    <button class="brand" id="brandBtn" type="button" aria-label="Về trang chủ"><span class="logo" aria-hidden="true">✦</span><span>English Practice Hub</span></button>
     <div class="header-actions">
       <div class="header-note">Learner account</div>
       <button class="header-logout" id="learnerLogoutBtn" type="button" onclick="logoutLearner()">Đăng xuất</button>
@@ -20,9 +21,9 @@
   </header>
 
   <main class="panel">
-    <section class="page" id="pageMount"></section>
+    <section class="page" id="pageMount" tabindex="-1"></section>
 
-    <section class="quiz-shell" id="quizShell">
+    <section class="quiz-shell" id="quizShell" tabindex="-1">
       <div class="quiz-top">
         <button class="secondary" id="exitQuizBtn">← Unit 6</button>
         <div class="progress-track"><div class="progress" id="progress"></div></div>
@@ -31,7 +32,7 @@
       <div class="quiz-body" id="questionMount"></div>
     </section>
 
-    <section class="result" id="resultScreen">
+    <section class="result" id="resultScreen" tabindex="-1">
       <div class="breadcrumbs"><button class="crumb-btn" onclick="goUnit(6)">Unit 6</button><span>›</span><span>Result</span></div>
       <div class="score-wrap">
         <div class="score-ring" id="scoreRing"><div class="score-inner"><div class="score-big" id="scoreBig">0%</div><div class="score-label" id="scoreFraction"></div></div></div>
@@ -1079,6 +1080,12 @@ const qMount=document.getElementById("questionMount");
 const progress=document.getElementById("progress");
 const counter=document.getElementById("counter");
 
+function focusLearningContent(){
+  for(const id of ["quizShell","resultScreen","pageMount"]){
+    const el=document.getElementById(id);
+    if(el&&getComputedStyle(el).display!=="none"){el.focus();return}
+  }
+}
 document.getElementById("brandBtn").onclick=()=>{location.hash=""};
 document.getElementById("exitQuizBtn").onclick=exitCurrentQuiz;
 document.getElementById("retryBtn").onclick=()=>startQuiz(true,true);
