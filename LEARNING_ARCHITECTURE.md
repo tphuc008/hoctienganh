@@ -113,3 +113,49 @@ Các kiểm thử bổ sung:
   active vs submitted (không mặc định đủ số câu = đã nộp), metadata và nhãn;
 - `tests/flow-browser.cjs`: tương tác Chromium qua cả 6 nhóm bài và refresh;
 - Hai bộ kiểm thử cũ `browser-smoke.cjs` và `manifest-browser.cjs` phải vẫn đạt.
+
+
+## Ưu tiên 3 — kết quả/lịch sử/streak (canonical submissions)
+
+`practice_submissions` là nguồn kết quả chuẩn cho **mọi môn**. Bảng
+`scores` và `reading_submissions` vẫn giữ để không làm mất lịch sử và các
+giao diện cũ, nhưng lịch sử hợp nhất dùng `core/history-core.js`:
+
+1. Nối kết quả bằng **cùng submission UUID**. Reading đã lưu UUID liên kết;
+   điểm Vocabulary mới từ nay có `scores.practice_submission_id` trùng UUID
+   của `practice_submissions.submission_id`.
+2. Nếu kết quả thuộc cả hai bảng, chỉ hiện một mục chuẩn.
+3. Kết quả cũ không có liên kết UUID **vẫn hiển thị**, tuyệt đối không tự
+   gộp bằng thời gian/điểm gần nhau vì có thể là một lần làm lại thật.
+4. Cột tổng số bài phản ánh **các lượt đã tải (giới hạn 150/bảng)**;
+   không được mô tả là tổng số bài từ trước đến nay khi vượt giới hạn đó.
+5. Vocabulary, Grammar và School có điểm *đúng lần đầu*; Reading,
+   Listening, Mid-term dùng số câu đúng. Các chỉ số này không bị trộn thành
+   một phần trăm trung bình không cùng ý nghĩa.
+
+Streak chỉ được tính khi Postgres **chấp nhận một INSERT mới**
+vào `practice_submissions`. Trigger `credit_completed_practice_streak_on_insert`
+và hàm `credit_completed_practice_streak` tự động cộng ngày theo giờ Việt Nam;
+gửi lại cùng UUID bằng `on_conflict=submission_id` sẽ không cộng trùng.
+Điều kiện thống nhất là *lượt hoàn thành có dữ liệu và được ghi nhận ở server*:
+- Vocabulary/Grammar/School: sau khi engine đã hoàn tất bài.
+- Reading: khi bài nộp bằng tay hoặc hết giờ (theo cách làm IELTS).
+- Listening: hoàn thành **đủ số câu của Part**; nộp thiếu vẫn lưu điểm nhưng
+  không cộng streak (giữ tiêu chuẩn Listening đã có).
+- Mid-term: toàn bộ câu gốc được kiểm tra trước khi nộp kết quả.
+
+`record_tutoring_activity` không còn được phép gọi bởi học viên; frontend
+không gọi RPC này nữa. Đừng gọi trực tiếp server/RPC chỉ để tăng streak.
+
+### Triển khai database an toàn
+
+Migration: `migrations/20261020_canonical_history_and_streak.sql`.
+Mở rộng nullable column, unique index, AFTER INSERT trigger; **không xóa hoặc
+viết lại** bất kỳ điểm, đáp án, ngày học hoặc tài khoản hiện có. Cần áp dụng
+migration trước khi dùng phiên bản frontend mới vì lịch sử đọc cột
+`practice_submission_id`. Supabase/PostgREST được yêu cầu reload schema.
+Backup mã nguồn: `backup/main-before-priority3-20261020`.
+
+Các trường hợp giới hạn: số liệu chấm vẫn do browser truyền lên, không thể
+được coi là bảng xếp hạng chống gian lận; ngăn client tạo nhiều UUID giả
+phải có chấm điểm authoritative trên server, ngoài phạm vi hiện tại.
