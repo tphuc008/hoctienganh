@@ -65,3 +65,29 @@ test("Manifest rejects duplicate routes and unsafe source paths",async()=>{
   const {manifest}=boot(malicious);
   await assert.rejects(manifest.ensureBank({kind:"vocabulary-unit",grade:9,unit:1}),/unsafe script path/);
 });
+
+test("A new Reading or Listening page can load its renderer from a manifest source file",async()=>{
+  const changed=source.replace("  const entries=[",`  pages.push({id:"new-reading",route:"grade-12/reading/new-passage",title:"New Passage",category:"reading",kind:"handler",handler:"renderNewPassage",source:"reading-new-passage.js"});\n  const entries=[`);
+  assert.notEqual(changed,source);
+  const {manifest,scripts}=boot(changed,(tag,window)=>{
+    if(tag.src==="reading-new-passage.js")window.renderNewPassage=()=>"rendered";
+  });
+  const item=manifest.entries.find(x=>x.route==="grade-12/reading/new-passage");
+  assert.ok(item);
+  assert.equal((await manifest.ensureHandler(item))(),"rendered");
+  assert.equal((await manifest.ensureHandler(item))(),"rendered");
+  assert.deepEqual(scripts,["reading-new-passage.js"]);
+});
+
+test("Every existing manifest-declared source file exists",()=>{
+  const path=require("node:path");
+  const root=path.join(__dirname,"..");
+  const {manifest}=boot();
+  const sources=[
+    ...manifest.vocabulary.map(x=>x.source),...manifest.grammar.map(x=>x.source),
+    ...manifest.entries.filter(x=>x.source).map(x=>x.source)
+  ];
+  for(const file of new Set(sources)){
+    assert.ok(fs.existsSync(path.join(root,file)),"Missing content source: "+file);
+  }
+});
