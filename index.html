@@ -1242,8 +1242,8 @@ function teacherPreviewCards(){
     '<h3>Grammar</h3><p>Khu vực thử nghiệm dành cho giáo viên.</p><span class="unit-arrow">→</span>',
     '</button>',
     '<button class="unit-card" type="button" onclick="location.hash=\'teacher/hsg-tinh\'">',
-    '<div class="unit-top"><span class="unit-no">HSG TỈNH</span><span class="status">Testing</span></div>',
-    '<h3>HSG tỉnh</h3><p>Khu vực luyện thi học sinh giỏi cấp tỉnh đang thử nghiệm.</p><span class="unit-arrow">→</span>',
+    '<div class="unit-top"><span class="unit-no">HSG TỈNH</span><span class="status">8 đề</span></div>',
+    '<h3>HSG tỉnh</h3><p>Luyện đề Tiếng Anh chuyên 2026–2027 · không có Listening.</p><span class="unit-arrow">→</span>',
     '</button>',
     '</div>'
   ].join("");
@@ -1286,6 +1286,32 @@ async function renderTeacherGrammar21(hash,session){
     window.TeacherGrammar21.open(hash,session);
   }catch(err){
     pageMount.innerHTML='<div class="empty"><b>Không thể tải bài học</b>'+esc(err?.message||"Vui lòng tải lại trang.")+'</div>';
+  }
+}
+
+
+/* HSG tỉnh is loaded only after verified teacher-role access. */
+let hsgAssetsPromise=null;
+function ensureTeacherHSG(){
+  if(window.TeacherHSG)return Promise.resolve();
+  if(!hsgAssetsPromise){
+    hsgAssetsPromise=(async()=>{
+      await loadGrammar21Asset("link","features/hsg-tinh.css?v=20261021-v1");
+      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261021-v1");
+      if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
+    })().catch(err=>{hsgAssetsPromise=null;throw err});
+  }
+  return hsgAssetsPromise;
+}
+async function renderTeacherHSG(hash){
+  pageMount.style.display="block";
+  pageMount.innerHTML='<div class="empty"><b>Đang mở thư viện HSG tỉnh</b>Đang tải giao diện làm đề…</div>';
+  try{
+    await ensureTeacherHSG();
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    await window.TeacherHSG.open(hash);
+  }catch(err){
+    pageMount.innerHTML='<div class="empty"><b>Không thể tải HSG tỉnh</b>'+esc(err?.message||"Vui lòng thử lại.")+'</div>';
   }
 }
 
@@ -1444,7 +1470,7 @@ async function route(){
   if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash.startsWith("teacher/")){
-    if(hash!=="teacher/grammar"&&hash!=="teacher/grammar/topic-21"&&hash!=="teacher/hsg-tinh"){
+    if(hash!=="teacher/grammar"&&hash!=="teacher/grammar/topic-21"&&!/^teacher\/hsg-tinh(?:\/[a-z0-9-]+)?$/.test(hash)){
       location.hash="";
       return;
     }
@@ -1457,7 +1483,7 @@ async function route(){
     if(hash==="teacher/grammar"||hash==="teacher/grammar/topic-21"){
       await renderTeacherGrammar21(hash,learnerSession);
     }else{
-      renderTeacherPreviewPage(hash);
+      await renderTeacherHSG(hash);
     }
     return;
   }
