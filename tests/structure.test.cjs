@@ -93,11 +93,11 @@ test("Core module never exposes results to another account",()=>{
 
 test("Legacy Grade 10 midterm routes and all new routes remain intact",()=>{
   const html=read("index.html");
-  assert.match(html,/grade-10\\/mid-term-test\\/test-/);
+  assert.match(html,/grade-10\/mid-term-test\/test-/);
   assert.match(html,/renderG10MidTermTest/);
-  assert.match(html,/grade-12\\/reading\\/robots-and-us/);
-  assert.match(html,/LearningCore\\.register/);
-  assert.match(html,/LearningCore\\.renderRoute/);
+  assert.match(html,/grade-12\/reading\/robots-and-us/);
+  assert.match(html,/LearningCore\.register/);
+  assert.match(html,/LearningCore\.renderRoute/);
   for(const file of ["grade10-midterm.js","grade10-midterm-source.txt","school-ui.js","listening-news.js","listening-entertainment.js","grade12-reading.js"])
     assert.ok(fs.existsSync(path.join(root,file)),"Missing legacy feature: "+file);
 });
@@ -135,8 +135,8 @@ test("Listening progress restores MCQ, text and submitted state without credit t
 
 test("Midterm answers are stored under the learner and completion is guarded",()=>{
   const source=read("grade10-midterm.js");
-  assert.match(source,/function mtRestore\\(test\\)/);
-  assert.match(source,/LearningCore\\.writeDraft\\("exam"/);
-  assert.match(source,/if\\(done===test\\.questions\\.length&&!mtState\\.recorded\\)/);
+  assert.match(source,/function mtRestore\(test\)/);
+  assert.match(source,/LearningCore\.writeDraft\("exam"/);
+  assert.match(source,/if\(done===test\.questions\.length&&!mtState\.recorded\)/);
   assert.match(source,/category:"exam"/);
 });
