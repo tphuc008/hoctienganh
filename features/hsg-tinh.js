@@ -539,12 +539,12 @@ function printParagraphPieces(text){
   if(!value)return;
   // A scanned source may encode a whole passage on one long line. Wrap it into
   // small readable paragraph groups at sentence ends, preserving original text.
-  if(value.length<520){pieces.push(value);return}
+  if(value.length<320){pieces.push(value);return}
   const sentences=value.split(/(?<=[.!?])\s+(?=[“"‘']?[A-Z])/);
   let buffer="";
   for(const sentence of sentences){
    const next=buffer?buffer+" "+sentence:sentence;
-   if(buffer&&next.length>430){pieces.push(buffer);buffer=sentence}
+   if(buffer&&next.length>300){pieces.push(buffer);buffer=sentence}
    else buffer=next;
   }
   if(buffer)pieces.push(buffer);
@@ -565,7 +565,7 @@ function printParagraphPieces(text){
    if(group.length&&(salutation||instruction||
        (sentenceEnd&&freshSentence&&groupLength>=65)))flush();
    group.push(line);previous=line;
-   if(salutation&&group.length===1)flush();
+   if((salutation||instruction)&&group.length===1)flush();
   }
   flush();
  }
