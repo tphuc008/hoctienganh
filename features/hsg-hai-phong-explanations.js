@@ -83,8 +83,8 @@ const ITEMS=[
  make("r",81,"reading",3,"Until recently, most American entrepreneurs were men",
  "Bài đọc lần lượt trình bày sự phát triển của doanh nghiệp do phụ nữ sở hữu, một ví dụ cụ thể và triển vọng tiếp diễn. Phương án D bao quát nội dung cả ba đoạn.",
  "Reading · mở bài và kết bài",
- "Women today are opening more businesses of their own.",
- "Mở bài mô tả sự gia tăng doanh nghiệp do phụ nữ thành lập; Sandra Kurtzig minh họa ở đoạn 2; kết bài dự đoán sẽ có thêm nhiều nữ doanh nhân.",
+ "there are likely to be many more Sandra Kurtzigs in the years ahead",
+ "Đoạn kết dự báo số nữ doanh nhân sẽ tiếp tục tăng; kết nối với xu hướng trong mở bài và trường hợp minh họa ở đoạn 2.",
  "Với câu main idea, đáp án phải bao quát mạch bài, không chỉ nhắc một dữ kiện hoặc bổ sung một so sánh mà bài không chứng minh. Chữ “today” trong đề được hiểu theo thời điểm văn bản gốc, không phải dữ liệu kinh tế năm nay.",
  [
  ["phụ nữ học vấn tốt hơn và hấp dẫn giới kinh doanh","Bài có nhắc trình độ học vấn nhưng đồng thời nêu rào cản nghề nghiệp; nhận định “more attractive” không phải luận điểm xuyên suốt."],
@@ -94,6 +94,16 @@ const ITEMS=[
  ],
  "Khi xác định main idea, đối chiếu lựa chọn với cả mở bài, thân bài và kết luận; loại những lựa chọn chỉ mô tả một ví dụ đơn lẻ.",
  "Một chi tiết có mặt trong passage không tự động trở thành main idea: đáp án phải bao quát lập luận chung.")
+];
+// This main-idea question needs evidence spanning the article, not the answer option.
+const reading=ITEMS.find(x=>x.n===81);
+reading.evidence=[
+ {locator:"Paragraph 1",quote:"businesses owned by women account for more than $40 billion in annual revenues",
+  note:"Đoạn đầu giới thiệu vai trò ngày càng tăng của các doanh nghiệp do phụ nữ sở hữu (theo mốc thời gian của bài đọc)."},
+ {locator:"Paragraph 2",quote:"It was founded in 1973 by Sandra Kurtzig",
+  note:"ASK Computer Systems là một ví dụ điển hình, không phải chủ đề duy nhất của cả bài."},
+ {locator:"Paragraph 3",quote:"there are likely to be many more Sandra Kurtzigs in the years ahead",
+  note:"Đoạn kết trở lại triển vọng xuất hiện thêm nhiều nữ doanh nhân."}
 ];
 const EXPECTED={
  46:["to inform","informing","to informing","inform"],
