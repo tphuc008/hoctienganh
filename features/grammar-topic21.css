@@ -454,3 +454,28 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
 @media(max-width:700px){
  .g21 .g21-extra-examples>summary{padding:15px 12px;min-height:52px}
 }
+
+/* Topic 21 · Two independent 32-question review sets */
+.g21 .g21-review-chooser{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0}
+.g21 .g21-review-set-card{border:1px solid #dbe4f0;background:#fff;border-radius:14px;padding:23px;display:flex;flex-direction:column;gap:10px}
+.g21 .g21-review-set-card>strong{font-size:30px;line-height:1.2;letter-spacing:-.035em;color:#172b46}
+.g21 .g21-review-set-card>p{margin:0;font-size:13px;line-height:1.7;color:#64748b}
+.g21 .g21-review-set-card .g21-review-status{color:#334155;font-weight:700}
+.g21 .g21-review-set-card .g21-btn{margin-top:auto;align-self:flex-start}
+.g21 .g21-review-back{margin:0 0 20px}
+.g21 .g21-review-nav{margin:20px 0;border-top:1px solid #e2e8f0;padding-top:15px}
+.g21 .g21-review-nav .g21-number-grid{grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin:12px 0 22px}
+.g21 .g21-review-nav .g21-number-btn{min-width:0;width:100%}
+.g21 .g21-review-page-nav{position:static;margin:0;border-radius:11px}
+.g21 .g21-review-skill-result{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eef2f7;font-size:13px}
+.g21 .g21-review-skill-result:last-child{border-bottom:0}
+.g21 .g21-review-skill-result>span{flex:1;min-width:0}
+.g21 .g21-review-skill-result>strong{min-width:38px;text-align:center;font-size:14px}
+.g21 .g21-review-skill-result .g21-btn{font-size:11px;padding:8px 11px}
+@media(max-width:700px){
+ .g21 .g21-review-chooser{grid-template-columns:1fr}
+ .g21 .g21-review-set-card{padding:18px}
+ .g21 .g21-review-nav .g21-number-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
+ .g21 .g21-review-skill-result{flex-wrap:wrap}
+ .g21 .g21-review-skill-result .g21-btn{margin-left:auto}
+}
