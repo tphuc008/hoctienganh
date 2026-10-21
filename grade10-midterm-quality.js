@@ -124,6 +124,12 @@ const supplemental=[
 ];
 for(const [key,vi,scope,en,tr] of supplemental)vocab[key.toLowerCase()]={vi,scope,en,tr};
 const notices={
+"4-K1-6":[
+ "Work-life balance nói về việc cân bằng thời gian làm việc và cuộc sống; câu đang xét lượng thực phẩm mua và bị bỏ phí, không phải thời gian làm việc.",
+ "Mua đúng lượng thực phẩm cần dùng giúp tránh phần thừa phải bỏ đi: đây chính là giảm food waste (lãng phí thực phẩm).",
+ "Family bonding là sự gắn kết tình cảm giữa người thân; nó không phải lượng thức ăn bị lãng phí mà hành động mua vừa đủ có thể giảm.",
+ "Gender equality là bình đẳng quyền và cơ hội giữa các giới; không phải thực phẩm dư thừa. Dấu hiệu buying only the food we need không đề cập quyền hay giới tính."
+],
 "3-23":["Sau encourage all students cần to-infinitive; 'to use' song song với 'walk' được hiểu lược bỏ 'to' ở nhánh hai.","'use' thiếu 'to' nếu theo ngay sau encourage all students.","'using' không theo cấu trúc encourage somebody to do.","'used' là dạng quá khứ, sai chức năng sau encourage students."],
 "3-24":["'install' là hiện tại đơn, không nhấn kế hoạch sắp tới đã lên trước.","'installed' là quá khứ, trái với next week.","'are going to install' chỉ kế hoạch đã có; as planned củng cố nhận định.","'will install' có thể diễn tả tương lai, nhưng không gắn mạnh với một dự định đã lên lịch bằng going to."],
 "3-25":["'should' là lời khuyên; đặt trong thông báo với dấu cảm thán và mục tiêu cấm xả rác thì chưa đủ mạnh bằng mustn't.","'mustn’t' là lệnh cấm vứt chai bừa bãi; khớp thông điệp bảo vệ môi trường.","'don't have to' nghĩa là không bắt buộc, không phải cấm.","'ought to' là nên làm; về nghĩa nó khuyên hành động vứt rác nếu đứng nguyên văn trước throw."],
@@ -286,6 +292,7 @@ window.G10_MIDTERM_EXPLAIN=function(q,context){
    const p=vocab[String(e.word||"").toLowerCase().trim()];
    return p?{...e,en:p.en,vi:p.tr}:e;
  });
+ if(q.id==="4-K1-6")d.remember="reduce food waste = giảm lãng phí thực phẩm. Food waste là lượng thức ăn không được sử dụng và bị bỏ đi, khác với family bonding hoặc gender equality.";
  if((notes||grammarNotes[q.id])&&d.step1.length>2){
   d.step1[2]="Đáp án dự kiến "+q.answer+" — "+good+". "+(notes||grammarNotes[q.id])["ABCD".indexOf(q.answer)]+(q.warning?" Lưu ý: xem ghi chú về câu hỏi có vấn đề trong đề in.":"");
  }
