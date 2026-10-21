@@ -444,51 +444,98 @@ function printParts(){
  }));
 }
 
-function printSourcePages(pages){
- return pages.map(page=>
-  '<section class="hsg-print-source-page"><div class="hsg-print-source-label">Trang '+esc(page.sourcePage)+'</div>'+
-  '<pre>'+esc(String(page.text||""))+'</pre></section>'
- ).join("");
+
+function printNormalize(t){return String(t||"").replace(/[\u200b-\u200d\ufeff]/g,"").replace(/\u00a0/g," ").replace(/\r\n?/g,"\n").replace(/[ \t]{2,}/g," ").replace(/[ \t]+\n/g,"\n").replace(/\n[ \t]+/g,"\n")}
+function printInline(t){return esc(t).replace(/(^|[^\w])(_{3,}|\.{4,})(?=$|[^\w])/g,'$1<span class="hsg-print-blank">$2</span>')}
+function printOptionSequence(input){
+ const text=printNormalize(input).replace(/\s*\n\s*/g," ").trim();
+ const matches=[...text.matchAll(/(?:^|(?<=\s))([A-D])[.)](?=\s+\S)/g)];
+ for(let i=0;i<=matches.length-4;i++){
+  const four=matches.slice(i,i+4);
+  if(four.map(m=>m[1]).join("")!=="ABCD")continue;
+  const options=four.map((m,j)=>text.slice(m.index+m[0].length,j<3?four[j+1].index:text.length).trim());
+  if(options.some(x=>!x||x.length>900))continue;
+  return {stem:text.slice(0,four[0].index).trim(),options};
+ }
+ return {stem:text,options:null};
 }
+function printChoiceGrid(options){
+ const long=options.some(x=>x.length>78);
+ return '<div class="hsg-print-choices '+(long?'is-long':'is-compact')+'">'+
+  options.map((o,i)=>'<div class="hsg-print-choice"><b>'+String.fromCharCode(65+i)+'.</b><span>'+printInline(o)+'</span></div>').join("")+'</div>';
+}
+function printSourceQuestion(n,lines){
+ const parsed=printOptionSequence(lines.join(" "));
+ return '<article class="hsg-print-source-question"><div class="hsg-print-source-num">'+esc(n)+'.</div>'+
+ '<div class="hsg-print-source-q-body">'+
+ (parsed.stem?'<p class="hsg-print-source-stem">'+printInline(parsed.stem)+'</p>':"")+
+ (parsed.options?printChoiceGrid(parsed.options):"")+'</div></article>';
+}
+function printTypesetText(text){
+ const lines=printNormalize(text).split("\n"),out=[];
+ let para=[],question=null,numbered=false,pendingLine=null;
+ const flushPara=()=>{if(!para.length)return;const v=para.join(" ").replace(/\s+/g," ").trim();if(v)out.push('<p class="hsg-print-prose">'+printInline(v)+'</p>');para=[]};
+ const flushQuestion=()=>{if(question){out.push(printSourceQuestion(question.n,question.lines));question=null}};
+ const flushLine=()=>{if(pendingLine){out.push('<div class="hsg-print-error-line"><b>'+esc(pendingLine.n)+'</b><span>'+printInline(pendingLine.text||"")+'</span></div>');pendingLine=null}};
+ for(const raw of lines){
+  const line=raw.trim();
+  if(!line){if(!question)flushPara();continue}
+  if(/^Page\s+\d+\s+(?:of|\/)\s+\d+$/i.test(line)||/^Trang\s+\d+\s*\/\s*\d+$/i.test(line))continue;
+  const section=/^(?:SECTION\s+[IVXLCDM0-9]+[.:]|PART\s+[A-D][:.]|(?:[IVX]+)\.\s+(?:LEXICO|READING|WRITING|PHONETICS|LANGUAGE))\s*(.*)$/i.exec(line);
+  const part=/^(?:PART|Part)\s+(\d+|[IVX]+)[.:]\s*(.*)$/i.exec(line);
+  const q=/^(?:Question\s+)?(\d{1,3})[.)]\s*(.*)$/i.exec(line);
+  if(section){flushLine();flushQuestion();flushPara();numbered=false;out.push('<h2 class="hsg-print-source-section">'+printInline(line)+'</h2>');continue}
+  if(part){flushLine();flushQuestion();flushPara();numbered=false;out.push('<h3 class="hsg-print-source-part">'+printInline(line)+'</h3>');continue}
+  if(/^Line$/i.test(line)){flushLine();flushQuestion();flushPara();numbered=true;continue}
+  if(numbered){
+   const m=/^(\d{1,2})(?:\s+(.+))?$/.exec(line);
+   if(m){flushLine();pendingLine={n:m[1],text:m[2]||""};continue}
+   if(pendingLine){pendingLine.text+=(pendingLine.text?" ":"")+line;continue}
+   numbered=false;
+  }
+  if(q){flushLine();flushQuestion();flushPara();question={n:q[1],lines:[q[2]||""]};continue}
+  if(question){question.lines.push(line);continue}
+  if(/^[•●▪]\s+/.test(line)||/^[–-]\s+\S/.test(line)){
+   flushLine();flushPara();out.push('<p class="hsg-print-bullet">'+printInline(line.replace(/^[•●▪–-]\s*/,""))+'</p>');continue;
+  }
+  if(line.length<=105&&/[A-ZÀ-Ỹ]/.test(line)&&line===line.toLocaleUpperCase("en-US")&&
+     !/^(?:YOUR ANSWERS|STATEMENTS|ANSWER SHEET|TRUE|FALSE)$/i.test(line)&&/[A-Z]{5}/.test(line)){
+   flushLine();flushPara();out.push('<h4 class="hsg-print-source-subhead">'+printInline(line)+'</h4>');continue;
+  }
+  para.push(line);
+ }
+ flushLine();flushQuestion();flushPara();return out.join("");
+}
+function printSourcePages(pages){
+ // Reflow across original PDF page boundaries, so physical pages have balanced text.
+ return '<div class="hsg-print-typeset-source">'+printTypesetText(pages.map(p=>p.text||"").join("\n"))+'</div>';
+}
+
+
 function printQuestions(g,first,last){
- let countMissing=0;
- const cards=[];
+ let countMissing=0;const cards=[];
  for(let n=first;n<=last;n++){
   const q=getQuestion(g,n),type=q.type;
-  const opts=type==="mcq"?q.options
-    :type==="match"?matchingLabels(g).map(([l,v])=>l+". "+v)
-    :type==="tfng"?["TRUE","FALSE","NOT GIVEN"]
-    :type==="ynng"?["YES","NO","NOT GIVEN"]:null;
-  const needsChoices=["mcq","match","tfng","ynng"].includes(type);
+  const opts=type==="mcq"?q.options:type==="match"?matchingLabels(g).map(([l,v])=>l+". "+v):
+    type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:type==="ynng"?["YES","NO","NOT GIVEN"]:null;
   if(type==="mcq"&&(!opts||opts.length!==4))countMissing++;
-  let stem=String(q.stem||"").trim();
-  if(passageBased(g)&&["mcq","fill","error"].includes(type)&&stem.length>340){
-   stem=type==="error"?"Find and correct an error in the passage above.":"Refer to the passage above.";
-  }
-  if(!stem)stem=type==="mcq"?"Choose the correct option.":type==="error"?"Find and correct an error in the passage.":"Complete the item.";
+  let stem=printNormalize(q.stem||"").trim();
+  if((passageBased(g)||!!activePassageBlock(g,n))&&["mcq","fill","error"].includes(type)&&stem.length>280)stem="";
+  if(!stem&&!["mcq","match","tfng","ynng","error"].includes(type)&&type==="fill")stem="Complete blank ("+n+") in the text above.";
   let detail="";
-  if(needsChoices){
-   if(!opts||!opts.length){
-    detail='<p class="hsg-print-unavailable">Phương án chưa được trích xuất đủ từ bản gốc; cần đối chiếu PDF.</p>';
-   }else{
-    detail='<div class="hsg-print-choices">'+opts.map((option,i)=>{
-     const value=type==="match"?option
-       :type==="mcq"?String.fromCharCode(65+i)+". "+option
-       :option;
-     return '<div class="hsg-print-choice">'+esc(value)+'</div>';
-    }).join("")+'</div>';
-   }
-  }else if(type==="error"){
-   detail='<div class="hsg-print-lines">Dòng: __________　Từ/cụm sai: __________________　Sửa thành: __________________</div>';
-  }else if(type==="essay"||type==="rewrite"){
-   detail='<div class="hsg-print-writing-lines">'+Array.from({length:type==="essay"?7:3},()=>'<div></div>').join("")+'</div>';
-  }else{
-   detail='<div class="hsg-print-lines">Đáp án: ___________________________________</div>';
-  }
-  cards.push('<article class="hsg-print-question"><p><strong>'+n+'.</strong> '+esc(stem)+'</p>'+detail+'</article>');
+  if(type==="mcq")detail=opts?.length===4?printChoiceGrid(opts):
+    '<span class="hsg-print-unavailable">Phương án trong bản nguồn chưa được nhận dạng đầy đủ.</span>';
+  else if(type==="match")detail='<div class="hsg-print-listed-choices">'+(opts||[]).map(o=>'<span>'+printInline(o)+'</span>').join("")+'</div>';
+  else if(type==="tfng"||type==="ynng")detail='<div class="hsg-print-pick-options">'+opts.map(o=>'<span>□ '+esc(o)+'</span>').join("")+'</div>';
+  else if(type==="error")detail='<p class="hsg-print-answer-line">Line: ______ &nbsp; Error: __________________ &nbsp; Correction: __________________</p>';
+  else if(type==="essay"||type==="rewrite")detail='<div class="hsg-print-writing-lines">'+Array.from({length:type==="essay"?9:3},()=>'<div></div>').join("")+'</div>';
+  else detail='<p class="hsg-print-answer-line">Answer: ______________________________________________</p>';
+  cards.push('<article class="hsg-print-source-question hsg-print-generated-question"><div class="hsg-print-source-num">'+n+'.</div>'+
+   '<div class="hsg-print-source-q-body">'+(stem?'<p class="hsg-print-source-stem">'+printInline(stem)+'</p>':"")+detail+'</div></article>');
  }
  return {html:cards.join(""),missing:countMissing};
 }
+
 function printOnePart(part,index){
  const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
  // The paragraph for a PTNK block is separate from the rest of that code.
@@ -496,7 +543,7 @@ function printOnePart(part,index){
  const source=hasPassage?passageOnly(g,first):"";
  const result=printQuestions(g,first,last);
  const sourceHtml=source?
-  '<div class="hsg-print-passage"><div class="hsg-print-passage-label">READING TEXT / INSTRUCTIONS</div><pre>'+esc(source)+'</pre></div>':"";
+  '<div class="hsg-print-passage"><div class="hsg-print-passage-label">READ THE TEXT AND ANSWER THE QUESTIONS</div>'+printTypesetText(source)+'</div>':"";
  const warning=result.missing?
   '<p class="hsg-print-unavailable">'+result.missing+' câu chưa trích xuất đầy đủ phương án từ nguồn. Cần đối chiếu bản gốc trước khi sử dụng.</p>':"";
  const title=block?.title||g.name;
