@@ -25,7 +25,7 @@ const HSG_PARTS={
  "hai-phong":[["g1","Grammar & Vocabulary",21,40,"mcq",[2,3]],["g2","Guided Cloze",41,50,"mcq",[3,4]],["e","Error Correction",51,55,"error",[4]],["wf","Word Formation",56,60,"word",[4]],["oc","Reading · Open Cloze",61,75,"fill",[5]],["rc","Reading · Cloze",76,80,"mcq",[5]],["r","Reading Comprehension",81,90,"mcq",[6,7]],["w","Sentence Transformation",91,100,"rewrite",[7]],["essay","Paragraph Writing",1,1,"essay",[7]]],
  "dh-vinh":[["b1","Lexico-Grammar",1,20,"mcq",[3,5]],["b2","Error Correction",21,30,"error",[5]],["b3","Word Formation",31,40,"word",[4,5]],["c1","Reading · Freelancing",1,10,"mcq",[4,6]],["c2","Reading · YES / NO / NOT GIVEN",11,15,"ynng",[6,7]],["c3","Reading · Sentence Completion",16,18,"fill",[7]],["c4","Reading · Matching",19,23,"match",[7,8]],["c5","Reading · Telemedicine",24,33,"fill",[8]],["c6","Reading · Missing Sentences",34,40,"match",[8,9]],["d","Sentence Transformation",1,10,"rewrite",[9]],["essay","Essay Writing",1,1,"essay",[9]]],
  "phu-tho":[["g","Lexico-Grammar",21,35,"mcq",[3]],["wf","Word Formation",36,45,"word",[4]],["e","Error Correction",46,50,"error",[4]],["r1","Reading · Cloze",51,60,"mcq",[5]],["r2","Reading · Open Cloze",61,70,"fill",[5]],["r3","Reading Comprehension",71,80,"mcq",[6,7]],["w","Sentence Transformation",81,90,"rewrite",[7,8]],["essay","Paragraph Writing",1,1,"essay",[8]]],
- "son-la":[["g1","Green Transportation",26,30,"mcq",[3,4]],["g2","Paperless Exams",31,40,"mcq",[4,5]],["wf","Word Formation",41,45,"word",[5]],["pr","Prepositions & Articles",46,50,"fill",[5]],["oc","Open Cloze",51,55,"fill",[5,6]],["m","Matching Sections",56,60,"match",[6]],["r","Reading · AI in English Learning",61,67,"mcq",[6,7,8]],["h","Matching Headings",68,75,"match",[8,9]],["w","Sentence Transformation",76,80,"rewrite",[9]],["email","Email Writing",1,1,"essay",[9]],["essay","Paragraph Writing",1,1,"essay",[9]]],
+ "son-la":[["g1","Green Transportation",26,30,"mcq",[3,4]],["g2","Paperless Exams",31,40,"mcq",[4,5]],["wf","Word Formation",41,45,"word",[5]],["pr","Prepositions & Articles",46,50,"fill",[5]],["oc","Open Cloze",51,55,"fill",[5,6]],["m","Matching Sections",56,60,"match",[6]],["r","Reading · AI in English Learning",61,67,"mcq",[6,7,8]],["h","Matching Headings",68,71,"match",[8,9]],["tf","TRUE / FALSE / NOT GIVEN",72,75,"tfng",[9]],["w","Sentence Transformation",76,80,"rewrite",[9]],["email","Email Writing",1,1,"essay",[9]],["essay","Paragraph Writing",1,1,"essay",[9]]],
  "tay-ninh":[["g","Grammar & Vocabulary",21,30,"mcq",[2,3]],["e","Error Correction",31,35,"error",[3]],["wf","Word Formation",36,45,"word",[3]],["c","Reading · Cloze",46,53,"mcq",[3,4]],["oc","Reading · Open Cloze",54,61,"fill",[4]],["r","Reading Comprehension",62,67,"mcq",[4,5]],["m","Reading · Matching",68,75,"match",[6]],["w","Sentence Transformation",76,85,"rewrite",[6,7]],["essay","Essay Writing",1,1,"essay",[7]]],
  "thanh-hoa":[["p","Phonetics & Stress",21,25,"mcq",[2]],["v","Verb Forms",26,30,"word",[3]],["wf","Word Formation",31,35,"word",[3]],["e","Error Correction",36,40,"error",[3]],["g","Grammar & Vocabulary",41,50,"mcq",[4]],["oc","Reading · Open Cloze",51,58,"fill",[4,5]],["c","Reading · Cloze",59,66,"mcq",[5]],["r","Reading · Digital Amnesia",67,74,"mcq",[5,6]],["m","Reading · Missing Sentences",75,80,"match",[7]],["w","Sentence Transformation",81,90,"rewrite",[7,8]],["essay","Essay Writing",1,1,"essay",[8]]],
  "phan-boi-chau":[["b1","Lexico-Grammar · MCQ",1,10,"mcq",[3]],["b2","Lexico-Grammar · Error Correction",1,10,"error",[4]],["b3","Lexico-Grammar · Word Formation",1,10,"word",[4,5]],["c1","Reading · Urban Living",1,10,"mcq",[5]],["c2","Reading · Human Memory",1,10,"fill",[6]],["c3","Reading · Chronotypes",1,8,"mcq",[6,7]],["c4","Reading · Matching Headings",1,6,"match",[8,9]],["c5","Reading · TRUE / FALSE / NOT GIVEN",7,12,"tfng",[8,9]],["d1","Sentence Transformation",1,5,"rewrite",[10]],["d2","Editorial Response",1,1,"essay",[10,11]],["d3","Essay Writing",1,1,"essay",[11,12]]],
@@ -184,17 +184,31 @@ function updateIndicators(){
   b.classList.toggle("flagged",!!state.review[key(n)]);
  });
 }
+
+const MATCH_LABELS={
+ "dh-vinh:c4":[["A","Colin Campbell"],["B","M. King Hubbert"],["C","Kenneth Deffeyes"],["D","René Dahan"],["E","Michael Lynch"]],
+ "tay-ninh:m":[["A","Finn"],["B","Giovanni"],["C","Lauren"],["D","Tara"]],
+ "son-la:m":[["A","Section A"],["B","Section B"],["C","Section C"],["D","Section D"]],
+ "son-la:h":[["i","The role of chemical and physical signals"],["ii","Why individual sacrifice ensures group survival"],["iii","The evolution of different ant species"],["iv","A decentralized approach to task management"],["v","Collective intelligence versus individual limitations"],["vi","The impact of diet on colony hierarchy"]],
+ "phan-boi-chau:c4":[["i","Commercialising neurochemical vulnerability through attention capture"],["ii","Critical agency as an alternative to protective prohibition"],["iii","Selfhood made accountable to an enduring digital audience"],["iv","Evolved belonging translated into visible, revisable metrics"],["v","The authenticity paradox of curated self-presentation"],["vi","Autonomy restored by limiting dependence on digital platforms"],["vii","Abundant contact as a substitute for mutual vulnerability"],["viii","Neurochemical reinforcement as a sufficient account of compulsion"]]
+};
+function matchingLabels(g){
+ const id=state.exam.id+":"+g.id,known=MATCH_LABELS[id];if(known)return known;
+ const n={"dh-vinh:c6":8,"thanh-hoa:m":7,"ptnk:139":9,"ptnk:240":9,"ptnk:306":9,"ptnk:4":9}[id]||8;
+ return Array.from({length:n},(_,i)=>[String.fromCharCode(65+i),String.fromCharCode(65+i)]);
+}
+
 function renderEditor(){
  const g=groups(state.exam).find(x=>x.id===state.group),n=state.question,k=key(n),q=getQuestion(g,n),saved=state.answers[k]||{value:""};
  const editor=$("hsg-answer-editor");if(!editor)return;
  const stem=q.stem||"Câu hỏi chưa được nhận dạng đầy đủ từ tài liệu quét. Xem nội dung đề gốc phía dưới.";
- const labels=q.type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:q.type==="ynng"?["YES","NO","NOT GIVEN"]:q.type==="match"?["A","B","C","D","E","F","G","H","I"]:q.options||["A","B","C","D"];
+ const labels=q.type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:q.type==="ynng"?["YES","NO","NOT GIVEN"]:q.type==="match"?matchingLabels(g):q.options||["A","B","C","D"];
  let inputs="";
  if(["mcq","match","tfng","ynng"].includes(q.type)){
   inputs='<div class="answers hsg-inline-options">'+labels.map((item,i)=>{
-   const value=q.type==="tfng"||q.type==="ynng"?item:String.fromCharCode(65+i);
+   const value=q.type==="tfng"||q.type==="ynng"?item:q.type==="match"?item[0]:String.fromCharCode(65+i);
    const chosen=saved.value===value;
-   return '<button type="button" class="answer'+(chosen?' selected':'')+'" data-hsg-value="'+esc(value)+'" aria-pressed="'+chosen+'"><span class="letter">'+esc(q.type==="mcq"||q.type==="match"?value:String.fromCharCode(65+i))+'</span><span>'+esc(item)+'</span></button>';
+   return '<button type="button" class="answer'+(chosen?' selected':'')+'" data-hsg-value="'+esc(value)+'" aria-pressed="'+chosen+'"><span class="letter">'+esc(q.type==="match"?value:q.type==="mcq"?value:String.fromCharCode(65+i))+'</span><span>'+esc(q.type==="match"?item[1]:item)+'</span></button>';
   }).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Chưa trích xuất đủ 4 phương án từ bản scan. Vui lòng đối chiếu mục nguyên văn bên dưới trước khi chọn.</p>':"");
  }else if(q.type==="error"){
   inputs='<div class="hsg-error-form"><label>Dòng / vị trí<input data-hsg-field="line" placeholder="Số dòng" value="'+esc(saved.line||"")+'"></label><label>Từ/cụm sai<input data-hsg-field="error" placeholder="Nhập lỗi" value="'+esc(saved.error||"")+'"></label><label>Sửa thành<input data-hsg-field="correction" placeholder="Nhập cách sửa" value="'+esc(saved.correction||"")+'"></label></div>';
