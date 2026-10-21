@@ -82,7 +82,8 @@
             "fiduciary"
           ]
         }
-      ]
+      ],
+      "optionsLayout": "compact"
     },
     {
       "id": "g2b",
@@ -179,7 +180,8 @@
             "branch"
           ]
         }
-      ]
+      ],
+      "optionsLayout": "compact"
     },
     {
       "id": "wp",
@@ -231,7 +233,8 @@
           "stem": "Use the correct form of the word in brackets.",
           "word": "hold"
         }
-      ]
+      ],
+      "optionsLayout": null
     },
     {
       "id": "oc",
@@ -286,7 +289,8 @@
           "number": 75,
           "stem": "Write ONE suitable word for gap (75)."
         }
-      ]
+      ],
+      "optionsLayout": null
     },
     {
       "id": "rc",
@@ -359,7 +363,8 @@
             "Other techniques like using words in context are not necessary"
           ]
         }
-      ]
+      ],
+      "optionsLayout": "stacked"
     },
     {
       "id": "r",
@@ -482,7 +487,8 @@
             "negative"
           ]
         }
-      ]
+      ],
+      "optionsLayout": "stacked"
     }
   ]
 }
