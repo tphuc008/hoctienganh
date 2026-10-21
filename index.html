@@ -732,7 +732,7 @@ function renderAccountGate(mode="login",message="",success=false){
       <div class="account-card">
         <div class="eyebrow">English Practice Hub</div>
         <h1><span class="gradient">${signup?"Tạo tài khoản học viên":"Đăng nhập để bắt đầu"}</span></h1>
-        <p class="account-sub">Mỗi học viên có tài khoản riêng. Sau khi đăng nhập, bạn mới chọn Học thêm hoặc Học trên trường.</p>
+        <p class="account-sub">Đăng nhập để chọn khu vực học.</p>
         <div class="auth-tabs">
           <button class="auth-tab ${signup?"":"active"}" type="button" onclick="renderAccountGate('login')">Đăng nhập</button>
           <button class="auth-tab ${signup?"active":""}" type="button" onclick="renderAccountGate('signup')">Tạo tài khoản</button>
@@ -742,7 +742,7 @@ function renderAccountGate(mode="login",message="",success=false){
             <div class="auth-field"><label for="signupDisplayName">Tên học viên</label><input id="signupDisplayName" maxlength="40" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh"></div>
             <div class="auth-field"><label for="signupUsername">Tài khoản</label><input id="signupUsername" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Ví dụ: minhanh12"></div>
             <div class="auth-field"><label for="signupPassword">Mật khẩu</label><input id="signupPassword" type="password" minlength="6" maxlength="72" autocomplete="new-password" placeholder="Tối thiểu 6 ký tự · chỉ chữ cũng được"></div>
-            <div class="auth-help">Tài khoản gồm 3–24 ký tự: chữ thường a–z, số, dấu chấm, gạch dưới hoặc gạch ngang.</div>
+            <div class="auth-help">3–24 ký tự: a–z, 0–9, dấu chấm, _ hoặc -.</div>
           </div>
           <div class="auth-message ${success?"success":""}" id="authMessage">${esc(message)}</div>
           <button class="primary" id="authSubmitBtn" type="button" style="width:100%;margin-top:8px" onclick="submitLearnerSignup()">Tạo tài khoản →</button>
@@ -1324,8 +1324,8 @@ function renderTeacherPreviewPage(hash){
   pageMount.innerHTML=[
     '<div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button><span>›</span><span>'+title+'</span></div>',
     '<div class="unit-hero"><div class="eyebrow">Teacher preview · Testing</div><h1>'+title+'</h1>',
-    '<p>Đây là khu vực thử nghiệm, chỉ tài khoản giáo viên được phép truy cập.</p></div>',
-    '<div class="empty"><b>Nội dung đang được xây dựng</b>Bạn có thể kiểm tra giao diện và điều hướng tại đây. Bài học sẽ được bổ sung sau.</div>'
+    '<p>Chỉ dành cho tài khoản giáo viên.</p></div>',
+    '<div class="empty"><b>Nội dung đang được xây dựng</b>Bài học đang được chuẩn bị.</div>'
   ].join("");
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1365,7 +1365,7 @@ function renderAccessPrompt(area,message=""){
     <div class="exercise-intro" style="max-width:620px;margin:28px auto">
       <div class="eyebrow">${accessAreaLabel(area)} access</div>
       <h1><span class="gradient">Nhập mã truy cập</span></h1>
-      <p style="color:var(--muted);margin:8px 0 18px">Chỉ cần nhập một lần trên trình duyệt này. Quyền truy cập được ghi nhớ trong 1 năm.</p>
+      <p style="color:var(--muted);margin:8px 0 18px">Nhập một lần · ghi nhớ 1 năm trên thiết bị này.</p>
       <div class="nickname-box">
         <label for="accessPassInput">Mã truy cập</label>
         <div style="display:flex;gap:8px;align-items:center">
@@ -1393,7 +1393,7 @@ function toggleAccessPassword(){
 async function enterArea(area){
   hideAll();
   pageMount.style.display="block";
-  pageMount.innerHTML=`<div class="empty"><b>Đang kiểm tra quyền truy cập…</b>Vui lòng chờ trong giây lát.</div>`;
+  pageMount.innerHTML=`<div class="empty"><b>Đang kiểm tra quyền truy cập…</b></div>`;
   if(await validateStoredAccess(area)){
     setActiveArea(area);
     location.hash=area;
@@ -1674,7 +1674,7 @@ function renderHome(){
       `).join("")}
       <button class="unit-card" onclick="location.hash='listening'">
         <div class="unit-top"><span class="unit-no">LISTENING</span><span class="status live">Available</span></div>
-        <h3>Listening</h3><p>Nghe video và luyện câu hỏi IELTS</p><span class="unit-arrow">→</span>
+        <h3>Listening</h3><p>Luyện nghe qua video IELTS</p><span class="unit-arrow">→</span>
       </button>
     </div>
     <details class="study-access-settings"><summary>Quản lý quyền trên thiết bị</summary><div><button class="secondary" onclick="forgetAreaAccess(getActiveArea())">Quên quyền trên máy này</button></div></details>`;
@@ -1711,7 +1711,7 @@ function renderGrammarHome(){
     <div class="unit-hero">
       <div class="eyebrow">Grammar</div>
       <h1>Grammar</h1>
-      <p>Chọn chuyên đề để bắt đầu luyện tập.</p>
+      <p>Chọn chuyên đề.</p>
     </div>
     ${unitsHTML}`;
   window.scrollTo({top:0,behavior:"smooth"});
@@ -1734,7 +1734,7 @@ function renderGrammarUnit(slug){
     <div class="unit-hero">
       <div class="eyebrow">Grammar · Unit 01</div>
       <h1>${esc(activeBank.title)}</h1>
-      <p>Mỗi bộ gồm 10 câu luyện tập.</p>
+      <p>10 câu/bộ.</p>
     </div>
     <div class="section-title"><h2>Exercises</h2><span>${setNumbers.length} sets</span></div>
     <div class="exercise-grid">
@@ -1831,7 +1831,7 @@ function renderGrade(id){
       <button type="button" class="exercise-card lp-entry-card" data-lesson-plan-route="grade-12/lesson-plans">
         <div class="exercise-icon">📚</div>
         <h3>Lesson Plans &amp; Practice</h3>
-        <p>Bài giảng Google Docs, lời giải được bảo vệ, bài tập sau buổi học và in đề.</p>
+        <p>Google Docs · Luyện tập · In đề</p>
         <div class="meta"><span class="chip">Unit 7</span><span class="chip">Chờ nội dung</span></div>
       </button>
     </div>`:"";
@@ -2483,7 +2483,7 @@ function renderManifestItem(item){
     if(typeof handler==="function"){handler(...(item.args||[]));return}
     const requested=item.route;
     pageMount.style.display="block";
-    pageMount.innerHTML='<div class="empty"><b>Đang tải nội dung bài học…</b>Vui lòng chờ trong giây lát.</div>';
+    pageMount.innerHTML='<div class="empty"><b>Đang tải bài học…</b></div>';
     ContentManifest.ensureHandler(item).then(fn=>{
       if(location.hash.slice(1)===requested)fn(...(item.args||[]));
     }).catch(err=>{
@@ -2500,7 +2500,7 @@ function renderManifestItem(item){
     const key=item.grade+"-"+item.unit;
     if((isGrammar&&!window.GRAMMAR_BANKS?.[item.slug])||(!isGrammar&&!BANKS[key])){
       pageMount.style.display="block";
-      pageMount.innerHTML='<div class="empty"><b>Đang tải nội dung bài học…</b>Vui lòng chờ trong giây lát.</div>';
+      pageMount.innerHTML='<div class="empty"><b>Đang tải bài học…</b></div>';
     }
     ContentManifest.ensureBank(item).then(bank=>{
       if(location.hash.slice(1)!==requested)return;
