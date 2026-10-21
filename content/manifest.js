@@ -64,16 +64,16 @@
     {id:"listening-news-home",route:"listening/news",title:"News",category:"listening-home",kind:"handler",handler:"renderNews",source:"listening-news.js?v=20261021-compact1"},
     {id:"listening-news-ai",route:"listening/news/former-openai-employee-ai-might-really-kill-us-all",
       title:"Former OpenAI employee",category:"listening",kind:"handler",handler:"renderNewsVideo",source:"listening-news.js?v=20261021-compact1"},
-    {id:"grade10-midterm",route:"grade-10/mid-term-test",title:"Grade 10 Mid-term Test",category:"exam",grade:10,kind:"handler",handler:"renderG10MidTermHome",source:"grade10-midterm.js?v=20261021-all6-1"},
+    {id:"grade10-midterm",route:"grade-10/mid-term-test",title:"Grade 10 Mid-term Test",category:"exam",grade:10,kind:"handler",handler:"renderG10MidTermHome",source:"grade10-midterm.js?v=20261021-hsg-v2"},
     ...Array.from({length:7},(_,i)=>({id:"school-g10-midterm1-set-"+(i+1),
       route:"school/grade-10/midterm-1/set-"+(i+1),title:"Ôn tập giữa kì 1 · Set "+(i+1),
       category:"school",grade:10,kind:"handler",handler:"renderSchoolSetIntro",source:"school-ui.js?v=20261020-allprint1",args:[i+1]})),
     ...[3,4,5,6].map(n=>({id:"grade10-midterm-test-"+n,route:"grade-10/mid-term-test/test-"+n,
       title:"Grade 10 Mid-term · Test "+n,category:"exam",grade:10,
-      kind:"handler",handler:"renderG10MidTermTest",source:"grade10-midterm.js?v=20261021-all6-1",args:[n]})),
+      kind:"handler",handler:"renderG10MidTermTest",source:"grade10-midterm.js?v=20261021-hsg-v2",args:[n]})),
     ...[1,2,3,4,5,6].map(n=>({id:"grade10-midterm-source-"+n,route:"grade-10/mid-term-test/source-test-"+n,
       title:"Grade 10 Mid-term · Original Test "+n,category:"exam",grade:10,
-      kind:"handler",handler:"renderG10MidTermSourceTest",source:"features/grade10-midterm-six-tests.js?v=20261021-all6-1",args:[n]}))
+      kind:"handler",handler:"renderG10MidTermSourceTest",source:"features/grade10-midterm-six-tests.js?v=20261021-hsg-v2",args:[n]}))
   ];
   const entries=[
     ...grades.map(x=>({id:"grade-"+x.id,route:"grade-"+x.id,title:x.title,
