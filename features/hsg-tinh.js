@@ -154,23 +154,109 @@ function getQuestion(g,n){
  }
  return {type,stem:""};
 }
+
+/* Shared-passage activities follow the Grade 12 Reading split-workspace pattern. */
+function passageBased(g){
+ if(!g||g.kind==="mixed")return false;
+ return ["error","fill","match","tfng","ynng"].includes(g.kind)
+   || /\b(cloze|reading|passage|headings|matching)\b/i.test(g.name);
+}
+function originalPages(g){
+ return sourcePages(g).map(p=>'<section class="hsg-passage-page"><small>Trang '+esc(p.sourcePage)+' · Ngữ liệu gốc</small><pre>'+esc(p.text)+'</pre></section>').join("");
+}
+function passageQuestionLabels(g,q){
+ if(q.type==="tfng")return [["TRUE","TRUE"],["FALSE","FALSE"],["NOT GIVEN","NOT GIVEN"]];
+ if(q.type==="ynng")return [["YES","YES"],["NO","NO"],["NOT GIVEN","NOT GIVEN"]];
+ if(q.type==="match")return matchingLabels(g);
+ return (q.options||["A","B","C","D"]).map((text,i)=>[String.fromCharCode(65+i),text]);
+}
+function passageInput(g,n,q,r){
+ const k=g.id+":"+n;
+ if(["mcq","match","tfng","ynng"].includes(q.type)){
+  const labels=passageQuestionLabels(g,q);
+  return '<div class="answers hsg-inline-options hsg-split-options" role="group" aria-label="Đáp án câu '+n+'">'+labels.map(([value,label])=>
+   '<button type="button" class="answer'+(r.value===value?' selected':'')+'" data-hsg-choice="'+esc(value)+'" aria-pressed="'+(r.value===value)+'"><span class="letter">'+esc(value)+'</span><span>'+esc(label)+'</span></button>'
+  ).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Chưa nhận dạng được đủ phương án từ PDF; đối chiếu đề gốc bên trái.</p>':"");
+ }
+ if(q.type==="error")return '<div class="hsg-error-form hsg-split-error">'+
+  '<label>Vị trí / dòng<input data-hsg-field="line" placeholder="Dòng số..." value="'+esc(r.line||"")+'"></label>'+
+  '<label>Từ hoặc cụm sai<input data-hsg-field="error" placeholder="Từ/cụm cần sửa" value="'+esc(r.error||"")+'"></label>'+
+  '<label>Sửa thành<input data-hsg-field="correction" placeholder="Đáp án của bạn" value="'+esc(r.correction||"")+'"></label></div>';
+ if(q.type==="essay"||q.type==="rewrite")return '<label class="hsg-input-label">Bài làm<textarea rows="'+(q.type==="essay"?10:4)+'" data-hsg-field="value" placeholder="Nhập bài làm...">'+esc(r.value||"")+'</textarea></label>';
+ return '<label class="hsg-input-label">Câu trả lời<input type="text" data-hsg-field="value" placeholder="Nhập từ hoặc cụm từ..." value="'+esc(r.value||"")+'" autocomplete="off"></label>';
+}
+function renderPassageForms(g){
+ const mount=$("hsg-answer-list");if(!mount)return;
+ mount.innerHTML='<div class="hsg-split-form-intro"><div class="hsg-kicker">QUESTION PAPER</div><h2>'+esc(g.name)+'</h2><p>Đọc đoạn văn ở khung trái và trả lời trực tiếp tại đây. Chưa hiển thị đáp án.</p></div>'+
+ range(g).map(n=>{
+  const q=getQuestion(g,n),k=g.id+":"+n,r=state.answers[k]||{},stem=String(q.stem||"").trim();
+  const shortStem=(q.type==="error"?"Xác định lỗi và viết cách sửa theo dòng trong đoạn văn bên trái.":(!stem||stem.length>360?"Dựa vào đoạn văn bên trái, hoàn thành câu "+n+".":stem));
+  return '<article class="hsg-split-question'+(state.question===n?' active':'')+'" id="hsg-question-'+n+'" data-hsg-question="'+n+'">'+
+   '<div class="hsg-split-question-head"><span class="hsg-split-question-number">QUESTION '+String(n).padStart(2,"0")+'</span><button type="button" data-hsg-flag aria-pressed="'+!!state.review[k]+'">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu')+'</button></div>'+
+   '<p class="hsg-split-prompt">'+esc(shortStem)+'</p>'+passageInput(g,n,q,r)+
+   '<div class="hsg-split-question-foot"><span class="hsg-split-answer-status">'+(meaningfulAnswer(r)?'Đã trả lời':'Chưa trả lời')+'</span><button type="button" data-hsg-clear>Xóa câu</button></div></article>';
+ }).join("");
+ mount.querySelectorAll(".hsg-split-question").forEach(card=>{
+  const n=Number(card.dataset.hsgQuestion),k=g.id+":"+n,q=getQuestion(g,n);
+  card.querySelectorAll("[data-hsg-choice]").forEach(btn=>btn.onclick=()=>{
+   state.answers[k]={type:q.type,value:btn.dataset.hsgChoice};
+   card.querySelectorAll("[data-hsg-choice]").forEach(b=>{const selected=b===btn;b.classList.toggle("selected",selected);b.setAttribute("aria-pressed",String(selected))});
+   updatePassageStatus(card,k);queueSave();updateIndicators();
+  });
+  card.querySelectorAll("[data-hsg-field]").forEach(input=>input.oninput=()=>{
+   state.answers[k]={...state.answers[k],type:q.type,[input.dataset.hsgField]:input.value};
+   updatePassageStatus(card,k);queueSave();updateIndicators();
+  });
+  card.querySelector("[data-hsg-flag]").onclick=()=>{
+   state.review[k]=!state.review[k];card.querySelector("[data-hsg-flag]").textContent=state.review[k]?"★ Đã đánh dấu":"☆ Đánh dấu";
+   card.querySelector("[data-hsg-flag]").setAttribute("aria-pressed",String(!!state.review[k]));
+   updateIndicators();queueSave();
+  };
+  card.querySelector("[data-hsg-clear]").onclick=()=>{
+   delete state.answers[k];
+   card.querySelectorAll("[data-hsg-field]").forEach(input=>{input.value=""});
+   card.querySelectorAll("[data-hsg-choice]").forEach(btn=>{btn.classList.remove("selected");btn.setAttribute("aria-pressed","false")});
+   updatePassageStatus(card,k);updateIndicators();queueSave();
+  };
+  card.addEventListener("focusin",()=>{state.question=n;updateIndicators()});
+ });
+}
+function updatePassageStatus(card,k){
+ const node=card.querySelector(".hsg-split-answer-status");
+ if(node)node.textContent=meaningfulAnswer(state.answers[k])?"Đã trả lời":"Chưa trả lời";
+}
+function focusPassageQuestion(n){
+ const next=$("hsg-question-"+n);if(!next)return;
+ document.querySelectorAll(".hsg-split-question").forEach(card=>card.classList.toggle("active",card===next));
+ next.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function switchPassageTab(tab){
+ const split=$("hsg-passage-split");if(!split)return;
+ split.dataset.mobileTab=tab;
+ split.querySelectorAll("[data-hsg-mobile-tab]").forEach(btn=>btn.setAttribute("aria-pressed",String(btn.dataset.hsgMobileTab===tab)));
+}
+
 function meaningfulAnswer(v){return !!(v&&(String(v.value||"").trim()||String(v.error||"").trim()||String(v.correction||"").trim()))}
 function answerCount(){return range(groups(state.exam).find(x=>x.id===state.group)).filter(n=>meaningfulAnswer(state.answers[key(n)])).length}
 function renderExam(){
  const e=state.exam,g=groups(e).find(x=>x.id===state.group)||groups(e)[0];
  const total=g.end-g.start+1,done=answerCount(),pct=Math.round(done/total*100);
- const reading=/reading|cloze|matching|telemedicine|freelancing|memory|chronotypes|amnesia/i.test(g.name);
+ const passage=passageBased(g);
+ const splitMarkup=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
+ '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
+ '<div class="hsg-passage-workspace"><section class="hsg-passage-left" aria-label="Đoạn văn"><div class="hsg-passage-column-head"><strong>PASSAGE / SOURCE TEXT</strong><span>Cuộn độc lập</span></div><div class="hsg-passage-content">'+originalPages(g)+'</div></section>'+
+ '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời"><div class="hsg-passage-column-head"><strong>QUESTIONS & ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div></div>':"";
  const root=$("pageMount");root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+'</div>'+
- '<div class="hsg-study-layout'+(reading?' is-reading':'')+'"><main class="hsg-study-main">'+
- '<section class="hsg-study-question" id="hsg-answer-editor" aria-label="Câu hỏi"></section>'+
- '<details class="hsg-source-details"'+(reading?' open':'')+'><summary>Đọc đoạn văn / xem nguyên văn đề gốc</summary><div class="hsg-original-pages">'+sourcePages(g).map(p=>'<section><small>Trang '+esc(p.sourcePage)+'</small><pre>'+esc(p.text)+'</pre></section>').join("")+'</div></details>'+
- '</main><aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside></div></div>';
+ '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
+ (passage?splitMarkup:'<section class="hsg-study-question" id="hsg-answer-editor" aria-label="Câu hỏi"></section>'+
+ '<details class="hsg-source-details"><summary>Xem nguyên văn đề gốc</summary><div class="hsg-original-pages">'+originalPages(g)+'</div></details>')+'</main><aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside></div></div>';
  root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{const next=groups(e).find(x=>x.id===b.dataset.group);state.group=next.id;state.question=next.start;renderExam();queueSave()});
- root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{state.question=Number(b.dataset.question);renderEditor();updateIndicators()});
+ root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{state.question=Number(b.dataset.question);if(passage)focusPassageQuestion(state.question);else renderEditor();updateIndicators();queueSave()});
+ root.querySelectorAll("[data-hsg-mobile-tab]").forEach(b=>b.onclick=()=>switchPassageTab(b.dataset.hsgMobileTab));
  $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=()=>window.print();renderEditor();
 }
 function updateIndicators(){
@@ -199,7 +285,9 @@ function matchingLabels(g){
 }
 
 function renderEditor(){
- const g=groups(state.exam).find(x=>x.id===state.group),n=state.question,k=key(n),q=getQuestion(g,n),saved=state.answers[k]||{value:""};
+ const g=groups(state.exam).find(x=>x.id===state.group);
+ if(passageBased(g)){renderPassageForms(g);return}
+ const n=state.question,k=key(n),q=getQuestion(g,n),saved=state.answers[k]||{value:""};
  const editor=$("hsg-answer-editor");if(!editor)return;
  const stem=q.stem||"Câu hỏi chưa được nhận dạng đầy đủ từ tài liệu quét. Xem nội dung đề gốc phía dưới.";
  const labels=q.type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:q.type==="ynng"?["YES","NO","NOT GIVEN"]:q.type==="match"?matchingLabels(g):q.options||["A","B","C","D"];
