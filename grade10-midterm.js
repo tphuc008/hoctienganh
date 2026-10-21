@@ -24,6 +24,18 @@ function mtRestore(test){
   mtState.startedAt=Number(saved.startedAt)||Date.now();
   mtState.submissionId=saved.submissionId||LearningCore.uuid();mtState.recorded=!!saved.recorded;
  }
+ else {
+  const draft=LearningCore.readDraft("exam-source","grade-10/mid-term-test/source-test-"+test.id);
+  if(draft?.answers&&typeof draft.answers==="object"){
+   for(const q of test.questions){
+    const sourceId=q.id.replace(/^\d+-/,"").toLowerCase();
+    const answer=draft.answers[sourceId];
+    if(typeof answer==="string"&&answer.trim())mtState.answers[q.id]=answer;
+   }
+   const i=Number(draft.index);
+   if(Number.isInteger(i))mtState.index=Math.min(Math.max(i,0),test.questions.length-1);
+  }
+ }
  mtSave();
 }
 function mtRestart(){
