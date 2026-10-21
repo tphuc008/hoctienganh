@@ -40,7 +40,7 @@ function render(spec,opts){
  const evidence=v.evidence.length?v.evidence.map(x=>typeof x==="string"?paragraphs(x):
     '<div class="ev1-evidence-item">'+anchor(x.locator,"Vị trí")+anchor(x.quote,"Dẫn chứng")+anchor(x.note,"Giải thích")+'</div>').join(""):
     '<p class="ev1-muted">Chưa có bằng chứng đã được xác minh cho câu này.</p>';
- const choices=v.options.length?v.options.map((x,i)=>'<div class="ev1-choice semantic-option'+(x.correct?" correct-analysis":"")+'"><div class="semantic-option-head"><span>'+String.fromCharCode(65+i)+'</span><b>'+h(optionWord(x))+'</b>'+(x.meaning?'<em>'+h(x.meaning)+'</em>':"")+'</div><p>'+h(x.analysis||"Chưa có phân tích riêng được xác minh.")+'</p></div>').join(""):
+ const choices=s.options.length?s.options.map((x,i)=>'<div class="ev1-choice semantic-option'+(x.correct?" correct-analysis":"")+'"><div class="semantic-option-head"><span>'+String.fromCharCode(65+i)+'</span><b>'+h(optionWord(x))+'</b>'+(x.meaning?'<em>'+h(x.meaning)+'</em>':"")+'</div><p>'+h(x.analysis||"Chưa có phân tích riêng được xác minh.")+'</p></div>').join(""):
    '<p class="ev1-muted">Chưa có phân tích từng phương án đã được xác minh.</p>';
  const examples=(s.examples||[]).map((x,i)=>'<div class="ev1-example semantic-example"><div class="semantic-example-title"><span>'+String.fromCharCode(65+i)+'</span><b>'+h(x.word||v.options[i]?.word||"")+'</b></div><p class="example-en">'+h(x.en||"")+'</p>'+(x.vi?'<p class="example-vi">→ '+h(x.vi)+'</p>':"")+'</div>').join("");
  const app=(examples?'<div class="semantic-examples-grid">'+examples+'</div>':"")+
