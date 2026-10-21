@@ -280,12 +280,12 @@ function passageInput(g,n,q,r){
   ).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Thiếu phương án · Xem đề gốc bên trái.</p>':"");
  }
  if(q.type==="error"){
-  const model=errorSourceModel(g,n).model,numbered=model.hasOriginalLines;
+  const model=errorSourceModel(g,n).model,numbered=model.hasOriginalLines,needsLine=numbered||model.numberingUncertain;
   return '<p class="hsg-error-help">'+(numbered?
     'Chọn số dòng của đề gốc rồi bôi đen từ/cụm sai.':
     model.numberingUncertain?'Dữ liệu PDF chưa xác định chắc chắn vị trí dòng. Bôi đen cụm sai và đối chiếu số dòng với đề gốc.':
     'Đề gốc không đánh số dòng: bôi đen cụm sai trong đoạn văn bên trái.')+'</p><div class="hsg-error-form hsg-split-error">'+
-   (numbered?'<label>Dòng gốc<input data-hsg-field="line" inputmode="numeric" placeholder="Số dòng trong đề…" value="'+esc(r.line||"")+'"></label>':"")+
+   (needsLine?'<label>'+(model.numberingUncertain?'Dòng (theo PDF gốc)':'Dòng gốc')+'<input data-hsg-field="line" inputmode="numeric" placeholder="Số dòng trong đề…" value="'+esc(r.line||"")+'"></label>':"")+
    '<label>Từ / cụm sai<input data-hsg-field="error" placeholder="Cụm sai trong bài" value="'+esc(r.error||"")+'"></label>'+
    '<label>Sửa thành<input data-hsg-field="correction" placeholder="Cách sửa của bạn" value="'+esc(r.correction||"")+'"></label></div>';
  }
@@ -368,7 +368,8 @@ function attachErrorPassageActions(g){
  const choose=(row,selection)=>{
   if(!row)return;
   const n=state.question,k=g.id+":"+n;
-  const originalLine=row.dataset.hsgLine||"";
+  const sourceUncertain=errorSourceModel(g,n).model.numberingUncertain;
+  const originalLine=row.dataset.hsgLine??(sourceUncertain?(state.answers[k]?.line||""):"");
   state.answers[k]={...state.answers[k],type:"error",line:originalLine};
   if(selection)state.answers[k].error=selection;
   const card=$("hsg-question-"+n);
