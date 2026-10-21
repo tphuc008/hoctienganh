@@ -61,7 +61,7 @@
      '<button type="button" class="secondary" data-history-filter="'+esc(x.id)+'">'+esc(x.label)+'</button>').join("")+'</div>';
    list.removeAttribute("role");
    list.innerHTML=warning+header+(records.length?controls+'<div id="historyEntries"></div>':
-    '<div class="empty"><b>Chưa có bài hoàn thành</b>Kết quả sẽ xuất hiện sau khi bạn nộp bài.</div>');
+    '<div class="empty"><b>Chưa có bài hoàn thành</b>Nộp bài để xem kết quả.</div>');
    const entries=document.getElementById("historyEntries"),buttons=list.querySelectorAll("[data-history-filter]");
    const paint=category=>{
     if(!entries)return;
