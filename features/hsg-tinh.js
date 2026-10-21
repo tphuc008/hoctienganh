@@ -274,8 +274,8 @@ function passageInput(g,n,q,r){
 /* Render all questions in the reading pane, as in the Grade 12 Reading workspace. */
 function renderPassageForms(g){
  const mount=$("hsg-answer-list");if(!mount)return;
- const nums=visibleQuestionNumbers(g),first=nums[0],last=nums[nums.length-1];
- const instruction=actualKind(g,first)==="error"?
+ const nums=visibleQuestionNumbers(g),first=nums[0],last=nums[nums.length-1],typed=structuredPart(g);
+ const instruction=typed?(typed.kind==="word_formation"?"Complete the gaps using the correct form of the word in brackets.":typed.kind==="open_cloze"?"Fill each gap with ONE suitable word.":typed.kind==="reading_comprehension"?"Read the passage and choose the best answer A, B, C or D.":"Choose the best option A, B, C or D for each numbered gap."):actualKind(g,first)==="error"?
   "Find and correct the errors in the passage. Each correction is saved separately.":
   "Read the passage on the left and answer the questions below.";
  mount.innerHTML='<div class="hsg-reading-section-head"><span class="hsg-reading-eyebrow">'+esc(activePassageBlock(g)?.title||g.name)+'</span>'+
@@ -299,13 +299,13 @@ function renderPassageForms(g){
   card.querySelectorAll("[data-hsg-choice]").forEach(btn=>btn.onclick=()=>{
    focus(card);state.answers[k]={type:q.type,value:btn.dataset.hsgChoice};
    card.querySelectorAll("[data-hsg-choice]").forEach(b=>{const yes=b===btn;b.classList.toggle("selected",yes);b.setAttribute("aria-pressed",String(yes))});
-   card.querySelector("[data-hsg-completion]").textContent="Đã trả lời";updateIndicators();queueSave();
+   card.querySelector("[data-hsg-completion]").textContent="Đã trả lời";refreshStructuredPassage(g);updateIndicators();queueSave();
   });
   card.querySelectorAll("[data-hsg-field]").forEach(input=>input.oninput=()=>{
    focus(card);state.answers[k]={...state.answers[k],type:q.type,[input.dataset.hsgField]:input.value};
    card.querySelector("[data-hsg-completion]").textContent=meaningfulAnswer(state.answers[k])?"Đã trả lời":"Chưa hoàn thành";
    if(input.dataset.hsgField==="line"&&q.type==="error")highlightErrorLine(input.value);
-   updateIndicators();queueSave();
+   refreshStructuredPassage(g);updateIndicators();queueSave();
   });
   card.querySelector("[data-hsg-flag]").onclick=()=>{
    focus(card);state.review[k]=!state.review[k];const flag=card.querySelector("[data-hsg-flag]");
@@ -317,9 +317,23 @@ function renderPassageForms(g){
    card.querySelectorAll("[data-hsg-field]").forEach(el=>el.value="");
    card.querySelectorAll("[data-hsg-choice]").forEach(btn=>{btn.classList.remove("selected");btn.setAttribute("aria-pressed","false")});
    card.querySelector("[data-hsg-completion]").textContent="Chưa hoàn thành";
-   highlightErrorLine("");updateIndicators();queueSave();
+   highlightErrorLine("");refreshStructuredPassage(g);updateIndicators();queueSave();
   };
  });
+}
+function attachStructuredGapActions(g){
+ const source=$("hsg-passage-left-body");if(!source||!structuredPart(g))return;
+ source.querySelectorAll("[data-hsg-gap]").forEach(btn=>btn.onclick=()=>{
+  const n=Number(btn.dataset.hsgGap);if(!Number.isInteger(n))return;
+  focusPassageQuestion(n);
+  const tabs=$("hsg-passage-split")?.querySelector(".hsg-passage-mobile-tabs");
+  if(tabs&&tabs.offsetParent!==null)switchPassageTab("questions");
+ });
+}
+function refreshStructuredPassage(g){
+ if(!structuredPart(g))return;
+ const source=$("hsg-passage-left-body");if(!source)return;
+ const scroll=source.scrollTop;source.innerHTML=originalPages(g);source.scrollTop=scroll;attachStructuredGapActions(g);
 }
 function highlightErrorLine(line){
  const source=$("hsg-passage-left-body");if(!source)return;
@@ -366,7 +380,7 @@ function focusPassageQuestion(n){
  card.scrollIntoView({block:"nearest",behavior:"smooth"});
  if(previous!==n){
   const source=$("hsg-passage-left-body");
-  if(source){const scroll=source.scrollTop;source.innerHTML=originalPages(g);source.scrollTop=scroll;attachErrorPassageActions(g)}
+  if(source){const scroll=source.scrollTop;source.innerHTML=originalPages(g);source.scrollTop=scroll;attachErrorPassageActions(g);attachStructuredGapActions(g)}
  }
  updateIndicators();
 }
@@ -414,7 +428,7 @@ function renderExam(){
   '<div class="hsg-passage-workspace"><section class="hsg-passage-left" aria-label="Đoạn văn"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong><span>Cuộn độc lập</span></div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
   '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
  const root=$("pageMount");root.style.display="block";
- root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode':'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
+ root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind:''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>'+
@@ -433,7 +447,7 @@ function renderExam(){
  if(dropdown)dropdown.onchange=()=>{state.question=Number(dropdown.value);renderExam();queueSave()};
  root.querySelectorAll("[data-hsg-mobile-tab]").forEach(b=>b.onclick=()=>switchPassageTab(b.dataset.hsgMobileTab));
  $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=openPrintDialog;
- renderEditor();if(passage){setupPassageDivider();attachErrorPassageActions(g)}
+ renderEditor();if(passage){setupPassageDivider();attachErrorPassageActions(g);attachStructuredGapActions(g)}
 }
 function updateIndicators(){
  const g=groups(state.exam).find(x=>x.id===state.group),done=answerCount(),size=g.end-g.start+1,pct=Math.round(done/size*100);
@@ -619,7 +633,8 @@ function printOnePart(part,index){
  const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
  // The paragraph for a PTNK block is separate from the rest of that code.
  const hasPassage=g.kind==="mixed"?!!activePassageBlock(g,first):passageBased(g);
- const source=hasPassage?passageOnly(g,first):"";
+ const typed=structuredPart(g);
+ const source=typed?typed.passage.map(b=>b.text).join("\n\n"):hasPassage?passageOnly(g,first):"";
  const result=printQuestions(g,first,last);
  const sourceHtml=source?
   '<div class="hsg-print-passage"><div class="hsg-print-passage-label">READ THE TEXT AND ANSWER THE QUESTIONS</div>'+printTypesetText(source)+'</div>':"";
@@ -763,6 +778,14 @@ async function open(hash){
   state.exam=e;state.data=data;
   const draft=readDraft(e);
   state.answers=draft.answers||{};state.review=draft.review||{};
+   if(e.id==="hai-phong"){
+    for(let n=61;n<=65;n++){
+     const oldKey="oc:"+n,newKey="wp:"+n;
+     if(state.answers[oldKey]&&!state.answers[newKey])state.answers[newKey]={...state.answers[oldKey],type:"word"};
+     if(state.review[oldKey]&&!state.review[newKey])state.review[newKey]=true;
+    }
+    if(draft.group==="oc"&&draft.question>=61&&draft.question<=65)draft.group="wp";
+   }
   state.group=groups(e).some(x=>x.id===draft.group)?draft.group:groups(e)[0].id;
   state.page=Math.min(Math.max(0,draft.page||0),data.pages.length-1);
   const g=groups(e).find(x=>x.id===state.group);
