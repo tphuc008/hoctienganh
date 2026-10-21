@@ -42,18 +42,18 @@ const explain=function explain(q,actualContext){
  const snippet=actualContext?.length>180?actualContext.match(new RegExp(`[\\s\\S]{0,95}\\(${q.number}\\)\\s*_+[\\s\\S]{0,125}`))?.[0]||"":"";
  const first=[
  specific.translation?`Dịch nghĩa: ${specific.translation}`:`Ngữ cảnh cần xử lý: “${preview}”. Dịch ý và trọng tâm: ${q.hint.replace(/^[^=]{0,25} = /," là ")}.`,
- `Clue trong đề: ${nearby?`“${nearby.trim()}”`:snippet?`“${snippet.trim()}”`:`“${preview.slice(0,160)}”`}. ${q.hint}. Không chỉ xét một từ riêng lẻ: cần kiểm tra quan hệ nghĩa hoặc cấu trúc với toàn bộ câu.`,
- `Đáp án ${correct} — “${target}”: ${specific.why||`${info.meaning}. ${info.scope}. Vì vậy đây là cách diễn đạt khớp yêu cầu hơn các phương án không mang đúng chức năng hoặc không được đoạn văn hỗ trợ.`}`
+ `Clue trong đề: ${nearby?`“${nearby.trim()}”`:snippet?`“${snippet.trim()}”`:`“${preview.slice(0,160)}”`}. ${q.hint}.`,
+ `Đáp án ${correct} — “${target}”: ${specific.why||`${info.meaning}. ${info.scope}.`}`
  ];
  const options=(q.options||[]).map((value,i)=>{
   const v=optionInfo(value,q),isRight="ABCD"[i]===correct;
   return {label:"ABCD"[i],word:value,meaning:v.meaning,
-    analysis:isRight?`Phù hợp: ${v.scope}. Liên hệ trực tiếp với clue: ${q.hint}. Ở đây không chỉ có đúng từ loại, mà còn đúng quan hệ nghĩa và cách kết hợp trong câu.`:
-    `Nghĩa/cách dùng thực tế: ${v.meaning}. ${v.scope}. Tuy nhiên trong câu đang hỏi “${preview.slice(0,110)}”, lựa chọn này không cung cấp chính xác quan hệ nghĩa, dữ kiện hoặc mẫu ngữ pháp mà clue đòi hỏi. So sánh với “${target}”: ${q.hint}.`
+    analysis:isRight?`${v.scope}. ${q.hint}.`:
+    `${v.meaning}. ${v.scope}.`
   };
  });
  const examples=(q.options||[]).map((value,i)=>{const v=optionInfo(value,q);return {label:"ABCD"[i],word:value,en:v.en,vi:v.vi}});
- const remember=specific.remember||`Ghi nhớ: ${q.hint}. Khi làm câu tương tự, nhận diện clue trước, sau đó kiểm tra từ loại, cấu trúc, collocation và phạm vi nghĩa; không chọn đáp án chỉ vì có từ xuất hiện trong đoạn.`;
+ const remember=specific.remember||""; // No generic reminder: applications/examples already provide transfer.
  return {mode:"semantic_precision",step1:first,options,examples,remember};
 };
 window.G10_MIDTERM_EXPLAIN=explain;
