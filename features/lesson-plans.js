@@ -191,7 +191,7 @@
       const pattern=esc(q.target),at=prompt.indexOf(pattern);
       if(at>=0)prompt=prompt.slice(0,at)+'<u>'+pattern+'</u>'+prompt.slice(at+pattern.length);
     }
-    return '<div class="lp-quiz-question"><p><b>'+index+'.</b> '+prompt+'</p><div class="'+(print?"lp-print-options":"lp-question-choices")+'">'+choices+'</div></div>';
+    return '<div class="lp-quiz-question"><p><b>'+index+'.</b> '+prompt+'</p><div class="'+(print?"lp-print-options "+(global.PrintDesignSystem.compact(q.options)?"is-compact":"is-long"):"lp-question-choices")+'">'+choices+'</div></div>';
   }
   function questions(){
     if(!quiz)return "";
@@ -249,9 +249,10 @@
         const n=printQuestionNumber(q),key=getKey(q.id);
         return '<span><strong>'+n+'.</strong> '+(key?String.fromCharCode(65+key.correctIndex):"—")+'</span>';
       }).join("")+'</div></section>':"";
-    return '<div class="lp-print-sheet"><div class="lp-print-sheet-top"><span>ENGLISH PRACTICE HUB</span><span>UNIT '+u.id+'</span></div>'+
+    return '<div class="lp-print-sheet" data-print-standard="'+global.PrintDesignSystem.version+'"><div class="lp-print-sheet-top"><span>ENGLISH PRACTICE HUB</span><span>UNIT '+u.id+'</span></div>'+
       '<h3>'+esc(u.title||"VOCABULARY PRACTICE")+'</h3>'+
       '<p class="lp-print-subtitle">'+(printMode==="key"?"Đề bài + đáp án ngắn ở cuối":"Đề bài + giải chi tiết từng câu")+'</p>'+
+      '<div class="ep-student"><span>Họ và tên: <i></i></span><span>Lớp: <i></i></span></div>'+
       content+answerKey+
       '<div class="lp-print-foot">English Practice Hub · Unit '+u.id+'</div></div>';
   }
@@ -261,91 +262,7 @@
    * Everything inserted into printSheet is already HTML-escaped by the question/solution renderers.
    */
   function standalonePrintHtml(u){
-    const css=String.raw`
-      @page{size:A4;margin:16mm}
-      *{box-sizing:border-box}
-      html{color:#172033;background:#edf4ff;font-family:Arial,"Segoe UI",sans-serif}
-      body{margin:0}
-      .print-toolbar{max-width:900px;margin:0 auto;padding:16px 18px;
-        display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-      .print-toolbar p{margin:0;font-size:13px;line-height:1.5;color:#475569}
-      .print-toolbar button{font:700 14px Arial,sans-serif;border:0;border-radius:9px;
-        padding:12px 18px;background:#2563eb;color:white;cursor:pointer}
-      main{max-width:900px;margin:0 auto 34px;padding:0 18px}
-      .lp-print-sheet{padding:36px 44px;background:#fff;color:#172033;
-        box-shadow:0 14px 36px rgba(35,70,120,.12);font-size:10pt}
-      .lp-print-sheet-top{display:flex;justify-content:space-between;gap:10px;
-        border-bottom:1px solid #94a3b8;padding-bottom:9px;
-        font:700 9pt Arial,sans-serif;letter-spacing:.03em}
-      .lp-print-sheet>h3{text-align:center;font-size:16pt;line-height:1.35;margin:20px 0 6px}
-      .lp-print-subtitle{text-align:center;font-size:10pt;color:#475569;margin:0 0 22px}
-      .lp-print-part{margin:18px 0 26px}
-      .lp-print-part>h4{font:700 11pt Arial,sans-serif;
-        padding:9px 0 7px;border-bottom:1px solid #64748b;margin:0 0 13px}
-      .lp-print-question{margin:0 0 13px}
-      .lp-quiz-question{padding:9px 0 11px;border-bottom:1px solid #d8e1eb;
-        break-inside:avoid;page-break-inside:avoid}
-      .lp-quiz-question p{font:10pt/1.58 Arial,"Segoe UI",sans-serif;margin:0 0 9px;
-        overflow-wrap:break-word}
-      .lp-quiz-question u{text-underline-offset:2px}
-      .lp-print-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-        column-gap:20px;row-gap:7px;padding-left:13px;font:9.5pt/1.45 Arial,sans-serif}
-      .lp-print-options span{min-width:0;overflow-wrap:break-word}
-      .lp-print-foot{margin:24px 0 0;border-top:1px solid #cbd5e1;padding-top:10px;
-        font:9pt Arial,sans-serif;text-align:center;color:#64748b}
-      .lp-print-answer-key{break-before:page;page-break-before:always;
-        border-top:2px solid #172033;padding-top:15px;margin-top:25px}
-      .lp-print-answer-key h4{text-align:center;font:800 12pt Arial,sans-serif;margin:5px 0 24px}
-      .lp-print-key-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-        gap:13px 6px;font:10pt Arial,sans-serif}
-      .lp-print-key-grid span{break-inside:avoid;page-break-inside:avoid}
-      .lp-semantic-print{border:1px solid #cbd5e1;margin:12px 0 18px;
-        padding:0;color:#172033;background:white;font:9.25pt/1.53 Arial,"Segoe UI",sans-serif}
-      .lp-semantic-print>.feedback-title{font-weight:800;
-        background:#f1f5f9;padding:9px 11px;border-bottom:1px solid #cbd5e1}
-      .semantic-step{padding:11px;border-bottom:1px solid #cbd5e1;break-inside:auto}
-      .semantic-step-label{display:flex;gap:9px;align-items:center;margin:0 0 9px;
-        break-after:avoid;page-break-after:avoid}
-      .semantic-step-label>span{display:inline-flex;justify-content:center;align-items:center;
-        background:#e2e8f0;border:1px solid #cbd5e1;border-radius:5px;
-        height:23px;width:23px;flex:0 0 23px;font-size:10pt;font-weight:800}
-      .semantic-step-label b{font-size:10pt}
-      .semantic-step-label small{display:block;color:#64748b;font-size:8pt}
-      .semantic-prose p{margin:0 0 7px;line-height:1.6}
-      .semantic-options-grid,.semantic-examples-grid{display:grid;
-        grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-      .semantic-option,.semantic-example{border:1px solid #cbd5e1;border-radius:5px;
-        padding:8px;min-width:0;break-inside:avoid;page-break-inside:avoid}
-      .semantic-option.correct-analysis{background:#f1f5f9;border-color:#94a3b8}
-      .semantic-option-head,.semantic-example-title{display:flex;flex-wrap:wrap;
-        gap:6px;align-items:baseline;margin:0 0 5px}
-      .semantic-option-head>span,.semantic-example-title>span{
-        font-weight:800;border:1px solid #94a3b8;border-radius:4px;padding:1px 5px}
-      .semantic-option-head em{font-style:normal;color:#475569;font-size:8pt}
-      .semantic-option p,.semantic-example p{margin:0;font-size:8.75pt;line-height:1.55}
-      .semantic-example .example-en{font-style:italic}
-      .semantic-example .example-vi{color:#475569;margin-top:4px}
-      .semantic-remember{background:#f1f5f9;margin:10px;border:1px solid #cbd5e1;
-        padding:9px;font-size:9pt;break-inside:avoid}
-      .semantic-remember b{display:block;margin-bottom:5px}
-      .semantic-remember span{display:block;line-height:1.55}
-      @media(max-width:620px){
-        .lp-print-sheet{padding:18px}
-        .lp-print-options,.semantic-options-grid,.semantic-examples-grid{grid-template-columns:1fr}
-      }
-      @media print{
-        html{background:white!important}
-        body{margin:0!important}
-        .print-toolbar{display:none!important}
-        main{padding:0!important;margin:0!important;max-width:none!important}
-        .lp-print-sheet{border:0!important;box-shadow:none!important;
-          padding:0!important;margin:0!important;max-width:none!important}
-        .lp-print-options,.semantic-options-grid,.semantic-examples-grid{
-          grid-template-columns:repeat(2,minmax(0,1fr))!important}
-        .lp-print-answer-key{break-before:page;page-break-before:always}
-        .lp-print-part>h4{break-after:avoid;page-break-after:avoid}
-      }
-    `;
+    const css=global.PrintDesignSystem.css()+" \n.lp-print-sheet .ep-student{margin:0 0 19pt}\n.lp-print-part>h4{border-bottom:1px solid #dbc5ce;padding:0 0 7pt}\n.lp-print-answer-key{border:0}\n.lp-print-sheet .lp-print-options span{white-space:normal}\n.lp-print-sheet .lp-quiz-question{break-inside:avoid}\n.lp-print-sheet .lp-semantic-print{break-inside:auto}\n.lp-semantic-print .semantic-step-label small{display:block;color:#64748b;font-size:8pt}\n.lp-semantic-print .semantic-option-head em{font-style:normal;color:#64748b;font-size:8pt}\n.lp-semantic-print .semantic-example .example-en{font-style:italic}\n.lp-semantic-print .semantic-example .example-vi{color:#536274;margin-top:5pt}\n.lp-semantic-print .semantic-remember b{display:block;margin-bottom:5pt}\n.lp-semantic-print .semantic-remember span{display:block;line-height:1.58}";
     return '<!doctype html><html lang="vi"><head><meta charset="utf-8">'+
       '<meta name="viewport" content="width=device-width,initial-scale=1">'+
       '<title>'+esc(u.title||"Unit "+u.id)+' — '+(printMode==="key"?"Đáp án ngắn":"Giải chi tiết")+'</title>'+
