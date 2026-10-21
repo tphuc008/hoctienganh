@@ -12,7 +12,7 @@ const ANCHORS={
  "thanh-hoa":/III\.\s*The passage below contains 5 mistakes/i
 };
 const GENERIC=/(?:^|\n)[ \t]*(?:PART\s*(?:2|II|B)[.:)]?\s*[^\n]{0,80}(?:ERROR\s*CORRECTION|MISTAKES)|(?:III|IV|V)\.\s*[^\n]{0,65}(?:passage.*mistakes|correction)|[^\n]{0,85}(?:passage|text)[^\n]{0,90}(?:contains?\s+(?:\d+|five|ten)\s+(?:mistakes|errors)|(?:mistakes|errors)\s+to\s+(?:correct|find))|[^\n]{0,80}(?:identify|find|correct)\s+(?:the\s+)?(?:\d+|five|ten)?\s*(?:grammatical\s+)?(?:mistakes|errors))/gim;
-const END=/(?:^|\n)[ \t]*(?:YOUR\s+ANSWERS?\b|ANSWER\s+SHEET\b|PART\s*(?:3|III|4|IV|5|V)[.:)]?\s|(?:IV|V|VI)\.\s+(?:Supply|Read|Choose|Complete|Write)|Questions?\s+\d{1,3}\.\s*|SECTION\s+[CDE][.:])/gim;
+const END=/(?:^|\n)[ \t]*(?:YOUR\s+ANSWERS?\b|ANSWER\s+SHEET\b|PART\s*(?:3|III|4|IV|5|V)[.:)]?\s|(?:IV|V|VI|VII|VIII|IX|X)\.\s+|Questions?\s+\d{1,3}\.\s*|SECTION\s+[CDE][.:])/gim;
 function extract(examId,source){
  const text=clean(source);
  let start=-1;
