@@ -256,5 +256,31 @@ window.getUniversalMidtermPrintData=function(){
  return {title:"Lớp 10 · "+test.title,groups};
 };
 
+// One student-facing exam route: HSG-style question entry and inline checking.
+// Old /test-N links redirect to the same canonical workspace.
+window.G10MidtermAssessment={
+ load:mtLoad,
+ context:mtContext,
+ explain:mtDeepExplanation,
+ alternatives:q=>MT_ALTERNATIVES[q.id]||[q.answer],
+ unscored:q=>MT_NO_SCORE.has(q.id),
+ grade:(q,input)=>{
+  const excluded=MT_NO_SCORE.has(q.id);
+  const right=!excluded&&(q.options?(MT_ALTERNATIVES[q.id]||[q.answer]).includes(String(input||"")):mtWrittenCorrect(q,String(input||"")));
+  return {right,excluded,correctAnswer:mtAnswerLabel(q),accepted:MT_ALTERNATIVES[q.id]||[q.answer]};
+ },
+ submit:(test,score,d)=>{
+  if(!LearningCore.userId()||d.recorded||!test.questions.every(q=>d.checked[q.id]))return;
+  d.recorded=true;
+  window.G10MidtermProgress?.save(test.id,d);
+  LearningCore.submitPractice({
+   category:"exam",slug:mtKey(test.id),correct:score,
+   total:test.questions.filter(q=>!MT_NO_SCORE.has(q.id)).length,
+   duration:Math.max(0,Math.round((Date.now()-d.startedAt)/1000)),
+   submissionId:d.submissionId,
+   details:{checked:test.questions.length,sourceQuestions:test.questions.length}
+  }).catch(e=>console.warn("Midterm result queued for retry",e));
+ }
+};
 window.renderG10MidTermHome=mtHome;
-window.renderG10MidTermTest=mtOpenTest;
+window.renderG10MidTermTest=id=>{location.hash="grade-10/mid-term-test/source-test-"+id};
