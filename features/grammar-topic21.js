@@ -197,7 +197,6 @@ function feedback(q,pick,wasCorrect,kind){
   }
   const usefulClue=note.clue&&
     !/^(Chú ý từ\/cụm đầu câu|Đọc toàn bộ câu, xác định mệnh đề)/.test(note.clue);
-  const extraRule=q.why&&q.why.trim()!==rule.trim();
   const isFormula=q.id==="p16";
   return '<div class="g21-feedback '+(good?"good":"bad")+' g21-explanation-v2" role="status">'+
     '<strong>'+(good?'✓ Chính xác':'✕ Chưa đúng')+'</strong>'+
@@ -208,7 +207,6 @@ function feedback(q,pick,wasCorrect,kind){
     '<details class="g21-more g21-explain-more"><summary>Xem giải thích chi tiết <span aria-hidden="true">⌄</span></summary>'+
     '<div class="g21-more-body">'+
     (usefulClue?'<div class="g21-v2-reason"><b>1. Dấu hiệu trong đề</b><p>'+esc(note.clue)+'</p></div>':"")+
-    (extraRule?'<div class="g21-v2-reason"><b>'+(usefulClue?'2.':'1.')+' Quy tắc cần nhớ</b><p>'+esc(q.why)+'</p></div>':"")+
     '<h4 class="g21-wrong-heading">Phân tích từng lựa chọn A–D</h4>'+
     order.map(i=>explanationChoice(q,i,order)).join("")+
     (q.pitfall?'<p class="g21-v2-pitfall"><b>Lỗi dễ nhầm:</b> '+esc(q.pitfall)+'</p>':"")+
