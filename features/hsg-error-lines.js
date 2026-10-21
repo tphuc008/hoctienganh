@@ -33,7 +33,14 @@ function extract(examId,source){
   if(stop.index<60)continue;
   end=stop.index;break;
  }
- const selected=tail.slice(0,Math.min(end,7000)).trim();
+ let selected=tail.slice(0,Math.min(end,7000)).trim();
+ // Source OCR in Đại học Vinh misread the printed line labels 5 as "=)"
+ // and 11 as "81". Neighbouring 4/6 and 10/12 confirm their positions.
+ // Correct ONLY the line markers, never the underlying question words.
+ if(examId==="dh-vinh"){
+  selected=selected.replace(/(?:^|\n)([ \t]*)=\)[ \t]+(?=Benedict Cumberbatch)/i,"\n$15 ");
+  selected=selected.replace(/(?:^|\n)([ \t]*)81[ \t]+(?=outstanding performance)/i,"\n$111 ");
+ }
  if(selected.length<75)return {text:"",verified:false,reason:"Đoạn Error Correction được trích xuất quá ngắn để xác minh."};
  return {text:selected,verified:true,reason:""};
 }
@@ -58,7 +65,7 @@ function numbered(text){
    else if(nxt.n<expected&&nxt.n!==0)break;
    else if(nxt.n>expected)break;
   }
-  if(seq.length<4)continue;
+  if(seq.length<6)continue;
   const lines=seq.map((item,i)=>{
    const limit=i+1<seq.length?seq[i+1].index:src.length;
    const pieces=[item.first,...src.slice(item.index+1,limit)].map(x=>x.trim()).filter(Boolean);
