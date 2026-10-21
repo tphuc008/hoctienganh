@@ -180,6 +180,7 @@ function feedback(q,pick,wasCorrect,kind){
       '<p>'+esc(specific||"Kiểm tra lại dấu hiệu đảo ngữ trong câu.")+'</p>'+
       '<p class="g21-feedback-hint">'+esc(note.clue||"Hãy tìm cụm đứng đầu và thì của mệnh đề.")+'</p>':
       '<p class="g21-feedback-short">'+(good?"":'<b>Bạn chọn:</b> '+esc(selected)+'. ')+esc(note.rule||q.why)+'</p>'+
+      '<p class="g21-immediate-answer"><b>Đáp án đúng:</b> '+esc(q.options[q.correct])+'</p>'+
       '<details class="g21-more g21-explain-more"><summary>Xem lời giải chi tiết <span aria-hidden="true">⌄</span></summary>'+
       '<div class="g21-more-body">'+
       '<div class="g21-explanation-steps">'+
@@ -227,7 +228,10 @@ function question(q,num,kind){
   const submitted=guided?Boolean(state.guided[q.id]?.correct):repair?Boolean(state.repairs[q.id]?.correct):independent?state.practiceSubmitted:mastery?state.masterySubmitted:Boolean(reviewState?.submitted);
   const selected=Number.isInteger(val)?val:-1;
   const field=guided?"guided":repair?"repairs":kind;
-  const reveal=guided||repair?(Number.isInteger(val)):(submitted);
+  // Practice and Review show the result of the first answer. Mastery remains a test.
+  const instant=independent||review;
+  const reveal=guided||repair||instant?Number.isInteger(val):submitted;
+  const locked=submitted||(instant&&Number.isInteger(val));
   const complete=guided?state.guided[q.id]?.correct:repair?state.repairs[q.id]?.correct:false;
   return '<article class="g21-question" id="g21-'+esc(q.id)+'">'+
     '<div class="g21-qmeta"><span>QUESTION '+String(num).padStart(2,"0")+'</span><span>'+esc(d.skills.find(s=>s.id===q.skill)?.title||q.skill)+'</span></div>'+
@@ -235,7 +239,9 @@ function question(q,num,kind){
     '<div class="g21-options" role="group" aria-label="Đáp án câu '+num+'">'+optionOrder(q).map((originalIndex,displayIndex)=>{
       const opt=q.options[originalIndex];
       const mark=selected===originalIndex;
-      return '<button type="button" class="g21-option'+(mark?" selected":"")+'" data-g21="answer" data-kind="'+field+'" data-id="'+esc(q.id)+'" data-index="'+originalIndex+'" aria-pressed="'+mark+'"'+(submitted?' disabled aria-disabled="true"':"")+'>'+
+      const graded=reveal&&!guided&&!repair;
+      const status=graded?(originalIndex===q.correct?" is-correct":mark?" is-wrong":""):"";
+      return '<button type="button" class="g21-option'+(mark?" selected":"")+status+'" data-g21="answer" data-kind="'+field+'" data-id="'+esc(q.id)+'" data-index="'+originalIndex+'" aria-pressed="'+mark+'"'+(locked?' disabled aria-disabled="true"':"")+'>'+
       '<span class="g21-letter">'+String.fromCharCode(65+displayIndex)+'</span><span>'+esc(opt)+'</span></button>';
     }).join("")+'</div>'+
     (reveal?feedback(q,selected,complete,kind):"")+
@@ -337,7 +343,7 @@ function pageNav(kind,total){
   const question=(kind==="practice"?d.practice:kind==="mastery"?d.mastery:d.review)[current];
   const selected=Number.isInteger(state[kind]?.[question?.id]);
   const submitted=Boolean(state[kind+"Submitted"]);
-  return '<nav class="g21-page-nav" aria-label="Điều hướng câu hỏi"><span>Câu '+(current+1)+' / '+count+'</span>'+
+  return '<nav class="g21-page-nav g21-fixed-page-nav" aria-label="Điều hướng câu hỏi"><span>Câu '+(current+1)+' / '+count+'</span>'+
     '<div class="g21-page-controls">'+
       '<button class="g21-btn" data-g21="page" data-kind="'+kind+'" data-page="'+(current-1)+'"'+(current===0?" disabled":"")+'>← Trước</button>'+
       '<button class="g21-btn primary" data-g21="page" data-kind="'+kind+'" data-page="'+(current+1)+'"'+(current===count-1||(!selected&&!submitted)?" disabled":"")+'>Câu tiếp →</button>'+
@@ -355,7 +361,7 @@ function exam(kind){
     '<h2>'+(master?"Kiểm tra mức độ thành thạo":"Luyện tập vận dụng")+'</h2>'+
     '<p class="g21-lead">'+(master?
        items.length+" câu mới · Cần đúng từ "+Math.ceil(items.length*0.8)+"/"+items.length+" cùng các kỹ năng cốt lõi (gồm So/Neither/Nor).":
-       items.length+" câu tổng hợp · Lời giải hiện sau khi nộp.")+'</p>'+
+       items.length+" câu luyện tập · Chọn một đáp án để xem lời giải ngay. Mỗi câu chỉ được trả lời một lần.")+'</p>'+
     (!submitted?'<div class="g21-assessment-progress"><span>Đã trả lời <strong>'+summary.answered+'/'+summary.total+'</strong> câu</span>'+
       '<div class="g21-progress" aria-label="Đã trả lời '+summary.answered+' trên '+summary.total+' câu"><span style="width:'+Math.round(summary.answered/summary.total*100)+'%"></span></div></div>':
       scoreHeader(items,picks,kind))+
@@ -449,7 +455,7 @@ function reviewNavigator(items,set){
       return '<button type="button" class="g21-number-btn'+(picked?' answered':'')+(i===page?' active':'')+'" data-g21="review-page" data-page="'+i+'"'+
         (usable?'':' disabled')+(i===page?' aria-current="step"':'')+' aria-label="Câu '+(i+1)+(picked?', đã trả lời':'')+'">'+(i+1)+'</button>';
     }).join("")+'</nav>'+
-    '<div class="g21-page-nav g21-review-page-nav"><span>Câu '+(page+1)+' / '+items.length+'</span><div class="g21-page-controls">'+
+    '<div class="g21-page-nav g21-review-page-nav g21-fixed-page-nav"><span>Câu '+(page+1)+' / '+items.length+'</span><div class="g21-page-controls">'+
       '<button type="button" class="g21-btn" data-g21="review-page" data-page="'+(page-1)+'"'+(page===0?' disabled':'')+'>← Câu trước</button>'+
       '<button type="button" class="g21-btn primary" data-g21="review-page" data-page="'+(page+1)+'"'+(page===items.length-1||(!answered&&!set.submitted)?' disabled':'')+'>Câu tiếp →</button>'+
     '</div></div></div>';
@@ -470,7 +476,7 @@ function review(){
   }
   const active=state.activeReviewSet;
   const base='<span class="g21-label">REVIEW · 2 SETS</span><h2>Ôn tập Đảo ngữ</h2>'+
-    '<p class="g21-lead">Tự chọn một trong hai set 32 câu. Hai bộ có nội dung khác nhau nhưng cùng phạm vi kiến thức, độ khó tương đương. Tiến độ và điểm được lưu riêng.</p>';
+    '<p class="g21-lead">Tự chọn Set 1 hoặc Set 2, mỗi bộ 32 câu. Chọn một đáp án để xem đúng/sai ngay và giải thích chi tiết; mỗi câu chỉ trả lời một lần. Tiến độ hai set được lưu riêng.</p>';
   if(!ids.includes(active))return '<article class="g21-main g21-review">'+base+
     reviewSetsOverview()+
     '<p class="g21-foot">Có thể trở lại ôn sau 1, 3 và 7 ngày (mốc tham khảo). Website chưa tự gửi thông báo nhắc lịch.</p></article>';
@@ -481,7 +487,7 @@ function review(){
     '<div class="g21-actions g21-review-back"><button type="button" class="g21-btn" data-g21="review-choose">← Chọn set khác</button></div>'+
     '<span class="g21-label">REVIEW SET '+(active==="set1"?1:2)+'</span>'+
     '<h2>Ôn tập · Set '+(active==="set1"?1:2)+'</h2>'+
-    '<p class="g21-lead">32 câu · 8 nhóm kiến thức · Đáp án và lời giải chỉ hiện sau khi nộp.</p>'+
+    '<p class="g21-lead">32 câu · 8 nhóm kiến thức · Chọn đáp án để xem đúng/sai và giải thích ngay. Dùng thanh điều hướng phía dưới để qua câu mà không phải cuộn trang.</p>'+
     (!set.submitted?'<div class="g21-assessment-progress"><span>Đã trả lời <strong>'+sc.answered+'/'+sc.total+'</strong> câu</span>'+
        '<div class="g21-progress" aria-label="Đã trả lời '+sc.answered+' trên '+sc.total+' câu"><span style="width:'+Math.round(100*sc.answered/sc.total)+'%"></span></div></div>':
        '<div class="g21-note form"><b>REVIEW RESULT · SET '+(active==="set1"?1:2)+'</b><span class="g21-score">'+sc.correct+'/'+sc.total+'</span><p>Đúng '+Math.round(100*sc.correct/sc.total)+'% · Xem lại từng câu và nhóm kiến thức còn yếu.</p></div>')+
@@ -491,7 +497,7 @@ function review(){
     reviewNavigator(items,set)+
     '<div class="g21-actions g21-submit-actions">'+
     (!set.submitted?
-      '<button class="g21-btn primary" data-g21="submit" data-kind="review"'+(sc.answered!==sc.total?' disabled':'')+'>Nộp Set '+(active==="set1"?1:2)+' và xem giải thích →</button>':
+      '<button class="g21-btn primary" data-g21="submit" data-kind="review"'+(sc.answered!==sc.total?' disabled':'')+'>Hoàn thành Set '+(active==="set1"?1:2)+' và xem tổng kết →</button>':
       '<button class="g21-btn" data-g21="restart-review">Làm lại Set '+(active==="set1"?1:2)+'</button>')+
     '</div></article>';
 }
@@ -524,7 +530,12 @@ function render(preserveScroll){
   if(opened.length&&mount.querySelectorAll){
     mount.querySelectorAll(".g21-repair").forEach(node=>{if(opened.includes(node.getAttribute("data-g21-skill")))node.open=true;});
   }
-  if(preserveScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
+  if(preserveScroll==="question"){
+    const target=mount.querySelector?.(".g21-assessment > .g21-question, .g21-review > .g21-question");
+    if(target?.scrollIntoView)target.scrollIntoView({block:"start"});
+    else window.scrollTo(0,y);
+  }else if(preserveScroll)window.scrollTo(0,y);
+  else window.scrollTo(0,0);
 }
 function openRoute(hash,session){
   if(!session?.user?.id){mount.style.display="block";mount.innerHTML='<div class="empty">Không thể xác thực tài khoản giáo viên.</div>';return;}
@@ -545,14 +556,14 @@ function updateAnswer(kind,id,pick){
     if(old?.correct)return;
     state.repairs[id]={pick:pick,correct:pick===q.correct,attempts:(old?.attempts||0)+1};
   }else if(kind==="practice"&&!state.practiceSubmitted){
-    if(!d.practice.some(x=>x.id===id))return;
+    if(!d.practice.some(x=>x.id===id)||Number.isInteger(state.practice[id]))return;
     state.practice[id]=pick;
   }else if(kind==="mastery"&&!state.masterySubmitted){
     if(!d.mastery.some(x=>x.id===id))return;
     state.mastery[id]=pick;
   }else if(kind==="review"){
     const set=state.reviewSets?.[state.activeReviewSet];
-    if(!set||set.submitted||!d.reviewSets?.[state.activeReviewSet]?.some(x=>x.id===id))return;
+    if(!set||set.submitted||Number.isInteger(set.answers[id])||!d.reviewSets?.[state.activeReviewSet]?.some(x=>x.id===id))return;
     set.answers[id]=pick;
   }else return;
   save();render(true);
@@ -579,7 +590,7 @@ mount.addEventListener("click",function(e){
     if(!set.submitted&&!Number.isInteger(set.answers[items[n].id])&&n!==current){
       if(n!==current+1||!Number.isInteger(set.answers[items[current].id]))return;
     }
-    set.page=n;save();render(false);return;
+    set.page=n;save();render("question");return;
   }
   if(a==="lesson"){
     state.lesson=Number(btn.dataset.index)||0;state.tab="learn";save();
@@ -621,7 +632,7 @@ mount.addEventListener("click",function(e){
     const n=Number(btn.dataset.page);
     if(!Number.isInteger(n)||n<0||n>=items.length)return;
     if(!state[kind+"Submitted"]&&!Number.isInteger(state[kind]?.[items[n].id])&&n!==(Number(state.pages[kind])||0))return;
-    state.pages[kind]=n;save();render(false);return;
+    state.pages[kind]=n;save();render("question");return;
   }
   if(a==="page"){
     const kind=btn.dataset.kind;
@@ -632,7 +643,7 @@ mount.addEventListener("click",function(e){
     const current=Math.max(0,Math.min(count-1,Number(state.pages[kind])||0));
     const question=(kind==="practice"?d.practice:kind==="mastery"?d.mastery:d.review)[current];
     if(next>current&&!state[kind+"Submitted"]&&!Number.isInteger(state[kind]?.[question?.id]))return;
-    state.pages[kind]=next;save();render(false);return;
+    state.pages[kind]=next;save();render("question");return;
   }
   if(a==="answer"){updateAnswer(btn.dataset.kind,btn.dataset.id,Number(btn.dataset.index));return;}
   if(a==="submit"){
