@@ -8,19 +8,33 @@ const plain=value=>String(value==null?"":value).trim();
 const paragraphs=value=>(Array.isArray(value)?value:[value]).filter(Boolean).map(x=>'<p>'+h(x)+'</p>').join("");
 const anchor=(value,label)=>plain(value)?'<p><strong>'+h(label)+':</strong> '+h(value)+'</p>':"";
 const optionWord=(o)=>plain(o?.word||o?.label||"");
+/* Presentation guardrail: strip only identified tautological filler.
+   Do not replace it with a newly invented explanation. Keep source-specific
+   facts intact; incomplete items are visibly marked for editorial review. */
+const boilerplate=[
+ /Đây là lý do lựa chọn này khác nghĩa hoặc khác chức năng với “[^”]*” trong chính ngữ cảnh của câu\.?/gi,
+ /Khi làm câu tương tự, nhận diện clue trước, sau đó kiểm tra từ loại, cấu trúc, collocation và phạm vi nghĩa; không chọn đáp án chỉ vì có từ xuất hiện trong đoạn\.?/gi,
+ /Ở đây không chỉ có đúng từ loại, mà còn đúng quan hệ nghĩa và cách kết hợp trong câu\.?/gi,
+ /Không chỉ xét một từ riêng lẻ: cần kiểm tra quan hệ nghĩa hoặc cấu trúc với toàn bộ câu\.?/gi,
+ /Từ này có vẻ hợp vì nằm gần cùng semantic field, nhưng ngữ cảnh đang yêu cầu “[^”]*”; trọng tâm của [^.]* không trùng hoàn toàn với yêu cầu đó, nên kém chính xác hơn [^.]*\.?/gi,
+ /Đây là cách diễn đạt khớp yêu cầu hơn các phương án không mang đúng chức năng hoặc không được đoạn văn hỗ trợ\.?/gi
+];
+const hasFiller=v=>boilerplate.some(re=>{re.lastIndex=0;return re.test(plain(v))});
+const clean=v=>{let x=plain(v);for(const re of boilerplate){re.lastIndex=0;x=x.replace(re,"")}return x.replace(/\s+\./g,".").replace(/\.{2,}/g,".").replace(/\s{2,}/g," ").trim()};
+
 function validated(s){
  const options=Array.isArray(s.options)?s.options:[];
- const hasOptions=options.length===4&&options.every(x=>plain(x.analysis));
+ const hasOptions=options.length===4&&options.every(x=>clean(x.analysis));
  const hasExamples=Array.isArray(s.examples)&&s.examples.length===4&&
    s.examples.every((x,i)=>plain(x.en)&&plain(x.vi)&&(!options[i]||plain(x.word)===plain(options[i].word)));
  const evidence=Array.isArray(s.evidence)?s.evidence.filter(Boolean):[s.evidence].filter(Boolean);
  const requirements=plain(s.quickReason)&&evidence.length>0&&plain(s.reasoning||s.analysisHtml||s.legacyHtml);
  const vocabulary=s.type==="vocabulary";
  return {options,hasOptions,hasExamples,evidence,
-  status:requirements&&(!options.length||hasOptions)&&(!vocabulary||hasExamples)&&!s.needsReview?"ready":"needs_review"};
+  status:requirements&&(!options.length||hasOptions)&&(!vocabulary||hasExamples)&&!s.needsReview&&!([s.quickReason,s.reasoning,s.remember,...options.map(x=>x.analysis)].some(hasFiller))?"ready":"needs_review"};
 }
 function render(spec,opts){
- const s=spec||{},o=opts||{},v=validated(s),answer=plain(s.answer);
+ const raw=spec||{},s={...raw,quickReason:clean(raw.quickReason),reasoning:clean(raw.reasoning),remember:clean(raw.remember),application:clean(raw.application),options:(raw.options||[]).map(x=>({...x,analysis:clean(x.analysis)}))},o=opts||{},v=validated(raw),answer=plain(s.answer);
  const print=!!o.print;
  const warn=v.status==="needs_review"?'<p class="ev1-review-label">Một phần lời giải đang cần rà soát hoặc bổ sung bằng chứng. Nội dung hiện có được giữ nguyên, không tự tạo phần còn thiếu.</p>':"";
  const evidence=v.evidence.length?v.evidence.map(x=>typeof x==="string"?paragraphs(x):
@@ -56,7 +70,7 @@ function vocab(q,d){
   reasoning:d.mode==="semantic_precision"?(d.step1?.[2]||""):(d.contrast||""),
   options:opts,examples,translation:d.translation||"",application:d.usage||d.family||"",
   remember:d.remember||"",needsReview:isVocabulary&&(!opts.length||examples.length!==4)||
-    !!(d.options||[]).find(x=>/Từ này có vẻ hợp vì nằm gần cùng semantic field/.test(x.analysis||""))};
+    !!d.requiresReview||!!(d.options||[]).find(x=>hasFiller(x.analysis))};
 }
 function lesson(q,k){
  const opts=(k.choices||k.options||[]).map((x,i)=>({word:q.options[i],meaning:x.meaning||"",analysis:x.analysis||x.explanation||"",correct:i===k.correctIndex}));
@@ -78,7 +92,7 @@ function midterm(q,d){
  const ex=(d?.examples||[]).map((x,i)=>({word:q.options?.[i]||x.word||"",en:x.en,vi:x.vi}));
  return {type:"midterm",answer:q.answer+(q.options?" — "+(q.options["ABCD".indexOf(q.answer)]||""):""),
   quickReason:d?.step1?.[1]||d?.step1?.[0]||"",evidence:d?.step1?.length?[d.step1[0]]:[],
-  reasoning:(d?.step1||[]).slice(1).join(" "),options:opts,examples:ex,remember:d?.remember||"",application:q.warning?"Lưu ý đề gốc: "+q.warning:""};
+  reasoning:(d?.step1||[]).slice(1).join(" "),options:opts,examples:ex,remember:d?.remember||"",application:q.warning?"Lưu ý đề gốc: "+q.warning:"",needsReview:!!d?.needsReview};
 }
 function marketing(q){
  return {type:"reading",answer:q.answer,quickReason:q.why||"",
