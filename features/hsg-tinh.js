@@ -19,7 +19,23 @@ const CACHE=new Map();
 const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null};
 const $=id=>document.getElementById(id);
 const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-const groups=exam=>exam.groups||[{id:"main",name:"Toàn bộ đề",start:exam.start,end:exam.end}];
+
+/* Part-level exam map: a question's format is determined by the source task, never by a manual MCQ/text toggle. */
+const HSG_PARTS={
+ "hai-phong":[["g1","Grammar & Vocabulary",21,40,"mcq",[2,3]],["g2","Guided Cloze",41,50,"mcq",[3,4]],["e","Error Correction",51,55,"error",[4]],["wf","Word Formation",56,60,"word",[4]],["oc","Reading · Open Cloze",61,75,"fill",[5]],["rc","Reading · Cloze",76,80,"mcq",[5]],["r","Reading Comprehension",81,90,"mcq",[6,7]],["w","Sentence Transformation",91,100,"rewrite",[7]],["essay","Paragraph Writing",1,1,"essay",[7]]],
+ "dh-vinh":[["b1","Lexico-Grammar",1,20,"mcq",[3,5]],["b2","Error Correction",21,30,"error",[5]],["b3","Word Formation",31,40,"word",[4,5]],["c1","Reading · Freelancing",1,10,"mcq",[4,6]],["c2","Reading · YES / NO / NOT GIVEN",11,15,"ynng",[6,7]],["c3","Reading · Sentence Completion",16,18,"fill",[7]],["c4","Reading · Matching",19,23,"match",[7,8]],["c5","Reading · Telemedicine",24,33,"fill",[8]],["c6","Reading · Missing Sentences",34,40,"match",[8,9]],["d","Sentence Transformation",1,10,"rewrite",[9]],["essay","Essay Writing",1,1,"essay",[9]]],
+ "phu-tho":[["g","Lexico-Grammar",21,35,"mcq",[3]],["wf","Word Formation",36,45,"word",[4]],["e","Error Correction",46,50,"error",[4]],["r1","Reading · Cloze",51,60,"mcq",[5]],["r2","Reading · Open Cloze",61,70,"fill",[5]],["r3","Reading Comprehension",71,80,"mcq",[6,7]],["w","Sentence Transformation",81,90,"rewrite",[7,8]],["essay","Paragraph Writing",1,1,"essay",[8]]],
+ "son-la":[["g1","Green Transportation",26,30,"mcq",[3,4]],["g2","Paperless Exams",31,40,"mcq",[4,5]],["wf","Word Formation",41,45,"word",[5]],["pr","Prepositions & Articles",46,50,"fill",[5]],["oc","Open Cloze",51,55,"fill",[5,6]],["m","Matching Sections",56,60,"match",[6]],["r","Reading · AI in English Learning",61,67,"mcq",[6,7,8]],["h","Matching Headings",68,75,"match",[8,9]],["w","Sentence Transformation",76,80,"rewrite",[9]],["email","Email Writing",1,1,"essay",[9]],["essay","Paragraph Writing",1,1,"essay",[9]]],
+ "tay-ninh":[["g","Grammar & Vocabulary",21,30,"mcq",[2,3]],["e","Error Correction",31,35,"error",[3]],["wf","Word Formation",36,45,"word",[3]],["c","Reading · Cloze",46,53,"mcq",[3,4]],["oc","Reading · Open Cloze",54,61,"fill",[4]],["r","Reading Comprehension",62,67,"mcq",[4,5]],["m","Reading · Matching",68,75,"match",[6]],["w","Sentence Transformation",76,85,"rewrite",[6,7]],["essay","Essay Writing",1,1,"essay",[7]]],
+ "thanh-hoa":[["p","Phonetics & Stress",21,25,"mcq",[2]],["v","Verb Forms",26,30,"word",[3]],["wf","Word Formation",31,35,"word",[3]],["e","Error Correction",36,40,"error",[3]],["g","Grammar & Vocabulary",41,50,"mcq",[4]],["oc","Reading · Open Cloze",51,58,"fill",[4,5]],["c","Reading · Cloze",59,66,"mcq",[5]],["r","Reading · Digital Amnesia",67,74,"mcq",[5,6]],["m","Reading · Missing Sentences",75,80,"match",[7]],["w","Sentence Transformation",81,90,"rewrite",[7,8]],["essay","Essay Writing",1,1,"essay",[8]]],
+ "phan-boi-chau":[["b1","Lexico-Grammar · MCQ",1,10,"mcq",[3]],["b2","Lexico-Grammar · Error Correction",1,10,"error",[4]],["b3","Lexico-Grammar · Word Formation",1,10,"word",[4,5]],["c1","Reading · Urban Living",1,10,"mcq",[5]],["c2","Reading · Human Memory",1,10,"fill",[6]],["c3","Reading · Chronotypes",1,8,"mcq",[6,7]],["c4","Reading · Matching Headings",1,6,"match",[8,9]],["c5","Reading · TRUE / FALSE / NOT GIVEN",7,12,"tfng",[8,9]],["d1","Sentence Transformation",1,5,"rewrite",[10]],["d2","Editorial Response",1,1,"essay",[10,11]],["d3","Essay Writing",1,1,"essay",[11,12]]],
+ "ptnk":[["139","Mã đề 139",1,130,"mixed",[1,2,3,4,5,6,7,8,9,10]],["240","Mã đề 240",1,130,"mixed",[11,12,13,14,15,16,17,18,19,20]],["306","Mã đề 306",1,130,"mixed",[21,22,23,24,25,26,27,28,29,30]],["4","Mã đề thứ tư",1,130,"mixed",[31,32,33,34,35,36,37,38,39,40]]]
+};
+function mappedGroups(exam){
+ return (HSG_PARTS[exam.id]||[]).map(([id,name,start,end,kind,pages])=>({id,name,start,end,kind,pages}));
+}
+
+const groups=exam=>mappedGroups(exam);
 const range=g=>Array.from({length:g.end-g.start+1},(_,i)=>g.start+i);
 const key=q=>state.group+":"+q;
 const draftSlug=exam=>"hsg-tinh/"+exam.id;
@@ -38,7 +54,7 @@ function meta(exam){return '<span class="hsg-chip">'+esc(exam.year)+'</span><spa
 function progressFor(exam){
  const draft=readDraft(exam), a=draft.answers||{};
  const max=groups(exam).reduce((t,g)=>t+(g.end-g.start+1),0);
- const done=Object.keys(a).filter(k=>String(a[k]?.value||"").trim()).length;
+ const done=Object.keys(a).filter(k=>meaningfulAnswer(a[k])&&groups(exam).some(g=>k.startsWith(g.id+":"))).length;
  return {done,max,pct:Math.round(100*done/Math.max(max,1))};
 }
 function opening(){
@@ -73,72 +89,139 @@ async function getExamData(id){
  CACHE.set(id,result);
  return result;
 }
-function answerCount(){
- const a=state.answers;
- return Object.entries(a).filter(([k,v])=>String(v?.value||"").trim()&&k.startsWith(state.group+":")).length;
+
+function actualKind(g,n){
+ if(g.kind!=="mixed")return g.kind;
+ if(n<=60)return "mcq";
+ if(n<=80)return "fill";
+ if(n<=88)return "mcq";
+ if(n<=95)return "match";
+ if(n<=100)return "tfng";
+ if(n<=105)return "fill";
+ if(n<=115)return "word";
+ if(n<=120)return "error";
+ return "rewrite";
 }
+const HSG_HEADER=/(?:^|\n)[ \t]*(?:Question\s+|QUESTION\s+)?(\d{1,3})[.,)]\s*(?=\S)/g;
+function sourcePages(g){return state.data.pages.filter(p=>g.pages.includes(Number(p.sourcePage)))}
+function parseOptions(fragment){
+ const hits=[],re=/(?:^|\s)([A-D])[.)]\s+(?=\S)/g;let m;
+ while((m=re.exec(fragment)))hits.push({l:m[1],s:m.index,e:re.lastIndex});
+ for(let i=0;i<hits.length-3;i++){
+  const h=hits.slice(i,i+4);
+  if(h.map(x=>x.l).join("")!=="ABCD")continue;
+  const options=h.map((x,j)=>fragment.slice(x.e,j===3?Math.min(fragment.length,x.e+500):h[j+1].s).trim());
+  options[3]=options[3].split(/\n(?:Your answers|YOUR ANSWERS|Part \d|SECTION [A-E]|Question\s+\d+|\d+\.\s)/i)[0].trim();
+  if(options.every(x=>x.length&&x.length<=400))return {first:h[0].s,options};
+ }
+ return null;
+}
+function sourceSnippet(corpus,n){
+ for(const p of corpus){const re=new RegExp("\\(\\s*"+n+"\\s*\\)\\s*[_–—]{2,}");const m=re.exec(p.t);
+  if(m)return p.t.slice(Math.max(0,m.index-160),Math.min(p.t.length,m.index+170)).replace(/\s+/g," ").trim();
+ }
+ return "";
+}
+function essayStem(g){
+ const txt=sourcePages(g).map(p=>p.text).join("\n");
+ const special={d2:/PART 2\.\s*A popular national/i,d3:/PART 3\.\s*Write an essay/i,email:/PART 2\.\s*EMAIL WRITING/i};
+ const match=(special[g.id]&&special[g.id].exec(txt))||/(?:Part \d+\.\s*Paragraph writing|Part \d+\.?\s*Write an essay|III\. Essay writing|PART 3\. PARAGRAPH WRITING|Some parents believe|Write an essay)/i.exec(txt);
+ if(!match)return "Viết bài theo hướng dẫn trong đề gốc ở phần bên dưới.";
+ return txt.slice(match.index,match.index+950).split(/(?:_{12,}|[-—]{7,}\s*HẾT)/i)[0].trim();
+}
+function getQuestion(g,n){
+ const type=actualKind(g,n);
+ if(type==="essay")return {type,stem:essayStem(g)};
+ const pages=sourcePages(g).map(p=>({p:p.sourcePage,t:String(p.text||"").replace(/[\u200b\ufeff]/g,"")}));
+ const choices=[];
+ for(const p of pages){
+  const re=new RegExp(HSG_HEADER.source,"g"),matches=[...p.t.matchAll(re)];
+  for(let i=0;i<matches.length;i++){const match=matches[i];if(Number(match[1])!==n)continue;
+   const fragment=p.t.slice(match.index+match[0].length,matches[i+1]?.index??p.t.length).trim();
+   const op=parseOptions(fragment),stem=(op?fragment.slice(0,op.first):fragment).split(/\n(?:YOUR ANSWERS|Your answers)/)[0].trim();
+   const score=(op?30:0)+Math.min(stem.length/20,30)-(fragment.length>1500?15:0);
+   if(stem||op)choices.push({type,stem:stem.slice(0,900),options:op?.options||null,score});
+  }
+ }
+ choices.sort((a,b)=>b.score-a.score);
+ if(choices[0]){
+  const q=choices[0];if(!q.stem&&q.options)q.stem=sourceSnippet(pages,n)||"Choose the correct option for gap ("+n+").";
+  return q;
+ }
+ for(const p of pages){
+  const m=new RegExp("\\(\\s*"+n+"\\s*(?:\\.\\s*[A-Z]+)?\\s*\\)\\s*[_–—]{2,}").exec(p.t);
+  if(m)return {type,stem:p.t.slice(Math.max(0,m.index-140),Math.min(p.t.length,m.index+190)).replace(/\s+/g," ").trim()};
+ }
+ return {type,stem:""};
+}
+function meaningfulAnswer(v){return !!(v&&(String(v.value||"").trim()||String(v.error||"").trim()||String(v.correction||"").trim()))}
+function answerCount(){return range(groups(state.exam).find(x=>x.id===state.group)).filter(n=>meaningfulAnswer(state.answers[key(n)])).length}
 function renderExam(){
- const e=state.exam, data=state.data, g=groups(e).find(x=>x.id===state.group)||groups(e)[0];
- const max=g.end-g.start+1;
- const done=answerCount();
- const pct=Math.round(done*100/max);
- const pageCount=data.pages.length;
- if(state.page>=pageCount)state.page=pageCount-1;
- const text=data.pages[state.page]?.text||"";
- const root=$("pageMount");
- root.style.display="block";
- root.innerHTML='<div class="hsg-root hsg-exam-root">'+
- '<div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">BÀI LUYỆN TẬP · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1>'+
- '<p>'+esc(e.subtitle)+' · Không bao gồm Listening · Chưa có đáp án và giải thích</p></div>'+
- '<div class="hsg-exam-head-actions"><button id="hsg-print" type="button" class="hsg-light-btn">In phiếu trả lời</button>'+
- '<button id="hsg-export" type="button" class="hsg-main-btn">Xuất câu trả lời</button></div></div>'+
- '<div class="hsg-exam-progress"><div><b>'+done+'/'+max+'</b> câu đã trả lời <span id="hsg-save-status">Tự động lưu câu trả lời</span></div>'+
- '<div class="hsg-progress-track"><i style="width:'+pct+'%"></i></div><strong>'+pct+'%</strong></div>'+
- (groups(e).length>1?'<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===state.group?'active':'')+'">'+esc(x.name)+'</button>').join("")+'</div>':"")+
- '<div class="hsg-layout"><section class="hsg-paper-panel" aria-label="Nội dung đề thi">'+
- '<div class="hsg-paper-toolbar"><div><b>Đề gốc · Trang '+(state.page+1)+'/'+pageCount+'</b><small>Trang '+esc(data.pages[state.page].sourcePage)+' trong tài liệu</small></div>'+
- '<div class="hsg-page-actions"><button type="button" id="hsg-prev" '+(state.page===0?'disabled':'')+' aria-label="Trang trước">←</button>'+
- '<select id="hsg-page" aria-label="Chọn trang">'+data.pages.map((p,i)=>'<option value="'+i+'" '+(state.page===i?'selected':'')+'>Trang '+(i+1)+'</option>').join("")+'</select>'+
- '<button type="button" id="hsg-next" '+(state.page>=pageCount-1?'disabled':'')+' aria-label="Trang tiếp">→</button></div></div>'+
- '<div class="hsg-paper" id="hsg-paper" tabindex="0"><div class="hsg-paper-eyebrow">ENGLISH SPECIALIZED ENTRANCE EXAM</div>'+
- '<pre>'+esc(text)+'</pre></div>'+
- '<div class="hsg-paper-footer">Nội dung được chuyển từ tài liệu đề gốc. Đối chiếu kỹ công thức, dấu câu và sơ đồ trong bản gốc trước khi sử dụng chính thức.</div>'+
- '</section>'+
- '<aside class="hsg-answer-panel" aria-label="Phiếu trả lời"><div class="hsg-answer-title"><div><b>Phiếu trả lời</b><p>Chọn số câu bên dưới</p></div><span class="hsg-answer-count">'+done+'/'+max+'</span></div>'+
- '<div class="hsg-legend"><span><i></i>Chưa làm</span><span><i class="answered"></i>Đã trả lời</span><span><i class="flagged"></i>Xem lại</span></div>'+
- '<div class="hsg-number-grid">'+range(g).map(n=>{const q=key(n),v=state.answers[q];return '<button class="hsg-number '+(v?.value?'has-answer ':'')+(state.review[q]?'flagged ':'')+(state.question===n?'selected':'')+'" type="button" data-question="'+n+'" aria-label="Câu '+n+'">'+n+'</button>'}).join("")+'</div>'+
- '<div class="hsg-answer-editor" id="hsg-answer-editor"></div></aside></div></div>';
- root.querySelectorAll("[data-group]").forEach(b=>b.addEventListener("click",()=>{state.group=b.dataset.group;const ng=groups(e).find(x=>x.id===state.group);state.question=ng.start;renderExam();queueSave()}));
- root.querySelectorAll("[data-question]").forEach(b=>b.addEventListener("click",()=>{state.question=Number(b.dataset.question);renderEditor();root.querySelectorAll("[data-question]").forEach(el=>el.classList.toggle("selected",Number(el.dataset.question)===state.question))}));
- $("hsg-prev").onclick=()=>pageTo(state.page-1);
- $("hsg-next").onclick=()=>pageTo(state.page+1);
- $("hsg-page").onchange=ev=>pageTo(Number(ev.target.value));
- $("hsg-export").onclick=exportAnswers;
- $("hsg-print").onclick=()=>window.print();
- renderEditor();
+ const e=state.exam,g=groups(e).find(x=>x.id===state.group)||groups(e)[0];
+ const total=g.end-g.start+1,done=answerCount(),pct=Math.round(done/total*100);
+ const reading=/reading|cloze|matching|telemedicine|freelancing|memory|chronotypes|amnesia/i.test(g.name);
+ const root=$("pageMount");root.style.display="block";
+ root.innerHTML='<div class="hsg-root hsg-modern"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
+ '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Chọn trực tiếp trên câu hỏi · Không có Listening · Chưa có đáp án hoặc giải thích</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
+ '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
+ '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+'</div>'+
+ '<div class="hsg-study-layout'+(reading?' is-reading':'')+'"><main class="hsg-study-main">'+
+ '<section class="hsg-study-question" id="hsg-answer-editor" aria-label="Câu hỏi"></section>'+
+ '<details class="hsg-source-details"'+(reading?' open':'')+'><summary>Đọc đoạn văn / xem nguyên văn đề gốc</summary><div class="hsg-original-pages">'+sourcePages(g).map(p=>'<section><small>Trang '+esc(p.sourcePage)+'</small><pre>'+esc(p.text)+'</pre></section>').join("")+'</div></details>'+
+ '</main><aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside></div></div>';
+ root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{const next=groups(e).find(x=>x.id===b.dataset.group);state.group=next.id;state.question=next.start;renderExam();queueSave()});
+ root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{state.question=Number(b.dataset.question);renderEditor();updateIndicators()});
+ $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=()=>window.print();renderEditor();
 }
-function pageTo(page){if(page<0||page>=state.data.pages.length)return;state.page=page;renderExam();queueSave()}
+function updateIndicators(){
+ const g=groups(state.exam).find(x=>x.id===state.group),done=answerCount(),size=g.end-g.start+1,pct=Math.round(done/size*100);
+ const num=$("hsg-progress-num");if(num)num.textContent=done+"/"+size;
+ const p=$("hsg-progress-pct");if(p)p.textContent=pct+"%";
+ const f=$("hsg-progress-fill");if(f)f.style.width=pct+"%";
+ document.querySelectorAll(".hsg-study-rail [data-question]").forEach(b=>{
+  const n=Number(b.dataset.question);b.classList.toggle("selected",n===state.question);
+  b.classList.toggle("has-answer",meaningfulAnswer(state.answers[key(n)]));
+  b.classList.toggle("flagged",!!state.review[key(n)]);
+ });
+}
 function renderEditor(){
- const num=state.question,k=key(num),r=state.answers[k]||{type:"mcq",value:""};
+ const g=groups(state.exam).find(x=>x.id===state.group),n=state.question,k=key(n),q=getQuestion(g,n),saved=state.answers[k]||{value:""};
  const editor=$("hsg-answer-editor");if(!editor)return;
- editor.innerHTML='<div class="hsg-editor-top"><b>Câu '+num+'</b><button type="button" id="hsg-flag" class="'+(state.review[k]?'active':'')+'">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu')+'</button></div>'+
- '<div class="hsg-mode-choice"><button id="hsg-mcq" type="button" class="'+(r.type==="mcq"?'active':'')+'">Trắc nghiệm</button>'+
- '<button id="hsg-text" type="button" class="'+(r.type==="text"?'active':'')+'">Tự luận / điền từ</button></div>'+
- (r.type==="text"?'<textarea id="hsg-written" rows="4" placeholder="Nhập câu trả lời..." aria-label="Câu trả lời câu '+num+'">'+esc(r.value)+'</textarea>':
- '<div class="hsg-letter-grid">'+["A","B","C","D"].map(v=>'<button type="button" data-choice="'+v+'" class="'+(r.value===v?'selected':'')+'">'+v+'</button>').join("")+'</div>')+
- '<div class="hsg-editor-foot"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-forward">Câu tiếp theo →</button></div>';
- $("hsg-flag").onclick=()=>{state.review[k]=!state.review[k];queueSave();renderExam()};
- ["mcq","text"].forEach(type=>{$("hsg-"+type).onclick=()=>{state.answers[k]={type,value:""};renderEditor();queueSave()}});
- editor.querySelectorAll("[data-choice]").forEach(b=>b.addEventListener("click",()=>{state.answers[k]={type:"mcq",value:b.dataset.choice};queueSave();renderExam()}));
- const input=$("hsg-written");
- if(input)input.oninput=ev=>{state.answers[k]={type:"text",value:ev.target.value};queueSave();const b=document.querySelector('[data-question="'+num+'"]');b?.classList.toggle("has-answer",!!ev.target.value.trim());const g=groups(state.exam).find(x=>x.id===state.group);const done=answerCount();const counter=document.querySelector(".hsg-answer-count");if(counter)counter.textContent=done+"/"+(g.end-g.start+1)};
- $("hsg-clear").onclick=()=>{delete state.answers[k];queueSave();renderExam()};
- $("hsg-forward").onclick=()=>{const g=groups(state.exam).find(x=>x.id===state.group);state.question=num>=g.end?g.start:num+1;queueSave();renderExam()};
+ const stem=q.stem||"Câu hỏi chưa được nhận dạng đầy đủ từ tài liệu quét. Xem nội dung đề gốc phía dưới.";
+ const labels=q.type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:q.type==="ynng"?["YES","NO","NOT GIVEN"]:q.type==="match"?["A","B","C","D","E","F","G","H","I"]:q.options||["A","B","C","D"];
+ let inputs="";
+ if(["mcq","match","tfng","ynng"].includes(q.type)){
+  inputs='<div class="answers hsg-inline-options">'+labels.map((item,i)=>{
+   const value=q.type==="tfng"||q.type==="ynng"?item:String.fromCharCode(65+i);
+   const chosen=saved.value===value;
+   return '<button type="button" class="answer'+(chosen?' selected':'')+'" data-hsg-value="'+esc(value)+'" aria-pressed="'+chosen+'"><span class="letter">'+esc(q.type==="mcq"||q.type==="match"?value:String.fromCharCode(65+i))+'</span><span>'+esc(item)+'</span></button>';
+  }).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Chưa trích xuất đủ 4 phương án từ bản scan. Vui lòng đối chiếu mục nguyên văn bên dưới trước khi chọn.</p>':"");
+ }else if(q.type==="error"){
+  inputs='<div class="hsg-error-form"><label>Dòng / vị trí<input data-hsg-field="line" placeholder="Số dòng" value="'+esc(saved.line||"")+'"></label><label>Từ/cụm sai<input data-hsg-field="error" placeholder="Nhập lỗi" value="'+esc(saved.error||"")+'"></label><label>Sửa thành<input data-hsg-field="correction" placeholder="Nhập cách sửa" value="'+esc(saved.correction||"")+'"></label></div>';
+ }else if(q.type==="rewrite"||q.type==="essay"){
+  inputs='<label class="hsg-input-label">Bài làm<textarea data-hsg-field="value" rows="'+(q.type==="essay"?12:4)+'" placeholder="Nhập câu trả lời...">'+esc(saved.value||"")+'</textarea></label>'+(q.type==="essay"?'<span class="hsg-word-count" id="hsg-word-count">Số từ: '+(saved.value||"").trim().split(/\s+/).filter(Boolean).length+'</span>':"");
+ }else{
+  inputs='<label class="hsg-input-label">Điền đáp án<input type="text" data-hsg-field="value" autocomplete="off" placeholder="Nhập từ / cụm từ..." value="'+esc(saved.value||"")+'"></label>';
+ }
+ editor.innerHTML='<div class="hsg-question-kicker"><span>QUESTION '+String(n).padStart(2,"0")+'</span><span>'+esc(q.type.toUpperCase().replace("MCQ","MULTIPLE CHOICE"))+'</span></div>'+
+ '<div class="hsg-question-stem">'+esc(stem)+'</div><p class="hsg-form-note">Trả lời trực tiếp bên dưới. Bài làm được lưu; chưa có tính năng chấm điểm.</p>'+inputs+
+ '<div class="hsg-question-actions"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-flag">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu xem lại')+'</button></div>'+
+ '<div class="hsg-question-nav"><button class="secondary" id="hsg-prev-question" type="button"'+(n===g.start?' disabled':'')+'>← Câu trước</button><span>'+ (n-g.start+1)+' / '+(g.end-g.start+1)+'</span><button class="primary" id="hsg-next-question" type="button"'+(n===g.end?' disabled':'')+'>Câu tiếp theo →</button></div>';
+ editor.querySelectorAll("[data-hsg-value]").forEach(b=>b.onclick=()=>{state.answers[k]={type:q.type,value:b.dataset.hsgValue};queueSave();renderEditor();updateIndicators()});
+ editor.querySelectorAll("[data-hsg-field]").forEach(el=>el.oninput=()=>{
+  state.answers[k]={...state.answers[k],type:q.type,[el.dataset.hsgField]:el.value};queueSave();updateIndicators();
+  const wc=$("hsg-word-count");if(wc&&el.dataset.hsgField==="value")wc.textContent="Số từ: "+el.value.trim().split(/\s+/).filter(Boolean).length;
+ });
+ $("hsg-flag").onclick=()=>{state.review[k]=!state.review[k];queueSave();renderEditor();updateIndicators()};
+ $("hsg-clear").onclick=()=>{delete state.answers[k];queueSave();renderEditor();updateIndicators()};
+ $("hsg-prev-question").onclick=()=>{state.question--;renderEditor();updateIndicators();queueSave()};
+ $("hsg-next-question").onclick=()=>{state.question++;renderEditor();updateIndicators();queueSave()};
+ updateIndicators();
 }
+
 function exportAnswers(){
  const e=state.exam, lines=["ENGLISH PRACTICE HUB","HSG tỉnh · "+e.title,e.year,"Không bao gồm Listening",""];
- groups(e).forEach(g=>{lines.push("=== "+g.name+" ===");for(const n of range(g)){const r=state.answers[g.id+":"+n];if(r?.value)lines.push(n+". "+r.value+(state.review[g.id+":"+n]?" [Xem lại]":""))}lines.push("")});
+ groups(e).forEach(g=>{lines.push("=== "+g.name+" ===");for(const n of range(g)){const r=state.answers[g.id+":"+n];if(meaningfulAnswer(r))lines.push(n+". "+(r.type==="error"?[r.line,r.error,"→",r.correction].filter(Boolean).join(" "):(r.value||""))+(state.review[g.id+":"+n]?" [Xem lại]":""))}lines.push("")});
  const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="hsg-"+e.id+"-cau-tra-loi.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
