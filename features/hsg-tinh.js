@@ -279,10 +279,15 @@ function passageInput(g,n,q,r){
    '<button type="button" class="answer'+(r.value===value?' selected':'')+'" data-hsg-choice="'+esc(value)+'" aria-pressed="'+(r.value===value)+'"><span class="letter">'+esc(value)+'</span><span>'+esc(label)+'</span></button>'
   ).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Thiếu phương án · Xem đề gốc bên trái.</p>':"");
  }
- if(q.type==="error")return '<p class="hsg-error-help">Chọn dòng bên trái rồi bôi đen từ/cụm sai (hoặc nhập thủ công).</p><div class="hsg-error-form hsg-split-error">'+
-  '<label>Dòng hiển thị<input data-hsg-field="line" inputmode="numeric" placeholder="Dòng số…" value="'+esc(r.line||"")+'"></label>'+
-  '<label>Từ / cụm sai<input data-hsg-field="error" placeholder="Cụm sai trong bài" value="'+esc(r.error||"")+'"></label>'+
-  '<label>Sửa thành<input data-hsg-field="correction" placeholder="Cách sửa của bạn" value="'+esc(r.correction||"")+'"></label></div>';
+ if(q.type==="error"){
+  const numbered=errorSourceModel(g,n).model.hasOriginalLines;
+  return '<p class="hsg-error-help">'+(numbered?
+    'Chọn số dòng của đề gốc rồi bôi đen từ/cụm sai.':
+    'Đề gốc không đánh số dòng: bôi đen cụm sai trong đoạn văn bên trái.')+'</p><div class="hsg-error-form hsg-split-error">'+
+   (numbered?'<label>Dòng gốc<input data-hsg-field="line" inputmode="numeric" placeholder="Số dòng trong đề…" value="'+esc(r.line||"")+'"></label>':"")+
+   '<label>Từ / cụm sai<input data-hsg-field="error" placeholder="Cụm sai trong bài" value="'+esc(r.error||"")+'"></label>'+
+   '<label>Sửa thành<input data-hsg-field="correction" placeholder="Cách sửa của bạn" value="'+esc(r.correction||"")+'"></label></div>';
+ }
  if(q.type==="essay"||q.type==="rewrite")return '<label class="hsg-input-label">Bài làm<textarea rows="'+(q.type==="essay"?10:4)+'" data-hsg-field="value" placeholder="Nhập bài làm...">'+esc(r.value||"")+'</textarea></label>';
  return (q.structured&&q.word?'<div class="hsg-schema-word-prompt">ROOT WORD <strong>'+esc(q.word)+'</strong></div>':"")+
   '<label class="hsg-input-label">'+(q.structured?(q.type==="word"?"Word formation":"Your answer"):"Câu trả lời")+
