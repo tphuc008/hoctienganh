@@ -207,7 +207,7 @@
     return '<div class="lp-quiz-head"><span>'+answered+' / '+total+' câu đã chọn</span>'+
       '<button type="button" class="lp-refresh" data-lp-exit="1">← Chọn lại bài tập</button></div>'+
       '<div class="lp-quiz-sheet">'+questions()+'</div>'+
-      (quiz.submitted?'<div class="lp-preview-note"><b>Đã hoàn thành lượt làm.</b> Các lựa chọn đã được lưu trong trình duyệt. '+
+      (quiz.submitted?'<div class="lp-preview-note"><b>Đã nộp.</b> Đã lưu lựa chọn trên thiết bị. '+
         'Cần mở khóa đáp án để chấm.</div>':
         '<button type="button" class="lp-action lp-finish" data-lp-submit="1">Hoàn thành bài làm</button>');
   }
@@ -251,7 +251,7 @@
       }).join("")+'</div></section>':"";
     return '<div class="lp-print-sheet"><div class="lp-print-sheet-top"><span>ENGLISH PRACTICE HUB</span><span>UNIT '+u.id+'</span></div>'+
       '<h3>'+esc(u.title||"VOCABULARY PRACTICE")+'</h3>'+
-      '<p class="lp-print-subtitle">'+(printMode==="key"?"Đề bài + đáp án ngắn ở cuối":"Đề bài + giải thích Semantic Precision cho từng câu")+'</p>'+
+      '<p class="lp-print-subtitle">'+(printMode==="key"?"Đề bài + đáp án ngắn ở cuối":"Đề bài + giải chi tiết từng câu")+'</p>'+
       content+answerKey+
       '<div class="lp-print-foot">English Practice Hub · Unit '+u.id+'</div></div>';
   }
@@ -407,7 +407,7 @@
       '<p class="lp-print-count">Đã chọn <b>'+total+' / '+all.length+' câu</b> từ '+partDefs.filter(p=>printParts[p.id]).length+' Part.</p>'+
       (!total?'<div class="lp-note" role="status">Chọn ít nhất một Part.</div>':
         !allowed?'<div class="lp-note" role="status">🔒 Cần mở khóa lời giải trước khi in đáp án.</div>':
-        !complete?'<div class="lp-note" role="status">Có câu chưa có lời giải tương ứng, chưa thể in bản đáp án.</div>':
+        !complete?'<div class="lp-note" role="status">Thiếu lời giải · Chưa thể in đáp án.</div>':
         '<details class="lp-print-preview"><summary>📄 Xem trước nội dung bản in</summary>'+printSheet(u)+'</details>')+
       '<div class="lp-print-actions"><button type="button" data-lp-print-now="1" '+(!complete?"disabled":"")+
       '>🖨 In '+(printMode==="key"?"đề + đáp án ngắn":"đề + lời giải chi tiết")+'</button></div>'+
