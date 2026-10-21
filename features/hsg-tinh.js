@@ -528,22 +528,81 @@ function printChoiceGrid(options){
  return '<div class="hsg-print-choices '+(long?'is-long':'is-compact')+'">'+
   options.map((o,i)=>'<div class="hsg-print-choice"><b>'+String.fromCharCode(65+i)+'.</b><span>'+printInline(o)+'</span></div>').join("")+'</div>';
 }
+/* PDF extraction often removes paragraph breaks. Reconstruct readable
+   passage paragraphs without changing words or conflating adjacent questions. */
+function printParagraphPieces(text){
+ const input=printNormalize(text).trim();
+ if(!input)return [];
+ const pieces=[];
+ const push=chunk=>{
+  const value=chunk.map(l=>l.trim()).filter(Boolean).join(" ").replace(/\s+/g," ").trim();
+  if(!value)return;
+  // A scanned source may encode a whole passage on one long line. Wrap it into
+  // small readable paragraph groups at sentence ends, preserving original text.
+  if(value.length<520){pieces.push(value);return}
+  const sentences=value.split(/(?<=[.!?])\s+(?=[“"‘']?[A-Z])/);
+  let buffer="";
+  for(const sentence of sentences){
+   const next=buffer?buffer+" "+sentence:sentence;
+   if(buffer&&next.length>430){pieces.push(buffer);buffer=sentence}
+   else buffer=next;
+  }
+  if(buffer)pieces.push(buffer);
+ };
+ for(const block of input.split(/\n\s*\n+/)){
+  let group=[],previous="";
+  const flush=()=>{push(group);group=[]};
+  for(const sourceLine of block.split("\n")){
+   const line=sourceLine.trim();
+   if(!line){flush();previous="";continue}
+   const salutation=/^(?:Dear\s+\w|To all\s|Dear Sir|Best regards|Kind regards|Yours sincerely|Sincerely[,.]?|From:\s|Subject:\s|Date:\s)/i.test(line);
+   const instruction=/^(?:Read the following|Read the passage|Read the text|Choose the best|Complete the following|Fill in the blanks|Identify the|Find and correct)\b/i.test(line);
+   const sentenceEnd=/[.!?…]["'’”)]?$/.test(previous);
+   const freshSentence=/^[“"‘']?[A-ZÀ-Ỹ]/.test(line);
+   const groupLength=group.join(" ").length;
+   // Ordinary PDF line wraps are joined; independent sentences/letter lines
+   // start their own paragraph without requiring a blank line in the PDF.
+   if(group.length&&(salutation||instruction||
+       (sentenceEnd&&freshSentence&&groupLength>=65)))flush();
+   group.push(line);previous=line;
+   if(salutation&&group.length===1)flush();
+  }
+  flush();
+ }
+ return pieces;
+}
+function printProse(text){
+ return printParagraphPieces(text).map(p=>
+  '<p class="hsg-print-prose">'+printInline(p)+'</p>').join("");
+}
+
 function printSourceQuestion(n,lines){
- const parsed=printOptionSequence(lines.join(" "));
- return '<article class="hsg-print-source-question"><div class="hsg-print-source-num">'+esc(n)+'.</div>'+
+ const parsed=printOptionSequence(lines.join("\n"));
+ const passages=printParagraphPieces(parsed.stem);
+ const long=passages.length>1||parsed.stem.length>340;
+ return '<article class="hsg-print-source-question'+(long?' has-passage':'')+'"><div class="hsg-print-source-num">'+esc(n)+'.</div>'+
  '<div class="hsg-print-source-q-body">'+
- (parsed.stem?'<p class="hsg-print-source-stem">'+printInline(parsed.stem)+'</p>':"")+
+ (parsed.stem?'<div class="hsg-print-source-stem">'+printProse(parsed.stem)+'</div>':"")+
  (parsed.options?printChoiceGrid(parsed.options):"")+'</div></article>';
 }
 function printTypesetText(text){
  const lines=printNormalize(text).split("\n"),out=[];
  let para=[],question=null,numbered=false,pendingLine=null;
- const flushPara=()=>{if(!para.length)return;const v=para.join(" ").replace(/\s+/g," ").trim();if(v)out.push('<p class="hsg-print-prose">'+printInline(v)+'</p>');para=[]};
+ const flushPara=()=>{if(!para.length)return;out.push(printProse(para.join("\n")));para=[]};
  const flushQuestion=()=>{if(question){out.push(printSourceQuestion(question.n,question.lines));question=null}};
  const flushLine=()=>{if(pendingLine){out.push('<div class="hsg-print-error-line"><b>'+esc(pendingLine.n)+'</b><span>'+printInline(pendingLine.text||"")+'</span></div>');pendingLine=null}};
  for(const raw of lines){
   const line=raw.trim();
-  if(!line){if(!question)flushPara();continue}
+  if(!line){
+   if(question){
+    // After all four options, blank lines mark the next exercise/passage.
+    // Without this, the next passage gets swallowed into the preceding item.
+    const complete=printOptionSequence(question.lines.join(" ")).options;
+    if(complete)flushQuestion();
+    else question.lines.push("");
+   }else flushPara();
+   continue;
+  }
   if(/^Page\s+\d+\s+(?:of|\/)\s+\d+$/i.test(line)||/^Trang\s+\d+\s*\/\s*\d+$/i.test(line))continue;
   const section=/^(?:SECTION\s+[A-ZIVXLCDM0-9]+[.:]|PART\s+[A-D][:.]|(?:[IVX]+)\.\s+(?:LEXICO|READING|WRITING|PHONETICS|LANGUAGE))\s*(.*)$/i.exec(line);
   const part=/^(?:PART|Part)\s+(\d+|[IVX]+)[.:]\s*(.*)$/i.exec(line);
@@ -558,7 +617,12 @@ function printTypesetText(text){
    numbered=false;
   }
   if(q){flushLine();flushQuestion();flushPara();question={n:q[1],lines:[q[2]||""]};continue}
-  if(question){question.lines.push(line);continue}
+  if(question){
+   const complete=printOptionSequence(question.lines.join(" ")).options;
+   if(complete&&/^(?:Read the following|Read the passage|Read the text|Complete the following|Choose the best|Identify the errors|Guided Cloze|Open Cloze|Dear |To all staff)/i.test(line)){
+    flushQuestion();flushPara();
+   }else{question.lines.push(line);continue}
+  }
   if(/^[•●▪]\s+/.test(line)||/^[–-]\s+\S/.test(line)){
    flushLine();flushPara();out.push('<p class="hsg-print-bullet">'+printInline(line.replace(/^[•●▪–-]\s*/,""))+'</p>');continue;
   }
