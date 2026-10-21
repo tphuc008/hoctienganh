@@ -6,7 +6,7 @@
 "use strict";
 const ROOT="grade-10/mid-term-test";
 const BASE="./content/grade10-midterm-six-tests.txt?v=20261021-all6-1";
-const STYLE="features/grade10-midterm-study.css?v=20261021-layout1";
+const STYLE="features/grade10-midterm-study.css?v=20261021-layout2";
 const COUNTS=[0,50,43,45,50,45,46];
 const NAMES=["","Mr. Khanh","Ms. Oanh","Mr. Tuấn Anh","Ms. Nguyên","Mr. Trí","Mrs. Quyên 2"];
 const state={doc:null,questions:[],test:0,index:0,answers:{},flags:{},owner:null,parsed:null};
@@ -147,10 +147,13 @@ function responseHtml(q){
  (q.kind==="choice"?optionHtml(q):'<label class="g10x-written-label" for="g10x-write">Câu trả lời của bạn</label>'+
  '<textarea class="g10x-written" id="g10x-write" data-g10x-write placeholder="Nhập đáp án hoặc thứ tự các câu…">'+esc(state.answers[q.id]||"")+'</textarea>')+'</div>';
 }
+function highlightedIntro(text,n){
+ return esc(text).replace(new RegExp("(\\("+n+"\\)\\s*_{2,})","g"),'<mark class="g10x-current-gap">$1</mark>');
+}
 function bodyHtml(q){
  const intro=passage(q),isReading=!!intro&&intro.length>460;
  let content=responseHtml(q);
- const p=intro?'<details class="g10x-context" open><summary>Đề bài / đoạn văn dùng chung</summary><div>'+esc(intro)+'</div></details>':"";
+ const p=intro?'<details class="g10x-context" open><summary>Đề bài / đoạn văn dùng chung</summary><div>'+highlightedIntro(intro,q.number)+'</div></details>':"";
  if(isReading)return '<div class="g10x-reading-grid">'+p+content+'</div>';
  return p+content;
 }
