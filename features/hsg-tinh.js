@@ -457,6 +457,24 @@ function renderExam(){
  const dropdown=$("hsg-reading-jump");
  if(dropdown)dropdown.onchange=()=>{state.question=Number(dropdown.value);renderExam();queueSave()};
  root.querySelectorAll("[data-hsg-mobile-tab]").forEach(b=>b.onclick=()=>switchPassageTab(b.dataset.hsgMobileTab));
+ const left=root.querySelector(".hsg-passage-left");
+ if(left)left.style.setProperty("--hsg-reading-font-size",state.passageTextSize+"px");
+ const textSizeButtons=[...root.querySelectorAll("[data-hsg-text-size]")];
+ const syncTextSize=()=>{
+  left?.style.setProperty("--hsg-reading-font-size",state.passageTextSize+"px");
+  const label=root.querySelector("[data-hsg-text-size-label]");
+  if(label)label.textContent=state.passageTextSize+"px";
+  textSizeButtons.forEach(button=>{
+   button.disabled=(button.dataset.hsgTextSize==="smaller"&&state.passageTextSize<=15)||
+    (button.dataset.hsgTextSize==="larger"&&state.passageTextSize>=21);
+  });
+ };
+ textSizeButtons.forEach(button=>button.onclick=()=>{
+  state.passageTextSize=Math.max(15,Math.min(21,state.passageTextSize+
+   (button.dataset.hsgTextSize==="larger"?1:-1)));
+  syncTextSize();
+ });
+ syncTextSize();
  $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=openPrintDialog;
  renderEditor();if(passage){setupPassageDivider();attachErrorPassageActions(g);attachStructuredGapActions(g)}
 }
