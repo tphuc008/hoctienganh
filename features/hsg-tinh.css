@@ -1362,3 +1362,76 @@
   margin-top:0;
  }
 }
+
+
+/* Paper answer grids: no duplicated cloze passage or repeated matching legends. */
+@media print {
+ #hsg-print-sheet .hsg-print-answer-section-title{
+  font:800 8.6pt/1.4 Inter,"Segoe UI",Arial,sans-serif;
+  color:#800040;
+  letter-spacing:.075em;
+  margin:15pt 0 9pt;
+  padding-bottom:5pt;
+  border-bottom:1px solid #ebd1da;
+  break-after:avoid;
+ }
+ #hsg-print-sheet .hsg-print-short-answer-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  column-gap:18pt;
+  row-gap:11pt;
+  margin:9pt 0 16pt;
+ }
+ #hsg-print-sheet .hsg-print-short-answer-grid>div{
+  display:flex;
+  align-items:baseline;
+  gap:6pt;
+  font-size:10pt;
+  line-height:1.5;
+  min-width:0;
+  break-inside:avoid;
+ }
+ #hsg-print-sheet .hsg-print-short-answer-grid strong{
+  min-width:20pt;
+  font-weight:800;
+  color:#800040;
+ }
+ #hsg-print-sheet .hsg-print-short-answer-grid span{
+  flex:1;min-width:0;overflow:hidden;
+  white-space:nowrap;color:#687483;letter-spacing:-.035em;
+ }
+ #hsg-print-sheet .hsg-print-matching-legend{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7pt 19pt;
+  padding:9pt 0 11pt;
+ }
+ #hsg-print-sheet .hsg-print-matching-legend>div{
+  display:grid;
+  grid-template-columns:17pt minmax(0,1fr);
+  gap:5pt;
+  font-size:9.6pt;
+  line-height:1.55;
+  break-inside:avoid;
+ }
+ #hsg-print-sheet .hsg-print-matching-legend b{color:#800040}
+ #hsg-print-sheet .hsg-print-matching-statements{
+  display:grid;gap:7pt;margin:5pt 0 12pt;
+ }
+ #hsg-print-sheet .hsg-print-matching-statement{
+  display:grid;
+  grid-template-columns:27pt minmax(0,1fr) 60pt;
+  gap:8pt;
+  align-items:start;
+  font-size:10pt;
+  line-height:1.5;
+  break-inside:avoid;
+ }
+ #hsg-print-sheet .hsg-print-matching-statement>b{
+  color:#800040;
+  text-align:right;
+ }
+ #hsg-print-sheet .hsg-print-matching-statement>em{
+  text-align:right;font-style:normal;color:#86909f;letter-spacing:.05em;
+ }
+}
