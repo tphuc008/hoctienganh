@@ -170,7 +170,7 @@ function render(){
  const q=state.questions[state.index];
  const total=state.questions.length,count=done(),pct=Math.round(count/total*100);
  const mount=$("pageMount");mount.style.display="block";$("quizShell")?.style&&( $("quizShell").style.display="none");
- mount.innerHTML='<div class="g10x-root"><div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\''+ROOT+'\'">Mid Term Test</button><span>›</span><span>Test '+state.test+' · Đề gốc</span></div>'+
+ mount.innerHTML='<div class="g10x-root"><div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\''+ROOT+'\'">Mid Term Test</button><span>›</span><span>Test '+state.test+'</span></div>'+
  '<header class="g10x-hero"><div class="g10x-eyebrow">Học thêm · Grade 10 · Exam practice</div><h1>Test '+state.test+' · '+esc(NAMES[state.test])+'</h1>'+
  
  '<div class="g10x-tags"><span>'+total+' câu</span></div></header>'+
@@ -183,11 +183,11 @@ function render(){
  '<span class="g10x-status">'+(answered(q)?"Đã trả lời":"Chưa trả lời")+'</span>'+
  '<button type="button" class="g10x-primary" data-g10x-action="next"'+(state.index===total-1?' disabled':'')+'>Tiếp →</button></div></div>'+
  '</section>'+
- '<aside class="g10x-sheet" aria-label="Phiếu trả lời"><div class="g10x-sheet-head"><div><b>Phiếu trả lời</b><small>Nhấn số câu để di chuyển</small></div><b>'+count+'/'+total+'</b></div>'+
+ '<aside class="g10x-sheet" aria-label="Phiếu trả lời"><div class="g10x-sheet-head"><div><b>Phiếu trả lời</b></div><b>'+count+'/'+total+'</b></div>'+
  '<div class="g10x-sheet-inner"><div class="g10x-legend"><span><b></b>Đã làm</span><span><b class="flag"></b>Cần xem lại</span></div>'+
  '<nav class="g10x-nav" aria-label="Danh sách câu hỏi">'+navHtml()+'</nav>'+
  '<div class="g10x-actions"><button type="button" data-g10x-action="next-unanswered">Đến câu chưa trả lời</button>'+
- (state.test>=3?'<button type="button" data-g10x-action="interactive" class="g10x-primary">Làm bản tương tác có giải thích →</button>':'')+
+ '<button type="button" data-g10x-action="interactive" class="g10x-primary">Kiểm tra & giải thích →</button>'+
  '<button type="button" data-g10x-action="print">In đề đầy đủ</button>'+
  '<button type="button" data-g10x-action="home">← Danh sách 6 Test</button></div>'+
  '</div></aside></div>'+printReady()+'</div>';
