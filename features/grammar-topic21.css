@@ -525,3 +525,44 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
  .g21 .g21-fixed-page-nav .g21-page-controls .g21-btn{font-size:12px;padding:10px 9px}
  .g21 .g21-fixed-page-nav>span{font-size:12px;font-weight:800}
 }
+
+/* Exercise Explanation V2: compact summary, expandable A–D analysis */
+.g21 .g21-explanation-v2{
+  padding:15px 17px;
+  border-radius:10px;
+  line-height:1.7;
+}
+.g21 .g21-explanation-v2>strong{font-size:14px;margin-bottom:8px}
+.g21 .g21-explanation-v2>p{margin:7px 0;line-height:1.7}
+.g21 .g21-v2-answer{color:#1e3a8a;font-size:14px}
+.g21 .g21-v2-sentence{color:#253b52;overflow-wrap:anywhere}
+.g21 .g21-v2-translation{color:#52657c;font-size:13px}
+.g21 .g21-v2-brief{padding-top:8px;border-top:1px solid #dbe6e0;font-size:13px}
+.g21 .g21-explanation-v2>p b{font-weight:750}
+.g21 .g21-explanation-v2 .g21-explain-more{
+  margin-top:12px;border:1px solid #dbe2ea;border-radius:9px;
+  overflow:hidden;background:#fff;
+}
+.g21 .g21-explanation-v2 .g21-explain-more>summary{
+  padding:11px 13px;font-size:13px;cursor:pointer;list-style:none;
+}
+.g21 .g21-explanation-v2 .g21-explain-more>summary::-webkit-details-marker{display:none}
+.g21 .g21-explanation-v2 .g21-more-body{padding:12px 15px}
+.g21 .g21-v2-reason{padding:6px 0 10px;border-bottom:1px solid #eef2f7;font-size:13px}
+.g21 .g21-v2-reason b{color:#334155}
+.g21 .g21-v2-reason p{margin:4px 0 0;color:#52657c}
+.g21 .g21-explanation-v2 .g21-wrong-heading{margin:9px 0}
+.g21 .g21-explanation-v2 .g21-choice-reason{
+  padding:7px 8px 7px 12px;margin:5px 0;
+  border-left:2px solid #cbd5e1;background:#f8fafc;border-radius:0 6px 6px 0;
+}
+.g21 .g21-explanation-v2 .g21-choice-reason.g21-choice-correct{
+  border-left-color:#16a34a;background:#f2faf4;
+}
+.g21 .g21-choice-marker{color:#b91c1c;margin-right:4px}
+.g21 .g21-choice-correct .g21-choice-marker{color:#15803d}
+.g21 .g21-v2-pitfall{padding:9px;margin-top:12px;font-size:12px;background:#fff9eb;border-radius:7px}
+@media(max-width:700px){
+  .g21 .g21-explanation-v2{padding:13px 12px}
+  .g21 .g21-explanation-v2 .g21-more-body{padding:11px}
+}
