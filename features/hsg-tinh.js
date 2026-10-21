@@ -16,7 +16,7 @@ const CONFIGS=[
 ];
 const BASE="teacher/hsg-tinh";
 const CACHE=new Map();
-const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17};
+const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17,readingScroll:{passage:0,questions:0}};
 const $=id=>document.getElementById(id);
 /* Grade 12 Reading pattern: fullscreen workspace attached directly to body. */
 function ensureReadingPortal(){
@@ -428,8 +428,15 @@ function setupPassageDivider(){
 
 function switchPassageTab(tab){
  const split=$("hsg-passage-split");if(!split)return;
+ const previous=split.dataset.mobileTab;
+ const paneFor=t=>$(t==="passage"?"hsg-passage-left":"hsg-passage-right");
+ if(previous==="passage"||previous==="questions"){
+  const prior=paneFor(previous);
+  if(prior&&prior.getClientRects().length)state.readingScroll[previous]=prior.scrollTop;
+ }
  split.dataset.mobileTab=tab;
  split.querySelectorAll("[data-hsg-mobile-tab]").forEach(btn=>btn.setAttribute("aria-pressed",String(btn.dataset.hsgMobileTab===tab)));
+ const active=paneFor(tab);if(active)active.scrollTop=state.readingScroll[tab]||0;
 }
 
 function meaningfulAnswer(v){if(!v)return false;if(v.type==="error")return !!(String(v.error||"").trim()&&String(v.correction||"").trim());return !!(String(v.value||"").trim()||String(v.error||"").trim()||String(v.correction||"").trim())}
