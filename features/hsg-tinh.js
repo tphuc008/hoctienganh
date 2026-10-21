@@ -891,10 +891,14 @@ function printDocumentHTML(scope,selectedParts){
   chosen.length+" phần đã chọn";
  let doc="";
  if(full){
-  // Original extracted pages are retained in full to avoid dropping source questions
-  // when scanned pages are not reliably machine-readable.
-  const pages=ptnk?sourcePages(currentCode):state.data.pages;
-  doc=printSourcePages(pages);
+  if(state.data?.structured&&!ptnk){
+   // Blend validated structured tasks with verified source tasks. Every
+   // original non-Listening part appears exactly once, in exam order.
+   doc=printParts().map((part,i)=>printOnePart(part,i+1)).join("");
+  }else{
+   const pages=ptnk?sourcePages(currentCode):state.data.pages;
+   doc=printSourcePages(pages);
+  }
  }else{
   // The printed sequence always follows the original exam sequence, not click order.
   const rank=new Map(printParts().map((p,i)=>[p.value,i]));
