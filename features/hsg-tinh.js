@@ -2,7 +2,7 @@
 (function(global){
 "use strict";
 const CONFIGS=[
- {id:"hai-phong",title:"Hải Phòng",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:21,end:100},
+ {id:"hai-phong",title:"Hải Phòng",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:21,end:100,structuredRequired:true},
  {id:"dh-vinh",title:"Đại học Vinh",subtitle:"Trường THPT chuyên · Vòng 2",year:"2026–2027",
   groups:[{id:"b",name:"Vocabulary & Grammar",start:1,end:40},{id:"c",name:"Reading",start:1,end:40},{id:"d",name:"Writing",start:1,end:10}]},
  {id:"phu-tho",title:"Phú Thọ",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:21,end:100},
@@ -86,11 +86,13 @@ async function getExamData(id){
  const result=JSON.parse(await new Response(stream).text());
  if(!Array.isArray(result.pages)||!result.pages.length)throw new Error("Dữ liệu đề chưa hợp lệ");
  if(result.id!==id)throw new Error("Mã đề không khớp");
- if(id==="hai-phong"){
-  const extra=await fetch("content/hsg-tinh/"+id+".structured.json?v=20261021-pilot-v3",{cache:"no-store"});
-  if(!extra.ok)throw new Error("Không tải được dữ liệu chuẩn hóa Hải Phòng ("+extra.status+")");
+ // New exam data files automatically use the shared renderer; legacy exams remain unchanged.
+ const extra=await fetch("content/hsg-tinh/"+id+".structured.json?v=20261021-pilot-v3",{cache:"no-store"});
+ if(extra.ok){
   if(!global.HSGPartSystem)throw new Error("Chưa tải được bộ renderer HSG.");
   result.structured=global.HSGPartSystem.validate(await extra.json(),id);
+ }else if(extra.status!==404||CONFIGS.find(e=>e.id===id)?.structuredRequired){
+  throw new Error("Không tải được dữ liệu chuẩn hóa đề "+id+" ("+extra.status+")");
  }
  CACHE.set(id,result);
  return result;
