@@ -81,7 +81,7 @@ function refresh(){
    '<p class="pc-title">'+esc(data.title)+'</p>'+
    '<div class="pc-group-list">'+data.groups.map((g,i)=>'<label><input type="checkbox" data-pc-group="'+i+'" checked><span>'+esc(g.label||"Phần "+(i+1))+
    ' <small>('+g.questions.length+' câu)</small></span></label>').join("")+'</div>':
-   '<p>Chưa có câu hỏi được tải trên trang này. Hãy mở hoặc bắt đầu bài tập trước.</p>';
+   '<p>Chưa có câu hỏi · Mở bài tập trước khi in.</p>';
  }catch(e){data=null;host.querySelector(".pc-content").textContent="Chưa tải được nội dung để in.";console.warn("Print data unavailable",e);}
  validate();
 }
@@ -93,7 +93,7 @@ function chosen(){
 function validate(){
  const n=chosen().reduce((sum,g)=>sum+g.questions.length,0);
  host.querySelector(".pc-print").disabled=!n;
- host.querySelector(".pc-status").textContent=n?"Đã chọn "+n+" câu. Bản in mở ở tab riêng.":"Hãy chọn ít nhất một phần để in.";
+ host.querySelector(".pc-status").textContent=n?"Đã chọn "+n+" câu · Mở tab in riêng.":"Chọn ít nhất một phần.";
 }
 const css=`
  @page{size:A4;margin:16mm}
@@ -182,7 +182,7 @@ function html(data,groups,mode){
  const keyPage=mode==="key"?'<section class="key-page"><h2>ANSWER KEY · ĐÁP ÁN NGẮN</h2><div class="key-grid">'+keys.join("")+'</div></section>':"";
  return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
  '<title>'+esc(data.title)+' · Bản in</title><style>'+css+'</style></head><body>'+
- '<div class="toolbar"><p><b>'+esc(data.title)+'</b><br>Nếu hộp thoại in chưa mở, hãy nhấn In / Lưu PDF.</p><button id="printAgain">🖨 In / Lưu PDF</button></div>'+
+ '<div class="toolbar"><p><b>'+esc(data.title)+'</b><br>Nếu cần, chọn In / Lưu PDF.</p><button id="printAgain">🖨 In / Lưu PDF</button></div>'+
  '<main><div class="topline"><span>ENGLISH PRACTICE HUB</span><span>A4 WORKSHEET</span></div>'+
  '<h1>'+esc(data.title)+'</h1><p class="intro">'+(mode==="key"?"Đáp án ngắn nằm ở trang cuối":"Lời giải chi tiết nằm dưới từng câu")+'</p>'+
  items.join("")+keyPage+'<div class="foot">English Practice Hub</div></main></body></html>';
@@ -191,14 +191,14 @@ function printSelected(){
  const groups=chosen();if(!data||!groups.length)return;
  const mode=host.querySelector('input[name="pc-format"]:checked')?.value==="detailed"?"detailed":"key";
  const win=global.open("","_blank");
- if(!win){global.alert("Trình duyệt đã chặn tab in. Hãy cho phép mở tab mới cho website.");return;}
+ if(!win){global.alert("Hãy cho phép website mở tab mới để in.");return;}
  try{
   win.opener=null;win.document.open();win.document.write(html(data,groups,mode));win.document.close();
   win.document.getElementById("printAgain").addEventListener("click",()=>win.print());
   win.focus();
   const go=()=>Promise.resolve(win.document.fonts?.ready).then(()=>{if(!win.closed)win.setTimeout(()=>win.print(),200)});
   if(win.document.readyState==="complete")go();else win.addEventListener("load",go,{once:true});
- }catch(e){win.close();global.alert("Không tạo được bản in. Vui lòng thử lại.");}
+ }catch(e){win.close();global.alert("Không tạo được bản in · Thử lại.");}
 }
 let scheduled=false;
 function sync(){
