@@ -422,3 +422,35 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
   .g21-lesson .g21-example-meaning span{display:inline;margin-right:8px}
 }
 
+
+/* Progressive 3 + 7 comparison examples */
+.g21 .g21-extra-examples{background:#f8fafc}
+.g21 .g21-extra-examples>summary{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:55px;
+  padding:13px 18px;
+  background:#f8fafc;
+  border-top:1px solid #e2e8f0;
+  color:#1d4ed8;
+  cursor:pointer;
+  list-style:none;
+  font-size:13.5px;
+  font-weight:750;
+  transition:background .15s ease;
+}
+.g21 .g21-extra-examples>summary::-webkit-details-marker{display:none}
+.g21 .g21-extra-examples>summary:hover{background:#eff6ff}
+.g21 .g21-extra-examples>summary:focus-visible{outline:3px solid #93c5fd;outline-offset:-3px}
+.g21 .g21-extra-examples .g21-hide-label{display:none}
+.g21 .g21-extra-examples[open] .g21-show-label{display:none}
+.g21 .g21-extra-examples[open] .g21-hide-label{display:inline}
+.g21 .g21-extra-examples .g21-expand-symbol{display:inline-block;font-size:19px;line-height:1;transition:transform .15s ease}
+.g21 .g21-extra-examples[open] .g21-expand-symbol{transform:rotate(180deg)}
+.g21 .g21-extra-example-items{background:white;border-top:1px solid #e2e8f0}
+.g21 .g21-extra-example-items .g21-example:last-child{border-bottom:0}
+@media(max-width:700px){
+ .g21 .g21-extra-examples>summary{padding:15px 12px;min-height:52px}
+}
