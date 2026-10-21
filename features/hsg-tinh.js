@@ -814,13 +814,36 @@ function printOnePart(part,index){
  }
  const sourceHtml=source?
   '<div class="hsg-print-passage"><div class="hsg-print-passage-label">READ THE TEXT AND ANSWER THE QUESTIONS</div>'+printTypesetText(source)+'</div>':"";
+ const kind=actualKind(g,first);
+ const partTitle=block?.title||g.name;
+ const compactGap=!!source&&kind==="fill"&&/cloze|summary|sentence completion|telemedicine/i.test(partTitle);
+ const compactMatching=!!source&&kind==="match";
+ const answerBoxes=()=>'<div class="hsg-print-short-answer-grid">'+
+  Array.from({length:last-first+1},(_,i)=>'<div><strong>'+(first+i)+'.</strong><span>____________________</span></div>').join("")+'</div>';
+ let questionHtml=result.html;
+ if(compactGap){
+  questionHtml='<div class="hsg-print-answer-section-title">ANSWERS · '+first+'–'+last+'</div>'+answerBoxes();
+ }else if(compactMatching){
+  const choices=matchingLabels(g);
+  const legend='<div class="hsg-print-matching-legend">'+
+   choices.map(([letter,label])=>'<div><b>'+esc(letter)+'.</b><span>'+esc(label)+'</span></div>').join("")+'</div>';
+  const statements=Array.from({length:last-first+1},(_,i)=>{
+   const n=first+i,q=getQuestion(g,n);
+   const text=printNormalize(q.stem||"").replace(/\s+/g," ").trim();
+   return '<div class="hsg-print-matching-statement"><b>'+n+'.</b>'+
+     '<span>'+printInline(text.length>200?text.slice(0,200):text)+'</span>'+
+     '<em>________</em></div>';
+  }).join("");
+  questionHtml='<div class="hsg-print-answer-section-title">MATCHING OPTIONS</div>'+legend+
+   '<div class="hsg-print-answer-section-title">QUESTIONS</div><div class="hsg-print-matching-statements">'+statements+'</div>';
+ }
  const warning=result.missing?
   '<p class="hsg-print-unavailable">'+result.missing+' câu chưa trích xuất đầy đủ phương án từ nguồn. Cần đối chiếu bản gốc trước khi sử dụng.</p>':"";
  const title=block?.title||g.name;
  return '<section class="hsg-print-part" aria-label="'+esc(title)+'">'+
   '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
   '<div><h2>'+esc(title)+'</h2><p>'+first+'–'+last+' · '+(last-first+1)+' câu</p></div></header>'+
-  warning+sourceHtml+'<div class="hsg-print-question-list">'+result.html+'</div></section>';
+  warning+sourceHtml+'<div class="hsg-print-question-list">'+questionHtml+'</div></section>';
 }
 function printDocumentHTML(scope,selectedParts){
  const exam=state.exam,ptnk=exam.id==="ptnk",full=scope==="all";
