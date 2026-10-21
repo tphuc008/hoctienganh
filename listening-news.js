@@ -98,7 +98,7 @@ function newsQuestionHtml(part,q){
     }).join("")+'</div>';
   }else{
     var words=String(q.answerText||"").trim().split(/\s+/).filter(Boolean).length;
-    body='<input class="listening-fill" id="news-p'+part.id+'-input-'+q.id+'" autocomplete="off" spellcheck="false" placeholder="Điền đúng '+words+' từ"><div class="listening-fill-note">Cần điền đúng '+words+' từ từ audio</div>';
+    body='<input class="listening-fill" id="news-p'+part.id+'-input-'+q.id+'" autocomplete="off" spellcheck="false" placeholder="Điền đúng '+words+' từ"><div class="listening-fill-note">Điền đúng '+words+' từ trong audio</div>';
   }
   var typeLabel=q.type==="mc"?"Multiple Choice":"Note Completion · "+String(q.answerText||"").trim().split(/\s+/).filter(Boolean).length+" từ";
   return '<article class="listening-q" id="news-p'+part.id+'-q-'+q.id+'" data-part="'+part.id+'" data-qid="'+q.id+'">'+
@@ -113,7 +113,7 @@ function newsPartHtml(part){
     '<div class="listening-part-head"><h2>'+newsEsc(part.label)+'</h2><span class="listening-progress" id="newsProgress'+part.id+'">0 / '+part.questions.length+' answered</span><span id="newsProgressFlow'+part.id+'"></span></div>'+
     '<div class="listening-q-list">'+part.questions.map(function(q){return newsQuestionHtml(part,q);}).join("")+'</div>'+
     '<div class="listening-actions">'+
-      '<div class="listening-actions-left"><div class="listening-score" id="newsScore'+part.id+'">Chưa nộp</div><div class="listening-score-note" id="newsScoreNote'+part.id+'">Đáp án chỉ được hiện khi bạn chủ động bấm “Hiện đáp án”.</div></div>'+
+      '<div class="listening-actions-left"><div class="listening-score" id="newsScore'+part.id+'">Chưa nộp</div><div class="listening-score-note" id="newsScoreNote'+part.id+'">Chọn “Hiện đáp án” để xem lời giải.</div></div>'+
       '<div class="listening-actions-btns">'+
         '<button class="secondary" type="button" id="newsShowAnswers'+part.id+'" style="display:none" onclick="toggleNewsAnswers('+part.id+')">Hiện đáp án</button>'+
         '<button class="secondary" type="button" onclick="resetNewsListening('+part.id+')">Làm lại phần</button>'+
@@ -217,7 +217,7 @@ function submitNewsPart(partId,restoring=false){
       card.classList.remove("correct","wrong");
       card.classList.add(ok?"correct":"wrong");
     }
-    if(status)status.textContent=ok?"✓ Đúng":"✕ Sai · Bấm vào câu này để nghe lại";
+    if(status)status.textContent=ok?"✓ Đúng":"✕ Sai · Bấm để nghe lại";
     document.querySelectorAll('input[name="news-p'+part.id+'-q-'+q.id+'"]').forEach(function(el){el.disabled=true;});
     var fill=document.getElementById("news-p"+part.id+"-input-"+q.id);
     if(fill)fill.disabled=true;
@@ -229,7 +229,7 @@ function submitNewsPart(partId,restoring=false){
   var showBtn=document.getElementById("newsShowAnswers"+part.id);
   var submitBtn=document.getElementById("newsSubmit"+part.id);
   if(score)score.textContent=correct+" / "+part.questions.length+" correct";
-  if(note)note.textContent="Câu sai vẫn chưa hiện đáp án. Bấm vào câu màu đỏ để nghe lại đúng đoạn.";
+  if(note)note.textContent="Bấm câu đỏ để nghe lại · Đáp án vẫn ẩn.";
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
   updateNewsProgress(part.id);
@@ -300,7 +300,7 @@ function resetNewsPart(partId){
   var showBtn=document.getElementById("newsShowAnswers"+part.id);
   var submitBtn=document.getElementById("newsSubmit"+part.id);
   if(score)score.textContent="Chưa nộp";
-  if(note)note.textContent="Đáp án chỉ được hiện khi bạn chủ động bấm “Hiện đáp án”.";
+  if(note)note.textContent="Chọn “Hiện đáp án” để xem lời giải.";
   if(showBtn)showBtn.style.display="none";
   if(submitBtn){submitBtn.textContent="Nộp đáp án";submitBtn.disabled=false;}
   updateNewsProgress(part.id);
@@ -349,7 +349,7 @@ function renderNews(){
   mount.style.display="block";
   mount.innerHTML=
     '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'listening\'">Listening</button><span>›</span><span>News</span></div>'+
-    '<div class="unit-hero"><div class="eyebrow">News</div><h1>News</h1><p>News-based listening practice organised by individual videos.</p></div>'+
+    '<div class="unit-hero"><div class="eyebrow">News</div><h1>News</h1><p>Luyện nghe tin tức theo video.</p></div>'+
     '<div class="section-title"><h2>Videos</h2><span>'+NEWS_VIDEOS.length+' video'+(NEWS_VIDEOS.length===1?"":"s")+'</span></div>'+
     '<div class="entertainment-video-grid">'+
       NEWS_VIDEOS.map(function(video){
@@ -377,7 +377,7 @@ function renderNewsVideo(){
       '<section class="listening-video-column">'+
         '<div class="video-shell"><div class="video-frame"><div id="newsListeningPlayer"></div></div>'+
         '<div class="video-meta"><div><strong>'+newsEsc(NEWS_VIDEO_TITLE)+'</strong><span>CNN · YouTube</span></div></div></div>'+
-        '<div class="listening-tip"><b>Chế độ xem lại:</b> Sau khi nộp bài, câu sai sẽ chuyển sang màu đỏ. Bấm vào câu sai để video quay lại đúng đoạn cần nghe. Đáp án đúng vẫn được ẩn cho đến khi bạn bấm <b>Hiện đáp án</b>.</div>'+
+        '<div class="listening-tip"><b>Nghe lại:</b> Câu sai tô đỏ; bấm để phát lại đoạn liên quan. Chọn <b>Hiện đáp án</b> để xem lời giải.</div>'+
       '</section>'+
       '<section class="listening-questions" id="newsListeningQuestionPanel">'+
         '<div class="listening-part-tabs">'+
