@@ -185,7 +185,7 @@ function passageBased(g){
    || /\b(cloze|reading|passage|headings|matching)\b/i.test(g.name);
 }
 /* Isolate ONE exercise passage, never dump the whole PDF page into the left pane. */
-function passageOnly(g){
+function passageOnly(g,n=state.question){
  const blocks=sourcePages(g);
  const all=blocks.map(p=>String(p.text||"")).join("\n").replace(/[\u200b\ufeff]/g,"");
  const id=(state.exam?.id||"")+":"+g.id;
@@ -198,7 +198,7 @@ function passageOnly(g){
   const cfg=fixed[id],start=all.indexOf(cfg.from);
   if(start>=0){const end=all.slice(start).search(cfg.to);if(end>=0)return all.slice(start,start+end).trim()}
  }
- const active=activePassageBlock(g),startQ=active?.start??g.start;
+ const active=activePassageBlock(g,n),startQ=active?.start??g.start;
  const marker=new RegExp("(?:^|\\n)\\s*(?:Question\\s*)?"+startQ+"[.\\)]\\s+(?:A[.\\)]|\\w)","i");
  const match=marker.exec(all);
  const before=match?all.slice(0,match.index):all;
@@ -354,7 +354,7 @@ function renderExam(){
   updateIndicators();queueSave();
  });
  root.querySelectorAll("[data-hsg-mobile-tab]").forEach(b=>b.onclick=()=>switchPassageTab(b.dataset.hsgMobileTab));
- $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=()=>window.print();renderEditor();if(passage)setupPassageDivider();
+ $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=openPrintDialog;renderEditor();if(passage)setupPassageDivider();
 }
 function updateIndicators(){
  const g=groups(state.exam).find(x=>x.id===state.group),done=answerCount(),size=g.end-g.start+1,pct=Math.round(done/size*100);
@@ -416,6 +416,167 @@ function renderEditor(){
  $("hsg-prev-question").onclick=()=>{state.question--;if(g.kind==="mixed")renderExam();else renderEditor();updateIndicators();queueSave()};
  $("hsg-next-question").onclick=()=>{state.question++;if(g.kind==="mixed")renderExam();else renderEditor();updateIndicators();queueSave()};
  updateIndicators();
+}
+
+
+/* Print the whole paper or a selected part — never only the visible question. */
+function printParts(){
+ const parts=[];
+ const ptnk=state.exam?.id==="ptnk";
+ for(const g of groups(state.exam)){
+  parts.push({value:g.id,label:g.name+(ptnk?" · Trọn mã đề":" · Câu "+g.start+"–"+g.end),group:g,block:null});
+  if(ptnk){
+   for(const block of PTNK_PASSAGE_BLOCKS){
+    parts.push({value:g.id+"@"+block.start,label:"   ↳ "+g.name+" · "+block.title+" ("+block.start+"–"+block.end+")",group:g,block});
+   }
+  }
+ }
+ return parts;
+}
+function printSourcePages(pages){
+ return pages.map(page=>
+  '<section class="hsg-print-source-page"><div class="hsg-print-source-label">Trang '+esc(page.sourcePage)+'</div>'+
+  '<pre>'+esc(String(page.text||""))+'</pre></section>'
+ ).join("");
+}
+function printQuestions(g,first,last){
+ let countMissing=0;
+ const cards=[];
+ for(let n=first;n<=last;n++){
+  const q=getQuestion(g,n),type=q.type;
+  const opts=type==="mcq"?q.options
+    :type==="match"?matchingLabels(g).map(([l,v])=>l+". "+v)
+    :type==="tfng"?["TRUE","FALSE","NOT GIVEN"]
+    :type==="ynng"?["YES","NO","NOT GIVEN"]:null;
+  const needsChoices=["mcq","match","tfng","ynng"].includes(type);
+  if(type==="mcq"&&(!opts||opts.length!==4))countMissing++;
+  let stem=String(q.stem||"").trim();
+  if(passageBased(g)&&["mcq","fill","error"].includes(type)&&stem.length>340){
+   stem=type==="error"?"Find and correct an error in the passage above.":"Refer to the passage above.";
+  }
+  if(!stem)stem=type==="mcq"?"Choose the correct option.":type==="error"?"Find and correct an error in the passage.":"Complete the item.";
+  let detail="";
+  if(needsChoices){
+   if(!opts||!opts.length){
+    detail='<p class="hsg-print-unavailable">Phương án chưa được trích xuất đủ từ bản gốc; cần đối chiếu PDF.</p>';
+   }else{
+    detail='<div class="hsg-print-choices">'+opts.map((option,i)=>{
+     const value=type==="match"?option
+       :type==="mcq"?String.fromCharCode(65+i)+". "+option
+       :option;
+     return '<div class="hsg-print-choice">'+esc(value)+'</div>';
+    }).join("")+'</div>';
+   }
+  }else if(type==="error"){
+   detail='<div class="hsg-print-lines">Dòng: __________　Từ/cụm sai: __________________　Sửa thành: __________________</div>';
+  }else if(type==="essay"||type==="rewrite"){
+   detail='<div class="hsg-print-writing-lines">'+Array.from({length:type==="essay"?7:3},()=>'<div></div>').join("")+'</div>';
+  }else{
+   detail='<div class="hsg-print-lines">Đáp án: ___________________________________</div>';
+  }
+  cards.push('<article class="hsg-print-question"><p><strong>'+n+'.</strong> '+esc(stem)+'</p>'+detail+'</article>');
+ }
+ return {html:cards.join(""),missing:countMissing};
+}
+function printOnePart(part){
+ const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
+ if(g.kind==="mixed"&&!block)return '<section class="hsg-print-part"><h2>'+esc(g.name)+'</h2>'+
+    printSourcePages(sourcePages(g))+'</section>';
+ const source=passageBased(g)||!!block?passageOnly(g,first):"";
+ const question=printQuestions(g,first,last);
+ const sourceHtml=source?'<div class="hsg-print-passage"><h3>Passage / Instructions</h3><pre>'+esc(source)+'</pre></div>':"";
+ const warning=question.missing?'<p class="hsg-print-unavailable">Lưu ý: '+question.missing+' câu chưa nhận dạng đủ phương án từ bản scan. Vui lòng đối chiếu tài liệu gốc trước khi phát đề.</p>':"";
+ return '<section class="hsg-print-part"><h2>'+esc(block?.title||g.name)+'</h2>'+
+  '<p class="hsg-print-range">Câu '+first+'–'+last+'</p>'+warning+sourceHtml+question.html+'</section>';
+}
+function printDocumentHTML(scope,part){
+ const exam=state.exam,ptnk=exam.id==="ptnk";
+ const full=scope==="all";
+ let doc="";
+ let label="";
+ if(full){
+  // A PTNK code is an independent exam. "Whole paper" should not accidentally print all four codes.
+  const pages=ptnk?sourcePages(groups(exam).find(g=>g.id===state.group)):state.data.pages;
+  label=ptnk?groups(exam).find(g=>g.id===state.group).name:"Toàn bộ đề";
+  doc=printSourcePages(pages);
+ }else{
+  label=part.label.replace(/^\s+↳\s*/,"");
+  doc=printOnePart(part);
+ }
+ return '<div class="hsg-print-document" id="hsg-print-sheet">'+
+  '<header class="hsg-print-cover"><div class="hsg-print-brand">ENGLISH PRACTICE HUB · HSG TỈNH</div>'+
+  '<h1>'+esc(exam.title)+'</h1><p>'+esc(exam.subtitle)+' · '+esc(exam.year)+'</p>'+
+  '<div class="hsg-print-scope">'+esc(label)+'</div>'+
+  '<p class="hsg-print-student">Họ và tên: _______________________________________　Lớp: ___________</p></header>'+
+  doc+
+  '<footer class="hsg-print-final">Hết · Không bao gồm phần Listening · Không kèm đáp án hoặc lời giải</footer>'+
+ '</div>';
+}
+function closePrintDialog(){
+ const dialog=$("hsg-print-dialog");
+ if(!dialog)return;
+ if(dialog.open&&dialog.close)dialog.close();
+ dialog.remove();
+}
+function openPrintDialog(){
+ if(!state.exam||!state.data)return;
+ closePrintDialog();
+ const parts=printParts(),defaultKey=state.exam.id==="ptnk"?
+   (activePassageBlock(groups(state.exam).find(g=>g.id===state.group))?.start||""):
+   "";
+ const preferred=defaultKey?state.group+"@"+defaultKey:state.group;
+ const selectValue=parts.some(p=>p.value===preferred)?preferred:parts[0]?.value;
+ const dialog=document.createElement("dialog");dialog.id="hsg-print-dialog";dialog.className="hsg-print-dialog";
+ dialog.setAttribute("aria-label","In đề HSG tỉnh");
+ dialog.innerHTML='<div class="hsg-print-dialog-head"><div><p>PRINT SETTINGS</p><h2>In đề HSG tỉnh</h2></div>'+
+  '<button type="button" data-hsg-print-close aria-label="Đóng">×</button></div>'+
+  '<div class="hsg-print-dialog-body"><p>Chọn phạm vi muốn in. Bản in A4 sẽ lấy toàn bộ nội dung trong phạm vi đã chọn, không chỉ câu đang mở.</p>'+
+  '<label class="hsg-print-option"><input type="radio" name="hsg-print-scope" value="all" checked>'+
+    '<span><strong>In toàn bộ '+(state.exam.id==="ptnk"?"mã đề đang mở":"đề")+'</strong>'+
+    '<small>'+(state.exam.id==="ptnk"?"In đầy đủ mã "+esc(groups(state.exam).find(g=>g.id===state.group)?.name||""):"Tất cả các phần, không có Listening")+'</small></span></label>'+
+  '<label class="hsg-print-option"><input type="radio" name="hsg-print-scope" value="part">'+
+    '<span><strong>Chỉ in một Part</strong><small>Chọn một phần cụ thể từ đề thi</small></span></label>'+
+  '<label class="hsg-print-select-label" for="hsg-print-select">Chọn Part</label>'+
+  '<select id="hsg-print-select" disabled>'+parts.map(part=>
+   '<option value="'+esc(part.value)+'"'+(part.value===selectValue?' selected':'')+'>'+esc(part.label)+'</option>'
+  ).join("")+'</select>'+
+  '<p class="hsg-print-dialog-note" id="hsg-print-preview-note">In toàn bộ nội dung, không phải phiếu trả lời từng câu.</p></div>'+
+  '<div class="hsg-print-dialog-actions"><button type="button" class="hsg-print-cancel" data-hsg-print-close>Hủy</button>'+
+  '<button type="button" class="hsg-print-go" id="hsg-print-go">Xem bản in / In đề →</button></div>';
+ document.body.appendChild(dialog);
+ dialog.querySelectorAll("[data-hsg-print-close]").forEach(b=>b.onclick=closePrintDialog);
+ const selector=dialog.querySelector("#hsg-print-select");
+ const note=dialog.querySelector("#hsg-print-preview-note");
+ const refresh=()=>{
+  const scope=dialog.querySelector('input[name="hsg-print-scope"]:checked')?.value||"all";
+  selector.disabled=scope==="all";
+  const part=parts.find(p=>p.value===selector.value);
+  note.textContent=scope==="all"?
+   (state.exam.id==="ptnk"?"In đầy đủ "+groups(state.exam).find(g=>g.id===state.group).name+", không gồm ba mã đề còn lại.":"In tất cả các trang đề gốc đã bỏ Listening, mỗi trang chỉ xuất hiện một lần.")
+   :"In "+(part?.block?(part.block.end-part.block.start+1):(part?.group.end-part?.group.start+1||0))+" câu thuộc "+(part?.label.trim()||"Part")+"; không kèm đáp án.";
+ };
+ dialog.querySelectorAll('input[name="hsg-print-scope"]').forEach(input=>input.onchange=refresh);
+ selector.onchange=refresh;
+ dialog.querySelector("#hsg-print-go").onclick=()=>{
+  const scope=dialog.querySelector('input[name="hsg-print-scope"]:checked')?.value||"all";
+  const part=parts.find(p=>p.value===selector.value)||parts[0];
+  document.getElementById("hsg-print-sheet")?.remove();
+  const target=document.createElement("div");
+  // Keep print content separate from the current interactive editor.
+  target.innerHTML=printDocumentHTML(scope,part);
+  const sheet=target.firstElementChild;
+  document.body.appendChild(sheet);
+  closePrintDialog();
+  const cleanup=()=>{
+   window.removeEventListener("afterprint",cleanup);
+   sheet.remove();
+  };
+  window.addEventListener("afterprint",cleanup,{once:true});
+  try{window.print()}catch(error){cleanup();alert("Không mở được cửa sổ in: "+error.message)}
+ };
+ if(typeof dialog.showModal==="function")dialog.showModal();
+ else dialog.setAttribute("open","");
+ refresh();
 }
 
 function exportAnswers(){
