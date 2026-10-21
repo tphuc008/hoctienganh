@@ -611,12 +611,12 @@ function printTypesetText(value){
  for(const raw of lines){
   const line=raw.trim();
   if(/^Page\s+\d+\s+(?:of|\/)\s+\d+$/i.test(line)||/^Trang\s+\d+\s*\/\s*\d+$/i.test(line))continue;
-  const section=/^(?:SECTION\s+[A-ZIVXLCDM0-9]+[.:]|PART\s+[A-D][:.]|[IVX]+\.\s+(?:LEXICO|READING|WRITING|PHONETICS|LANGUAGE))\b/i.test(line);
+  const section=/^(?:SECTION\s+[A-ZIVXLCDM0-9]+[.:]|PART\s+[A-D][:.]|[IVX]+\.\s+(?:LEXICO|READING|WRITING|PHONETICS|LANGUAGE))/i.test(line);
   const part=/^(?:PART|Part)\s+(?:\d+|[IVX]+)[.:)]\s*/.test(line);
   const bareSection=/^(?:READING|WRITING|LEXICO-GRAMMAR|GRAMMAR AND VOCABULARY)\s*(?:\([^)]*\))?$/i.test(line);
   const instruction=/^(?:Read (?:the following|the passage|the text|an extract)|Choose (?:the|a|one)|Complete (?:the|each)|For questions|Fill in (?:the|each)|Identify (?:the|\d+)|Find and correct|Write (?:an|a) essay)/i.test(line);
   const questionMatch=/^(?:Question\s+)?(\d{1,3})[.)]\s*(.*)$/i.exec(line);
-  const answerTable=/^(?:YOUR ANSWERS?|Your answers?|ANSWER SHEET|KEY TO ANSWERS?|ANSWERS?\s*:)($|[ (\t])/i.test(line);
+  const answerTable=/^(?:YOUR ANSWERS?|ANSWER SHEET|KEY TO ANSWERS?|ANSWERS?)(?:\s*[:(]|\s*$)/i.test(line);
   if(!line){
    if(question){
     // An option grid followed by a blank line is a finished question.
@@ -636,7 +636,7 @@ function printTypesetText(value){
   }
   if(skipAnswerGrid){
    // Many source PDFs add an empty answer grid after each task. Do not print it.
-   if(instruction){skipAnswerGrid=false}
+   if(instruction||line.length<100&&line===line.toLocaleUpperCase("en-US")&&/[A-Z]{5}/.test(line)){skipAnswerGrid=false}
    else if(/^Question\s+\d{1,3}[.)]/i.test(line)){skipAnswerGrid=false}
    else continue;
   }
