@@ -135,17 +135,30 @@ function kindLabel(q){
  return q.kind==="choice"?"Chọn một đáp án A–D":"Viết câu trả lời";
 }
 function optionHtml(q){
+ const id=qid(q),checked=!!state.checked[id],correct=global.G10MidtermAssessment.grade(graded(q),state.answers[id]||"");
  return '<div class="g10x-choice-list" role="group" aria-label="Đáp án câu '+q.number+'">'+
  q.choices.map((v,i)=>{
-  const l="ABCD"[i],sel=state.answers[qid(q)]===l;
-  return '<button type="button" class="g10x-choice'+(sel?' is-selected':'')+'" data-g10x-choice="'+l+'" aria-pressed="'+sel+'"><span class="g10x-letter">'+l+'</span><span>'+esc(v)+'</span></button>';
+  const l="ABCD"[i],sel=state.answers[id]===l,isCorrect=checked&&correct.accepted.includes(l);
+  const status=checked?(sel?"<small>Bạn đã chọn</small>":isCorrect?"<small>Đáp án chấp nhận</small>":""):"";
+  return '<button type="button" class="g10x-choice'+(sel?' is-selected':'')+(checked&&sel&&!correct.right?' is-wrong':'')+(isCorrect?' is-correct':'')+'" data-g10x-choice="'+l+'" aria-pressed="'+sel+'" '+(checked?'disabled':'')+'><span class="g10x-letter">'+l+'</span><span>'+esc(v)+status+'</span></button>';
  }).join("")+'</div>';
 }
 function responseHtml(q){
+ const id=qid(q);
  return '<div class="g10x-response"><div class="g10x-q-head"><span class="g10x-q-number">Câu '+q.number+'</span><span class="g10x-kind">'+esc(kindLabel(q))+'</span></div>'+
  '<div class="g10x-prompt">'+esc(q.prompt||"Dựa vào đoạn văn để chọn đáp án cho chỗ trống ("+q.number+").")+'</div>'+
  (q.kind==="choice"?optionHtml(q):'<label class="g10x-written-label" for="g10x-write">Câu trả lời của bạn</label>'+
- '<textarea class="g10x-written" id="g10x-write" data-g10x-write placeholder="Nhập đáp án hoặc thứ tự các câu…">'+esc(state.answers[q.id]||"")+'</textarea>')+'</div>';
+ '<textarea class="g10x-written" id="g10x-write" data-g10x-write '+(state.checked[id]?'disabled':'')+' placeholder="Nhập đáp án hoặc thứ tự các câu…">'+esc(state.answers[id]||"")+'</textarea>')+'</div>';
+}
+function feedback(q){
+ const id=qid(q);if(!state.checked[id])return "";
+ const gradeQ=graded(q),mark=result(q),input=state.answers[id]||"";
+ const status=mark.excluded?"⚠ Câu này không tính điểm":state.revealed[id]?"Đã mở lời giải":mark.right?"✓ Chính xác":"✕ Chưa chính xác";
+ const context=global.G10MidtermAssessment.context(state.graded,gradeQ)||q.intro||"";
+ const explanation=global.G10MidtermAssessment.explain(gradeQ,context);
+ return '<div class="g10x-feedback"><div class="g10x-check-result '+(mark.right?"is-right":"")+'"><b>'+status+'</b>'+
+ '<span>Đáp án của bạn: '+esc(input)+' · Đáp án tham khảo: '+esc(mark.correctAnswer)+'</span></div>'+explanation+
+ (gradeQ.warning?'<div class="g10x-warning">Lưu ý về câu gốc: '+esc(gradeQ.warning)+'</div>':"")+'</div>';
 }
 function highlightedIntro(text,n){
  return esc(text).replace(new RegExp("(\\("+n+"\\)\\s*_{2,})","g"),'<mark class="g10x-current-gap">$1</mark>');
@@ -154,8 +167,8 @@ function bodyHtml(q){
  const intro=passage(q),isReading=!!intro&&intro.length>460;
  let content=responseHtml(q);
  const p=intro?'<details class="g10x-context" open><summary>Đề bài / đoạn văn dùng chung</summary><div>'+highlightedIntro(intro,q.number)+'</div></details>':"";
- if(isReading)return '<div class="g10x-reading-grid">'+p+content+'</div>';
- return p+content;
+ if(isReading)return '<div class="g10x-reading-grid">'+p+content+'</div>'+feedback(q);
+ return p+content+feedback(q);
 }
 function navHtml(){
  return state.questions.map((q,i)=>{
