@@ -226,3 +226,34 @@
  .hsg-passage-divider,.hsg-passage-mobile-tabs{display:none}
  .hsg-split-question{break-inside:avoid}
 }
+
+
+/* Passage focus v3: one source passage on the left, current question's answers on the right. */
+.hsg-passage-content{padding:24px 26px 35px}
+.hsg-passage-page pre{font-size:15px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.hsg-passage-current{background:#dbeafe;color:#1d4ed8;border-radius:4px;padding:1px 4px;font-weight:800}
+.hsg-passage-questions{display:flex;flex-direction:column;justify-content:flex-start;padding:24px 24px 30px}
+.hsg-current-heading{display:flex;flex-direction:column;gap:8px;margin-bottom:23px}
+.hsg-current-heading>span{font-size:23px;line-height:1.2;letter-spacing:-.03em;color:#0f172a;font-weight:850}
+.hsg-current-heading>small{font-size:12px;color:#64748b}
+.hsg-current-form{min-width:0}
+.hsg-current-form .hsg-split-options.answers{display:grid;grid-template-columns:1fr;gap:12px}
+.hsg-current-form .hsg-split-options .answer{font-size:15px;min-height:65px;border-radius:12px;padding:14px 16px;background:#fff;border:1px solid #d9e7f5;text-align:left}
+.hsg-current-form .hsg-split-options .answer:hover{border-color:#93c5fd;background:#f8fbff}
+.hsg-current-form .hsg-split-options .answer.selected{border-color:#2563eb;background:#dbeafe}
+.hsg-current-form .hsg-split-options .answer .letter{width:35px;height:35px;min-width:35px;border-radius:9px;font-size:14px}
+.hsg-current-foot{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-top:20px}
+.hsg-current-foot button{background:transparent;border:0;color:#64748b;font-size:11px;font-weight:650;cursor:pointer}
+.hsg-current-foot button:hover{color:#2563eb}
+.hsg-current-instruction{color:#64748b;font-size:13px;line-height:1.6;margin:0 0 16px}
+.hsg-passage-nav{display:flex;flex:0 0 auto;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;background:#fff;border-top:1px solid #d9e7f5}
+.hsg-passage-nav button{cursor:pointer;background:#f8fbff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:9px;padding:9px 11px;font-size:12px;font-weight:800}
+.hsg-passage-nav button:disabled{opacity:.35;cursor:not-allowed}
+.hsg-passage-nav span{font-size:12px;font-weight:750;color:#64748b;white-space:nowrap}
+@media(max-width:880px){
+ .hsg-passage-questions{padding:17px 16px 24px}
+ .hsg-passage-content{padding:18px 17px 26px}
+ .hsg-passage-page pre{font-size:13px;line-height:1.75}
+ .hsg-current-form .hsg-split-options .answer{min-height:55px;font-size:13px;padding:11px 12px}
+ .hsg-passage-nav{padding:11px 13px}
+}
