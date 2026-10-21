@@ -864,10 +864,4 @@
   .hsg-reading-mode.hsg-pilot .hsg-schema-heading{font-size:19px}
   .hsg-reading-type-controls button{width:31px}
 }
-@media print{
-  .hsg-reading-mode{position:static!important;overflow:visible!important}
-  .hsg-reading-mode .hsg-passage-workspace{height:auto!important;max-height:none!important;overflow:visible!important}
-  .hsg-reading-mode .hsg-passage-left,
-  .hsg-reading-mode .hsg-passage-right{height:auto!important;overflow:visible!important}
-  .hsg-reading-type-controls{display:none!important}
-}
+
