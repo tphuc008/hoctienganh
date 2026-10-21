@@ -123,12 +123,11 @@ function stageRail(kind){
       '<div class="g21-progress" aria-label="Đã chọn '+answered+' trên '+items.length+' câu"><span style="width:'+Math.round(answered/items.length*100)+'%"></span></div>'+
       '<nav class="g21-number-grid" aria-label="Chọn câu hỏi đã làm">'+items.map((q,i)=>{
         const visited=Number.isInteger(picks[q.id]);
-        const canGo=submitted||i===current||visited;
         return '<button type="button" class="g21-number-btn'+(visited?' answered':'')+(i===current?' active':'')+
-          '" data-g21="jump" data-kind="'+kind+'" data-page="'+i+'"'+(canGo?'':' disabled')+
+          '" data-g21="jump" data-kind="'+kind+'" data-page="'+i+'"'+
           (i===current?' aria-current="step"':'')+' aria-label="Câu '+(i+1)+(visited?', đã trả lời':'')+'">'+(i+1)+'</button>';
       }).join('')+'</nav>'+
-      '<p class="g21-rail-foot">Chọn số câu để xem lại · Lời giải hiện sau khi nộp.</p>'+
+      '<p class="g21-rail-foot">Chọn bất kỳ số câu để chuyển nhanh. Practice xem đáp án ngay; Mastery sau khi nộp bài.</p>'+
       '</aside>';
   }
   const groups=scoreBySkill();
@@ -341,12 +340,10 @@ function pageNav(kind,total){
   const count=Math.ceil(total/EXAM_PAGE_SIZE);
   const current=Math.max(0,Math.min(count-1,Number(state.pages?.[kind])||0));
   const question=(kind==="practice"?d.practice:kind==="mastery"?d.mastery:d.review)[current];
-  const selected=Number.isInteger(state[kind]?.[question?.id]);
-  const submitted=Boolean(state[kind+"Submitted"]);
   return '<nav class="g21-page-nav g21-fixed-page-nav" aria-label="Điều hướng câu hỏi"><span>Câu '+(current+1)+' / '+count+'</span>'+
     '<div class="g21-page-controls">'+
       '<button class="g21-btn" data-g21="page" data-kind="'+kind+'" data-page="'+(current-1)+'"'+(current===0?" disabled":"")+'>← Trước</button>'+
-      '<button class="g21-btn primary" data-g21="page" data-kind="'+kind+'" data-page="'+(current+1)+'"'+(current===count-1||(!selected&&!submitted)?" disabled":"")+'>Câu tiếp →</button>'+
+      '<button class="g21-btn primary" data-g21="page" data-kind="'+kind+'" data-page="'+(current+1)+'"'+(current===count-1?" disabled":"")+'>Câu tiếp →</button>'+
     '</div></nav>';
 }
 function exam(kind){
@@ -451,13 +448,12 @@ function reviewNavigator(items,set){
     '<div class="g21-sectionhead"><h3>Bản đồ câu hỏi</h3><span>Đã trả lời '+getScores(items,set.answers).answered+'/'+items.length+'</span></div>'+
     '<nav class="g21-number-grid" aria-label="Chọn câu hỏi trong set">'+items.map((q,i)=>{
       const picked=Number.isInteger(set.answers[q.id]);
-      const usable=set.submitted||picked||i===page;
       return '<button type="button" class="g21-number-btn'+(picked?' answered':'')+(i===page?' active':'')+'" data-g21="review-page" data-page="'+i+'"'+
-        (usable?'':' disabled')+(i===page?' aria-current="step"':'')+' aria-label="Câu '+(i+1)+(picked?', đã trả lời':'')+'">'+(i+1)+'</button>';
+        (i===page?' aria-current="step"':'')+' aria-label="Câu '+(i+1)+(picked?', đã trả lời':'')+'">'+(i+1)+'</button>';
     }).join("")+'</nav>'+
     '<div class="g21-page-nav g21-review-page-nav g21-fixed-page-nav"><span>Câu '+(page+1)+' / '+items.length+'</span><div class="g21-page-controls">'+
       '<button type="button" class="g21-btn" data-g21="review-page" data-page="'+(page-1)+'"'+(page===0?' disabled':'')+'>← Câu trước</button>'+
-      '<button type="button" class="g21-btn primary" data-g21="review-page" data-page="'+(page+1)+'"'+(page===items.length-1||(!answered&&!set.submitted)?' disabled':'')+'>Câu tiếp →</button>'+
+      '<button type="button" class="g21-btn primary" data-g21="review-page" data-page="'+(page+1)+'"'+(page===items.length-1?' disabled':'')+'>Câu tiếp →</button>'+
     '</div></div></div>';
 }
 function reviewSkillResults(items,set){
@@ -587,9 +583,6 @@ mount.addEventListener("click",function(e){
     const n=Number(btn.dataset.page);
     if(!Number.isInteger(n)||n<0||n>=items.length)return;
     const current=Math.max(0,Math.min(items.length-1,set.page||0));
-    if(!set.submitted&&!Number.isInteger(set.answers[items[n].id])&&n!==current){
-      if(n!==current+1||!Number.isInteger(set.answers[items[current].id]))return;
-    }
     set.page=n;save();render("question");return;
   }
   if(a==="lesson"){
@@ -631,7 +624,6 @@ mount.addEventListener("click",function(e){
     if(!items)return;
     const n=Number(btn.dataset.page);
     if(!Number.isInteger(n)||n<0||n>=items.length)return;
-    if(!state[kind+"Submitted"]&&!Number.isInteger(state[kind]?.[items[n].id])&&n!==(Number(state.pages[kind])||0))return;
     state.pages[kind]=n;save();render("question");return;
   }
   if(a==="page"){
@@ -642,7 +634,6 @@ mount.addEventListener("click",function(e){
     if(!Number.isInteger(next)||next<0||next>=count)return;
     const current=Math.max(0,Math.min(count-1,Number(state.pages[kind])||0));
     const question=(kind==="practice"?d.practice:kind==="mastery"?d.mastery:d.review)[current];
-    if(next>current&&!state[kind+"Submitted"]&&!Number.isInteger(state[kind]?.[question?.id]))return;
     state.pages[kind]=next;save();render("question");return;
   }
   if(a==="answer"){updateAnswer(btn.dataset.kind,btn.dataset.id,Number(btn.dataset.index));return;}
