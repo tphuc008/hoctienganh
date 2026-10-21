@@ -28,9 +28,10 @@ const optionInfo=function optionInfo(value,q){
  const syn=syntaxInfo(value);if(syn)return {meaning:syn[0],scope:syn[1],en:syn[2],vi:syn[3]};
  if(/^[a-g]\s*[–-]\s*[a-g]/i.test(term)){const letters=term.match(/[a-g]/g)||[];return {meaning:"một phương án thứ tự câu",scope:`Bắt đầu bằng câu ${letters[0]||"?"} rồi nối sang ${letters[1]||"?"}; phải kiểm tra vai người nói, đại từ hồi chỉ và dấu hiệu liên kết.`,en:"A: What did you do yesterday? B: I joined a clean-up activity. A: That sounds useful!",vi:"A hỏi việc hôm qua; B trả lời; A đưa nhận xét — hội thoại có logic hỏi–đáp."};}
  if(/(?:\s|\/)/.test(term)&&term.length<65&&/^(?:do|does|did|is|are|am|was|were|to|has|have|had|could|would|should)/.test(term)){const info=syntaxInfo(term.split(/[ /]/)[0]);if(info)return {meaning:info[0],scope:info[1],en:info[2],vi:info[3]}}
- if(term.length>42){const clean=String(value).replace(/\s+/g," ").trim();return {meaning:"một mệnh đề hoặc nhận định đầy đủ",scope:"Phải đối chiếu phạm vi khẳng định với chính dữ kiện của câu/đoạn đọc. Một câu có thể đúng ngữ pháp nhưng vẫn sai thông tin, hoặc suy diễn vượt quá văn bản.",en:`In a classroom discussion, a student considered the claim: “${clean.replace(/[.?!]+$/,"")}.”`,vi:"Trong buổi thảo luận trên lớp, một học sinh xem xét nhận định này; cần kiểm chứng bằng dữ kiện gốc trước khi kết luận."}}
- const classHint=/ed\b/.test(term)?"dạng quá khứ hoặc quá khứ phân từ":/ing\b/.test(term)?"dạng V-ing":/s\b/.test(term)?"dạng có hậu tố -s": "cách diễn đạt có nghĩa phụ thuộc văn cảnh";
- return {meaning:classHint,scope:"Xét chức năng từ loại, nghĩa trong ngữ cảnh và mẫu kết hợp với từ đứng trước/sau; không thể thay thế chỉ vì gần nghĩa tiếng Việt.",en:"The teacher asked us to check the word choice against the whole sentence.",vi:"Giáo viên yêu cầu kiểm tra lựa chọn từ dựa trên toàn bộ câu."};
+ // Unknown option profile: no guessed suffix category or reusable filler example.
+ // The V1 quality gate will visibly mark missing per-choice reasoning for review.
+ return {meaning:"",scope:"",en:"",vi:""};
+
 };
 const explain=function explain(q,actualContext){
  const correct=q.options?q.answer:String(q.answer||"");
@@ -43,13 +44,13 @@ const explain=function explain(q,actualContext){
  const first=[
  specific.translation?`Dịch nghĩa: ${specific.translation}`:`Ngữ cảnh cần xử lý: “${preview}”. Dịch ý và trọng tâm: ${q.hint.replace(/^[^=]{0,25} = /," là ")}.`,
  `Clue trong đề: ${nearby?`“${nearby.trim()}”`:snippet?`“${snippet.trim()}”`:`“${preview.slice(0,160)}”`}. ${q.hint}.`,
- `Đáp án ${correct} — “${target}”: ${specific.why||`${info.meaning}. ${info.scope}.`}`
+ `Đáp án ${correct} — “${target}”: ${specific.why||[info.meaning,info.scope,q.hint].filter(Boolean).join(". ")}`
  ];
  const options=(q.options||[]).map((value,i)=>{
   const v=optionInfo(value,q),isRight="ABCD"[i]===correct;
   return {label:"ABCD"[i],word:value,meaning:v.meaning,
-    analysis:isRight?`${v.scope}. ${q.hint}.`:
-    `${v.meaning}. ${v.scope}.`
+    analysis:isRight?[v.meaning,v.scope,q.hint].filter(Boolean).join(". "):
+    [v.meaning,v.scope].filter(Boolean).join(". ")
   };
  });
  const examples=(q.options||[]).map((value,i)=>{const v=optionInfo(value,q);return {label:"ABCD"[i],word:value,en:v.en,vi:v.vi}});
