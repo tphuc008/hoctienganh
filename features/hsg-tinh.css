@@ -952,3 +952,24 @@
  .hsg-hp-explanation .ev1 .semantic-options-grid,
  .hsg-hp-explanation .ev1 .semantic-examples-grid{grid-template-columns:1fr}
 }
+
+/* Hải Phòng preview shortcuts: jump straight to a sample explanation. */
+.hsg-hp-shortcuts{
+ display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;
+ background:#f7faff;border:1px solid #d8e5f6;border-radius:12px;
+ margin:0 0 13px;padding:12px 16px;
+ font:500 12px/1.5 Inter,"Segoe UI",Arial,sans-serif;
+}
+.hsg-hp-shortcuts strong{color:#1e3a8a;font-weight:800}
+.hsg-hp-shortcuts>div{display:flex;gap:7px;flex-wrap:wrap}
+.hsg-hp-shortcuts button{
+ border:1px solid #bfd4f2;background:white;color:#1e40af;
+ border-radius:7px;padding:6px 10px;
+ font:750 12px/1.4 Inter,"Segoe UI",Arial,sans-serif;
+ cursor:pointer;
+}
+.hsg-hp-shortcuts button:hover,.hsg-hp-shortcuts button:focus-visible{
+ background:#eaf2ff;border-color:#93c5fd;
+}
+.hsg-hp-shortcuts small{color:#8a4f12;font-size:11px;line-height:1.45}
+@media(max-width:740px){.hsg-hp-shortcuts{display:block}.hsg-hp-shortcuts>div{margin:9px 0}}
