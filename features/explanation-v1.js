@@ -66,7 +66,7 @@ function vocab(q,d){
  const examples=(d.examples||[]).map((x,i)=>({word:q.o[i],en:x.en,vi:x.vi}));
  const isVocabulary=!!q?.o&&q.o.length===4;
  return {type:isVocabulary?"vocabulary":"wordform",answer,quickReason:(d.mode==="semantic_precision"?d.step1?.[1]||d.step1?.[0]:d.why)||"",
-  evidence:d.mode==="semantic_precision"?(d.step1||[]):(d.why?[d.why]:[]),
+  evidence:d.mode==="semantic_precision"?(d.step1||[]).slice(0,2):(d.why?[d.why]:[]),
   reasoning:d.mode==="semantic_precision"?(d.step1?.[2]||""):(d.contrast||""),
   options:opts,examples,translation:d.translation||"",application:d.usage||d.family||"",
   remember:d.remember||"",needsReview:isVocabulary&&(!opts.length||examples.length!==4)||
