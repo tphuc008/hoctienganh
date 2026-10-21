@@ -239,19 +239,31 @@ function formattedPassage(passage,n){
  const highlight=new RegExp("(\\("+n+"\\)|_{1,3}"+n+"_{1,5})","g");
  return chunks.map(c=>'<p class="hsg-passage-paragraph">'+esc(c).replace(highlight,'<mark class="hsg-passage-current">$1</mark>')+'</p>').join("");
 }
+function errorSourceModel(g,n=state.question){
+ const active=activePassageBlock(g,n);
+ const shift=state.exam?.id==="ptnk"?(Math.min(...g.pages)-1):0;
+ const pages=active?sourcePages(g).filter(p=>active.pages.includes(Number(p.sourcePage)-shift)):sourcePages(g);
+ const source=pages.map(p=>String(p.text||"")).join("\n");
+ const extracted=global.HSGErrorLines.extract(state.exam.id,source);
+ const fallback=extracted.verified?extracted.text:passageOnly(g,n);
+ const model=global.HSGErrorLines.parse(fallback);
+ if(!extracted.verified)model.note=(model.note?model.note+" ":"")+extracted.reason;
+ return {model,verified:extracted.verified};
+}
+
 function originalPages(g){
  const typed=structuredPart(g);
  if(typed)return global.HSGPartSystem.renderPassage(typed,state.answers,g.id,state.question,esc);
- const passage=passageOnly(g);
  if(actualKind(g,state.question)==="error"){
-  const r=state.answers[key(state.question)]||{},lines=passage.replace(/\r\n?/g,"\n").split("\n");
-  return '<section class="hsg-passage-page hsg-error-source"><p class="hsg-error-source-tip">Chọn dòng hoặc bôi đen cụm sai. Bạn cũng có thể nhập đáp án thủ công.</p><div class="hsg-error-lines">'+
-   lines.map((line,i)=>'<div class="hsg-error-line'+(String(r.line||"")===String(i+1)?' is-selected':'')+'" data-hsg-line="'+(i+1)+'"'+(line.trim()?' tabindex="0" role="button" aria-label="Chọn dòng '+(i+1)+'"':'')+'>'+
-   '<span class="hsg-line-number" aria-hidden="true">'+(i+1)+'</span><span class="hsg-line-text">'+(line.trim()?esc(line):'&nbsp;')+'</span></div>').join("")+
-   '</div></section>';
+  const {model,verified}=errorSourceModel(g),r=state.answers[key(state.question)]||{};
+  const text=global.HSGErrorLines.screen(model,r);
+  return verified?text:text.replace('<section class="hsg-passage-page',
+   '<section data-hsg-source-unverified="true" class="hsg-passage-page');
  }
- return '<section class="hsg-passage-page hsg-readable-passage">'+formattedPassage(passage,state.question)+'</section>';
+ return '<section class="hsg-passage-page hsg-readable-passage">'+
+  formattedPassage(passageOnly(g),state.question)+'</section>';
 }
+
 function passageQuestionLabels(g,q){
  if(q.type==="tfng")return [["TRUE","TRUE"],["FALSE","FALSE"],["NOT GIVEN","NOT GIVEN"]];
  if(q.type==="ynng")return [["YES","YES"],["NO","NO"],["NOT GIVEN","NOT GIVEN"]];
@@ -345,21 +357,23 @@ function highlightErrorLine(line){
  source.querySelectorAll("[data-hsg-line]").forEach(row=>row.classList.toggle("is-selected",!!line&&String(row.dataset.hsgLine)===String(line)));
 }
 function attachErrorPassageActions(g){
- const source=$("hsg-passage-left-body");if(!source||actualKind(g,state.question)!=="error")return;
+ const source=$("hsg-passage-left-body");
+ if(!source||actualKind(g,state.question)!=="error")return;
  const choose=(row,selection)=>{
   if(!row)return;
   const n=state.question,k=g.id+":"+n;
-  state.answers[k]={...state.answers[k],type:"error",line:row.dataset.hsgLine};
+  const originalLine=row.dataset.hsgLine||"";
+  state.answers[k]={...state.answers[k],type:"error",line:originalLine};
   if(selection)state.answers[k].error=selection;
   const card=$("hsg-question-"+n);
   if(card){
    const line=card.querySelector('[data-hsg-field="line"]'),wrong=card.querySelector('[data-hsg-field="error"]');
-   if(line)line.value=row.dataset.hsgLine;
+   if(line)line.value=originalLine;
    if(wrong&&selection)wrong.value=selection;
    const status=card.querySelector("[data-hsg-completion]");
    if(status)status.textContent=meaningfulAnswer(state.answers[k])?"Đã trả lời":"Chưa hoàn thành";
   }
-  highlightErrorLine(row.dataset.hsgLine);updateIndicators();queueSave();
+  highlightErrorLine(originalLine);updateIndicators();queueSave();
  };
  source.querySelectorAll("[data-hsg-line]").forEach(row=>{
   row.onclick=()=>{if(!String(window.getSelection?.()?.toString()||"").trim())choose(row,"")};
@@ -370,10 +384,11 @@ function attachErrorPassageActions(g){
   if(!phrase||phrase.length>180)return;
   const a=sel.anchorNode?.nodeType===1?sel.anchorNode:sel.anchorNode?.parentElement;
   const b=sel.focusNode?.nodeType===1?sel.focusNode:sel.focusNode?.parentElement;
-  const row=a?.closest?.("[data-hsg-line]");
-  if(row&&row===b?.closest?.("[data-hsg-line]"))choose(row,phrase);
+  const row=a?.closest?.("[data-hsg-line],[data-hsg-error-paragraph]");
+  if(row&&row===b?.closest?.("[data-hsg-line],[data-hsg-error-paragraph]"))choose(row,phrase);
  };
 }
+
 function focusPassageQuestion(n){
  const g=groups(state.exam).find(x=>x.id===state.group),prior=activePassageBlock(g),previous=state.question;
  state.question=n;
@@ -848,6 +863,23 @@ function printStructuredPart(part,index){
 }
 function printOnePart(part,index){
  const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
+ if(actualKind(g,first)==="error"){
+  const {model,verified}=errorSourceModel(g,first);
+  const title=block?.title||g.name;
+  const answers=Array.from({length:last-first+1},(_,i)=>{
+   const number=first+i;
+   return '<div class="hsg-print-error-answer"><b>'+number+'.</b>'+
+    (model.hasOriginalLines?'<span>Line: __________</span>':"")+
+    '<span>Mistake: __________________</span><span>Correction: __________________</span></div>';
+  }).join("");
+  const warning=!verified?'<p class="hsg-print-unavailable">Không thể xác minh chính xác đoạn gốc. Cần đối chiếu với PDF trước khi phát đề.</p>':"";
+  return '<section class="hsg-print-part" aria-label="'+esc(title)+'">'+
+   '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
+   '<div><h2>'+esc(title)+'</h2><p>'+first+'–'+last+' · '+(last-first+1)+' câu</p></div></header>'+
+   warning+global.HSGErrorLines.print(model)+
+   '<div class="hsg-print-answer-section-title">ERROR CORRECTION · ANSWERS</div>'+
+   '<div class="hsg-print-error-answer-grid">'+answers+'</div></section>';
+ }
  // The paragraph for a PTNK block is separate from the rest of that code.
  const hasPassage=g.kind==="mixed"?!!activePassageBlock(g,first):passageBased(g);
  const typed=structuredPart(g);
