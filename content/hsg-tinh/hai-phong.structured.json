@@ -1,0 +1,452 @@
+{
+  "version": 1,
+  "examId": "hai-phong",
+  "source": "Hải Phòng 2026–2027 · original exam text",
+  "parts": [
+    {
+      "id": "g2a",
+      "title": "Guided Cloze · Advertisement",
+      "kind": "guided_cloze",
+      "start": 41,
+      "end": 45,
+      "passage": [
+        {
+          "type": "heading",
+          "text": "Zero Carbon, Infinite Possibilities: Reserve Your Smart Home"
+        },
+        {
+          "type": "paragraph",
+          "text": "Experience the future of living today!"
+        },
+        {
+          "type": "bullet",
+          "text": "• When comparing all smart homes available today, our eco-friendly models stand out, while (41) _____ on the market lack our unique solar integration technology. Smart homes with zero carbon emissions help save your monthly utility bills while protecting the environment. (42) _____ our design philosophy (43) _____ to ecological conscientiousness, creating homes that are perfect investments for your family's future."
+        },
+        {
+          "type": "bullet",
+          "text": "• Our revolutionary energy management system does justice to the urgent need for climate action by eliminating carbon emissions completely. Many of our satisfied customers have already (44) _____, while plenty of units remain available for reservation. The (45) _____ attainability of these homes makes sustainable living accessible to everyone."
+        },
+        {
+          "type": "bullet",
+          "text": "• Reserve yours now before all of the properties are sold out!"
+        }
+      ],
+      "questions": [
+        {
+          "number": 41,
+          "stem": "Choose the best option for gap (41).",
+          "options": [
+            "other",
+            "the others",
+            "another",
+            "others"
+          ]
+        },
+        {
+          "number": 42,
+          "stem": "Choose the best option for gap (42).",
+          "options": [
+            "In the middle of",
+            "By the side of",
+            "At the bottom of",
+            "For the sake of"
+          ]
+        },
+        {
+          "number": 43,
+          "stem": "Choose the best option for gap (43).",
+          "options": [
+            "lies a commitment",
+            "lie a commitment",
+            "a commitment lies",
+            "does a commitment lie"
+          ]
+        },
+        {
+          "number": 44,
+          "stem": "Choose the best option for gap (44).",
+          "options": [
+            "lived up to",
+            "moved in",
+            "came up with",
+            "stood out"
+          ]
+        },
+        {
+          "number": 45,
+          "stem": "Choose the best option for gap (45).",
+          "options": [
+            "fiscal",
+            "mercantile",
+            "pecuniary",
+            "fiduciary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g2b",
+      "title": "Guided Cloze · Letter",
+      "kind": "guided_cloze",
+      "start": 46,
+      "end": 50,
+      "passage": [
+        {
+          "type": "heading",
+          "text": "CHANGES IN OFFICE WORKING HOURS"
+        },
+        {
+          "type": "salutation",
+          "text": "To all staff of the company,"
+        },
+        {
+          "type": "paragraph",
+          "text": "We would like to (46) _____ you about an important update regarding our office working hours. (47) _____ recent feedback from several employees, we have decided to implement the following changes starting next Monday:"
+        },
+        {
+          "type": "bullet",
+          "text": "• New office hours: 9:00 AM – 5:00 PM (Monday to Friday)"
+        },
+        {
+          "type": "bullet",
+          "text": "• Lunch break: 1:00 PM – 2:00 PM (1-hour break)."
+        },
+        {
+          "type": "bullet",
+          "text": "• Flexible working days: Employees can work from home on Wednesdays, as long as they (48) _____ sure they are online during working hours. This decision was made to improve work-life balance and (49) _____ productivity among employees. We trust that these changes will benefit a majority of our staff. If you have any questions or concerns, feel free to reach out to the HR (50) _____. Thank you for your cooperation!"
+        },
+        {
+          "type": "closing",
+          "text": "Best regards,"
+        }
+      ],
+      "questions": [
+        {
+          "number": 46,
+          "stem": "Choose the best option for gap (46).",
+          "options": [
+            "to inform",
+            "informing",
+            "to informing",
+            "inform"
+          ]
+        },
+        {
+          "number": 47,
+          "stem": "Choose the best option for gap (47).",
+          "options": [
+            "By means of",
+            "In spite of",
+            "In light of",
+            "On behalf of"
+          ]
+        },
+        {
+          "number": 48,
+          "stem": "Choose the best option for gap (48).",
+          "options": [
+            "get",
+            "make",
+            "take",
+            "stay"
+          ]
+        },
+        {
+          "number": 49,
+          "stem": "Choose the best option for gap (49).",
+          "options": [
+            "control",
+            "observe",
+            "adapt",
+            "enhance"
+          ]
+        },
+        {
+          "number": 50,
+          "stem": "Choose the best option for gap (50).",
+          "options": [
+            "vacancy",
+            "accountant",
+            "department",
+            "branch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wp",
+      "title": "Word Formation · Tourism",
+      "kind": "word_formation",
+      "start": 61,
+      "end": 65,
+      "passage": [
+        {
+          "type": "paragraph",
+          "text": "In recent years, the tourism industry has undergone unprecedented growth, attracting millions of international visitors to destinations once considered remote. This rapid expansion has brought both opportunities and challenges. While (61. promote) _____ campaigns often rely on highly persuasive images of pristine landscapes and vibrant cultures, critics argue that such representations may lack (62. verify) _____, raising concerns about authenticity. In some regions, local authorities have adopted rather (63. dictate) _____ measures to control tourist behaviour, including strict regulations on environmental protection and cultural preservation. Although these policies can appear restrictive, they are often justified as necessary for sustainable development. At the same time, many communities have found tourism to be deeply inspiring, encouraging younger generations to appreciate their heritage and engage in cultural exchange. However, without careful planning, the industry may lead to overcrowding and environmental (64. grade) _____. Therefore, it is essential for governments and (65. hold) _____ to strike a balance between economic benefits and long-term sustainability in order to ensure that tourism remains a positive force for global understanding."
+        }
+      ],
+      "questions": [
+        {
+          "number": 61,
+          "stem": "Use the correct form of the word in brackets.",
+          "word": "promote"
+        },
+        {
+          "number": 62,
+          "stem": "Use the correct form of the word in brackets.",
+          "word": "verify"
+        },
+        {
+          "number": 63,
+          "stem": "Use the correct form of the word in brackets.",
+          "word": "dictate"
+        },
+        {
+          "number": 64,
+          "stem": "Use the correct form of the word in brackets.",
+          "word": "grade"
+        },
+        {
+          "number": 65,
+          "stem": "Use the correct form of the word in brackets.",
+          "word": "hold"
+        }
+      ]
+    },
+    {
+      "id": "oc",
+      "title": "Reading · Open Cloze",
+      "kind": "open_cloze",
+      "start": 66,
+      "end": 75,
+      "passage": [
+        {
+          "type": "paragraph",
+          "text": "Autism is a mental disease which prevents those who suffer from it from communicating with the (66) _____ world. Victims seem to live in a world of their own which, (67) _____ now, doctors are unable to penetrate. The illness was first (68) _____ a name in 1943, and yet doctors have made very little progress in their understanding of the disease since then. According to statistics, (69) _____ two and four children out of every 10,000 are born autistic. Often victims are not able to (70) _____, read or write. But (71) _____ is most extraordinary about the illness is the fact that in other areas many of the children can perform almost super-human feats of the brain. One common skill these so-called autistic savants have is the ability of calculating calendar, (72) _____ is the ability to say which day of the week a particular date falls (73) _____. Jackie, for instance, who is now 42, could do this from the age of six, when she first began to talk. She can tell you what day of the week it was on 1st April 1933 with (74) _____ a moment's hesitation. But if you ask her (75) _____ she does it, she'll say she doesn't know."
+        }
+      ],
+      "questions": [
+        {
+          "number": 66,
+          "stem": "Write ONE suitable word for gap (66)."
+        },
+        {
+          "number": 67,
+          "stem": "Write ONE suitable word for gap (67)."
+        },
+        {
+          "number": 68,
+          "stem": "Write ONE suitable word for gap (68)."
+        },
+        {
+          "number": 69,
+          "stem": "Write ONE suitable word for gap (69)."
+        },
+        {
+          "number": 70,
+          "stem": "Write ONE suitable word for gap (70)."
+        },
+        {
+          "number": 71,
+          "stem": "Write ONE suitable word for gap (71)."
+        },
+        {
+          "number": 72,
+          "stem": "Write ONE suitable word for gap (72)."
+        },
+        {
+          "number": 73,
+          "stem": "Write ONE suitable word for gap (73)."
+        },
+        {
+          "number": 74,
+          "stem": "Write ONE suitable word for gap (74)."
+        },
+        {
+          "number": 75,
+          "stem": "Write ONE suitable word for gap (75)."
+        }
+      ]
+    },
+    {
+      "id": "rc",
+      "title": "Reading · Cloze",
+      "kind": "guided_cloze",
+      "start": 76,
+      "end": 80,
+      "passage": [
+        {
+          "type": "paragraph",
+          "text": "There are many people who can speak many languages, or hyperglots, in the world today. With globalisation, there will be a growing number of them in the future. A central question is whether hyperglots are born or made. Are their achievements genetic or do hyperglots have secrets (76) _____? These people generally have advantages they are born with. Hyperglots seem to possess excellent memories and have brains that are more efficient in processing speech sounds. (77) _____. This means that the difference between a top performer and someone who is just 'very good' is that the top performer has practised for 10,000 hours instead of 6,000. The fact is that most ordinary language learners lack these natural advantages and (78) _____. So is there any hope for us? Research on hyperglots can offer some useful lessons. For example, they often have limited ambitions in terms of individual languages. They are happy to get by, or (79) _____, or not to have a perfect accent. Additionally, they are practical. If they cannot travel, they look for opportunities to use the language closer to home. Some simply imagine conversations in their heads. (80) _____. Finally, they are never afraid to make mistakes or appear stupid and so never give up."
+        }
+      ],
+      "questions": [
+        {
+          "number": 76,
+          "stem": "Choose the best option for gap (76).",
+          "options": [
+            "who teach normal people how to learn language",
+            "which normal language learners can teach",
+            "why they are normal language learners",
+            "that normal language learners can learn from"
+          ]
+        },
+        {
+          "number": 77,
+          "stem": "Choose the best option for gap (77).",
+          "options": [
+            "Therefore, it is necessary to work very hard to become the best",
+            "Thus, everyone can become the best without working very hard",
+            "Instead, working very hard does not mean becoming the best",
+            "However, becoming the best also requires a lot of hard work"
+          ]
+        },
+        {
+          "number": 78,
+          "stem": "Choose the best option for gap (78).",
+          "options": [
+            "do not have that much time",
+            "having too little time for learning",
+            "didn't spend so much time learning",
+            "not learning for such a long time"
+          ]
+        },
+        {
+          "number": 79,
+          "stem": "Choose the best option for gap (79).",
+          "options": [
+            "only having the ability to read",
+            "to be only able to read",
+            "are only capable of reading",
+            "being capable of reading only"
+          ]
+        },
+        {
+          "number": 80,
+          "stem": "Choose the best option for gap (80).",
+          "options": [
+            "Techniques like putting words in context are useless for them",
+            "They always avoid learning words by putting them in context",
+            "They also use other techniques like learning words in context",
+            "Other techniques like using words in context are not necessary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "r",
+      "title": "Reading Comprehension",
+      "kind": "reading_comprehension",
+      "start": 81,
+      "end": 90,
+      "passage": [
+        {
+          "type": "paragraph",
+          "text": "Until recently, most American entrepreneurs were men. Discrimination against women in business, the demands of caring for families, and lack of business training had kept the number of women entrepreneurs small. Now, however, businesses owned by women account for more than $40 billion in annual revenues, and this figure is likely to continue rising throughout the 1990s. As Carolyn Doppelt Gray, an official of the Small Business Administration, has noted, \"The 1970s was the decade of women entering management, and the 1980s turned out to be the decade of the woman entrepreneur.\" What are some of the factors behind this trend? For one thing, as more women earn advanced degrees in business and enter the corporate world, they are finding obstacles. Women are still excluded from most executive suites. Charlotte Taylor, a management consultant, had noted, \"In the 1970s women believed if they got an MBA and worked hard, they could become chairman of the board. Now they've found out that isn't going to happen, so they go out on their own.\" In the past, most women entrepreneurs worked in \"women's\" fields - cosmetics and clothing, for example. But this is changing. Consider ASK Computer Systems, a $22-million-a-year computer software business. It was founded in 1973 by Sandra Kurtzig, who was then a housewife with degrees in math and engineering. When Kurtzig founded the business, her first product was software that let weekly newspapers keep tabs on their newspaper carriers - and her office was a bedroom at home, with a shoebox under the bed to hold the company's cash. After she succeeded with the newspaper software system, she hired several bright computer-science graduates to develop additional programs. When these were marketed and sold, ASK began to grow. It now has 200 employees, and Sandra Kurtzig owns $66.9 million of stock. Of course, many women who start their own businesses fail, just as men often do. They still face hurdles in the business world, especially problems in raising money; the banking and finance world is still dominated by men, and old attitudes die hard. Most businesses owned by women are still quite small. But the situation is changing; there are likely to be many more Sandra Kurtzigs in the years ahead."
+        }
+      ],
+      "questions": [
+        {
+          "number": 81,
+          "stem": "What is the main idea of this passage?",
+          "options": [
+            "Women are better educated, more attractive to the business world.",
+            "The computer is especially lucrative for women today.",
+            "Women are better at small businesses than men are.",
+            "Women today are opening more businesses of their own."
+          ]
+        },
+        {
+          "number": 82,
+          "stem": "The word \"excluded\" in paragraph 1 is closest in meaning to _____.",
+          "options": [
+            "left out",
+            "taken in",
+            "comprised of",
+            "allowed for"
+          ]
+        },
+        {
+          "number": 83,
+          "stem": "All of the following were mentioned in the passage as detriments to women in the business world EXCEPT _____.",
+          "options": [
+            "women were required to stay at home with their families",
+            "women lacked ability to work in business",
+            "women faced discrimination in business",
+            "women were not trained in business"
+          ]
+        },
+        {
+          "number": 84,
+          "stem": "The word \"that\" in paragraph 1 refers to _____.",
+          "options": [
+            "a woman becomes chairman of the board",
+            "a woman working hard",
+            "women achieving advanced degrees",
+            "women believing that business is a place for them"
+          ]
+        },
+        {
+          "number": 85,
+          "stem": "According to the passage, Charlotte Taylor believes that women in the 1970s _____.",
+          "options": [
+            "were unrealistic about their opportunities in business management",
+            "were still more interested in education than business opportunities",
+            "had fewer obstacles in business than they do today",
+            "were unable to work hard enough to succeed in business"
+          ]
+        },
+        {
+          "number": 86,
+          "stem": "The expression \"keep tabs on\" in paragraph 2 is closest in meaning to _____.",
+          "options": [
+            "recognize the appearance of",
+            "keep records of",
+            "provide transportation for",
+            "pay the salaries of"
+          ]
+        },
+        {
+          "number": 87,
+          "stem": "The author mentions the \"shoebox under the bed\" in paragraph 2 in order to _____.",
+          "options": [
+            "show the frugality of women in business at that time",
+            "show the resourcefulness of a talented woman like Sandra Kurtzig",
+            "show that the initial financial resources of Sandra Kurtzig's business were limited",
+            "suggest that the company needed to expand its business"
+          ]
+        },
+        {
+          "number": 88,
+          "stem": "The word \"hurdles\" in paragraph 3 can be best replaced by _____.",
+          "options": [
+            "fences",
+            "obstacles",
+            "edges",
+            "forces"
+          ]
+        },
+        {
+          "number": 89,
+          "stem": "It can be inferred from the passage that the author believes that businesses operated by women are small because _____.",
+          "options": [
+            "women prefer a small intimate setting",
+            "women can deal with money easily",
+            "women are not able to borrow money easily",
+            "many women fail at multinationals"
+          ]
+        },
+        {
+          "number": 90,
+          "stem": "The author's attitude about the future of women in business is _____.",
+          "options": [
+            "sceptical",
+            "optimistic",
+            "frustrated",
+            "negative"
+          ]
+        }
+      ]
+    }
+  ]
+}
