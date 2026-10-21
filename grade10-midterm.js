@@ -1,6 +1,6 @@
 /* Grade 10 midterm interactive quizzes, Grade 12-style semantic explanations. */
 const mtState={"tests":null,"chosenTest":null,"index":0,"answers":{},"checked":{},"revealed":{},"loading":null,"results":false,"startedAt":0,"submissionId":null,"recorded":false,"owner":null};
-const MT_ALTERNATIVES={"1-17":["A","B"],"3-26":["C","D"],"3-27":["A","B"],"3-35":["A","C"],"4-11":["B","C"],"4-16":["A","B","C","D"],"5-13":["B","C"],"5-14":["B","C"],"5-29":["A","B"],"6-22":["C","D"]};
+const MT_ALTERNATIVES={"1-13":["A","C"],"1-17":["A","B"],"1-20":["A","B"],"3-26":["C","D"],"3-27":["A","B"],"3-35":["A","C"],"4-11":["B","C"],"4-16":["A","B","C","D"],"5-13":["B","C"],"5-14":["B","C"],"5-29":["A","B"],"6-22":["C","D"]};
 const MT_NO_SCORE=new Set(["1-41","1-42","1-43","4-16","6-26","6-29"]);
 function mtKey(id){return "grade-10/mid-term-test/test-"+id}
 function mtSave(){
