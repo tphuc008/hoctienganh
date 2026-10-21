@@ -408,11 +408,10 @@ function renderExam(){
  '</main>'+(passage?'':'<aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside>')+'</div></div>';
  root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{const next=groups(e).find(x=>x.id===b.dataset.group);state.group=next.id;state.question=next.start;renderExam();queueSave()});
  root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{
-  const old=activePassageBlock(g),next=Number(b.dataset.question);state.question=next;
-  const now=activePassageBlock(g);
-  if(g.kind==="mixed"&&old?.start!==now?.start)renderExam();
+  const old=activePassageBlock(g),next=Number(b.dataset.question),now=activePassageBlock(g,next);
+  if(g.kind==="mixed"&&old?.start!==now?.start){state.question=next;renderExam()}
   else if(passage)focusPassageQuestion(next);
-  else renderEditor();
+  else{state.question=next;renderEditor()}
   updateIndicators();queueSave();
  });
  const dropdown=$("hsg-reading-jump");
