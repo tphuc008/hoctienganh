@@ -519,3 +519,71 @@
  #hsg-print-sheet .hsg-print-unavailable{font-size:9pt;border-left:3px solid #d97706;padding:7px 10px;margin:8px 0;color:#7c2d12}
  #hsg-print-sheet .hsg-print-final{border-top:1px solid #cbd5e1;padding-top:10px;margin-top:20px;font-size:8.5pt;color:#475569;text-align:center}
 }
+
+
+
+/* Print v2: multi-Part checklist and restrained, print-friendly exam typography. */
+.hsg-print-part-picker{border:1px solid #d7e3f1;border-radius:12px;overflow:hidden;background:#fff;transition:opacity .15s}
+.hsg-print-part-picker.is-disabled{opacity:.5;background:#f8fafc}
+.hsg-print-parts-toolbar{min-height:47px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;background:#f8fbff;padding:9px 13px;border-bottom:1px solid #e1e9f2}
+.hsg-print-parts-toolbar>strong{font-size:13px;font-weight:750;color:#1e293b}
+.hsg-print-parts-toolbar>div{display:flex;gap:9px}
+.hsg-print-parts-toolbar button{padding:4px 2px;color:#1d4ed8;font-size:12px;font-weight:750;border:0;background:transparent;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.hsg-print-parts-toolbar button:hover{color:#1e40af}
+.hsg-print-parts-toolbar button:disabled{cursor:not-allowed;color:#64748b}
+.hsg-print-parts-list{max-height:240px;overflow-y:auto;overscroll-behavior:contain;scrollbar-color:#bbd3ea #fff}
+.hsg-print-part-option{display:flex;align-items:center;gap:11px;padding:12px 14px;border-bottom:1px solid #edf1f7;cursor:pointer;min-height:45px}
+.hsg-print-part-option:last-child{border-bottom:0}
+.hsg-print-part-option:hover{background:#f5f9ff}
+.hsg-print-part-option:has(input:checked){background:#edf5ff}
+.hsg-print-part-option input{width:18px;height:18px;accent-color:#2563eb;flex:0 0 18px;margin:0}
+.hsg-print-part-name{font-size:13px;line-height:1.55;color:#1f2e42;flex:1;min-width:0;overflow-wrap:anywhere}
+.hsg-print-part-range{font-size:12px;color:#64748b;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:650}
+.hsg-print-go:disabled{opacity:.43;cursor:not-allowed;background:#64748b;border-color:#64748b}
+.hsg-print-dialog-body{max-height:min(68dvh,680px);overflow-y:auto}
+.hsg-print-dialog-note{font-size:13px!important;color:#334155!important;font-weight:650}
+@media(max-width:480px){
+ .hsg-print-parts-list{max-height:195px}
+ .hsg-print-part-option{padding:11px 12px}
+}
+/* Independent from the learning workspace, exported only in browser print mode. */
+@media print{
+ @page{size:A4 portrait;margin:17mm 17mm 18mm}
+ #hsg-print-sheet{font-family:Arial,"Helvetica Neue",sans-serif;font-size:10.5pt;line-height:1.6;color:#17212f}
+ #hsg-print-sheet .hsg-print-cover{border:0;padding:0;margin:0 0 20px;break-inside:avoid;break-after:avoid}
+ #hsg-print-sheet .hsg-print-header-top{display:flex;justify-content:space-between;gap:16px;padding:0 0 9px;border-bottom:1.5px solid #1f2937;font-size:7.5pt;font-weight:700;letter-spacing:.085em;color:#334155}
+ #hsg-print-sheet .hsg-print-eyebrow{margin:17px 0 6px;font-size:8pt;letter-spacing:.17em;font-weight:800;color:#475569}
+ #hsg-print-sheet .hsg-print-cover h1{font-size:22pt;line-height:1.18;letter-spacing:-.02em;font-weight:800;margin:0 0 8px;color:#0f172a}
+ #hsg-print-sheet .hsg-print-subtitle{font-size:10pt;line-height:1.5;color:#334155;margin:0 0 14px}
+ #hsg-print-sheet .hsg-print-subtitle span{padding:0 6px;color:#94a3b8}
+ #hsg-print-sheet .hsg-print-info-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:10px 13px;margin:11px 0 19px;background:#f1f5f9;border-left:3px solid #334155;color:#334155;font-size:9pt}
+ #hsg-print-sheet .hsg-print-info-row .hsg-print-info-scope{font-weight:800;font-size:10pt;color:#0f172a}
+ #hsg-print-sheet .hsg-print-student{display:flex;justify-content:space-between;gap:16px;margin:0 0 12px;font-size:10pt;color:#1e293b}
+ #hsg-print-sheet .hsg-print-student span{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+ #hsg-print-sheet .hsg-print-student span:first-child{width:72%}
+ #hsg-print-sheet .hsg-print-student span:last-child{width:25%}
+ #hsg-print-sheet .hsg-print-student i{flex:1;border-bottom:1px dotted #64748b;height:12px}
+ #hsg-print-sheet .hsg-print-part{margin:0 0 22px;break-inside:auto}
+ #hsg-print-sheet .hsg-print-part+.hsg-print-part{padding-top:15px;border-top:1px solid #cbd5e1;margin-top:18px}
+ #hsg-print-sheet .hsg-print-part-head{display:grid;grid-template-columns:55px minmax(0,1fr);gap:13px;align-items:start;margin:0 0 16px;break-inside:avoid;break-after:avoid}
+ #hsg-print-sheet .hsg-print-part-number{font-size:8pt;line-height:1.4;font-weight:800;color:#fff;background:#334155;text-align:center;border-radius:3px;padding:7px 4px;white-space:nowrap}
+ #hsg-print-sheet .hsg-print-part-head h2{font-size:14.5pt;line-height:1.3;margin:0 0 3px;color:#0f172a;font-weight:800;letter-spacing:-.012em}
+ #hsg-print-sheet .hsg-print-part-head p{font-size:9pt;line-height:1.45;margin:0;color:#64748b;font-weight:600}
+ #hsg-print-sheet .hsg-print-passage{padding:13px 14px;margin:12px 0 20px;border:1px solid #d2dbe5;border-left:3px solid #64748b;background:#fafbfd}
+ #hsg-print-sheet .hsg-print-passage-label{font-size:8pt;font-weight:800;letter-spacing:.065em;margin:0 0 9px;color:#475569}
+ #hsg-print-sheet pre{font:10.5pt/1.7 Arial,"Helvetica Neue",sans-serif;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;letter-spacing:0}
+ #hsg-print-sheet .hsg-print-source-page{margin:0 0 22px;break-inside:auto}
+ #hsg-print-sheet .hsg-print-source-page+.hsg-print-source-page{margin-top:12px;padding-top:15px;border-top:1px solid #dbe3ed}
+ #hsg-print-sheet .hsg-print-source-label{display:inline-block;padding:3px 9px;margin:0 0 12px;font-size:8pt;color:#475569;background:#f1f5f9;border-radius:3px}
+ #hsg-print-sheet .hsg-print-question{margin:0 0 15px;padding:0 0 2px;break-inside:avoid}
+ #hsg-print-sheet .hsg-print-question>p{font-size:10.5pt;line-height:1.65;color:#17212f;margin:0 0 8px}
+ #hsg-print-sheet .hsg-print-question>p strong{font-weight:800;color:#0f172a}
+ #hsg-print-sheet .hsg-print-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px;row-gap:7px;margin-left:16px}
+ #hsg-print-sheet .hsg-print-choice{font-size:10pt;line-height:1.55;break-inside:avoid;overflow-wrap:break-word}
+ #hsg-print-sheet .hsg-print-lines{font-size:9.5pt;color:#334155;margin:8px 0 1px 16px;line-height:1.9}
+ #hsg-print-sheet .hsg-print-writing-lines{margin:3px 0 7px}
+ #hsg-print-sheet .hsg-print-writing-lines>div{height:26px;border-bottom:1px dotted #94a3b8}
+ #hsg-print-sheet .hsg-print-unavailable{background:#fff8eb;border-left:3px solid #92400e;color:#78350f;padding:8px 10px;margin:10px 0 15px;font-size:9pt;break-inside:avoid}
+ #hsg-print-sheet .hsg-print-final{font-size:8pt;line-height:1.45;display:flex;justify-content:space-between;gap:20px;border-top:1px solid #cbd5e1;margin-top:25px;padding:10px 0 0;color:#475569}
+ #hsg-print-sheet .hsg-print-final span:first-child{font-weight:700;letter-spacing:.055em}
+}
