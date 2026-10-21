@@ -7,7 +7,7 @@
 const clean=s=>String(s||"").replace(/\r\n?/g,"\n").replace(/[\u200b-\u200d\ufeff]/g,"").replace(/\u00a0/g," ").replace(/[ \t]+\n/g,"\n");
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const ANCHORS={
- "hai-phong":/Peer pressure is a psychological force/i,
+ "hai-phong":/Part 3\.\s*Identify 5 errors/i,
  "tay-ninh":/The passage below contains 5 mistakes/i,
  "thanh-hoa":/III\.\s*The passage below contains 5 mistakes/i
 };
@@ -42,7 +42,7 @@ function numbered(text){
  const entries=[];
  for(let i=0;i<src.length;i++){
   const line=src[i].trim();
-  const m=/^(?:Line\s+)?(0|[1-9]\d?)[.)]?[ \t]*(.*)$/i.exec(line);
+  const m=/^(?:Line\s+)?(0|[1-9]\d?)[.)]?[ \t]*(?:[_|]\s*)?(.*)$/i.exec(line);
   if(!m)continue;
   const n=Number(m[1]);
   // Reject ordinary question numbers and unrelated tables.
@@ -71,9 +71,36 @@ function numbered(text){
  }
  return null;
 }
+function columnNumbered(source){
+ const all=clean(source).split("\n");
+ // Some PDFs extract an entire narrow column of labels (1...12) BEFORE
+ // extracting the text column. Zip them only when text-row counts match.
+ for(let i=0;i<all.length;i++){
+  if(all[i].trim()!=="1")continue;
+  const labels=[];let at=i,expected=1;
+  while(at<all.length&&expected<=30){
+   const current=all[at].trim();
+   if(!current){at++;continue}
+   if(!/^\d{1,2}$/.test(current)||Number(current)!==expected)break;
+   labels.push(expected++);at++;
+  }
+  if(labels.length<5)continue;
+  const content=[];
+  for(;at<all.length;at++){
+   const line=all[at].trim();
+   if(/^(?:Example\s*:|YOUR\s+ANSWERS?\b|PART\s+\d+[.:)]|Questions?\s+\d+)/i.test(line))break;
+   if(line)content.push(line);
+  }
+  if(content.length!==labels.length)continue;
+  if(content.filter(t=>t.length>=22).length<Math.ceil(labels.length*.7))continue;
+  return {lines:labels.map((number,k)=>({number,text:content[k]})),
+   sourceStart:i,sourceEnd:at,originalColumn:true};
+ }
+ return null;
+}
 function parse(text){
  const source=clean(text).trim();
- const matched=numbered(source);
+ const matched=numbered(source)||columnNumbered(source);
  if(matched){
   return {hasOriginalLines:true,lines:matched.lines,paragraphs:[],note:"",
     introduction:source.split("\n").slice(0,matched.sourceStart).join("\n").trim()};
