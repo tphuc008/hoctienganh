@@ -171,14 +171,14 @@ function diagramHTML(){
 }
 function questionsHTML(){
  const resultHead=state.submitted?
- '<div class="mis-results-banner"><strong>'+score()+'/14 câu đúng</strong><div>Thời gian làm bài: '+mmss((state.submittedAt-state.startedAt)/1000)+' · Nhấn vào số câu ở thanh dưới để xem bằng chứng và lời giải.</div></div>':"";
+ '<div class="mis-results-banner"><strong>'+score()+'/14 câu đúng</strong><div>Thời gian: '+mmss((state.submittedAt-state.startedAt)/1000)+' · Chọn số câu để xem bằng chứng/lời giải.</div></div>':"";
  const matching=Q.filter(function(q){return q.type==="match"}).map(questionHTML).join("");
  const ynng=Q.filter(function(q){return q.type==="ynng"}).map(questionHTML).join("");
  const blanks=Q.filter(function(q){return q.type==="input"}).map(inputHTML).join("");
  return resultHead+
- '<section class="mis-q-section"><h2>Questions 27–31</h2><p class="mis-q-instruction"><strong>Matching Information.</strong> Which paragraph A–H contains each piece of information? Choose the correct letter.</p>'+matching+'</section>'+
- '<section class="mis-q-section"><h2>Questions 32–36</h2><p class="mis-q-instruction"><strong>YES / NO / NOT GIVEN.</strong> YES: agrees with the passage; NO: contradicts it; NOT GIVEN: no information.</p>'+ynng+'</section>'+
- '<section class="mis-q-section"><h2>Questions 37–40</h2><p class="mis-q-instruction"><strong>Flow-chart Completion.</strong> Complete the diagram. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>'+diagramHTML()+
+ '<section class="mis-q-section"><h2>Questions 27–31</h2><p class="mis-q-instruction"><strong>Matching Information.</strong> Match each statement to a paragraph (A–H).</p>'+matching+'</section>'+
+ '<section class="mis-q-section"><h2>Questions 32–36</h2><p class="mis-q-instruction"><strong>YES / NO / NOT GIVEN.</strong> YES = agrees · NO = contradicts · NOT GIVEN = unstated.</p>'+ynng+'</section>'+
+ '<section class="mis-q-section"><h2>Questions 37–40</h2><p class="mis-q-instruction"><strong>Flow-chart Completion.</strong> Use <strong>NO MORE THAN TWO WORDS</strong> from the passage.</p>'+diagramHTML()+
  '<div class="mis-flow-fields">'+blanks+'</div></section>';
 }
 function navHTML(){
@@ -354,7 +354,7 @@ function captureSelection(){
  }
 }
 function highlight(){
- if(!selection){window.alert("Hãy bôi đen một cụm trong passage trước khi nhấn Highlight.");return}
+ if(!selection){window.alert("Bôi đen cụm từ trước khi Highlight.");return}
  const p=PASSAGE[selection.p];if(!p||!p.includes(selection.text)){window.alert("Hãy chọn chữ nằm trong một đoạn văn.");return}
  if(!(state.highlights||[]).some(function(x){return x.p===selection.p&&x.text===selection.text})){
   state.highlights.push(selection);save();
@@ -364,7 +364,7 @@ function highlight(){
  left.addEventListener("mouseup",captureSelection);left.addEventListener("keyup",captureSelection);
 }
 function dictionary(){
- if(!selection||!selection.text){window.alert("Hãy chọn một từ hoặc cụm từ tiếng Anh trong passage.");return}
+ if(!selection||!selection.text){window.alert("Chọn từ/cụm từ trong bài đọc.");return}
  const term=selection.text.trim().split(/\s+/).slice(0,5).join(" ");
  window.open("https://dictionary.cambridge.org/dictionary/english/"+encodeURIComponent(term),"_blank","noopener,noreferrer");
 }
@@ -403,7 +403,7 @@ function exercise(){
  '<div class="exercise-intro"><div class="eyebrow">IELTS Academic Reading · Passage 3</div><h1><span class="gradient">Marketing and the Information Age</span></h1>'+
  '<p>14 câu hỏi (27–40) · 25 phút.</p>'+
  '<div class="pills"><span class="pill">Matching Information</span><span class="pill">YES / NO / NOT GIVEN</span><span class="pill">Flow-chart Completion</span></div>'+
- '<p><strong>Lưu ý:</strong> Bấm bắt đầu để chạy giờ. Hết giờ, bài tự nộp.</p>'+
+ '<p><strong>Lưu ý:</strong> Bắt đầu tính giờ · Hết giờ tự nộp.</p>'+
  '<button class="primary" onclick="misContinue()">Bắt đầu làm bài →</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
