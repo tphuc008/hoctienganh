@@ -523,11 +523,26 @@ function renderExam(){
  root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?"Trả lời trực tiếp · Không Listening · 6 câu có lời giải tham khảo (chưa kiểm duyệt đáp án chính thức)":"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
+ (e.id==="hai-phong"?
+  '<nav class="hsg-hp-shortcuts" aria-label="Các câu có giải thích tham khảo"><strong>Lời giải minh họa · 6 câu</strong>'+
+  '<div>'+[46,47,48,51,61,81].map(n=>
+   '<button type="button" data-hsg-exp-jump="'+n+'">Câu '+n+'</button>').join("")+'</div>'+
+  '<small>Đáp án đề xuất đang rà soát, không dùng chấm điểm.</small></nav>':"")+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>'+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
  (passage?split:'<section class="hsg-study-question" id="hsg-answer-editor" aria-label="Câu hỏi"></section><details class="hsg-source-details"><summary>Xem nguyên văn đề gốc</summary><div class="hsg-original-pages">'+originalPages(g)+'</div></details>')+
  '</main>'+(passage?'':'<aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside>')+'</div></div>';
+ root.querySelectorAll("[data-hsg-exp-jump]").forEach(button=>button.onclick=()=>{
+  const n=Number(button.dataset.hsgExpJump);
+  const part=groups(e).find(g=>g.id!=="essay"&&n>=g.start&&n<=g.end);
+  if(!part)return;
+  state.group=part.id;state.question=n;
+  renderExam();queueSave();
+  const card=document.getElementById("hsg-question-"+n);
+  card?.scrollIntoView({block:"nearest",behavior:"auto"});
+  card?.querySelector("[data-hsg-explain-toggle]")?.click();
+ });
  root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{const next=groups(e).find(x=>x.id===b.dataset.group);state.group=next.id;state.question=next.start;renderExam();queueSave()});
  root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{
   const old=activePassageBlock(g),next=Number(b.dataset.question),now=activePassageBlock(g,next);
