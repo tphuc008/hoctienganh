@@ -112,9 +112,25 @@ function parse(text){
   return {hasOriginalLines:true,lines:matched.lines,paragraphs:[],note:"",
     introduction:source.split("\n").slice(0,matched.sourceStart).join("\n").trim()};
  }
- const paragraphs=source.split(/\n\s*\n+/).map(block=>block.split("\n").map(x=>x.trim()).filter(Boolean).join(" ").replace(/[ \t]{2,}/g," ").trim()).filter(Boolean);
- return {hasOriginalLines:false,lines:[],paragraphs,
-  note:"Đề gốc không đánh số dòng. Chọn/bôi đen cụm sai; không tự đánh số theo xuống dòng PDF.",
+ const detached=/(?:^|\n)\s*1\s*\n\s*2\s*\n\s*3\s*\n\s*4\s*\n\s*5(?:\s*\n|$)/.test(source);
+ let safeSource=source;
+ if(detached){
+  // Drop the orphaned number-column itself, but never assign a guessed
+  // number to a body row when the extracted column count is mismatched.
+  const arr=source.split("\n"),first=arr.findIndex(x=>x.trim()==="1");
+  let after=first,expected=1;
+  while(after<arr.length&&expected<=30){
+   const value=arr[after].trim();if(!value){after++;continue}
+   if(/^\d{1,2}$/.test(value)&&Number(value)===expected){expected++;after++;continue}
+   break;
+  }
+  safeSource=arr.slice(0,first).join("\n")+"\n\n"+arr.slice(after).join("\n");
+ }
+ const paragraphs=safeSource.split(/\n\s*\n+/).map(block=>block.split("\n").map(x=>x.trim()).filter(Boolean).join(" ").replace(/[ \t]{2,}/g," ").trim()).filter(Boolean);
+ return {hasOriginalLines:false,numberingUncertain:detached,lines:[],paragraphs,
+  note:detached?
+   "Đề gốc có số dòng, nhưng PDF tách riêng cột số và chữ nên chưa xác minh được vị trí từng dòng. Hãy đối chiếu đề gốc trước khi ghi số dòng.":
+   "Đề gốc không đánh số dòng. Chọn/bôi đen cụm sai; không tự đánh số theo xuống dòng PDF.",
   introduction:""};
 }
 function screen(model,answer){
