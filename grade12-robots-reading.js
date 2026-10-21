@@ -149,13 +149,13 @@ function diagramHTML(){
 }
 function questionsHTML(){
  const resultHead=state.submitted?
- '<div class="mis-results-banner"><strong>'+score()+'/14 câu đúng</strong><div>Thời gian làm bài: '+mmss((state.submittedAt-state.startedAt)/1000)+' · Nhấn vào số câu ở thanh dưới để xem bằng chứng và lời giải.</div></div>':"";
+ '<div class="mis-results-banner"><strong>'+score()+'/14 câu đúng</strong><div>Thời gian: '+mmss((state.submittedAt-state.startedAt)/1000)+' · Chọn số câu để xem bằng chứng/lời giải.</div></div>':"";
  const matching=Q.filter(function(q){return q.type==="match"}).map(questionHTML).join("");
  const endings=Q.filter(function(q){return q.type==="ending"}).map(questionHTML).join("");
  const mcq=Q.filter(function(q){return q.type==="mcq"}).map(questionHTML).join("");
  const blanks=Q.filter(function(q){return q.type==="input"}).map(inputHTML).join("");
  return resultHead+
- '<section class="mis-q-section"><h2>Questions 27–33</h2><p class="mis-q-instruction"><strong>Matching Features.</strong> Match each statement with A Martin Rees, B Daniel Wolpert or C Kathleen Richardson. You may use each letter more than once.</p>'+matching+'</section>'+
+ '<section class="mis-q-section"><h2>Questions 27–33</h2><p class="mis-q-instruction"><strong>Matching Features.</strong> Match A Martin Rees, B Daniel Wolpert or C Kathleen Richardson. Letters may repeat.</p>'+matching+'</section>'+
  '<section class="mis-q-section"><h2>Questions 34–36</h2><p class="mis-q-instruction"><strong>Matching Sentence Endings.</strong> Choose A–D.</p><div class="mis-answer-bank"><p><strong>A</strong> robots to explore outer space.</p><p><strong>B</strong> advances made in machine intelligence so far.</p><p><strong>C</strong> changes made to other planets for our own benefit.</p><p><strong>D</strong> the harm already done by artificial intelligence.</p></div>'+endings+'</section>'+
  '<section class="mis-q-section"><h2>Questions 37–40</h2><p class="mis-q-instruction"><strong>Multiple Choice.</strong> Choose A, B, C or D.</p>'+mcq+'</section>';
 }
@@ -332,7 +332,7 @@ function captureSelection(){
  }
 }
 function highlight(){
- if(!selection){window.alert("Hãy bôi đen một cụm trong passage trước khi nhấn Highlight.");return}
+ if(!selection){window.alert("Bôi đen cụm từ trước khi Highlight.");return}
  const p=PASSAGE[selection.p];if(!p||!p.includes(selection.text)){window.alert("Hãy chọn chữ nằm trong một đoạn văn.");return}
  if(!(state.highlights||[]).some(function(x){return x.p===selection.p&&x.text===selection.text})){
   state.highlights.push(selection);save();
@@ -342,7 +342,7 @@ function highlight(){
  left.addEventListener("mouseup",captureSelection);left.addEventListener("keyup",captureSelection);
 }
 function dictionary(){
- if(!selection||!selection.text){window.alert("Hãy chọn một từ hoặc cụm từ tiếng Anh trong passage.");return}
+ if(!selection||!selection.text){window.alert("Chọn từ/cụm từ trong bài đọc.");return}
  const term=selection.text.trim().split(/\s+/).slice(0,5).join(" ");
  window.open("https://dictionary.cambridge.org/dictionary/english/"+encodeURIComponent(term),"_blank","noopener,noreferrer");
 }
@@ -381,7 +381,7 @@ function exercise(){
  '<div class="exercise-intro"><div class="eyebrow">IELTS Academic Reading · Passage 3</div><h1><span class="gradient">Robots and us</span></h1>'+
  '<p>14 câu hỏi (27–40) · 20 phút.</p>'+
  '<div class="pills"><span class="pill">Matching Features</span><span class="pill">Sentence Endings</span><span class="pill">Multiple Choice</span></div>'+
- '<p><strong>Lưu ý:</strong> Bấm bắt đầu để chạy giờ. Hết giờ, bài tự nộp.</p>'+
+ '<p><strong>Lưu ý:</strong> Bắt đầu tính giờ · Hết giờ tự nộp.</p>'+
  '<button class="primary" onclick="robotsContinue()">Bắt đầu làm bài →</button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
 }
