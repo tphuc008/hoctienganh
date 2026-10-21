@@ -797,12 +797,50 @@ function printVerifiedPartSource(part){
  return content;
 }
 
+
+/* Print validated structured data directly. No OCR inference, repeated
+   passage or source question extraction can override these blocks. */
+function printStructuredPart(part,index){
+ const title=part.title||"Exam Part";
+ const first=part.start,last=part.end;
+ const blocks=part.passage.map(b=>{
+  const safe=printInline(b.text.replace(/^•\s*/,""));
+  if(b.type==="heading")return '<h3 class="hsg-print-source-subhead">'+safe+'</h3>';
+  if(b.type==="bullet")return '<p class="hsg-print-bullet">'+safe+'</p>';
+  return '<p class="hsg-print-prose hsg-print-schema-'+esc(b.type)+'">'+safe+'</p>';
+ }).join("");
+ const items=part.questions.slice().sort((a,b)=>a.number-b.number);
+ let questions="";
+ if(part.kind==="guided_cloze"){
+  questions='<div class="hsg-print-answer-section-title">CHOOSE A, B, C OR D</div>'+
+   items.map(q=>'<article class="hsg-print-source-question">'+
+     '<div class="hsg-print-source-num">'+q.number+'.</div>'+
+     '<div class="hsg-print-source-q-body">'+printChoiceGrid(q.options)+'</div></article>').join("");
+ }else if(part.kind==="reading_comprehension"){
+  questions=items.map(q=>'<article class="hsg-print-source-question">'+
+   '<div class="hsg-print-source-num">'+q.number+'.</div>'+
+   '<div class="hsg-print-source-q-body"><p class="hsg-print-source-stem">'+printInline(q.stem)+'</p>'+
+   printChoiceGrid(q.options)+'</div></article>').join("");
+ }else{
+  questions='<div class="hsg-print-answer-section-title">ANSWER SPACES</div>'+
+   '<div class="hsg-print-short-answer-grid">'+items.map(q=>
+    '<div><strong>'+q.number+'.</strong><span>____________________</span>'+
+    (q.word?'<small>'+esc(q.word)+'</small>':"")+'</div>').join("")+'</div>';
+ }
+ return '<section class="hsg-print-part hsg-print-structured" aria-label="'+esc(title)+'">'+
+  '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
+  '<div><h2>'+esc(title)+'</h2><p>Câu '+first+'–'+last+' · '+items.length+' câu</p></div></header>'+
+  '<div class="hsg-print-structured-passage">'+blocks+'</div>'+
+  '<div class="hsg-print-question-list">'+questions+'</div></section>';
+}
+
 function printOnePart(part,index){
  const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
  // The paragraph for a PTNK block is separate from the rest of that code.
  const hasPassage=g.kind==="mixed"?!!activePassageBlock(g,first):passageBased(g);
  const typed=structuredPart(g);
- const source=typed?typed.passage.map(b=>b.text).join("\n\n"):hasPassage?passageOnly(g,first):"";
+ if(typed)return printStructuredPart(typed,index);
+ const source=hasPassage?passageOnly(g,first):"";
  const result=printQuestions(g,first,last);
  const verified=printVerifiedPartSource(part);
  if(verified){
