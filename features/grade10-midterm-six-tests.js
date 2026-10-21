@@ -49,7 +49,7 @@ function splitTail(str){
 function optionSeries(part){
  // Some dialogue items use A/B/C/D as speaker labels before the actual A–D choices.
  // Select the last complete series, not the first.
- const matches=[...part.matchAll(/(?:^|[\n\t ])([A-D])\.\s+(?=\S)/g)];
+ const matches=[...part.matchAll(/(?:^|[\n\t ])([A-D])\.[ \t]*(?=\S)/g)];
  let best=null;
  for(let i=0;i<matches.length;i++){
    if(matches[i][1]!=="A")continue;
