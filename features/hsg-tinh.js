@@ -737,6 +737,60 @@ function printQuestions(g,first,last){
  return {html:cards.join(""),missing:countMissing};
 }
 
+
+/* For uniquely numbered papers, print the actual source task instead of
+   reconstructing every question from guesses. Use strict coverage checks;
+   keep the previous renderer as a fallback for repeated numbering/OCR. */
+function printVerifiedPartSource(part){
+ const g=part.group,first=part.block?.start??g.start,last=part.block?.end??g.end;
+ if(["ptnk","phan-boi-chau","dh-vinh"].includes(state.exam?.id))return null;
+ const source=printNormalize(sourcePages(g).map(p=>p.text||"").join("\n"));
+ if(!source.trim())return null;
+ const hits=n=>[...source.matchAll(new RegExp("(?:^|\\n)[ \\t]*(?:Question\\s+)?"+n+"[.)][ \\t]*(?=\\S)","gi"))];
+ const starts=hits(first),ends=hits(last);
+ if(!starts.length||!ends.length)return null;
+ // A question's first match can be a numbered answer grid. Match the nearest
+ // valid last question AFTER the first question.
+ const firstHit=starts.find(m=>ends.some(e=>e.index>m.index));
+ if(!firstHit)return null;
+ const endHit=ends.find(m=>m.index>firstHit.index);
+ if(!endHit)return null;
+ const cues=/(?:^|\n)[ \t]*(?:SECTION\s+[A-DIVX]+[.:]|PART\s+[A-Z0-9IVX]+[.:)]|Read the following|Read the text|Read the passage|Complete the following|Identify \d+|Find and correct|Choose the best|For questions?\s+\d+)/gim;
+ let startPos=0;
+ for(const match of source.matchAll(cues)){
+  if(match.index>firstHit.index)break;
+  startPos=match.index;
+ }
+ // Avoid carrying a whole preceding question into a selected source block.
+ const prev=hits(first-1).filter(m=>m.index<firstHit.index);
+ const prevHit=prev[prev.length-1];
+ if(prevHit&&startPos<prevHit.index){
+  const tail=source.slice(prevHit.index,firstHit.index);
+  const lastCue=[...tail.matchAll(cues)].pop();
+  startPos=lastCue?prevHit.index+lastCue.index:firstHit.index;
+ }
+ let endPos=source.length;
+ const suffix=source.slice(endHit.index+endHit[0].length);
+ const stop=/(?:^|\n)[ \t]*(?:SECTION\s+[A-DIVX]+[.:]|PART\s+[A-Z0-9IVX]+[.:)]|Read the following|Read the text|Read the passage|Complete the following|Identify \d+|Find and correct|For questions?\s+\d+|(?:Question\s+)?\d{1,3}[.)][ \t]+(?=\S))/gim;
+ for(const m of suffix.matchAll(stop)){
+  const raw=suffix.slice(m.index+m[0].length).trim();
+  const numbered=/(?:Question\s+)?(\d{1,3})[.)]/i.exec(m[0]);
+  if(numbered&&Number(numbered[1])<=last)continue;
+  endPos=endHit.index+endHit[0].length+m.index;
+  break;
+ }
+ const content=source.slice(startPos,endPos).trim();
+ const expected=last-first+1;
+ const seen=new Set();
+ for(const m of content.matchAll(/(?:^|\n)[ \t]*(?:Question\s+)?(\d{1,3})[.)][ \t]*(?=\S)/gi)){
+  const n=Number(m[1]);if(n>=first&&n<=last)seen.add(n);
+ }
+ if(seen.size<Math.max(2,Math.ceil(expected*.82)))return null;
+ // Reject implausibly large text ranges that include unrelated test sections.
+ if(content.length>expected*1700+5000)return null;
+ return content;
+}
+
 function printOnePart(part,index){
  const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
  // The paragraph for a PTNK block is separate from the rest of that code.
@@ -744,6 +798,14 @@ function printOnePart(part,index){
  const typed=structuredPart(g);
  const source=typed?typed.passage.map(b=>b.text).join("\n\n"):hasPassage?passageOnly(g,first):"";
  const result=printQuestions(g,first,last);
+ const verified=printVerifiedPartSource(part);
+ if(verified){
+  const title=block?.title||g.name;
+  return '<section class="hsg-print-part" aria-label="'+esc(title)+'">'+
+    '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
+    '<div><h2>'+esc(title)+'</h2><p>'+first+'–'+last+' · '+(last-first+1)+' câu</p></div></header>'+
+    '<div class="hsg-print-original-part">'+printTypesetText(verified)+'</div></section>';
+ }
  const sourceHtml=source?
   '<div class="hsg-print-passage"><div class="hsg-print-passage-label">READ THE TEXT AND ANSWER THE QUESTIONS</div>'+printTypesetText(source)+'</div>':"";
  const warning=result.missing?
