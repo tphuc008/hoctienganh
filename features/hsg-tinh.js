@@ -421,18 +421,29 @@ function renderEditor(){
 
 /* Print the whole paper or a selected part — never only the visible question. */
 function printParts(){
- const parts=[];
- const ptnk=state.exam?.id==="ptnk";
- for(const g of groups(state.exam)){
-  parts.push({value:g.id,label:g.name+(ptnk?" · Trọn mã đề":" · Câu "+g.start+"–"+g.end),group:g,block:null});
-  if(ptnk){
-   for(const block of PTNK_PASSAGE_BLOCKS){
-    parts.push({value:g.id+"@"+block.start,label:"   ↳ "+g.name+" · "+block.title+" ("+block.start+"–"+block.end+")",group:g,block});
-   }
-  }
+ const exam=state.exam;
+ if(exam?.id==="ptnk"){
+  // A PTNK code is a separate exam. The checklist contains only sections of the active code.
+  const g=groups(exam).find(item=>item.id===state.group)||groups(exam)[0];
+  const sections=[
+   {start:1,end:40,title:"Grammar & Vocabulary"},
+   ...PTNK_PASSAGE_BLOCKS,
+   {start:106,end:115,title:"Word Formation"},
+   {start:121,end:130,title:"Sentence Transformation"}
+  ].sort((a,b)=>a.start-b.start);
+  return sections.map(block=>({
+   value:g.id+"@"+block.start,
+   label:block.title,
+   group:g,
+   block,
+   start:block.start,end:block.end
+  }));
  }
- return parts;
+ return groups(exam).map(g=>({
+  value:g.id,label:g.name,group:g,block:null,start:g.start,end:g.end
+ }));
 }
+
 function printSourcePages(pages){
  return pages.map(page=>
   '<section class="hsg-print-source-page"><div class="hsg-print-source-label">Trang '+esc(page.sourcePage)+'</div>'+
@@ -478,40 +489,56 @@ function printQuestions(g,first,last){
  }
  return {html:cards.join(""),missing:countMissing};
 }
-function printOnePart(part){
+function printOnePart(part,index){
  const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
- if(g.kind==="mixed"&&!block)return '<section class="hsg-print-part"><h2>'+esc(g.name)+'</h2>'+
-    printSourcePages(sourcePages(g))+'</section>';
- const source=passageBased(g)||!!block?passageOnly(g,first):"";
- const question=printQuestions(g,first,last);
- const sourceHtml=source?'<div class="hsg-print-passage"><h3>Passage / Instructions</h3><pre>'+esc(source)+'</pre></div>':"";
- const warning=question.missing?'<p class="hsg-print-unavailable">Lưu ý: '+question.missing+' câu chưa nhận dạng đủ phương án từ bản scan. Vui lòng đối chiếu tài liệu gốc trước khi phát đề.</p>':"";
- return '<section class="hsg-print-part"><h2>'+esc(block?.title||g.name)+'</h2>'+
-  '<p class="hsg-print-range">Câu '+first+'–'+last+'</p>'+warning+sourceHtml+question.html+'</section>';
+ // The paragraph for a PTNK block is separate from the rest of that code.
+ const hasPassage=g.kind==="mixed"?!!activePassageBlock(g,first):passageBased(g);
+ const source=hasPassage?passageOnly(g,first):"";
+ const result=printQuestions(g,first,last);
+ const sourceHtml=source?
+  '<div class="hsg-print-passage"><div class="hsg-print-passage-label">READING TEXT / INSTRUCTIONS</div><pre>'+esc(source)+'</pre></div>':"";
+ const warning=result.missing?
+  '<p class="hsg-print-unavailable">'+result.missing+' câu chưa trích xuất đầy đủ phương án từ nguồn. Cần đối chiếu bản gốc trước khi sử dụng.</p>':"";
+ const title=block?.title||g.name;
+ return '<section class="hsg-print-part" aria-label="'+esc(title)+'">'+
+  '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
+  '<div><h2>'+esc(title)+'</h2><p>'+first+'–'+last+' · '+(last-first+1)+' câu</p></div></header>'+
+  warning+sourceHtml+'<div class="hsg-print-question-list">'+result.html+'</div></section>';
 }
-function printDocumentHTML(scope,part){
- const exam=state.exam,ptnk=exam.id==="ptnk";
- const full=scope==="all";
+function printDocumentHTML(scope,selectedParts){
+ const exam=state.exam,ptnk=exam.id==="ptnk",full=scope==="all";
+ const chosen=Array.isArray(selectedParts)?selectedParts:[selectedParts].filter(Boolean);
+ const currentCode=ptnk?(groups(exam).find(g=>g.id===state.group)||groups(exam)[0]):null;
+ const label=full?(ptnk?currentCode.name:"Toàn bộ đề"):
+  chosen.length+" phần đã chọn";
  let doc="";
- let label="";
  if(full){
-  // A PTNK code is an independent exam. "Whole paper" should not accidentally print all four codes.
-  const pages=ptnk?sourcePages(groups(exam).find(g=>g.id===state.group)):state.data.pages;
-  label=ptnk?groups(exam).find(g=>g.id===state.group).name:"Toàn bộ đề";
+  // Original extracted pages are retained in full to avoid dropping source questions
+  // when scanned pages are not reliably machine-readable.
+  const pages=ptnk?sourcePages(currentCode):state.data.pages;
   doc=printSourcePages(pages);
  }else{
-  label=part.label.replace(/^\s+↳\s*/,"");
-  doc=printOnePart(part);
+  // The printed sequence always follows the original exam sequence, not click order.
+  const rank=new Map(printParts().map((p,i)=>[p.value,i]));
+  const ordered=chosen.slice().sort((a,b)=>(rank.get(a.value)??Infinity)-(rank.get(b.value)??Infinity));
+  doc=ordered.map((part,i)=>printOnePart(part,i+1)).join("");
  }
+ const today=new Date().toLocaleDateString("vi-VN");
  return '<div class="hsg-print-document" id="hsg-print-sheet">'+
-  '<header class="hsg-print-cover"><div class="hsg-print-brand">ENGLISH PRACTICE HUB · HSG TỈNH</div>'+
-  '<h1>'+esc(exam.title)+'</h1><p>'+esc(exam.subtitle)+' · '+esc(exam.year)+'</p>'+
-  '<div class="hsg-print-scope">'+esc(label)+'</div>'+
-  '<p class="hsg-print-student">Họ và tên: _______________________________________　Lớp: ___________</p></header>'+
-  doc+
-  '<footer class="hsg-print-final">Hết · Không bao gồm phần Listening · Không kèm đáp án hoặc lời giải</footer>'+
+  '<header class="hsg-print-cover">'+
+   '<div class="hsg-print-header-top"><span>ENGLISH PRACTICE HUB</span><span>HSG TỈNH · EXAM PRACTICE</span></div>'+
+   '<div class="hsg-print-eyebrow">ĐỀ LUYỆN TẬP TIẾNG ANH</div>'+
+   '<h1>'+esc(exam.title)+'</h1>'+
+   '<p class="hsg-print-subtitle">'+esc(exam.subtitle)+' <span>·</span> '+esc(exam.year)+'</p>'+
+   '<div class="hsg-print-info-row"><span class="hsg-print-info-scope">'+esc(label)+'</span>'+
+    '<span>'+ (full?"Bản đề đầy đủ":chosen.length+" phần · "+chosen.reduce((sum,p)=>sum+p.end-p.start+1,0)+" câu")+'</span></div>'+
+   '<div class="hsg-print-student"><span>Họ và tên: <i></i></span><span>Lớp: <i></i></span></div>'+
+  '</header>'+
+  '<main class="hsg-print-paper-main">'+doc+'</main>'+
+  '<footer class="hsg-print-final"><span>ENGLISH PRACTICE HUB</span><span>Hết · Không có Listening · Không kèm lời giải</span></footer>'+
  '</div>';
 }
+
 function closePrintDialog(){
  const dialog=$("hsg-print-dialog");
  if(!dialog)return;
@@ -521,56 +548,69 @@ function closePrintDialog(){
 function openPrintDialog(){
  if(!state.exam||!state.data)return;
  closePrintDialog();
- const parts=printParts(),defaultKey=state.exam.id==="ptnk"?
-   (activePassageBlock(groups(state.exam).find(g=>g.id===state.group))?.start||""):
-   "";
- const preferred=defaultKey?state.group+"@"+defaultKey:state.group;
- const selectValue=parts.some(p=>p.value===preferred)?preferred:parts[0]?.value;
- const dialog=document.createElement("dialog");dialog.id="hsg-print-dialog";dialog.className="hsg-print-dialog";
- dialog.setAttribute("aria-label","In đề HSG tỉnh");
- dialog.innerHTML='<div class="hsg-print-dialog-head"><div><p>PRINT SETTINGS</p><h2>In đề HSG tỉnh</h2></div>'+
+ const parts=printParts();
+ const preferred=state.exam.id==="ptnk"?
+   parts.find(p=>state.question>=p.start&&state.question<=p.end)?.value:
+   state.group;
+ const defaultPart=parts.find(p=>p.value===preferred)||parts[0];
+ const dialog=document.createElement("dialog");
+ dialog.id="hsg-print-dialog";dialog.className="hsg-print-dialog";
+ dialog.setAttribute("aria-label","Tùy chọn in đề HSG tỉnh");
+ dialog.innerHTML='<div class="hsg-print-dialog-head"><div><p>PRINT SETTINGS · A4</p><h2>In đề HSG tỉnh</h2></div>'+
   '<button type="button" data-hsg-print-close aria-label="Đóng">×</button></div>'+
-  '<div class="hsg-print-dialog-body"><p>Chọn phạm vi muốn in. Bản in A4 sẽ lấy toàn bộ nội dung trong phạm vi đã chọn, không chỉ câu đang mở.</p>'+
-  '<label class="hsg-print-option"><input type="radio" name="hsg-print-scope" value="all" checked>'+
+  '<div class="hsg-print-dialog-body"><p>Chọn toàn bộ đề hoặc tích nhiều phần để in chung trong một tài liệu A4.</p>'+
+   '<label class="hsg-print-option"><input type="radio" name="hsg-print-scope" value="all" checked>'+
     '<span><strong>In toàn bộ '+(state.exam.id==="ptnk"?"mã đề đang mở":"đề")+'</strong>'+
-    '<small>'+(state.exam.id==="ptnk"?"In đầy đủ mã "+esc(groups(state.exam).find(g=>g.id===state.group)?.name||""):"Tất cả các phần, không có Listening")+'</small></span></label>'+
-  '<label class="hsg-print-option"><input type="radio" name="hsg-print-scope" value="part">'+
-    '<span><strong>Chỉ in một Part</strong><small>Chọn một phần cụ thể từ đề thi</small></span></label>'+
-  '<label class="hsg-print-select-label" for="hsg-print-select">Chọn Part</label>'+
-  '<select id="hsg-print-select" disabled>'+parts.map(part=>
-   '<option value="'+esc(part.value)+'"'+(part.value===selectValue?' selected':'')+'>'+esc(part.label)+'</option>'
-  ).join("")+'</select>'+
-  '<p class="hsg-print-dialog-note" id="hsg-print-preview-note">In toàn bộ nội dung, không phải phiếu trả lời từng câu.</p></div>'+
+    '<small>Đầy đủ nội dung đề gốc, không có phần Listening</small></span></label>'+
+   '<label class="hsg-print-option"><input type="radio" name="hsg-print-scope" value="parts">'+
+    '<span><strong>Chọn nhiều Part</strong><small>Tích một hoặc nhiều phần, ghép theo đúng thứ tự đề thi</small></span></label>'+
+   '<div class="hsg-print-part-picker" id="hsg-print-part-picker">'+
+    '<div class="hsg-print-parts-toolbar"><strong>Chọn phần muốn in</strong>'+
+      '<div><button type="button" id="hsg-print-select-all">Chọn tất cả</button>'+
+      '<button type="button" id="hsg-print-select-none">Bỏ chọn</button></div></div>'+
+    '<div class="hsg-print-parts-list" role="group" aria-label="Danh sách các phần của đề">'+
+    parts.map(p=>'<label class="hsg-print-part-option">'+
+     '<input type="checkbox" data-hsg-print-part="'+esc(p.value)+'"'+(p.value===defaultPart?.value?' checked':'')+'>'+
+     '<span class="hsg-print-part-name">'+esc(p.label)+'</span>'+
+     '<span class="hsg-print-part-range">'+p.start+'–'+p.end+'</span></label>').join("")+'</div>'+
+   '</div>'+
+   '<p class="hsg-print-dialog-note" id="hsg-print-preview-note" role="status"></p></div>'+
   '<div class="hsg-print-dialog-actions"><button type="button" class="hsg-print-cancel" data-hsg-print-close>Hủy</button>'+
-  '<button type="button" class="hsg-print-go" id="hsg-print-go">Xem bản in / In đề →</button></div>';
+   '<button type="button" class="hsg-print-go" id="hsg-print-go">Xem bản in / In đề →</button></div>';
  document.body.appendChild(dialog);
  dialog.querySelectorAll("[data-hsg-print-close]").forEach(b=>b.onclick=closePrintDialog);
- const selector=dialog.querySelector("#hsg-print-select");
+ const picker=dialog.querySelector("#hsg-print-part-picker");
+ const checkboxes=[...picker.querySelectorAll("[data-hsg-print-part]")];
  const note=dialog.querySelector("#hsg-print-preview-note");
+ const go=dialog.querySelector("#hsg-print-go");
+ const selected=()=>parts.filter(part=>checkboxes.some(box=>box.dataset.hsgPrintPart===part.value&&box.checked));
  const refresh=()=>{
   const scope=dialog.querySelector('input[name="hsg-print-scope"]:checked')?.value||"all";
-  selector.disabled=scope==="all";
-  const part=parts.find(p=>p.value===selector.value);
-  note.textContent=scope==="all"?
-   (state.exam.id==="ptnk"?"In đầy đủ "+groups(state.exam).find(g=>g.id===state.group).name+", không gồm ba mã đề còn lại.":"In tất cả các trang đề gốc đã bỏ Listening, mỗi trang chỉ xuất hiện một lần.")
-   :"In "+(part?.block?(part.block.end-part.block.start+1):(part?.group.end-part?.group.start+1||0))+" câu thuộc "+(part?.label.trim()||"Part")+"; không kèm đáp án.";
+  const multiple=scope==="parts",chosen=selected();
+  picker.classList.toggle("is-disabled",!multiple);
+  picker.querySelectorAll("button,input").forEach(control=>control.disabled=!multiple);
+  go.disabled=multiple&&!chosen.length;
+  const count=chosen.reduce((sum,part)=>sum+(part.end-part.start+1),0);
+  note.textContent=!multiple?
+   (state.exam.id==="ptnk"?"In toàn bộ "+(groups(state.exam).find(g=>g.id===state.group)?.name||"mã đề đang mở")+", không in các mã đề khác.":"In toàn bộ nội dung của đề, không chỉ câu đang xem."):
+   chosen.length?chosen.length+" Part · "+count+" câu · Sắp xếp đúng thứ tự đề.":"Hãy chọn ít nhất một Part để in.";
  };
  dialog.querySelectorAll('input[name="hsg-print-scope"]').forEach(input=>input.onchange=refresh);
- selector.onchange=refresh;
- dialog.querySelector("#hsg-print-go").onclick=()=>{
+ checkboxes.forEach(box=>box.onchange=refresh);
+ dialog.querySelector("#hsg-print-select-all").onclick=()=>{checkboxes.forEach(x=>x.checked=true);refresh()};
+ dialog.querySelector("#hsg-print-select-none").onclick=()=>{checkboxes.forEach(x=>x.checked=false);refresh()};
+ go.onclick=()=>{
   const scope=dialog.querySelector('input[name="hsg-print-scope"]:checked')?.value||"all";
-  const part=parts.find(p=>p.value===selector.value)||parts[0];
+  const chosen=selected();
+  if(scope==="parts"&&!chosen.length)return;
   document.getElementById("hsg-print-sheet")?.remove();
-  const target=document.createElement("div");
-  // Keep print content separate from the current interactive editor.
-  target.innerHTML=printDocumentHTML(scope,part);
-  const sheet=target.firstElementChild;
+  const holder=document.createElement("div");
+  holder.innerHTML=printDocumentHTML(scope,chosen);
+  const sheet=holder.firstElementChild;
+  if(!sheet)return;
   document.body.appendChild(sheet);
   closePrintDialog();
-  const cleanup=()=>{
-   window.removeEventListener("afterprint",cleanup);
-   sheet.remove();
-  };
+  const cleanup=()=>{window.removeEventListener("afterprint",cleanup);sheet.remove()};
   window.addEventListener("afterprint",cleanup,{once:true});
   try{window.print()}catch(error){cleanup();alert("Không mở được cửa sổ in: "+error.message)}
  };
