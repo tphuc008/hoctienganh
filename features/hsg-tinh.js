@@ -810,7 +810,7 @@ function printOnePart(part,index){
   return '<section class="hsg-print-part" aria-label="'+esc(title)+'">'+
     '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
     '<div><h2>'+esc(title)+'</h2><p>'+first+'–'+last+' · '+(last-first+1)+' câu</p></div></header>'+
-    '<div class="hsg-print-original-part">'+printTypesetText(verified)+'</div></section>';
+    '<div class="hsg-print-original-part">'+printTypesetText(verified.replace(/^(?:PART|Part)\s+[A-Z0-9IVX]+[.:)]\s*/i,"").trim())+'</div></section>';
  }
  const sourceHtml=source?
   '<div class="hsg-print-passage"><div class="hsg-print-passage-label">READ THE TEXT AND ANSWER THE QUESTIONS</div>'+printTypesetText(source)+'</div>':"";
@@ -894,6 +894,12 @@ function openPrintDialog(){
   '<div class="hsg-print-dialog-actions"><button type="button" class="hsg-print-cancel" data-hsg-print-close>Hủy</button>'+
    '<button type="button" class="hsg-print-go" id="hsg-print-go">Xem bản in / In đề →</button></div>';
  document.body.appendChild(dialog);
+ if(["ptnk","dh-vinh","tay-ninh"].includes(state.exam.id)){
+  const warning=document.createElement("p");
+  warning.className="hsg-print-ocr-warning";
+  warning.textContent="Lưu ý: Một số trang của đề gốc được nhận dạng từ bản scan. Vui lòng kiểm tra bản xem trước khi phát cho học sinh.";
+  dialog.querySelector(".hsg-print-dialog-body")?.appendChild(warning);
+ }
  dialog.querySelectorAll("[data-hsg-print-close]").forEach(b=>b.onclick=closePrintDialog);
  const picker=dialog.querySelector("#hsg-print-part-picker");
  const checkboxes=[...picker.querySelectorAll("[data-hsg-print-part]")];
