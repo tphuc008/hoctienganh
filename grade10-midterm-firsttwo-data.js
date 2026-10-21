@@ -21,6 +21,8 @@ const WRITTEN={
  "1-50":"The piano is practiced by the children every afternoon."
 };
 const FLAGS={
+ "1-13":"Phương án A (runner-up) rõ nhất theo ngữ cảnh không đạt giải nhất, nhưng C (participant) cũng có thể ký hợp đồng dù không vô địch; chấp nhận A và C.",
+ "1-20":"Or thể hiện hai cách mua vé để lựa chọn, nhưng and cũng có thể nối hai phương án đều khả dụng; chấp nhận A và B.",
  "1-17":"Câu dự đoán từ dấu hiệu nhìn thấy gợi 'is going to cause' (B). Tuy nhiên 'will cause' (A) vẫn có thể dùng để dự đoán tương lai; A/B đều được chấp nhận.",
  "1-27":"Đáp án D tạo liên kết ý đúng nhất. Một số đáp án khác trong đề có lỗi về chủ thể và cấu trúc, không chỉ sai từ vựng.",
  "1-33":"Đại từ 'their' trong bài thay cho 'artists'; đáp án dùng từ tương đương 'performers' (D).",
@@ -32,7 +34,7 @@ const FLAGS={
  "2-31":"Từ 'oversea' trong phương án A của đề gốc chưa chuẩn thông dụng ở vai trò tính từ ('overseas' hoặc 'foreign' tự nhiên hơn), nhưng là lựa chọn trái nghĩa dự kiến với indigenous.",
  "2-39":"Phương án A in đề lặp chữ cái c hai lần; D là thứ tự hoàn chỉnh, logic hơn."
 };
-const ALT={"1-17":["A","B"]};
+const ALT={"1-13":["A","C"],"1-17":["A","B"],"1-20":["A","B"]};
 const NOGRADE=new Set(["1-41","1-42","1-43"]);
 function fromParsed(number,parsed){
  const arr=parsed.questions;
