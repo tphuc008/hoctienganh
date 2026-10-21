@@ -460,9 +460,11 @@ function renderExam(){
   '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
   '<div class="hsg-passage-workspace"><section class="hsg-passage-left" id="hsg-passage-left" aria-label="Đoạn văn" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
   '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" id="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
- const page=$("pageMount"),root=passage?ensureReadingPortal():page;
- if(passage)page.style.display="none";
- else{removeReadingPortal();page.style.display="block"}
+ // Keep the exam in the app's existing route mount; never hide its source container.
+ // The two independently scrollable columns are height-constrained by CSS.
+ removeReadingPortal();
+ const root=$("pageMount");
+ root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
