@@ -154,3 +154,74 @@
 @media(max-width:840px){.hsg-study-layout{grid-template-columns:minmax(0,1fr)}.hsg-study-rail{position:static}.hsg-study-rail .hsg-number-grid{grid-template-columns:repeat(8,minmax(0,1fr));max-height:155px}}
 @media(max-width:560px){.hsg-study-question{padding:19px 15px}.hsg-question-stem{font-size:15px}.hsg-inline-options .answer{font-size:13px;padding:12px}.hsg-error-form{grid-template-columns:1fr}.hsg-error-form label:first-child{grid-column:auto}.hsg-study-rail .hsg-number-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.hsg-question-nav button{padding:10px 8px;font-size:11px}}
 @media print{.hsg-modern :is(.breadcrumbs,.hsg-exam-head-actions,.hsg-exam-progress,.hsg-group-tabs,.hsg-study-rail,.hsg-question-actions,.hsg-question-nav){display:none!important}.hsg-study-layout,.hsg-study-main{display:block!important}.hsg-study-question{box-shadow:none;border:1px solid #ccc}.hsg-source-details{max-height:none;page-break-before:always}.hsg-original-pages{max-height:none}}
+
+
+/* Shared passage exercises: Grade-12-Reading-inspired 52/48 two-pane examination workspace. */
+.hsg-passage-split{min-width:0;background:#fff;border:1px solid #d9e7f5;border-radius:15px;overflow:hidden;box-shadow:0 5px 22px rgba(37,99,235,.045)}
+.hsg-study-layout.has-shared-passage{display:block}
+.hsg-study-layout.has-shared-passage .hsg-study-main{display:block;min-width:0}
+.hsg-passage-workspace{display:grid;grid-template-columns:minmax(0,52fr) 7px minmax(0,48fr);height:clamp(490px,70dvh,830px);min-width:0;overflow:hidden}
+.hsg-passage-left,.hsg-passage-right{min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.hsg-passage-left{background:#fff}
+.hsg-passage-right{background:#f8fbff}
+.hsg-passage-column-head{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:42px;padding:10px 18px;border-bottom:1px solid #d9e7f5}
+.hsg-passage-column-head strong{font-size:10px;letter-spacing:.13em;color:#2563eb;font-weight:850}
+.hsg-passage-column-head span{font-size:10px;color:#94a3b8;white-space:nowrap}
+.hsg-passage-content,.hsg-passage-questions{min-height:0;flex:1;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-color:#bfd6ed #f8fbff;scrollbar-gutter:stable}
+.hsg-passage-content{padding:20px 24px 34px}
+.hsg-passage-questions{padding:16px 20px 26px}
+.hsg-passage-page+.hsg-passage-page{border-top:1px solid #e2e8f0;margin-top:24px;padding-top:22px}
+.hsg-passage-page small{display:block;color:#64748b;font-size:11px;font-weight:750;margin-bottom:12px}
+.hsg-passage-page pre{font-family:Georgia,"Times New Roman",serif;font-size:14px;line-height:1.78;white-space:pre-wrap;overflow-wrap:anywhere;color:#263449;margin:0}
+.hsg-passage-divider{width:7px;background:#dae9f7;position:relative;border-left:1px solid #d0e1f3;border-right:1px solid #d0e1f3}
+.hsg-passage-divider:after{content:"";display:block;position:absolute;left:2px;top:calc(50% - 24px);width:2px;height:48px;background:#8cb4de;border-radius:5px}
+.hsg-split-form-intro{margin-bottom:17px}
+.hsg-split-form-intro h2{font-size:20px;line-height:1.3;letter-spacing:-.025em;color:#1e293b;margin:6px 0}
+.hsg-split-form-intro p{font-size:12px;line-height:1.65;color:#64748b;margin:0}
+.hsg-split-question{background:#fff;border:1px solid #d9e7f5;border-radius:12px;padding:17px 17px 15px;margin:0 0 12px;scroll-margin-top:16px;transition:border-color .12s}
+.hsg-split-question.active,.hsg-split-question:focus-within{border-color:#60a5fa;box-shadow:inset 3px 0 #2563eb}
+.hsg-split-question-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 12px}
+.hsg-split-question-number{display:inline-flex;align-items:center;background:#eff6ff;color:#1d4ed8;padding:6px 9px;border-radius:7px;font-size:10px;letter-spacing:.09em;font-weight:850}
+.hsg-split-question-head [data-hsg-flag]{border:0;background:transparent;color:#64748b;font-size:11px;cursor:pointer;padding:5px}
+.hsg-split-question-head [data-hsg-flag][aria-pressed="true"]{color:#b45309}
+.hsg-split-prompt{font-size:13px;line-height:1.7;color:#334155;margin:0 0 13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.hsg-split-options.answers{gap:7px}
+.hsg-split-options .answer{min-height:45px;padding:9px 11px;font-size:13px;border-radius:9px}
+.hsg-split-options .answer .letter{width:auto;min-width:32px;height:32px;flex:0 0 auto;padding:0 6px;font-size:11px}
+.hsg-split-error{gap:9px}
+.hsg-split-error label{font-size:11px}
+.hsg-split-error input{padding:10px 11px}
+.hsg-split-question-foot{border-top:1px solid #edf2f7;padding-top:12px;margin-top:14px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.hsg-split-answer-status{color:#64748b;font-size:11px}
+.hsg-split-question-foot button{font-size:11px;color:#2563eb;background:transparent;border:0;cursor:pointer;font-weight:750}
+.hsg-study-layout.has-shared-passage .hsg-study-rail{position:static;margin:15px 0 0}
+.hsg-study-layout.has-shared-passage .hsg-study-rail .hsg-number-grid{grid-template-columns:repeat(auto-fill,minmax(34px,1fr));max-height:none;gap:7px}
+.hsg-passage-mobile-tabs{display:none}
+@media(max-width:880px){
+ .hsg-passage-workspace{grid-template-columns:minmax(0,1fr);height:min(68dvh,700px)}
+ .hsg-passage-mobile-tabs{display:flex;gap:6px;padding:9px;background:#eff6ff;border-bottom:1px solid #d9e7f5}
+ .hsg-passage-mobile-tabs button{flex:1;border:1px solid #bfdbfe;padding:11px 8px;border-radius:9px;background:#fff;color:#475569;font-size:12px;font-weight:800;cursor:pointer}
+ .hsg-passage-mobile-tabs button[aria-pressed="true"]{background:#2563eb;border-color:#2563eb;color:#fff}
+ .hsg-passage-divider{display:none}
+ .hsg-passage-split[data-mobile-tab="passage"] .hsg-passage-right,
+ .hsg-passage-split[data-mobile-tab="questions"] .hsg-passage-left{display:none}
+ .hsg-passage-content{padding:17px 15px 28px}
+ .hsg-passage-questions{padding:13px 13px 25px}
+ .hsg-passage-page pre{font-size:13px}
+}
+@media(max-width:500px){
+ .hsg-split-question{padding:14px}
+ .hsg-split-error{grid-template-columns:1fr}
+ .hsg-split-error label:first-child{grid-column:auto}
+ .hsg-split-form-intro h2{font-size:18px}
+ .hsg-passage-workspace{height:64dvh;min-height:350px}
+ .hsg-passage-column-head{padding:10px 13px}
+}
+@media print{
+ .hsg-passage-split{box-shadow:none;border:0;overflow:visible}
+ .hsg-passage-workspace{display:block;height:auto;overflow:visible}
+ .hsg-passage-left,.hsg-passage-right{display:block;overflow:visible}
+ .hsg-passage-content,.hsg-passage-questions{overflow:visible;padding:12px 0}
+ .hsg-passage-divider,.hsg-passage-mobile-tabs{display:none}
+ .hsg-split-question{break-inside:avoid}
+}
