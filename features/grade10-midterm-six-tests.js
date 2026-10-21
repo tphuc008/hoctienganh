@@ -173,34 +173,55 @@ function bodyHtml(q){
 function navHtml(){
  return state.questions.map((q,i)=>{
   const label=q.knowledge&&q.number<=10?String(q.knowledge)+"."+q.number:String(q.number);
-  return '<button type="button" data-g10x-nav="'+i+'" class="'+(answered(q)?"has-answer ":"")+(state.flags[qid(q)]?"flagged ":"")+(i===state.index?"active":"")+'" aria-label="Đến câu '+label+'" aria-current="'+(i===state.index?'true':'false')+'">'+label+'</button>';
+  const id=qid(q),mark=state.checked[id]?result(q):null;
+  const cls=(answered(q)?"has-answer ":"")+(state.checked[id]?"is-checked ":"")+(mark?.right?"is-right ":"")+(state.flags[id]?"flagged ":"")+(i===state.index?"active":"");
+  return '<button type="button" data-g10x-nav="'+i+'" class="'+cls+'" aria-label="Đến câu '+label+'" aria-current="'+(i===state.index?'true':'false')+'">'+label+'</button>';
  }).join("");
 }
 function printReady(){
  return '<section class="g10x-print-only" aria-hidden="true"><h1>TEST '+state.test+' – '+esc(NAMES[state.test])+'</h1><pre>'+esc(state.parsed.raw)+'</pre></section>';
 }
+function summaryHtml(){
+ const t=state.questions.length,x=score();
+ const results=state.questions.map((q,i)=>{
+  const id=qid(q),mark=state.checked[id]?result(q):null;
+  const status=!answered(q)?"Chưa làm":!state.checked[id]?"Chưa kiểm tra":mark?.excluded?"Không tính điểm":state.revealed[id]?"Đã xem lời giải":mark?.right?"Chính xác":"Chưa đúng";
+  return '<button type="button" class="g10x-summary-item" data-g10x-nav="'+i+'"><strong>Câu '+(q.knowledge&&q.number<=10?q.knowledge+".":"")+q.number+'</strong><span>'+esc(status)+'</span></button>';
+ }).join("");
+ return '<div class="g10x-root"><div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\''+ROOT+'\'">Mid Term Test</button><span>›</span><span>Test '+state.test+'</span></div>'+
+ '<header class="g10x-hero"><div class="g10x-eyebrow">Học thêm · Lớp 10</div><h1>Tổng kết Test '+state.test+'</h1></header>'+
+ '<div class="g10x-summary"><h2>'+x.correct+' / '+x.eligible+' câu đúng</h2><p>Đã trả lời: '+x.answered+'/'+t+' · Đã kiểm tra: '+x.completed+'/'+t+(x.excluded?' · '+x.excluded+' câu không tính điểm':'')+'</p>'+
+ '<div class="g10x-summary-actions"><button type="button" class="g10x-primary" data-g10x-action="back-paper">Tiếp tục xem đề và lời giải</button>'+
+ (x.completed===t&&global.G10MidtermProgress.account()&&!state.draft.recorded?'<button type="button" data-g10x-action="submit">Ghi nhận kết quả</button>':"")+
+ '<button type="button" data-g10x-action="restart">Làm lại bài</button></div>'+
+ '<div class="g10x-summary-grid">'+results+'</div></div>'+printReady()+'</div>';
+}
 function render(){
- const q=state.questions[state.index];
- const total=state.questions.length,count=done(),pct=Math.round(count/total*100);
- const mount=$("pageMount");mount.style.display="block";$("quizShell")?.style&&( $("quizShell").style.display="none");
+ if(state.summary){
+  $("pageMount").innerHTML=summaryHtml();bind();return;
+ }
+ const q=state.questions[state.index],id=qid(q);
+ const total=state.questions.length,count=done(),pct=Math.round(count/total*100),verified=checkedCount(),isChecked=!!state.checked[id];
+ const mount=$("pageMount");mount.style.display="block";const quiz=$("quizShell");if(quiz)quiz.style.display="none";
  mount.innerHTML='<div class="g10x-root"><div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\''+ROOT+'\'">Mid Term Test</button><span>›</span><span>Test '+state.test+'</span></div>'+
- '<header class="g10x-hero"><div class="g10x-eyebrow">Học thêm · Grade 10 · Exam practice</div><h1>Test '+state.test+' · '+esc(NAMES[state.test])+'</h1>'+
- 
- '<div class="g10x-tags"><span>'+total+' câu</span></div></header>'+
+ '<header class="g10x-hero"><div class="g10x-eyebrow">Học thêm · Lớp 10</div><h1>Test '+state.test+' · '+esc(NAMES[state.test])+'</h1>'+
+ '<div class="g10x-tags"><span>'+total+' câu</span><span>'+verified+' đã kiểm tra</span></div></header>'+
  '<div class="g10x-progress" aria-label="Tiến độ bài làm"><strong>'+count+' / '+total+' câu</strong><div class="g10x-track"><i style="width:'+pct+'%"></i></div><small>'+pct+'% đã trả lời</small></div>'+
+ (state.unsaved?'<p class="g10x-save-warning">Trình duyệt không cho phép lưu dữ liệu. Vui lòng bật bộ nhớ trang để giữ bài làm.</p>':"")+
  '<div class="g10x-layout"><section class="g10x-paper"><div class="g10x-paper-head"><div><b>Question '+q.number+'</b><small>'+esc(kindLabel(q))+'</small></div><div><small>Câu '+(state.index+1)+' / '+total+'</small></div></div>'+
  '<div class="g10x-page-body">'+bodyHtml(q)+
  '<div class="g10x-q-actions"><button type="button" data-g10x-action="prev"'+(state.index===0?' disabled':'')+'>← Trước</button>'+
- '<button type="button" data-g10x-action="flag" class="'+(state.flags[q.id]?"g10x-flagged":"")+'">'+(state.flags[q.id]?"★ Đã đánh dấu":"☆ Đánh dấu")+'</button>'+
- '<button type="button" data-g10x-action="clear">Xóa đáp án</button>'+
- '<span class="g10x-status">'+(answered(q)?"Đã trả lời":"Chưa trả lời")+'</span>'+
- '<button type="button" class="g10x-primary" data-g10x-action="next"'+(state.index===total-1?' disabled':'')+'>Tiếp →</button></div></div>'+
- '</section>'+
- '<aside class="g10x-sheet" aria-label="Phiếu trả lời"><div class="g10x-sheet-head"><div><b>Phiếu trả lời</b></div><b>'+count+'/'+total+'</b></div>'+
+ '<button type="button" data-g10x-action="flag" class="'+(state.flags[id]?"g10x-flagged":"")+'">'+(state.flags[id]?"★ Đã đánh dấu":"☆ Đánh dấu")+'</button>'+
+ (isChecked?'<button type="button" data-g10x-action="edit">Sửa đáp án</button>':'<button type="button" data-g10x-action="clear">Xóa đáp án</button>')+
+ '<span class="g10x-status">'+(isChecked?"Đã kiểm tra":answered(q)?"Đã trả lời":"Chưa trả lời")+'</span>'+
+ (!isChecked?'<button type="button" class="g10x-primary" data-g10x-action="check" '+(!answered(q)?'disabled':'')+'>Kiểm tra đáp án</button>':"")+
+ '<button type="button" data-g10x-action="next"'+(state.index===total-1?' disabled':'')+'>Tiếp →</button></div></div>'+
+ '</section><aside class="g10x-sheet" aria-label="Phiếu trả lời"><div class="g10x-sheet-head"><div><b>Phiếu trả lời</b></div><b>'+count+'/'+total+'</b></div>'+
  '<div class="g10x-sheet-inner"><div class="g10x-legend"><span><b></b>Đã làm</span><span><b class="flag"></b>Cần xem lại</span></div>'+
  '<nav class="g10x-nav" aria-label="Danh sách câu hỏi">'+navHtml()+'</nav>'+
  '<div class="g10x-actions"><button type="button" data-g10x-action="next-unanswered">Đến câu chưa trả lời</button>'+
- '<button type="button" data-g10x-action="interactive" class="g10x-primary">Kiểm tra & giải thích →</button>'+
+ '<button type="button" data-g10x-action="check-all">Kiểm tra các câu đã làm</button>'+
+ '<button type="button" data-g10x-action="summary" class="g10x-primary">Xem tổng kết</button>'+
  '<button type="button" data-g10x-action="print">In đề đầy đủ</button>'+
  '<button type="button" data-g10x-action="home">← Danh sách 6 Test</button></div>'+
  '</div></aside></div>'+printReady()+'</div>';
