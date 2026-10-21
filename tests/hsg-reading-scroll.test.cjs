@@ -12,7 +12,7 @@ test("HSG script parses; fullscreen reader is mounted directly under body like G
  assert.doesNotThrow(()=>new vm.Script(js));
  assert.match(js,/function ensureReadingPortal\(\)/);
  assert.match(js,/document\.body\.appendChild\(portal\)/);
- assert.match(js,/const root=passage\?ensureReadingPortal\(\):page/);
+ assert.match(js,/root=passage\?ensureReadingPortal\(\):page/);
  assert.match(js,/removeReadingPortal\(\)/);
 });
 test("the TWO grid columns are the scrollports, not their inner content",()=>{
