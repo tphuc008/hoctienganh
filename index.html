@@ -1307,7 +1307,7 @@ function ensureTeacherHSG(){
       await loadGrammar21Asset("link","features/hsg-print.css?v=20261021-error-lines-v1");
       await loadGrammar21Asset("script","features/hsg-part-system.js?v=20261021-pilot-v3");
       await loadGrammar21Asset("script","features/hsg-print-engine.js?v=20261021-print-v11");
-      await loadGrammar21Asset("script","features/hsg-error-lines.js?v=20261021-error-lines-v2");
+      await loadGrammar21Asset("script","features/hsg-error-lines.js?v=20261021-error-lines-v3");
       await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261021-error-lines-v2");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});
