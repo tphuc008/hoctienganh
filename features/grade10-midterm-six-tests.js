@@ -190,8 +190,7 @@ function render(){
  (state.test>=3?'<button type="button" data-g10x-action="interactive" class="g10x-primary">Làm bản tương tác có giải thích →</button>':'')+
  '<button type="button" data-g10x-action="print">In đề đầy đủ</button>'+
  '<button type="button" data-g10x-action="home">← Danh sách 6 Test</button></div>'+
- '<div class="g10x-notice">'+(state.test<3?"Test 1–2 chưa có đáp án đã xác minh. Học sinh vẫn chọn và lưu câu trả lời để tự đối chiếu với giáo viên.":"Test 3–6: dùng bản tương tác riêng để chấm và đọc lời giải. Phần này giữ nguyên nội dung đề gốc.")+'</div></div></aside></div>'+
- '<details class="g10x-source-full"><summary>Kiểm tra nguyên văn đề gốc · Test '+state.test+'</summary><pre>'+esc(state.parsed.raw)+'</pre></details>'+printReady()+'</div>';
+ '</div></aside></div>'+printReady()+'</div>';
  bind();
 }
 function rerender(keep=false){
