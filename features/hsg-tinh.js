@@ -22,7 +22,7 @@ const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;
 
 /* Part-level exam map: a question's format is determined by the source task, never by a manual MCQ/text toggle. */
 const HSG_PARTS={
- "hai-phong":[["g1","Grammar & Vocabulary",21,40,"mcq",[2,3]],["g2a","Guided Cloze · Advertisement",41,45,"mcq",[3]],["g2b","Guided Cloze · Letter",46,50,"mcq",[3,4]],["e","Error Correction",51,55,"error",[4]],["wf","Word Formation",56,60,"word",[4]],["oc","Reading · Open Cloze",61,75,"fill",[5]],["rc","Reading · Cloze",76,80,"mcq",[5]],["r","Reading Comprehension",81,90,"mcq",[6,7]],["w","Sentence Transformation",91,100,"rewrite",[7]],["essay","Paragraph Writing",1,1,"essay",[7]]],
+ "hai-phong":[["g1","Grammar & Vocabulary",21,40,"mcq",[2,3]],["g2a","Guided Cloze · Advertisement",41,45,"mcq",[3]],["g2b","Guided Cloze · Letter",46,50,"mcq",[3,4]],["e","Error Correction",51,55,"error",[4]],["wf","Word Formation",56,60,"word",[4]],["wp","Word Formation · Tourism",61,65,"word",[4,5]],["oc","Reading · Open Cloze",66,75,"fill",[5]],["rc","Reading · Cloze",76,80,"mcq",[5]],["r","Reading Comprehension",81,90,"mcq",[6,7]],["w","Sentence Transformation",91,100,"rewrite",[7]],["essay","Paragraph Writing",1,1,"essay",[7]]],
  "dh-vinh":[["b1","Lexico-Grammar",1,20,"mcq",[3,5]],["b2","Error Correction",21,30,"error",[5]],["b3","Word Formation",31,40,"word",[4,5]],["c1","Reading · Freelancing",1,10,"mcq",[4,6]],["c2","Reading · YES / NO / NOT GIVEN",11,15,"ynng",[6,7]],["c3","Reading · Sentence Completion",16,18,"fill",[7]],["c4","Reading · Matching",19,23,"match",[7,8]],["c5","Reading · Telemedicine",24,33,"fill",[8]],["c6","Reading · Missing Sentences",34,40,"match",[8,9]],["d","Sentence Transformation",1,10,"rewrite",[9]],["essay","Essay Writing",1,1,"essay",[9]]],
  "phu-tho":[["g","Lexico-Grammar",21,35,"mcq",[3]],["wf","Word Formation",36,45,"word",[4]],["e","Error Correction",46,50,"error",[4]],["r1","Reading · Cloze",51,60,"mcq",[5]],["r2","Reading · Open Cloze",61,70,"fill",[5]],["r3","Reading Comprehension",71,80,"mcq",[6,7]],["w","Sentence Transformation",81,90,"rewrite",[7,8]],["essay","Paragraph Writing",1,1,"essay",[8]]],
  "son-la":[["g1","Green Transportation",26,30,"mcq",[3,4]],["g2","Paperless Exams",31,40,"mcq",[4,5]],["wf","Word Formation",41,45,"word",[5]],["pr","Prepositions & Articles",46,50,"fill",[5]],["oc","Open Cloze",51,55,"fill",[5,6]],["m","Matching Sections",56,60,"match",[6]],["r","Reading · AI in English Learning",61,67,"mcq",[6,7,8]],["h","Matching Headings",68,71,"match",[8,9]],["tf","TRUE / FALSE / NOT GIVEN",72,75,"tfng",[9]],["w","Sentence Transformation",76,80,"rewrite",[9]],["email","Email Writing",1,1,"essay",[9]],["essay","Paragraph Writing",1,1,"essay",[9]]],
@@ -86,6 +86,12 @@ async function getExamData(id){
  const result=JSON.parse(await new Response(stream).text());
  if(!Array.isArray(result.pages)||!result.pages.length)throw new Error("Dữ liệu đề chưa hợp lệ");
  if(result.id!==id)throw new Error("Mã đề không khớp");
+ if(id==="hai-phong"){
+  const extra=await fetch("content/hsg-tinh/"+id+".structured.json?v=20261021-pilot-v3",{cache:"no-store"});
+  if(!extra.ok)throw new Error("Không tải được dữ liệu chuẩn hóa Hải Phòng ("+extra.status+")");
+  if(!global.HSGPartSystem)throw new Error("Chưa tải được bộ renderer HSG.");
+  result.structured=global.HSGPartSystem.validate(await extra.json(),id);
+ }
  CACHE.set(id,result);
  return result;
 }
@@ -129,7 +135,10 @@ function essayStem(g){
  if(!match)return "Xem yêu cầu viết trong đề gốc bên dưới.";
  return txt.slice(match.index,match.index+950).split(/(?:_{12,}|[-—]{7,}\s*HẾT)/i)[0].trim();
 }
+function structuredPart(g){return global.HSGPartSystem?.getPart(state.data?.structured,g?.id)||null}
 function getQuestion(g,n){
+ const typed=global.HSGPartSystem?.question(structuredPart(g),n);
+ if(typed)return typed;
  const type=actualKind(g,n);
  if(type==="essay")return {type,stem:essayStem(g)};
  const pages=sourcePages(g).map(p=>({p:p.sourcePage,t:String(p.text||"").replace(/[\u200b\ufeff]/g,"")}));
@@ -180,6 +189,7 @@ function visibleQuestionNumbers(g){
 
 function passageBased(g){
  if(!g)return false;
+ if(structuredPart(g))return true;
  if(g.kind==="mixed")return !!activePassageBlock(g);
  return ["error","fill","match","tfng","ynng"].includes(g.kind)
    || /\b(cloze|reading|passage|headings|matching)\b/i.test(g.name);
@@ -225,6 +235,8 @@ function formattedPassage(passage,n){
  return chunks.map(c=>'<p class="hsg-passage-paragraph">'+esc(c).replace(highlight,'<mark class="hsg-passage-current">$1</mark>')+'</p>').join("");
 }
 function originalPages(g){
+ const typed=structuredPart(g);
+ if(typed)return global.HSGPartSystem.renderPassage(typed,state.answers,g.id,state.question,esc);
  const passage=passageOnly(g);
  if(actualKind(g,state.question)==="error"){
   const r=state.answers[key(state.question)]||{},lines=passage.replace(/\r\n?/g,"\n").split("\n");
@@ -239,6 +251,7 @@ function passageQuestionLabels(g,q){
  if(q.type==="tfng")return [["TRUE","TRUE"],["FALSE","FALSE"],["NOT GIVEN","NOT GIVEN"]];
  if(q.type==="ynng")return [["YES","YES"],["NO","NO"],["NOT GIVEN","NOT GIVEN"]];
  if(q.type==="match")return matchingLabels(g);
+ if(q.structured&&q.type==="mcq"&&!q.options)return [];
  return (q.options||["A","B","C","D"]).map((text,i)=>[String.fromCharCode(65+i),text]);
 }
 function passageInput(g,n,q,r){
@@ -254,7 +267,9 @@ function passageInput(g,n,q,r){
   '<label>Từ / cụm sai<input data-hsg-field="error" placeholder="Cụm sai trong bài" value="'+esc(r.error||"")+'"></label>'+
   '<label>Sửa thành<input data-hsg-field="correction" placeholder="Cách sửa của bạn" value="'+esc(r.correction||"")+'"></label></div>';
  if(q.type==="essay"||q.type==="rewrite")return '<label class="hsg-input-label">Bài làm<textarea rows="'+(q.type==="essay"?10:4)+'" data-hsg-field="value" placeholder="Nhập bài làm...">'+esc(r.value||"")+'</textarea></label>';
- return '<label class="hsg-input-label">Câu trả lời<input type="text" data-hsg-field="value" placeholder="Nhập từ hoặc cụm từ..." value="'+esc(r.value||"")+'" autocomplete="off"></label>';
+ return (q.structured&&q.word?'<div class="hsg-schema-word-prompt">ROOT WORD <strong>'+esc(q.word)+'</strong></div>':"")+
+  '<label class="hsg-input-label">'+(q.structured?(q.type==="word"?"Word formation":"Your answer"):"Câu trả lời")+
+  '<input type="text" data-hsg-field="value" placeholder="'+(q.structured?"Type your answer":"Nhập từ hoặc cụm từ...")+'" value="'+esc(r.value||"")+'" autocomplete="off"></label>';
 }
 /* Render all questions in the reading pane, as in the Grade 12 Reading workspace. */
 function renderPassageForms(g){
