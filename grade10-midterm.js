@@ -92,7 +92,7 @@ function mtShowError(err){mtBase().innerHTML='<div class="unit-hero"><h1>Chưa t
 async function mtHome(){
  mtShowLoading();try{const tests=await mtLoad();if(location.hash!="#grade-10/mid-term-test")return;
  
- const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><span>Mid Term Test</span></div><div class="unit-hero"><div class="eyebrow">Grade 10 · Mid Term Test</div><h1>Mid Term Test</h1><p>6 TEST · 279 câu</p></div><div class="section-title"><h2>Exercises</h2><span>6 tests</span></div><div class="mt-quiz-grid">'+extraCards+tests.map(t=>'<button class="exercise-card" onclick="location.hash=\'grade-10/mid-term-test/source-test-'+t.id+'\'"><div class="exercise-icon">'+t.id+'</div><h3>'+mtEsc(t.title)+'</h3><div class="meta"><span class="chip">'+t.questions.length+' questions</span></div></button>').join("")+'</div>';
+ const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><span>Mid Term Test</span></div><div class="unit-hero"><div class="eyebrow">Grade 10 · Mid Term Test</div><h1>Mid Term Test</h1><p>6 TEST · 279 câu</p></div><div class="section-title"><h2>Exercises</h2><span>6 tests</span></div><div class="mt-quiz-grid">'+tests.map(t=>'<button class="exercise-card" onclick="location.hash=\'grade-10/mid-term-test/source-test-'+t.id+'\'"><div class="exercise-icon">'+t.id+'</div><h3>'+mtEsc(t.title)+'</h3><div class="meta"><span class="chip">'+t.questions.length+' questions</span></div></button>').join("")+'</div>';
 
  window.scrollTo({top:0,behavior:"smooth"});
  }catch(err){mtShowError(err)}
