@@ -22,7 +22,7 @@ const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;
 
 /* Part-level exam map: a question's format is determined by the source task, never by a manual MCQ/text toggle. */
 const HSG_PARTS={
- "hai-phong":[["g1","Grammar & Vocabulary",21,40,"mcq",[2,3]],["g2","Guided Cloze",41,50,"mcq",[3,4]],["e","Error Correction",51,55,"error",[4]],["wf","Word Formation",56,60,"word",[4]],["oc","Reading · Open Cloze",61,75,"fill",[5]],["rc","Reading · Cloze",76,80,"mcq",[5]],["r","Reading Comprehension",81,90,"mcq",[6,7]],["w","Sentence Transformation",91,100,"rewrite",[7]],["essay","Paragraph Writing",1,1,"essay",[7]]],
+ "hai-phong":[["g1","Grammar & Vocabulary",21,40,"mcq",[2,3]],["g2a","Guided Cloze · Advertisement",41,45,"mcq",[3]],["g2b","Guided Cloze · Letter",46,50,"mcq",[3,4]],["e","Error Correction",51,55,"error",[4]],["wf","Word Formation",56,60,"word",[4]],["oc","Reading · Open Cloze",61,75,"fill",[5]],["rc","Reading · Cloze",76,80,"mcq",[5]],["r","Reading Comprehension",81,90,"mcq",[6,7]],["w","Sentence Transformation",91,100,"rewrite",[7]],["essay","Paragraph Writing",1,1,"essay",[7]]],
  "dh-vinh":[["b1","Lexico-Grammar",1,20,"mcq",[3,5]],["b2","Error Correction",21,30,"error",[5]],["b3","Word Formation",31,40,"word",[4,5]],["c1","Reading · Freelancing",1,10,"mcq",[4,6]],["c2","Reading · YES / NO / NOT GIVEN",11,15,"ynng",[6,7]],["c3","Reading · Sentence Completion",16,18,"fill",[7]],["c4","Reading · Matching",19,23,"match",[7,8]],["c5","Reading · Telemedicine",24,33,"fill",[8]],["c6","Reading · Missing Sentences",34,40,"match",[8,9]],["d","Sentence Transformation",1,10,"rewrite",[9]],["essay","Essay Writing",1,1,"essay",[9]]],
  "phu-tho":[["g","Lexico-Grammar",21,35,"mcq",[3]],["wf","Word Formation",36,45,"word",[4]],["e","Error Correction",46,50,"error",[4]],["r1","Reading · Cloze",51,60,"mcq",[5]],["r2","Reading · Open Cloze",61,70,"fill",[5]],["r3","Reading Comprehension",71,80,"mcq",[6,7]],["w","Sentence Transformation",81,90,"rewrite",[7,8]],["essay","Paragraph Writing",1,1,"essay",[8]]],
  "son-la":[["g1","Green Transportation",26,30,"mcq",[3,4]],["g2","Paperless Exams",31,40,"mcq",[4,5]],["wf","Word Formation",41,45,"word",[5]],["pr","Prepositions & Articles",46,50,"fill",[5]],["oc","Open Cloze",51,55,"fill",[5,6]],["m","Matching Sections",56,60,"match",[6]],["r","Reading · AI in English Learning",61,67,"mcq",[6,7,8]],["h","Matching Headings",68,71,"match",[8,9]],["tf","TRUE / FALSE / NOT GIVEN",72,75,"tfng",[9]],["w","Sentence Transformation",76,80,"rewrite",[9]],["email","Email Writing",1,1,"essay",[9]],["essay","Paragraph Writing",1,1,"essay",[9]]],
@@ -184,12 +184,45 @@ function passageBased(g){
  return ["error","fill","match","tfng","ynng"].includes(g.kind)
    || /\b(cloze|reading|passage|headings|matching)\b/i.test(g.name);
 }
-function originalPages(g){
- const block=activePassageBlock(g);
- const first=Number(g.pages?.[0]||1)-1;
- const pages=block?sourcePages(g).filter(p=>block.pages.includes(Number(p.sourcePage)-first)):sourcePages(g);
- return pages.map(p=>'<section class="hsg-passage-page"><small>Trang '+esc(p.sourcePage)+' · Ngữ liệu gốc</small><pre>'+esc(p.text)+'</pre></section>').join("");
+/* Isolate ONE exercise passage, never dump the whole PDF page into the left pane. */
+function passageOnly(g){
+ const blocks=sourcePages(g);
+ const all=blocks.map(p=>String(p.text||"")).join("\n").replace(/[\u200b\ufeff]/g,"");
+ const id=(state.exam?.id||"")+":"+g.id;
+ const fixed={
+   "hai-phong:g2a":{from:"Zero Carbon, Infinite Possibilities: Reserve Your Smart Home",to:/Question\s+41\./i},
+   "hai-phong:g2b":{from:"CHANGES IN OFFICE WORKING HOURS",to:/Question\s+46\./i},
+   "hai-phong:e":{from:"Peer pressure is a psychological force",to:/Question\s+51\./i}
+ };
+ if(fixed[id]){
+  const cfg=fixed[id],start=all.indexOf(cfg.from);
+  if(start>=0){const end=all.slice(start).search(cfg.to);if(end>=0)return all.slice(start,start+end).trim()}
+ }
+ const active=activePassageBlock(g),startQ=active?.start??g.start;
+ const marker=new RegExp("(?:^|\\n)\\s*(?:Question\\s*)?"+startQ+"[.\\)]\\s+(?:A[.\\)]|\\w)","i");
+ const match=marker.exec(all);
+ const before=match?all.slice(0,match.index):all;
+ const patterns=[
+  /(?:Read the following|Read the passage|Complete the following|Identify the FIVE errors|Identify \d+ errors|Guided cloze [12]:?)[^\n]{0,220}/gi,
+  /(?:^|\n)(?:PART|Part|SECTION|Section)\s*[1-6IVX]+[.:\s][^\n]{0,80}/gm
+ ];
+ let begin=-1;
+ for(const re of patterns){for(const m of before.matchAll(re)){if(m.index>begin)begin=m.index}}
+ let section=(begin>=0?before.slice(begin):before.slice(-3400)).trim();
+ // Do not include preceding answer tables; the passage is text BEFORE the first answer choices.
+ section=section.replace(/\n(?:Question|QUESTION)\s+\d{1,3}\.\s*A[.)][\s\S]*$/,"").trim();
+ if(section.length>5000)section=section.slice(-5000);
+ return section||"Ngữ liệu của phần này đang được rà soát để tách đúng từ đề gốc.";
 }
+function originalPages(g){
+ const passage=passageOnly(g);
+ const escaped=esc(passage);
+ const n=state.question;
+ // Highlight the relevant blank without modifying the underlying text.
+ const highlighted=escaped.replace(new RegExp("(\\("+n+"\\)|_{1,3}"+n+"_{1,5})","g"),'<mark class="hsg-passage-current">$1</mark>');
+ return '<section class="hsg-passage-page"><pre>'+highlighted+'</pre></section>';
+}
+
 function passageQuestionLabels(g,q){
  if(q.type==="tfng")return [["TRUE","TRUE"],["FALSE","FALSE"],["NOT GIVEN","NOT GIVEN"]];
  if(q.type==="ynng")return [["YES","YES"],["NO","NO"],["NOT GIVEN","NOT GIVEN"]];
@@ -213,48 +246,58 @@ function passageInput(g,n,q,r){
 }
 function renderPassageForms(g){
  const mount=$("hsg-answer-list");if(!mount)return;
- mount.innerHTML='<div class="hsg-split-form-intro"><div class="hsg-kicker">QUESTION PAPER</div><h2>'+esc(activePassageBlock(g)?.title||g.name)+'</h2><p>Đọc đề bên trái · Trả lời ở đây · Chưa có đáp án.</p></div>'+
- visibleQuestionNumbers(g).map(n=>{
-  const q=getQuestion(g,n),k=g.id+":"+n,r=state.answers[k]||{},stem=String(q.stem||"").trim();
-  const shortStem=(q.type==="error"?"Xác định lỗi và viết cách sửa theo dòng trong đoạn văn bên trái.":(!stem||stem.length>360?"Dựa vào đoạn văn bên trái, hoàn thành câu "+n+".":stem));
-  return '<article class="hsg-split-question'+(state.question===n?' active':'')+'" id="hsg-question-'+n+'" data-hsg-question="'+n+'">'+
-   '<div class="hsg-split-question-head"><span class="hsg-split-question-number">QUESTION '+String(n).padStart(2,"0")+'</span><button type="button" data-hsg-flag aria-pressed="'+!!state.review[k]+'">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu')+'</button></div>'+
-   '<p class="hsg-split-prompt">'+esc(shortStem)+'</p>'+passageInput(g,n,q,r)+
-   '<div class="hsg-split-question-foot"><span class="hsg-split-answer-status">'+(meaningfulAnswer(r)?'Đã trả lời':'Chưa trả lời')+'</span><button type="button" data-hsg-clear>Xóa câu</button></div></article>';
- }).join("");
- mount.querySelectorAll(".hsg-split-question").forEach(card=>{
-  const n=Number(card.dataset.hsgQuestion),k=g.id+":"+n,q=getQuestion(g,n);
-  card.querySelectorAll("[data-hsg-choice]").forEach(btn=>btn.onclick=()=>{
-   state.answers[k]={type:q.type,value:btn.dataset.hsgChoice};
-   card.querySelectorAll("[data-hsg-choice]").forEach(b=>{const selected=b===btn;b.classList.toggle("selected",selected);b.setAttribute("aria-pressed",String(selected))});
-   updatePassageStatus(card,k);queueSave();updateIndicators();
-  });
-  card.querySelectorAll("[data-hsg-field]").forEach(input=>input.oninput=()=>{
-   state.answers[k]={...state.answers[k],type:q.type,[input.dataset.hsgField]:input.value};
-   updatePassageStatus(card,k);queueSave();updateIndicators();
-  });
-  card.querySelector("[data-hsg-flag]").onclick=()=>{
-   state.review[k]=!state.review[k];card.querySelector("[data-hsg-flag]").textContent=state.review[k]?"★ Đã đánh dấu":"☆ Đánh dấu";
-   card.querySelector("[data-hsg-flag]").setAttribute("aria-pressed",String(!!state.review[k]));
+ const n=state.question,k=g.id+":"+n,q=getQuestion(g,n),r=state.answers[k]||{};
+ // The passage stays on the LEFT. The RIGHT contains the current question's choices only.
+ const concisePrompt=q.type==="error"?"Tìm một lỗi trong đoạn văn và nhập cách sửa.":q.type==="rewrite"?"Viết lại câu theo yêu cầu.":"";
+ mount.innerHTML='<div class="hsg-current-heading"><span>CÂU '+n+'</span><small>'+esc(activePassageBlock(g)?.title||g.name)+'</small></div>'+
+ (concisePrompt?'<p class="hsg-current-instruction">'+esc(concisePrompt)+'</p>':"")+
+ '<article class="hsg-current-form" id="hsg-question-'+n+'" data-hsg-question="'+n+'">'+passageInput(g,n,q,r)+'</article>'+
+ '<div class="hsg-current-foot"><button type="button" data-hsg-flag aria-pressed="'+!!state.review[k]+'">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu để xem lại')+'</button><button type="button" data-hsg-clear>Xóa lựa chọn</button></div>';
+ const card=mount.querySelector(".hsg-current-form");
+ card.querySelectorAll("[data-hsg-choice]").forEach(btn=>btn.onclick=()=>{
+  state.answers[k]={type:q.type,value:btn.dataset.hsgChoice};
+  card.querySelectorAll("[data-hsg-choice]").forEach(b=>{const selected=b===btn;b.classList.toggle("selected",selected);b.setAttribute("aria-pressed",String(selected))});
+  updateIndicators();queueSave();
+ });
+ card.querySelectorAll("[data-hsg-field]").forEach(input=>input.oninput=()=>{
+  state.answers[k]={...state.answers[k],type:q.type,[input.dataset.hsgField]:input.value};
+  updateIndicators();queueSave();
+ });
+ mount.querySelector("[data-hsg-flag]").onclick=()=>{
+  state.review[k]=!state.review[k];renderPassageForms(g);updateIndicators();queueSave();
+ };
+ mount.querySelector("[data-hsg-clear]").onclick=()=>{
+  delete state.answers[k];renderPassageForms(g);updateIndicators();queueSave();
+ };
+ const nav=document.getElementById("hsg-passage-nav");
+ if(nav){
+  const rangeData=visibleQuestionNumbers(g),first=rangeData[0],last=rangeData[rangeData.length-1];
+  nav.innerHTML='<button type="button" id="hsg-passage-prev"'+(n<=first?' disabled':'')+'>← Câu trước</button>'+
+    '<span>Câu '+n+' / '+last+'</span><button type="button" id="hsg-passage-next"'+(n>=last?' disabled':'')+'>Câu tiếp →</button>';
+  const navigate=next=>{
+   if(next<first||next>last)return;
+   state.question=next;
+   renderPassageForms(g);
+   const text=$("hsg-passage-left-body");if(text)text.innerHTML=originalPages(g);
    updateIndicators();queueSave();
   };
-  card.querySelector("[data-hsg-clear]").onclick=()=>{
-   delete state.answers[k];
-   card.querySelectorAll("[data-hsg-field]").forEach(input=>{input.value=""});
-   card.querySelectorAll("[data-hsg-choice]").forEach(btn=>{btn.classList.remove("selected");btn.setAttribute("aria-pressed","false")});
-   updatePassageStatus(card,k);updateIndicators();queueSave();
-  };
-  card.addEventListener("focusin",()=>{state.question=n;updateIndicators()});
- });
+  nav.querySelector("#hsg-passage-prev").onclick=()=>navigate(n-1);
+  nav.querySelector("#hsg-passage-next").onclick=()=>navigate(n+1);
+ }
 }
+
 function updatePassageStatus(card,k){
  const node=card.querySelector(".hsg-split-answer-status");
  if(node)node.textContent=meaningfulAnswer(state.answers[k])?"Đã trả lời":"Chưa trả lời";
 }
 function focusPassageQuestion(n){
- const next=$("hsg-question-"+n);if(!next)return;
- document.querySelectorAll(".hsg-split-question").forEach(card=>card.classList.toggle("active",card===next));
- next.scrollIntoView({behavior:"smooth",block:"nearest"});
+ const g=groups(state.exam).find(x=>x.id===state.group);
+ const before=activePassageBlock(g);
+ state.question=n;
+ const after=activePassageBlock(g);
+ if((before?.start??-1)!==(after?.start??-1)){renderExam();return}
+ renderPassageForms(g);
+ const body=$("hsg-passage-left-body");if(body)body.innerHTML=originalPages(g);
 }
 
 /* Same adjustable divider convention as the published Grade 12 Reading workspace. */
@@ -292,8 +335,8 @@ function renderExam(){
  const passage=passageBased(g);
  const splitMarkup=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
  '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
- '<div class="hsg-passage-workspace"><section class="hsg-passage-left" aria-label="Đoạn văn"><div class="hsg-passage-column-head"><strong>PASSAGE / SOURCE TEXT</strong><span>Cuộn độc lập</span></div><div class="hsg-passage-content">'+originalPages(g)+'</div></section>'+
- '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời"><div class="hsg-passage-column-head"><strong>QUESTIONS & ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div></div>':"";
+ '<div class="hsg-passage-workspace"><section class="hsg-passage-left" aria-label="Đoạn văn"><div class="hsg-passage-column-head"><strong>PASSAGE / SOURCE TEXT</strong><span>Cuộn độc lập</span></div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
+ '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời"><div class="hsg-passage-column-head"><strong>QUESTIONS & ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div><nav class="hsg-passage-nav" id="hsg-passage-nav" aria-label="Chuyển câu"></nav></section></div></div>':"";
  const root=$("pageMount");root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
