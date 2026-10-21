@@ -19,7 +19,15 @@ function passage(text){
     flush();out.push('<p class="ep-bullet">'+esc(line.replace(/^(?:[•▪●]\s*|[-–]\s+)/,""))+'</p>');
    }else if(/^(?:Dear\b|To all\b|Best regards\b|Kind regards\b|Yours sincerely\b|Sincerely\b|Subject:)/i.test(line)){
     flush();out.push('<p class="ep-salutation">'+esc(line)+'</p>');
-   }else joined.push(line);
+   }else{
+    const previous=joined[joined.length-1]||"";
+    // Many reading providers mark paragraphs using a single hard newline.
+    // Keep a real paragraph break at a complete sentence boundary;
+    // continue joining ordinary PDF soft wraps inside sentences.
+    if(joined.length&&/[.!?]["'’”)]?$/.test(previous)&&
+      /^[“"'‘]?[A-ZÀ-Ỹ]/.test(line)&&joined.join(" ").length>90)flush();
+    joined.push(line);
+   }
   }
   flush();
  }
