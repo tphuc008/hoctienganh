@@ -519,7 +519,7 @@ function render(preserveScroll){
   mount.style.display="block";
   mount.innerHTML='<div class="g21">'+(location.hash.replace(/^#/,"")==="teacher/grammar"?
     home():topbar()+hero()+tabs()+
-    (state.tab==="learn"?learn():state.tab==="practice"?stageFrame("practice",exam("practice")):state.tab==="clinic"?stageFrame("clinic",clinic()):state.tab==="mastery"?stageFrame("mastery",exam("mastery")):stageFrame("review",review()))+
+    (state.tab==="learn"?learn():state.tab==="practice"?stageFrame("practice",exam("practice")):state.tab==="clinic"?stageFrame("clinic",clinic()):state.tab==="mastery"?stageFrame("mastery",exam("mastery")):review())+
     '<p class="g21-foot">Sources: <a href="https://dictionary.cambridge.org/grammar/british-grammar/inversion" target="_blank" rel="noopener noreferrer">Cambridge Grammar · Inversion</a> · <a href="https://learnenglish.britishcouncil.org/free-resources/grammar/c1/inversion-after-negative-adverbials" target="_blank" rel="noopener noreferrer">British Council · Negative adverbials</a>. Điểm và tiến độ bản thử nghiệm lưu cục bộ theo tài khoản, chưa đồng bộ trên các thiết bị.</p>')+'</div>';
   if(opened.length&&mount.querySelectorAll){
     mount.querySelectorAll(".g21-repair").forEach(node=>{if(opened.includes(node.getAttribute("data-g21-skill")))node.open=true;});
