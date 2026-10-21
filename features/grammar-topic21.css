@@ -566,3 +566,37 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
   .g21 .g21-explanation-v2{padding:13px 12px}
   .g21 .g21-explanation-v2 .g21-more-body{padding:11px}
 }
+
+/* Grammar Explanation V1 — Learn-only, six-part compact teaching layout */
+.g21 .g21-learn-v1 .g21-v1-essentials{display:grid;gap:10px}
+.g21 .g21-learn-v1 .g21-v1-block{padding:14px 17px;border:1px solid #e2e8f0;border-radius:11px;background:#fff}
+.g21 .g21-learn-v1 .g21-v1-block h3{margin:0 0 6px;color:#1e3551;font-size:14px;font-weight:800;line-height:1.45}
+.g21 .g21-learn-v1 .g21-v1-block p{margin:0;color:#334155;font-size:14px;line-height:1.75}
+.g21 .g21-learn-v1 .g21-v1-formula{background:#f6f9fd;border-color:#dbe5f0}
+.g21 .g21-learn-v1 .g21-v1-formula-text{white-space:pre-line;font-weight:680;color:#193b68;line-height:1.95}
+.g21 .g21-learn-v1 .g21-v1-formula small{display:block;margin-top:7px;color:#718198;font-size:11px;line-height:1.5}
+.g21 .g21-learn-v1 .g21-v1-meaning{border-left:3px solid #80a5d9}
+.g21 .g21-learn-v1 .g21-v1-core{border-left:3px solid #a6b6c8}
+.g21 .g21-learn-v1 .g21-v1-examples{margin-top:14px}
+.g21 .g21-learn-v1 .g21-v1-pitfalls{margin-top:12px}
+.g21 .g21-learn-v1 .g21-v1-pitfalls-details>summary{font-size:14px;font-weight:750}
+.g21 .g21-learn-v1 .g21-v1-pitfalls-details>.g21-more-body{display:grid;gap:13px}
+.g21 .g21-learn-v1 .g21-v1-pitfall{padding:12px 14px;background:#fff9f1;border-radius:8px}
+.g21 .g21-learn-v1 .g21-v1-pitfall>b{color:#805719;font-size:13px}
+.g21 .g21-learn-v1 .g21-v1-pitfall p{margin:5px 0 0;color:#4b5563;font-size:13px;line-height:1.75}
+.g21 .g21-learn-v1 .g21-v1-nested{border:1px solid #e2e8f0;background:#fff;border-radius:8px}
+.g21 .g21-learn-v1 .g21-v1-nested>summary{cursor:pointer;padding:11px 13px;font-size:13px;font-weight:700;color:#375372}
+.g21 .g21-learn-v1 .g21-v1-nested>p,.g21 .g21-learn-v1 .g21-v1-nested>.g21-rulelist{margin:0;padding:4px 15px 13px;color:#475569;font-size:13px;line-height:1.75}
+.g21 .g21-learn-v1 .g21-v1-nested>.g21-rulelist{padding-left:33px}
+.g21 .g21-learn-v1 .g21-v1-extra-list{display:grid;gap:8px}
+.g21 .g21-learn-v1 .g21-v1-extra{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px}
+.g21 .g21-learn-v1 .g21-v1-extra b{font-size:13px;color:#21374f}
+.g21 .g21-learn-v1 .g21-v1-extra p{margin:5px 0 0;font-size:13px;line-height:1.75;color:#475569}
+.g21 .g21-learn-v1 .g21-v1-extra p.g21-v1-extra-example{font-weight:620;color:#1e3a8a}
+.g21 .g21-learn-v1 .g21-v1-extra p.g21-extra-meaning{font-weight:400;color:#64748b}
+.g21 .g21-learn-v1 .g21-quickchecks{margin-top:15px}
+@media(max-width:700px){
+ .g21 .g21-learn-v1 .g21-v1-block{padding:12px}
+ .g21 .g21-learn-v1 .g21-v1-block p{font-size:13.5px}
+ .g21 .g21-learn-v1 .g21-v1-extra{padding:10px 12px}
+}
