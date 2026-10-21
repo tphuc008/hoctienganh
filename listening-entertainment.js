@@ -182,7 +182,7 @@ function questionHtml(part,q){
     }).join("")+'</div>';
   }else{
     var requiredWords=String(q.answerText||"").trim().split(/\s+/).filter(Boolean).length;
-    body='<input class="listening-fill" id="ent-p'+part.id+'-input-'+q.id+'" autocomplete="off" spellcheck="false" placeholder="Điền đúng '+requiredWords+' từ"><div class="listening-fill-note">Cần điền đúng '+requiredWords+' từ từ audio</div>';
+    body='<input class="listening-fill" id="ent-p'+part.id+'-input-'+q.id+'" autocomplete="off" spellcheck="false" placeholder="Điền đúng '+requiredWords+' từ"><div class="listening-fill-note">Điền đúng '+requiredWords+' từ trong audio</div>';
   }
   var typeLabel=q.type==="mc"?"Multiple Choice":"Note Completion · "+String(q.answerText||"").trim().split(/\s+/).filter(Boolean).length+" từ";
   return '<article class="listening-q" id="ent-p'+part.id+'-q-'+q.id+'" data-part="'+part.id+'" data-qid="'+q.id+'">'+
@@ -197,7 +197,7 @@ function partHtml(part){
     '<div class="listening-part-head"><h2>'+escHtml(part.label)+'</h2><span class="listening-progress" id="listeningProgress'+part.id+'">0 / '+part.questions.length+' answered</span><span id="listeningProgressFlow'+part.id+'"></span></div>'+
     '<div class="listening-q-list">'+part.questions.map(function(q){return questionHtml(part,q);}).join("")+'</div>'+
     '<div class="listening-actions">'+
-      '<div class="listening-actions-left"><div class="listening-score" id="listeningScore'+part.id+'">Chưa nộp</div><div class="listening-score-note" id="listeningScoreNote'+part.id+'">Đáp án chỉ được hiện khi bạn chủ động bấm “Hiện đáp án”.</div></div>'+
+      '<div class="listening-actions-left"><div class="listening-score" id="listeningScore'+part.id+'">Chưa nộp</div><div class="listening-score-note" id="listeningScoreNote'+part.id+'">Chọn “Hiện đáp án” để xem lời giải.</div></div>'+
       '<div class="listening-actions-btns">'+
         '<button class="secondary" type="button" id="showAnswersBtn'+part.id+'" style="display:none" onclick="toggleEntertainmentAnswers('+part.id+')">Hiện đáp án</button>'+
         '<button class="secondary" type="button" onclick="resetEntertainmentListening('+part.id+')">Làm lại phần</button>'+
@@ -301,7 +301,7 @@ function submitPart(partId,restoring=false){
       card.classList.remove("correct","wrong");
       card.classList.add(ok?"correct":"wrong");
     }
-    if(status)status.textContent=ok?"✓ Đúng":"✕ Sai · Bấm vào câu này để nghe lại";
+    if(status)status.textContent=ok?"✓ Đúng":"✕ Sai · Bấm để nghe lại";
     document.querySelectorAll('input[name="ent-p'+part.id+'-q-'+q.id+'"]').forEach(function(el){el.disabled=true;});
     var fill=document.getElementById("ent-p"+part.id+"-input-"+q.id);
     if(fill)fill.disabled=true;
@@ -313,7 +313,7 @@ function submitPart(partId,restoring=false){
   var showBtn=document.getElementById("showAnswersBtn"+part.id);
   var submitBtn=document.getElementById("submitListeningBtn"+part.id);
   if(score)score.textContent=correct+" / "+part.questions.length+" correct";
-  if(note)note.textContent="Câu sai vẫn chưa hiện đáp án. Bấm vào câu màu đỏ để nghe lại đúng đoạn.";
+  if(note)note.textContent="Bấm câu đỏ để nghe lại · Đáp án vẫn ẩn.";
   if(showBtn){showBtn.style.display="inline-flex";showBtn.textContent="Hiện đáp án";}
   if(submitBtn){submitBtn.textContent="Đã nộp";submitBtn.disabled=true;}
   updateProgress(part.id);
@@ -384,7 +384,7 @@ function resetPart(partId){
   var showBtn=document.getElementById("showAnswersBtn"+part.id);
   var submitBtn=document.getElementById("submitListeningBtn"+part.id);
   if(score)score.textContent="Chưa nộp";
-  if(note)note.textContent="Đáp án chỉ được hiện khi bạn chủ động bấm “Hiện đáp án”.";
+  if(note)note.textContent="Chọn “Hiện đáp án” để xem lời giải.";
   if(showBtn)showBtn.style.display="none";
   if(submitBtn){submitBtn.textContent="Nộp đáp án";submitBtn.disabled=false;}
   updateProgress(part.id);
@@ -434,16 +434,16 @@ function renderListeningHome(){
   mount.style.display="block";
   mount.innerHTML=
     '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><span>Listening</span></div>'+
-    '<div class="unit-hero"><div class="eyebrow">Listening</div><h1>Listening</h1><p>Video-based listening practice with IELTS-style questions and replay for incorrect answers.</p></div>'+
+    '<div class="unit-hero"><div class="eyebrow">Listening</div><h1>Listening</h1><p>Luyện nghe video · Câu hỏi IELTS · Nghe lại câu sai.</p></div>'+
     '<div class="section-title"><h2>Videos</h2><span>Choose a category</span></div>'+
     '<div class="units">'+
       '<button class="unit-card listening-unit-card" onclick="location.hash=\'listening/entertainment\'">'+
         '<div class="unit-top"><span class="unit-no">ENTERTAINMENT</span><span class="status live">Available</span></div>'+
-        '<h3>Entertainment</h3><p>Video listening practice organised by individual videos.</p><span class="unit-arrow">→</span>'+
+        '<h3>Entertainment</h3><p>Luyện nghe theo video.</p><span class="unit-arrow">→</span>'+
       '</button>'+
       '<button class="unit-card listening-unit-card" onclick="location.hash=\'listening/news\'">'+
         '<div class="unit-top"><span class="unit-no">NEWS</span><span class="status live">Available</span></div>'+
-        '<h3>News</h3><p>Current-affairs listening practice organised by individual videos.</p><span class="unit-arrow">→</span>'+
+        '<h3>News</h3><p>Luyện nghe tin tức theo video.</p><span class="unit-arrow">→</span>'+
       '</button>'+
     '</div>';
   window.scrollTo({top:0,behavior:"smooth"});
@@ -456,7 +456,7 @@ function renderEntertainment(){
   mount.style.display="block";
   mount.innerHTML=
     '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="location.hash=\'listening\'">Listening</button><span>›</span><span>Entertainment</span></div>'+
-    '<div class="unit-hero"><div class="eyebrow">Entertainment</div><h1>Entertainment</h1><p>Choose a video to start its listening practice.</p></div>'+
+    '<div class="unit-hero"><div class="eyebrow">Entertainment</div><h1>Entertainment</h1><p>Chọn video để luyện nghe.</p></div>'+
     '<div class="section-title"><h2>Videos</h2><span>'+ENTERTAINMENT_VIDEOS.length+' video'+(ENTERTAINMENT_VIDEOS.length===1?"":"s")+'</span></div>'+
     '<div class="entertainment-video-grid">'+
       ENTERTAINMENT_VIDEOS.map(function(video){
@@ -485,7 +485,7 @@ function renderEntertainmentVideo(){
       '<section class="listening-video-column">'+
         '<div class="video-shell"><div class="video-frame"><div id="entertainmentPlayer"></div></div>'+
         '<div class="video-meta"><div><strong>'+escHtml(VIDEO_TITLE)+'</strong><span>Kurzgesagt – In a Nutshell · YouTube</span></div></div></div>'+
-        '<div class="listening-tip"><b>Chế độ xem lại:</b> Sau khi nộp bài, câu sai sẽ chuyển sang màu đỏ. Bấm vào câu sai để video quay lại đúng đoạn cần nghe. Đáp án đúng vẫn được ẩn cho đến khi bạn bấm <b>Hiện đáp án</b>.</div>'+
+        '<div class="listening-tip"><b>Nghe lại:</b> Câu sai tô đỏ; bấm để phát lại đoạn liên quan. Chọn <b>Hiện đáp án</b> để xem lời giải.</div>'+
       '</section>'+
       '<section class="listening-questions" id="listeningQuestionPanel">'+
         '<div class="listening-part-tabs">'+
