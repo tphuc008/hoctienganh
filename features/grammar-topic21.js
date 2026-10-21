@@ -285,7 +285,7 @@ function learn(){
         (state.lesson<d.sections.length-1?
           '<button class="g21-btn primary" data-g21="next">Bài tiếp theo →</button>':
           '<button class="g21-btn primary" data-g21="tab" data-tab="practice">Sang phần luyện tập →</button>')+
-      '</div><p class="g21-foot">Đã hoàn thành '+done+'/'+d.sections.length+' bài. Tiến độ câu hỏi vẫn được giữ khi quay lại.</p>'+
+      '</div><p class="g21-foot">Đã xong '+done+'/'+d.sections.length+' bài · Tự lưu tiến độ.</p>'+
     '</article></div>';
 }
 function scoreHeader(items,values,kind){
@@ -311,7 +311,7 @@ const writing=[
 ];
 function transfer(){
   return '<hr class="g21-divider"><div class="g21-sectionhead"><h3>Writing Transfer</h3><span class="g21-chip">Tự viết · Không chấm tự động</span></div>'+
-   '<p class="g21-lead">Viết '+writing.length+' câu. Viết trước rồi đối chiếu với đáp án gợi ý; câu diễn đạt tương đương có thể đúng dù khác từng chữ.</p>'+
+   '<p class="g21-lead">Viết '+writing.length+' câu → So đáp án. Cách diễn đạt tương đương vẫn được chấp nhận.</p>'+
    writing.map((w,i)=>'<div class="g21-question"><div class="g21-qmeta">WRITING CHALLENGE '+(i+1)+'</div>'+
     '<p class="g21-prompt">'+esc(w.task)+'</p>'+
     '<textarea class="g21-fill" rows="3" style="min-height:86px;max-width:100%" data-g21-write="'+w.id+'" placeholder="Viết câu hoàn chỉnh bằng tiếng Anh...">'+esc(state.writes[w.id]||"")+'</textarea>'+
@@ -349,7 +349,7 @@ function exam(kind){
       '<div class="g21-progress" aria-label="Đã trả lời '+summary.answered+' trên '+summary.total+' câu"><span style="width:'+Math.round(summary.answered/summary.total*100)+'%"></span></div></div>':
       scoreHeader(items,picks,kind))+
     (master&&submitted?'<div class="g21-note '+(isMastered()?"form":"warning")+'"><b>MASTERY STATUS</b>'+
-       '<p>'+(isMastered()?"Đạt chuẩn thử nghiệm. Có thể chuyển sang phần ôn tập.":"Chưa đạt chuẩn thử nghiệm. Hãy vào Chữa lỗi để học lại các kỹ năng còn yếu.")+'</p></div>':"")+
+       '<p>'+(isMastered()?"Đạt chuẩn · Sang phần ôn tập.":"Chưa đạt · Vào Chữa lỗi.")+'</p></div>':"")+
     '<div class="g21-sectionhead g21-assessment-heading"><h3>Câu '+(start+1)+' / '+items.length+'</h3><span>Một câu mỗi lần</span></div>'+
     items.slice(start,start+EXAM_PAGE_SIZE).map((q,i)=>question(q,start+i+1,kind)).join("")+
     pageNav(kind,items.length)+
@@ -383,14 +383,14 @@ function clinic(){
   const groups=scoreBySkill();
   if(!state.practiceSubmitted&&!state.masterySubmitted){
     return '<article class="g21-main"><span class="g21-label">CHỮA LỖI</span><h2>Tìm và sửa lỗi đảo ngữ</h2>'+
-     '<p class="g21-lead">Hoàn thành Practice hoặc Mastery để hệ thống xác định nhóm lỗi và mở bài sửa lỗi tương ứng.</p>'+
+     '<p class="g21-lead">Làm Practice/Mastery để mở bài chữa lỗi.</p>'+
      '<div class="g21-empty">Chưa có bài đã nộp để phân tích.</div>'+
      '<div class="g21-actions"><button class="g21-btn primary" data-g21="tab" data-tab="practice">Đến phần luyện tập →</button></div></article>';
   }
   const weak=groups.filter(x=>x.wrong.length>0).sort((a,b)=>a.correct/(a.total||1)-b.correct/(b.total||1));
   return '<article class="g21-main g21-clinic"><span class="g21-label">ERROR CLINIC · FIND & FIX</span>'+
     '<h2>Tìm lỗi, rồi tự sửa</h2>'+
-    '<p class="g21-lead">Chỉ những nhóm kiến thức bạn trả lời sai mới được đưa ra luyện lại. Mở một nhóm để làm một câu sửa lỗi ngắn.</p>'+
+    '<p class="g21-lead">Chọn nhóm sai để luyện lại từng câu.</p>'+
     '<div class="g21-sectionhead"><h3>Tổng quan '+d.skills.length+' kỹ năng</h3></div>'+
     '<div class="g21-skill-list">'+groups.map(gr=>{
       const pct=gr.total?Math.round(100*gr.correct/gr.total):0;
@@ -447,7 +447,7 @@ function home(){
     '<div class="g21-statrow" style="margin-bottom:17px"><span class="g21-pill">'+d.sections.length+' lessons</span><span class="g21-pill">'+d.sections.flatMap(s=>s.checks).length+' Quick Checks</span><span class="g21-pill">'+d.practice.length+' Practice</span><span class="g21-pill">'+d.mastery.length+' Mastery</span></div>'+
     '<div class="g21-actions"><button class="g21-btn primary" data-g21="open">Bắt đầu từ Learn →</button>'+
     (state.masterySubmitted?'<span class="g21-pill">Mastery '+sc.correct+'/'+d.mastery.length+'</span>':"")+'</div></div>'+
-    '<p class="g21-foot">Không có Diagnostic Test. Nội dung đang ở khu vực giáo viên và chưa được xuất bản cho học sinh.</p>';
+    '<p class="g21-foot">Bản thử nghiệm dành cho giáo viên · Chưa xuất bản cho học sinh.</p>';
 }
 function render(preserveScroll){
   if(!state)return;
