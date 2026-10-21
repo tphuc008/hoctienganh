@@ -481,7 +481,7 @@ function printTypesetText(text){
   const line=raw.trim();
   if(!line){if(!question)flushPara();continue}
   if(/^Page\s+\d+\s+(?:of|\/)\s+\d+$/i.test(line)||/^Trang\s+\d+\s*\/\s*\d+$/i.test(line))continue;
-  const section=/^(?:SECTION\s+[IVXLCDM0-9]+[.:]|PART\s+[A-D][:.]|(?:[IVX]+)\.\s+(?:LEXICO|READING|WRITING|PHONETICS|LANGUAGE))\s*(.*)$/i.exec(line);
+  const section=/^(?:SECTION\s+[A-ZIVXLCDM0-9]+[.:]|PART\s+[A-D][:.]|(?:[IVX]+)\.\s+(?:LEXICO|READING|WRITING|PHONETICS|LANGUAGE))\s*(.*)$/i.exec(line);
   const part=/^(?:PART|Part)\s+(\d+|[IVX]+)[.:]\s*(.*)$/i.exec(line);
   const q=/^(?:Question\s+)?(\d{1,3})[.)]\s*(.*)$/i.exec(line);
   if(section){flushLine();flushQuestion();flushPara();numbered=false;out.push('<h2 class="hsg-print-source-section">'+printInline(line)+'</h2>');continue}
