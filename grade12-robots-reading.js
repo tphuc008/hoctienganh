@@ -99,7 +99,7 @@ function passageHTML(){
  return '<div class="mis-kicker">IELTS Academic Reading · Passage 3</div><h1 class="mis-passage-title">Robots and us</h1>'+
  '<div class="mis-passage-sub">Reading Passage · Paragraphs A–H</div>'+
  '<div class="mis-reading-tools"><button type="button" onclick="robotsHighlight()">✎ Highlight</button><button type="button" onclick="robotsDictionary()">⚑ Tra từ (Cambridge)</button></div>'+
- '<div class="mis-selection-status" id="mis-selection-status">Chọn một đoạn chữ, sau đó nhấn Highlight hoặc Tra từ.</div>'+
+ '<div class="mis-selection-status" id="mis-selection-status">Bôi đen chữ → Highlight / Tra từ.</div>'+
  PASSAGE.map(function(p,i){return '<p class="mis-paragraph'+(state.submitted&&Q.some(function(q){return q.id===Number(state.focus)&&q.p===i})?" mis-current-para":"")+'" id="mis-p-'+i+'" data-p="'+i+'"><strong>'+String.fromCharCode(65+i)+'.</strong> '+markText(p,i)+'</p>'}).join("")+'<p class="mis-footnotes"><em>* terraforming: modifying a planet’s atmosphere to suit human needs. ** singularity: the point when robots will be able to start creating ever more sophisticated versions of themselves.</em></p>';
 }
 function optionsHTML(q){
@@ -228,7 +228,7 @@ function submit(automatic){
  const invalid=Q.filter(function(q){return q.type==="input"&&answered(q)&&cleaned(state.answers[q.id]).split(" ").length>2});
  if(invalid.length&&!automatic){window.alert("Câu "+invalid.map(function(q){return q.id}).join(", ")+" vượt quá TWO WORDS. Vui lòng sửa đáp án trước khi nộp.");return}
  const missing=14-completed();
- if(!automatic&&!window.confirm("Nộp bài ngay? "+(missing?"Bạn còn "+missing+" câu chưa trả lời. ":"")+"Đáp án và giải thích sẽ hiện sau khi nộp."))return;
+ if(!automatic&&!window.confirm("Nộp bài ngay? "+(missing?"Bạn còn "+missing+" câu chưa trả lời. ":"")+"Nộp để xem đáp án và giải thích."))return;
  state.submitted=true;state.submittedAt=automatic?state.startedAt+LIMIT*1000:Date.now();state.focus=27;state.submissionType=automatic?"timeout":"manual";save();
  renderReader();
  const qp=el("mis-question-pane");if(qp)qp.scrollTop=0;
@@ -368,7 +368,7 @@ function landing(){
  const old=read();
  const mount=el("pageMount");mount.style.display="block";
  mount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(12)">Lớp 12</button><span>›</span><span>Reading</span></div>'+
- '<div class="unit-hero"><div class="eyebrow">Grade 12 · IELTS Reading</div><h1>Reading</h1><p>IELTS Academic Reading · Chấm điểm và giải thích sau khi nộp.</p></div>'+
+ '<div class="unit-hero"><div class="eyebrow">Grade 12 · IELTS Reading</div><h1>Reading</h1><p>IELTS Reading · Chấm điểm sau khi nộp.</p></div>'+
  '<div class="section-title"><h2>Reading Passages</h2><span>2 bài đọc</span></div>'+
  '<div class="exercise-grid"><button class="exercise-card" onclick="location.hash=\''+PATH+'\'"><div class="exercise-icon">📖</div><h3>Robots and us</h3><p>Passage 3 · Matching Features · Sentence Endings · Multiple Choice</p><div class="meta"><span class="chip">20 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích sau khi nộp</span>'+(old?.startedAt?'<span class="chip">'+(old.submitted?"Đã làm · "+Q.filter(function(q){return cleaned(old.answers?.[q.id])===cleaned(q.answer)}).length+"/14":"Đang làm dở")+'</span>':"")+'</div></button></div>';
  window.scrollTo({top:0,behavior:"smooth"});
