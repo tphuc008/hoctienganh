@@ -63,6 +63,7 @@ test("validation rejects malformed options and missing source gaps",()=>{
  invalid.parts[0].questions[0].options.pop();
  assert.throws(()=>system.validate(invalid,"hai-phong"),/options/);
  const other=JSON.parse(JSON.stringify(document));
- other.parts[0].passage[1].text=other.parts[0].passage[1].text.replace("(41) _____","(41)");
+ const block=other.parts[0].passage.find(b=>b.text.includes("(41) _____"));
+ block.text=block.text.replace("(41) _____","(41)");
  assert.throws(()=>system.validate(other,"hai-phong"),/gap/);
 });
