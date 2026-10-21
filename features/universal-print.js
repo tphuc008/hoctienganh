@@ -95,98 +95,61 @@ function validate(){
  host.querySelector(".pc-print").disabled=!n;
  host.querySelector(".pc-status").textContent=n?"Đã chọn "+n+" câu · Mở tab in riêng.":"Chọn ít nhất một phần.";
 }
-const css=`
- @page{size:A4;margin:16mm}
- *{box-sizing:border-box}
- body{margin:0;background:#edf4ff;color:#172033;font:10pt/1.55 Arial,"Segoe UI",sans-serif}
- .toolbar{max-width:900px;margin:14px auto;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 18px}
- .toolbar p{margin:0;font-size:10pt;color:#475569}
- .toolbar button{border:0;border-radius:9px;padding:12px 17px;color:white;background:#2563eb;font-weight:800;cursor:pointer}
- main{max-width:900px;margin:0 auto 30px;padding:35px 44px;background:white;box-shadow:0 12px 36px rgba(30,60,120,.1)}
- .topline{display:flex;justify-content:space-between;border-bottom:1px solid #94a3b8;padding-bottom:8px;font-size:9pt;font-weight:bold}
- h1{text-align:center;font-size:19pt;margin:22px 0 4px;line-height:1.3}
- .intro{text-align:center;color:#64748b;font-size:9pt;margin:0 0 26px}
- h2{font-size:12pt;margin:23px 0 14px;padding-bottom:7px;border-bottom:1px solid #94a3b8;break-after:avoid}
- article.question{margin:0 0 18px}
- .stem{margin:0 0 8px;line-height:1.6;overflow-wrap:break-word;break-after:avoid}
- .options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 19px;margin:0 0 11px 10px;font-size:9.5pt}
- .options>div{overflow-wrap:break-word;break-inside:avoid}
- .write-line{height:20px;border-bottom:1px dotted #cbd5e1}
- .passage{white-space:pre-wrap;line-height:1.7;font-size:9.5pt;background:#f8fafc;border:1px solid #cbd5e1;padding:14px;margin:12px 0 20px}
- .key-page{break-before:page;page-break-before:always;margin-top:18px}
- .key-page h2{text-align:center;border-top:2px solid #172033;padding-top:14px}
- .key-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px 5px;font-size:9.5pt}
- .key-grid>span{break-inside:avoid;overflow-wrap:break-word}
- .explain{margin:9px 0 19px;border:1px solid #cbd5e1;border-radius:6px;padding:10px;font-size:9pt;line-height:1.6}
- .explain>strong{display:block;background:#eff6ff;padding:7px;color:#1e40af}
- .explain section{margin-top:10px;break-inside:avoid}
- .explain h3{font-size:9.5pt;margin:0 0 5px}
- .explain p{white-space:pre-wrap;margin:0 0 7px}
- .explain .notice{color:#64748b;font-style:italic}
- .explain .feedback-title{font-weight:bold;background:#eff6ff;padding:7px;margin-bottom:8px}
- .explain .semantic-step{padding:9px 0;border-bottom:1px solid #d9e7f5}
- .explain .semantic-step-label{display:flex;gap:9px;align-items:center;margin-bottom:9px}
- .explain .semantic-step-label>span{background:#dbeafe;border-radius:5px;padding:3px 8px;font-weight:bold}
- .explain .semantic-step-label b{font-size:9pt}
- .explain .semantic-step-label small{display:block;color:#64748b}
- .explain .semantic-prose p{margin:5px 0}
- .explain .semantic-options-grid,.explain .semantic-examples-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .explain .semantic-option,.explain .semantic-example,.explain .deep-box{border:1px solid #cbd5e1;padding:8px;break-inside:avoid}
- .explain .semantic-option.correct-analysis{background:#f0fdf4}
- .explain .semantic-option-head,.explain .semantic-example-title{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
- .explain .semantic-option-head>span,.explain .semantic-example-title>span{font-weight:bold}
- .explain .semantic-option-head em{font-size:8pt;color:#64748b}
- .explain .semantic-option p,.explain .semantic-example p{margin:0}
- .explain .example-vi{margin-top:5px!important;color:#475569}
- .explain .semantic-remember{background:#eff6ff;padding:8px;margin:10px 0}
- .explain .semantic-remember b{display:block}
- .explain .deep-box{margin:7px 0}
- .explain .deep-box b{display:block;margin-bottom:4px}
- .explain .sentence-translation{color:#64748b}
- .explain .word-family-row,.explain .mt-writing-step{padding:7px;background:#eff6ff;margin:5px 0}
- .explain .mt-note{margin:6px 0;border:1px solid #cbd5e1;padding:7px}
- .explain .mt-subtle{color:#64748b}
- .foot{border-top:1px solid #cbd5e1;padding-top:10px;margin-top:25px;text-align:center;color:#64748b;font-size:9pt}
- @media print{
-  body{background:white}
-  .toolbar{display:none!important}
-  main{margin:0;padding:0;max-width:none;box-shadow:none}
-  .options,.explain .semantic-options-grid,.explain .semantic-examples-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  h2{break-after:avoid}
- }
-`;
+const css=global.PrintDesignSystem.css();
+
 function html(data,groups,mode){
- let auto=0,items=[],keys=[];
+ const design=global.PrintDesignSystem;
+ let auto=0,sections=[],keys=[];
  for(const group of groups){
-  let part='<section><h2>'+esc(group.label||"Bài tập")+'</h2>';
-  if(group.passage)part+='<div class="passage">'+esc(group.passage)+'</div>';
-  for(const q of group.questions){
+  const questions=Array.isArray(group.questions)?group.questions:[];
+  const sharedContext=group.passage||(
+    questions.length&&questions[0].context&&questions.every(q=>q.context===questions[0].context)
+      ?questions[0].context:"");
+  const title=group.label||"Bài tập";
+  const listening=/listening|nghe\b/i.test(data.title+" "+title);
+  let section='<section class="ep-part"><h2>'+esc(title)+'</h2>';
+  if(listening)section+='<p class="ep-listening-note">Bài Listening: sử dụng audio của bài học trên website khi làm đề giấy.</p>';
+  if(sharedContext)section+=design.passage(sharedContext);
+  let lastContext=sharedContext;
+  for(const q of questions){
    const number=q.number==null?++auto:q.number;
-   part+='<article class="question"><p class="stem"><strong>'+esc(number)+'.</strong> '+multiline(q.prompt)+'</p>';
-   if(q.context&&q.context!==group.passage)part+='<div class="passage">'+esc(q.context)+'</div>';
-   if(Array.isArray(q.options)&&q.options.length)part+='<div class="options">'+q.options.map((t,i)=>'<div><strong>'+A[i]+'.</strong> '+multiline(t)+'</div>').join("")+'</div>';
-   else part+='<div class="write-line"></div>';
+   if(q.context&&q.context!==sharedContext&&q.context!==lastContext){
+    section+=design.passage(q.context);
+   }
+   lastContext=q.context||sharedContext;
+   const options=Array.isArray(q.options)?q.options:[];
+   section+='<article class="ep-question'+(String(q.prompt||"").length>360?' long':'')+'">'+
+     '<div class="ep-question-head"><b class="ep-num">'+esc(number)+'.</b>'+
+     '<span class="ep-stem">'+design.multiline(q.prompt)+'</span></div>';
+   if(options.length===4)section+=design.choices(options);
+   else if(options.length) section+='<div class="ep-options long">'+options.map((o,i)=>
+     '<div class="ep-option"><b>'+esc(A[i]||String(i+1))+'.</b><span>'+design.multiline(o)+'</span></div>').join("")+'</div>';
+   else section+='<div class="ep-answer-line"></div>';
    keys.push('<span><b>'+esc(number)+'.</b> '+esc(q.shortAnswer??q.answer??"—")+'</span>');
    if(mode==="detailed"){
-    part+='<div class="explain"><strong>Đáp án: '+esc(q.answer||"—")+'</strong>';
-    if(q.detailHtml)part+=q.detailHtml.replace(/class="ev1-details"/g,'class="ev1-details" open').replace(/Xem giải thích chi tiết/g,"Giải thích chi tiết");
-    else if(q.details?.length)part+=q.details.map(d=>'<section><h3>'+esc(d.title||"Giải thích")+'</h3><p>'+esc(d.text||"")+'</p></section>').join("");
-    else part+='<p class="notice">Chưa có giải chi tiết.</p>';
-    if(q.detailAvailable===false)part+='<p class="notice">Chưa có giải chi tiết · Đối chiếu đáp án và nghe lại.</p>';
-    part+='</div>';
+    section+='<div class="ep-detail"><strong>Đáp án: '+esc(q.answer||"—")+'</strong>';
+    if(q.detailHtml)section+=q.detailHtml.replace(/class="ev1-details"/g,'class="ev1-details" open').replace(/Xem giải thích chi tiết/g,"Giải thích chi tiết");
+    else if(q.details?.length)section+=q.details.map(d=>'<section><h3>'+esc(d.title||"Giải thích")+'</h3><p>'+esc(d.text||"")+'</p></section>').join("");
+    else section+='<p class="notice">Chưa có giải chi tiết.</p>';
+    if(q.detailAvailable===false)section+='<p class="notice">Chưa có giải chi tiết · Đối chiếu đáp án và nghe lại.</p>';
+    section+='</div>';
    }
-   part+='</article>';
+   section+='</article>';
   }
-  items.push(part+'</section>');
+  sections.push(section+'</section>');
  }
- const keyPage=mode==="key"?'<section class="key-page"><h2>ANSWER KEY · ĐÁP ÁN NGẮN</h2><div class="key-grid">'+keys.join("")+'</div></section>':"";
+ const keyPage=mode==="key"?'<section class="ep-key-page"><h2>ANSWER KEY · ĐÁP ÁN NGẮN</h2><div class="ep-key-grid">'+keys.join("")+'</div></section>':"";
  return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
- '<title>'+esc(data.title)+' · Bản in</title><style>'+css+'</style></head><body>'+
- '<div class="toolbar"><p><b>'+esc(data.title)+'</b><br>Nếu cần, chọn In / Lưu PDF.</p><button id="printAgain">🖨 In / Lưu PDF</button></div>'+
- '<main><div class="topline"><span>ENGLISH PRACTICE HUB</span><span>A4 WORKSHEET</span></div>'+
- '<h1>'+esc(data.title)+'</h1><p class="intro">'+(mode==="key"?"Đáp án ngắn nằm ở trang cuối":"Lời giải chi tiết nằm dưới từng câu")+'</p>'+
- items.join("")+keyPage+'<div class="foot">English Practice Hub</div></main></body></html>';
+  '<title>'+esc(data.title)+' · Bản in</title><style>'+css+'</style></head><body>'+
+  '<div class="toolbar"><p><b>'+esc(data.title)+'</b><br>Đề in khổ A4 · Mỗi dạng bài có bố cục phù hợp.</p>'+
+  '<button id="printAgain" type="button">🖨 In / Lưu PDF</button></div>'+
+  '<main><div class="ep-paper" data-print-standard="'+design.version+'">'+
+  design.header(data.title,mode==="key"?"ĐỀ + ĐÁP ÁN CUỐI":"ĐỀ + GIẢI CHI TIẾT")+
+  sections.join("")+keyPage+
+  '<footer class="ep-foot">ENGLISH PRACTICE HUB · BẢN IN BÀI TẬP</footer>'+
+  '</div></main></body></html>';
 }
+
 function printSelected(){
  const groups=chosen();if(!data||!groups.length)return;
  const mode=host.querySelector('input[name="pc-format"]:checked')?.value==="detailed"?"detailed":"key";
