@@ -62,16 +62,16 @@ function opening(){
  root.style.display="block";
  root.innerHTML='<div class="hsg-root"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button><span>›</span><span>HSG tỉnh</span></div>'+
  '<div class="hsg-hero"><div class="hsg-kicker">TEACHER PREVIEW · EXAM LIBRARY</div><h1>Đề thi <span>Tiếng Anh chuyên</span></h1>'+
- '<p>Luyện đề trực tiếp, đánh dấu câu cần xem lại và lưu tiến độ. Đã loại bỏ toàn bộ phần Listening.</p>'+
+ '<p>Luyện đề · Đánh dấu câu · Tự lưu · Không Listening.</p>'+
  '<div class="hsg-hero-facts"><span>8 bộ đề</span><span>Năm học 2026–2027</span><span>Chưa có đáp án và lời giải</span></div></div>'+
- '<div class="hsg-catalogue-title"><div><h2>Thư viện đề thi</h2><p>Chọn một đề để bắt đầu hoặc tiếp tục bài đang làm.</p></div><span class="hsg-hint">Tự động lưu câu trả lời</span></div>'+
+ '<div class="hsg-catalogue-title"><div><h2>Thư viện đề thi</h2><p>Chọn đề để bắt đầu hoặc tiếp tục.</p></div><span class="hsg-hint">Tự động lưu câu trả lời</span></div>'+
  '<div class="hsg-grid">'+CONFIGS.map((e,i)=>{
  const p=progressFor(e);
  return '<button class="hsg-exam-card" type="button" data-exam="'+esc(e.id)+'">'+
  '<div class="hsg-card-upper"><span class="hsg-card-number">'+String(i+1).padStart(2,"0")+'</span><span class="hsg-card-arrow">↗</span></div>'+
  '<h3>'+esc(e.title)+'</h3><p>'+esc(e.subtitle)+'</p><div class="hsg-card-chips">'+meta(e)+'</div>'+
  '<div class="hsg-card-bottom"><span>'+p.done+' câu đã làm</span><strong>'+p.pct+'%</strong></div><div class="hsg-mini-track"><i style="width:'+p.pct+'%"></i></div></button>'}).join("")+'</div>'+
- '<div class="hsg-info"><b>Giai đoạn thử nghiệm</b><span>Có thể chọn A–D hoặc nhập câu trả lời tự luận, lưu nháp và in phiếu trả lời. Chưa chấm điểm, chưa tiết lộ đáp án.</span></div></div>';
+ '<div class="hsg-info"><b>Giai đoạn thử nghiệm</b><span>Chọn A–D hoặc nhập tự luận · Lưu nháp, in phiếu · Chưa chấm điểm.</span></div></div>';
  root.querySelectorAll("[data-exam]").forEach(el=>el.addEventListener("click",()=>{location.hash=BASE+"/"+el.dataset.exam}));
 }
 async function getExamData(id){
@@ -126,7 +126,7 @@ function essayStem(g){
  const txt=sourcePages(g).map(p=>p.text).join("\n");
  const special={d2:/PART 2\.\s*A popular national/i,d3:/PART 3\.\s*Write an essay/i,email:/PART 2\.\s*EMAIL WRITING/i};
  const match=(special[g.id]&&special[g.id].exec(txt))||/(?:Part \d+\.\s*Paragraph writing|Part \d+\.?\s*Write an essay|III\. Essay writing|PART 3\. PARAGRAPH WRITING|Some parents believe|Write an essay)/i.exec(txt);
- if(!match)return "Viết bài theo hướng dẫn trong đề gốc ở phần bên dưới.";
+ if(!match)return "Xem yêu cầu viết trong đề gốc bên dưới.";
  return txt.slice(match.index,match.index+950).split(/(?:_{12,}|[-—]{7,}\s*HẾT)/i)[0].trim();
 }
 function getQuestion(g,n){
@@ -162,7 +162,7 @@ function renderExam(){
  const reading=/reading|cloze|matching|telemedicine|freelancing|memory|chronotypes|amnesia/i.test(g.name);
  const root=$("pageMount");root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Chọn trực tiếp trên câu hỏi · Không có Listening · Chưa có đáp án hoặc giải thích</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
+ '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+'</div>'+
  '<div class="hsg-study-layout'+(reading?' is-reading':'')+'"><main class="hsg-study-main">'+
@@ -209,7 +209,7 @@ function renderEditor(){
    const value=q.type==="tfng"||q.type==="ynng"?item:q.type==="match"?item[0]:String.fromCharCode(65+i);
    const chosen=saved.value===value;
    return '<button type="button" class="answer'+(chosen?' selected':'')+'" data-hsg-value="'+esc(value)+'" aria-pressed="'+chosen+'"><span class="letter">'+esc(q.type==="match"?value:q.type==="mcq"?value:String.fromCharCode(65+i))+'</span><span>'+esc(q.type==="match"?item[1]:item)+'</span></button>';
-  }).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Chưa trích xuất đủ 4 phương án từ bản scan. Vui lòng đối chiếu mục nguyên văn bên dưới trước khi chọn.</p>':"");
+  }).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Thiếu phương án từ bản scan · Xem đề gốc bên dưới.</p>':"");
  }else if(q.type==="error"){
   inputs='<div class="hsg-error-form"><label>Dòng / vị trí<input data-hsg-field="line" placeholder="Số dòng" value="'+esc(saved.line||"")+'"></label><label>Từ/cụm sai<input data-hsg-field="error" placeholder="Nhập lỗi" value="'+esc(saved.error||"")+'"></label><label>Sửa thành<input data-hsg-field="correction" placeholder="Nhập cách sửa" value="'+esc(saved.correction||"")+'"></label></div>';
  }else if(q.type==="rewrite"||q.type==="essay"){
