@@ -1,15 +1,12 @@
-/* HSG-inspired, source-faithful Grade 10 Midterm practice.
- * Test 1–2 do not have a verified answer key, so all source-paper answers are self-check only.
- * Keep the original Word text unchanged; this module changes presentation and draft entry only.
- */
+/* Unified HSG-style Mid Term Test: one answer state, inline marking and Grade 12 explanations. */
 (function(global){
 "use strict";
 const ROOT="grade-10/mid-term-test";
 const BASE="./content/grade10-midterm-six-tests.txt?v=20261021-all6-1";
-const STYLE="features/grade10-midterm-study.css?v=20261021-layout2";
+const STYLE="features/grade10-midterm-study.css?v=20261021-unified-v1";
 const COUNTS=[0,50,43,45,50,45,46];
 const NAMES=["","Mr. Khanh","Ms. Oanh","Mr. Tuấn Anh","Ms. Nguyên","Mr. Trí","Mrs. Quyên 2"];
-const state={doc:null,questions:[],test:0,index:0,answers:{},flags:{},owner:null,parsed:null};
+const state={doc:null,questions:[],test:0,index:0,answers:{},checked:{},revealed:{},flags:{},owner:null,parsed:null,graded:null,draft:null,summary:false,unsaved:false};
 let allText=null;
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
@@ -111,20 +108,23 @@ function correctCounts(p,n){
  if(ids.size!==p.questions.length)throw new Error("Trùng số câu tại Test "+n);
  return true;
 }
-function key(n){return ROOT+"/source-test-"+n}
-function saved(n){
- const draft=global.LearningCore?.readDraft("exam-source",key(n))||{};
- const allowed=new Set(state.questions.map(q=>q.id));
- return {answers:Object.fromEntries(Object.entries(draft.answers||{}).filter(([k])=>allowed.has(k))),
-  flags:Object.fromEntries(Object.entries(draft.flags||{}).filter(([k])=>allowed.has(k))),
-  index:Number(draft.index)||0};
-}
 function persist(){
- if(global.LearningCore?.userId?.()!==state.owner)return;
- global.LearningCore?.writeDraft("exam-source",key(state.test),{answers:state.answers,flags:state.flags,index:state.index,updated:Date.now()});
+ state.draft.index=state.index;state.draft.answers=state.answers;state.draft.checked=state.checked;
+ state.draft.revealed=state.revealed;state.draft.flags=state.flags;
+ state.unsaved=!global.G10MidtermProgress.save(state.test,state.draft);
 }
-function answered(q){return meaningful(state.answers[q.id])}
+function qid(q){return q.canonicalId}
+function graded(q){return state.graded.questions[state.questions.indexOf(q)]}
+function answered(q){return meaningful(state.answers[qid(q)])}
 function done(){return state.questions.filter(answered).length}
+function checkedCount(){return state.questions.filter(q=>state.checked[qid(q)]).length}
+function result(q){return global.G10MidtermAssessment.grade(graded(q),state.answers[qid(q)]||"")}
+function score(){
+ const completed=state.questions.filter(q=>state.checked[qid(q)]);
+ const correct=completed.filter(q=>result(q).right&&!state.revealed[qid(q)]).length;
+ const excluded=state.graded.questions.filter(q=>global.G10MidtermAssessment.unscored(q)).length;
+ return {correct,completed:completed.length,excluded,eligible:state.questions.length-excluded,answered:done()};
+}
 function passage(q){
  let v=String(q.intro||"").trim();
  if(!v||v.length<95||!/(?:read|music|plastic|pollution|environment|technology|food|conservation|work|family|AI|circular|camp|concert|notice)/i.test(v))return "";
@@ -137,7 +137,7 @@ function kindLabel(q){
 function optionHtml(q){
  return '<div class="g10x-choice-list" role="group" aria-label="Đáp án câu '+q.number+'">'+
  q.choices.map((v,i)=>{
-  const l="ABCD"[i],sel=state.answers[q.id]===l;
+  const l="ABCD"[i],sel=state.answers[qid(q)]===l;
   return '<button type="button" class="g10x-choice'+(sel?' is-selected':'')+'" data-g10x-choice="'+l+'" aria-pressed="'+sel+'"><span class="g10x-letter">'+l+'</span><span>'+esc(v)+'</span></button>';
  }).join("")+'</div>';
 }
@@ -160,7 +160,7 @@ function bodyHtml(q){
 function navHtml(){
  return state.questions.map((q,i)=>{
   const label=q.knowledge&&q.number<=10?String(q.knowledge)+"."+q.number:String(q.number);
-  return '<button type="button" data-g10x-nav="'+i+'" class="'+(answered(q)?"has-answer ":"")+(state.flags[q.id]?"flagged ":"")+(i===state.index?"active":"")+'" aria-label="Đến câu '+label+'" aria-current="'+(i===state.index?'true':'false')+'">'+label+'</button>';
+  return '<button type="button" data-g10x-nav="'+i+'" class="'+(answered(q)?"has-answer ":"")+(state.flags[qid(q)]?"flagged ":"")+(i===state.index?"active":"")+'" aria-label="Đến câu '+label+'" aria-current="'+(i===state.index?'true':'false')+'">'+label+'</button>';
  }).join("");
 }
 function printReady(){
