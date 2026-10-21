@@ -64,7 +64,7 @@ function opening(){
  '<div class="hsg-hero"><div class="hsg-kicker">TEACHER PREVIEW · EXAM LIBRARY</div><h1>Đề thi <span>Tiếng Anh chuyên</span></h1>'+
  '<p>Luyện đề · Đánh dấu câu · Tự lưu · Không Listening.</p>'+
  '<div class="hsg-hero-facts"><span>8 bộ đề</span><span>Năm học 2026–2027</span><span>Chưa có đáp án và lời giải</span></div></div>'+
- '<div class="hsg-catalogue-title"><div><h2>Thư viện đề thi</h2><p>Chọn đề để bắt đầu hoặc tiếp tục.</p></div><span class="hsg-hint">Tự động lưu câu trả lời</span></div>'+
+ '<div class="hsg-catalogue-title"><div><h2>Thư viện đề thi</h2><p>Chọn đề để bắt đầu hoặc tiếp tục.</p></div><span class="hsg-hint">Tự lưu</span></div>'+
  '<div class="hsg-grid">'+CONFIGS.map((e,i)=>{
  const p=progressFor(e);
  return '<button class="hsg-exam-card" type="button" data-exam="'+esc(e.id)+'">'+
@@ -176,7 +176,7 @@ function passageInput(g,n,q,r){
   const labels=passageQuestionLabels(g,q);
   return '<div class="answers hsg-inline-options hsg-split-options" role="group" aria-label="Đáp án câu '+n+'">'+labels.map(([value,label])=>
    '<button type="button" class="answer'+(r.value===value?' selected':'')+'" data-hsg-choice="'+esc(value)+'" aria-pressed="'+(r.value===value)+'"><span class="letter">'+esc(value)+'</span><span>'+esc(label)+'</span></button>'
-  ).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Chưa nhận dạng được đủ phương án từ PDF; đối chiếu đề gốc bên trái.</p>':"");
+  ).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Thiếu phương án · Xem đề gốc bên trái.</p>':"");
  }
  if(q.type==="error")return '<div class="hsg-error-form hsg-split-error">'+
   '<label>Vị trí / dòng<input data-hsg-field="line" placeholder="Dòng số..." value="'+esc(r.line||"")+'"></label>'+
@@ -187,7 +187,7 @@ function passageInput(g,n,q,r){
 }
 function renderPassageForms(g){
  const mount=$("hsg-answer-list");if(!mount)return;
- mount.innerHTML='<div class="hsg-split-form-intro"><div class="hsg-kicker">QUESTION PAPER</div><h2>'+esc(g.name)+'</h2><p>Đọc đoạn văn ở khung trái và trả lời trực tiếp tại đây. Chưa hiển thị đáp án.</p></div>'+
+ mount.innerHTML='<div class="hsg-split-form-intro"><div class="hsg-kicker">QUESTION PAPER</div><h2>'+esc(g.name)+'</h2><p>Đọc đề bên trái · Trả lời ở đây · Chưa có đáp án.</p></div>'+
  range(g).map(n=>{
   const q=getQuestion(g,n),k=g.id+":"+n,r=state.answers[k]||{},stem=String(q.stem||"").trim();
   const shortStem=(q.type==="error"?"Xác định lỗi và viết cách sửa theo dòng trong đoạn văn bên trái.":(!stem||stem.length>360?"Dựa vào đoạn văn bên trái, hoàn thành câu "+n+".":stem));
@@ -306,7 +306,7 @@ function renderEditor(){
   inputs='<label class="hsg-input-label">Điền đáp án<input type="text" data-hsg-field="value" autocomplete="off" placeholder="Nhập từ / cụm từ..." value="'+esc(saved.value||"")+'"></label>';
  }
  editor.innerHTML='<div class="hsg-question-kicker"><span>QUESTION '+String(n).padStart(2,"0")+'</span><span>'+esc(q.type.toUpperCase().replace("MCQ","MULTIPLE CHOICE"))+'</span></div>'+
- '<div class="hsg-question-stem">'+esc(stem)+'</div><p class="hsg-form-note">Trả lời trực tiếp bên dưới. Bài làm được lưu; chưa có tính năng chấm điểm.</p>'+inputs+
+ '<div class="hsg-question-stem">'+esc(stem)+'</div><p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>'+inputs+
  '<div class="hsg-question-actions"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-flag">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu xem lại')+'</button></div>'+
  '<div class="hsg-question-nav"><button class="secondary" id="hsg-prev-question" type="button"'+(n===g.start?' disabled':'')+'>← Câu trước</button><span>'+ (n-g.start+1)+' / '+(g.end-g.start+1)+'</span><button class="primary" id="hsg-next-question" type="button"'+(n===g.end?' disabled':'')+'>Câu tiếp theo →</button></div>';
  editor.querySelectorAll("[data-hsg-value]").forEach(b=>b.onclick=()=>{state.answers[k]={type:q.type,value:b.dataset.hsgValue};queueSave();renderEditor();updateIndicators()});
