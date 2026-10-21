@@ -132,14 +132,23 @@ function stageRail(kind){
 function stageFrame(kind,content){
   return '<div class="g21-layout g21-stage-layout">'+stageRail(kind)+content+'</div>';
 }
-function examples(s){
-  return '<div class="g21-example-list">'+s.examples.map((x,i)=>
-    '<div class="g21-example"><span class="g21-example-index">Ví dụ '+(i+1)+'</span>'+
+function exampleItem(s,x,i){
+  return '<div class="g21-example"><span class="g21-example-index">Ví dụ '+(i+1)+'</span>'+
     '<p class="g21-before"><span>Câu thường</span>'+esc(x.normal)+'</p>'+
     '<p class="g21-after"><span>Đảo ngữ</span>'+esc(x.inverted)+'</p>'+
     (s.vi?.examples?.[i]?'<p class="g21-example-meaning"><span>Nghĩa</span>'+esc(s.vi.examples[i])+'</p>':"")+
-    '<p class="g21-why">'+esc(x.why)+'</p></div>'
-  ).join("")+'</div>';
+    '<p class="g21-why">'+esc(x.why)+'</p></div>';
+}
+function examples(s){
+  const visible=Math.min(3,s.examples.length),rest=s.examples.length-visible;
+  return '<div class="g21-example-list">'+s.examples.slice(0,visible).map((x,i)=>exampleItem(s,x,i)).join("")+
+    (rest?'<details class="g21-extra-examples">'+
+      '<summary><span class="g21-show-label">Xem thêm '+rest+' ví dụ</span>'+
+      '<span class="g21-hide-label">Thu gọn · Chỉ xem '+visible+' ví dụ</span>'+
+      '<span class="g21-expand-symbol" aria-hidden="true">⌄</span></summary>'+
+      '<div class="g21-extra-example-items">'+
+      s.examples.slice(visible).map((x,i)=>exampleItem(s,x,i+visible)).join("")+
+      '</div></details>':"")+'</div>';
 }
 function filledExample(q){
   const original=q.stem;
@@ -265,7 +274,7 @@ function learn(){
         (s.vi?.meaning?'<p class="g21-quick-vi"><span>Ý NGHĨA CẤU TRÚC</span>'+esc(s.vi.meaning)+'</p>':"")+
         '<div class="g21-contrast"><b>CẦN PHÂN BIỆT</b><p>'+esc(s.contrast)+'</p></div>'+
       '</section>'+
-      '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. Xem ví dụ đối chiếu</h3></div>'+examples(s)+'</section>'+
+      '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. Xem ví dụ đối chiếu</h3><span>3 ví dụ đầu · '+s.examples.length+' ví dụ tất cả</span></div>'+examples(s)+'</section>'+
        (s.extras?.length?'<details class="g21-more g21-supplement"><summary>Kiến thức bổ sung & trường hợp dễ nhầm ('+s.extras.length+') <span aria-hidden="true">⌄</span></summary>'+
        '<div class="g21-more-body">'+s.extras.map(x=>'<div class="g21-note g21-concept" style="margin-bottom:12px"><b>'+esc(x.title)+'</b><p>'+esc(x.rule)+'</p><p class="g21-solution-sentence" style="margin-top:7px">'+esc(x.example)+'</p>'+(x.vi?'<p class="g21-extra-meaning"><span>Nghĩa:</span> '+esc(x.vi)+'</p>':"")+'</div>').join("")+'</div></details>':"")+
       '<details class="g21-more"><summary>Xem cách suy luận và lỗi thường gặp <span aria-hidden="true">⌄</span></summary>'+
