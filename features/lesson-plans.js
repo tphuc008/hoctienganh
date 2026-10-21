@@ -35,7 +35,7 @@
     const units=catalog?.units||[];
     mount.innerHTML='<div class="breadcrumbs">'+nav("grade-12","Lớp 12")+'<span>›</span><span>Lesson Plans &amp; Practice</span></div>'+
       '<div class="unit-hero lp-hero"><div class="eyebrow">Grade 12</div><h1>Lesson Plans <span class="gradient">&amp; Practice</span></h1>'+
-      '<p>Google Docs bài học, lời giải được kiểm soát và ngân hàng luyện tập sau buổi học.</p></div>'+
+      '<p>Google Docs · Luyện tập · Lời giải có khóa.</p></div>'+
       '<div class="section-title"><h2>Lesson Units</h2><span>'+units.length+' Unit</span></div>'+
       (units.length?'<div class="units lp-units">'+units.map(u=>{
         const b=bank(u),ready=Boolean(u.lessonPublished&&docLink(u.docUrl));
@@ -97,7 +97,7 @@
       allowed?"Có lời giải":"Lời giải đang khóa";
     return '<aside class="lp-inline-access" aria-label="Trạng thái lời giải">'+
       '<div><strong>'+(allowed?"🔓 ":"🔒 ")+status+'</strong>'+
-      (allowed?"":'<p>Bạn vẫn có thể làm bài. Giáo viên sẽ mở lời giải khi phù hợp.</p>')+
+      (allowed?"":'<p>Vẫn làm bài được · Lời giải đang khóa.</p>')+
       '</div><div class="lp-inline-access-actions">'+
       (access.teacher?'<button type="button" class="lp-action lp-teacher-toggle" data-lp-unlock="'+(!access.unlocked)+'">'+
         (access.unlocked?"🔒 Khóa lời giải":"🔓 Mở lời giải cho học sinh")+'</button>':"")+
@@ -132,7 +132,7 @@
         '. <button type="button" class="lp-inline-reset" data-lp-original-reset="'+esc(q.id)+'">Làm lại câu này</button></div>'+
         '<div class="lp-inline-answer-body">'+semanticExplanation(q,k)+'</div>';
     }else if(!accessAllowed()){
-      result='<div class="lp-inline-locked-note">🔒 Bạn vẫn có thể chọn A–D. Giáo viên cần mở khóa lời giải để kiểm tra và xem Semantic Precision.</div>';
+      result='<div class="lp-inline-locked-note">🔒 Chọn A–D · Mở khóa để chấm và xem lời giải.</div>';
     }
     const check='<div class="lp-inline-check-actions"><button type="button" class="lp-inline-check" data-lp-original-check="'+esc(q.id)+'"'+
       (selected===undefined||graded||!k?" disabled":"")+'>'+
@@ -150,7 +150,7 @@
     const graded=items.filter(q=>originalChecked[q.id]===true&&accessAllowed()&&getKey(q.id));
     const correct=graded.filter(q=>originalAnswers[q.id]===getKey(q.id).correctIndex).length;
     return section("01 / ORIGINAL STUDENT HANDOUT","Bài học & bài tập gốc",
-      "Chọn A–D rồi bấm Kiểm tra đáp án để xem đúng/sai và lời giải Semantic Precision ngay bên dưới, không cần bấm mở lời giải.")+
+      "Chọn A–D → Kiểm tra · Xem lời giải khi đã mở khóa.")+
       solutionStatus()+
       (accessAllowed()?'<div class="lp-inline-progress" role="status"><b>Đã kiểm tra '+graded.length+' / '+items.length+' câu</b><span>Trả lời đúng: '+correct+'</span></div>':"")+
       (items.length?'<div class="lp-inline-groups">'+groups.map(([id,title,note])=>{
@@ -163,7 +163,7 @@
   function choices(u){
     const b=bank(u),m=b.mcqs.length,p=b.passages.length;
     if(!m&&!p)return '<div class="lp-solution-locked"><div class="lp-lock-icon">📝</div>'+
-      '<h3>Chưa có bài tập sau buổi học</h3><p>Khi giáo viên yêu cầu đọc lại Google Docs và comments, bài tập được tạo và xuất bản tại đây.</p></div>';
+      '<h3>Chưa có bài tập sau buổi học</h3><p>Bài tập sẽ hiện sau khi giáo viên xuất bản.</p></div>';
     mcqCount=Math.min(Math.max(0,mcqCount),m);
     readingCount=Math.min(Math.max(0,readingCount),p);
     return '<div class="lp-practice-settings"><div><h3>Chọn số lượng bài tập</h3>'+
@@ -208,16 +208,16 @@
       '<button type="button" class="lp-refresh" data-lp-exit="1">← Chọn lại bài tập</button></div>'+
       '<div class="lp-quiz-sheet">'+questions()+'</div>'+
       (quiz.submitted?'<div class="lp-preview-note"><b>Đã hoàn thành lượt làm.</b> Các lựa chọn đã được lưu trong trình duyệt. '+
-        'Để xem hoặc chấm theo lời giải, giáo viên cần mở khóa và xuất bản đáp án.</div>':
+        'Cần mở khóa đáp án để chấm.</div>':
         '<button type="button" class="lp-action lp-finish" data-lp-submit="1">Hoàn thành bài làm</button>');
   }
   function practice(u){
     const b=bank(u);
     return section("02 / AFTER-CLASS PRACTICE","Luyện tập sau buổi học",
-      "Ngân hàng câu hỏi được tạo một lần từ nội dung và comments của Google Docs. Học sinh chọn số lượng muốn làm.")+
+      "Chọn số câu trắc nghiệm và bài đọc muốn làm.")+
       (quiz?quizView():choices(u))+
       (b.mcqs.length||b.passages.length?'<div class="lp-preview-note">Bộ câu hỏi hiện có: '+b.mcqs.length+
-        ' MCQ và '+b.passages.length+' Reading passages. Đáp án chưa công khai sẽ không xuất hiện trong mã nguồn.</div>':"");
+        ' MCQ và '+b.passages.length+' Reading passages. Đáp án chưa mở khóa được bảo vệ.</div>':"");
   }
 
   function selectedForPrint(u){
@@ -361,7 +361,7 @@
     // Must be called directly from a click, or mobile popup blockers may reject it.
     const printWindow=global.open("","_blank");
     if(!printWindow){
-      global.alert("Trình duyệt đang chặn tab in. Hãy cho phép mở tab mới cho website rồi thử lại.");
+      global.alert("Hãy cho phép mở tab mới để in.");
       return;
     }
     try{
@@ -382,7 +382,7 @@
       else printWindow.addEventListener("load",startPrinting,{once:true});
     }catch(error){
       printWindow.close();
-      global.alert("Không mở được bản in. Hãy thử lại hoặc kiểm tra cài đặt cho phép tab mới.");
+      global.alert("Không mở được bản in · Kiểm tra quyền mở tab mới.");
     }
   }
 
@@ -393,7 +393,7 @@
     const selected=selectedForPrint(u),total=selected.length;
     const allowed=accessAllowed();
     const complete=allowed&&total>0&&selected.every(q=>Boolean(getKey(q.id)));
-    return section("03 / PRINT","In đề kèm đáp án","Chọn Part cần in, sau đó chọn đáp án ngắn ở cuối đề hoặc lời giải Semantic Precision ngay dưới từng câu.")+
+    return section("03 / PRINT","In đề kèm đáp án","Chọn Part và cách hiển thị lời giải để in.")+
       '<fieldset class="lp-print-parts"><legend>Chọn phần muốn in</legend>'+
       '<div class="lp-print-part-options">'+partDefs.map(part=>{
         const count=all.filter(q=>q.part===part.id).length;
@@ -405,13 +405,13 @@
       [["key","In đề + đáp án ngắn"],["detailed","In đề + giải chi tiết"]].map(([id,label])=>
         '<button type="button" data-lp-print-mode="'+id+'" class="'+(id===printMode?"is-active":"")+'" aria-pressed="'+(id===printMode)+'">'+label+'</button>').join("")+'</div>'+
       '<p class="lp-print-count">Đã chọn <b>'+total+' / '+all.length+' câu</b> từ '+partDefs.filter(p=>printParts[p.id]).length+' Part.</p>'+
-      (!total?'<div class="lp-note" role="status">Hãy chọn ít nhất một Part để in.</div>':
-        !allowed?'<div class="lp-note" role="status">🔒 Cần được giáo viên mở khóa lời giải trước khi in đáp án hoặc giải chi tiết.</div>':
+      (!total?'<div class="lp-note" role="status">Chọn ít nhất một Part.</div>':
+        !allowed?'<div class="lp-note" role="status">🔒 Cần mở khóa lời giải trước khi in đáp án.</div>':
         !complete?'<div class="lp-note" role="status">Có câu chưa có lời giải tương ứng, chưa thể in bản đáp án.</div>':
         '<details class="lp-print-preview"><summary>📄 Xem trước nội dung bản in</summary>'+printSheet(u)+'</details>')+
       '<div class="lp-print-actions"><button type="button" data-lp-print-now="1" '+(!complete?"disabled":"")+
       '>🖨 In '+(printMode==="key"?"đề + đáp án ngắn":"đề + lời giải chi tiết")+'</button></div>'+
-      (complete?'<p class="lp-print-help">Bản in mở trong một tab riêng để tránh lỗi bố cục. Nếu hộp thoại in không tự mở, hãy nhấn “In / Lưu PDF” trong tab đó.</p>':"");
+      (complete?'<p class="lp-print-help">Bản in mở ở tab mới. Nếu cần, chọn “In / Lưu PDF”.</p>':"");
   }
   function renderUnit(n,preserve){
     const u=getUnit(n);
