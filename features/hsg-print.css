@@ -234,3 +234,40 @@
   print-color-adjust:exact;-webkit-print-color-adjust:exact;
  }
 }
+
+
+/* Authentic Error Correction line layout (shared by website view and print). */
+#hsg-print-sheet .hsg-print-error-source{
+ margin:9pt 0 16pt;
+ padding:0;
+ font:400 10.5pt/1.58 Inter,"Segoe UI",Arial,sans-serif;
+ break-inside:auto;
+}
+#hsg-print-sheet .hsg-print-error-source .hsg-print-instruction{
+ margin:0 0 10pt;white-space:pre-line;
+}
+#hsg-print-sheet .hsg-print-error-source .hsg-print-error-line{
+ grid-template-columns:28pt minmax(0,1fr);
+ gap:10pt;margin:0;
+ padding:2pt 0;
+ break-inside:avoid;
+}
+#hsg-print-sheet .hsg-print-error-source .hsg-print-error-line b{
+ font-variant-numeric:tabular-nums;
+ text-align:right;
+ font-weight:800;color:#800040;
+}
+#hsg-print-sheet .hsg-print-error-source .hsg-print-error-line span{
+ min-width:0;white-space:normal;overflow-wrap:break-word;
+}
+#hsg-print-sheet .hsg-print-error-source>.hsg-print-prose{
+ margin-bottom:10pt;line-height:1.58;
+}
+#hsg-print-sheet .hsg-print-error-answer-grid{display:grid;gap:9pt;margin:9pt 0 15pt}
+#hsg-print-sheet .hsg-print-error-answer{
+ display:flex;gap:11pt;align-items:baseline;flex-wrap:wrap;
+ font:400 9.5pt/1.5 Inter,"Segoe UI",Arial,sans-serif;
+ break-inside:avoid;
+}
+#hsg-print-sheet .hsg-print-error-answer b{min-width:23pt;color:#800040;font-weight:800}
+#hsg-print-sheet .hsg-print-error-answer span{display:inline-block;white-space:nowrap;color:#506074}
