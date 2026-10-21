@@ -1486,208 +1486,131 @@
 }
 
 
-/* Reading Workspace V3.1 — explicit pane scrolling + legible long-form type.
-   Height is transferred down the fixed flex -> grid chain. Each column owns
-   a scroll port; neither scroll port relies on document/body scrolling. */
+/* Reading Workspace V3.2 — restore passage visibility.
+   Do not force height:0 on reading panes: flex can collapse their content.
+   Keep the pre-existing V2 52/48 workspace and its independent scroll ports. */
 @media screen {
- .hsg-reading-mode {
-   height:100vh;
-   height:100dvh;
-   max-height:100dvh;
-   min-height:0;
-   overflow:hidden;
- }
- .hsg-reading-mode .hsg-study-layout.has-shared-passage,
- .hsg-reading-mode .hsg-study-main,
- .hsg-reading-mode .hsg-passage-split {
-   flex:1 1 0;
-   min-height:0;
-   min-width:0;
-   max-height:100%;
-   overflow:hidden;
- }
- .hsg-reading-mode .hsg-passage-workspace {
+ .hsg-reading-mode .hsg-passage-workspace{
    display:grid;
-   grid-template-rows:minmax(0,1fr);
-   flex:1 1 0;
-   height:0;
+   flex:1 1 auto;
+   height:auto;
    min-height:0;
    min-width:0;
-   max-height:100%;
-   overflow:hidden;
+   grid-template-columns:minmax(0,52fr) 7px minmax(0,48fr);
  }
  .hsg-reading-mode .hsg-passage-left,
- .hsg-reading-mode .hsg-passage-right {
+ .hsg-reading-mode .hsg-passage-right{
    display:flex;
    flex-direction:column;
    min-height:0;
    min-width:0;
-   height:100%;
-   max-height:100%;
    overflow:hidden;
  }
  .hsg-reading-mode .hsg-passage-content,
- .hsg-reading-mode .hsg-passage-questions {
-   display:block;
-   flex:1 1 0;
-   height:0;
+ .hsg-reading-mode .hsg-passage-questions{
+   flex:1 1 auto;
+   height:auto;
    min-height:0;
    min-width:0;
-   max-height:100%;
-   overflow-x:hidden;
    overflow-y:auto;
+   overflow-x:hidden;
    overscroll-behavior-y:contain;
    -webkit-overflow-scrolling:touch;
-   touch-action:pan-y;
-   scrollbar-width:auto;
    scrollbar-color:#9cbad4 #f1f5fa;
  }
  .hsg-reading-mode .hsg-passage-content::-webkit-scrollbar,
- .hsg-reading-mode .hsg-passage-questions::-webkit-scrollbar{width:11px}
- .hsg-reading-mode .hsg-passage-content::-webkit-scrollbar-track,
- .hsg-reading-mode .hsg-passage-questions::-webkit-scrollbar-track{background:#f1f5fa}
+ .hsg-reading-mode .hsg-passage-questions::-webkit-scrollbar{width:10px}
  .hsg-reading-mode .hsg-passage-content::-webkit-scrollbar-thumb,
  .hsg-reading-mode .hsg-passage-questions::-webkit-scrollbar-thumb{
+   background:#9cbad4;
    border:2px solid #f1f5fa;
    border-radius:10px;
-   background:#9cbad4;
  }
  .hsg-reading-mode .hsg-passage-content:focus-visible,
  .hsg-reading-mode .hsg-passage-questions:focus-visible{
-   outline:3px solid #93c5fd;
-   outline-offset:-3px;
+   outline:2px solid #93c5fd;
+   outline-offset:-2px;
  }
- .hsg-reading-mode .hsg-reading-map{
-   flex:0 0 auto;
-   max-width:100%;
-   overflow:hidden;
- }
- .hsg-reading-mode .hsg-passage-column-head{
-   flex:0 0 auto;
-   min-width:0;
- }
- /* Make the source readable rather than overly compact or dense. */
  .hsg-reading-mode.hsg-pilot .hsg-passage-left{--hsg-reading-font-size:17px;background:#fff}
  .hsg-reading-mode.hsg-pilot .hsg-passage-content{
-   padding:26px clamp(17px,2.4vw,36px) 55px;
-   background:#fff;
+   padding:24px clamp(17px,2.4vw,34px) 48px;
  }
  .hsg-reading-mode.hsg-pilot .hsg-schema-passage{
+   max-width:67ch;
    width:100%;
-   max-width:66ch;
-   margin:0 auto;
+   margin-inline:auto;
  }
  .hsg-reading-mode.hsg-pilot .hsg-schema-block:not(.hsg-schema-heading){
    font-family:Inter,"Segoe UI",Arial,sans-serif;
    font-size:var(--hsg-reading-font-size,17px);
    font-weight:400;
-   line-height:1.77;
-   letter-spacing:.002em;
-   word-spacing:.01em;
+   line-height:1.75;
+   letter-spacing:0;
    color:#172538;
    text-align:left;
-   text-wrap:pretty;
    overflow-wrap:break-word;
    word-break:normal;
-   margin:0 0 1.18em;
+   margin:0 0 1.12em;
  }
  .hsg-reading-mode.hsg-pilot-reading_comprehension .hsg-schema-block:not(.hsg-schema-heading){
    font-family:Georgia,Cambria,"Times New Roman",serif;
-   line-height:1.76;
+   line-height:1.73;
  }
  .hsg-reading-mode.hsg-pilot .hsg-schema-heading{
    font-family:Inter,"Segoe UI",Arial,sans-serif;
    font-size:clamp(19px,1.55vw,23px);
-   line-height:1.35;
+   line-height:1.36;
    font-weight:750;
-   color:#10233d;
-   letter-spacing:-.022em;
-   margin:0 0 20px;
+   letter-spacing:-.02em;
+   color:#132640;
+   margin:0 0 18px;
  }
- .hsg-reading-mode.hsg-pilot .hsg-schema-salutation,
- .hsg-reading-mode.hsg-pilot .hsg-schema-closing{font-weight:550}
  .hsg-reading-mode.hsg-pilot .hsg-schema-bullet{
-   padding-left:24px;
+   padding-left:23px;
    text-indent:-18px;
-   margin-bottom:17px;
+   margin-bottom:16px;
  }
  .hsg-reading-mode.hsg-pilot .hsg-schema-gap{
    font-family:Inter,"Segoe UI",Arial,sans-serif;
    font-size:.85em;
-   line-height:1.48;
-   letter-spacing:0;
-   word-spacing:normal;
+   line-height:1.5;
    vertical-align:middle;
    font-weight:600;
    color:#1e4e9f;
    background:#f0f6ff;
-   border-color:#adc9ed;
+   border:1px solid #adc9ed;
    border-radius:7px;
    padding:3px 7px;
  }
- .hsg-reading-mode.hsg-pilot .hsg-schema-gap.is-current{
-   border-color:#2563eb;
-   background:#e9f2ff;
- }
- .hsg-reading-mode.hsg-pilot .hsg-schema-gap.is-answered{
-   background:#eaf7ef;
-   border-color:#96cdb0;
-   color:#176043;
- }
- .hsg-reading-type-controls{
-   display:flex;
-   align-items:center;
-   gap:5px;
-   margin-left:auto;
-   flex:0 0 auto;
- }
+ .hsg-reading-mode.hsg-pilot .hsg-schema-gap.is-current{background:#e9f2ff;border-color:#2563eb}
+ .hsg-reading-mode.hsg-pilot .hsg-schema-gap.is-answered{background:#eaf7ef;border-color:#96cdb0;color:#176043}
+ .hsg-reading-type-controls{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
  .hsg-reading-type-controls button{
-   display:grid;
-   place-items:center;
    width:34px;
    height:30px;
-   border-radius:7px;
    border:1px solid #cad9e9;
+   border-radius:7px;
    background:#fff;
    color:#244b78;
-   font:750 12px/1 Inter,"Segoe UI",sans-serif;
+   font:750 12px/1 Inter,"Segoe UI",Arial,sans-serif;
    cursor:pointer;
  }
  .hsg-reading-type-controls button:hover:not(:disabled){background:#eaf3ff;border-color:#7eafe9}
  .hsg-reading-type-controls button:disabled{opacity:.4;cursor:not-allowed}
  .hsg-reading-type-controls [data-hsg-text-size-label]{
-   display:inline-block;
-   min-width:31px;
-   font-size:11px;
-   color:#64748b;
-   font-variant-numeric:tabular-nums;
-   text-align:center;
+   display:inline-block;min-width:32px;text-align:center;
+   color:#64748b;font-size:11px;font-variant-numeric:tabular-nums;
  }
 }
 @media screen and (max-width:880px){
- .hsg-reading-mode .hsg-passage-workspace{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr)}
- .hsg-reading-mode .hsg-passage-left,.hsg-reading-mode .hsg-passage-right{height:100%}
- .hsg-reading-mode.hsg-pilot .hsg-schema-passage{max-width:62ch}
- .hsg-reading-mode.hsg-pilot .hsg-passage-content{padding:22px 19px 50px}
+ .hsg-reading-mode .hsg-passage-workspace{grid-template-columns:minmax(0,1fr)}
+ .hsg-reading-mode.hsg-pilot .hsg-passage-content{padding:20px 17px 38px}
 }
 @media screen and (max-width:540px){
- .hsg-reading-mode.hsg-pilot .hsg-schema-block:not(.hsg-schema-heading){font-size:var(--hsg-reading-font-size,17px);line-height:1.71}
- .hsg-reading-mode.hsg-pilot .hsg-schema-heading{font-size:19px}
- .hsg-reading-mode.hsg-pilot .hsg-passage-content{padding:19px 15px 38px}
- .hsg-reading-type-controls button{width:32px;height:30px}
- .hsg-reading-mode .hsg-passage-column-head strong{font-size:10px}
-}
-@media print{
- .hsg-reading-mode{height:auto!important;max-height:none!important;overflow:visible!important}
- .hsg-reading-mode .hsg-study-layout.has-shared-passage,
- .hsg-reading-mode .hsg-study-main,
- .hsg-reading-mode .hsg-passage-split,
- .hsg-reading-mode .hsg-passage-workspace,
- .hsg-reading-mode .hsg-passage-left,
- .hsg-reading-mode .hsg-passage-right,
- .hsg-reading-mode .hsg-passage-content,
- .hsg-reading-mode .hsg-passage-questions{
-   height:auto!important;max-height:none!important;overflow:visible!important;
+ .hsg-reading-mode.hsg-pilot .hsg-schema-block:not(.hsg-schema-heading){
+   font-size:var(--hsg-reading-font-size,17px);line-height:1.7
  }
- .hsg-reading-type-controls{display:none!important}
+ .hsg-reading-mode.hsg-pilot .hsg-schema-heading{font-size:19px}
+ .hsg-reading-type-controls button{width:31px}
 }
+@media print{.hsg-reading-type-controls{display:none!important}}
