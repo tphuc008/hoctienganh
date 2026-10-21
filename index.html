@@ -63,7 +63,7 @@
 
 <script src="core/learning-core.js?v=20261020-v1"></script>
 <script src="core/learning-flow.js?v=20261020-v1"></script>
-<script src="content/manifest.js?v=20261021-compact1"></script>
+<script src="content/manifest.js?v=20261021-compact2"></script>
 <script src="core/history-core.js"></script>
 <script src="features/learning-history.js?v=20261021-compact1"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
@@ -86,7 +86,7 @@
 <script src="grade12-unit7-semantic.js?v=20261006-semantic-all-v1"></script>
 <script src="grade12-unit7-latest.js?v=20261015-comments-v1"></script>
 <script src="grade12-basic-review.js?v=20261006-basic-review-v1"></script>
-<script src="features/universal-print.js?v=20261021-compact1"></script>
+<script src="features/universal-print.js?v=20261021-compact2"></script>
 <script src="features/explanation-v1.js?v=20261020-exp1"></script>
 <script>
 
@@ -1272,7 +1272,7 @@ function ensureTeacherGrammar21(){
       await loadGrammar21Asset("script","content/grammar-topic21-interactions.js?v=20261020-focus3");
       await loadGrammar21Asset("script","content/grammar-topic21-upgrade.js?v=20261021-structure-meaning1");
       await loadGrammar21Asset("script","content/grammar-topic21-example-bank.js?v=20261021-3plus7-v1");
-      await loadGrammar21Asset("script","features/grammar-topic21.js?v=20261021-compact1");
+      await loadGrammar21Asset("script","features/grammar-topic21.js?v=20261021-compact2");
       if(!window.TeacherGrammar21)throw new Error("Grammar preview chưa khởi tạo.");
     })().catch(err=>{grammar21AssetsPromise=null;throw err});
   }
@@ -1298,7 +1298,7 @@ function ensureTeacherHSG(){
   if(!hsgAssetsPromise){
     hsgAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/hsg-tinh.css?v=20261021-v2");
-      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261021-compact1");
+      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261021-compact2");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});
   }
