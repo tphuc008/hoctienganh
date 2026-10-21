@@ -70,7 +70,7 @@ function optionSeries(part){
 }
 function parsePaper(raw,n){
  const markers=[];
- const pattern=n===2?/^[ \t]*(?:Question\s*(\d{1,2})\s*[.:]?\s*|(\d{1,2})\.\s+(?=\S))/gm:/^[ \t]*Question\s*(\d{1,2})\s*[.:]?\s*/gm;
+ const pattern=n===2?/^[ \t]*(?:Question\s*(\d{1,2})\s*[.:]?\s*|(\d{1,2})\.\s+(?=\S))/gm:/^[ \t]*\.?[ \t]*Question\s*(\d{1,2})\s*[.:]?\s*/gm;
  for(const m of raw.matchAll(pattern)){
    const num=Number(m[1]||m[2]);
    if(!Number.isInteger(num)||num<1||num>50)continue;
@@ -143,7 +143,7 @@ function optionHtml(q){
 }
 function responseHtml(q){
  return '<div class="g10x-response"><div class="g10x-q-head"><span class="g10x-q-number">Câu '+q.number+'</span><span class="g10x-kind">'+esc(kindLabel(q))+'</span></div>'+
- '<div class="g10x-prompt">'+esc(q.prompt||"Chọn hoặc viết câu trả lời dựa vào đề gốc.")+'</div>'+
+ '<div class="g10x-prompt">'+esc(q.prompt||"Dựa vào đoạn văn để chọn đáp án cho chỗ trống ("+q.number+").")+'</div>'+
  (q.kind==="choice"?optionHtml(q):'<label class="g10x-written-label" for="g10x-write">Câu trả lời của bạn</label>'+
  '<textarea class="g10x-written" id="g10x-write" data-g10x-write placeholder="Nhập đáp án hoặc thứ tự các câu…">'+esc(state.answers[q.id]||"")+'</textarea>')+'</div>';
 }
