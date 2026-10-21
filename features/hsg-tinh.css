@@ -907,3 +907,48 @@
 }
 .hsg-error-source .hsg-error-unnumbered-paragraph:last-child{margin-bottom:0}
 .hsg-reading-q-card .hsg-split-error label:first-child:not(:has([data-hsg-field="line"])){grid-column:auto}
+
+
+/* HSG Hải Phòng: Explanation Standard V1.1 reference panel, displayed on demand. */
+.hsg-hp-explanation{margin:14px 0 12px;min-width:0;}
+.hsg-hp-explanation-toggle{
+ display:flex;justify-content:space-between;align-items:center;gap:10px;
+ width:100%;padding:11px 14px;border:1px solid #c1d6f6;border-radius:10px;
+ background:#f3f7ff;color:#1e40af;text-align:left;
+ font:750 13px/1.5 Inter,"Segoe UI",Arial,sans-serif;cursor:pointer;
+}
+.hsg-hp-explanation-toggle:hover{background:#eaf2ff;border-color:#93c5fd}
+.hsg-hp-explanation-toggle:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+.hsg-hp-explanation-toggle[aria-expanded="true"] span{transform:rotate(180deg)}
+.hsg-hp-explanation-panel{padding:6px 0 0;min-width:0}
+.hsg-hp-explanation-panel[hidden]{display:none!important}
+.hsg-hp-explanation-disclaimer{
+ background:#fff8ed;border:1px solid #f3d6a3;border-radius:8px;
+ padding:10px 12px;margin:8px 0 10px!important;
+ font-size:12px;line-height:1.6;color:#8a4f12;
+}
+.hsg-hp-explanation .ev1.feedback{
+ max-width:100%;min-width:0;box-shadow:none!important;
+ border-color:#dce7f3!important;padding:14px 13px!important;
+ font-size:13px!important;line-height:1.65!important;
+}
+.hsg-hp-explanation .ev1 .ev1-answer{font-size:15px!important}
+.hsg-hp-explanation .ev1 .semantic-options-grid,
+.hsg-hp-explanation .ev1 .semantic-examples-grid{
+ grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+}
+.hsg-hp-explanation .ev1 .ev1-choice,
+.hsg-hp-explanation .ev1 .semantic-example{
+ min-width:0;overflow-wrap:break-word;
+}
+.hsg-hp-explanation .ev1 .semantic-prose{overflow-wrap:break-word}
+@media(max-width:1180px){
+ .hsg-reading-mode .hsg-hp-explanation .ev1 .semantic-options-grid,
+ .hsg-reading-mode .hsg-hp-explanation .ev1 .semantic-examples-grid{
+  grid-template-columns:minmax(0,1fr);
+ }
+}
+@media(max-width:600px){
+ .hsg-hp-explanation .ev1 .semantic-options-grid,
+ .hsg-hp-explanation .ev1 .semantic-examples-grid{grid-template-columns:1fr}
+}
