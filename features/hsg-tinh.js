@@ -256,6 +256,28 @@ function focusPassageQuestion(n){
  document.querySelectorAll(".hsg-split-question").forEach(card=>card.classList.toggle("active",card===next));
  next.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+
+/* Same adjustable divider convention as the published Grade 12 Reading workspace. */
+function setupPassageDivider(){
+ const grid=document.querySelector(".hsg-passage-workspace"),divider=document.querySelector(".hsg-passage-divider");
+ if(!grid||!divider)return;
+ let dragging=false;
+ const resize=event=>{
+  if(!dragging||grid.getBoundingClientRect().width<650)return;
+  const bounds=grid.getBoundingClientRect();
+  const value=Math.max(30,Math.min(70,((event.clientX-bounds.left)/bounds.width)*100));
+  grid.style.gridTemplateColumns="minmax(0,"+value+"fr) 7px minmax(0,"+(100-value)+"fr)";
+ };
+ divider.addEventListener("pointerdown",event=>{
+  if(grid.getBoundingClientRect().width<650)return;
+  dragging=true;divider.setPointerCapture?.(event.pointerId);event.preventDefault();
+ });
+ divider.addEventListener("pointermove",resize);
+ const stop=()=>{dragging=false};
+ divider.addEventListener("pointerup",stop);
+ divider.addEventListener("pointercancel",stop);
+}
+
 function switchPassageTab(tab){
  const split=$("hsg-passage-split");if(!split)return;
  split.dataset.mobileTab=tab;
@@ -289,7 +311,7 @@ function renderExam(){
   updateIndicators();queueSave();
  });
  root.querySelectorAll("[data-hsg-mobile-tab]").forEach(b=>b.onclick=()=>switchPassageTab(b.dataset.hsgMobileTab));
- $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=()=>window.print();renderEditor();
+ $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=()=>window.print();renderEditor();if(passage)setupPassageDivider();
 }
 function updateIndicators(){
  const g=groups(state.exam).find(x=>x.id===state.group),done=answerCount(),size=g.end-g.start+1,pct=Math.round(done/size*100);
