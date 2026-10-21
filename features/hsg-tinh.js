@@ -755,7 +755,7 @@ function printVerifiedPartSource(part){
  if(!firstHit)return null;
  const endHit=ends.find(m=>m.index>firstHit.index);
  if(!endHit)return null;
- const cues=/(?:^|\n)[ \t]*(?:SECTION\s+[A-DIVX]+[.:]|PART\s+[A-Z0-9IVX]+[.:)]|Read the following|Read the text|Read the passage|Complete the following|Identify \d+|Find and correct|Choose the best|For questions?\s+\d+)/gim;
+ const cues=/(?:^|\n)[ \t]*(?:SECTION\s+[A-DIVX]+[.:]|PART\s+[A-Z0-9IVX]+(?:[.:)]|\s*\()|[IVX]+[.]\s*(?:Read|Choose|Complete|Supply|Fill|Rewrite)|You are going to read|Read the following|Read the text|Read the passage|Complete the following|Identify \d+|Find and correct|Choose the best|For questions?\s+\d+)/gim;
  let startPos=0;
  for(const match of source.matchAll(cues)){
   if(match.index>firstHit.index)break;
@@ -771,7 +771,7 @@ function printVerifiedPartSource(part){
  }
  let endPos=source.length;
  const suffix=source.slice(endHit.index+endHit[0].length);
- const stop=/(?:^|\n)[ \t]*(?:SECTION\s+[A-DIVX]+[.:]|PART\s+[A-Z0-9IVX]+[.:)]|Read the following|Read the text|Read the passage|Complete the following|Identify \d+|Find and correct|For questions?\s+\d+|(?:Question\s+)?\d{1,3}[.)][ \t]+(?=\S))/gim;
+ const stop=/(?:^|\n)[ \t]*(?:SECTION\s+[A-DIVX]+[.:]|PART\s+[A-Z0-9IVX]+(?:[.:)]|\s*\()|[IVX]+[.]\s*(?:Read|Choose|Complete|Supply|Fill|Rewrite)|You are going to read|Read the following|Read the text|Read the passage|Complete the following|Identify \d+|Find and correct|For questions?\s+\d+|(?:Question\s+)?\d{1,3}[.)][ \t]+(?=\S))/gim;
  for(const m of suffix.matchAll(stop)){
   const raw=suffix.slice(m.index+m[0].length).trim();
   const numbered=/(?:Question\s+)?(\d{1,3})[.)]/i.exec(m[0]);
@@ -780,6 +780,12 @@ function printVerifiedPartSource(part){
   break;
  }
  const content=source.slice(startPos,endPos).trim();
+ const prefix=source.slice(startPos,firstHit.index);
+ const passageLike=/reading|cloze|matching|error|headings|true|false|yes|no/i.test(g.name);
+ // When a source segment begins at the first question, the passage was not
+ // reliably isolated; do not print a passage-less "verified" Reading part.
+ if(passageLike&&prefix.trim().length<110)return null;
+ if(/^(?:YOUR ANSWERS?|ANSWER SHEET)/i.test(content))return null;
  const expected=last-first+1;
  const seen=new Set();
  for(const m of content.matchAll(/(?:^|\n)[ \t]*(?:Question\s+)?(\d{1,3})[.)][ \t]*(?=\S)/gi)){
