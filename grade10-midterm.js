@@ -1,7 +1,7 @@
 /* Grade 10 midterm interactive quizzes, Grade 12-style semantic explanations. */
 const mtState={"tests":null,"chosenTest":null,"index":0,"answers":{},"checked":{},"revealed":{},"loading":null,"results":false,"startedAt":0,"submissionId":null,"recorded":false,"owner":null};
-const MT_ALTERNATIVES={"3-26":["C","D"],"3-27":["A","B"],"3-35":["A","C"],"4-11":["B","C"],"4-16":["A","B","C","D"],"5-13":["B","C"],"5-14":["B","C"],"5-29":["A","B"],"6-22":["C","D"]};
-const MT_NO_SCORE=new Set(["4-16","6-26","6-29"]);
+const MT_ALTERNATIVES={"1-17":["A","B"],"3-26":["C","D"],"3-27":["A","B"],"3-35":["A","C"],"4-11":["B","C"],"4-16":["A","B","C","D"],"5-13":["B","C"],"5-14":["B","C"],"5-29":["A","B"],"6-22":["C","D"]};
+const MT_NO_SCORE=new Set(["1-41","1-42","1-43","4-16","6-26","6-29"]);
 function mtKey(id){return "grade-10/mid-term-test/test-"+id}
 function mtSave(){
  if(!mtState.chosenTest||!LearningCore.userId()||mtState.owner!==LearningCore.userId())return;
@@ -37,10 +37,10 @@ function mtNormal(s){return String(s??"").toLowerCase().replace(/[–—−]/g,"
 function mtSection(q){
  if(q.section!=="Main")return q.section;
  const n=q.number,t=Number(q.id[0]);
- if((t===3&&n>=44)||(t===4&&n>=36)||(t===5&&n>=44)||(t===6&&n>=44))return "Passive Voice";
- if((t===3&&n>=36)||(t===4&&n>=26)||(t===5&&n>=36)||(t===6&&n>=36))return "Sentence Rearrangement";
- if((t===3&&n>=31)||(t===4&&n>=21)||(t===5&&n>=31)||(t===6&&n>=31))return "Reading Comprehension";
- if((t===3&&n>=23)||(t===4&&n>=13)||(t===5&&n>=23)||(t===6&&n>=23))return "Text Completion";
+ if((t===1&&n>=44)||(t===3&&n>=44)||(t===4&&n>=36)||(t===5&&n>=44)||(t===6&&n>=44))return "Passive Voice";
+ if((t===1&&n>=41)||(t===2&&n>=36)||(t===3&&n>=36)||(t===4&&n>=26)||(t===5&&n>=36)||(t===6&&n>=36))return "Sentence Rearrangement";
+ if(((t===1||t===2)&&n>=31&&n<=35)||(t===3&&n>=31)||(t===4&&n>=21)||(t===5&&n>=31)||(t===6&&n>=31))return "Reading Comprehension";
+ if(((t===1||t===2)&&n>=23&&n<=30)||(t===3&&n>=23)||(t===4&&n>=13)||(t===5&&n>=23)||(t===6&&n>=23))return "Text Completion";
  return "Vocabulary & Grammar";
 }
 function mtBase(){
@@ -62,8 +62,14 @@ async function mtLoad(){
   const res=await fetch("./grade10-midterm-source.txt?v=20261019-r1",{cache:"no-store"});
   if(!res.ok)throw new Error("Không tải được dữ liệu đề thi ("+res.status+").");
   const text=await res.text();
-  const data=window.G10_MIDTERM_PARSE(text);
-  if(data.length!==4||data.map(x=>x.questions.length).join(",")!=="45,50,45,46")throw new Error("Số lượng câu hỏi không khớp với dữ liệu nguồn.");
+  const legacy=window.G10_MIDTERM_PARSE(text);
+  const full=await fetch("./content/grade10-midterm-six-tests.txt?v=20261021-all6-1",{cache:"no-store"});
+  if(!full.ok)throw new Error("Không tải được đề Test 1–2.");
+  const textFull=await full.text(),parser=window.G10MidtermPaperParser;
+  if(!parser||!window.G10_MIDTERM_FIRST_TWO)throw new Error("Thiếu bộ xử lý đáp án Test 1–2.");
+  const added=[1,2].map(n=>window.G10_MIDTERM_FIRST_TWO.fromParsed(n,parser.parsePaper(parser.testText(textFull,n),n)));
+  const data=[...added,...legacy];
+  if(data.length!==6||data.map(x=>x.questions.length).join(",")!=="50,43,45,50,45,46")throw new Error("Số lượng câu hỏi không khớp dữ liệu nguồn.");
   for(const t of data)for(const q of t.questions)if(!q.answer||(!!q.options&&q.options.length!==4))throw new Error("Lỗi dữ liệu tại câu "+q.id);
   mtState.tests=data;return data;
  })();
@@ -73,7 +79,7 @@ function mtShowLoading(){mtStyles();mtBase().innerHTML='<div class="breadcrumbs"
 function mtShowError(err){mtBase().innerHTML='<div class="unit-hero"><h1>Chưa tải được bài thi</h1><p>'+mtEsc(err?.message||err)+'</p><button class="secondary" onclick="location.hash=\'grade-10\'">Quay lại Lớp 10</button></div>'}
 async function mtHome(){
  mtShowLoading();try{const tests=await mtLoad();if(location.hash!="#grade-10/mid-term-test")return;
- const extraCards=[1,2].map(n=>'<button class="exercise-card" onclick="location.hash=\'grade-10/mid-term-test/source-test-'+n+'\'"><div class="exercise-icon">'+n+'</div><h3>Test '+n+'</h3><div class="meta"><span class="chip">'+(n===1?50:43)+' câu</span><span class="chip">Chọn đáp án · Lưu nháp</span><span class="chip">Chưa có đáp án kiểm chứng</span></div></button>').join("");
+ 
  const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><span>Mid Term Test</span></div><div class="unit-hero"><div class="eyebrow">Grade 10 · Mid Term Test</div><h1>Mid Term Test</h1><p>6 TEST · 279 câu</p></div><div class="section-title"><h2>Exercises</h2><span>6 tests</span></div><div class="mt-quiz-grid">'+extraCards+tests.map(t=>'<button class="exercise-card" onclick="location.hash=\'grade-10/mid-term-test/source-test-'+t.id+'\'"><div class="exercise-icon">'+t.id+'</div><h3>'+mtEsc(t.title)+'</h3><div class="meta"><span class="chip">'+t.questions.length+' questions</span></div></button>').join("")+'</div>';
 
  window.scrollTo({top:0,behavior:"smooth"});
@@ -131,6 +137,7 @@ function mtWrittenFeedback(q){
 function mtDeepExplanation(q,context){
  if(!window.ExplanationV1)return "";
  if(!q.options){
+   if(/^1-/.test(q.id)&&window.G10_MIDTERM_FIRST_TWO_WRITTEN)return window.G10_MIDTERM_FIRST_TWO_WRITTEN(q,window.ExplanationV1);
    // Reuse the three authored stages of the original written solution.
    // DOM extraction moves trusted, already-escaped material; it does not
    // synthesize reasons, alter scoring, or duplicate nested step numbering.
@@ -216,7 +223,7 @@ function mtResults(){
 }
 
 window.getUniversalMidtermPrintData=function(){
- const route=location.hash.replace(/^#/,""),m=route.match(/^grade-10\/mid-term-test\/test-([3-6])$/);
+ const route=location.hash.replace(/^#/,""),m=route.match(/^grade-10\/mid-term-test\/test-([1-6])$/);
  if(!m||!Array.isArray(mtState.tests))return null;
  const test=mtState.tests.find(t=>t.id===Number(m[1]));if(!test)return null;
  const groups=[],sections=new Map();
