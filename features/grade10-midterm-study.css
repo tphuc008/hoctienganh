@@ -66,3 +66,11 @@
 @media(max-width:840px){.g10x-layout{grid-template-columns:1fr}.g10x-sheet{position:static;max-height:none}.g10x-nav{grid-template-columns:repeat(10,minmax(0,1fr))}.g10x-hero{padding:21px}.g10x-page-body{padding:17px}}
 @media(max-width:490px){.g10x-nav{grid-template-columns:repeat(7,minmax(0,1fr))}.g10x-hero h1{font-size:26px}.g10x-progress{gap:8px;flex-wrap:wrap}.g10x-paper-head,.g10x-sheet-head{padding:13px}.g10x-prompt{font-size:16px}.g10x-context>div{font-size:13px}.g10x-status{margin-left:0}}
 @media print{.g10x-hero,.g10x-progress,.g10x-sheet,.g10x-q-actions,.g10x-source-full,.g10x-actions{display:none!important}.g10x-layout{display:block}.g10x-paper{border:none;box-shadow:none}.g10x-paper-head{display:none}.g10x-page-body{padding:0}.g10x-choice{break-inside:avoid}}
+
+.g10x-print-only{display:none}
+@media print{
+ .g10x-root>*:not(.g10x-print-only){display:none!important}
+ .g10x-print-only{display:block!important;color:#111}
+ .g10x-print-only h1{font:700 16pt Georgia,serif;margin:0 0 16pt}
+ .g10x-print-only pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11pt/1.5 Georgia,"Times New Roman",serif}
+}
