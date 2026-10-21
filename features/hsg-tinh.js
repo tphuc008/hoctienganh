@@ -523,7 +523,6 @@ function printDocumentHTML(scope,selectedParts){
   const ordered=chosen.slice().sort((a,b)=>(rank.get(a.value)??Infinity)-(rank.get(b.value)??Infinity));
   doc=ordered.map((part,i)=>printOnePart(part,i+1)).join("");
  }
- const today=new Date().toLocaleDateString("vi-VN");
  return '<div class="hsg-print-document" id="hsg-print-sheet">'+
   '<header class="hsg-print-cover">'+
    '<div class="hsg-print-header-top"><span>ENGLISH PRACTICE HUB</span><span>HSG TỈNH · EXAM PRACTICE</span></div>'+
