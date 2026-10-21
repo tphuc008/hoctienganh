@@ -172,8 +172,8 @@ function render(){
  const mount=$("pageMount");mount.style.display="block";$("quizShell")?.style&&( $("quizShell").style.display="none");
  mount.innerHTML='<div class="g10x-root"><div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><button class="crumb-btn" onclick="location.hash=\''+ROOT+'\'">Mid Term Test</button><span>›</span><span>Test '+state.test+' · Đề gốc</span></div>'+
  '<header class="g10x-hero"><div class="g10x-eyebrow">Học thêm · Grade 10 · Exam practice</div><h1>Test '+state.test+' · '+esc(NAMES[state.test])+'</h1>'+
- '<p>Trình bày theo phong cách HSG tỉnh: mỗi lần một câu, đoạn đọc riêng, phiếu đáp án và lưu tiến độ. Nội dung câu hỏi giữ nguyên từ file Word.</p>'+
- '<div class="g10x-tags"><span>'+total+' câu</span><span>Không tự động chấm bản đề gốc</span><span>Lưu câu trả lời</span></div></header>'+
+ 
+ '<div class="g10x-tags"><span>'+total+' câu</span></div></header>'+
  '<div class="g10x-progress" aria-label="Tiến độ bài làm"><strong>'+count+' / '+total+' câu</strong><div class="g10x-track"><i style="width:'+pct+'%"></i></div><small>'+pct+'% đã trả lời</small></div>'+
  '<div class="g10x-layout"><section class="g10x-paper"><div class="g10x-paper-head"><div><b>Question '+q.number+'</b><small>'+esc(kindLabel(q))+'</small></div><div><small>Câu '+(state.index+1)+' / '+total+'</small></div></div>'+
  '<div class="g10x-page-body">'+bodyHtml(q)+
@@ -182,7 +182,7 @@ function render(){
  '<button type="button" data-g10x-action="clear">Xóa đáp án</button>'+
  '<span class="g10x-status">'+(answered(q)?"Đã trả lời":"Chưa trả lời")+'</span>'+
  '<button type="button" class="g10x-primary" data-g10x-action="next"'+(state.index===total-1?' disabled':'')+'>Tiếp →</button></div></div>'+
- '<div class="g10x-paper-footer">Ghi chú: lựa chọn/đáp án được lưu dưới dạng bản nháp. Đề gốc không cung cấp đáp án chính thức.</div></section>'+
+ '</section>'+
  '<aside class="g10x-sheet" aria-label="Phiếu trả lời"><div class="g10x-sheet-head"><div><b>Phiếu trả lời</b><small>Nhấn số câu để di chuyển</small></div><b>'+count+'/'+total+'</b></div>'+
  '<div class="g10x-sheet-inner"><div class="g10x-legend"><span><b></b>Đã làm</span><span><b class="flag"></b>Cần xem lại</span></div>'+
  '<nav class="g10x-nav" aria-label="Danh sách câu hỏi">'+navHtml()+'</nav>'+
