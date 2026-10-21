@@ -160,37 +160,59 @@ function examples(s){
       '</div></details>':"")+'</div>';
 }
 function filledExample(q){
-  const original=q.stem;
-  const answer=q.options[q.correct];
-  const blank=original.indexOf("___");
-  return blank>=0?
-    esc(original.slice(0,blank))+'<strong class="g21-answer-word">'+esc(answer)+'</strong>'+esc(original.slice(blank+3)):
-    esc(answer);
+  // Some recognition/meaning questions have no blank; their selected option
+  // is the complete target sentence. A few prompts need an explicit solution.
+  if(q.solution)return esc(q.solution);
+  const original=q.stem,answer=q.options[q.correct],blank=original.indexOf("___");
+  if(blank<0)return esc(answer);
+  const opening=original.slice(0,blank);
+  // Remove instruction prefixes on sentence-completion tasks where present.
+  const lead=opening.lastIndexOf("→");
+  const before=lead>=0?opening.slice(lead+1).trimStart():opening;
+  const completion=before+answer+original.slice(blank+3);
+  return esc(completion);
+}
+function explanationChoice(q,originalIndex,order){
+  const correct=originalIndex===q.correct;
+  const letter=String.fromCharCode(65+order.indexOf(originalIndex));
+  const specific=q.explain?.wrong?.[originalIndex]||q.wrong?.[originalIndex];
+  return '<div class="g21-choice-reason'+(correct?' g21-choice-correct':'')+'">'+
+    '<b><span class="g21-choice-marker">'+(correct?'✓':'×')+'</span> '+letter+'. '+esc(q.options[originalIndex])+' — '+(correct?'Đúng':'Sai')+'</b>'+
+    '<p>'+esc(correct?(q.explain?.rule||q.why):specific||"Lựa chọn này không phù hợp với cấu trúc hoặc ý nghĩa của câu.")+'</p></div>';
 }
 function feedback(q,pick,wasCorrect,kind){
   const good=pick===q.correct;
   const note=q.explain||{},selected=q.options[pick]||"";
   const specific=note.wrong?.[pick]||(!good?q.wrong?.[pick]:"");
   const retry=(kind==="guided"||kind==="repair")&&!good;
-  const reasons=optionOrder(q).filter(i=>i!==q.correct);
-  return '<div class="g21-feedback '+(good?"good":"bad")+'" role="status">'+
-    '<strong>'+(good?"✓ Chính xác":retry?"Chưa đúng, thử lại nhé":"Chưa đúng. Xem lời giải bên dưới")+'</strong>'+
-    (retry?
+  const order=optionOrder(q);
+  const rightLetter=String.fromCharCode(65+order.indexOf(q.correct));
+  const rule=note.rule||q.why;
+  if(retry){
+    return '<div class="g21-feedback bad g21-v2-hint" role="status">'+
+      '<strong>Chưa đúng — thử lại nhé</strong>'+
       '<p>'+esc(specific||"Kiểm tra lại dấu hiệu đảo ngữ trong câu.")+'</p>'+
-      '<p class="g21-feedback-hint">'+esc(note.clue||"Hãy tìm cụm đứng đầu và thì của mệnh đề.")+'</p>':
-      '<p class="g21-feedback-short">'+(good?"":'<b>Bạn chọn:</b> '+esc(selected)+'. ')+esc(note.rule||q.why)+'</p>'+
-      '<p class="g21-immediate-answer"><b>Đáp án đúng:</b> '+esc(q.options[q.correct])+'</p>'+
-      '<details class="g21-more g21-explain-more"><summary>Xem lời giải chi tiết <span aria-hidden="true">⌄</span></summary>'+
-      '<div class="g21-more-body">'+
-      '<div class="g21-explanation-steps">'+
-        '<div class="g21-reason-step"><b>1. Nhìn dấu hiệu trong câu</b><p>'+esc(note.clue||"Xác định từ đầu câu và thì cần dùng.")+'</p></div>'+
-        '<div class="g21-reason-step"><b>2. Suy ra cách viết đúng</b><p>'+esc(note.rule||q.why)+'</p></div>'+
-        '<div class="g21-reason-step"><b>3. Câu hoàn chỉnh / Đáp án đúng</b><p class="g21-solution-sentence">'+filledExample(q)+'</p></div>'+
-      '</div><p class="g21-rule-reminder"><b>Quy tắc cần nhớ:</b> '+esc(q.why)+'</p>'+
-      '<h4 class="g21-wrong-heading">Vì sao các đáp án khác sai?</h4>'+
-      reasons.map(i=>'<div class="g21-choice-reason"><b>'+String.fromCharCode(65+optionOrder(q).indexOf(i))+'. '+esc(q.options[i])+'</b><p>'+esc(note.wrong?.[i]||q.wrong?.[i]||"Không đáp ứng cấu trúc cần dùng.")+'</p></div>').join("")+
-      '</div></details>')+
-  '</div>';
+      (note.clue?'<p class="g21-feedback-hint">'+esc(note.clue)+'</p>':"")+
+      '</div>';
+  }
+  const usefulClue=note.clue&&
+    !/^(Chú ý từ\/cụm đầu câu|Đọc toàn bộ câu, xác định mệnh đề)/.test(note.clue);
+  const extraRule=q.why&&q.why.trim()!==rule.trim();
+  const isFormula=q.id==="p16";
+  return '<div class="g21-feedback '+(good?"good":"bad")+' g21-explanation-v2" role="status">'+
+    '<strong>'+(good?'✓ Chính xác':'✕ Chưa đúng')+'</strong>'+
+    '<p class="g21-v2-answer"><b>Đáp án '+rightLetter+':</b> '+esc(q.options[q.correct])+'</p>'+
+    '<p class="g21-v2-sentence"><b>'+(isFormula?'Công thức đúng:':'Câu hoàn chỉnh:')+'</b> '+filledExample(q)+'</p>'+
+    (q.vi?'<p class="g21-v2-translation"><b>Nghĩa:</b> '+esc(q.vi)+'</p>':"")+
+    '<p class="g21-v2-brief"><b>Vì sao '+rightLetter+' đúng?</b> '+esc(rule)+'</p>'+
+    '<details class="g21-more g21-explain-more"><summary>Xem giải thích chi tiết <span aria-hidden="true">⌄</span></summary>'+
+    '<div class="g21-more-body">'+
+    (usefulClue?'<div class="g21-v2-reason"><b>1. Dấu hiệu trong đề</b><p>'+esc(note.clue)+'</p></div>':"")+
+    (extraRule?'<div class="g21-v2-reason"><b>'+(usefulClue?'2.':'1.')+' Quy tắc cần nhớ</b><p>'+esc(q.why)+'</p></div>':"")+
+    '<h4 class="g21-wrong-heading">Phân tích từng lựa chọn A–D</h4>'+
+    order.map(i=>explanationChoice(q,i,order)).join("")+
+    (q.pitfall?'<p class="g21-v2-pitfall"><b>Lỗi dễ nhầm:</b> '+esc(q.pitfall)+'</p>':"")+
+    '</div></details></div>';
 }
 /* Balance correct positions within each quiz bank. Correct answers are fixed in
  * canonical data; only display positions move. This reduces letter-based guessing. */
