@@ -10,7 +10,7 @@ function meta(config,word){
 function optionAnalysis(config,opt,correct,clue,sense){
   const m=meta(config,opt),isCorrect=opt===correct;
   if(isCorrect){
-    return `${m.word} = ${m.vi}. ${m.scope} ${m.colloc?"Cách kết hợp điển hình: "+m.colloc+". ":""}Trong câu này, clue “${clue}” yêu cầu đúng sắc thái “${sense}”, nên ${m.word} là lựa chọn khớp nhất cả về nghĩa lẫn phạm vi dùng.`;
+    return `${m.word} = ${m.vi}. ${m.scope} ${m.colloc?"Cách kết hợp điển hình: "+m.colloc+". ":""}Trong câu này, clue “${clue}” yêu cầu đúng sắc thái “${sense}”, mô tả đúng ý ${sense}.`;
   }
   return `${m.word} = ${m.vi}. ${m.scope} ${m.colloc?"Cách kết hợp thường gặp: "+m.colloc+". ":""}`.trim(); // Specific exclusion reason requires editorial evidence.
 }
@@ -30,7 +30,7 @@ function semanticExplanation(config,qSpec){
   const step1=[
     `${qSpec.target} = ${targetMeta.vi}. ${qSpec.translation}`,
     `Clue quyết định là “${qSpec.clue}”. Ở đây ${qSpec.target} không được hỏi theo nghĩa từ điển rộng, mà theo sắc thái “${qSpec.sense}”. Vì vậy cần chọn ${relation}.`,
-    `${qSpec.correct} = ${correctMeta.vi}. ${correctMeta.scope} ${correctMeta.colloc?"Collocation đáng nhớ: "+correctMeta.colloc+".":""} Chính điểm này khiến ${qSpec.correct} chính xác hơn những lựa chọn chỉ gần nghĩa bề mặt.`
+    `${qSpec.correct} = ${correctMeta.vi}. ${correctMeta.scope} ${correctMeta.colloc?"Collocation đáng nhớ: "+correctMeta.colloc+".":""}`
   ];
   return {
     mode:"semantic_precision",
@@ -48,7 +48,7 @@ function clozeExplanation(config,item,completedSentence,viSentence){
   const step1=[
     `${item.correct} = ${correctMeta.vi}. Câu hoàn chỉnh: “${completedSentence}” → ${viSentence}`,
     `Clue quan trọng là “${item.clue}”. Các phương án đều có thể gần đúng về mặt ngữ pháp, nhưng vị trí này cần sắc thái “${item.sense}”. Vì vậy phải phân biệt semantic scope và collocation chứ không thể chỉ loại đáp án bằng cấu trúc.`,
-    `${correctMeta.scope} ${correctMeta.colloc?"Collocation quyết định: "+correctMeta.colloc+". ":""}Do đó ${item.correct} tạo ra cách diễn đạt chính xác nhất trong mạch nghĩa của đoạn.`
+    `${correctMeta.scope} ${correctMeta.colloc?"Collocation quyết định: "+correctMeta.colloc+". ":""}`
   ];
   return {
     mode:"semantic_precision",
