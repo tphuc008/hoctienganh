@@ -774,7 +774,7 @@ function printVerifiedPartSource(part){
  const stop=/(?:^|\n)[ \t]*(?:SECTION\s+[A-DIVX]+[.:]|PART\s+[A-Z0-9IVX]+(?:[.:)]|\s*\()|[IVX]+[.]\s*(?:Read|Choose|Complete|Supply|Fill|Rewrite)|You are going to read|Read the following|Read the text|Read the passage|Complete the following|Identify \d+|Find and correct|For questions?\s+\d+|(?:Question\s+)?\d{1,3}[.)][ \t]+(?=\S))/gim;
  for(const m of suffix.matchAll(stop)){
   const raw=suffix.slice(m.index+m[0].length).trim();
-  const numbered=/(?:Question\s+)?(\d{1,3})[.)]/i.exec(m[0]);
+  const numbered=/(?:^|\n)[ \t]*(?:Question\s+)?(\d{1,3})[.)]/i.exec(m[0]);
   if(numbered&&Number(numbered[1])<=last)continue;
   endPos=endHit.index+endHit[0].length+m.index;
   break;
