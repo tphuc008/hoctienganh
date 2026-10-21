@@ -12,7 +12,7 @@ function optionAnalysis(config,opt,correct,clue,sense){
   if(isCorrect){
     return `${m.word} = ${m.vi}. ${m.scope} ${m.colloc?"Cách kết hợp điển hình: "+m.colloc+". ":""}Trong câu này, clue “${clue}” yêu cầu đúng sắc thái “${sense}”, nên ${m.word} là lựa chọn khớp nhất cả về nghĩa lẫn phạm vi dùng.`;
   }
-  return `${m.word} = ${m.vi}. ${m.scope} ${m.colloc?"Cách kết hợp thường gặp: "+m.colloc+". ":""}Từ này có vẻ hợp vì nằm gần cùng semantic field, nhưng ngữ cảnh đang yêu cầu “${sense}”; trọng tâm của ${m.word} không trùng hoàn toàn với yêu cầu đó, nên kém chính xác hơn ${correct}.`;
+  return `${m.word} = ${m.vi}. ${m.scope} ${m.colloc?"Cách kết hợp thường gặp: "+m.colloc+". ":""}`.trim(); // Specific exclusion reason requires editorial evidence.
 }
 function examples(config,options){
   return options.map((w,i)=>{
@@ -40,7 +40,7 @@ function semanticExplanation(config,qSpec){
       analysis:optionAnalysis(config,w,qSpec.correct,qSpec.clue,qSpec.sense)
     })),
     examples:examples(config,qSpec.options),
-    remember:qSpec.remember||`${qSpec.target} → ${qSpec.correct} trong ngữ cảnh này. Khi các đáp án gần nghĩa, ưu tiên từ khớp nhất với collocation, phạm vi nghĩa và clue của câu thay vì chỉ dịch từng từ sang tiếng Việt.`
+    remember:qSpec.remember||"", requiresReview:true // Generated semantic comparisons need distractor-specific validation.
   };
 }
 function clozeExplanation(config,item,completedSentence,viSentence){
@@ -58,7 +58,7 @@ function clozeExplanation(config,item,completedSentence,viSentence){
       analysis:optionAnalysis(config,w,item.correct,item.clue,item.sense)
     })),
     examples:examples(config,item.options),
-    remember:item.remember||`${correctMeta.colloc||item.correct} — ghi nhớ cả cụm và object đi kèm. Những từ gần nghĩa trong câu này khác nhau chủ yếu ở phạm vi nghĩa và loại quan hệ chúng thường diễn đạt.`
+    remember:item.remember||(correctMeta.colloc||""), requiresReview:true // Do not approve templated rationales.
   };
 }
 function addTheme(sentence,theme){
