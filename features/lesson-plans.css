@@ -119,7 +119,7 @@
   body.lp-printing #pageMount .lp-print-sheet{position:absolute;top:0;left:0;width:100%;max-width:none;margin:0;padding:0;box-shadow:none;border:0;border-radius:0}
   body.lp-printing #pageMount .lp-passage{break-inside:avoid}
   body.lp-printing #pageMount .lp-quiz-question{break-inside:avoid}
-  @page{size:A4;margin:18mm}
+  @page{size:A4 portrait;margin:16mm 17mm 17mm}
 }
 
 /* Production lesson pages: no preloaded demo answers. */
@@ -276,4 +276,38 @@
   .lp-print-sheet .lp-semantic-print{-webkit-print-color-adjust:economy;print-color-adjust:economy}
   .lp-print-sheet .lp-print-answer-key{break-before:page;page-break-before:always}
   .lp-print-sheet .lp-print-answer-key .lp-print-key-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+
+/* Print Design V1.2: preview only; protected answer logic remains in JS. */
+.lp-print-preview .lp-print-sheet{
+  background:#fff;color:#273241;
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  font-size:10.5pt;line-height:1.58;
+  border-color:#dbc5ce;
+}
+.lp-print-preview .lp-print-sheet-top{
+  color:#800040;font:800 7.5pt/1.4 Inter,"Segoe UI",Arial,sans-serif;
+  border-color:#dbc5ce;
+}
+.lp-print-preview .lp-print-sheet>h3{
+  text-align:left;font:800 19pt/1.23 Inter,"Segoe UI",Arial,sans-serif;
+  color:#800040;
+}
+.lp-print-preview .lp-print-subtitle{color:#64748b;font-size:9.5pt;text-align:left}
+.lp-print-preview .lp-print-part>h4{
+  color:#800040;font:800 13.5pt/1.28 Inter,"Segoe UI",Arial,sans-serif;
+  border-bottom:1px solid #dbc5ce;
+}
+.lp-print-preview .lp-quiz-question p{
+  color:#273241;font:400 10.5pt/1.58 Inter,"Segoe UI",Arial,sans-serif;
+}
+.lp-print-preview .lp-print-options{
+  font:400 10.2pt/1.46 Inter,"Segoe UI",Arial,sans-serif;
+  gap:5pt 18pt;
+}
+.lp-print-preview .lp-print-options.is-long{grid-template-columns:1fr}
+.lp-print-preview .lp-print-options.is-compact{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lp-print-preview .lp-print-answer-key h4{color:#800040}
+@media(max-width:600px){
+ .lp-print-preview .lp-print-options.is-compact{grid-template-columns:1fr}
 }
