@@ -273,7 +273,7 @@ function guidedWizard(section){
   const clue=q.discovery;
   if(!clue)throw new Error("Missing reasoning prompt: "+q.id);
   const pick=state.guidedDiscovery[q.id];
-  return '<section class="g21-teaching g21-quickchecks"><div class="g21-sectionhead"><h3>3. Luyện theo từng bước</h3><span>Câu '+(current+1)+' / '+questions.length+'</span></div>'+
+  return '<section class="g21-teaching g21-quickchecks"><div class="g21-sectionhead"><h3>6. Quick Check</h3><span>Câu '+(current+1)+' / '+questions.length+'</span></div>'+
     '<p class="g21-lead">Nhận diện cấu trúc → Chọn đáp án.</p>'+
     '<div class="g21-focus-progress"><span class="g21-focus-step'+(phase===1?" active":" done")+'">1 · Nhận diện</span><span class="g21-focus-step'+(phase===2?" active":"")+'">2 · Chọn đáp án</span></div>'+
     (phase===1?
@@ -297,25 +297,40 @@ function guidedWizard(section){
   '</section>';
 }
 function learn(){
-  const s=d.sections[state.lesson],done=completeCount();
+  const s=d.sections[state.lesson],done=completeCount(),v=s.learnV1;
+  if(!v)throw new Error("Grammar Explanation V1 lesson content is missing for "+s.id);
   return '<div class="g21-layout">'+side()+
-    '<article class="g21-main g21-lesson">'+
+    '<article class="g21-main g21-lesson g21-learn-v1">'+
       '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / '+String(d.sections.length).padStart(2,"0")+'</span>'+
         '<span class="g21-time">◷ '+s.minutes+' phút</span></div>'+
-      '<h2>'+esc(s.title)+'</h2><p class="g21-lead">'+esc(s.outcome)+'</p>'+
+      '<h2>'+esc(s.title)+'</h2>'+
       '<div class="g21-progress-track">'+progressHTML()+'</div>'+
-      '<section class="g21-teaching"><div class="g21-sectionhead"><h3>1. Hiểu quy tắc</h3></div>'+
-        '<div class="g21-note g21-concept"><b>HIỂU ĐƠN GIẢN</b><p>'+esc(s.concept)+'</p></div>'+
-        '<div class="g21-note form"><b>CÔNG THỨC</b><p>'+esc(s.form)+'</p><small class="g21-form-legend">S = chủ ngữ · V = động từ · V3 = quá khứ phân từ</small></div>'+
-        (s.vi?.meaning?'<p class="g21-quick-vi"><span>Ý NGHĨA CẤU TRÚC</span>'+esc(s.vi.meaning)+'</p>':"")+
-        '<div class="g21-contrast"><b>CẦN PHÂN BIỆT</b><p>'+esc(s.contrast)+'</p></div>'+
+      '<section class="g21-teaching g21-v1-essentials">'+
+        '<div class="g21-v1-block g21-v1-meaning"><h3>1. Ý nghĩa & cách dùng</h3><p>'+esc(v.meaning)+'</p></div>'+
+        '<div class="g21-v1-block g21-v1-formula"><h3>2. Công thức</h3>'+
+          '<p class="g21-v1-formula-text">'+esc(v.formula)+'</p>'+
+          '<small>S = chủ ngữ · V = động từ · V2 = quá khứ đơn · V3 = quá khứ phân từ</small></div>'+
+        '<div class="g21-v1-block g21-v1-core"><h3>3. Quy tắc cốt lõi</h3><p>'+esc(v.core)+'</p></div>'+
       '</section>'+
-      '<section class="g21-teaching"><div class="g21-sectionhead"><h3>2. Xem ví dụ đối chiếu</h3><span>3 ví dụ đầu · '+s.examples.length+' ví dụ tất cả</span></div>'+examples(s)+'</section>'+
-       (s.extras?.length?'<details class="g21-more g21-supplement"><summary>Kiến thức bổ sung & trường hợp dễ nhầm ('+s.extras.length+') <span aria-hidden="true">⌄</span></summary>'+
-       '<div class="g21-more-body">'+s.extras.map(x=>'<div class="g21-note g21-concept" style="margin-bottom:12px"><b>'+esc(x.title)+'</b><p>'+esc(x.rule)+'</p><p class="g21-solution-sentence" style="margin-top:7px">'+esc(x.example)+'</p>'+(x.vi?'<p class="g21-extra-meaning"><span>Nghĩa:</span> '+esc(x.vi)+'</p>':"")+'</div>').join("")+'</div></details>':"")+
-      '<details class="g21-more"><summary>Xem cách suy luận và lỗi thường gặp <span aria-hidden="true">⌄</span></summary>'+
-        '<div class="g21-more-body"><h3>Cách làm từng bước</h3><ol class="g21-rulelist">'+s.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+
-          '<div class="g21-note warning"><b>Lỗi cần tránh</b><p>'+esc(s.misconception)+'</p></div></div></details>'+
+      '<section class="g21-teaching g21-v1-examples">'+
+        '<div class="g21-sectionhead"><h3>4. Ví dụ đối chiếu</h3><span>3 câu đầu · '+s.examples.length+' câu tất cả</span></div>'+
+        examples(s)+'</section>'+
+      '<section class="g21-teaching g21-v1-pitfalls">'+
+        '<details class="g21-more g21-v1-pitfalls-details">'+
+          '<summary>5. Lỗi dễ nhầm & ngoại lệ'+(s.extras?.length?' ('+s.extras.length+' mục bổ sung)':'')+' <span aria-hidden="true">⌄</span></summary>'+
+          '<div class="g21-more-body">'+
+            '<div class="g21-v1-pitfall"><b>Lỗi thường gặp</b><p>'+esc(s.misconception)+'</p></div>'+
+            '<details class="g21-v1-nested"><summary>Phân biệt thêm <span aria-hidden="true">⌄</span></summary>'+
+              '<p>'+esc(s.contrast)+'</p></details>'+
+            (s.extras?.length?'<div class="g21-v1-extra-list">'+s.extras.map(x=>
+              '<div class="g21-v1-extra"><b>'+esc(x.title)+'</b><p>'+esc(x.rule)+'</p>'+
+              '<p class="g21-v1-extra-example">'+esc(x.example)+'</p>'+
+              (x.vi?'<p class="g21-extra-meaning"><span>Nghĩa:</span> '+esc(x.vi)+'</p>':"")+'</div>'
+            ).join("")+'</div>':"")+
+            '<details class="g21-v1-nested"><summary>Cách suy luận từng bước <span aria-hidden="true">⌄</span></summary>'+
+              '<ol class="g21-rulelist">'+s.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol></details>'+
+          '</div></details>'+
+      '</section>'+
       guidedWizard(s)+
       '<div class="g21-actions g21-lesson-actions"><button class="g21-btn" data-g21="prev"'+(state.lesson===0?" disabled":"")+'>← Bài trước</button>'+
         (state.lesson<d.sections.length-1?
