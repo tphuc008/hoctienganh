@@ -273,7 +273,7 @@ window.G10_MIDTERM_EXPLAIN=function(q,context){
    let analysis=o.analysis;
    if(p){
       o.meaning=p.vi;
-      analysis=p.scope+(chosen?" Trong câu này, cụm từ đi cùng và ý chính phù hợp với "+(q.hint||"đề bài")+".":" Đây là lý do lựa chọn này khác nghĩa hoặc khác chức năng với “"+good+"” trong chính ngữ cảnh của câu.");
+      // The curated scope already explains the actual meaning or contrast.\n      // Do not append a circular assertion that the option is wrong.\n      analysis=p.scope||o.analysis;
    }
    if(custom)analysis=custom;
    if(custom||p)o.analysis=analysis;
