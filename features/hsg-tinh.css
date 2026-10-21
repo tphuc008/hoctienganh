@@ -1335,3 +1335,30 @@
  .hsg-pilot .hsg-schema-gap{border:0;background:transparent;box-shadow:none;color:#111;padding:0}
  .hsg-pilot .hsg-schema-block{font:11pt/1.7 Arial,sans-serif}
 }
+
+
+/* Teacher-side print preflight for scanned PDFs. */
+.hsg-print-ocr-warning{
+ margin:0;
+ padding:10px 12px;
+ background:#fff8eb;
+ color:#713f12;
+ border-left:3px solid #d97706;
+ border-radius:6px;
+ font-size:12px;
+ line-height:1.55;
+}
+@media print{
+ /* Never let an empty-looking final sheet be caused by decorative footer spacing. */
+ #hsg-print-sheet .hsg-print-final{
+  break-inside:avoid;
+  break-before:auto;
+  margin-top:13pt;
+  padding-top:7pt;
+ }
+ #hsg-print-sheet .hsg-print-original-part{min-width:0}
+ #hsg-print-sheet .hsg-print-original-part>.hsg-print-source-part:first-child,
+ #hsg-print-sheet .hsg-print-original-part>.hsg-print-source-section:first-child{
+  margin-top:0;
+ }
+}
