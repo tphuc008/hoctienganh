@@ -74,3 +74,6 @@
  .g10x-print-only h1{font:700 16pt Georgia,serif;margin:0 0 16pt}
  .g10x-print-only pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11pt/1.5 Georgia,"Times New Roman",serif}
 }
+
+.g10x-current-gap{border:1px solid #93c5fd;border-radius:5px;background:#dbeafe;color:#1d4ed8;padding:2px 4px;font-weight:800}
+.g10x-context[open] summary:focus-visible{outline:3px solid #93c5fd;outline-offset:-3px}
