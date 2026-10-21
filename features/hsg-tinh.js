@@ -18,16 +18,9 @@ const BASE="teacher/hsg-tinh";
 const CACHE=new Map();
 const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17,readingScroll:{passage:0,questions:0}};
 const $=id=>document.getElementById(id);
-/* Grade 12 Reading pattern: fullscreen workspace attached directly to body. */
-function ensureReadingPortal(){
- let portal=document.getElementById("hsg-reading-portal");
- if(!portal){portal=document.createElement("div");portal.id="hsg-reading-portal";document.body.appendChild(portal)}
- return portal;
-}
+/* Compatibility cleanup for a reader portal from earlier versions.
+   All new exams mount exclusively in #pageMount. */
 function removeReadingPortal(){document.getElementById("hsg-reading-portal")?.remove()}
-window.addEventListener("hashchange",()=>{
- if(!/^#teacher\/hsg-tinh(?:\/|$)/.test(location.hash))removeReadingPortal();
-});
 const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 
 /* Part-level exam map: a question's format is determined by the source task, never by a manual MCQ/text toggle. */
