@@ -623,13 +623,7 @@ function printOptionSequence(value){
  return {stem:text,options:null};
 }
 function printChoiceGrid(options){
- const max=Math.max(...options.map(o=>String(o||"").length));
- const size=options.reduce((s,o)=>s+String(o||"").length,0);
- // Short options sit in two tidy columns. Explanatory options use full-width rows.
- const format=max>68||size>180?"is-long":"is-compact";
- return '<div class="hsg-print-choices '+format+'">'+options.map((option,i)=>
-  '<div class="hsg-print-choice"><b>'+String.fromCharCode(65+i)+'.</b>'+
-  '<span>'+printInline(option)+'</span></div>').join("")+'</div>';
+ return global.HSGPrintEngine.choiceGrid(options);
 }
 function printParagraphPieces(value){
  const text=printNormalize(value).trim();
@@ -764,7 +758,7 @@ function printSourcePages(pages){
   printTypesetText(pages.map(p=>p.text||"").join("\n\n"))+'</div>';
 }
 
-function printQuestions(g,first,last){
+function printQuestions(g,first,last,contextSource=""){
  let countMissing=0;const cards=[];
  for(let n=first;n<=last;n++){
   const q=getQuestion(g,n),type=q.type;
@@ -772,7 +766,12 @@ function printQuestions(g,first,last){
     type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:type==="ynng"?["YES","NO","NOT GIVEN"]:null;
   if(type==="mcq"&&(!opts||opts.length!==4))countMissing++;
   let stem=printNormalize(q.stem||"").trim();
-  if((passageBased(g)||!!activePassageBlock(g,n))&&["mcq","fill","error"].includes(type)&&stem.length>280)stem="";
+  if((passageBased(g)||!!activePassageBlock(g,n))&&["mcq","fill","error"].includes(type)&&stem.length>280){
+   const normalized=printNormalize(contextSource).replace(/\s+/g," ").trim().toLowerCase();
+   const fragment=stem.replace(/\s+/g," ").slice(0,160).toLowerCase();
+   // Only suppress a repeated passage, never truncate a genuine long question.
+   if(fragment.length>=80&&normalized.includes(fragment))stem="";
+  }
   if(!stem&&!["mcq","match","tfng","ynng","error"].includes(type)&&type==="fill")stem="Complete blank ("+n+") in the text above.";
   let detail="";
   if(type==="mcq")detail=opts?.length===4?printChoiceGrid(opts):
@@ -780,7 +779,7 @@ function printQuestions(g,first,last){
   else if(type==="match")detail='<div class="hsg-print-listed-choices">'+(opts||[]).map(o=>'<span>'+printInline(o)+'</span>').join("")+'</div>';
   else if(type==="tfng"||type==="ynng")detail='<div class="hsg-print-pick-options">'+opts.map(o=>'<span>□ '+esc(o)+'</span>').join("")+'</div>';
   else if(type==="error")detail='<p class="hsg-print-answer-line">Line: ______ &nbsp; Error: __________________ &nbsp; Correction: __________________</p>';
-  else if(type==="essay"||type==="rewrite")detail='<div class="hsg-print-writing-lines">'+Array.from({length:type==="essay"?9:3},()=>'<div></div>').join("")+'</div>';
+  else if(type==="essay"||type==="rewrite")detail='<div class="hsg-print-writing-lines">'+Array.from({length:type==="essay"?20:3},()=>'<div></div>').join("")+'</div>';
   else detail='<p class="hsg-print-answer-line">Answer: ______________________________________________</p>';
   cards.push('<article class="hsg-print-source-question hsg-print-generated-question"><div class="hsg-print-source-num">'+n+'.</div>'+
    '<div class="hsg-print-source-q-body">'+(stem?'<p class="hsg-print-source-stem">'+printInline(stem)+'</p>':"")+detail+'</div></article>');
@@ -852,39 +851,8 @@ function printVerifiedPartSource(part){
 /* Print validated structured data directly. No OCR inference, repeated
    passage or source question extraction can override these blocks. */
 function printStructuredPart(part,index){
- const title=part.title||"Exam Part";
- const first=part.start,last=part.end;
- const blocks=part.passage.map(b=>{
-  const safe=printInline(b.text.replace(/^•\s*/,""));
-  if(b.type==="heading")return '<h3 class="hsg-print-source-subhead">'+safe+'</h3>';
-  if(b.type==="bullet")return '<p class="hsg-print-bullet">'+safe+'</p>';
-  return '<p class="hsg-print-prose hsg-print-schema-'+esc(b.type)+'">'+safe+'</p>';
- }).join("");
- const items=part.questions.slice().sort((a,b)=>a.number-b.number);
- let questions="";
- if(part.kind==="guided_cloze"){
-  questions='<div class="hsg-print-answer-section-title">CHOOSE A, B, C OR D</div>'+
-   items.map(q=>'<article class="hsg-print-source-question">'+
-     '<div class="hsg-print-source-num">'+q.number+'.</div>'+
-     '<div class="hsg-print-source-q-body">'+printChoiceGrid(q.options)+'</div></article>').join("");
- }else if(part.kind==="reading_comprehension"){
-  questions=items.map(q=>'<article class="hsg-print-source-question">'+
-   '<div class="hsg-print-source-num">'+q.number+'.</div>'+
-   '<div class="hsg-print-source-q-body"><p class="hsg-print-source-stem">'+printInline(q.stem)+'</p>'+
-   printChoiceGrid(q.options)+'</div></article>').join("");
- }else{
-  questions='<div class="hsg-print-answer-section-title">ANSWER SPACES</div>'+
-   '<div class="hsg-print-short-answer-grid">'+items.map(q=>
-    '<div><strong>'+q.number+'.</strong><span>____________________</span>'+
-    (q.word?'<small>'+esc(q.word)+'</small>':"")+'</div>').join("")+'</div>';
- }
- return '<section class="hsg-print-part hsg-print-structured" aria-label="'+esc(title)+'">'+
-  '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
-  '<div><h2>'+esc(title)+'</h2><p>Câu '+first+'–'+last+' · '+items.length+' câu</p></div></header>'+
-  '<div class="hsg-print-structured-passage">'+blocks+'</div>'+
-  '<div class="hsg-print-question-list">'+questions+'</div></section>';
+ return global.HSGPrintEngine.renderStructuredPart(part,index);
 }
-
 function printOnePart(part,index){
  const g=part.group,block=part.block,first=block?.start??g.start,last=block?.end??g.end;
  // The paragraph for a PTNK block is separate from the rest of that code.
@@ -892,7 +860,7 @@ function printOnePart(part,index){
  const typed=structuredPart(g);
  if(typed)return printStructuredPart(typed,index);
  const source=hasPassage?passageOnly(g,first):"";
- const result=printQuestions(g,first,last);
+ const result=printQuestions(g,first,last,source);
  const verified=printVerifiedPartSource(part);
  if(verified){
   const title=block?.title||g.name;
@@ -920,7 +888,7 @@ function printOnePart(part,index){
    const n=first+i,q=getQuestion(g,n);
    const text=printNormalize(q.stem||"").replace(/\s+/g," ").trim();
    return '<div class="hsg-print-matching-statement"><b>'+n+'.</b>'+
-     '<span>'+printInline(text.length>200?text.slice(0,200):text)+'</span>'+
+     '<span>'+printInline(text)+'</span>'+
      '<em>________</em></div>';
   }).join("");
   questionHtml='<div class="hsg-print-answer-section-title">MATCHING OPTIONS</div>'+legend+
@@ -937,38 +905,18 @@ function printOnePart(part,index){
 function printDocumentHTML(scope,selectedParts){
  const exam=state.exam,ptnk=exam.id==="ptnk",full=scope==="all";
  const chosen=Array.isArray(selectedParts)?selectedParts:[selectedParts].filter(Boolean);
+ const rank=new Map(printParts().map((part,i)=>[part.value,i]));
+ const parts=(full?printParts():chosen).slice().sort((a,b)=>
+  (rank.get(a.value)??Infinity)-(rank.get(b.value)??Infinity));
  const currentCode=ptnk?(groups(exam).find(g=>g.id===state.group)||groups(exam)[0]):null;
- const label=full?(ptnk?currentCode.name:"Toàn bộ đề"):
-  chosen.length+" phần đã chọn";
- let doc="";
- if(full){
-  if(state.data?.structured&&!ptnk){
-   // Blend validated structured tasks with verified source tasks. Every
-   // original non-Listening part appears exactly once, in exam order.
-   doc=printParts().map((part,i)=>printOnePart(part,i+1)).join("");
-  }else{
-   const pages=ptnk?sourcePages(currentCode):state.data.pages;
-   doc=printSourcePages(pages);
-  }
- }else{
-  // The printed sequence always follows the original exam sequence, not click order.
-  const rank=new Map(printParts().map((p,i)=>[p.value,i]));
-  const ordered=chosen.slice().sort((a,b)=>(rank.get(a.value)??Infinity)-(rank.get(b.value)??Infinity));
-  doc=ordered.map((part,i)=>printOnePart(part,i+1)).join("");
- }
- return '<div class="hsg-print-document" id="hsg-print-sheet">'+
-  '<header class="hsg-print-cover">'+
-   '<div class="hsg-print-header-top"><span>ENGLISH PRACTICE HUB</span><span>HSG TỈNH · EXAM PRACTICE</span></div>'+
-   '<div class="hsg-print-eyebrow">ĐỀ LUYỆN TẬP TIẾNG ANH</div>'+
-   '<h1>'+esc(exam.title)+'</h1>'+
-   '<p class="hsg-print-subtitle">'+esc(exam.subtitle)+' <span>·</span> '+esc(exam.year)+'</p>'+
-   '<div class="hsg-print-info-row"><span class="hsg-print-info-scope">'+esc(label)+'</span>'+
-    '<span>'+ (full?"Bản đề đầy đủ":chosen.length+" phần · "+chosen.reduce((sum,p)=>sum+p.end-p.start+1,0)+" câu")+'</span></div>'+
-   '<div class="hsg-print-student"><span>Họ và tên: <i></i></span><span>Lớp: <i></i></span></div>'+
-  '</header>'+
-  '<main class="hsg-print-paper-main">'+doc+'</main>'+
-  '<footer class="hsg-print-final"><span>ENGLISH PRACTICE HUB</span><span>Hết · Không có Listening · Không kèm lời giải</span></footer>'+
- '</div>';
+ const label=full?(ptnk?currentCode.name:"Toàn bộ đề"):parts.length+" phần đã chọn";
+ const content=parts.map((part,i)=>printOnePart(part,i+1)).join("");
+ const items=parts.reduce((sum,part)=>sum+part.end-part.start+1,0);
+ return global.HSGPrintEngine.renderPaper({
+  title:exam.title,subtitle:exam.subtitle,year:exam.year,
+  label,countLabel:parts.length+" Part · "+items+" câu",
+  content
+ });
 }
 
 function closePrintDialog(){
