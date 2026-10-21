@@ -865,3 +865,45 @@
   .hsg-reading-type-controls button{width:31px}
 }
 
+
+
+/* Error Correction: line anchors match ORIGINAL numbered source rows.
+   Browser wrapping must not create fake numbered lines. */
+.hsg-error-source .hsg-error-introduction{
+  color:#38475b;font-size:13px;line-height:1.7;
+  white-space:pre-line;margin:0 0 15px;
+}
+.hsg-error-source .hsg-error-lines{
+  display:grid;gap:3px;
+  font:400 15px/1.7 Inter,"Segoe UI",Arial,sans-serif;
+}
+.hsg-error-source .hsg-error-line{
+  grid-template-columns:38px minmax(0,1fr);
+  align-items:start;gap:11px;
+  padding:6px 10px 6px 0;
+  border-bottom:1px solid #eef2f7;
+  line-height:1.7;
+}
+.hsg-error-source .hsg-line-number{
+  font-size:12px;line-height:1.7;font-weight:800;
+  color:#66778d;text-align:center;padding:0 7px;
+  font-variant-numeric:tabular-nums;
+}
+.hsg-error-source .hsg-line-text{
+  min-width:0;white-space:pre-wrap;
+  overflow-wrap:break-word;word-break:normal;
+  line-height:1.7;user-select:text;
+}
+.hsg-error-unnumbered{font:400 15px/1.78 Inter,"Segoe UI",Arial,sans-serif}
+.hsg-error-unnumbered-paragraph{
+  margin:0 0 16px;white-space:normal;
+  overflow-wrap:break-word;user-select:text;
+  padding:3px 4px;line-height:1.78;
+}
+.hsg-error-unnumbered-paragraph::selection,
+.hsg-error-source .hsg-line-text::selection{background:#bfdbfe}
+.hsg-error-source[data-hsg-source-unverified] .hsg-error-source-tip{
+  background:#fff7ed;color:#9a3412;
+}
+.hsg-error-source .hsg-error-unnumbered-paragraph:last-child{margin-bottom:0}
+.hsg-reading-q-card .hsg-split-error label:first-child:not(:has([data-hsg-field="line"])){grid-column:auto}
