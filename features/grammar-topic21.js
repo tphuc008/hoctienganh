@@ -118,7 +118,7 @@ function stageRail(kind){
           '" data-g21="jump" data-kind="'+kind+'" data-page="'+i+'"'+(canGo?'':' disabled')+
           (i===current?' aria-current="step"':'')+' aria-label="Câu '+(i+1)+(visited?', đã trả lời':'')+'">'+(i+1)+'</button>';
       }).join('')+'</nav>'+
-      '<p class="g21-rail-foot">Chọn số câu đã làm để xem lại. Đáp án và giải thích chỉ hiện sau khi nộp.</p>'+
+      '<p class="g21-rail-foot">Chọn số câu để xem lại · Lời giải hiện sau khi nộp.</p>'+
       '</aside>';
   }
   const groups=scoreBySkill();
@@ -238,7 +238,7 @@ function guidedWizard(section){
   if(!clue)throw new Error("Missing reasoning prompt: "+q.id);
   const pick=state.guidedDiscovery[q.id];
   return '<section class="g21-teaching g21-quickchecks"><div class="g21-sectionhead"><h3>3. Luyện theo từng bước</h3><span>Câu '+(current+1)+' / '+questions.length+'</span></div>'+
-    '<p class="g21-lead">Đầu tiên, tìm dấu hiệu ngữ pháp. Sau đó mới chọn đáp án. Mỗi lần chỉ làm một câu.</p>'+
+    '<p class="g21-lead">Nhận diện cấu trúc → Chọn đáp án.</p>'+
     '<div class="g21-focus-progress"><span class="g21-focus-step'+(phase===1?" active":" done")+'">1 · Nhận diện</span><span class="g21-focus-step'+(phase===2?" active":"")+'">2 · Chọn đáp án</span></div>'+
     (phase===1?
       '<article class="g21-question g21-discovery" id="g21-discovery-'+esc(q.id)+'">'+
@@ -343,8 +343,8 @@ function exam(kind){
     '<span class="g21-label">'+(master?"KIỂM TRA CUỐI":"LUYỆN TẬP ĐỘC LẬP")+'</span>'+
     '<h2>'+(master?"Kiểm tra mức độ thành thạo":"Luyện tập vận dụng")+'</h2>'+
     '<p class="g21-lead">'+(master?
-       items.length+" câu vận dụng chưa xuất hiện trong phần học. Chuẩn thử nghiệm: đúng từ "+Math.ceil(items.length*0.8)+"/"+items.length+" và đúng các kỹ năng cốt lõi (gồm So/Neither/Nor).":
-       items.length+" câu hỏi trộn các nhóm kiến thức. Bạn tự làm trước; đáp án và giải thích chỉ hiện sau khi nộp.")+'</p>'+
+       items.length+" câu mới · Cần đúng từ "+Math.ceil(items.length*0.8)+"/"+items.length+" cùng các kỹ năng cốt lõi (gồm So/Neither/Nor).":
+       items.length+" câu tổng hợp · Lời giải hiện sau khi nộp.")+'</p>'+
     (!submitted?'<div class="g21-assessment-progress"><span>Đã trả lời <strong>'+summary.answered+'/'+summary.total+'</strong> câu</span>'+
       '<div class="g21-progress" aria-label="Đã trả lời '+summary.answered+' trên '+summary.total+' câu"><span style="width:'+Math.round(summary.answered/summary.total*100)+'%"></span></div></div>':
       scoreHeader(items,picks,kind))+
@@ -420,12 +420,12 @@ function review(){
   const passed=isMastered();
   const sc=getScores(d.review,state.review);
   return '<div class="g21-main"><span class="g21-label">SPACED REVIEW</span><h2>Ôn lại để không quên</h2>'+
-   '<p class="g21-lead">Một lần đạt điểm tốt chưa đồng nghĩa với ghi nhớ lâu dài. Sau khi đạt Mastery, học sinh ôn lại theo mốc 1, 3 và 7 ngày. Đây là các mốc đề xuất để thử nghiệm, không phải lịch tối ưu cho mọi học sinh.</p>'+
+   '<p class="g21-lead">Sau Mastery, ôn lại sau 1, 3 và 7 ngày (mốc tham khảo).</p>'+
    '<div class="g21-dategrid">'+due.map((x,i)=>'<div class="g21-date"><b>Review '+(i+1)+' · +'+x.day+' ngày</b><span>'+(passed?dateText(x.time):"Chưa kích hoạt")+'</span></div>').join("")+'</div>'+
    '<div class="g21-note '+(passed?"form":"warning")+'" style="margin:16px 0"><b>TRẠNG THÁI</b>'+
-   (passed?"Đã đạt chuẩn thử nghiệm. Lịch nhắc phía trên dựa trên thời điểm đạt Mastery và được tính tại trình duyệt.":"Chưa đạt Mastery nên lịch ôn tập chưa được kích hoạt. Giáo viên vẫn có thể xem trước bộ câu hỏi ôn tập.")+'</div>'+
+   (passed?"Đã đạt chuẩn · Lịch ôn tính từ lúc đạt Mastery.":"Chưa đạt Mastery · Giáo viên vẫn xem trước được bộ ôn tập.")+'</div>'+
    '<div class="g21-sectionhead"><h3>Mini Retrieval Quiz</h3><span class="g21-chip">'+d.review.length+' câu · Bộ riêng</span></div>'+
-   '<p class="g21-lead">Làm '+d.review.length+' câu không xem lại lý thuyết, sau đó kiểm tra các điểm còn sai. Đây là một vòng ôn tập mẫu, chưa tự tạo bộ câu hỏi khác nhau cho mỗi ngày.</p>'+
+   '<p class="g21-lead">Làm '+d.review.length+' câu không xem lý thuyết, rồi chữa lỗi (bộ mẫu).</p>'+
    (state.reviewSubmitted?'<div class="g21-note form"><b>REVIEW RESULT</b>'+sc.correct+'/'+sc.total+' câu đúng</div>':"")+
    d.review.map((q,i)=>question(q,i+1,"review")).join("")+
    '<div class="g21-actions">'+(!state.reviewSubmitted?
@@ -438,7 +438,7 @@ function home(){
   const sc=getScores(d.mastery,state.mastery);
   return topbar()+'<div class="g21-hero"><div class="g21-label">TEACHER PREVIEW / GRAMMAR LIBRARY</div>'+
     '<h1>25 chuyên đề ngữ pháp</h1>'+
-    '<p>Chuyên đề 21 là bài mẫu hoàn chỉnh cho hành trình tự học. Các chuyên đề khác sẽ được xuất bản sau khi kiểm thử trải nghiệm này.</p>'+
+    '<p>Đang thử nghiệm Chuyên đề 21 · Các chuyên đề khác cập nhật sau.</p>'+
     '<div class="g21-statrow"><div class="g21-stat"><b>01/25</b>Chuyên đề mẫu</div><div class="g21-stat"><b>'+String(d.sections.length).padStart(2,"0")+'</b>Bài học nhỏ</div></div></div>'+
     '<div class="g21-card" style="padding:24px"><div class="g21-header"><span class="g21-label">TOPIC 21 · C1/C2 PRACTICE</span><span class="g21-chip">Pilot</span></div>'+
     '<h2 style="font-size:clamp(26px,4vw,36px);margin-bottom:8px">CHUYÊN ĐỀ 21. ĐẢO NGỮ – INVERSIONS</h2>'+
