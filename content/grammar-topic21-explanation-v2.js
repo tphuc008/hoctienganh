@@ -21,7 +21,7 @@ l5q2:"Nếu cần thêm thông tin, vui lòng gửi email đến văn phòng.",
 l6q1:"Bằng chứng thuyết phục đến mức bồi thẩm đoàn đưa ra phán quyết nhất trí.",
 l6q2:"Quyết tâm của cô ấy lớn đến mức cả nhóm không chịu bỏ cuộc.",
 l7q1:"Nó đến rồi.",
-l7q2:"Trong phát biểu ở quá khứ mang sắc thái trung tính, chỉ có hiệu trưởng biết đầy đủ chi tiết vụ việc.",
+l7q2:"Chỉ có hiệu trưởng biết đầy đủ chi tiết vụ việc.",
 l8q1:"Mai học vào ban đêm và tôi cũng vậy.",
 l8q2:"Anh trai tôi không biết bơi và tôi cũng không.",
 // Practice
