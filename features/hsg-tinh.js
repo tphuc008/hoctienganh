@@ -16,7 +16,7 @@ const CONFIGS=[
 ];
 const BASE="teacher/hsg-tinh";
 const CACHE=new Map();
-const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null};
+const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17};
 const $=id=>document.getElementById(id);
 const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 
@@ -379,7 +379,11 @@ function focusPassageQuestion(n){
  const mount=$("hsg-answer-list"),card=$("hsg-question-"+n);
  if(!card){renderExam();return}
  mount.querySelectorAll(".hsg-reading-q-card").forEach(el=>el.classList.toggle("is-active",el===card));
- card.scrollIntoView({block:"nearest",behavior:"smooth"});
+ // Scroll ONLY the question pane. scrollIntoView could also move the outer page.
+ const frame=mount.getBoundingClientRect(),bounds=card.getBoundingClientRect();
+ const above=bounds.top-frame.top-16,below=bounds.bottom-frame.bottom+16;
+ const displacement=above<0?above:below>0?below:0;
+ if(displacement)mount.scrollBy({top:displacement,behavior:"smooth"});
  if(previous!==n){
   const source=$("hsg-passage-left-body");
   if(source){const scroll=source.scrollTop;source.innerHTML=originalPages(g);source.scrollTop=scroll;attachErrorPassageActions(g);attachStructuredGapActions(g)}
@@ -425,10 +429,15 @@ function renderExam(){
  const nav=passage?'<nav class="hsg-reading-map" aria-label="Danh sách câu hỏi"><span class="hsg-reading-map-label">Câu hỏi</span>'+
   '<div class="hsg-reading-map-buttons">'+nums.map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'" aria-label="Câu '+n+'">'+n+'</button>').join("")+'</div>'+
   '<span class="hsg-reading-map-legend">Xanh: đã trả lời · Vàng: xem lại</span></nav>':"";
- const split=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
+ const fontTools=structuredPart(g)?'<div class="hsg-reading-type-controls" role="group" aria-label="Điều chỉnh cỡ chữ bài đọc">'+
+   '<button type="button" data-hsg-text-size="smaller" aria-label="Giảm cỡ chữ bài đọc" title="Giảm cỡ chữ">A−</button>'+
+   '<span data-hsg-text-size-label aria-live="polite">'+state.passageTextSize+'px</span>'+
+   '<button type="button" data-hsg-text-size="larger" aria-label="Tăng cỡ chữ bài đọc" title="Tăng cỡ chữ">A+</button></div>':
+   '<span class="hsg-scroll-help">Cuộn độc lập</span>';
+  const split=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
   '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
-  '<div class="hsg-passage-workspace"><section class="hsg-passage-left" aria-label="Đoạn văn"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong><span>Cuộn độc lập</span></div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
-  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
+  '<div class="hsg-passage-workspace"><section class="hsg-passage-left" aria-label="Đoạn văn"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body" role="region" tabindex="0" aria-label="Bài đọc, cuộn độc lập">'+originalPages(g)+'</div></section>'+
+  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list" role="region" tabindex="0" aria-label="Câu hỏi, cuộn độc lập"></div></section></div>'+nav+'</div>':"";
  const root=$("pageMount");root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
@@ -448,6 +457,18 @@ function renderExam(){
  const dropdown=$("hsg-reading-jump");
  if(dropdown)dropdown.onchange=()=>{state.question=Number(dropdown.value);renderExam();queueSave()};
  root.querySelectorAll("[data-hsg-mobile-tab]").forEach(b=>b.onclick=()=>switchPassageTab(b.dataset.hsgMobileTab));
+ const left=root.querySelector(".hsg-passage-left");
+ if(left)left.style.setProperty("--hsg-reading-font-size",state.passageTextSize+"px");
+ root.querySelectorAll("[data-hsg-text-size]").forEach(button=>button.onclick=()=>{
+  const delta=button.dataset.hsgTextSize==="larger"?1:-1;
+  state.passageTextSize=Math.max(15,Math.min(21,state.passageTextSize+delta));
+  left?.style.setProperty("--hsg-reading-font-size",state.passageTextSize+"px");
+  const label=root.querySelector("[data-hsg-text-size-label]");
+  if(label)label.textContent=state.passageTextSize+"px";
+  root.querySelectorAll("[data-hsg-text-size]").forEach(btn=>{
+   btn.disabled=(btn.dataset.hsgTextSize==="smaller"&&state.passageTextSize<=15)||(btn.dataset.hsgTextSize==="larger"&&state.passageTextSize>=21);
+  });
+ });
  $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=openPrintDialog;
  renderEditor();if(passage){setupPassageDivider();attachErrorPassageActions(g);attachStructuredGapActions(g)}
 }
