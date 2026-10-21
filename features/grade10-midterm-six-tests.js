@@ -231,12 +231,29 @@ function rerender(keep=false){
  const y=global.scrollY||0;render();if(keep)global.scrollTo?.({top:y,behavior:"instant"});
 }
 function choice(letter){
- const q=state.questions[state.index];state.answers[q.id]=letter;persist();rerender(true);
+ const q=state.questions[state.index],id=qid(q);
+ if(state.checked[id])return;
+ state.answers[id]=letter;persist();rerender(true);
 }
 function advance(target){
  if(target<0||target>=state.questions.length)return;
- state.index=target;persist();render();
- const paper=$("pageMount");paper?.scrollIntoView?.({block:"start",behavior:"smooth"});
+ state.summary=false;state.index=target;persist();render();
+ $("pageMount")?.scrollIntoView?.({block:"start",behavior:"smooth"});
+}
+function verifyOne(q,reveal=false){
+ const id=qid(q);
+ if(!answered(q))return false;
+ state.checked[id]=true;
+ if(reveal)state.revealed[id]=true;
+ return true;
+}
+function restart(){
+ if(global.confirm?.("Làm lại Test "+state.test+"? Toàn bộ câu trả lời và kết quả đã kiểm tra của Test này sẽ bị xóa.")===false)return;
+ global.G10MidtermProgress.reset(state.test);
+ state.draft=global.G10MidtermProgress.start(state.test,state.graded.questions);
+ state.answers=state.draft.answers;state.checked=state.draft.checked;state.revealed=state.draft.revealed;
+ state.flags=state.draft.flags;state.index=0;state.summary=false;
+ persist();render();
 }
 function bind(){
  const root=$("pageMount");const q=state.questions[state.index];
@@ -244,24 +261,50 @@ function bind(){
  root.querySelectorAll("[data-g10x-nav]").forEach(b=>b.addEventListener("click",()=>advance(Number(b.dataset.g10xNav))));
  const input=$("g10x-write");
  if(input)input.addEventListener("input",()=>{
-  state.answers[q.id]=input.value;persist();
+  const id=qid(q);if(state.checked[id])return;
+  state.answers[id]=input.value;persist();
   const stat=root.querySelector(".g10x-status");if(stat)stat.textContent=answered(q)?"Đã trả lời":"Chưa trả lời";
   const number=root.querySelector('.g10x-nav button[data-g10x-nav="'+state.index+'"]');
   if(number)number.classList.toggle("has-answer",answered(q));
   const d=done(),p=Math.round(100*d/state.questions.length);
   const progress=root.querySelector(".g10x-progress strong");if(progress)progress.textContent=d+" / "+state.questions.length+" câu";
   const track=root.querySelector(".g10x-track i");if(track)track.style.width=p+"%";
+  const check=root.querySelector('[data-g10x-action="check"]');if(check)check.disabled=!answered(q);
  });
  root.querySelectorAll("[data-g10x-action]").forEach(b=>b.addEventListener("click",()=>{
-  const v=b.dataset.g10xAction;
+  const v=b.dataset.g10xAction,id=qid(q);
   if(v==="prev")return advance(state.index-1);
   if(v==="next")return advance(state.index+1);
   if(v==="home"){location.hash=ROOT;return}
-  if(v==="interactive"){location.hash=ROOT+"/test-"+state.test;return}
+  if(v==="back-paper"){state.summary=false;return render()}
   if(v==="next-unanswered"){const idx=state.questions.findIndex(x=>!answered(x));return advance(idx<0?state.index:idx)}
   if(v==="print"){global.print?.();return}
-  if(v==="flag"){state.flags[q.id]=!state.flags[q.id];persist();return rerender(true)}
-  if(v==="clear"){delete state.answers[q.id];persist();return rerender(true)}
+  if(v==="flag"){state.flags[id]=!state.flags[id];persist();return rerender(true)}
+  if(v==="clear"){if(state.checked[id])return;delete state.answers[id];persist();return rerender(true)}
+  if(v==="edit"){
+   delete state.checked[id];delete state.revealed[id];
+   if(state.draft.recorded){state.draft.recorded=false;state.draft.submissionId=global.LearningCore?.uuid?.()||String(Date.now())}
+   persist();return rerender(true);
+  }
+  if(v==="check"){
+   if(!verifyOne(q)){global.alert?.("Vui lòng trả lời trước khi kiểm tra.");return}
+   persist();return rerender(true);
+  }
+  if(v==="check-all"){
+   const n=state.questions.filter(x=>answered(x)&&!state.checked[qid(x)]).length;
+   if(!n){global.alert?.("Không có câu trả lời mới cần kiểm tra.");return}
+   if(global.confirm?.("Kiểm tra "+n+" câu đã trả lời? Đáp án sẽ được giữ nguyên và có thể sửa lại.")===false)return;
+   state.questions.forEach(x=>verifyOne(x));persist();return rerender(true);
+  }
+  if(v==="summary"){state.summary=true;persist();return render()}
+  if(v==="restart")return restart();
+  if(v==="submit"){
+    const x=score();
+    if(x.completed===state.questions.length&&!state.draft.recorded){
+     global.G10MidtermAssessment.submit(state.graded,x.correct,state.draft);persist();
+    }
+    return render();
+  }
  }));
 }
 async function open(n){
@@ -274,9 +317,20 @@ async function open(n){
   const raw=testText(await fetchText(),n);
   const doc=parsePaper(raw,n);correctCounts(doc,n);
   if(location.hash!="#"+ROOT+"/source-test-"+n)return;
-  state.test=n;state.parsed=doc;state.questions=doc.questions;state.owner=global.LearningCore?.userId?.()||null;
-  const old=saved(n);state.answers=old.answers;state.flags=old.flags;state.index=Math.min(Math.max(old.index,0),state.questions.length-1);
-  render();global.scrollTo?.({top:0,behavior:"smooth"});
+  const all=await global.G10MidtermAssessment.load();
+  const gradeTest=all.find(t=>t.id===n);
+  if(!gradeTest||gradeTest.questions.length!==doc.questions.length)throw Error("Dữ liệu chấm bài không khớp Test "+n);
+  for(let i=0;i<doc.questions.length;i++){
+   if(doc.questions[i].number!==gradeTest.questions[i].number)throw Error("Thứ tự câu gốc/chấm không trùng tại câu "+(i+1));
+   doc.questions[i].canonicalId=gradeTest.questions[i].id;
+  }
+  state.test=n;state.parsed=doc;state.questions=doc.questions;state.graded=gradeTest;
+  state.owner=global.G10MidtermProgress.account();
+  state.draft=global.G10MidtermProgress.start(n,gradeTest.questions);
+  state.answers=state.draft.answers;state.checked=state.draft.checked;
+  state.revealed=state.draft.revealed;state.flags=state.draft.flags;
+  state.index=state.draft.index;state.summary=false;
+  persist();render();global.scrollTo?.({top:0,behavior:"smooth"});
  }catch(err){
   mount.innerHTML='<div class="unit-hero"><h1>Không mở được Test '+n+'</h1><p>'+esc(err.message||err)+'</p>'+
   '<button class="secondary" onclick="location.hash=\''+ROOT+'\'">Quay lại 6 đề</button></div>';
