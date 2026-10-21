@@ -257,7 +257,7 @@ function originalPages(g){
  if(actualKind(g,state.question)==="error"){
   const {model,verified}=errorSourceModel(g),r=state.answers[key(state.question)]||{};
   const text=global.HSGErrorLines.screen(model,r);
-  return verified?text:text.replace('<section class="hsg-passage-page',
+  return verified&&!model.numberingUncertain?text:text.replace('<section class="hsg-passage-page',
    '<section data-hsg-source-unverified="true" class="hsg-passage-page');
  }
  return '<section class="hsg-passage-page hsg-readable-passage">'+
@@ -280,9 +280,10 @@ function passageInput(g,n,q,r){
   ).join("")+'</div>'+(q.type==="mcq"&&!q.options?'<p class="hsg-source-warning">Thiếu phương án · Xem đề gốc bên trái.</p>':"");
  }
  if(q.type==="error"){
-  const numbered=errorSourceModel(g,n).model.hasOriginalLines;
+  const model=errorSourceModel(g,n).model,numbered=model.hasOriginalLines;
   return '<p class="hsg-error-help">'+(numbered?
     'Chọn số dòng của đề gốc rồi bôi đen từ/cụm sai.':
+    model.numberingUncertain?'Dữ liệu PDF chưa xác định chắc chắn vị trí dòng. Bôi đen cụm sai và đối chiếu số dòng với đề gốc.':
     'Đề gốc không đánh số dòng: bôi đen cụm sai trong đoạn văn bên trái.')+'</p><div class="hsg-error-form hsg-split-error">'+
    (numbered?'<label>Dòng gốc<input data-hsg-field="line" inputmode="numeric" placeholder="Số dòng trong đề…" value="'+esc(r.line||"")+'"></label>':"")+
    '<label>Từ / cụm sai<input data-hsg-field="error" placeholder="Cụm sai trong bài" value="'+esc(r.error||"")+'"></label>'+
@@ -877,7 +878,7 @@ function printOnePart(part,index){
     (model.hasOriginalLines?'<span>Line: __________</span>':"")+
     '<span>Mistake: __________________</span><span>Correction: __________________</span></div>';
   }).join("");
-  const warning=!verified?'<p class="hsg-print-unavailable">Không thể xác minh chính xác đoạn gốc. Cần đối chiếu với PDF trước khi phát đề.</p>':"";
+  const warning=(!verified||model.numberingUncertain)?'<p class="hsg-print-unavailable">Dòng trong bản PDF chưa được xác minh đầy đủ. Cần đối chiếu vị trí số dòng với đề gốc trước khi phát.</p>':"";
   return '<section class="hsg-print-part" aria-label="'+esc(title)+'">'+
    '<header class="hsg-print-part-head"><div class="hsg-print-part-number">PART '+String(index).padStart(2,"0")+'</div>'+
    '<div><h2>'+esc(title)+'</h2><p>'+first+'–'+last+' · '+(last-first+1)+' câu</p></div></header>'+
