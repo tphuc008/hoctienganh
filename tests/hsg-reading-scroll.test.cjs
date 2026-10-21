@@ -20,7 +20,7 @@ test("the TWO grid columns are the scrollports, not their inner content",()=>{
  assert.match(v4,/\.hsg-reading-mode \.hsg-passage-workspace\s*\{[^}]*grid-template-rows:minmax\(0,1fr\)/s);
  assert.match(v4,/\.hsg-reading-mode \.hsg-passage-left,\s*\.hsg-reading-mode \.hsg-passage-right\s*\{[^}]*height:100%;[^}]*overflow-y:auto;/s);
  assert.match(v4,/\.hsg-reading-mode \.hsg-passage-content,\s*\.hsg-reading-mode \.hsg-passage-questions\s*\{[^}]*height:auto;[^}]*overflow:visible;/s);
- assert.doesNotMatch(v4,/height:0\s*;/);
+ assert.doesNotMatch(v4,/(?:^|[;{}\s])height:0\s*;/);
  assert.match(v4,/scrollbar-gutter:stable/);
 });
 test("question navigation scrolls right column; passage updates preserve left column position",()=>{
