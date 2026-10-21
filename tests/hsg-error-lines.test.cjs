@@ -88,3 +88,21 @@ test("OCR labels in Vinh 5 and 11 are restored by neighbouring sequence",()=>{
  assert.equal(model.lines[4].number,5);
  assert.equal(model.lines[10].number,11);
 });
+
+
+test("Corrupted PTNK line labels are treated as uncertain, not renumbered",()=>{
+ const source="Questions 116-120 ERROR CORRECTION\nIdentify FIVE errors in the passage.\n"+
+  "4 _| It is traditionally believed that paper was invented in China.\n"+
+  "2 | Dynasty. There, a resourceful official was involved.\n"+
+  "3 _| Material similar to modern paper was created.\n"+
+  "4 | His story still remains widely discussed.\n"+
+  "8 _| Tree bark and rags were used as raw material.\n"+
+  "6 _| The technology spread across regions.\n"+
+  "7 | The discovery profoundly influenced society.\n"+
+  "8 | Further inventions improved industrial paper.\n"+
+  "9 | A variety of products are made from paper.\n";
+ const model=M.parse(source);
+ assert.equal(model.hasOriginalLines,false);
+ assert.equal(model.numberingUncertain,true);
+ assert.ok(model.note.includes("PDF"));
+});
