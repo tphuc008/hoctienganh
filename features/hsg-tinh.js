@@ -66,7 +66,7 @@ function opening(){
  root.innerHTML='<div class="hsg-root"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button><span>›</span><span>HSG tỉnh</span></div>'+
  '<div class="hsg-hero"><div class="hsg-kicker">TEACHER PREVIEW · EXAM LIBRARY</div><h1>Đề thi <span>Tiếng Anh chuyên</span></h1>'+
  '<p>Luyện đề · Đánh dấu câu · Tự lưu · Không Listening.</p>'+
- '<div class="hsg-hero-facts"><span>8 bộ đề</span><span>Năm học 2026–2027</span><span>Chưa có đáp án và lời giải</span></div></div>'+
+ '<div class="hsg-hero-facts"><span>8 bộ đề</span><span>Năm học 2026–2027</span><span>Chưa có đáp án chính thức toàn đề</span></div></div>'+
  '<div class="hsg-catalogue-title"><div><h2>Thư viện đề thi</h2><p>Chọn đề để bắt đầu hoặc tiếp tục.</p></div><span class="hsg-hint">Tự lưu</span></div>'+
  '<div class="hsg-grid">'+CONFIGS.map((e,i)=>{
  const p=progressFor(e);
