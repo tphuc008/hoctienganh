@@ -16,8 +16,18 @@ const CONFIGS=[
 ];
 const BASE="teacher/hsg-tinh";
 const CACHE=new Map();
-const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17};
+const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17,readingScroll:{passage:0,questions:0}};
 const $=id=>document.getElementById(id);
+/* Grade 12 Reading pattern: fullscreen workspace attached directly to body. */
+function ensureReadingPortal(){
+ let portal=document.getElementById("hsg-reading-portal");
+ if(!portal){portal=document.createElement("div");portal.id="hsg-reading-portal";document.body.appendChild(portal)}
+ return portal;
+}
+function removeReadingPortal(){document.getElementById("hsg-reading-portal")?.remove()}
+window.addEventListener("hashchange",()=>{
+ if(!/^#teacher\/hsg-tinh(?:\/|$)/.test(location.hash))removeReadingPortal();
+});
 const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 
 /* Part-level exam map: a question's format is determined by the source task, never by a manual MCQ/text toggle. */
@@ -58,6 +68,7 @@ function progressFor(exam){
  return {done,max,pct:Math.round(100*done/Math.max(max,1))};
 }
 function opening(){
+ removeReadingPortal();
  const root=$("pageMount"); if(!root)return;
  root.style.display="block";
  root.innerHTML='<div class="hsg-root"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button><span>›</span><span>HSG tỉnh</span></div>'+
@@ -335,7 +346,7 @@ function attachStructuredGapActions(g){
 function refreshStructuredPassage(g){
  if(!structuredPart(g))return;
  const source=$("hsg-passage-left-body");if(!source)return;
- const scroll=source.scrollTop;source.innerHTML=originalPages(g);source.scrollTop=scroll;attachStructuredGapActions(g);
+ const pane=$("hsg-passage-left"),scroll=pane?.scrollTop||0;source.innerHTML=originalPages(g);if(pane)pane.scrollTop=scroll;attachStructuredGapActions(g);
 }
 function highlightErrorLine(line){
  const source=$("hsg-passage-left-body");if(!source)return;
@@ -380,13 +391,17 @@ function focusPassageQuestion(n){
  if(!card){renderExam();return}
  mount.querySelectorAll(".hsg-reading-q-card").forEach(el=>el.classList.toggle("is-active",el===card));
  // Scroll only the question scrollport, not the document or the passage pane.
- const frame=mount.getBoundingClientRect(),bounds=card.getBoundingClientRect();
- const above=bounds.top-frame.top-16,below=bounds.bottom-frame.bottom+16;
- const displacement=above<0?above:below>0?below:0;
- if(displacement)mount.scrollBy({top:displacement,behavior:"smooth"});
+ const pane=$("hsg-passage-right");
+ if(pane){
+  const frame=pane.getBoundingClientRect(),bounds=card.getBoundingClientRect();
+  const sticky=pane.querySelector(".hsg-passage-column-head")?.getBoundingClientRect().height||0;
+  const above=bounds.top-frame.top-sticky-16,below=bounds.bottom-frame.bottom+16;
+  const displacement=above<0?above:below>0?below:0;
+  if(displacement)pane.scrollBy({top:displacement,behavior:"smooth"});
+ }
  if(previous!==n){
   const source=$("hsg-passage-left-body");
-  if(source){const scroll=source.scrollTop;source.innerHTML=originalPages(g);source.scrollTop=scroll;attachErrorPassageActions(g);attachStructuredGapActions(g)}
+  if(source){const pane=$("hsg-passage-left"),scroll=pane?.scrollTop||0;source.innerHTML=originalPages(g);if(pane)pane.scrollTop=scroll;attachErrorPassageActions(g);attachStructuredGapActions(g)}
  }
  updateIndicators();
 }
@@ -413,8 +428,15 @@ function setupPassageDivider(){
 
 function switchPassageTab(tab){
  const split=$("hsg-passage-split");if(!split)return;
+ const previous=split.dataset.mobileTab;
+ const paneFor=t=>$(t==="passage"?"hsg-passage-left":"hsg-passage-right");
+ if(previous==="passage"||previous==="questions"){
+  const prior=paneFor(previous);
+  if(prior&&prior.getClientRects().length)state.readingScroll[previous]=prior.scrollTop;
+ }
  split.dataset.mobileTab=tab;
  split.querySelectorAll("[data-hsg-mobile-tab]").forEach(btn=>btn.setAttribute("aria-pressed",String(btn.dataset.hsgMobileTab===tab)));
+ const active=paneFor(tab);if(active)active.scrollTop=state.readingScroll[tab]||0;
 }
 
 function meaningfulAnswer(v){if(!v)return false;if(v.type==="error")return !!(String(v.error||"").trim()&&String(v.correction||"").trim());return !!(String(v.value||"").trim()||String(v.error||"").trim()||String(v.correction||"").trim())}
@@ -436,9 +458,11 @@ function renderExam(){
    '<span class="hsg-scroll-help">Cuộn độc lập</span>';
   const split=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
   '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
-  '<div class="hsg-passage-workspace"><section class="hsg-passage-left" aria-label="Đoạn văn"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body" role="region" tabindex="0" aria-label="Bài đọc, cuộn độc lập">'+originalPages(g)+'</div></section>'+
-  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list" role="region" tabindex="0" aria-label="Câu hỏi, cuộn độc lập"></div></section></div>'+nav+'</div>':"";
- const root=$("pageMount");root.style.display="block";
+  '<div class="hsg-passage-workspace"><section class="hsg-passage-left" id="hsg-passage-left" aria-label="Đoạn văn" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
+  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" id="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
+ const page=$("pageMount"),root=passage?ensureReadingPortal():page;
+ if(passage)page.style.display="none";
+ else{removeReadingPortal();page.style.display="block"}
  root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
@@ -1045,6 +1069,7 @@ async function open(hash){
  if(!match){location.hash=BASE;return}
  if(!match[1]){opening();return}
  const e=CONFIGS.find(x=>x.id===match[1]);if(!e){location.hash=BASE;return}
+ removeReadingPortal();
  const root=$("pageMount");root.style.display="block";
  root.innerHTML='<div class="hsg-root"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div><div class="hsg-loading">Đang mở bộ đề '+esc(e.title)+'…</div></div>';
  try{
