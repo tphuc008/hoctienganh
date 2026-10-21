@@ -295,6 +295,47 @@ function passageInput(g,n,q,r){
   '<input type="text" data-hsg-field="value" placeholder="'+(q.structured?"Type your answer":"Nhập từ hoặc cụm từ...")+'" value="'+esc(r.value||"")+'" autocomplete="off"></label>';
 }
 /* Render all questions in the reading pane, as in the Grade 12 Reading workspace. */
+/* Explanation Standard V1.1 — Hải Phòng reference analyses.
+ * On-demand, non-scoring, all editorial states remain needs_review.
+ */
+function hsgExplanationSource(g,n){
+ const typed=structuredPart(g);
+ return typed?typed.passage.map(block=>block.text).join("\n"):passageOnly(g,n);
+}
+function hsgExplanationControl(g,n,q){
+ if(!global.HSGHaiPhongExplanations?.available(
+   state.exam?.id,g.id,n,q,hsgExplanationSource(g,n)))return "";
+ return '<section class="hsg-hp-explanation" data-hsg-explanation-question="'+n+'">'+
+  '<button type="button" class="hsg-hp-explanation-toggle" data-hsg-explain-toggle aria-expanded="false">'+
+  'Xem lời giải tham khảo · Cần rà soát <span aria-hidden="true">⌄</span></button>'+
+  '<div class="hsg-hp-explanation-panel" data-hsg-explain-panel hidden></div></section>';
+}
+function attachHSGExplanationControls(root,g){
+ if(!root)return;
+ root.querySelectorAll("[data-hsg-explain-toggle]").forEach(button=>{
+  button.onclick=()=>{
+   const parent=button.closest("[data-hsg-explanation-question]"),panel=parent?.querySelector("[data-hsg-explain-panel]");
+   if(!panel)return;
+   const open=panel.hidden;
+   if(open&&!panel.dataset.rendered){
+    const n=Number(parent.dataset.hsgExplanationQuestion),q=getQuestion(g,n);
+    const spec=global.HSGHaiPhongExplanations?.spec(
+      state.exam?.id,g.id,n,q,hsgExplanationSource(g,n));
+    if(!spec||!global.ExplanationV1){
+     panel.textContent="Lời giải tham khảo chưa sẵn sàng; vui lòng kiểm tra lại dữ liệu đề.";
+     return;
+    }
+    // Only display material requested by the user. Do not evaluate or change any
+    // saved answers, scores, unlocks or answer keys.
+    panel.innerHTML='<p class="hsg-hp-explanation-disclaimer">Đáp án phân tích tham khảo · Chưa đối chiếu với đáp án chính thức. Không dùng để chấm điểm.</p>'+
+      global.ExplanationV1.render(spec,{className:"hsg-hp-reference"});
+    panel.dataset.rendered="true";
+   }
+   panel.hidden=!open;button.setAttribute("aria-expanded",String(open));
+  };
+ });
+}
+
 function renderPassageForms(g){
  const mount=$("hsg-answer-list");if(!mount)return;
  const nums=visibleQuestionNumbers(g),first=nums[0],last=nums[nums.length-1],typed=structuredPart(g);
@@ -311,10 +352,12 @@ function renderPassageForms(g){
     '<div class="hsg-reading-question-head"><span class="hsg-reading-num">'+n+'</span><p>'+esc(short||fallback)+'</p></div>'+
     (stem.length>450?'<details class="hsg-question-full"><summary>Xem toàn bộ câu hỏi</summary><p>'+esc(stem)+'</p></details>':"")+
     '<div class="hsg-current-form">'+passageInput(g,n,q,r)+'</div>'+
+    hsgExplanationControl(g,n,q)+
     '<div class="hsg-current-foot"><button type="button" data-hsg-flag aria-pressed="'+!!state.review[k]+'">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu để xem lại')+'</button>'+
     '<span data-hsg-completion>'+(meaningfulAnswer(r)?'Đã trả lời':'Chưa hoàn thành')+'</span>'+
     '<button type="button" data-hsg-clear>Xóa</button></div></article>';
   }).join("");
+ attachHSGExplanationControls(mount,g);
  const focus=card=>{state.question=Number(card.dataset.hsgQuestion);mount.querySelectorAll(".hsg-reading-q-card").forEach(el=>el.classList.toggle("is-active",el===card));updateIndicators()};
  mount.querySelectorAll(".hsg-reading-q-card").forEach(card=>{
   const n=Number(card.dataset.hsgQuestion),k=g.id+":"+n,q=getQuestion(g,n);
@@ -479,7 +522,7 @@ function renderExam(){
  const root=$("pageMount");
  root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
+ '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?"Trả lời trực tiếp · Không Listening · 6 câu có lời giải tham khảo (chưa kiểm duyệt đáp án chính thức)":"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>'+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
@@ -565,8 +608,10 @@ function renderEditor(){
  }
  editor.innerHTML='<div class="hsg-question-kicker"><span>QUESTION '+String(n).padStart(2,"0")+'</span><span>'+esc(q.type.toUpperCase().replace("MCQ","MULTIPLE CHOICE"))+'</span></div>'+
  '<div class="hsg-question-stem">'+esc(stem)+'</div><p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>'+inputs+
+ hsgExplanationControl(g,n,q)+
  '<div class="hsg-question-actions"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-flag">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu xem lại')+'</button></div>'+
  '<div class="hsg-question-nav"><button class="secondary" id="hsg-prev-question" type="button"'+(n===g.start?' disabled':'')+'>← Câu trước</button><span>'+ (n-g.start+1)+' / '+(g.end-g.start+1)+'</span><button class="primary" id="hsg-next-question" type="button"'+(n===g.end?' disabled':'')+'>Câu tiếp theo →</button></div>';
+ attachHSGExplanationControls(editor,g);
  editor.querySelectorAll("[data-hsg-value]").forEach(b=>b.onclick=()=>{state.answers[k]={type:q.type,value:b.dataset.hsgValue};queueSave();renderEditor();updateIndicators()});
  editor.querySelectorAll("[data-hsg-field]").forEach(el=>el.oninput=()=>{
   state.answers[k]={...state.answers[k],type:q.type,[el.dataset.hsgField]:el.value};queueSave();updateIndicators();
