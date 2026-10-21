@@ -35,6 +35,8 @@ test("both columns have IDs, region semantics, and mobile tab switching",()=>{
  assert.match(v4,/@media screen and \(max-width:880px\)/);
  assert.match(v4,/display:block;\s*position:relative/);
  assert.match(js,/switchPassageTab\(b\.dataset\.hsgMobileTab\)/);
+ assert.match(js,/state\.readingScroll\[previous\]=prior\.scrollTop/);
+ assert.match(js,/active\.scrollTop=state\.readingScroll\[tab\]\|\|0/);
 });
 test("typography and font controls remain without changing source exam content",()=>{
  assert.match(v4,/max-width:66ch/);
