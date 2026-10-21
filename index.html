@@ -1298,7 +1298,7 @@ function ensureTeacherHSG(){
   if(!hsgAssetsPromise){
     hsgAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/hsg-tinh.css?v=20261021-v2");
-      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261021-v2");
+      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261021-v3");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});
   }
