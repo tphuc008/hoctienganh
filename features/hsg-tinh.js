@@ -521,13 +521,14 @@ function renderExam(){
  removeReadingPortal();
  const root=$("pageMount");
  root.style.display="block";
- root.innerHTML='<div class="hsg-root hsg-modern'+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
+ root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?"Trả lời trực tiếp · Không Listening · 6 câu có lời giải tham khảo (chưa kiểm duyệt đáp án chính thức)":"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  (e.id==="hai-phong"?
-  '<nav class="hsg-hp-shortcuts" aria-label="Các câu có giải thích tham khảo"><strong>Lời giải minh họa · 6 câu</strong>'+
-  '<div>'+[46,47,48,51,61,81].map(n=>
+  '<details class="hsg-hp-shortcuts"><summary><span class="hsg-hp-shortcuts-title">Lời giải tham khảo</span>'+
+  '<span class="hsg-hp-shortcuts-count">6 câu minh họa · Cần rà soát</span><span class="hsg-hp-shortcuts-arrow" aria-hidden="true">⌄</span></summary>'+
+  '<div class="hsg-hp-shortcuts-body"><p>Chọn câu để mở phần phân tích tham khảo.</p><div class="hsg-hp-shortcuts-links">'+[46,47,48,51,61,81].map(n=>
    '<button type="button" data-hsg-exp-jump="'+n+'">Câu '+n+'</button>').join("")+'</div>'+
-  '<small>Đáp án đề xuất đang rà soát, không dùng chấm điểm.</small></nav>':"")+
+  '<small>Đáp án đề xuất chưa đối chiếu đáp án chính thức và không dùng để chấm điểm.</small></div></details>':"")+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>'+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
