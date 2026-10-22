@@ -16,7 +16,7 @@ const CONFIGS=[
 ];
 const BASE="teacher/hsg-tinh";
 const CACHE=new Map();
-const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17,passageSplitRatio:54,answerReviewUnlocked:false,readingScroll:{passage:0,questions:0}};
+const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17,passageSplitRatio:54,answerReviewUnlocked:false,resultVisible:false,readingScroll:{passage:0,questions:0}};
 const $=id=>document.getElementById(id);
 /* Compatibility cleanup for portal created by older versions. Exam UI stays in #pageMount. */
 function removeReadingPortal(){document.getElementById("hsg-reading-portal")?.remove()}
@@ -48,7 +48,7 @@ function save(){
  if(!state.exam)return;
  try{global.LearningCore?.writeDraft("exam",draftSlug(state.exam),
   {answers:state.answers,review:state.review,group:state.group,page:state.page,question:state.question,
-   ...(state.exam.id==="hai-phong"?{answerReviewUnlocked:state.answerReviewUnlocked}:{}),
+   ...(state.exam.id==="hai-phong"?{answerReviewUnlocked:state.answerReviewUnlocked,resultVisible:state.resultVisible}:{}),
    updatedAt:new Date().toISOString()});
   const status=$("hsg-save-status");if(status)status.textContent="Đã lưu trên thiết bị theo tài khoản";
  }catch(e){const status=$("hsg-save-status");if(status)status.textContent="Chưa lưu được: "+e.message}
@@ -425,7 +425,7 @@ function attachErrorPassageActions(g){
  const source=$("hsg-passage-left-body");
  if(!source||actualKind(g,state.question)!=="error")return;
  const choose=(row,selection)=>{
-  if(!row)return;
+  if(!row||(state.exam?.id==="hai-phong"&&state.answerReviewUnlocked))return;
   const n=state.question,k=g.id+":"+n;
   const sourceUncertain=errorSourceModel(g,n).model.numberingUncertain;
   const originalLine=row.dataset.hsgLine??(sourceUncertain?(state.answers[k]?.line||""):"");
@@ -520,8 +520,59 @@ function switchPassageTab(tab){
 
 function meaningfulAnswer(v){if(!v)return false;if(v.type==="error")return !!(String(v.error||"").trim()&&String(v.correction||"").trim());return !!(String(v.value||"").trim()||String(v.error||"").trim()||String(v.correction||"").trim())}
 function answerCount(){return range(groups(state.exam).find(x=>x.id===state.group)).filter(n=>meaningfulAnswer(state.answers[key(n)])).length}
+/* Results keep the current exam route; no changes to the paper print pipeline. */
+function haiPhongReport(){
+ const mod=global.HSGHaiPhongResults;
+ if(!mod)throw new Error("Chưa tải được trang kết quả Hải Phòng.");
+ return mod.build(groups(state.exam),state.answers,(g,n)=>{
+  const question=getQuestion(g,n),source=hsgExplanationSource(g,n);
+  const verified=!!global.HSGHaiPhongExplanations?.available("hai-phong",g.id,n,question,source);
+  return {question,verified,reference:verified?global.HSGHaiPhongExplanations.spec("hai-phong",g.id,n,question,source):null};
+ });
+}
+function renderHaiPhongResults(){
+ const root=$("pageMount"),report=haiPhongReport();
+ global.HSGHaiPhongResults.render(root,report,{
+  library:()=>{location.hash=BASE},
+  reviewQuestion:identity=>{
+   const item=report.all.find(q=>q.key===identity);if(!item)return;
+   state.group=item.group;state.question=item.number;
+   state.resultVisible=false;state.answerReviewUnlocked=true;
+   renderExam();
+   const g=groups(state.exam).find(x=>x.id===item.group);
+   if(passageBased(g))focusPassageQuestion(item.number);
+   queueSave();
+  },
+  reviewAll:()=>{
+   state.resultVisible=false;state.answerReviewUnlocked=true;
+   renderExam();
+   const g=groups(state.exam).find(x=>x.id===state.group);
+   if(passageBased(g))focusPassageQuestion(state.question);
+   queueSave();
+  },
+  resume:()=>{
+   state.resultVisible=false;state.answerReviewUnlocked=false;
+   renderExam();queueSave();
+  }
+ });
+}
+function haiPhongGrade(g,n){
+ if(state.exam?.id!=="hai-phong"||!state.answerReviewUnlocked)return null;
+ const question=getQuestion(g,n),source=hsgExplanationSource(g,n);
+ const available=!!global.HSGHaiPhongExplanations?.available("hai-phong",g.id,n,question,source);
+ const reference=available?global.HSGHaiPhongExplanations.spec("hai-phong",g.id,n,question,source):null;
+ return global.HSGHaiPhongResults?.evaluate(question,state.answers[g.id+":"+n]||{},reference,available)||null;
+}
+function haiPhongGradeBadge(g,n){
+ const grade=haiPhongGrade(g,n);if(!grade)return "";
+ const info=global.HSGHaiPhongResults.STATUS[grade.status];
+ return '<span class="hsg-hp-result-status '+grade.status+'" aria-label="Kết quả câu: '+info.label+'">'+
+   info.icon+' '+info.label+'</span>';
+}
 function renderExam(){
- const e=state.exam,g=groups(e).find(x=>x.id===state.group)||groups(e)[0];
+ const e=state.exam;
+ if(e?.id==="hai-phong"&&state.resultVisible){renderHaiPhongResults();return}
+ const g=groups(e).find(x=>x.id===state.group)||groups(e)[0];
  const total=g.end-g.start+1,done=answerCount(),pct=Math.round(done/total*100),passage=passageBased(g);
  const nums=visibleQuestionNumbers(g);
  const blocks=g.kind==="mixed"?[{start:1,end:40,title:"Grammar & Vocabulary"},...PTNK_PASSAGE_BLOCKS,{start:106,end:115,title:"Word Formation"},{start:121,end:130,title:"Sentence Transformation"}].sort((a,b)=>a.start-b.start):[];
@@ -550,7 +601,7 @@ function renderExam(){
  root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?(state.answerReviewUnlocked?"Xem lại bài làm · Mở đáp án và giải thích dưới từng câu":"Làm bài trực tuyến · Tự động lưu tiến độ"):"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button>'+
  (e.id==="hai-phong"?'<button type="button" id="hsg-toggle-answer-review" class="hsg-hp-review-switch" aria-pressed="'+(state.answerReviewUnlocked?'true':'false')+'">'+
-   (state.answerReviewUnlocked?'← Tiếp tục làm bài':'Kết thúc bài làm')+'</button>':"")+'</div></div>'+
+   (state.answerReviewUnlocked?'← Về trang kết quả':'Kết thúc bài làm')+'</button>':"")+'</div></div>'+
  (e.id==="hai-phong"&&state.answerReviewUnlocked?
   '<details class="hsg-hp-shortcuts"><summary><span class="hsg-hp-shortcuts-title">Lời giải V1.1</span>'+
   '<span class="hsg-hp-shortcuts-count">81 mục · 6 câu tiêu biểu</span><span class="hsg-hp-shortcuts-arrow" aria-hidden="true">⌄</span></summary>'+
@@ -565,15 +616,14 @@ function renderExam(){
  '</main>'+(passage?'':'<aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside>')+'</div></div>';
  const reviewSwitch=root.querySelector("#hsg-toggle-answer-review");
  if(reviewSwitch)reviewSwitch.onclick=()=>{
-  const leftScroll=root.querySelector("#hsg-passage-left")?.scrollTop||0;
-  const rightScroll=root.querySelector("#hsg-passage-right")?.scrollTop||0;
-  state.answerReviewUnlocked=!state.answerReviewUnlocked;
-  renderExam();
-  const newRoot=$("pageMount");
-  const left=newRoot.querySelector("#hsg-passage-left"),right=newRoot.querySelector("#hsg-passage-right");
-  if(left)left.scrollTop=leftScroll;
-  if(right)right.scrollTop=rightScroll;
-  queueSave();
+  // Review stays read-only; after finishing show an independent dashboard.
+  state.answerReviewUnlocked=true;state.resultVisible=true;
+  renderExam();queueSave();
+ };
+ const continueSwitch=root.querySelector("#hsg-continue-practice");
+ if(continueSwitch)continueSwitch.onclick=()=>{
+  state.answerReviewUnlocked=false;state.resultVisible=false;
+  renderExam();queueSave();
  };
  root.querySelectorAll("[data-hsg-exp-jump]").forEach(button=>button.onclick=()=>{
   const n=Number(button.dataset.hsgExpJump);
@@ -1188,6 +1238,7 @@ async function open(hash){
   const draft=readDraft(e);
   state.answers=draft.answers||{};state.review=draft.review||{};
   state.answerReviewUnlocked=e.id==="hai-phong"&&draft.answerReviewUnlocked===true;
+  state.resultVisible=e.id==="hai-phong"&&draft.resultVisible===true;
    if(e.id==="hai-phong"){
     for(let n=61;n<=65;n++){
      const oldKey="oc:"+n,newKey="wp:"+n;
