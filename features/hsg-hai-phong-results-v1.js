@@ -10,29 +10,100 @@ const e=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&g
 const STATUS=Object.freeze({
  correct:{label:"Đúng",icon:"✓"},
  wrong:{label:"Sai",icon:"×"},
- pending:{label:"Chờ chấm",icon:"◷"},
  unanswered:{label:"Bỏ trống",icon:"–"}
 });
-const stat=()=>({correct:0,wrong:0,pending:0,unanswered:0,total:0,answered:0,graded:0});
+const stat=()=>({correct:0,wrong:0,unanswered:0,total:0,answered:0,graded:0});
 function meaningful(r){
  if(!r)return false;
  // Even a partial correction is an attempted answer, not an empty response.
  if(r.type==="error")return !!(String(r.line||"").trim()||String(r.error||"").trim()||String(r.correction||"").trim());
  return !!(String(r.value||"").trim()||String(r.error||"").trim()||String(r.correction||"").trim());
 }
-function evaluate(question,response,reference,sourceVerified){
+/* Accepted alternatives are scoped to individual questions. */
+const ACCEPTED=Object.freeze({
+ "wf:58":["demoralised","demoralized"],
+ "oc:67":["until","till"],"oc:70":["speak","talk"],
+ "oc:74":["hardly","scarcely","barely"],
+ "w:91":["though they have had arguments","though they have often argued","though they have argued often"],
+ "w:92":["kept in the dark about","kept in the dark over"],
+ "w:93":["has a down-to-earth","has a down to earth"],
+ "w:94":["keep a straight face when"],
+ "w:95":["i got cold feet","got cold feet"],
+ "w:96":["time my brother has the better he works","time my brother has the better he performs"],
+ "w:97":["my mind back to what had happened all those years before","my mind back to what happened all those years ago"],
+ "w:98":["the blame for the plans failure on tom","the blame on tom for the plans failure"],
+ "w:99":["the presidents personal diaries were published did the truth come out","the presidents diaries were published did the truth emerge"],
+ "w:100":["the factory last week is said to have been caused by an electrical fault"]
+});
+function norm(value){
+ return String(value??"").normalize("NFKC").toLowerCase()
+  .replace(/['’‘]/g,"").replace(/[‐‑–—]/g,"-")
+  .replace(/[.,;:!?"“”()[\]{}]/g," ").replace(/\s+/g," ").trim();
+}
+function correction(value){
+ const m=String(value||"").match(/(?:dòng\s*\d+\s*:\s*)?(.+?)\s*(?:→|->|=>)\s*(.+)$/i);
+ return m?{error:m[1].trim(),correction:m[2].trim()}:null;
+}
+function matches(provided,alternatives){
+ const v=norm(provided);return !!v&&alternatives.some(a=>norm(a)===v);
+}
+function scoreEssay(raw){
+ const text=String(raw||"").trim();
+ const words=text.split(/\s+/).filter(Boolean).length;
+ const checks={
+  length:words>=110&&words<=200,
+  topic:/\b(parents?|famil(?:y|ies))\b/i.test(text)&&
+   /\b(child(?:ren)?|teenagers?|kids?|youngsters?)\b/i.test(text)&&
+   /\b(decisions?|choices?|choose|involve|involved|consult|participate|listen)\b/i.test(text),
+  stance:/\b(should|must|ought|believe|think|agree|disagree|support|important|essential|argue|opinion|favor|favour)\b/i.test(text),
+  reasoning:/\b(because|since|therefore|for example|for instance|such as|as a result|however|although)\b/i.test(text)
+ };
+ const score=Object.values(checks).filter(Boolean).length;
+ return {status:score===4?"correct":"wrong",reference:"",
+  assessment:"Đoạn văn: "+words+" từ; "+score+"/4 tiêu chí cơ bản (110–200 từ, bám chủ đề, có quan điểm, có lý do/ví dụ).",
+  advisory:true};
+}
+function matchesRewrite(key,actual,answer){
+ if(matches(actual,[answer,...(ACCEPTED[key]||[])]))return true;
+ const v=norm(actual);
+ switch(key){
+  case "w:91":return /^though they have (?:often )?(?:argued|had (?:many )?arguments)(?: frequently)?$/.test(v);
+  case "w:92":return /^kept in the dark (?:about|over)$/.test(v);
+  case "w:93":return /^has a down-to-earth$/.test(v);
+  case "w:94":return /^keep a straight face when$/.test(v);
+  case "w:95":return /^(?:i )?(?:got|developed) cold feet$/.test(v);
+  case "w:96":return /^time my brother has the (?:better|more efficiently) he (?:works|performs)$/.test(v);
+  case "w:97":return /^my mind back to what (?:had )?happened all those years (?:before|ago)$/.test(v);
+  case "w:98":return /^the blame (?:for the plans failure on tom|on tom for the plans failure)$/.test(v);
+  case "w:99":return /^the presidents (?:personal )?diaries were published did the truth (?:come out|emerge)$/.test(v);
+  case "w:100":return /^the factory last week is (?:said|believed|thought) to have been caused by an electrical fault$/.test(v);
+  default:return false;
+ }
+}
+function evaluate(question,response,reference,sourceVerified,context={}){
  if(!meaningful(response))return {status:"unanswered",reference:""};
- if(question?.type!=="mcq"||!Array.isArray(question.options)||question.options.length!==4||
-    !sourceVerified||!reference)return {status:"pending",reference:""};
- const match=/^([A-D])\.\s/.exec(String(reference.answer||""));
- if(!match||reference.options?.length!==4)return {status:"pending",reference:""};
- const correct=match[1];
- if(reference.options.some((option,i)=>
-    String(option?.word||"").trim()!==String(question.options[i]||"").trim()))
-   return {status:"pending",reference:""};
- const picked=String(response.value||"").trim();
- if(!/^[A-D]$/.test(picked))return {status:"pending",reference:""};
- return {status:picked===correct?"correct":"wrong",reference:correct};
+ const id=context.group+":"+context.number,raw=String(reference?.answer||"").trim();
+ const answer=raw.replace(/^[A-D]\.\s+/,"").trim();
+ const actual=String(response.value||"").trim();
+ const type=question?.type||context.kind||"";
+ if(context.group==="essay"||type==="essay")return scoreEssay(actual);
+ if(type==="mcq"||/^[A-D]\.\s/.test(raw)){
+  const expected=/^([A-D])\.\s/.exec(raw)?.[1]||(/^[A-D]$/.test(raw)?raw:"");
+  return {status:expected&&actual.toUpperCase()===expected?"correct":"wrong",reference:expected,
+   assessment:"Đối chiếu với đáp án trắc nghiệm tham khảo.",advisory:!sourceVerified};
+ }
+ if(context.group==="e"||type==="error"){
+  const fix=correction(raw);
+  const good=!!fix&&matches(response.error,[fix.error])&&matches(response.correction,[fix.correction]);
+  return {status:good?"correct":"wrong",reference:raw,
+   assessment:"Đối chiếu cả từ/cụm sai và cách sửa; số dòng là thông tin hỗ trợ."};
+ }
+ if(context.group==="w"||type==="rewrite"){
+  return {status:matchesRewrite(id,actual,answer)?"correct":"wrong",reference:answer,
+   assessment:"Đối chiếu đáp án mẫu và biến thể cấu trúc; một số câu đồng nghĩa khác có thể chưa được nhận diện.",advisory:true};
+ }
+ return {status:matches(actual,[answer,...(ACCEPTED[id]||[])])?"correct":"wrong",reference:answer,
+  assessment:"Đối chiếu từ/cụm từ (không phân biệt chữ hoa, thường và dấu câu)."};
 }
 function accumulate(target,entry){
  target[entry.status]++;target.total++;
@@ -45,7 +116,7 @@ function build(sections,answers,resolve){
   const metrics=stat(),items=[];
   for(let n=g.start;n<=g.end;n++){
    const q=resolve(g,n),answer=answers[g.id+":"+n]||{};
-   const outcome=evaluate(q.question,answer,q.reference,q.verified);
+   const outcome=evaluate(q.question,answer,q.reference,q.verified,{group:g.id,number:n,kind:g.kind});
    const entry={key:g.id+":"+n,group:g.id,number:n,part:g.name,
     stem:String(q.question?.stem||""),chosen:answer.type==="error"?
      [answer.line,answer.error,"→",answer.correction].filter(Boolean).join(" "):
