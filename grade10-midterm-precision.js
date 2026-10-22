@@ -18,10 +18,7 @@ const enhance=function enhance(q,context){
   const prof=extras[norm];const valid=accepted.includes(o.label);
   if(prof){
    o.meaning=prof[0];
-   o.analysis=(valid?"Phương án phù hợp: ":"Phương án không phù hợp nhất trong câu này: ")+prof[0]+". "+prof[1]+". "+
-    (specialClues.length?"Dấu hiệu cần đối chiếu: “"+specialClues.join("”, “")+"”. ":"")+
-    "Quy tắc cụ thể của câu: "+q.hint+"."+
-    ""; // No sweeping conclusion: profile and actual clue must do the explanatory work.
+   o.analysis=[prof[0],prof[1],specialClues.length?"Dấu hiệu của cấu trúc: “"+specialClues.join("”, “")+"”":""].filter(Boolean).join(". ")+"."; // No sweeping conclusion: profile and actual clue must do the explanatory work.
   }
   if(!valid&&q.id==="3-14"){const rs=["Habits diễn tả một hành vi lặp lại, ví dụ ăn tối lúc 7 giờ; một thói quen không nhất thiết là hành vi lịch sự.","","Customs diễn tả tập quán văn hóa, ví dụ cách dùng đũa hoặc dao nĩa; câu hỏi không yêu cầu phong tục của một cộng đồng.","Rules diễn tả những quy định bắt buộc, ví dụ không dùng điện thoại khi ăn tối; cụm good table manners nhấn vào phép lịch sự tổng quát."];o.analysis=rs[j]||o.analysis;}
   if(valid&&q.id==="3-14")o.analysis="Manners chỉ các chuẩn mực cư xử lịch sự. Cụm cố định good table manners trực tiếp diễn tả phép lịch sự trong bữa ăn, bao gồm cách nói chuyện, chờ người khác và sử dụng dụng cụ ăn uống. Đây chính là điều gia đình đang dạy trẻ.";
