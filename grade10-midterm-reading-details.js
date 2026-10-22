@@ -6,7 +6,7 @@ const detailReading=function detailReading(q,context){
  const d=window.G10_MIDTERM_PREV_EXPLAIN(q,context);
  const item=window.G10_MIDTERM_READING[q.id];if(!item)return d;
  d.step1=d.step1.filter(s=>!/^Dẫn chứng từ đoạn đọc:/.test(s));
- if(item.evidence)d.step1.push("Dẫn chứng trong bài: “"+item.evidence+"”.");
+ if(item.evidence)d.step1.push("Dẫn chứng trong bài: “"+item.evidence.trim()+"”");
  d.options=d.options.map((o,i)=>({...o,analysis:item.notes[i]}));
  d.examples=d.examples.map((o,i)=>({...o,en:item.samples[i][0],vi:item.samples[i][1]}));
  d.remember=item.remember;
