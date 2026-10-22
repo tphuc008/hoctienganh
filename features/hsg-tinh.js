@@ -522,13 +522,30 @@ function switchPassageTab(tab){
 function meaningfulAnswer(v){if(!v)return false;if(v.type==="error")return !!(String(v.error||"").trim()&&String(v.correction||"").trim());return !!(String(v.value||"").trim()||String(v.error||"").trim()||String(v.correction||"").trim())}
 function answerCount(){return range(groups(state.exam).find(x=>x.id===state.group)).filter(n=>meaningfulAnswer(state.answers[key(n)])).length}
 /* Results keep the current exam route; no changes to the paper print pipeline. */
+function haiPhongReference(g,n,question){
+ const source=hsgExplanationSource(g,n);
+ const verified=!!global.HSGHaiPhongExplanations?.available("hai-phong",g.id,n,question,source);
+ if(verified)return {verified:true,reference:global.HSGHaiPhongExplanations.spec("hai-phong",g.id,n,question,source)};
+ // The renderer's strict source-check may fail on imperfect OCR. Every item
+ // still has an independently authored V1.1 editorial reference.
+ const item=global.HSGHaiPhongExpandedV11?.entries?.find(x=>x.g===g.id&&x.n===n);
+ if(item)return {verified:false,reference:{
+  answer:/^[A-D]$/.test(item.answer)?item.answer+". "+(question.options?.["ABCD".indexOf(item.answer)]||"Đáp án tham khảo"):item.answer,
+  quickReason:item.why,reasoning:item.rule
+ }};
+ const curated={
+  "g2b:46":"D. inform","g2b:47":"C. In light of","g2b:48":"B. make",
+  "e:51":"influence → influences","wp:61":"promotional",
+  "r:81":"D. Women today are opening more businesses of their own."
+ };
+ return {verified:false,reference:{answer:curated[g.id+":"+n]||""}};
+}
 function haiPhongReport(){
  const mod=global.HSGHaiPhongResults;
  if(!mod)throw new Error("Chưa tải được trang kết quả Hải Phòng.");
  return mod.build(groups(state.exam),state.answers,(g,n)=>{
-  const question=getQuestion(g,n),source=hsgExplanationSource(g,n);
-  const verified=!!global.HSGHaiPhongExplanations?.available("hai-phong",g.id,n,question,source);
-  return {question,verified,reference:verified?global.HSGHaiPhongExplanations.spec("hai-phong",g.id,n,question,source):null};
+  const question=getQuestion(g,n);
+  return {question,...haiPhongReference(g,n,question)};
  });
 }
 function renderHaiPhongResults(){
@@ -559,10 +576,9 @@ function renderHaiPhongResults(){
 }
 function haiPhongGrade(g,n){
  if(state.exam?.id!=="hai-phong"||!state.answerReviewUnlocked)return null;
- const question=getQuestion(g,n),source=hsgExplanationSource(g,n);
- const available=!!global.HSGHaiPhongExplanations?.available("hai-phong",g.id,n,question,source);
- const reference=available?global.HSGHaiPhongExplanations.spec("hai-phong",g.id,n,question,source):null;
- return global.HSGHaiPhongResults?.evaluate(question,state.answers[g.id+":"+n]||{},reference,available)||null;
+ const question=getQuestion(g,n),resolved=haiPhongReference(g,n,question);
+ return global.HSGHaiPhongResults?.evaluate(question,state.answers[g.id+":"+n]||{},
+  resolved.reference,resolved.verified,{group:g.id,number:n,kind:g.kind})||null;
 }
 function haiPhongGradeBadge(g,n){
  const grade=haiPhongGrade(g,n);if(!grade)return "";
