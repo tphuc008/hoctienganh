@@ -26,8 +26,8 @@ function evaluate(question,response,reference,sourceVerified){
  const match=/^([A-D])\.\s/.exec(String(reference.answer||""));
  if(!match||reference.options?.length!==4)return {status:"pending",reference:""};
  const correct=match[1];
- if(String(reference.options[correct.charCodeAt(0)-65]?.word||"").trim()!==
-    String(question.options[correct.charCodeAt(0)-65]||"").trim())
+ if(reference.options.some((option,i)=>
+    String(option?.word||"").trim()!==String(question.options[i]||"").trim()))
    return {status:"pending",reference:""};
  const picked=String(response.value||"").trim();
  if(!/^[A-D]$/.test(picked))return {status:"pending",reference:""};
