@@ -308,8 +308,8 @@ function hsgExplanationSource(g,n){
 function hsgExplanationControl(g,n,q){
  // Do not include any answer UI in a practice-phase question card.
  if(state.exam?.id==="hai-phong"&&!state.answerReviewUnlocked)return "";
- if(!global.HSGHaiPhongExplanations?.available(
-   state.exam?.id,g.id,n,q,hsgExplanationSource(g,n)))return "";
+ if(state.exam?.id!=="hai-phong"||
+   !haiPhongReference(g,n,q).reference)return "";
  return '<section class="hsg-hp-explanation" data-hsg-explanation-question="'+n+'">'+
   '<button type="button" class="hsg-hp-explanation-toggle" data-hsg-explain-toggle aria-expanded="false">'+
   'Xem đáp án / giải thích <span aria-hidden="true">⌄</span></button>'+
@@ -325,7 +325,7 @@ function attachHSGExplanationControls(root,g){
    if(open&&!panel.dataset.rendered){
     const n=Number(parent.dataset.hsgExplanationQuestion),q=getQuestion(g,n);
     const spec=global.HSGHaiPhongExplanations?.spec(
-      state.exam?.id,g.id,n,q,hsgExplanationSource(g,n));
+      state.exam?.id,g.id,n,q,hsgExplanationSource(g,n))||haiPhongReference(g,n,q).reference;
     if(!spec||!global.ExplanationV1){
      panel.textContent="Không thể tải lời giải cho câu này. Vui lòng thử tải lại trang.";
      return;
@@ -529,10 +529,19 @@ function haiPhongReference(g,n,question){
  // The renderer's strict source-check may fail on imperfect OCR. Every item
  // still has an independently authored V1.1 editorial reference.
  const item=global.HSGHaiPhongExpandedV11?.entries?.find(x=>x.g===g.id&&x.n===n);
- if(item)return {verified:false,reference:{
-  answer:/^[A-D]$/.test(item.answer)?item.answer+". "+(question.options?.["ABCD".indexOf(item.answer)]||"Đáp án tham khảo"):item.answer,
-  quickReason:item.why,reasoning:item.rule
- }};
+ if(item){
+  const choice=/^[A-D]$/.test(item.answer)?"ABCD".indexOf(item.answer):-1;
+  return {verified:false,reference:{
+   type:choice>=0?"grammar":g.id==="essay"?"essay":"written",
+   answer:choice>=0?item.answer+". "+(question.options?.[choice]||"Đáp án tham khảo"):item.answer,
+   quickReason:item.why,reasoning:item.rule,
+   evidence:[{locator:"Câu "+n,quote:item.anchor,note:item.rule}],
+   options:choice>=0?(question.options||[]).map((word,i)=>({
+    word,correct:i===choice,analysis:i===choice?item.why:(item.wrong?.[i]||"Không phù hợp với yêu cầu của câu.")
+   })):[],
+   application:item.use,remember:item.rule,needsReview:true
+  }};
+ }
  const curated={
   "g2b:46":"D. inform","g2b:47":"C. In light of","g2b:48":"B. make",
   "e:51":"influence → influences","wp:61":"promotional",
@@ -583,8 +592,9 @@ function haiPhongGrade(g,n){
 function haiPhongGradeBadge(g,n){
  const grade=haiPhongGrade(g,n);if(!grade)return "";
  const info=global.HSGHaiPhongResults.STATUS[grade.status];
- return '<span class="hsg-hp-result-status '+grade.status+'" aria-label="Kết quả câu: '+info.label+'">'+
-   info.icon+' '+info.label+'</span>';
+ const label=g.id==="essay"?(grade.status==="unanswered"?"Bỏ trống":grade.status==="correct"?"Đạt tiêu chí cơ bản":"Chưa đạt tiêu chí cơ bản"):info.label;
+ return '<span class="hsg-hp-result-status '+grade.status+'" aria-label="Kết quả câu: '+esc(label)+'" title="'+esc(grade.assessment||"")+'">'+
+   info.icon+' '+esc(label)+'</span>';
 }
 function renderExam(){
  const e=state.exam;
