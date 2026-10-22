@@ -1297,6 +1297,74 @@ async function renderTeacherGrammar21(hash,session){
 }
 
 
+
+/* Grammar 5 / 19 / 22 reuse the interactive Topic 21 studio after teacher authorization.
+ * The 25-topic library lists all topics in their official sequence.
+ */
+let grammarLibraryAssetsPromise=null,grammarNewAssetsPromise=null;
+function ensureTeacherGrammarLibrary(){
+  if(window.TeacherGrammarLibrary)return Promise.resolve();
+  if(!grammarLibraryAssetsPromise){
+    grammarLibraryAssetsPromise=(async()=>{
+      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261022-studio4");
+      await loadGrammar21Asset("link","features/grammar-library.css?v=20261022-library-v1");
+      await loadGrammar21Asset("script","features/grammar-library.js?v=20261022-library-v1");
+      if(!window.TeacherGrammarLibrary)throw Error("Không thể mở thư viện Grammar");
+    })().catch(e=>{grammarLibraryAssetsPromise=null;throw e});
+  }
+  return grammarLibraryAssetsPromise;
+}
+async function renderTeacherGrammarLibrary(hash){
+  pageMount.style.display="block";
+  pageMount.innerHTML='<div class="empty">Đang tải thư viện ngữ pháp…</div>';
+  try{
+    await ensureTeacherGrammarLibrary();
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    window.TeacherGrammarLibrary.render();
+  }catch(e){
+    pageMount.innerHTML='<div class="empty"><b>Không thể tải Grammar</b>'+esc(e?.message||"Vui lòng tải lại trang.")+'</div>';
+  }
+}
+function ensureTeacherGrammarNew(){
+  if(window.TeacherGrammar5&&window.TeacherGrammar19&&window.TeacherGrammar22)return Promise.resolve();
+  if(!grammarNewAssetsPromise){
+    grammarNewAssetsPromise=(async()=>{
+      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261022-studio4");
+      await loadGrammar21Asset("script","content/grammar-topic-compiler.js?v=20261022-studio4");
+      await loadGrammar21Asset("script","content/grammar-topic5.js?v=20261022-studio4");
+      await loadGrammar21Asset("script","content/grammar-topic19.js?v=20261022-studio4");
+      await loadGrammar21Asset("script","content/grammar-topic22.js?v=20261022-studio4");
+      await loadGrammar21Asset("script","features/grammar-topic-studio.js?v=20261022-studio4");
+      const configs={
+        5:{topicNum:5,heroVi:"Sự hòa hợp chủ ngữ – động từ",heroEn:"Subject–verb agreement",
+          subtitle:"Xác định chủ ngữ thực, lựa chọn động từ đúng và tránh các bẫy hòa hợp.",beforeLabel:"Câu gốc / lỗi thường gặp",afterLabel:"Câu đúng",reviewCount:24},
+        19:{topicNum:19,heroVi:"Câu điều kiện",heroEn:"Conditional sentences",
+          subtitle:"Từ điều kiện thực đến giả định, mixed conditionals và các cách diễn đạt tương đương.",beforeLabel:"Câu gốc",afterLabel:"Câu đúng / viết lại",reviewCount:24},
+        22:{topicNum:22,heroVi:"Mệnh đề quan hệ",heroEn:"Relative clauses",
+          subtitle:"Xác định, bổ sung thông tin, đại từ quan hệ và rút gọn mệnh đề.",beforeLabel:"Hai câu gốc",afterLabel:"Câu kết hợp / đúng",reviewCount:24}
+      };
+      for(const n of [5,19,22]){
+        const obj=window["GrammarTopic"+n+"Data"];
+        if(!obj||!window.TeacherGrammarStudioFactory)throw Error("Thiếu dữ liệu Chuyên đề "+n);
+        window["TeacherGrammar"+n]=window.TeacherGrammarStudioFactory(obj,configs[n]);
+      }
+    })().catch(e=>{grammarNewAssetsPromise=null;throw e});
+  }
+  return grammarNewAssetsPromise;
+}
+async function renderTeacherGrammarNew(hash,session){
+  const num=Number(hash.match(/topic-(5|19|22)$/)?.[1]||0);
+  pageMount.style.display="block";
+  pageMount.innerHTML='<div class="empty">Đang tải Chuyên đề '+num+'…</div>';
+  try{
+    await ensureTeacherGrammarNew();
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    window["TeacherGrammar"+num].open(hash,session);
+  }catch(e){
+    pageMount.innerHTML='<div class="empty"><b>Không thể tải chuyên đề</b>'+esc(e?.message||"Vui lòng tải lại trang.")+'</div>';
+  }
+}
+
 /* HSG tỉnh is loaded only after verified teacher-role access. */
 let hsgAssetsPromise=null;
 function ensureTeacherHSG(){
@@ -1482,7 +1550,7 @@ async function route(){
   if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash.startsWith("teacher/")){
-    if(hash!=="teacher/grammar"&&hash!=="teacher/grammar/topic-21"&&!/^teacher\/hsg-tinh(?:\/[a-z0-9-]+)?$/.test(hash)){
+    if(hash!=="teacher/grammar"&&!/^teacher\/grammar\/topic-(?:5|19|21|22)$/.test(hash)&&!/^teacher\/hsg-tinh(?:\/[a-z0-9-]+)?$/.test(hash)){
       location.hash="";
       return;
     }
@@ -1492,8 +1560,12 @@ async function route(){
       pageMount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button></div><div class="empty"><b>Không có quyền truy cập</b>Khu vực thử nghiệm này chỉ dành cho giáo viên.</div>';
       return;
     }
-    if(hash==="teacher/grammar"||hash==="teacher/grammar/topic-21"){
+    if(hash==="teacher/grammar"){
+      await renderTeacherGrammarLibrary(hash);
+    }else if(hash==="teacher/grammar/topic-21"){
       await renderTeacherGrammar21(hash,learnerSession);
+    }else if(/^teacher\/grammar\/topic-(?:5|19|22)$/.test(hash)){
+      await renderTeacherGrammarNew(hash,learnerSession);
     }else{
       await renderTeacherHSG(hash);
     }
