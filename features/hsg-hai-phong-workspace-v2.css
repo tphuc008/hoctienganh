@@ -386,3 +386,119 @@
   .hsg-hp-v2 .hsg-hp-review-note{padding:11px 13px}
  }
 }
+
+
+
+/* Hai Phong · Compact Academic Header A, practice + review.
+ * One title/action row and one Part/progress row. Screen only.
+ */
+@media screen {
+ .hsg-hp-v2.hsg-hp-compact .hsg-exam-head {
+  padding:17px 22px;gap:16px;
+  align-items:center;justify-content:space-between;
+  border-radius:15px 15px 0 0;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-kicker {
+  letter-spacing:.095em;font-size:10px;line-height:1.45;
+  color:#3268bf;font-weight:800;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-exam-head h1{
+  margin:5px 0 0;font-size:clamp(24px,2.2vw,31px);
+  letter-spacing:-.035em;line-height:1.18;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions{gap:9px;justify-content:flex-end}
+ .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions button{
+  min-height:39px;padding:9px 15px;font-size:12px;white-space:nowrap;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-nav{
+  display:grid;grid-template-columns:minmax(245px,1fr) minmax(155px,190px);
+  align-items:center;gap:22px;min-width:0;
+  padding:13px 22px 15px;background:#fff;
+  border:1px solid var(--hp-line);border-top:0;
+  border-radius:0 0 13px 13px;margin-bottom:16px;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-hp-part-picker{
+  display:flex;flex-direction:column;align-items:flex-start;
+  gap:6px;min-width:0;max-width:510px;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-hp-part-picker label{
+  display:block;letter-spacing:.075em;font-size:10px;
+  color:#6e7f97;font-weight:850;line-height:1.3;
+ }
+ .hsg-hp-v2.hsg-hp-compact #hsg-hp-part-select{
+  width:100%;min-width:0;min-height:40px;
+  border:1px solid #c9daee;border-radius:9px;
+  background:#f8fbff;color:#284c75;
+  font:750 13px/1.35 inherit;font-size:13px;font-weight:750;
+  padding:10px 34px 10px 12px;
+  cursor:pointer;box-shadow:none;
+ }
+ .hsg-hp-v2.hsg-hp-compact #hsg-hp-part-select:hover{
+  border-color:#9bbdec;background:#f3f8ff;
+ }
+ .hsg-hp-v2.hsg-hp-compact #hsg-hp-part-select:focus-visible{
+  outline:3px solid #93c5fd;outline-offset:2px;
+ }
+ .hsg-hp-v2.hsg-hp-compact #hsg-save-status{
+  margin:0;font-size:10px;color:#8292a6;
+  display:block;min-height:13px;line-height:1.3;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-progress{
+  min-width:0;display:grid;gap:7px;padding:1px 0;
+  align-self:center;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-progress-top{
+  display:flex;align-items:baseline;justify-content:flex-end;gap:5px;
+  font-size:11px;color:#6e7e93;white-space:nowrap;
+ }
+ .hsg-hp-v2.hsg-hp-compact #hsg-progress-num{
+  font-size:15px;font-weight:850;letter-spacing:-.015em;
+  color:#164186;font-variant-numeric:tabular-nums;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-progress-track{
+  height:7px;background:#e6edf8;border-radius:99px;overflow:hidden;
+  width:100%;margin:0;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-progress-track i{
+  display:block;height:100%;background:#2563eb;
+  border-radius:99px;transition:width .12s ease;
+ }
+ .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-progress-bottom{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-size:10px;color:#8292a6;white-space:nowrap;
+ }
+ .hsg-hp-v2.hsg-hp-compact #hsg-progress-pct{
+  font-size:11px;font-weight:800;color:#2357ad;
+  font-variant-numeric:tabular-nums;
+ }
+ @media(max-width:700px){
+  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head{padding:14px 15px}
+  .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-nav{
+   grid-template-columns:minmax(0,1fr) 115px;
+   gap:13px;padding:12px 15px;margin-bottom:13px;
+  }
+  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions button{
+   min-height:35px;padding:7px 11px;font-size:11px;
+  }
+ }
+ @media(max-width:460px){
+  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head{gap:10px}
+  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head h1{font-size:23px}
+  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions{width:auto}
+  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions button{flex:initial}
+  .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-nav{
+   grid-template-columns:minmax(0,1fr);gap:12px;
+  }
+  .hsg-hp-v2.hsg-hp-compact .hsg-hp-part-picker{max-width:none}
+  .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-progress{
+   grid-template-columns:100px minmax(0,1fr);
+   grid-template-rows:auto auto;align-items:center;gap:4px 10px;
+  }
+  .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-progress-top{grid-column:1;grid-row:1;justify-content:flex-start}
+  .hsg-hp-v2.hsg-hp-compact .hsg-progress-track{grid-column:2;grid-row:1}
+  .hsg-hp-v2.hsg-hp-compact .hsg-hp-compact-progress-bottom{grid-column:1/-1;grid-row:2}
+ }
+ @media(prefers-reduced-motion:reduce){
+  .hsg-hp-v2.hsg-hp-compact .hsg-progress-track i{transition:none}
+ }
+}
