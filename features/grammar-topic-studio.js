@@ -8,7 +8,7 @@ g.TeacherGrammarStudioFactory=function(d,config){
 if(!d?.sections?.length||!d?.reviewSets)throw Error('Grammar studio content missing');
 const topicNum=String(config.topicNum);
 const topicRoute='teacher/grammar/topic-'+topicNum;
-if(!d||!Array.isArray(d.sections))throw new Error("Topic 21 content is unavailable");
+if(!d||!Array.isArray(d.sections))throw new Error("Grammar lesson content is unavailable");
 const mount=document.getElementById("pageMount");
 const answersById={};
 [...d.sections.flatMap(s=>s.checks),...d.practice,...d.mastery,...d.repairs,...d.review,...Object.values(d.reviewSets||{}).flat()].forEach(q=>answersById[q.id]=q);
@@ -87,7 +87,7 @@ function topbar(){
 }
 function hero(){
   const done=completeCount();
-  return '<header class="g21-hero"><div class="g21-hero-copy"><span class="g21-label">GRAMMAR STUDIO <span aria-hidden="true">/</span> CHUYÊN ĐỀ 21</span>'+
+  return '<header class="g21-hero"><div class="g21-hero-copy"><span class="g21-label">GRAMMAR STUDIO <span aria-hidden="true">/</span> CHUYÊN ĐỀ '+topicNum+'</span>'+
     '<h1>'+esc(config.heroVi)+' <span>'+esc(config.heroEn)+'</span></h1>'+
     '<p>'+esc(config.subtitle)+'</p></div>'+
     '<div class="g21-hero-progress"><strong>'+done+' / '+d.sections.length+'</strong><span>bài đã hoàn thành</span></div></header>';
@@ -194,7 +194,7 @@ function feedback(q,pick,wasCorrect,kind){
   if(retry){
     return '<div class="g21-feedback bad g21-v2-hint" role="status">'+
       '<strong>Chưa đúng — thử lại nhé</strong>'+
-      '<p>'+esc(specific||"Kiểm tra lại dấu hiệu đảo ngữ trong câu.")+'</p>'+
+      '<p>'+esc(specific||"Xem lại dấu hiệu ngữ pháp quyết định đáp án.")+'</p>'+
       (note.clue?'<p class="g21-feedback-hint">'+esc(note.clue)+'</p>':"")+
       '</div>';
   }
@@ -382,7 +382,7 @@ function exam(kind){
     '<span class="g21-label">'+(master?"KIỂM TRA CUỐI":"LUYỆN TẬP ĐỘC LẬP")+'</span>'+
     '<h2>'+(master?"Kiểm tra mức độ thành thạo":"Luyện tập vận dụng")+'</h2>'+
     '<p class="g21-lead">'+(master?
-       items.length+" câu mới · Cần đúng từ "+Math.ceil(items.length*0.8)+"/"+items.length+" cùng các kỹ năng cốt lõi (gồm So/Neither/Nor).":
+       items.length+" câu mới · Cần đúng từ "+Math.ceil(items.length*0.8)+"/"+items.length+" cùng các kỹ năng cốt lõi.":
        items.length+" câu luyện tập · Chọn một đáp án để xem lời giải ngay. Mỗi câu chỉ được trả lời một lần.")+'</p>'+
     (!submitted?'<div class="g21-assessment-progress"><span>Đã trả lời <strong>'+summary.answered+'/'+summary.total+'</strong> câu</span>'+
       '<div class="g21-progress" aria-label="Đã trả lời '+summary.answered+' trên '+summary.total+' câu"><span style="width:'+Math.round(summary.answered/summary.total*100)+'%"></span></div></div>':
@@ -562,7 +562,7 @@ function openRoute(hash,session){
   if(!session?.user?.id){mount.style.display="block";mount.innerHTML='<div class="empty">Không thể xác thực tài khoản giáo viên.</div>';return;}
   const uid=session.user.id;
   if(!state||userId!==uid)load(uid);
-  if(hash==="teacher/grammar/topic-21")render(false);
+  if(hash===topicRoute)render(false);
   else render(false);
 }
 function updateAnswer(kind,id,pick){
@@ -595,7 +595,7 @@ mount.addEventListener("click",function(e){
   if(!btn||!mount.contains(btn))return;
   const a=btn.dataset.g21;
   if(a==="home"){location.hash="teacher/grammar";return;}
-  if(a==="open"){state.tab="learn";save();location.hash="teacher/grammar/topic-21";return;}
+  if(a==="open"){state.tab="learn";save();location.hash=topicRoute;return;}
   if(a==="tab"){state.tab=btn.dataset.tab;save();render(false);return;}
   if(a==="review-choose"){state.activeReviewSet=null;save();render(false);return;}
   if(a==="review-select"){
@@ -613,7 +613,7 @@ mount.addEventListener("click",function(e){
   }
   if(a==="lesson"){
     state.lesson=Number(btn.dataset.index)||0;state.tab="learn";save();
-    if(location.hash!="#teacher/grammar/topic-21"){location.hash="teacher/grammar/topic-21";return;}
+    if(location.hash!="#teacher/grammar/topic-21"){location.hash=topicRoute;return;}
     render(false);return;
   }
   if(a==="detect"){
