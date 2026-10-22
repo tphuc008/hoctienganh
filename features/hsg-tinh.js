@@ -367,6 +367,7 @@ function renderPassageForms(g){
     '<div class="hsg-reading-question-head"><span class="hsg-reading-num">'+n+'</span><p>'+esc(short||fallback)+'</p></div>'+
     (stem.length>450?'<details class="hsg-question-full"><summary>Xem toàn bộ câu hỏi</summary><p>'+esc(stem)+'</p></details>':"")+
     '<div class="hsg-current-form">'+passageInput(g,n,q,r)+'</div>'+
+    (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':"")+
     hsgExplanationControl(g,n,q)+
     '<div class="hsg-current-foot"><button type="button" data-hsg-flag aria-pressed="'+!!state.review[k]+'">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu để xem lại')+'</button>'+
     '<span data-hsg-completion>'+(meaningfulAnswer(r)?'Đã trả lời':'Chưa hoàn thành')+'</span>'+
@@ -741,7 +742,8 @@ function renderEditor(){
   inputs='<label class="hsg-input-label">Điền đáp án<input type="text" data-hsg-field="value" autocomplete="off" placeholder="Nhập từ / cụm từ..." value="'+esc(saved.value||"")+'"></label>';
  }
  editor.innerHTML='<div class="hsg-question-kicker"><span>QUESTION '+String(n).padStart(2,"0")+'</span><span>'+esc(q.type.toUpperCase().replace("MCQ","MULTIPLE CHOICE"))+'</span></div>'+
- '<div class="hsg-question-stem">'+esc(stem)+'</div><p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>'+inputs+
+ '<div class="hsg-question-stem">'+esc(stem)+'</div><p class="hsg-form-note">'+(state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?"Câu trả lời đã được giữ nguyên để xem lại.":"Trả lời bên dưới · Tự lưu · Chưa chấm điểm.")+'</p>'+inputs+
+ (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':"")+
  hsgExplanationControl(g,n,q)+
  '<div class="hsg-question-actions"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-flag">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu xem lại')+'</button></div>'+
  '<div class="hsg-question-nav"><button class="secondary" id="hsg-prev-question" type="button"'+(n===g.start?' disabled':'')+'>← Câu trước</button><span>'+ (n-g.start+1)+' / '+(g.end-g.start+1)+'</span><button class="primary" id="hsg-next-question" type="button"'+(n===g.end?' disabled':'')+'>Câu tiếp theo →</button></div>';
