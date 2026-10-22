@@ -292,4 +292,20 @@
 /* The only print rule for this module: prevent the NEW screen navigation
    from appearing on the EXISTING print design. All legacy print CSS,
    pagination, A4 sizing and print functions remain untouched. */
+@media screen {
+  body:not(.mis-reading-mode) .reading-pane-head {
+    background:rgba(255,255,255,.98);border-color:#d9e7f5;
+    color:#1e293b;
+  }
+  body:not(.mis-reading-mode) .reading-pane-head b {color:#2563eb}
+  body:not(.mis-reading-mode) .reading-pane-head span {color:#64748b}
+  body:not(.mis-reading-mode) .reading-text {color:#1e293b}
+  body:not(.mis-reading-mode) .reading-question-pane .question {color:#172b49}
+}
+@media screen and (min-width:821px) and (max-width:860px) {
+  body:not(.mis-reading-mode) .reading-layout,
+  body:not(.mis-reading-mode) .context-reading-layout {
+    grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  }
+}
 @media print { .ui-standard-sidebar { display:none!important } }
