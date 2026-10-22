@@ -405,7 +405,7 @@ function detectiveChallenge(q){
   const pick=record?.pick,solved=record?.solved===true;
   return '<article class="g21-question g21-detective" id="g21-'+q.id+'">'+
    '<div class="g21-qmeta"><span>ERROR DETECTIVE · FIND & FIX</span></div>'+
-   '<p class="g21-prompt">Câu dưới đây có lỗi đảo ngữ. Hãy chọn cách viết đúng.</p>'+
+   '<p class="g21-prompt">Câu dưới đây có lỗi ngữ pháp. Hãy chọn cách viết đúng.</p>'+
    '<div class="g21-broken"><span>CÂU CÓ LỖI</span><p>'+esc(q.wrongSentence)+'</p></div>'+
    '<div class="g21-options g21-fix-options">'+q.choices.map((choice,i)=>
       '<button class="g21-option'+(pick===i?" selected":"")+'" type="button" data-g21="detective-answer" data-id="'+q.id+'" data-index="'+i+'" aria-pressed="'+(pick===i)+'"'+(solved?" disabled":"")+'>'+
@@ -613,7 +613,7 @@ mount.addEventListener("click",function(e){
   }
   if(a==="lesson"){
     state.lesson=Number(btn.dataset.index)||0;state.tab="learn";save();
-    if(location.hash!="#teacher/grammar/topic-21"){location.hash=topicRoute;return;}
+    if(location.hash!=="#"+topicRoute){location.hash=topicRoute;return;}
     render(false);return;
   }
   if(a==="detect"){
