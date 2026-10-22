@@ -16,7 +16,7 @@ const CONFIGS=[
 ];
 const BASE="teacher/hsg-tinh";
 const CACHE=new Map();
-const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17,readingScroll:{passage:0,questions:0}};
+const state={exam:null,data:null,page:0,group:"main",question:21,tab:"all",mode:"mcq",answers:{},review:{},saveTimer:null,passageTextSize:17,passageSplitRatio:54,readingScroll:{passage:0,questions:0}};
 const $=id=>document.getElementById(id);
 /* Compatibility cleanup for portal created by older versions. Exam UI stays in #pageMount. */
 function removeReadingPortal(){document.getElementById("hsg-reading-portal")?.remove()}
@@ -513,9 +513,13 @@ function renderExam(){
    '<span data-hsg-text-size-label aria-live="polite">'+state.passageTextSize+'px</span>'+
    '<button type="button" data-hsg-text-size="larger" aria-label="Tăng cỡ chữ bài đọc" title="Tăng cỡ chữ">A+</button></div>':
    '<span class="hsg-scroll-help">Cuộn độc lập</span>';
+  const splitTools=passage&&e.id==="hai-phong"?'<div class="hsg-hp-workspace-tools" role="group" aria-label="Điều chỉnh độ rộng phần đọc">'+
+  '<span>Không gian đọc</span><button type="button" data-hsg-ratio="62">Văn bản rộng</button>'+
+  '<button type="button" data-hsg-ratio="54">Cân bằng</button>'+
+  '<button type="button" data-hsg-ratio="42">Câu hỏi rộng</button></div>':"";
   const split=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
   '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
-  '<div class="hsg-passage-workspace"><section class="hsg-passage-left" id="hsg-passage-left" aria-label="Đoạn văn" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
+  splitTools+'<div class="hsg-passage-workspace"><section class="hsg-passage-left" id="hsg-passage-left" aria-label="Đoạn văn" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
   '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" id="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
  // One route-owned rendering container for ALL HSG sections.
  removeReadingPortal();
@@ -548,7 +552,10 @@ function renderExam(){
  root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{
   const old=activePassageBlock(g),next=Number(b.dataset.question),now=activePassageBlock(g,next);
   if(g.kind==="mixed"&&old?.start!==now?.start){state.question=next;renderExam()}
-  else if(passage)focusPassageQuestion(next);
+  else if(passage){
+    if(e.id==="hai-phong"&&window.matchMedia("(max-width:880px)").matches)switchPassageTab("questions");
+    focusPassageQuestion(next);
+  }
   else{state.question=next;renderEditor()}
   updateIndicators();queueSave();
  });
@@ -573,6 +580,21 @@ function renderExam(){
   syncTextSize();
  });
  syncTextSize();
+ if(e.id==="hai-phong"&&passage){
+  const grid=root.querySelector(".hsg-passage-workspace");
+  const presets=[...root.querySelectorAll("[data-hsg-ratio]")];
+  const setRatio=value=>{
+   const ratio=Math.max(30,Math.min(70,Number(value)||54));
+   state.passageSplitRatio=ratio;
+   if(grid)grid.style.gridTemplateColumns="minmax(0,"+ratio+"fr) 7px minmax(0,"+(100-ratio)+"fr)";
+   presets.forEach(btn=>{
+    const chosen=Number(btn.dataset.hsgRatio)===ratio;
+    btn.setAttribute("aria-pressed",String(chosen));
+   });
+  };
+  presets.forEach(btn=>btn.onclick=()=>setRatio(btn.dataset.hsgRatio));
+  setRatio(state.passageSplitRatio);
+ }
  $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=openPrintDialog;
  renderEditor();if(passage){setupPassageDivider();attachErrorPassageActions(g);attachStructuredGapActions(g)}
 }
