@@ -472,6 +472,12 @@ function setupPassageDivider(){
   const bounds=grid.getBoundingClientRect();
   const value=Math.max(30,Math.min(70,((event.clientX-bounds.left)/bounds.width)*100));
   grid.style.gridTemplateColumns="minmax(0,"+value+"fr) 7px minmax(0,"+(100-value)+"fr)";
+  if(state.exam?.id==="hai-phong"){
+   state.passageSplitRatio=Math.round(value);
+   document.querySelectorAll(".hsg-hp-v2 [data-hsg-ratio]").forEach(button=>{
+    button.setAttribute("aria-pressed",String(Number(button.dataset.hsgRatio)===state.passageSplitRatio));
+   });
+  }
  };
  divider.addEventListener("pointerdown",event=>{
   if(grid.getBoundingClientRect().width<650)return;
@@ -549,6 +555,15 @@ function renderExam(){
   card?.querySelector("[data-hsg-explain-toggle]")?.click();
  });
  root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{const next=groups(e).find(x=>x.id===b.dataset.group);state.group=next.id;state.question=next.start;renderExam();queueSave()});
+ if(e.id==="hai-phong"){
+  const tabs=root.querySelector(".hsg-group-tabs"),active=tabs?.querySelector(".active");
+  if(tabs&&active){
+   const frame=tabs.getBoundingClientRect(),item=active.getBoundingClientRect();
+   if(item.left<frame.left+12||item.right>frame.right-12){
+    tabs.scrollLeft+=item.left-frame.left-12;
+   }
+  }
+ }
  root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{
   const old=activePassageBlock(g),next=Number(b.dataset.question),now=activePassageBlock(g,next);
   if(g.kind==="mixed"&&old?.start!==now?.start){state.question=next;renderExam()}
