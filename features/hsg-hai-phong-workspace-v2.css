@@ -429,7 +429,7 @@
   width:100%;min-width:0;min-height:40px;
   border:1px solid #c9daee;border-radius:9px;
   background:#f8fbff;color:#284c75;
-  font:750 13px/1.35 inherit;font-size:13px;font-weight:750;
+  font-family:inherit;font-size:13px;line-height:1.35;font-weight:750;
   padding:10px 34px 10px 12px;
   cursor:pointer;box-shadow:none;
  }
@@ -477,7 +477,8 @@
    grid-template-columns:minmax(0,1fr) 115px;
    gap:13px;padding:12px 15px;margin-bottom:13px;
   }
-  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions button{
+  .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions{width:auto}
+ .hsg-hp-v2.hsg-hp-compact .hsg-exam-head-actions button{
    min-height:35px;padding:7px 11px;font-size:11px;
   }
  }
