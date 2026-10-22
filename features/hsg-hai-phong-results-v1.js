@@ -143,14 +143,16 @@ function partRow(p){
 }
 function answerCard(q){
  const st=STATUS[q.status];
+ const resultLabel=q.group==="essay"&&q.status!=="unanswered"?
+   (q.status==="correct"?"Đạt tiêu chí cơ bản":"Chưa đạt tiêu chí cơ bản"):st.label;
  const title=q.group==="essay"?"Paragraph Writing":"Câu "+q.number;
  const short=q.stem.replace(/\s+/g," ").slice(0,110);
- return '<button type="button" class="hsg-rs-question" data-hsg-result-jump="'+e(q.key)+'" aria-label="Xem lại '+e(title)+', '+st.label+'">'+
+ return '<button type="button" class="hsg-rs-question" data-hsg-result-jump="'+e(q.key)+'" aria-label="Xem lại '+e(title)+', '+e(resultLabel)+'">'+
   '<span class="hsg-rs-question-num">'+e(q.group==="essay"?"W":q.number)+'</span>'+
   '<span class="hsg-rs-question-details"><strong>'+e(title)+'</strong><small>'+e(q.part)+'</small>'+
   (short?'<span class="hsg-rs-question-stem">'+e(short)+(q.stem.length>110?"…":"")+'</span>':"")+
   (q.group==="essay"?'<span class="hsg-rs-question-stem">'+e(q.assessment||"")+'</span>':"")+'</span>'+
-  '<span class="hsg-rs-question-status hsg-rs-'+q.status+'">'+st.icon+' '+st.label+'</span>'+
+  '<span class="hsg-rs-question-status hsg-rs-'+q.status+'">'+st.icon+' '+e(resultLabel)+'</span>'+
   '<span class="hsg-rs-question-arrow" aria-hidden="true">›</span></button>';
 }
 function render(root,report,handlers){
