@@ -103,3 +103,12 @@
 }
 @media(prefers-reduced-motion:reduce){.hsg-hp-results *{transition:none!important;animation:none!important}}
 }
+
+
+@media screen {
+ .hsg-hp-v2 .hsg-hp-answer-evaluation{
+   display:flex;justify-content:flex-start;align-items:center;
+   margin:12px 0 4px;
+ }
+ .hsg-hp-v2 .hsg-hp-answer-evaluation+.hsg-hp-explanation{margin-top:8px}
+}
