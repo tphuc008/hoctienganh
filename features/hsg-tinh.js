@@ -334,6 +334,9 @@ function attachHSGExplanationControls(root,g){
     // saved answers, scores, unlocks or answer keys.
     panel.innerHTML=
       global.ExplanationV1.render(spec,{className:"hsg-hp-reference"});
+    // One click reveals both the suggested answer and all three V1.1
+    // explanation stages. The shared renderer remains unchanged.
+    panel.querySelectorAll(".ev1-details").forEach(details=>{details.open=true});
     panel.dataset.rendered="true";
    }
    panel.hidden=!open;button.setAttribute("aria-expanded",String(open));
@@ -343,11 +346,10 @@ function attachHSGExplanationControls(root,g){
 
 function freezeHaiPhongAnswers(root){
  if(state.exam?.id!=="hai-phong"||!state.answerReviewUnlocked||!root)return;
- root.querySelectorAll(
-  "#hsg-answer-editor .answer,#hsg-answer-editor [data-hsg-field],#hsg-answer-editor #hsg-clear,"+
-  "#hsg-answer-editor #hsg-flag,#hsg-answer-list .answer,#hsg-answer-list [data-hsg-choice],"+
-  "#hsg-answer-list [data-hsg-field],#hsg-answer-list [data-hsg-clear],#hsg-answer-list [data-hsg-flag]"
- ).forEach(el=>{el.disabled=true;el.setAttribute("aria-disabled","true")});
+ root.querySelectorAll(".answer,[data-hsg-choice],[data-hsg-field],[data-hsg-clear],"+
+  "[data-hsg-flag],#hsg-clear,#hsg-flag").forEach(el=>{
+   el.disabled=true;el.setAttribute("aria-disabled","true");
+  });
 }
 function renderPassageForms(g){
  const mount=$("hsg-answer-list");if(!mount)return;
