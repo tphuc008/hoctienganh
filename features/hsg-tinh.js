@@ -300,14 +300,15 @@ function passageInput(g,n,q,r){
  */
 function hsgExplanationSource(g,n){
  const typed=structuredPart(g);
- return typed?typed.passage.map(block=>block.text).join("\n"):passageOnly(g,n);
+ return typed?typed.passage.map(block=>block.text).join("\n"):
+  passageOnly(g,n)+"\n"+(getQuestion(g,n)?.stem||"");
 }
 function hsgExplanationControl(g,n,q){
  if(!global.HSGHaiPhongExplanations?.available(
    state.exam?.id,g.id,n,q,hsgExplanationSource(g,n)))return "";
  return '<section class="hsg-hp-explanation" data-hsg-explanation-question="'+n+'">'+
   '<button type="button" class="hsg-hp-explanation-toggle" data-hsg-explain-toggle aria-expanded="false">'+
-  'Xem lời giải tham khảo · Cần rà soát <span aria-hidden="true">⌄</span></button>'+
+  'Xem lời giải V1.1 · Chưa kiểm duyệt <span aria-hidden="true">⌄</span></button>'+
   '<div class="hsg-hp-explanation-panel" data-hsg-explain-panel hidden></div></section>';
 }
 function attachHSGExplanationControls(root,g){
@@ -532,11 +533,11 @@ function renderExam(){
  const root=$("pageMount");
  root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?"Trả lời trực tiếp · Không Listening · 6 câu có lời giải tham khảo (chưa kiểm duyệt đáp án chính thức)":"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
+ '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?"Trả lời trực tiếp · Không Listening · Lời giải tham khảo V1.1 theo từng câu (chưa phải đáp án chính thức)":"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  (e.id==="hai-phong"?
   '<details class="hsg-hp-shortcuts"><summary><span class="hsg-hp-shortcuts-title">Lời giải tham khảo</span>'+
-  '<span class="hsg-hp-shortcuts-count">6 câu minh họa · Cần rà soát</span><span class="hsg-hp-shortcuts-arrow" aria-hidden="true">⌄</span></summary>'+
-  '<div class="hsg-hp-shortcuts-body"><p>Chọn câu để mở phần phân tích tham khảo.</p><div class="hsg-hp-shortcuts-links">'+[46,47,48,51,61,81].map(n=>
+  '<span class="hsg-hp-shortcuts-count">81 mục có lời giải tham khảo · 6 ví dụ nổi bật</span><span class="hsg-hp-shortcuts-arrow" aria-hidden="true">⌄</span></summary>'+
+  '<div class="hsg-hp-shortcuts-body"><p>Mỗi câu trong đề có lời giải V1.1 riêng. Những nút dưới đây chỉ là lối tắt đến 6 ví dụ nổi bật.</p><div class="hsg-hp-shortcuts-links">'+[46,47,48,51,61,81].map(n=>
    '<button type="button" data-hsg-exp-jump="'+n+'">Câu '+n+'</button>').join("")+'</div>'+
   '<small>Đáp án đề xuất chưa đối chiếu đáp án chính thức và không dùng để chấm điểm.</small></div></details>':"")+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
