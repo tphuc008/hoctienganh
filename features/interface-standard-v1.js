@@ -10,7 +10,7 @@
     {id:"tutoring",label:"Học thêm",icon:"◫",href:"#tutoring"},
     {id:"vocab",label:"Vocabulary / Units",icon:"Aa",href:"#grade-12"},
     {id:"grammar",label:"Grammar",icon:"◇",href:"#grammar"},
-    {id:"context",label:"Context Guessing",icon:"⊞",href:"#grade-12"},
+    {id:"context",label:"Context Guessing",icon:"⊞",href:"#grade-12/unit-7/vocabulary-practice-4"},
     {id:"reading",label:"IELTS Reading",icon:"▣",href:"#grade-12/reading"},
     {id:"listening",label:"Listening",icon:"▶",href:"#listening"},
     {id:"exam",label:"Đề kiểm tra",icon:"☷",href:"#grade-10/mid-term-test"},
@@ -42,6 +42,7 @@
   function activeSection(hash){
     if(!hash)return "home";
     if(hash==="history")return "history";
+    if(/\/vocabulary-practice-4$/.test(hash))return "context";
     if(hash==="school"||hash.startsWith("school/"))return "school";
     if(hash==="tutoring")return "tutoring";
     if(hash.startsWith("listening"))return "listening";
