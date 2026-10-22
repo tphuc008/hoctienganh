@@ -308,7 +308,7 @@ function hsgExplanationControl(g,n,q){
    state.exam?.id,g.id,n,q,hsgExplanationSource(g,n)))return "";
  return '<section class="hsg-hp-explanation" data-hsg-explanation-question="'+n+'">'+
   '<button type="button" class="hsg-hp-explanation-toggle" data-hsg-explain-toggle aria-expanded="false">'+
-  'Xem lời giải V1.1 · Chưa kiểm duyệt <span aria-hidden="true">⌄</span></button>'+
+  'Xem lời giải chi tiết <span aria-hidden="true">⌄</span></button>'+
   '<div class="hsg-hp-explanation-panel" data-hsg-explain-panel hidden></div></section>';
 }
 function attachHSGExplanationControls(root,g){
@@ -323,12 +323,12 @@ function attachHSGExplanationControls(root,g){
     const spec=global.HSGHaiPhongExplanations?.spec(
       state.exam?.id,g.id,n,q,hsgExplanationSource(g,n));
     if(!spec||!global.ExplanationV1){
-     panel.textContent="Lời giải tham khảo chưa sẵn sàng; vui lòng kiểm tra lại dữ liệu đề.";
+     panel.textContent="Không thể tải lời giải cho câu này. Vui lòng thử tải lại trang.";
      return;
     }
     // Only display material requested by the user. Do not evaluate or change any
     // saved answers, scores, unlocks or answer keys.
-    panel.innerHTML='<p class="hsg-hp-explanation-disclaimer">Đáp án phân tích tham khảo · Chưa đối chiếu với đáp án chính thức. Không dùng để chấm điểm.</p>'+
+    panel.innerHTML=
       global.ExplanationV1.render(spec,{className:"hsg-hp-reference"});
     panel.dataset.rendered="true";
    }
@@ -533,13 +533,13 @@ function renderExam(){
  const root=$("pageMount");
  root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?"Trả lời trực tiếp · Không Listening · Lời giải tham khảo V1.1 theo từng câu (chưa phải đáp án chính thức)":"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
+ '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?"Trả lời trực tiếp · Không Listening · Lời giải chi tiết V1.1 theo từng câu":"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
  (e.id==="hai-phong"?
-  '<details class="hsg-hp-shortcuts"><summary><span class="hsg-hp-shortcuts-title">Lời giải tham khảo</span>'+
-  '<span class="hsg-hp-shortcuts-count">81 mục có lời giải tham khảo · 6 ví dụ nổi bật</span><span class="hsg-hp-shortcuts-arrow" aria-hidden="true">⌄</span></summary>'+
+  '<details class="hsg-hp-shortcuts"><summary><span class="hsg-hp-shortcuts-title">Lời giải V1.1</span>'+
+  '<span class="hsg-hp-shortcuts-count">81 mục · 6 câu tiêu biểu</span><span class="hsg-hp-shortcuts-arrow" aria-hidden="true">⌄</span></summary>'+
   '<div class="hsg-hp-shortcuts-body"><p>Mỗi câu trong đề có lời giải V1.1 riêng. Những nút dưới đây chỉ là lối tắt đến 6 ví dụ nổi bật.</p><div class="hsg-hp-shortcuts-links">'+[46,47,48,51,61,81].map(n=>
    '<button type="button" data-hsg-exp-jump="'+n+'">Câu '+n+'</button>').join("")+'</div>'+
-  '<small>Đáp án đề xuất chưa đối chiếu đáp án chính thức và không dùng để chấm điểm.</small></div></details>':"")+
+  '</div></details>':"")+
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>'+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
