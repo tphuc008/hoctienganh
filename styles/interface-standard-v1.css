@@ -10,6 +10,22 @@
     --ui-r:14px; --ui-shadow:0 5px 20px rgba(23,47,90,.045);
   }
 
+
+  /* Legacy theme layers included rose gradients. Keep screen identity blue only. */
+  body {background:#f8fbff;color:var(--ui-ink)}
+  body::before {opacity:0}
+  body:not(.mis-reading-mode) .gradient {
+    background:linear-gradient(95deg,#163458,#2563eb 76%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  body:not(.mis-reading-mode) .site-header .logo {
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    box-shadow:0 6px 16px rgba(37,99,235,.12);
+  }
+  body:not(.mis-reading-mode) .eyebrow:before {
+    background:linear-gradient(90deg,#2563eb,transparent);
+  }
+
   /* One common navigation system for all study screens. */
   .ui-standard-sidebar {
     position:fixed;z-index:45;top:0;bottom:0;left:0;width:224px;
