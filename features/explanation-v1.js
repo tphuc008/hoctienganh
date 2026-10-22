@@ -28,7 +28,7 @@ function validated(s){
  const hasExamples=Array.isArray(s.examples)&&s.examples.length===4&&
    s.examples.every((x,i)=>plain(x.en)&&plain(x.vi)&&(!options[i]||plain(x.word)===plain(options[i].word)));
  const evidence=Array.isArray(s.evidence)?s.evidence.filter(Boolean):[s.evidence].filter(Boolean);
- const requirements=plain(s.quickReason)&&evidence.length>0&&plain(s.reasoning||s.analysisHtml||s.legacyHtml);
+ const requirements=s.type==="midterm"?(evidence.length>0&&hasOptions&&hasExamples):(plain(s.quickReason)&&evidence.length>0&&plain(s.reasoning||s.analysisHtml||s.legacyHtml));
  const vocabulary=s.type==="vocabulary";
  return {options,hasOptions,hasExamples,evidence,
   status:requirements&&(!options.length||hasOptions)&&(!vocabulary||hasExamples)&&!s.needsReview&&!([s.quickReason,s.reasoning,s.remember,...options.map(x=>x.analysis)].some(hasFiller))?"ready":"needs_review"};
@@ -56,8 +56,8 @@ function render(spec,opts){
     '<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>3</span><div><b>Vận dụng</b></div></div><div class="semantic-prose">'+
       (s.applicationHtml||app||'<p class="ev1-muted">Ví dụ hoặc quy tắc vận dụng đang chờ kiểm duyệt.</p>')+'</div></section>';
  return '<div class="ev1 feedback semantic-feedback'+(o.className?" "+h(o.className):"")+'" data-explanation-v1="1" data-review-status="'+v.status+'">'+
-   '<div class="feedback-title ev1-answer">Đáp án: '+h(answer||"Đang kiểm tra đáp án")+'</div>'+
-   (s.quickReason?'<p class="ev1-short">'+h(s.quickReason)+'</p>':'<p class="ev1-short ev1-muted">Chưa có lý do ngắn đã được đối chiếu nguồn.</p>')+
+   (s.type==="midterm"?"":'<div class="feedback-title ev1-answer">Đáp án: '+h(answer||"Đang kiểm tra đáp án")+'</div>')+
+   (s.type==="midterm"?"":s.quickReason?'<p class="ev1-short">'+h(s.quickReason)+'</p>':'<p class="ev1-short ev1-muted">Chưa có lý do ngắn đã được đối chiếu nguồn.</p>')+
    warn+'<details class="ev1-details"'+(print?' open':"")+'><summary class="ev1-toggle">'+(print?'Giải thích chi tiết':'Xem giải thích chi tiết')+'</summary><div class="ev1-full">'+body+'</div></details></div>';
 }
 function vocab(q,d){
@@ -90,9 +90,12 @@ function school(item,d){
 function midterm(q,d){
  const opts=(d?.options||[]).map((x,i)=>({word:q.options?.[i]||x.word||"",meaning:x.meaning||"",analysis:x.analysis||"",correct:String.fromCharCode(65+i)===q.answer}));
  const ex=(d?.examples||[]).map((x,i)=>({word:q.options?.[i]||x.word||"",en:x.en,vi:x.vi}));
+ // The paper already shows the learner's answer and reference key.
+ // This panel starts with evidence, not an obvious answer restatement.
  return {type:"midterm",answer:q.answer+(q.options?" — "+(q.options["ABCD".indexOf(q.answer)]||""):""),
-  quickReason:d?.step1?.[1]||d?.step1?.[0]||"",evidence:d?.step1?.length?[d.step1[0]]:[],
-  reasoning:(d?.step1||[]).slice(1).join(" "),options:opts,examples:ex,remember:d?.remember||"",application:q.warning?"Lưu ý đề gốc: "+q.warning:"",needsReview:!!d?.needsReview};
+  quickReason:"",evidence:(d?.step1||[]).filter(Boolean),
+  reasoning:"",options:opts,examples:ex,remember:d?.remember||"",
+  application:q.warning?"Lưu ý đề gốc: "+q.warning:"",needsReview:!!d?.needsReview};
 }
 function marketing(q){
  return {type:"reading",answer:q.answer,quickReason:q.why||"",
