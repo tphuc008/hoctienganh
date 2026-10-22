@@ -74,7 +74,7 @@ function sva(q,opt){
  if(o.endsWith("ing"))return "“"+o+"” là V-ing chưa có trợ động từ để tạo vị ngữ hữu hạn tại vị trí này.";
  if(o.startsWith("has ")||o.startsWith("have "))return "Dạng hoàn thành “"+o+"” cần đúng trợ động từ và cách hiểu chủ ngữ; câu đang kiểm tra hòa hợp “"+a+"”.";
  if(o==="grows"||o==="darken"||o==="stops"||o==="stop")return "Đuôi -s của “"+o+"” không hòa hợp với chủ ngữ; cần “"+a+"”.";
- return "“"+o+"” dùng dạng động từ không hòa hợp với "+decision+"; dạng phù hợp ở câu này là “"+a+"”.";
+ return "“"+o+"” và “"+a+"” khác nhau ở hình thức hòa hợp. Với "+decision+" trong “"+word+"”, động từ phải có dạng “"+a+"”.";
 }
 function conditional(q,opt){
  const a=q.options[0],o=say(opt),s=q.skill,stem=q.stem;
@@ -109,7 +109,7 @@ function conditional(q,opt){
  if(s==="mixed"){
    const futureOrPresent=/now|today/i.test(stem);
    const pastResult=/yesterday|last month/i.test(stem);
-   if(o.startsWith("would have ")||o.startsWith("might have ")||o.startsWith("could have ")){
+   if(/^(?:would|could|might)(?:n't)? have(?:\s|$)/.test(o)){
      if(futureOrPresent)return "“"+o+"” diễn tả hệ quả quá khứ; cụm "+(stem.includes("today")?"today":"now")+" cho biết kết quả đang xét là hiện tại.";
    }
    if(o==="would have had")return "“would have had” giả định đã sở hữu trong quá khứ; now cần “would have” cho trạng thái sở hữu hiện tại.";
@@ -118,7 +118,7 @@ function conditional(q,opt){
    }
    if(o.startsWith("will")||o.startsWith("won't"))return "“"+o+"” là dự báo kết quả thực; điều kiện trái thực tế đòi would/could/might (có have + V3 nếu kết quả ở quá khứ).";
    if(o.startsWith("had ")||o==="were"||o==="isn't"||o==="applied"||o==="didn't make")return "“"+o+"” biến hệ quả giả định thành lời kể sự việc thực tế; không còn đúng quan hệ nguyên nhân–kết quả giả định.";
-   return "“"+o+"” không giữ đúng mốc thời gian của hệ quả, trong khi câu cần “"+a+"”.";
+   return "“"+o+"” không giữ đúng mốc thời gian: điều kiện quá khứ đang dẫn đến một kết quả ở hiện tại/quá khứ khác. Cần “"+a+"” theo mốc thời gian trong câu.";
  }
  if(s==="unless"){
    if(o==="if")return "“if” + điều kiện khẳng định làm kết quả xảy ra khi điều kiện được thỏa, đảo ngược ý 'trừ khi / nếu không' của câu gốc. Đây là lỗi nghĩa, không phải lỗi ngữ pháp.";
@@ -143,7 +143,7 @@ function conditional(q,opt){
    if(o==="Were")return "“Were” cần cấu trúc giả định phù hợp (Were + S + to V/not for/bổ ngữ), không ghép tùy ý với dạng trong câu.";
    if(o==="Should")return "“Should” thường đi với động từ nguyên mẫu để diễn tả điều kiện dự phòng, không thay cho had + V3 hoặc were + to V.";
  }
- return "“"+o+"” không giữ đúng loại điều kiện, mốc thời gian hoặc quan hệ nghĩa của câu; cần “"+a+"”.";
+ return "“"+o+"” thay đổi loại điều kiện hoặc mốc thời gian so với cấu trúc đang kiểm tra; dạng “"+a+"” giữ đúng mối quan hệ giữa hai mệnh đề.";
 }
 function relative(q,opt){
  const a=q.options[0],o=say(opt),s=q.skill,stem=q.stem;
