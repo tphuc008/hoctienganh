@@ -41,15 +41,12 @@ const explain=function explain(q,actualContext){
  const preview=q.stem.split("\n").filter(Boolean)[0];
  const nearby=preview.includes("______")?preview.slice(Math.max(0,preview.indexOf("______")-72),Math.min(preview.length,preview.indexOf("______")+100)):"";
  const snippet=actualContext?.length>180?actualContext.match(new RegExp(`[\\s\\S]{0,95}\\(${q.number}\\)\\s*_+[\\s\\S]{0,125}`))?.[0]||"":"";
- const first=[
- specific.translation?`Dịch nghĩa: ${specific.translation}`:`Ngữ cảnh cần xử lý: “${preview}”. Dịch ý và trọng tâm: ${q.hint.replace(/^[^=]{0,25} = /," là ")}.`,
- `Clue trong đề: ${nearby?`“${nearby.trim()}”`:snippet?`“${snippet.trim()}”`:`“${preview.slice(0,160)}”`}. ${q.hint}.`,
- `Đáp án ${correct} — “${target}”: ${specific.why||[info.meaning,info.scope,q.hint].filter(Boolean).join(". ")}`
- ];
+ const first=[specific.translation?"Dịch nghĩa: "+specific.translation:q.hint];
+ if(snippet)first.push("Ngữ cảnh trong đoạn: “"+snippet.trim()+"”.");
  const options=(q.options||[]).map((value,i)=>{
   const v=optionInfo(value,q),isRight="ABCD"[i]===correct;
   return {label:"ABCD"[i],word:value,meaning:v.meaning,
-    analysis:isRight?[v.meaning,v.scope,q.hint].filter(Boolean).join(". "):
+    analysis:isRight?[specific.why,v.meaning,v.scope,q.hint].filter(Boolean).join(". "):
     [v.meaning,v.scope].filter(Boolean).join(". ")
   };
  });
