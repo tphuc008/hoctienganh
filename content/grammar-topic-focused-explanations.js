@@ -243,7 +243,9 @@ function build(){
    for(const i of [1,2,3]){
     const msg=rules[n](q,q.options[i]);
     if(!msg||msg.length<30||/không thỏa điều kiện ngữ pháp|Dấu hiệu cần kiểm tra|Quy tắc cần dùng/.test(msg))throw Error("Insufficient diagnosis "+q.id+" choice "+i);
-    q.explain.wrong[i]=msg;
+    const exact="“"+q.options[i]+"”";
+    // Name the full option, not just an auxiliary inside it (has/have/will).
+    q.explain.wrong[i]=msg.includes(exact)?msg:exact+": "+msg;
    }
    if(n===5 && q.skill==="collectives")q.pitfall="Family/team/committee có thể dùng số nhiều trong một số ngữ cảnh Anh-Anh; chú ý đề đang hỏi về members hay cả nhóm.";
    if(n===19 && q.skill==="unless")q.pitfall="Một lựa chọn có thể đúng về cấu trúc nhưng trái nghĩa với câu gốc; không gọi đó là lỗi ngữ pháp.";
