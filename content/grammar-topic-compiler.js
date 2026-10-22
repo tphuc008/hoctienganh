@@ -12,6 +12,30 @@ function build(cfg){
    if(stem.split("___").length!==2||!answer||new Set([answer,b,c,e]).size!==4||!vi||!why)throw Error("Invalid example "+l.id);
    return {normal,inverted:stem.replace("___",answer),vi,why};
   });
+  const explainWrong=(opt,why,fault,stem)=>{
+    const key=String(opt).trim().toLowerCase();
+    const specifics={
+      "that":"That không dùng trong mệnh đề quan hệ không xác định có dấu phẩy, cũng không đứng ngay sau giới từ.",
+      "who":"Who chỉ người làm chủ ngữ; không dùng thay where/which/whose nếu chức năng khác.",
+      "whom":"Whom là dạng tân ngữ chỉ người; không phù hợp nếu mệnh đề cần chủ ngữ.",
+      "whose":"Whose thể hiện sở hữu và phải đi với danh từ phía sau.",
+      "which":"Which chỉ vật/sự việc; không thay whom cho người sau giới từ.",
+      "where":"Where chỉ quan hệ nơi chốn, không làm tân ngữ hoặc chủ ngữ thay vật tùy ý.",
+      "when":"When nối thời gian, không thay đại từ quan hệ chỉ vật/người.",
+      "why":"Why nối lí do, thường sau reason trong mệnh đề xác định.",
+      "will be":"Will be không diễn tả trạng thái giả định hiện tại theo mẫu were.",
+      "are":"Are là dạng hiện tại hoặc số nhiều; cần đối chiếu chủ ngữ thật và mốc thời gian.",
+      "is":"Is là dạng hiện tại số ít; cần xem chủ ngữ trung tâm có số ít hay không.",
+      "was":"Was là dạng quá khứ số ít, không phù hợp với tất cả ngữ cảnh hiện tại.",
+      "were":"Were là dạng quá khứ hoặc số nhiều; cần kiểm tra thì và chủ ngữ.",
+      "be":"Be nguyên mẫu không tự làm vị ngữ ở thì hiện tại đơn khi thiếu modal.",
+      "had":"Had đòi hỏi quá khứ phân từ ở mẫu đảo điều kiện quá khứ.",
+      "did":"Did không phải một trong ba trợ động từ Had/Were/Should dùng để bỏ if."
+    };
+    const direct=specifics[key];
+    return "“"+opt+"”: "+(direct||fault||"không phù hợp vị trí, thì hoặc quan hệ nghĩa đang kiểm tra")+
+      " Quy tắc cần dùng: "+why;
+  };
   const questions=l.entries.map((row,j)=>{
    const [normal,stem,answer,b,c,e,vi,why]=row;
    const options=[answer,b,c,e];
@@ -19,7 +43,7 @@ function build(cfg){
    const wrong={};
    for(let k=1;k<4;k++){
     const fault=l.faults?.[k-1]||"không thỏa điều kiện ngữ pháp trong câu";
-    wrong[k]="“"+options[k]+"” "+fault+". Dấu hiệu cần kiểm tra: "+why;
+    wrong[k]=explainWrong(options[k],why,fault,stem);
    }
    const id="t"+cfg.number+"-"+l.id+"-"+String(j+1).padStart(2,"0");
    return {id,skill:l.id,stem:stemLabel,options,correct:0,
@@ -47,8 +71,8 @@ function build(cfg){
  const repairs=sections.map(s=>s.allQuestions[7]);
  const detectives=sections.map((s,i)=>({
   id:"d"+cfg.number+"-"+(i+1),skill:s.id,
-  wrongSentence:s.examples[0].normal,
-  choices:[s.examples[0].inverted,s.examples[1].inverted],correct:0,
+  wrongSentence:s.checks[0].stem.replace("___",s.checks[0].options[1]),
+  choices:[s.examples[0].inverted,s.checks[0].stem.replace("___",s.checks[0].options[1])],correct:0,
   why:s.examples[0].why,clues:[s.contrast,s.misconception]
  }));
  for(const s of sections)delete s.allQuestions;
