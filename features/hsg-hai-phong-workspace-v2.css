@@ -296,3 +296,31 @@
  .hsg-hp-v2 * {scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
 }
+
+
+/* Preset widths are a keyboard-accessible alternative to dragging the divider. */
+@media screen {
+ .hsg-hp-v2 .hsg-hp-workspace-tools{
+   display:flex;align-items:center;justify-content:flex-end;gap:6px;
+   flex-wrap:wrap;min-height:40px;padding:7px 14px;
+   border-bottom:1px solid #e1eaf5;background:#f9fbff;
+ }
+ .hsg-hp-v2 .hsg-hp-workspace-tools>span{
+   margin-right:auto;font-size:10px;font-weight:800;
+   color:#74869e;letter-spacing:.03em;
+ }
+ .hsg-hp-v2 .hsg-hp-workspace-tools button{
+   min-height:28px;padding:5px 9px;font-size:10px;font-weight:750;
+   border-radius:7px;border:1px solid #dbe5f4;background:#fff;
+   color:#516983;cursor:pointer;
+ }
+ .hsg-hp-v2 .hsg-hp-workspace-tools button[aria-pressed="true"]{
+   border-color:#abc8f3;background:#e9f2ff;color:#1d4ed8;
+ }
+ .hsg-hp-v2 .hsg-hp-workspace-tools button:hover{
+   border-color:#93baf1;color:#1d4ed8;
+ }
+ @media(max-width:880px){
+   .hsg-hp-v2 .hsg-hp-workspace-tools{display:none}
+ }
+}
