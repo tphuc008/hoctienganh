@@ -55,6 +55,17 @@ function sva(q,opt){
  if(o==="knows" && /Does anybody/.test(q.stem))return "Sau trợ động từ does, động từ chính phải ở nguyên mẫu know, không thêm -s.";
  if(o==="knew"&&/Does anybody/.test(q.stem))return "Does đã đánh dấu hiện tại đơn, nên theo sau bằng nguyên mẫu know, không phải quá khứ knew.";
  if(o==="are"||o==="is"||o==="was"||o==="were"){
+  if(s==="fractions" && /^The number of\b/i.test(q.stem) && o==="are")
+    return "“are” sai vì danh từ trung tâm là the number (số ít), không phải students ở sau of; dùng is.";
+  if(s==="fractions" && /^A number of\b/i.test(q.stem) && o==="is")
+    return "“is” sai vì a number of + danh từ số nhiều mang nghĩa 'một số', đi với are.";
+  if(s==="coordination"&&["is","are"].includes(o)){
+    const subject=lead(q);
+    const tail=subject.split(/\b(?:nor|or|also)\b/i).pop().trim();
+    if(tail!==subject)
+      return "“"+o+"” không hòa hợp với thành phần gần động từ nhất là “"+tail+"”; phải dùng “"+a+"”.";
+    return "“"+o+"” không hòa hợp với hai chủ ngữ nối bằng and/both…and; dùng “"+a+"”.";
+  }
   if(s==="amounts"||s==="fractions"){
    if(o==="were" && a==="is")return "“were” vừa là quá khứ vừa là số nhiều; bài này xem "+decision+" như số ít ở hiện tại: “is”.";
    if(o==="was" && (a==="are"||a==="were"))return "“was” là quá khứ số ít; chủ ngữ cần động từ số nhiều"+(a==="were"?" ở quá khứ":" ở hiện tại")+".";
@@ -77,7 +88,7 @@ function sva(q,opt){
  return "“"+o+"” và “"+a+"” khác nhau ở hình thức hòa hợp. Với "+decision+" trong “"+word+"”, động từ phải có dạng “"+a+"”.";
 }
 function conditional(q,opt){
- const a=q.options[0],o=say(opt),s=q.skill,stem=q.stem;
+ const a=q.options[0],o=say(opt),s=q.skill,stem=q.stem,lower=o.toLowerCase();
  if(s==="zero"){
    if(o.endsWith("ing"))return "“"+o+"” là V-ing không có trợ động từ, không làm vị ngữ hoàn chỉnh.";
    if(/^would/.test(o))return "“"+o+"” đưa câu sang giả định; ở đây chỉ nói quy luật chung bằng hiện tại đơn.";
@@ -121,13 +132,13 @@ function conditional(q,opt){
    return "“"+o+"” không giữ đúng mốc thời gian: điều kiện quá khứ đang dẫn đến một kết quả ở hiện tại/quá khứ khác. Cần “"+a+"” theo mốc thời gian trong câu.";
  }
  if(s==="unless"){
-   if(o==="if")return "“if” + điều kiện khẳng định làm kết quả xảy ra khi điều kiện được thỏa, đảo ngược ý 'trừ khi / nếu không' của câu gốc. Đây là lỗi nghĩa, không phải lỗi ngữ pháp.";
-   if(o==="when")return "“when” chỉ thời điểm; câu cần ngoại lệ điều kiện, không phải khẳng định việc đó sẽ xảy ra.";
-   if(o==="even if")return "“even if” nghĩa là 'ngay cả nếu', cho rằng kết quả vẫn xảy ra dù điều kiện thay đổi; khác 'trừ khi'.";
+   if(lower==="if")return "“if” + điều kiện khẳng định làm kết quả xảy ra khi điều kiện được thỏa, đảo ngược ý 'trừ khi / nếu không' của câu gốc. Đây là lỗi nghĩa, không phải lỗi ngữ pháp.";
+   if(lower==="when")return "“when” chỉ thời điểm; câu cần ngoại lệ điều kiện, không phải khẳng định việc đó sẽ xảy ra.";
+   if(lower==="even if")return "“even if” nghĩa là 'ngay cả nếu', cho rằng kết quả vẫn xảy ra dù điều kiện thay đổi; khác 'trừ khi'.";
    if(o==="although"||o==="though")return "“"+o+"” chỉ nhượng bộ 'mặc dù', không biểu thị điều kiện ngoại lệ như unless.";
    if(o==="because"||o==="since")return "“"+o+"” nêu nguyên nhân, làm thay đổi quan hệ logic so với 'nếu không'.";
-   if(o==="while")return "“while” chỉ đồng thời/tương phản; không đặt ra điều kiện ngoại lệ.";
-   if(o==="so")return "“so” chỉ kết quả và không dùng để mở mệnh đề điều kiện như chỗ trống này.";
+   if(lower==="while")return "“while” chỉ đồng thời/tương phản; không đặt ra điều kiện ngoại lệ.";
+   if(lower==="so")return "“so” chỉ kết quả và không dùng để mở mệnh đề điều kiện như chỗ trống này.";
  }
  if(s==="provided"){
    if(o==="if only")return "“if only” diễn tả ước muốn/tiếc nuối ('giá mà'), khác điều kiện cần của provided that.";
@@ -202,7 +213,8 @@ function relative(q,opt){
  }
  if(s==="persons"){
    if(a==="whose"){
-     if(o==="who"||o==="whom")return "“"+o+"” không biểu thị quan hệ sở hữu trước danh từ (daughter/son/brother/restaurant); dùng whose + N.";
+     const possessed=say(stem.split("___")[1]).split(/\s+/)[0]||"danh từ";
+     if(o==="who"||o==="whom")return "“"+o+"” không biểu thị quan hệ sở hữu trước “"+possessed+"”; ở đây phải dùng whose + "+possessed+".";
      if(o==="which")return "“which” không biểu thị quan hệ sở hữu và thường chỉ vật, không đặt trực tiếp trước danh từ sở hữu.";
      if(o==="where")return "“where” chỉ nơi chốn, không diễn tả sở hữu trước danh từ.";
    }
@@ -219,7 +231,7 @@ function relative(q,opt){
  if(s==="things"||s==="object"){
    if(o==="who"||o==="whom")return "“"+o+"” thường chỉ người; tiền ngữ là vật/sự việc nên dùng which (hoặc that trong mệnh đề xác định).";
    if(o==="whose")return "“whose” cần danh từ theo sau để chỉ sở hữu; ở vị trí này đại từ quan hệ làm chủ ngữ/tân ngữ.";
-   if(o==="where"||o==="when")return "“"+o+"” chỉ quan hệ nơi chốn/thời gian, nhưng câu cần đại từ quan hệ thay chủ ngữ/tân ngữ của mệnh đề phụ.";
+   if(o==="where"||o==="when")return "“"+o+"” chỉ "+(o==="where"?"nơi chốn":"thời gian")+", trong khi chỗ trống cần đại từ quan hệ làm chủ ngữ/tân ngữ của động từ.";
    if(o==="that")return "“that” không dùng trong mệnh đề không xác định được ngăn bằng dấu phẩy; dùng which.";
  }
  return "“"+o+"” không phù hợp vai trò của đại từ quan hệ tại đây; chọn “"+a+"” theo tiền ngữ và chức năng trong mệnh đề.";
