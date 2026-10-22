@@ -49,9 +49,8 @@ function explain(q,context){
  const meta=g.G10_FIRSTTWO_NOTES?.[q.id];
  if(!meta)return {mode:"semantic_precision",step1:["Chưa có phân tích được xác minh","Chưa đủ bằng chứng","Chưa đủ dữ liệu"],options:[],examples:[],remember:"",needsReview:true};
  const correct="ABCD".indexOf(q.answer);
- const first=["Dịch nghĩa/ngữ cảnh: "+meta.translation,
-  "Vì sao chọn "+q.answer+"? "+meta.why+(meta.evidence?" Bằng chứng trong bài: “"+meta.evidence+"”":""),
-  "Đáp án "+q.answer+" — "+(q.options?.[correct]||"")+". Xét từng phương án: chỉ chọn sau khi kiểm tra đúng từ loại, quan hệ nghĩa, thời, quan hệ tham chiếu và các điều kiện được đề nói rõ."];
+ const first=["Dịch nghĩa: "+meta.translation];
+ if(meta.evidence)first.push("Dẫn chứng: “"+meta.evidence+"”.");
  const options=(q.options||[]).map((value,i)=>({
   label:"ABCD"[i],word:value,meaning:meta.notes[i].split(/[;,.:]/)[0].slice(0,95),analysis:meta.notes[i]
  }));
