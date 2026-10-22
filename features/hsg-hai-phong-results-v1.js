@@ -1,9 +1,4 @@
-/* Hải Phòng · Exam Results V1
- * Results are a reference-based formative review, not an official score.
- * MCQs are compared only when four source options and a matching editorial
- * key are available. Written/open items are not automatically marked wrong.
- * No print, authorisation or answer-reveal logic is owned by this module.
- */
+/* Hải Phòng · Exam Results V2: automatic formative assessment with a limited transparent essay rubric, not official grading. */
 (function(global){
 "use strict";
 const e=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
@@ -130,20 +125,20 @@ function build(sections,answers,resolve){
 }
 function fraction(n,total){return total?Math.round(n/total*1000)/10:0}
 function metricCards(s){
- return [["correct","Đúng"],["wrong","Sai"],["pending","Chờ chấm"],["unanswered","Bỏ trống"]].map(([id,label])=>
+ return [["correct","Đúng"],["wrong","Sai"],["unanswered","Bỏ trống"]].map(([id,label])=>
   '<div class="hsg-rs-stat hsg-rs-stat-'+id+'"><span class="hsg-rs-stat-title"><span class="hsg-rs-stat-symbol">'+
   STATUS[id].icon+'</span>'+label+'</span><strong>'+s[id]+'</strong></div>').join("");
 }
 function progressBar(s){
  const total=s.total||1;
- return '<div class="hsg-rs-bars" role="img" aria-label="'+e(s.correct+' đúng, '+s.wrong+' sai, '+s.pending+' chờ chấm, '+s.unanswered+' bỏ trống')+'">'+
-  ["correct","wrong","pending","unanswered"].map(k=>
+ return '<div class="hsg-rs-bars" role="img" aria-label="'+e(s.correct+' đúng, '+s.wrong+' sai, '+s.unanswered+' bỏ trống')+'">'+
+  ["correct","wrong","unanswered"].map(k=>
    '<span class="hsg-rs-bar-'+k+'" style="width:'+fraction(s[k],total)+'%"></span>').join("")+'</div>';
 }
 function partRow(p){
  const s=p.metrics;
  return '<section class="hsg-rs-part"><div class="hsg-rs-part-top"><div><h3>'+e(p.name)+'</h3><span>Câu '+p.start+'–'+p.end+(p.id==="essay"?" · Bài viết":"")+'</span></div>'+
-  '<span class="hsg-rs-part-stats">'+s.correct+' đúng · '+s.wrong+' sai · '+s.pending+' chờ chấm</span></div>'+
+  '<span class="hsg-rs-part-stats">'+s.correct+' đúng · '+s.wrong+' sai · '+s.unanswered+' bỏ trống</span></div>'+
   progressBar(s)+'</section>';
 }
 function answerCard(q){
@@ -153,13 +148,14 @@ function answerCard(q){
  return '<button type="button" class="hsg-rs-question" data-hsg-result-jump="'+e(q.key)+'" aria-label="Xem lại '+e(title)+', '+st.label+'">'+
   '<span class="hsg-rs-question-num">'+e(q.group==="essay"?"W":q.number)+'</span>'+
   '<span class="hsg-rs-question-details"><strong>'+e(title)+'</strong><small>'+e(q.part)+'</small>'+
-  (short?'<span class="hsg-rs-question-stem">'+e(short)+(q.stem.length>110?"…":"")+'</span>':"")+'</span>'+
+  (short?'<span class="hsg-rs-question-stem">'+e(short)+(q.stem.length>110?"…":"")+'</span>':"")+
+  (q.group==="essay"?'<span class="hsg-rs-question-stem">'+e(q.assessment||"")+'</span>':"")+'</span>'+
   '<span class="hsg-rs-question-status hsg-rs-'+q.status+'">'+st.icon+' '+st.label+'</span>'+
   '<span class="hsg-rs-question-arrow" aria-hidden="true">›</span></button>';
 }
 function render(root,report,handlers){
  if(!root)throw Error("Missing Hai Phong result mount");
- const t=report.totals,denominator=t.graded;
+ const t=report.totals,denominator=t.total;
  root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-hp-v2 hsg-hp-results">'+
   '<div class="breadcrumbs"><button type="button" class="crumb-btn" data-hsg-results-library>HSG tỉnh</button><span>›</span><span>Hải Phòng</span><span>›</span><span>Kết quả</span></div>'+
@@ -169,17 +165,17 @@ function render(root,report,handlers){
   'Xem lại toàn bộ bài làm ↗</button><button type="button" class="hsg-rs-button hsg-rs-button-light" data-hsg-results-resume>Tiếp tục làm bài</button></div></header>'+
   '<main class="hsg-rs-content"><section class="hsg-rs-overview" aria-label="Tổng kết bài làm">'+
   '<div class="hsg-rs-overview-top"><div><div class="hsg-rs-label">TỔNG QUAN</div><h2>'+t.answered+' <span>/ '+t.total+' mục đã làm</span></h2>'+
-  '<p>Đối chiếu tạm thời với bộ đáp án tham khảo cho các câu ABCD đủ dữ liệu.</p></div>'+
+  '<p>Tự động đánh giá toàn bộ câu trả lời theo đáp án tham khảo và tiêu chí riêng từng dạng bài.</p></div>'+
   '<div class="hsg-rs-rate"><strong>'+(denominator?fraction(t.correct,denominator)+'%':"—")+'</strong>'+
-  '<span>Tỷ lệ đúng trong '+denominator+' câu đã đối chiếu</span></div></div>'+
+  '<span>Tỷ lệ đạt trên '+denominator+' mục của đề</span></div></div>'+
   '<div class="hsg-rs-stat-grid">'+metricCards(t)+'</div>'+progressBar(t)+
-  '<p class="hsg-rs-disclaimer">Kết quả này nhằm hỗ trợ ôn tập, không phải điểm thi chính thức. Chỉ các câu trắc nghiệm có đủ phương án và đáp án tham khảo phù hợp mới được đánh dấu đúng/sai. Bài viết, trả lời mở và câu thiếu dữ liệu được giữ ở trạng thái chờ chấm.</p>'+
+  '<p class="hsg-rs-disclaimer">Đây là đánh giá tự động để luyện tập, không phải điểm thi chính thức. Sentence Transformation có thể có câu đồng nghĩa khác chưa được nhận diện. Paragraph Writing chỉ được đánh giá theo 4 tiêu chí cơ bản: độ dài, đúng chủ đề, quan điểm, lý do/ví dụ; không thay thế đánh giá ngôn ngữ hay lập luận của giáo viên.</p>'+
   '</section><section class="hsg-rs-section"><div class="hsg-rs-section-heading"><h2>Kết quả theo từng phần</h2><span>'+report.parts.length+' phần</span></div>'+
   '<div class="hsg-rs-part-card">'+report.parts.map(partRow).join("")+
   '<div class="hsg-rs-legend">'+Object.keys(STATUS).map(k=>'<span><i class="hsg-rs-legend-'+k+'"></i>'+STATUS[k].label+'</span>').join("")+'</div></div></section>'+
   '<section class="hsg-rs-section"><div class="hsg-rs-section-heading"><h2>Đi tới câu hỏi</h2><label class="hsg-rs-filter-label">Lọc trạng thái <select id="hsg-rs-filter">'+
   '<option value="all">Tất cả câu hỏi</option><option value="wrong">Câu sai</option><option value="correct">Câu đúng</option>'+
-  '<option value="pending">Chờ chấm</option><option value="unanswered">Bỏ trống</option></select></label></div>'+
+  '<option value="unanswered">Bỏ trống</option></select></label></div>'+
   '<div class="hsg-rs-questions" id="hsg-rs-questions"></div></section>'+
   '<div class="hsg-rs-footer"><button type="button" class="hsg-rs-button hsg-rs-button-primary" data-hsg-results-review>'+
   'Xem lại bài làm →</button><button type="button" class="hsg-rs-button hsg-rs-button-light" data-hsg-results-resume>Tiếp tục làm bài</button></div>'+
@@ -200,5 +196,5 @@ function render(root,report,handlers){
  const lib=root.querySelector("[data-hsg-results-library]");
  if(lib)lib.onclick=handlers.library;
 }
-global.HSGHaiPhongResults=Object.freeze({version:"1.0",evaluate,build,render,STATUS});
+global.HSGHaiPhongResults=Object.freeze({version:"2.0",evaluate,build,render,STATUS,normalize:norm});
 })(window);
