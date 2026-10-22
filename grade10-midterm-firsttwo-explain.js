@@ -50,7 +50,7 @@ function explain(q,context){
  if(!meta)return {mode:"semantic_precision",step1:["Chưa có phân tích được xác minh","Chưa đủ bằng chứng","Chưa đủ dữ liệu"],options:[],examples:[],remember:"",needsReview:true};
  const correct="ABCD".indexOf(q.answer);
  const first=["Dịch nghĩa: "+meta.translation];
- if(meta.evidence)first.push("Dẫn chứng: “"+meta.evidence+"”.");
+ if(meta.evidence)first.push("Dẫn chứng: “"+meta.evidence.trim()+"”");
  const options=(q.options||[]).map((value,i)=>({
   label:"ABCD"[i],word:value,meaning:meta.notes[i].split(/[;,.:]/)[0].slice(0,95),analysis:meta.notes[i]
  }));
