@@ -112,20 +112,47 @@ const EXPECTED={
  81:["Women are better educated, more attractive to the business world.","The computer is especially lucrative for women today.","Women are better at small businesses than men are.","Women today are opening more businesses of their own."]
 };
 const index=new Map(ITEMS.map(item=>[item.n,item]));
+function expanded(n){
+ return global.HSGHaiPhongExpandedV11?.entries?.find(x=>x.n===Number(n))||null;
+}
+function normalize(s){return String(s||"").replace(/\s+/g," ").toLowerCase().trim()}
 function available(examId,groupId,n,question,passage){
  if(examId!=="hai-phong")return false;
- const item=index.get(Number(n));
- if(!item||item.group!==groupId)return false;
- if(!String(passage||"").includes(item.anchor))return false;
- const required=EXPECTED[n];
- if(required&&(!Array.isArray(question?.options)||question.options.length!==4||
-  required.some((opt,i)=>question.options[i]!==opt)))return false;
- if(n===61&&String(question?.word||"").toLowerCase()!=="promote")return false;
+ const original=index.get(Number(n));
+ if(original){
+  if(original.group!==groupId||!String(passage||"").includes(original.anchor))return false;
+  const required=EXPECTED[n];
+  if(required&&(!Array.isArray(question?.options)||question.options.length!==4||
+   required.some((opt,i)=>question.options[i]!==opt)))return false;
+  if(n===61&&String(question?.word||"").toLowerCase()!=="promote")return false;
+  return true;
+ }
+ const item=expanded(n);
+ if(!item||item.g!==groupId||!question?.stem)return false;
+ if(!normalize(String(passage||"")+" "+question.stem).includes(normalize(item.anchor)))return false;
+ if(/^[A-D]$/.test(item.answer)&&(!Array.isArray(question.options)||question.options.length!==4))return false;
  return true;
 }
 function spec(examId,groupId,n,question,passage){
  if(!available(examId,groupId,n,question,passage))return null;
  const item=index.get(Number(n));
+ if(!item){
+  const record=expanded(n);
+  const indexOfAnswer=/^[A-D]$/.test(record.answer)?record.answer.charCodeAt(0)-65:-1;
+  const options=indexOfAnswer>=0?question.options.map((word,i)=>({
+   word,correct:i===indexOfAnswer,
+   analysis:i===indexOfAnswer?record.why:(record.wrong[i]||"Phương án này không phù hợp bằng đáp án được đề xuất; cần rà soát thêm đối chiếu nguồn.")
+  })):[];
+  const value=indexOfAnswer>=0?record.answer+". "+question.options[indexOfAnswer]:record.answer;
+  return {
+   type:indexOfAnswer>=0?(record.g==="r"||record.g==="rc"?"reading":"grammar"):record.g==="essay"?"essay":"written",
+   answer:value||"Không có một đáp án duy nhất",quickReason:record.why,
+   evidence:[{locator:"Câu "+n+" · "+groupId,quote:record.anchor,note:record.rule}],
+   reasoning:record.rule,options,
+   application:record.use,remember:record.rule,
+   needsReview:true
+  };
+ }
  const options=(question?.options||[]).map((word,i)=>({
   word,meaning:item.optionNotes[i]?.[0]||"",analysis:item.optionNotes[i]?.[1]||"",
   correct:i===item.correct
@@ -140,6 +167,6 @@ function spec(examId,groupId,n,question,passage){
  };
 }
 global.HSGHaiPhongExplanations=Object.freeze({
- version:"preview-v1.1",numbers:Object.freeze(ITEMS.map(x=>x.n)),available,spec
+ version:"editorial-v1.1-full",numbers:Object.freeze(Array.from({length:80},(_,i)=>i+21).concat([1])),available,spec
 });
 })(window);
