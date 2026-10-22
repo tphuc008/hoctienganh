@@ -241,6 +241,29 @@ const extraExamples={
 "6-28":[["In this way, families can save money.","Bằng cách này, các gia đình có thể tiết kiệm tiền."],["On the other hand, electric bikes cost more upfront.","Mặt khác, xe đạp điện có chi phí ban đầu cao hơn."],["For this reason, many people choose buses.","Vì lý do này, nhiều người chọn xe buýt."],["In contrast, cars produce more emissions.","Ngược lại, ô tô thải ra nhiều khí thải hơn."]],
 "6-30":[["These changes will not solve every problem overnight.","Những thay đổi này sẽ không giải quyết mọi vấn đề chỉ sau một đêm."],["Natural resources will be used more carefully.","Tài nguyên thiên nhiên sẽ được sử dụng cẩn thận hơn."],["People will produce more unnecessary waste if they overconsume.","Con người sẽ tạo nhiều rác thừa hơn nếu tiêu thụ quá mức."],["Air pollution will become harder to control without action.","Ô nhiễm không khí sẽ khó kiểm soát hơn nếu không hành động."]]
 };
+// Item-specific distinctions replace empty/generic option explanations.
+const optionRepairs={
+"4-K1-1":{A:"Natural habitat là môi trường sống của sinh vật hoang dã. Câu đang nói phân bổ thời gian giữa công việc, học tập và sinh hoạt, nên cần work-life balance."},
+"4-K1-2":{A:"Take advantage of nghĩa là tận dụng hoặc lợi dụng cơ hội/nguồn lực; không có nghĩa chủ động nhận trách nhiệm làm việc nhà.",B:"Contribute to household chores có thể hiểu là góp sức làm việc nhà, nhưng không diễn đạt rõ việc tự chịu trách nhiệm, vốn là ý nhấn mạnh của câu.",D:"Depend on nghĩa là phụ thuộc vào; depend on household chores không truyền đạt việc trẻ tự đảm nhận nhiệm vụ."},
+"4-K1-4":{B:"Personal skills chỉ kỹ năng của một người, không phải tài nguyên bị hao phí khi đèn và điều hòa vẫn chạy không cần thiết.",D:"Family values là những nguyên tắc gia đình coi trọng, không phải nguồn tài nguyên bị tiêu thụ bởi thiết bị điện."},
+"4-K1-5":{C:"Household-oriented là hướng nhiều đến gia đình và việc nhà, không nhất thiết thể hiện ý thức giảm rác nhựa.",D:"Financially dependent nghĩa là cần người khác hỗ trợ tài chính, không mô tả ý thức bảo vệ môi trường."},
+"4-K1-7":{A:"Family responsibility là trách nhiệm với người thân, không phải đại lượng có thể giảm trực tiếp bằng cách chuyển sang đi xe đạp.",D:"Household income là thu nhập gia đình; câu nói việc giảm phát thải, không phải giảm thu nhập."},
+"4-K1-10":{B:"Consume nghĩa là tiêu thụ hoặc dùng hết tài nguyên. Với quần áo cũ, donate, repair, or reuse mới tạo một chuỗi hành động kéo dài vòng đời sản phẩm."},
+"4-K2-1":{D:"Consume mang nghĩa tiêu thụ. Người ta divide chores (chia việc nhà), không consume chores."},
+"4-K2-4":{A:"Catch up with fast fashion nghĩa là bắt kịp xu hướng thời trang nhanh, trái với mục tiêu giảm tiêu dùng và giảm rác.",B:"Make up for có nghĩa bù đắp cho sự thiếu hụt/thiệt hại; không có nghĩa hạn chế mua sắm theo xu hướng fast fashion.",D:"Take care of nghĩa là chăm sóc hoặc xử lý; không diễn đạt việc cắt giảm mức tiêu thụ fast fashion."},
+"5-5":{A:"Cleans là hiện tại đơn, thường tả thói quen. Right now và busy cho thấy cô ấy đang dọn nhà ở thời điểm nói nên cần is cleaning."},
+"5-7":{C:"Achieve thường đi với goal, target, success; achieve a lifestyle không phải kết hợp thích hợp khi nói bắt đầu theo một lối sống, vốn dùng adopt a lifestyle."},
+"6-1":{A:"Solve thường kết hợp với problem, puzzle hay conflict. Housework là những nhiệm vụ cần chia đều (divide), không phải vấn đề để solve.",C:"Protect nghĩa là bảo vệ khỏi tác hại; protect household chores không diễn đạt phân chia trách nhiệm trong gia đình."},
+"6-4":{A:"Harmful mang nghĩa gây hại, ngược với ý bảo vệ môi trường ở vế trước; sustainable diễn tả cách sống hạn chế tác hại lâu dài."},
+"6-8":{A:"Environment là môi trường, không gọi một màn biểu diễn trước khán giả. Collocation ở đây là give an impressive performance."},
+"6-9":{C:"Musicians là nghệ sĩ biểu diễn. Listen to your favourite musicians vẫn là cách nói đúng và tự nhiên, nên C cũng chấp nhận được bên cạnh D (songs). Câu gốc chưa đủ ràng buộc để có duy nhất một đáp án."},
+"6-11":{D:"Took là dạng quá khứ của take, nhưng usually và before he goes mô tả thói quen hiện tại của chủ ngữ số ít my brother, nên phải là takes."},
+"6-13":{A:"Use là hiện tại đơn, trong khi I think ... in the future đang diễn đạt dự đoán về hành động trong tương lai nên will use trực tiếp hơn.",D:"Used là quá khứ đơn, không tương ứng với mốc in the future của câu dự đoán."},
+"6-18":{B:"Because biểu thị nguyên nhân, trong khi hai vế chỉ hai sở thích âm nhạc khác nhau của chị và em; but làm rõ quan hệ tương phản phù hợp hơn."},
+"6-23":{B:"Audience là những người theo dõi chương trình; show your audience có nghĩa cho khán giả xem chứ không phải thể hiện năng khiếu.",C:"Instrument là nhạc cụ; show your instrument là cho thấy dụng cụ, không diễn đạt thể hiện tài năng ca hát hoặc biểu diễn.",D:"Concert là một sự kiện âm nhạc, không phải năng khiếu cá nhân có thể thể hiện trong cuộc thi."},
+"6-24":{C:"Joined là quá khứ đơn/V3. Trong câu mời 'Please ___ the music club', sau please cần động từ nguyên mẫu join để tạo câu mệnh lệnh."},
+"6-25":{A:"Homework là bài tập về nhà, không phải hoạt động giải trí tạo không khí sôi động ở một lễ hội âm nhạc.",D:"Equipment là thiết bị hoặc dụng cụ; a day full of equipment không diễn đạt trải nghiệm vui vẻ như a day full of entertainment."}
+};
 window.G10_MIDTERM_QUALITY_PREV=window.G10_MIDTERM_EXPLAIN;
 window.G10_MIDTERM_EXPLAIN=function(q,context){
  const d=window.G10_MIDTERM_QUALITY_PREV(q,context);
@@ -283,6 +306,7 @@ window.G10_MIDTERM_EXPLAIN=function(q,context){
    }
    if(custom)analysis=custom;
    if(custom||p)o.analysis=analysis;
+   if(!String(o.analysis||"").trim()&&optionRepairs[q.id]?.[o.label])o.analysis=optionRepairs[q.id][o.label];
    return o;
  });
  d.examples=d.examples.map((e,i)=>{
