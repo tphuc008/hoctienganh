@@ -107,7 +107,7 @@ L("collectives","Danh từ tập hợp và khác biệt văn phong",
 "The committee members decides individually. ~ The committee members ___ individually. ~ decide ~ decides ~ deciding ~ has decided ~ Các thành viên ủy ban quyết định riêng lẻ. ~ Members số nhiều dùng decide.",
 "Her family members lives in different cities. ~ Her family members ___ in different cities. ~ live ~ lives ~ living ~ has lived ~ Người nhà cô ấy sống ở các thành phố khác nhau. ~ Members là số nhiều.",
 "Every member of the team are present. ~ Every member of the team ___ present. ~ is ~ are ~ be ~ were ~ Mỗi thành viên đội đều có mặt. ~ Every member số ít, không phải team.",
-"A group of students are gathering as a unit. ~ A group of students ___ forming outside the hall. ~ is ~ are ~ be ~ were ~ Một nhóm học sinh đang tập hợp bên ngoài hội trường. ~ A group làm trung tâm số ít trong cách xem là một đơn vị.",
+"Every group of students are gathering as a unit. ~ Every group of students ___ forming outside the hall. ~ is ~ are ~ be ~ were ~ Mỗi nhóm học sinh đang tập hợp bên ngoài hội trường. ~ Every group buộc danh từ trung tâm ở số ít.",
 "The two teams is competing. ~ The two teams ___ competing today. ~ are ~ is ~ be ~ was ~ Hai đội đang thi đấu hôm nay. ~ Teams là danh từ số nhiều rõ ràng.",
 "Each family have its own room. ~ Each family ___ its own room. ~ has ~ have ~ having ~ are having ~ Mỗi gia đình có phòng riêng. ~ Each family số ít.",
 "All committee members was invited. ~ All committee members ___ invited. ~ were ~ was ~ be ~ is ~ Tất cả thành viên ủy ban đã được mời. ~ Members số nhiều và bối cảnh quá khứ: were.",
@@ -159,4 +159,7 @@ g.GrammarTopic5Data=g.GrammarTopicCompiler.build({
  ["Correct: The number of students are increasing.","The number of students is increasing.",["The number là trung tâm","is"]],
  ["Correct: There is several reasons to disagree.","There are several reasons to disagree.",["There không phải chủ ngữ thật","reasons số nhiều"]]
  ]});
+const sva=g.GrammarTopic5Data;
+sva.sections.find(s=>s.id==="collectives").extras.push({title:"Danh từ tập hợp: Anh-Anh và Anh-Mỹ",rule:"The committee is có thể nhấn mạnh ủy ban như một đơn vị; the committee are có thể chấp nhận trong tiếng Anh-Anh khi nhấn mạnh các thành viên. Tránh đề trắc nghiệm đặt hai lựa chọn này cạnh nhau nếu không có ngữ cảnh rõ.",example:"The team is ready. / The team members are ready.",vi:"Đội đã sẵn sàng. / Các thành viên đội đã sẵn sàng."});
+sva.sections.find(s=>s.id==="indefinite").extras.push({title:"Either/Neither of + danh từ số nhiều",rule:"Động từ số ít thường được ưu tiên trong văn viết trang trọng; số nhiều cũng xuất hiện trong lời nói. Hãy xét biến thể và ngữ cảnh trước khi kết luận một câu sai.",example:"Neither of the proposals is convincing.",vi:"Không đề xuất nào thuyết phục."});
 })(window);
