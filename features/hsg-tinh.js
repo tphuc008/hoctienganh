@@ -599,19 +599,24 @@ function renderExam(){
  removeReadingPortal();
  const root=$("pageMount");
  root.style.display="block";
- root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?(state.answerReviewUnlocked?"Xem lại bài làm · Mở đáp án và giải thích dưới từng câu":"Làm bài trực tuyến · Tự động lưu tiến độ"):"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button>'+(e.id==="hai-phong"?"":'<button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button>')+
+ root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2 hsg-hp-compact':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
+ '<div class="hsg-exam-head"><div><div class="hsg-kicker">'+(e.id==="hai-phong"?"ĐỀ THI TIẾNG ANH CHUYÊN · ":"INTERACTIVE EXAM · ")+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1>'+
+ (e.id==="hai-phong"?"":'<p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p>')+'</div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button>'+(e.id==="hai-phong"?"":'<button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button>')+
  (e.id==="hai-phong"?'<button type="button" id="hsg-toggle-answer-review" class="hsg-hp-review-switch" aria-pressed="'+(state.answerReviewUnlocked?'true':'false')+'">'+
    (state.answerReviewUnlocked?'← Về trang kết quả':'Kết thúc bài làm')+'</button>':"")+'</div></div>'+
- (e.id==="hai-phong"&&state.answerReviewUnlocked?
-  '<details class="hsg-hp-shortcuts"><summary><span class="hsg-hp-shortcuts-title">Lời giải V1.1</span>'+
-  '<span class="hsg-hp-shortcuts-count">81 mục · 6 câu tiêu biểu</span><span class="hsg-hp-shortcuts-arrow" aria-hidden="true">⌄</span></summary>'+
-  '<div class="hsg-hp-shortcuts-body"><p>Mỗi câu trong đề có lời giải V1.1 riêng. Những nút dưới đây chỉ là lối tắt đến 6 ví dụ nổi bật.</p><div class="hsg-hp-shortcuts-links">'+[46,47,48,51,61,81].map(n=>
-   '<button type="button" data-hsg-exp-jump="'+n+'">Câu '+n+'</button>').join("")+'</div>'+
-  '</div></details>':"")+
- (e.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-review-note" role="status"><strong>Chế độ xem đáp án</strong><span>Giữ nguyên bài làm của bạn. Chọn “Xem đáp án / giải thích” dưới mỗi câu để mở lời giải.</span></div>':"")+
+ (e.id==="hai-phong"?'<div class="hsg-hp-compact-nav" aria-label="Điều hướng phần thi và tiến độ">'+
+  '<div class="hsg-hp-part-picker"><label for="hsg-hp-part-select">'+
+  (state.answerReviewUnlocked?'ĐANG XEM LẠI':'PHẦN ĐANG LÀM')+' · '+(groups(e).findIndex(x=>x.id===g.id)+1)+'/'+groups(e).length+'</label>'+
+  '<select id="hsg-hp-part-select" aria-label="Chọn phần của đề Hải Phòng">'+
+  groups(e).map(x=>'<option value="'+esc(x.id)+'"'+(x.id===g.id?' selected':'')+'>'+esc(x.name)+'</option>').join("")+'</select>'+
+  '<span id="hsg-save-status" class="hsg-hp-save-status" role="status">Tự động lưu theo tài khoản</span></div>'+
+  '<div class="hsg-hp-compact-progress"><div class="hsg-hp-compact-progress-top">'+
+  '<strong id="hsg-progress-num">'+done+'/'+total+'</strong><span>câu đã làm</span></div>'+
+  '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div>'+
+  '<div class="hsg-hp-compact-progress-bottom"><span>Phạm vi: '+(g.id==="essay"?"Bài viết":g.start+'–'+g.end)+'</span>'+
+  '<span id="hsg-progress-pct">'+pct+'%</span></div></div></div>':
  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
- '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>'+
+ '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>')+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
  (passage?split:'<section class="hsg-study-question" id="hsg-answer-editor" aria-label="Câu hỏi"></section><details class="hsg-source-details"><summary>Xem nguyên văn đề gốc</summary><div class="hsg-original-pages">'+originalPages(g)+'</div></details>')+
  '</main>'+(passage?'':'<aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside>')+'</div></div>';
@@ -626,26 +631,15 @@ function renderExam(){
   state.answerReviewUnlocked=false;state.resultVisible=false;
   renderExam();queueSave();
  };
- root.querySelectorAll("[data-hsg-exp-jump]").forEach(button=>button.onclick=()=>{
-  const n=Number(button.dataset.hsgExpJump);
-  const part=groups(e).find(g=>g.id!=="essay"&&n>=g.start&&n<=g.end);
-  if(!part)return;
-  state.group=part.id;state.question=n;
-  renderExam();queueSave();
-  const card=document.getElementById("hsg-question-"+n);
-  card?.scrollIntoView({block:"nearest",behavior:"auto"});
-  card?.querySelector("[data-hsg-explain-toggle]")?.click();
+ const hpPartSelect=root.querySelector("#hsg-hp-part-select");
+ if(hpPartSelect)hpPartSelect.onchange=()=>{
+  const next=groups(e).find(x=>x.id===hpPartSelect.value);if(!next)return;
+  state.group=next.id;state.question=next.start;renderExam();queueSave();
+ };
+ root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{
+  const next=groups(e).find(x=>x.id===b.dataset.group);if(!next)return;
+  state.group=next.id;state.question=next.start;renderExam();queueSave();
  });
- root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{const next=groups(e).find(x=>x.id===b.dataset.group);state.group=next.id;state.question=next.start;renderExam();queueSave()});
- if(e.id==="hai-phong"){
-  const tabs=root.querySelector(".hsg-group-tabs"),active=tabs?.querySelector(".active");
-  if(tabs&&active){
-   const frame=tabs.getBoundingClientRect(),item=active.getBoundingClientRect();
-   if(item.left<frame.left+12||item.right>frame.right-12){
-    tabs.scrollLeft+=item.left-frame.left-12;
-   }
-  }
- }
  root.querySelectorAll("[data-question]").forEach(b=>b.onclick=()=>{
   const old=activePassageBlock(g),next=Number(b.dataset.question),now=activePassageBlock(g,next);
   if(g.kind==="mixed"&&old?.start!==now?.start){state.question=next;renderExam()}
