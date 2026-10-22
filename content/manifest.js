@@ -147,9 +147,9 @@
   const handlerDependencies=Object.freeze({
     "school-ui.js":["school-grade10-midterm1.js","school-grade10-explanations.js"],
     "grade10-midterm.js":[
-      "grade10-midterm-data.js","grade10-midterm-explanations.js",
-      "grade10-midterm-precision.js","grade10-midterm-reading-details.js",
-      "grade10-midterm-quality.js",
+      "grade10-midterm-data.js","grade10-midterm-explanations.js?v=20261022-clean-v1",
+      "grade10-midterm-precision.js?v=20261022-clean-v1","grade10-midterm-reading-details.js?v=20261022-clean-v1",
+      "grade10-midterm-quality.js?v=20261022-clean-v1",
       "features/grade10-midterm-progress.js?v=20261021-unified-v1",
       "features/grade10-midterm-six-tests.js?v=20261021-unified-v1",
       "grade10-midterm-firsttwo-data.js",
@@ -157,7 +157,7 @@
       "grade10-midterm-test2-notes.js",
       "grade10-midterm-firsttwo-usage.js",
       "grade10-midterm-firsttwo-context-examples.js",
-      "grade10-midterm-firsttwo-explain.js"
+      "grade10-midterm-firsttwo-explain.js?v=20261022-clean-v1"
     ]
   });
   async function ensureHandler(item){
