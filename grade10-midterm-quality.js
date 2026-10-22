@@ -257,7 +257,7 @@ window.G10_MIDTERM_EXPLAIN=function(q,context){
        ?"Phương án in không đủ "+key.length+" thành phần: chỉ có "+seq.length+" thành phần, không thể là một thứ tự hoàn chỉnh."
        :!bad
        ?"Các cặp nối liên tiếp khớp với mạch hợp lý "+key.join(" → ")+". "+q.hint+"."
-       :"Sai ở điểm nối "+bad.join(" → ")+": “"+(bits[bad[0]]||bad[0])+"” đứng ngay trước “"+(bits[bad[1]]||bad[1])+"”, nhưng trong mạch hợp lý vị trí sau "+bad[0]+" là "+(key[key.indexOf(bad[0])+1]||"kết thúc")+". Cần đối chiếu chức năng câu và lượt lời, không chỉ nhìn các từ nối.";
+       :"Sai ở điểm nối "+bad.join(" → ")+": “"+(bits[bad[0]]||bad[0])+"” đứng ngay trước “"+(bits[bad[1]]||bad[1])+"”, nhưng trong mạch hợp lý vị trí sau "+bad[0]+" là "+(key[key.indexOf(bad[0])+1]||"kết thúc")+".";
     return o;
   });
   d.examples=d.examples.map((e,i)=>{
@@ -265,8 +265,8 @@ window.G10_MIDTERM_EXPLAIN=function(q,context){
     const pair=bad||seq.slice(0,2);
     return {...e,en:(bits[pair[0]]||pair[0])+" → "+(bits[pair[1]]||pair[1]),vi:bad?"Ví dụ cặp câu bị sắp sai: đối chiếu lại lượt lời hoặc quan hệ thời gian/đại từ.":"Ví dụ một cặp câu nối tiếp hợp logic trong thứ tự đúng."};
   });
-  d.step1[2]="Thứ tự phù hợp: "+key.join(" → ")+". "+q.hint+". Hãy kiểm tra điểm bắt đầu, từng cặp liền kề và câu kết; các phương án nhiễu thường đảo một cặp làm đứt quan hệ hỏi–đáp hoặc diễn tiến thông tin.";
-  d.remember="Với sắp xếp: kiểm tra cặp hỏi–đáp, người nói, đại từ hồi chỉ, trật tự thời gian và chức năng của câu kết. Kiểm tra mọi điểm nối giữa hai câu trước khi chọn "+q.answer+".";
+  
+  
   return d;
  }
  const fallback=/The teacher asked us to check the word choice|In a classroom discussion, a student considered the claim/;
@@ -293,9 +293,6 @@ window.G10_MIDTERM_EXPLAIN=function(q,context){
    return p?{...e,en:p.en,vi:p.tr}:e;
  });
  if(q.id==="4-K1-6")d.remember="reduce food waste = giảm lãng phí thực phẩm. Food waste là lượng thức ăn không được sử dụng và bị bỏ đi, khác với family bonding hoặc gender equality.";
- if((notes||grammarNotes[q.id])&&d.step1.length>2){
-  d.step1[2]="Đáp án dự kiến "+q.answer+" — "+good+". "+(notes||grammarNotes[q.id])["ABCD".indexOf(q.answer)]+(q.warning?" Lưu ý: xem ghi chú về câu hỏi có vấn đề trong đề in.":"");
- }
  if(d.examples.some(e=>fallback.test(e.en))&&!d.remember.includes("đề gốc")){
   d.remember+=" Lưu ý: với đáp án là cụm/mệnh đề dài hoặc có lỗi sẵn trong đề, ví dụ minh họa cần được hiểu theo cấu trúc đúng thay vì học thuộc nguyên văn lựa chọn sai.";
  }
