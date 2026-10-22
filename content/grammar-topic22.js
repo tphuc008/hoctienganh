@@ -159,4 +159,8 @@ g.GrammarTopic22Data=g.GrammarTopicCompiler.build({
  ["Combine as non-defining: My father is a doctor. He lives in Hanoi.","My father, who lives in Hanoi, is a doctor.",["dấu phẩy","không dùng that"]],
  ["Reduce: The books which were printed last year are sold out.","The books printed last year are sold out.",["V3 bị động","không bỏ nghĩa thời gian"]]
  ]});
+const relative=g.GrammarTopic22Data;
+relative.sections.find(s=>s.id==="object").extras.push({title:"Khi nào lược đại từ quan hệ?",rule:"Chỉ thường lược khi đại từ là tân ngữ của mệnh đề quan hệ xác định, không lược chủ ngữ và không lược trong mệnh đề không xác định.",example:"The report (which) I read was useful. / The report which changed my mind was useful.",vi:"Báo cáo tôi đọc rất hữu ích. / Báo cáo khiến tôi đổi ý rất hữu ích."});
+relative.sections.find(s=>s.id==="persons").extras.push({title:"Whose không chỉ dùng cho người",rule:"Whose cũng có thể thể hiện sở hữu hoặc mối liên hệ với vật/tổ chức; of which là lựa chọn trang trọng khác.",example:"A company whose products are reliable can earn trust.",vi:"Một công ty có sản phẩm đáng tin cậy có thể tạo dựng lòng tin."});
+relative.sections.find(s=>s.id==="reduction").extras.push({title:"Không rút mọi mệnh đề quan hệ",rule:"Hãy kiểm tra chủ ngữ và quan hệ chủ động/bị động trước khi rút. Với mệnh đề không xác định, việc rút còn phụ thuộc cấu trúc và ý nghĩa; không máy móc bỏ which.",example:"The students waiting outside are nervous.",vi:"Những học sinh đang chờ bên ngoài cảm thấy lo lắng."});
 })(window);
