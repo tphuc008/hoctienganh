@@ -1,7 +1,8 @@
-/* Hải Phòng 2026–2027 · Explanation Standard V1.1 editorial preview.
- * SIX reviewed-for-structure reference items only. These are proposed answers
- * inferred from the original exam, NOT an official answer key and NOT scoring.
- * The original student answers / grading remain untouched.
+/* Hải Phòng 2026–2027 · Explanation Standard V1.1 editorial edition.
+ * Preserve the six original handcrafted references; add the other 75 question-
+ * specific records from hsg-hai-phong-v11-full.js. All 81 items are editorial
+ * proposals requiring verification, NOT an official key and NOT scoring.
+ * The existing student drafts and print routines are never modified here.
  */
 (function(global){
 "use strict";
