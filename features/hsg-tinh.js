@@ -600,7 +600,7 @@ function renderExam(){
  const root=$("pageMount");
  root.style.display="block";
  root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?(state.answerReviewUnlocked?"Xem lại bài làm · Mở đáp án và giải thích dưới từng câu":"Làm bài trực tuyến · Tự động lưu tiến độ"):"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button><button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button>'+
+ '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1><p>'+(e.id==="hai-phong"?(state.answerReviewUnlocked?"Xem lại bài làm · Mở đáp án và giải thích dưới từng câu":"Làm bài trực tuyến · Tự động lưu tiến độ"):"Trả lời trực tiếp · Không Listening · Chưa có lời giải")+'</p></div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button>'+(e.id==="hai-phong"?"":'<button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button>')+
  (e.id==="hai-phong"?'<button type="button" id="hsg-toggle-answer-review" class="hsg-hp-review-switch" aria-pressed="'+(state.answerReviewUnlocked?'true':'false')+'">'+
    (state.answerReviewUnlocked?'← Về trang kết quả':'Kết thúc bài làm')+'</button>':"")+'</div></div>'+
  (e.id==="hai-phong"&&state.answerReviewUnlocked?
@@ -692,7 +692,8 @@ function renderExam(){
   presets.forEach(btn=>btn.onclick=()=>setRatio(btn.dataset.hsgRatio));
   setRatio(state.passageSplitRatio);
  }
- $("hsg-export").onclick=exportAnswers;$("hsg-print").onclick=openPrintDialog;
+ const exportButton=$("hsg-export");if(exportButton)exportButton.onclick=exportAnswers;
+ $("hsg-print").onclick=openPrintDialog;
  renderEditor();if(passage){setupPassageDivider();attachErrorPassageActions(g);attachStructuredGapActions(g)}
 }
 function updateIndicators(){
