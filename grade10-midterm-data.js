@@ -64,5 +64,5 @@ FLAGS["5-13"]="C (will recycle) là quyết định tại thời điểm nói; B
 FLAGS["5-14"]="B (are going to clean) phù hợp nếu đã có kế hoạch; C (will clean) có thể đúng nếu quyết định tại lúc thấy rác. Câu không nói rõ thời điểm hình thành quyết định.";
 FLAGS["6-26"]="Không có lựa chọn nào tạo câu hoàn toàn chuẩn như in đề: B cho ý đúng nhưng gây comma splice. Phiên bản sửa: 'In addition, they can save water by taking shorter showers and fixing leaking taps.' Không tính điểm câu gốc.";
 FLAGS["6-29"]="Không có lựa chọn nào tạo câu hoàn toàn hợp ngữ pháp/nghĩa như in đề. A gây dangling modifier: chủ ngữ của 'by providing' phải là schools, không phải students. Viết lại: 'By providing environmental education, schools can help students understand ...'. Không tính điểm câu gốc.";
-window.G10_MIDTERM_PARSE=(text)=>applyAnswers(parseSource(text));
+FLAGS["6-9"]="Listen to their favourite musicians và listen to their favourite songs đều dùng được. Vì vậy C và D đều là phương án hợp lệ; đề gốc không phân biệt hai nghĩa này.";window.G10_MIDTERM_PARSE=(text)=>applyAnswers(parseSource(text));
 })();
