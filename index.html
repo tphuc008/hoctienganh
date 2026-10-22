@@ -1376,13 +1376,13 @@ function ensureTeacherHSG(){
     hsgAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/hsg-tinh.css?v=20261021-hp-exp-v11b");
       await loadGrammar21Asset("link","features/hsg-print.css?v=20261021-error-lines-v1");
-      await loadGrammar21Asset("link","features/hsg-hai-phong-workspace-v2.css?v=20261022-hp-v2b");
+      await loadGrammar21Asset("link","features/hsg-hai-phong-workspace-v2.css?v=20261022-hp-practice-review-v1");
       await loadGrammar21Asset("script","features/hsg-part-system.js?v=20261021-pilot-v3");
       await loadGrammar21Asset("script","features/hsg-print-engine.js?v=20261021-print-v11");
       await loadGrammar21Asset("script","features/hsg-error-lines.js?v=20261021-error-lines-v3");
-      await loadGrammar21Asset("script","features/hsg-hai-phong-v11-full.js?v=20261022-full-v11b");
+      await loadGrammar21Asset("script","features/hsg-hai-phong-v11-full.js?v=20261022-hp-keys-corrected");
       await loadGrammar21Asset("script","features/hsg-hai-phong-explanations.js?v=20261022-full-v11");
-      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261022-hp-v2c");
+      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261022-hp-practice-review-v1");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});
   }
