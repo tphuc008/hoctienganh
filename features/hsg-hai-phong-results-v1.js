@@ -16,7 +16,8 @@ const STATUS=Object.freeze({
 const stat=()=>({correct:0,wrong:0,pending:0,unanswered:0,total:0,answered:0,graded:0});
 function meaningful(r){
  if(!r)return false;
- if(r.type==="error")return !!(String(r.error||"").trim()&&String(r.correction||"").trim());
+ // Even a partial correction is an attempted answer, not an empty response.
+ if(r.type==="error")return !!(String(r.line||"").trim()||String(r.error||"").trim()||String(r.correction||"").trim());
  return !!(String(r.value||"").trim()||String(r.error||"").trim()||String(r.correction||"").trim());
 }
 function evaluate(question,response,reference,sourceVerified){
