@@ -159,4 +159,8 @@ g.GrammarTopic19Data=g.GrammarTopicCompiler.build({
  ["Rewrite with Unless: If you don't revise, you may forget.","Unless you revise, you may forget.",["unless + khẳng định","không phủ định hai lần"]],
  ["Rewrite without if: If she had checked the schedule, she would have known.","Had she checked the schedule, she would have known.",["bỏ if","Had + S + V3"]]
  ]});
+const cond=g.GrammarTopic19Data;
+cond.sections.find(s=>s.id==="second").extras.push({title:"Were hay was trong câu giả định?",rule:"Were thường được ưu tiên trong văn phong trang trọng hoặc bài thi, nhất là If I were you. Was vẫn xuất hiện trong hội thoại đối với một số ngữ cảnh giả định.",example:"If I were you, I would apologise.",vi:"Nếu là bạn, tôi sẽ xin lỗi."});
+cond.sections.find(s=>s.id==="unless").extras.push({title:"Unless không luôn thay được if…not",rule:"Unless thường mang nghĩa trừ khi/except if, không phù hợp với mọi giả định phản thực trong quá khứ. Cần kiểm tra sự tương đương nghĩa, không chỉ đảo phủ định.",example:"If I hadn't met her, I wouldn't be here now.",vi:"Nếu tôi không gặp cô ấy, giờ tôi đã không ở đây."});
+cond.sections.find(s=>s.id==="first").extras.push({title:"Ngoại lệ will trong mệnh đề if",rule:"Will có thể xuất hiện sau if để thể hiện sự sẵn lòng hoặc nói về hệ quả tương lai của một tình huống; quy tắc tránh will chỉ áp dụng cho điều kiện tương lai thông thường.",example:"If you will wait a moment, I'll check the details.",vi:"Nếu bạn vui lòng chờ một chút, tôi sẽ kiểm tra chi tiết."});
 })(window);
