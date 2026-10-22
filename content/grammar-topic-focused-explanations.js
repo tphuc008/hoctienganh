@@ -132,7 +132,7 @@ function conditional(q,opt){
    return "“"+o+"” không giữ đúng mốc thời gian: điều kiện quá khứ đang dẫn đến một kết quả ở hiện tại/quá khứ khác. Cần “"+a+"” theo mốc thời gian trong câu.";
  }
  if(s==="unless"){
-   if(lower==="if")return "“if” + điều kiện khẳng định làm kết quả xảy ra khi điều kiện được thỏa, đảo ngược ý 'trừ khi / nếu không' của câu gốc. Đây là lỗi nghĩa, không phải lỗi ngữ pháp.";
+   if(lower==="if")return "“"+o+"” + điều kiện khẳng định khiến kết quả xảy ra khi điều kiện được thỏa; ngược nghĩa 'trừ khi'. Đây là lỗi nghĩa, không phải lỗi ngữ pháp.";
    if(lower==="when")return "“when” chỉ thời điểm; câu cần ngoại lệ điều kiện, không phải khẳng định việc đó sẽ xảy ra.";
    if(lower==="even if")return "“even if” nghĩa là 'ngay cả nếu', cho rằng kết quả vẫn xảy ra dù điều kiện thay đổi; khác 'trừ khi'.";
    if(o==="although"||o==="though")return "“"+o+"” chỉ nhượng bộ 'mặc dù', không biểu thị điều kiện ngoại lệ như unless.";
