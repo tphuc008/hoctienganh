@@ -590,6 +590,7 @@ function updateAnswer(kind,id,pick){
   save();render(true);
 }
 mount.addEventListener("click",function(e){
+  if(location.hash.replace(/^#/,"")!==topicRoute)return;
   const btn=e.target.closest("[data-g21]");
   if(!btn||!mount.contains(btn))return;
   const a=btn.dataset.g21;
@@ -691,6 +692,7 @@ mount.addEventListener("click",function(e){
   }
 });
 mount.addEventListener("input",function(e){
+  if(location.hash.replace(/^#/,"")!==topicRoute)return;
   const id=e.target.dataset?.g21Write;
   if(!id||!writing.some(x=>x.id===id))return;
   state.writes[id]=e.target.value;
