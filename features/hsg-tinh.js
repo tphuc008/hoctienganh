@@ -170,13 +170,31 @@ function getQuestion(g,n){
    const fragment=p.t.slice(match.index+match[0].length,matches[i+1]?.index??p.t.length).trim();
    const op=parseOptions(fragment),stem=(op?fragment.slice(0,op.first):fragment).split(/\n(?:YOUR ANSWERS|Your answers)/)[0].trim();
    const score=(op?30:0)+Math.min(stem.length/20,30)-(fragment.length>1500?15:0);
-   if(stem||op)choices.push({type,stem:stem.slice(0,900),options:op?.options||null,score});
+   if(stem||op)choices.push({type,stem:stem.slice(0,900),options:op?.options||null,score,sourcePage:p.p,lastOnPage:i===matches.length-1});
   }
  }
  choices.sort((a,b)=>b.score-a.score);
  if(choices[0]){
-  const q=choices[0];if(!q.stem&&q.options)q.stem=sourceSnippet(pages,n)||"Choose the correct option for gap ("+n+").";
-  return q;
+  const q=choices[0];
+  // Original scanned papers can split a question stem and its four options
+  // across adjacent pages (Hải Phòng Q29 is one verified example).
+  // Only take options from the next page's pre-question prefix when it starts
+  // with A and contains a complete A–D sequence.
+  if(q.type==="mcq"&&!q.options&&q.lastOnPage){
+   const index=pages.findIndex(p=>p.p===q.sourcePage);
+   if(index>=0&&index<pages.length-1){
+    const text=pages[index+1].t;
+    const header=new RegExp(HSG_HEADER.source,"g").exec(text);
+    const prefix=text.slice(0,header?header.index:Math.min(text.length,1400)).trim();
+    if(/^A[.)]\\s+/.test(prefix)){
+     const recovered=parseOptions(prefix);
+     if(recovered)q.options=recovered.options;
+    }
+   }
+  }
+  if(!q.stem&&q.options)q.stem=sourceSnippet(pages,n)||"Choose the correct option for gap ("+n+").";
+  const {sourcePage,lastOnPage,...question}=q;
+  return question;
  }
  for(const p of pages){
   const m=new RegExp("\\(\\s*"+n+"\\s*(?:\\.\\s*[A-Z]+)?\\s*\\)\\s*[_–—]{2,}").exec(p.t);
