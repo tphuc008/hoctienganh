@@ -651,7 +651,7 @@ function renderExam(){
   '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div>'+
   '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
   '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>';
- root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus'+(g.id==="r"?' hsg-hp-reading-single':'')+(g.id==="essay"?' hsg-hp-writing':''):'')+
+ root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus'+(g.id==="r"?' hsg-hp-reading-list':'')+(g.id==="essay"?' hsg-hp-writing':''):'')+
    (passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'">'+
  (hp?hpHeader:standardHeader)+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
