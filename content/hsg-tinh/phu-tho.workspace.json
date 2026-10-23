@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "standard": "exam-workspace-v1",
+  "examId": "phu-tho",
+  "numbering": "per-part",
+  "settings": {
+    "autoSaveStatus": "errors-only",
+    "passageScroll": "independent",
+    "questionScroll": "independent",
+    "mobileReadingTabs": true,
+    "solutions": {
+      "mode": "review-first",
+      "grading": "not-configured",
+      "answers": "only-verified",
+      "explanations": "source-grounded"
+    }
+  },
+  "parts": [
+    {
+      "id": "g",
+      "start": 21,
+      "end": 35,
+      "input": "mcq",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "wf",
+      "start": 36,
+      "end": 45,
+      "input": "word",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "e",
+      "start": 46,
+      "end": 50,
+      "input": "error",
+      "layout": "error",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "r1",
+      "start": 51,
+      "end": 60,
+      "input": "mcq",
+      "layout": "split",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "r2",
+      "start": 61,
+      "end": 70,
+      "input": "fill",
+      "layout": "split",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "r3",
+      "start": 71,
+      "end": 80,
+      "input": "mcq",
+      "layout": "reading",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "w",
+      "start": 81,
+      "end": 90,
+      "input": "rewrite",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "essay",
+      "start": 1,
+      "end": 1,
+      "input": "essay",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    }
+  ]
+}
