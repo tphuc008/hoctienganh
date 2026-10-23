@@ -53,6 +53,10 @@ function assertComplete(group,from,to){
 assertComplete({id:"g1",kind:"mcq",pages:[2,3]},21,40);
 assertComplete({id:"wf",kind:"word",pages:[4]},56,60);
 assertComplete({id:"w",kind:"rewrite",pages:[7]},91,100);
+const q100=getQuestion({id:"w",kind:"rewrite",pages:[7]},100);
+assert.ok(q100.stem.includes("The fire in"),"Q100 must retain its answer prompt");
+assert.doesNotMatch(q100.stem,/Paragraph writing|Some people think that parents should involve/i,
+ "Removed essay must not leak into question 100");
 const q29=getQuestion({id:"g1",kind:"mcq",pages:[2,3]},29);
 assert.equal(q29.options[0],"Were you to require");
 assert.equal(q29.options[1],"Should you require");
@@ -70,4 +74,4 @@ assert.equal(tasks[0].maxWords,6);
 assert.equal(tasks[1].start,96);
 assert.equal(tasks[1].end,100);
 assert.equal(tasks[1].maxWords,undefined);
-console.log("Hai Phong source fidelity: Q21-40, Q56-60, Q91-100, Q29 page split, and 12 original correction lines verified.");
+console.log("Hai Phong source fidelity: Q21-40, Q56-60, Q91-100, Q29 page split, Q100 essay boundary, and 12 original correction lines verified.");
