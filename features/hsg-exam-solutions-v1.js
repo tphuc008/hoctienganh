@@ -137,8 +137,11 @@ function build(exam,sections,answers,getQuestion,solutions){
   for(let n=part.start;n<=part.end;n++){
    const response=answers[part.id+":"+n]||{};
    const isAnswered=meaningful(response);
-   const q=getQuestion(part,n);
    const key=part.id+":"+n,reference=findSolution(solutions,key);
+   // PTNK contains 4 codes x 130 questions: avoid parsing 520 untouched source
+   // questions when rendering the summary; full text loads in the question view.
+   const needsPreview=part.kind!=="mixed"||isAnswered||!!reference;
+   const q=needsPreview?getQuestion(part,n):{stem:""};
    const status=assess(part.kind,response,reference);
    const item={key,group:part.id,number:n,part:part.name,
     stem:String(q?.stem||""),answer:makeAnswer(response),
