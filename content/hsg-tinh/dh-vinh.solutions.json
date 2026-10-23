@@ -205,7 +205,11 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "reviewChoices": [
+        "A"
+      ],
+      "advisory": "Employment opportunities cũng có thể diễn đạt cơ hội việc làm, dù prospects là lựa chọn tham khảo."
     },
     {
       "partId": "b1",
