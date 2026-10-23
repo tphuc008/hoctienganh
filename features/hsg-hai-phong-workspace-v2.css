@@ -728,3 +728,16 @@
     }
   }
 }
+
+
+/* Content first: keep Part selection reachable while scrolling long essays. */
+@media screen {
+ .hsg-hp-v2.hsg-hp-focus .hsg-hp-focusbar{
+  position:sticky;top:4px;z-index:8;
+ }
+ .hsg-hp-v2.hsg-hp-focus.hsg-hp-writing .hsg-study-layout:not(.has-shared-passage){
+  grid-template-columns:minmax(0,1fr);
+ }
+ .hsg-hp-v2.hsg-hp-focus.hsg-hp-writing .hsg-study-rail{display:none}
+ .hsg-hp-v2.hsg-hp-focus.hsg-hp-writing .hsg-study-question{width:100%}
+}
