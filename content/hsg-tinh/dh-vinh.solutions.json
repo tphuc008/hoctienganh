@@ -1,7 +1,7 @@
 {
   "version": 1,
   "examId": "dh-vinh",
-  "status": "pending-verification",
+  "status": "partially-verified",
   "format": [
     "correctAnswer",
     "explanation",
@@ -9,5 +9,1971 @@
     "distractorAnalysis",
     "transferablePattern"
   ],
-  "records": []
+  "source": {
+    "referenceUrl": "https://www.scribd.com/document/1052832015",
+    "official": false,
+    "sourceNote": "Đáp án đề nghị, cần đối chiếu với đề nguồn; chưa có đáp án chính thức."
+  },
+  "records": [
+    {
+      "partId": "b1",
+      "number": 1,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Điều kiện loại 2 diễn tả giả định trái hiện thực: If + past simple, would + động từ nguyên mẫu.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 1",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Điều kiện loại 2 diễn tả giả định trái hiện thực: If + past simple, would + động từ nguyên mẫu",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 2,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Have + object + past participle diễn đạt thuê/nhờ người khác kiểm tra máy móc.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 2",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Have + object + past participle diễn đạt thuê/nhờ người khác kiểm tra máy móc",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 3,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Phase out là loại bỏ dần một công nghệ hoặc sản phẩm; đúng với kế hoạch thay xe chạy xăng.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 3",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Phase out là loại bỏ dần một công nghệ hoặc sản phẩm",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 4,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Chủ ngữ giả There + be + estimated kết hợp số lượng người được dự tính.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 4",
+          "quote": "C"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Chủ ngữ giả There + be + estimated kết hợp số lượng người được dự tính",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 5,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Rooted in là phân từ quá khứ diễn đạt nguồn gốc của tinh thần yêu nước; đồng chủ thể.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 5",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Rooted in là phân từ quá khứ diễn đạt nguồn gốc của tinh thần yêu nước",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 6,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Vastly different là cụm kết hợp tự nhiên chỉ khác biệt rất lớn.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 6",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Vastly different là cụm kết hợp tự nhiên chỉ khác biệt rất lớn",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 7,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Neither of them + singular verb thể hiện cả hai người đều không thể thi đấu.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 7",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Neither of them + singular verb thể hiện cả hai người đều không thể thi đấu",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 8,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Employment prospects là cơ hội hoặc triển vọng việc làm.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 8",
+          "quote": "C"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Employment prospects là cơ hội hoặc triển vọng việc làm",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 9,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Thunder là tiếng sấm, đi cùng cụm đồng vị the rumbling sound.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 9",
+          "quote": "D"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Thunder là tiếng sấm, đi cùng cụm đồng vị the rumbling sound",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 10,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Well-meaning nghĩa là có thiện ý nhưng có thể gây khó chịu dù không cố ý.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 10",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Well-meaning nghĩa là có thiện ý nhưng có thể gây khó chịu dù không cố ý",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 11,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Intolerant of somebody/something là giới từ cố định.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 11",
+          "quote": "D"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Intolerant of somebody/something là giới từ cố định",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 12,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Đảo ngữ sau So + tính từ + be + chủ ngữ + that.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 12",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Đảo ngữ sau So + tính từ + be + chủ ngữ + that",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 13,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Salt of the earth là thành ngữ chỉ người chân chất, tốt bụng, đáng tin cậy.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 13",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Salt of the earth là thành ngữ chỉ người chân chất, tốt bụng, đáng tin cậy",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 14,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Under no circumstances mở đầu câu kéo theo đảo trợ động từ trước chủ ngữ.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 14",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Under no circumstances mở đầu câu kéo theo đảo trợ động từ trước chủ ngữ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 15,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Deteriorate nghĩa là suy giảm, phù hợp với thị lực ngày càng kém.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 15",
+          "quote": "C"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Deteriorate nghĩa là suy giảm, phù hợp với thị lực ngày càng kém",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 16,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "One of which liên kết một hệ quả trong nhóm các hệ quả được nhắc đến.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 16",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "One of which liên kết một hệ quả trong nhóm các hệ quả được nhắc đến",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 17,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Embellish = exaggerate, thêm thắt/phóng đại chi tiết câu chuyện.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 17",
+          "quote": "C"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Embellish = exaggerate, thêm thắt/phóng đại chi tiết câu chuyện",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 18,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Two a penny = very common, rất phổ biến và dễ gặp.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 18",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Two a penny = very common, rất phổ biến và dễ gặp",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 19,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Marginal bất lợi, đối lập với favorable (thuận lợi).",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 19",
+          "quote": "D"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Marginal bất lợi, đối lập với favorable (thuận lợi)",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b1",
+      "number": 20,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Work up an appetite = kích thích cảm giác thèm ăn; suppress là kìm nén.",
+      "evidence": [
+        {
+          "location": "SECTION B · B1 · Question 20",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Work up an appetite = kích thích cảm giác thèm ăn",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b2",
+      "number": 21,
+      "verified": true,
+      "correctAnswer": "has cracked → cracked",
+      "explanation": "Quá khứ lịch sử được kể bằng cracked thay vì hiện tại hoàn thành has cracked.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 21",
+          "quote": "Line 1: has cracked"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Quá khứ lịch sử được kể bằng cracked thay vì hiện tại hoàn thành has cracked",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 1
+    },
+    {
+      "partId": "b2",
+      "number": 22,
+      "verified": true,
+      "correctAnswer": "then → than",
+      "explanation": "So sánh hơn cấu trúc more ... than, không dùng then (sau đó).",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 22",
+          "quote": "Line 2: then"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "So sánh hơn cấu trúc more ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 2
+    },
+    {
+      "partId": "b2",
+      "number": 23,
+      "verified": true,
+      "correctAnswer": "fine → finest",
+      "explanation": "One of the + superlative + plural noun: one of the finest biopics.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 23",
+          "quote": "Line 4: fine"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "One of the + superlative + plural noun: one of the finest biopics",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 4
+    },
+    {
+      "partId": "b2",
+      "number": 24,
+      "verified": true,
+      "correctAnswer": "deciphering → to decipher",
+      "explanation": "Recruit somebody to do something: recruited ... to decipher.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 24",
+          "quote": "Line 5: deciphering"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Recruit somebody to do something: recruited ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 5
+    },
+    {
+      "partId": "b2",
+      "number": 25,
+      "verified": true,
+      "correctAnswer": "arrogantly → arrogant",
+      "explanation": "Appear + adjective: appears arrogant; arrogantly là trạng từ.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 25",
+          "quote": "Line 6: arrogantly"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Appear + adjective: appears arrogant",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 6
+    },
+    {
+      "partId": "b2",
+      "number": 26,
+      "verified": true,
+      "correctAnswer": "puts → sets",
+      "explanation": "Set somebody apart from others = khiến ai đó khác biệt.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 26",
+          "quote": "Line 7: puts"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Set somebody apart from others = khiến ai đó khác biệt",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 7
+    },
+    {
+      "partId": "b2",
+      "number": 27,
+      "verified": true,
+      "correctAnswer": "Nevertheless → Although",
+      "explanation": "Although/Though mở đầu mệnh đề phụ nhượng bộ; Nevertheless là trạng từ liên kết, không nối trực tiếp hai mệnh đề tại đây.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 27",
+          "quote": "Line 9: Nevertheless"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Although/Though mở đầu mệnh đề phụ nhượng bộ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 9
+    },
+    {
+      "partId": "b2",
+      "number": 28,
+      "verified": true,
+      "correctAnswer": "expected → unexpected",
+      "explanation": "Unexpected twists and turns là các bước ngoặt không lường trước, hợp logic kịch bản.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 28",
+          "quote": "Line 10: expected"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Unexpected twists and turns là các bước ngoặt không lường trước, hợp logic kịch bản",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 10
+    },
+    {
+      "partId": "b2",
+      "number": 29,
+      "verified": true,
+      "correctAnswer": "a → an",
+      "explanation": "An outstanding performance: mạo từ theo âm đầu nguyên âm /aʊ/.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 29",
+          "quote": "Line 10: a"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "An outstanding performance: mạo từ theo âm đầu nguyên âm /aʊ/",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 10
+    },
+    {
+      "partId": "b2",
+      "number": 30,
+      "verified": true,
+      "correctAnswer": "thought-provoked → thought-provoking",
+      "explanation": "Thought-provoking = gợi suy nghĩ; thought-provoked không phải tính từ ghép cần thiết.",
+      "evidence": [
+        {
+          "location": "SECTION B · B2 · Question 30",
+          "quote": "Line 11: thought-provoked"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Thought-provoking = gợi suy nghĩ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      },
+      "line": 11
+    },
+    {
+      "partId": "b3",
+      "number": 31,
+      "verified": true,
+      "correctAnswer": "belittle",
+      "explanation": "Belittle là động từ 'hạ thấp', theo sau to + động từ nguyên mẫu.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 31",
+          "quote": "belittle"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Belittle là động từ 'hạ thấp', theo sau to + động từ nguyên mẫu",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 32,
+      "verified": true,
+      "correctAnswer": "activated",
+      "explanation": "Be activated = được kích hoạt; cấu trúc bị động yêu cầu V3.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 32",
+          "quote": "activated"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Be activated = được kích hoạt",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 33,
+      "verified": true,
+      "correctAnswer": "withdraw",
+      "explanation": "Withdraw là động từ rút lui, cùng loại từ và chức năng với chỗ trống.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 33",
+          "quote": "withdraw"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Withdraw là động từ rút lui, cùng loại từ và chức năng với chỗ trống",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 34,
+      "verified": true,
+      "correctAnswer": "anti-aging",
+      "explanation": "Anti-aging bổ nghĩa cho danh từ theo nghĩa chống lão hóa.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 34",
+          "quote": "anti-aging"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Anti-aging bổ nghĩa cho danh từ theo nghĩa chống lão hóa",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 35,
+      "verified": true,
+      "correctAnswer": "dietician",
+      "explanation": "Dietician là danh từ chỉ chuyên gia dinh dưỡng.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 35",
+          "quote": "dietician"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Dietician là danh từ chỉ chuyên gia dinh dưỡng",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 36,
+      "verified": true,
+      "correctAnswer": "multinational",
+      "explanation": "Multinational là tính từ chỉ công ty hoạt động ở nhiều quốc gia.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 36",
+          "quote": "multinational"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Multinational là tính từ chỉ công ty hoạt động ở nhiều quốc gia",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 37,
+      "verified": true,
+      "correctAnswer": "lawmakers",
+      "explanation": "Lawmakers là danh từ số nhiều chỉ các nhà lập pháp.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 37",
+          "quote": "lawmakers"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Lawmakers là danh từ số nhiều chỉ các nhà lập pháp",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 38,
+      "verified": true,
+      "correctAnswer": "mind-blowing",
+      "explanation": "Mind-blowing là tính từ ghép chỉ điều cực kỳ ấn tượng.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 38",
+          "quote": "mind-blowing"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Mind-blowing là tính từ ghép chỉ điều cực kỳ ấn tượng",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 39,
+      "verified": true,
+      "correctAnswer": "newsworthy",
+      "explanation": "Newsworthy = đáng đưa tin, phù hợp một sự kiện thu hút truyền thông.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 39",
+          "quote": "newsworthy"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Newsworthy = đáng đưa tin, phù hợp một sự kiện thu hút truyền thông",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "b3",
+      "number": 40,
+      "verified": true,
+      "correctAnswer": "apparently",
+      "explanation": "Apparently là trạng từ đánh giá: dường như, có vẻ.",
+      "evidence": [
+        {
+          "location": "SECTION B · B3 · Question 40",
+          "quote": "apparently"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Apparently là trạng từ đánh giá: dường như, có vẻ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 1,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Câu chèn giải thích về quyền tự chọn dự án và giờ làm; vị trí (III) dẫn tự nhiên sang sự linh hoạt.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 1",
+          "quote": "C"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Câu chèn giải thích về quyền tự chọn dự án và giờ làm",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 2,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Take the reins of = take control of: nắm quyền tự chủ sự nghiệp.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 2",
+          "quote": "C"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Take the reins of = take control of: nắm quyền tự chủ sự nghiệp",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 3,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Ý câu văn là khuyến khích/trao quyền tự lựa chọn nghề, không phải ép buộc.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 3",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Ý câu văn là khuyến khích/trao quyền tự lựa chọn nghề, không phải ép buộc",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 4,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Freelancers' là sở hữu cách số nhiều, gắn với nhóm người hành nghề tự do.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 4",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Freelancers' là sở hữu cách số nhiều, gắn với nhóm người hành nghề tự do",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 5,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Lựa chọn này KHÔNG đúng: thu nhập freelancer thường không ổn định và thiếu phúc lợi truyền thống.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 5",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Lựa chọn này KHÔNG đúng: thu nhập freelancer thường không ổn định và thiếu phúc lợi truyền thống",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 6,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Tóm tắt đầy đủ thách thức đa vai trò, thu nhập không đều và lợi ích với người độc lập.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 6",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Tóm tắt đầy đủ thách thức đa vai trò, thu nhập không đều và lợi ích với người độc lập",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 7,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Ý chính: cần kiên trì và linh hoạt nhưng đổi lại có thể thiết kế công việc theo thế mạnh.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 7",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Ý chính: cần kiên trì và linh hoạt nhưng đổi lại có thể thiết kế công việc theo thế mạnh",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 8,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Bài nêu trực tiếp Upwork, Fiverr, Toptal kết nối freelancer với khách hàng toàn cầu.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 8",
+          "quote": "A"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Bài nêu trực tiếp Upwork, Fiverr, Toptal kết nối freelancer với khách hàng toàn cầu",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 9,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Tác giả ủng hộ có điều kiện: thừa nhận rủi ro nhưng đề xuất người mới tốt nghiệp cân nhắc.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 9",
+          "quote": "B"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Tác giả ủng hộ có điều kiện: thừa nhận rủi ro nhưng đề xuất người mới tốt nghiệp cân nhắc",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c1",
+      "number": 10,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Đoạn cuối khuyến nghị chọn nghề tự do, nên đoạn tiếp theo hợp lý nói cách bắt đầu.",
+      "evidence": [
+        {
+          "location": "SECTION C · C1 · Question 10",
+          "quote": "D"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn khác không đáp ứng đồng thời cấu trúc ngữ pháp, nghĩa và ngữ cảnh của câu gốc."
+      ],
+      "transferablePattern": "Đoạn cuối khuyến nghị chọn nghề tự do, nên đoạn tiếp theo hợp lý nói cách bắt đầu",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c2",
+      "number": 11,
+      "verified": true,
+      "correctAnswer": "NOT GIVEN",
+      "explanation": "Không có đủ thông tin trong bài để xác nhận hay bác bỏ khẳng định được hỏi.",
+      "evidence": [
+        {
+          "location": "SECTION C · C2 · Question 11",
+          "quote": "Original reading text and task, Question 11"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Không có đủ thông tin trong bài để xác nhận hay bác bỏ khẳng định được hỏi",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c2",
+      "number": 12,
+      "verified": true,
+      "correctAnswer": "YES",
+      "explanation": "Khẳng định phù hợp luận điểm của tác giả về tính hữu hạn của dầu.",
+      "evidence": [
+        {
+          "location": "SECTION C · C2 · Question 12",
+          "quote": "Original reading text and task, Question 12"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Khẳng định phù hợp luận điểm của tác giả về tính hữu hạn của dầu",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c2",
+      "number": 13,
+      "verified": true,
+      "correctAnswer": "NO",
+      "explanation": "Khẳng định đối lập với ý kiến/đánh giá được nêu trong bài.",
+      "evidence": [
+        {
+          "location": "SECTION C · C2 · Question 13",
+          "quote": "Original reading text and task, Question 13"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Khẳng định đối lập với ý kiến/đánh giá được nêu trong bài",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c2",
+      "number": 14,
+      "verified": true,
+      "correctAnswer": "NO",
+      "explanation": "Khẳng định bị phản bác bởi chứng cứ hoặc quan điểm trong bài.",
+      "evidence": [
+        {
+          "location": "SECTION C · C2 · Question 14",
+          "quote": "Original reading text and task, Question 14"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Khẳng định bị phản bác bởi chứng cứ hoặc quan điểm trong bài",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c2",
+      "number": 15,
+      "verified": true,
+      "correctAnswer": "YES",
+      "explanation": "Nội dung này được tác giả thừa nhận hoặc ủng hộ trong đoạn tương ứng.",
+      "evidence": [
+        {
+          "location": "SECTION C · C2 · Question 15",
+          "quote": "Original reading text and task, Question 15"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Nội dung này được tác giả thừa nhận hoặc ủng hộ trong đoạn tương ứng",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c3",
+      "number": 16,
+      "verified": true,
+      "correctAnswer": "easiest and cheapest",
+      "explanation": "Bài nêu các mỏ dễ khai thác nhất và rẻ nhất được khai thác trước; giữ nguyên cụm danh từ nguồn.",
+      "evidence": [
+        {
+          "location": "SECTION C · C3 · Question 16",
+          "quote": "easiest and cheapest"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Bài nêu các mỏ dễ khai thác nhất và rẻ nhất được khai thác trước",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c3",
+      "number": 17,
+      "verified": true,
+      "correctAnswer": "recurring errors",
+      "explanation": "Người dự báo mắc recurring errors — lỗi lặp lại theo thời gian.",
+      "evidence": [
+        {
+          "location": "SECTION C · C3 · Question 17",
+          "quote": "recurring errors"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Người dự báo mắc recurring errors — lỗi lặp lại theo thời gian",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c3",
+      "number": 18,
+      "verified": true,
+      "correctAnswer": "necessary investments",
+      "explanation": "Necessary investments là cụm danh từ nói về khoản đầu tư cần thiết; chép đúng từ nguồn.",
+      "evidence": [
+        {
+          "location": "SECTION C · C3 · Question 18",
+          "quote": "necessary investments"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Necessary investments là cụm danh từ nói về khoản đầu tư cần thiết",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c4",
+      "number": 19,
+      "verified": true,
+      "correctAnswer": "E",
+      "explanation": "Michael Lynch phê bình sai sót phương pháp dự báo dựa vào trữ lượng dầu cố định.",
+      "evidence": [
+        {
+          "location": "SECTION C · C4 · Question 19",
+          "quote": "Original reading text and task, Question 19"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Michael Lynch phê bình sai sót phương pháp dự báo dựa vào trữ lượng dầu cố định",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c4",
+      "number": 20,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "René Dahan dự đoán lượng dầu vẫn dồi dào trong nhiều thập kỷ.",
+      "evidence": [
+        {
+          "location": "SECTION C · C4 · Question 20",
+          "quote": "Original reading text and task, Question 20"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "René Dahan dự đoán lượng dầu vẫn dồi dào trong nhiều thập kỷ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c4",
+      "number": 21,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "M. King Hubbert đề xuất đường cong sản lượng đạt đỉnh rồi suy giảm.",
+      "evidence": [
+        {
+          "location": "SECTION C · C4 · Question 21",
+          "quote": "Original reading text and task, Question 21"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "M",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c4",
+      "number": 22,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Colin Campbell là nhà địa chất cảnh báo nguồn dầu sắp cạn.",
+      "evidence": [
+        {
+          "location": "SECTION C · C4 · Question 22",
+          "quote": "Original reading text and task, Question 22"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Colin Campbell là nhà địa chất cảnh báo nguồn dầu sắp cạn",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c4",
+      "number": 23,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Kenneth Deffeyes dự báo dầu thế giới sớm đạt đỉnh sản lượng.",
+      "evidence": [
+        {
+          "location": "SECTION C · C4 · Question 23",
+          "quote": "Original reading text and task, Question 23"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Kenneth Deffeyes dự báo dầu thế giới sớm đạt đỉnh sản lượng",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 24,
+      "verified": true,
+      "correctAnswer": "developing",
+      "explanation": "Developing countries là cụm chỉ các nước đang phát triển.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 24",
+          "quote": "Original telemedicine passage, numbered gap 24"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Developing countries là cụm chỉ các nước đang phát triển",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 25,
+      "verified": true,
+      "correctAnswer": "between",
+      "explanation": "A link between A and B: đường kết nối giữa bệnh nhân và chuyên gia.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 25",
+          "quote": "Original telemedicine passage, numbered gap 25"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "A link between A and B: đường kết nối giữa bệnh nhân và chuyên gia",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 26,
+      "verified": true,
+      "correctAnswer": "distance",
+      "explanation": "At a distance: từ xa, định nghĩa trực tiếp telemedicine.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 26",
+          "quote": "Original telemedicine passage, numbered gap 26"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "At a distance: từ xa, định nghĩa trực tiếp telemedicine",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 27,
+      "verified": true,
+      "correctAnswer": "even",
+      "explanation": "Even trong 'even in extreme environments' nhấn mạnh hoàn cảnh khắc nghiệt.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 27",
+          "quote": "Original telemedicine passage, numbered gap 27"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Even trong 'even in extreme environments' nhấn mạnh hoàn cảnh khắc nghiệt",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 28,
+      "verified": true,
+      "correctAnswer": "by",
+      "explanation": "By + V-ing biểu thị phương tiện: bằng cách giảm hàng chờ.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 28",
+          "quote": "Original telemedicine passage, numbered gap 28"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "By + V-ing biểu thị phương tiện: bằng cách giảm hàng chờ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 29,
+      "verified": true,
+      "correctAnswer": "and",
+      "explanation": "And nối các lợi ích song song của khám chữa bệnh từ xa.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 29",
+          "quote": "Original telemedicine passage, numbered gap 29"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "And nối các lợi ích song song của khám chữa bệnh từ xa",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 30,
+      "verified": true,
+      "correctAnswer": "be",
+      "explanation": "Become/be commonplace: trở nên phổ biến; sau will dùng nguyên mẫu.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 30",
+          "quote": "Original telemedicine passage, numbered gap 30"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Become/be commonplace: trở nên phổ biến",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 31,
+      "verified": true,
+      "correctAnswer": "which",
+      "explanation": "Which thay thế cả mệnh đề trước và mở mệnh đề quan hệ không xác định.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 31",
+          "quote": "Original telemedicine passage, numbered gap 31"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Which thay thế cả mệnh đề trước và mở mệnh đề quan hệ không xác định",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 32,
+      "verified": true,
+      "correctAnswer": "remote",
+      "explanation": "Remote locations là những địa điểm xa xôi, khó tiếp cận.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 32",
+          "quote": "Original telemedicine passage, numbered gap 32"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Remote locations là những địa điểm xa xôi, khó tiếp cận",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c5",
+      "number": 33,
+      "verified": true,
+      "correctAnswer": "when",
+      "explanation": "When mở mệnh đề thời gian nêu lúc bão khiến việc di chuyển không thể thực hiện.",
+      "evidence": [
+        {
+          "location": "SECTION C · C5 · Question 33",
+          "quote": "Original telemedicine passage, numbered gap 33"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "When mở mệnh đề thời gian nêu lúc bão khiến việc di chuyển không thể thực hiện",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c6",
+      "number": 34,
+      "verified": true,
+      "correctAnswer": "H",
+      "explanation": "Câu H tiếp nối mạch thời tiết và chức năng kết nối trước/sau chỗ trống.",
+      "evidence": [
+        {
+          "location": "SECTION C · C6 · Question 34",
+          "quote": "Original reading text and task, Question 34"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Câu H tiếp nối mạch thời tiết và chức năng kết nối trước/sau chỗ trống",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c6",
+      "number": 35,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Câu D có quan hệ tham chiếu và ý nối phù hợp vị trí thứ hai.",
+      "evidence": [
+        {
+          "location": "SECTION C · C6 · Question 35",
+          "quote": "Original reading text and task, Question 35"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Câu D có quan hệ tham chiếu và ý nối phù hợp vị trí thứ hai",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c6",
+      "number": 36,
+      "verified": true,
+      "correctAnswer": "E",
+      "explanation": "Câu E nối luận điểm ở hai câu kề; đại từ và thông tin có tính liên tục.",
+      "evidence": [
+        {
+          "location": "SECTION C · C6 · Question 36",
+          "quote": "Original reading text and task, Question 36"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Câu E nối luận điểm ở hai câu kề",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c6",
+      "number": 37,
+      "verified": true,
+      "correctAnswer": "G",
+      "explanation": "Câu G duy trì trình tự ý ở đoạn tương ứng.",
+      "evidence": [
+        {
+          "location": "SECTION C · C6 · Question 37",
+          "quote": "Original reading text and task, Question 37"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Câu G duy trì trình tự ý ở đoạn tương ứng",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c6",
+      "number": 38,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Câu C cung cấp câu chuyển tiếp cho luận điểm của đoạn.",
+      "evidence": [
+        {
+          "location": "SECTION C · C6 · Question 38",
+          "quote": "Original reading text and task, Question 38"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Câu C cung cấp câu chuyển tiếp cho luận điểm của đoạn",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c6",
+      "number": 39,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Câu B tiếp nối nội dung trước và mở đường cho câu sau.",
+      "evidence": [
+        {
+          "location": "SECTION C · C6 · Question 39",
+          "quote": "Original reading text and task, Question 39"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Câu B tiếp nối nội dung trước và mở đường cho câu sau",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "c6",
+      "number": 40,
+      "verified": true,
+      "correctAnswer": "F",
+      "explanation": "Câu F là kết đoạn phù hợp hướng lập luận toàn bài.",
+      "evidence": [
+        {
+          "location": "SECTION C · C6 · Question 40",
+          "quote": "Original reading text and task, Question 40"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Câu F là kết đoạn phù hợp hướng lập luận toàn bài",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 1,
+      "verified": true,
+      "correctAnswer": "does studying a second language improve cognitive flexibility but it also",
+      "explanation": "Đảo ngữ Not only + auxiliary + subject + V ... but (it) also giữ cả hai lợi ích.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 1",
+          "quote": "does studying a second language improve cognitive flexibility but it also"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Đảo ngữ Not only + auxiliary + subject + V ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 2,
+      "verified": true,
+      "correctAnswer": "the female employee, I would return home no later",
+      "explanation": "If I were + somebody, I would ... là cấu trúc đưa lời khuyên; no later than.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 2",
+          "quote": "the female employee, I would return home no later"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "If I were + somebody, I would ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 3,
+      "verified": true,
+      "correctAnswer": "not obliged to finish",
+      "explanation": "Be not obliged to finish = không bắt buộc hoàn thành trước thời hạn.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 3",
+          "quote": "not obliged to finish"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Be not obliged to finish = không bắt buộc hoàn thành trước thời hạn",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 4,
+      "verified": true,
+      "correctAnswer": "the coach's smart tactics that led",
+      "explanation": "Cleft construction nhấn mạnh nguyên nhân: It was ... that led to ...",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 4",
+          "quote": "the coach's smart tactics that led"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Cleft construction nhấn mạnh nguyên nhân: It was ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 5,
+      "verified": true,
+      "correctAnswer": "on people with good intercultural communication skills being",
+      "explanation": "Giữ nội dung mệnh đề về nhu cầu kỹ năng giao tiếp đa văn hóa và cấu trúc với being.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 5",
+          "quote": "on people with good intercultural communication skills being"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Giữ nội dung mệnh đề về nhu cầu kỹ năng giao tiếp đa văn hóa và cấu trúc với being",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 6,
+      "verified": true,
+      "correctAnswer": "dropping litter is fined on the spot",
+      "explanation": "Chủ ngữ chỉ người vứt rác bị phạt ngay tại chỗ; dùng bị động is fined.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 6",
+          "quote": "dropping litter is fined on the spot"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Chủ ngữ chỉ người vứt rác bị phạt ngay tại chỗ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 7,
+      "verified": true,
+      "correctAnswer": "have viewed what happened in",
+      "explanation": "View what happened in ... khôi phục quan hệ thời gian và ý nghĩa câu nguồn.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 7",
+          "quote": "have viewed what happened in"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "View what happened in ",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 8,
+      "verified": true,
+      "correctAnswer": "what prompted Fred to make so extraordinary",
+      "explanation": "What prompted somebody to do something diễn đạt động cơ khiến Fred hành động.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 8",
+          "quote": "what prompted Fred to make so extraordinary"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "What prompted somebody to do something diễn đạt động cơ khiến Fred hành động",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 9,
+      "verified": true,
+      "correctAnswer": "took what I said out of context",
+      "explanation": "Take something out of context = trích dẫn lời người khác sai ngữ cảnh.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 9",
+          "quote": "took what I said out of context"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Take something out of context = trích dẫn lời người khác sai ngữ cảnh",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    },
+    {
+      "partId": "d",
+      "number": 10,
+      "verified": true,
+      "correctAnswer": "overcame all the obstacles",
+      "explanation": "Overcome all the obstacles = vượt mọi trở ngại; diễn đạt lại let nothing stand in his way.",
+      "evidence": [
+        {
+          "location": "SECTION D · D · Question 10",
+          "quote": "overcame all the obstacles"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Overcome all the obstacles = vượt mọi trở ngại",
+      "provenance": {
+        "type": "third-party-reference",
+        "sourceUrl": "https://www.scribd.com/document/1052832015",
+        "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
+        "official": false
+      }
+    }
+  ]
 }
