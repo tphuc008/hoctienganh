@@ -27,16 +27,19 @@ for(const [id,count,total] of defs){
  assert.ok(typed.parts.every(x=>x.questionFlow===(x.layout==="focused"?"one-at-a-time":"scroll-list")));
  const pages=original.map(([partId,name,start,end,kind])=>({id:partId,name,start,end,kind}));
  const checked=browser.HSGExamSolutions.validate(solutions,id,pages);
- assert.equal(checked.records.length,0,"No fabricated source answers");
+ assert.equal(checked.records.length,total-1,"All objectively keyed items must have source-backed references");
  const invalid=JSON.parse(JSON.stringify(checked));
  invalid.records=[{partId:pages[0].id,number:pages[0].start,correctAnswer:"A",verified:true}];
  assert.throws(()=>browser.HSGExamSolutions.validate(invalid,id,pages));
- const attempts={[pages[0].id+":"+pages[0].start]:{type:pages[0].kind,value:"B"}};
+ const attempts={[pages[0].id+":"+pages[0].start]:{type:pages[0].kind,value:checked.records[0].correctAnswer}};
  const report=browser.HSGExamSolutions.build({id,title:id,year:"2026"},pages,attempts,()=>({stem:"Source question"}),checked);
  assert.equal(report.totals.total,total);
  assert.equal(report.totals.answered,1);
- assert.ok(report.all.every(q=>q.status==="answered"||q.status==="unanswered"));
- assert.ok(!report.all.some(q=>q.reference),"Do not import Hai Phong answer references");
+ assert.ok(report.all.every(q=>["correct","wrong","review","unanswered"].includes(q.status)));
+ assert.equal(report.totals.correct,1,"Correct reference must grade as correct");
+ assert.equal(report.solutions.verifiedCount,total-1,"Only the essay has no single reference answer");
+ assert.ok(!report.all.some(q=>q.group!=="essay"&&!q.reference),"No missing objective reference");
+ assert.ok(report.all.find(q=>q.group==="essay").reference===null,"Essay must not be auto marked");
 }
 const v=JSON.parse(read("content/hsg-tinh/dh-vinh.workspace.json"));
 assert.equal(v.numbering,"per-part");
@@ -66,7 +69,7 @@ for(const [id,count] of defs){
   if(part.input==="essay")assert.ok(html.includes("hsg-hp-writing"));
  }
 }
-assert.ok(index.includes("hsg-exam-solutions-v1.js?v=20261023-two-provinces-v3"));
-assert.ok(index.includes("hsg-tinh.js?v=20261023-two-provinces-v2"));
+assert.ok(index.includes("hsg-exam-solutions-v1.js?v=20261023-keyed-answers-v1"));
+assert.ok(index.includes("hsg-tinh.js?v=20261023-keyed-answers-v1"));
 assert.ok(index.includes("hsg-workspace-v1.css?v=20261023-two-provinces-v2"));
-console.log("Vinh and Phu Tho manifests, answer review and 6 UI render modes validated.");
+console.log("Vinh and Phu Tho manifests, 160 keyed answers, conservative grading, essay exceptions and 6 UI modes validated.");
