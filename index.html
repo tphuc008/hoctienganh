@@ -1300,7 +1300,7 @@ async function renderTeacherGrammar21(hash,session){
 
 
 
-/* Grammar 5 / 19 / 22 reuse the interactive Topic 21 studio after teacher authorization.
+/* Grammar 3 / 5 / 6 / 19 / 22 reuse the interactive Topic 21 studio after teacher authorization.
  * The 25-topic library lists all topics in their official sequence.
  */
 let grammarLibraryAssetsPromise=null,grammarNewAssetsPromise=null;
@@ -1309,8 +1309,8 @@ function ensureTeacherGrammarLibrary(){
   if(!grammarLibraryAssetsPromise){
     grammarLibraryAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261022-studio4");
-      await loadGrammar21Asset("link","features/grammar-library.css?v=20261022-library-v1");
-      await loadGrammar21Asset("script","features/grammar-library.js?v=20261022-library-v1");
+      await loadGrammar21Asset("link","features/grammar-library.css?v=20261023-foundation-v1");
+      await loadGrammar21Asset("script","features/grammar-library.js?v=20261023-foundation-v1");
       if(!window.TeacherGrammarLibrary)throw Error("Không thể mở thư viện Grammar");
     })().catch(e=>{grammarLibraryAssetsPromise=null;throw e});
   }
@@ -1328,25 +1328,32 @@ async function renderTeacherGrammarLibrary(hash){
   }
 }
 function ensureTeacherGrammarNew(){
-  if(window.TeacherGrammar5&&window.TeacherGrammar19&&window.TeacherGrammar22)return Promise.resolve();
+  if([3,5,6,19,22].every(n=>window['TeacherGrammar'+n]))return Promise.resolve();
   if(!grammarNewAssetsPromise){
     grammarNewAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261022-studio4");
       await loadGrammar21Asset("script","content/grammar-topic-compiler.js?v=20261022-studio4");
-      await loadGrammar21Asset("script","content/grammar-topic5.js?v=20261022-studio4");
+      await loadGrammar21Asset("script","content/grammar-topic3.js?v=20261023-foundation-v1");
+       await loadGrammar21Asset("script","content/grammar-topic5.js?v=20261022-studio4");
+       await loadGrammar21Asset("script","content/grammar-topic6.js?v=20261023-foundation-v1");
       await loadGrammar21Asset("script","content/grammar-topic19.js?v=20261022-studio4");
       await loadGrammar21Asset("script","content/grammar-topic22.js?v=20261022-studio4");
       await loadGrammar21Asset("script","content/grammar-topic-focused-explanations.js?v=20261022-focused-v3");
+       await loadGrammar21Asset("script","content/grammar-foundation-explanations.js?v=20261023-foundation-v1");
       await loadGrammar21Asset("script","features/grammar-topic-studio.js?v=20261022-studio4");
       const configs={
+        3:{topicNum:3,heroVi:"Thì động từ",heroEn:"Verb tenses",
+          subtitle:"Nhận diện trục thời gian, phân biệt thì và thể, vận dụng trong câu thực tế.",beforeLabel:"Câu gốc / lỗi thường gặp",afterLabel:"Câu đúng",reviewCount:24},
         5:{topicNum:5,heroVi:"Sự hòa hợp chủ ngữ – động từ",heroEn:"Subject–verb agreement",
           subtitle:"Xác định chủ ngữ thực, lựa chọn động từ đúng và tránh các bẫy hòa hợp.",beforeLabel:"Câu gốc / lỗi thường gặp",afterLabel:"Câu đúng",reviewCount:24},
+        6:{topicNum:6,heroVi:"Động từ khuyết thiếu",heroEn:"Modal verbs",
+          subtitle:"Phân biệt khả năng, sự cho phép, lời khuyên, nghĩa vụ và suy luận theo chứng cứ.",beforeLabel:"Câu gốc / lỗi thường gặp",afterLabel:"Câu đúng",reviewCount:24},
         19:{topicNum:19,heroVi:"Câu điều kiện",heroEn:"Conditional sentences",
           subtitle:"Từ điều kiện thực đến giả định, mixed conditionals và các cách diễn đạt tương đương.",beforeLabel:"Câu gốc",afterLabel:"Câu đúng / viết lại",reviewCount:24},
         22:{topicNum:22,heroVi:"Mệnh đề quan hệ",heroEn:"Relative clauses",
           subtitle:"Xác định, bổ sung thông tin, đại từ quan hệ và rút gọn mệnh đề.",beforeLabel:"Hai câu gốc",afterLabel:"Câu kết hợp / đúng",reviewCount:24}
       };
-      for(const n of [5,19,22]){
+      for(const n of [3,5,6,19,22]){
         const obj=window["GrammarTopic"+n+"Data"];
         if(!obj||!window.TeacherGrammarStudioFactory)throw Error("Thiếu dữ liệu Chuyên đề "+n);
         window["TeacherGrammar"+n]=window.TeacherGrammarStudioFactory(obj,configs[n]);
@@ -1356,7 +1363,7 @@ function ensureTeacherGrammarNew(){
   return grammarNewAssetsPromise;
 }
 async function renderTeacherGrammarNew(hash,session){
-  const num=Number(hash.match(/topic-(5|19|22)$/)?.[1]||0);
+  const num=Number(hash.match(/topic-(3|5|6|19|22)$/)?.[1]||0);
   pageMount.style.display="block";
   pageMount.innerHTML='<div class="empty">Đang tải Chuyên đề '+num+'…</div>';
   try{
@@ -1559,7 +1566,7 @@ async function route(){
   if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash.startsWith("teacher/")){
-    if(hash!=="teacher/grammar"&&!/^teacher\/grammar\/topic-(?:5|19|21|22)$/.test(hash)&&!/^teacher\/hsg-tinh(?:\/[a-z0-9-]+)?$/.test(hash)){
+    if(hash!=="teacher/grammar"&&!/^teacher\/grammar\/topic-(?:3|5|6|19|21|22)$/.test(hash)&&!/^teacher\/hsg-tinh(?:\/[a-z0-9-]+)?$/.test(hash)){
       location.hash="";
       return;
     }
@@ -1573,7 +1580,7 @@ async function route(){
       await renderTeacherGrammarLibrary(hash);
     }else if(hash==="teacher/grammar/topic-21"){
       await renderTeacherGrammar21(hash,learnerSession);
-    }else if(/^teacher\/grammar\/topic-(?:5|19|22)$/.test(hash)){
+    }else if(/^teacher\/grammar\/topic-(?:3|5|6|19|22)$/.test(hash)){
       await renderTeacherGrammarNew(hash,learnerSession);
     }else{
       await renderTeacherHSG(hash);
