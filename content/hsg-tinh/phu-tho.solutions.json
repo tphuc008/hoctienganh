@@ -527,7 +527,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "innumerable"
+      ]
     },
     {
       "partId": "wf",
@@ -592,7 +595,10 @@
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
       },
-      "line": 3
+      "line": 3,
+      "acceptedAnswers": [
+        "number → deal"
+      ]
     },
     {
       "partId": "e",
@@ -956,7 +962,12 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "satisfy",
+        "fulfil",
+        "fulfill"
+      ]
     },
     {
       "partId": "r2",
@@ -1040,7 +1051,12 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "Furthermore",
+        "Additionally",
+        "Besides"
+      ]
     },
     {
       "partId": "r2",
@@ -1061,7 +1077,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "level"
+      ]
     },
     {
       "partId": "r2",
@@ -1124,7 +1143,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "which"
+      ]
     },
     {
       "partId": "r3",
@@ -1438,7 +1460,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "not been for the fact that the salary was high, Tony would not have accepted the job"
+      ]
     },
     {
       "partId": "w",
