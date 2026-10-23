@@ -370,9 +370,10 @@ function freezeHaiPhongAnswers(root){
 function renderPassageForms(g){
  const mount=$("hsg-answer-list");if(!mount)return;
  const nums=visibleQuestionNumbers(g),first=nums[0],last=nums[nums.length-1],typed=structuredPart(g);
- const instruction=typed?(typed.kind==="word_formation"?"Complete the gaps using the correct form of the word in brackets.":typed.kind==="open_cloze"?"Fill each gap with ONE suitable word.":typed.kind==="reading_comprehension"?"Read the passage and choose the best answer A, B, C or D.":"Choose the best option A, B, C or D for each numbered gap."):actualKind(g,first)==="error"?
+ const wsPart=global.HSGWorkspaceV1?.getPart(state.data?.workspace,g.id);
+ const instruction=wsPart?.task?.instruction||(typed?(typed.kind==="word_formation"?"Complete the gaps using the correct form of the word in brackets.":typed.kind==="open_cloze"?"Fill each gap with ONE suitable word.":typed.kind==="reading_comprehension"?"Read the passage and choose the best answer A, B, C or D.":"Choose the best option A, B, C or D for each numbered gap."):actualKind(g,first)==="error"?
   "Find and correct the errors in the passage. Each correction is saved separately.":
-  "Read the passage on the left and answer the questions below.";
+  "Read the passage on the left and answer the questions below.");
  mount.innerHTML='<div class="hsg-reading-section-head"><span class="hsg-reading-eyebrow">'+esc(activePassageBlock(g)?.title||g.name)+'</span>'+
   '<h2>Questions '+first+'–'+last+'</h2><p>'+esc(instruction)+'</p></div>'+
   nums.map(n=>{
@@ -777,6 +778,10 @@ function renderEditor(){
  const g=groups(state.exam).find(x=>x.id===state.group);
  if(passageBased(g)){renderPassageForms(g);return}
  const n=state.question,k=key(n),q=getQuestion(g,n),saved=state.answers[k]||{value:""};
+ const wsPart=global.HSGWorkspaceV1?.getPart(state.data?.workspace,g.id);
+ const subtask=global.HSGWorkspaceV1?.getSubtask(wsPart,n);
+ const countWords=text=>String(text||"").trim().split(/\s+/).filter(Boolean).length;
+ const wordRule=subtask?.kind==="keyword-transformation";
  const editor=$("hsg-answer-editor");if(!editor)return;
  const stem=q.stem||"Câu hỏi chưa được nhận dạng đầy đủ từ tài liệu quét. Xem nội dung đề gốc phía dưới.";
  const labels=q.type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:q.type==="ynng"?["YES","NO","NOT GIVEN"]:q.type==="match"?matchingLabels(g):q.options||["A","B","C","D"];
@@ -795,7 +800,10 @@ function renderEditor(){
   inputs='<label class="hsg-input-label">Điền đáp án<input type="text" data-hsg-field="value" autocomplete="off" placeholder="Nhập từ / cụm từ..." value="'+esc(saved.value||"")+'"></label>';
  }
  editor.innerHTML='<div class="hsg-question-kicker"><span>QUESTION '+String(n).padStart(2,"0")+'</span><span>'+esc(q.type.toUpperCase().replace("MCQ","MULTIPLE CHOICE"))+'</span></div>'+
- '<div class="hsg-question-stem">'+esc(stem)+'</div>'+(state.exam?.id==="hai-phong"?(state.answerReviewUnlocked?'<p class="hsg-form-note">Câu trả lời đã được giữ nguyên để xem lại.</p>':""):'<p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>')+inputs+
+ '<div class="hsg-question-stem">'+esc(stem)+'</div>'+
+ (subtask?'<p class="hsg-hp-task-note">'+esc(subtask.instruction)+'</p>':"")+
+ (state.exam?.id==="hai-phong"?(state.answerReviewUnlocked?'<p class="hsg-form-note">Câu trả lời đã được giữ nguyên để xem lại.</p>':""):'<p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>')+inputs+
+ (wordRule?'<p class="hsg-hp-rewrite-word-count" id="hsg-hp-rewrite-word-count">Đã nhập '+countWords(saved.value)+' từ · Yêu cầu '+subtask.minWords+'–'+subtask.maxWords+' từ (kể cả từ khóa)</p>':"")+
  (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':"")+
  hsgExplanationControl(g,n,q)+
  '<div class="hsg-question-actions"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-flag">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu xem lại')+'</button></div>'+
@@ -805,6 +813,12 @@ function renderEditor(){
  editor.querySelectorAll("[data-hsg-field]").forEach(el=>el.oninput=()=>{
   state.answers[k]={...state.answers[k],type:q.type,[el.dataset.hsgField]:el.value};queueSave();updateIndicators();
   const wc=$("hsg-word-count");if(wc&&el.dataset.hsgField==="value")wc.textContent="Số từ: "+el.value.trim().split(/\s+/).filter(Boolean).length;
+  const rw=$("hsg-hp-rewrite-word-count");
+  if(rw&&el.dataset.hsgField==="value"&&wordRule){
+   const words=countWords(el.value);
+   rw.textContent="Đã nhập "+words+" từ · Yêu cầu "+subtask.minWords+"–"+subtask.maxWords+" từ (kể cả từ khóa)";
+   rw.classList.toggle("is-valid",words>=subtask.minWords&&words<=subtask.maxWords);
+  }
  });
  $("hsg-flag").onclick=()=>{state.review[k]=!state.review[k];queueSave();renderEditor();updateIndicators()};
  $("hsg-clear").onclick=()=>{delete state.answers[k];queueSave();renderEditor();updateIndicators()};
