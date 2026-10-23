@@ -114,7 +114,7 @@ async function getExamData(id){
   if(!global.HSGWorkspaceV1)throw Error("Chưa tải bộ kiểm tra Exam Workspace V1.");
   result.workspace=global.HSGWorkspaceV1.validate(await workspaceResp.json(),id,HSG_PARTS[id],result.structured);
   if(id!=="hai-phong"){
-   const solutionsResp=await fetch("content/hsg-tinh/"+id+".solutions.json?v=20261023-keyed-answers-v1",{cache:"no-store"});
+   const solutionsResp=await fetch("content/hsg-tinh/"+id+".solutions.json?v=20261023-keyed-answers-v2",{cache:"no-store"});
    if(!solutionsResp.ok)throw Error("Không tải được cấu trúc lời giải đề "+id);
    if(!global.HSGExamSolutions)throw Error("Chưa tải bộ chuẩn lời giải HSG.");
    const parts=HSG_PARTS[id].map(([partId,name,start,end,kind])=>({id:partId,name,start,end,kind}));
