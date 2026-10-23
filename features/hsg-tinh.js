@@ -107,7 +107,7 @@ async function getExamData(id){
  }else if(extra.status!==404||CONFIGS.find(e=>e.id===id)?.structuredRequired){
   throw new Error("Không tải được dữ liệu chuẩn hóa đề "+id+" ("+extra.status+")");
  }
- if(["hai-phong","dh-vinh","phu-tho","son-la","tay-ninh","thanh-hoa","phan-boi-chau"].includes(id)){
+ if(["hai-phong","dh-vinh","phu-tho","son-la","tay-ninh","thanh-hoa","phan-boi-chau","ptnk"].includes(id)){
   const workspaceVer=id==="hai-phong"?"20261023-source-format-v2": "20261023-explanation-v2";
   const workspaceResp=await fetch("content/hsg-tinh/"+id+".workspace.json?v="+workspaceVer,{cache:"no-store"});
   if(!workspaceResp.ok)throw Error("Không tải được cấu trúc giao diện đề "+id+" ("+workspaceResp.status+")");
@@ -238,6 +238,8 @@ function visibleQuestionNumbers(g){
 
 function passageBased(g){
  if(!g)return false;
+ // Adaptive mode preserves PTNK question-level mixed reading/focused transitions.
+ if(g.workspaceLayout==="adaptive")return !!activePassageBlock(g);
  // Exam Workspace V1: render by validated layout, not by keyword or province name.
  if(g.workspaceLayout)return g.workspaceLayout!=="focused";
  if(structuredPart(g))return true;
