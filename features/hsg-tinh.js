@@ -113,6 +113,13 @@ async function getExamData(id){
   if(!workspaceResp.ok)throw Error("Không tải được cấu trúc giao diện đề "+id+" ("+workspaceResp.status+")");
   if(!global.HSGWorkspaceV1)throw Error("Chưa tải bộ kiểm tra Exam Workspace V1.");
   result.workspace=global.HSGWorkspaceV1.validate(await workspaceResp.json(),id,HSG_PARTS[id],result.structured);
+  if(id!=="hai-phong"){
+   const solutionsResp=await fetch("content/hsg-tinh/"+id+".solutions.json?v=20261023-shared-v1",{cache:"no-store"});
+   if(!solutionsResp.ok)throw Error("Không tải được cấu trúc lời giải đề "+id);
+   if(!global.HSGExamSolutions)throw Error("Chưa tải bộ chuẩn lời giải HSG.");
+   const parts=HSG_PARTS[id].map(([partId,name,start,end,kind])=>({id:partId,name,start,end,kind}));
+   result.solutions=global.HSGExamSolutions.validate(await solutionsResp.json(),id,parts);
+  }
  }
  CACHE.set(id,result);
  return result;
@@ -638,7 +645,7 @@ function haiPhongGradeBadge(g,n){
 function renderSharedExamResults(){
  const mod=global.HSGExamSolutions;
  if(!mod)throw Error("Chưa tải giao diện xem lại & lời giải.");
- const report=mod.build(state.exam,groups(state.exam),state.answers,(g,n)=>getQuestion(g,n));
+ const report=mod.build(state.exam,groups(state.exam),state.answers,(g,n)=>getQuestion(g,n),state.data?.solutions);
  mod.render($("pageMount"),report,{
   library:()=>{location.hash=BASE},
   reviewQuestion:identity=>{
