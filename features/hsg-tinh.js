@@ -350,6 +350,22 @@ function hsgExplanationSource(g,n){
   passageOnly(g,n)+"\n"+(getQuestion(g,n)?.stem||"");
 }
 function hsgExplanationControl(g,n,q){
+ if(state.exam?.id!=="hai-phong"){
+  if(!state.answerReviewUnlocked)return "";
+  const verified=global.HSGExamSolutions?.findSolution(state.data?.solutions,g.id+":"+n);
+  if(!verified)return "";
+  const evidence=(verified.evidence||[]).map(item=>'<li><b>'+esc(item.location)+'</b> · '+esc(item.quote)+'</li>').join("");
+  const distractors=(verified.distractorAnalysis||[]).map(item=>'<li>'+esc(typeof item==="string"?item:item.reason||"")+'</li>').join("");
+  return '<section class="hsg-exam-solution" data-hsg-solution="'+n+'">'+
+   '<button type="button" data-hsg-shared-explain-toggle aria-expanded="false">Xem đáp án / giải thích <span aria-hidden="true">⌄</span></button>'+
+   '<div class="hsg-exam-solution-body" hidden><p><b>Đáp án:</b> '+esc(verified.correctAnswer)+'</p>'+
+   '<p><b>Giải thích:</b> '+esc(verified.explanation)+'</p>'+
+   (evidence?'<h4>Bằng chứng trong đề</h4><ul>'+evidence+'</ul>':"")+
+   (distractors?'<h4>Phân tích phương án</h4><ul>'+distractors+'</ul>':"")+
+   (verified.transferablePattern?'<p><b>Kiến thức áp dụng:</b> '+esc(verified.transferablePattern)+'</p>':"")+
+   '</div></section>';
+ }
+
  // Do not include any answer UI in a practice-phase question card.
  if(state.exam?.id==="hai-phong"&&!state.answerReviewUnlocked)return "";
  if(state.exam?.id!=="hai-phong"||
@@ -361,6 +377,14 @@ function hsgExplanationControl(g,n,q){
 }
 function attachHSGExplanationControls(root,g){
  if(!root)return;
+ root.querySelectorAll("[data-hsg-shared-explain-toggle]").forEach(button=>{
+  button.onclick=()=>{
+   const box=button.closest(".hsg-exam-solution")?.querySelector(".hsg-exam-solution-body");
+   if(!box)return;
+   box.hidden=!box.hidden;
+   button.setAttribute("aria-expanded",String(!box.hidden));
+  };
+ });
  root.querySelectorAll("[data-hsg-explain-toggle]").forEach(button=>{
   button.onclick=()=>{
    const parent=button.closest("[data-hsg-explanation-question]"),panel=parent?.querySelector("[data-hsg-explain-panel]");
@@ -719,7 +743,7 @@ function renderExam(){
   '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div>'+
   '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
   '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>';
- root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus '+global.HSGWorkspaceV1.className(global.HSGWorkspaceV1.getPart(state.data?.workspace,g.id))+(g.workspaceLayout==="reading"?' hsg-hp-reading-list':'')+(g.kind==="essay"?' hsg-hp-writing':''):'')+
+ root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus '+global.HSGWorkspaceV1.className(global.HSGWorkspaceV1.getPart(state.data?.workspace,g.id))+(g.workspaceOptions?' hsg-ws-options--'+g.workspaceOptions:'')+(g.workspaceLayout==="reading"?' hsg-hp-reading-list':'')+(g.kind==="essay"?' hsg-hp-writing':''):'')+
    (passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'">'+
  (hp?hpHeader:standardHeader)+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
