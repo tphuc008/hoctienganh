@@ -59,13 +59,13 @@ const raw=[
       "Someone knock now. | Listen! Someone ___ at the door. | is knocking | knocks | has knocked | knock | Nghe kìa! Ai đó đang gõ cửa. | Listen! cho biết tiếng gõ đang diễn ra ngay lúc nói.",
       "The children runs right now. | Look! The children ___ in the garden right now. | are running | run | have run | runs | Nhìn kìa! Bọn trẻ đang chạy trong vườn. | Right now và Look! nhấn mạnh hành động đang xảy ra; children số nhiều.",
       "I prepare for exams this week. | I ___ for my final exams this week. | am preparing | prepare | have prepared | prepared | Tuần này tôi đang ôn thi cuối kỳ. | This week nói đến hoạt động tạm thời đang diễn ra.",
-      "The traffic move slowly now. | The traffic ___ very slowly at the moment. | is moving | moves | has moved | move | Giao thông lúc này đang di chuyển rất chậm. | At the moment yêu cầu tiếp diễn; traffic là chủ ngữ số ít.",
+      "The traffic move slowly now. | The traffic ___ very slowly at the moment. | is moving | moved | was moving | move | Giao thông lúc này đang di chuyển rất chậm. | At the moment yêu cầu tiếp diễn; traffic là chủ ngữ số ít.",
       "The baby sleep; be quiet. | Please be quiet; the baby ___ right now. | is sleeping | sleeps | has slept | sleep | Hãy giữ yên lặng, em bé đang ngủ. | Right now là trạng thái hoạt động đang tiếp diễn ngay lúc nói.",
-      "We develop a website this month. | We ___ a new website this month. | are developing | develop | developed | have developed | Tháng này chúng tôi đang phát triển website mới. | This month chỉ dự án đang triển khai, chưa phải thói quen.",
-      "The days gets shorter these weeks. | The days ___ shorter as winter approaches. | are getting | get | have got | gets | Những ngày đang ngắn dần khi mùa đông tới. | Xu hướng đang thay đổi dùng are getting với chủ ngữ days số nhiều.",
+      "We develop a website this month. | We ___ a new website this month, and the project is still underway. | are developing | develop | developed | have developed | Tháng này chúng tôi đang phát triển website mới. | This month chỉ dự án đang triển khai, chưa phải thói quen.",
+      "The days gets shorter these weeks. | The days ___ shorter week by week this autumn. | are getting | gets | had got | was getting | Những ngày đang ngắn dần khi mùa đông tới. | Xu hướng đang thay đổi dùng are getting với chủ ngữ days số nhiều.",
       "Where do you going? | Where ___ you going right now? | are | is | do | have | Bạn đang đi đâu ngay lúc này? | Going cần trợ động từ are để tạo hiện tại tiếp diễn với you.",
       "I do not using this laptop now. | I ___ my laptop at the moment; you can borrow it. | am not using | do not use | have not used | not use | Hiện tại tôi không dùng máy tính, bạn có thể mượn. | At the moment nhấn mạnh hành động không diễn ra ngay bây giờ.",
-      "My cousin stays temporarily at our home. | My cousin ___ with us temporarily while her flat is repaired. | is staying | stays | stayed | has stayed | Anh họ tôi đang ở tạm với chúng tôi khi căn hộ sửa chữa. | Temporarily xác định tình huống tạm thời, dùng is staying."
+      "My cousin stays temporarily at our home. | My cousin ___ with us temporarily while her flat is repaired. | is staying | staying | stayed | had stayed | Anh họ tôi đang ở tạm với chúng tôi khi căn hộ sửa chữa. | Temporarily xác định tình huống tạm thời, dùng is staying."
     ]
   },
   {
@@ -109,7 +109,7 @@ const raw=[
     "extras": [],
     "rows": [
       "I cooked when she called. | I ___ dinner when she called last night. | was cooking | cooked | am cooking | cook | Tôi đang nấu bữa tối thì cô ấy gọi tối qua. | When she called là biến cố xen vào hành động đang diễn ra.",
-      "They played at eight yesterday. | At 8 p.m. yesterday, they ___ chess. | were playing | played | are playing | play | Lúc 8 giờ tối qua họ đang chơi cờ. | At 8 p.m. yesterday chỉ lát cắt của hành động đang diễn ra trong quá khứ.",
+      "They played at eight yesterday. | At 8 p.m. yesterday, they ___ chess when the power went out. | were playing | played | are playing | play | Lúc 8 giờ tối qua họ đang chơi cờ thì mất điện. | The power went out xen vào quá trình chơi cờ trong quá khứ.",
       "She walked home when it started raining. | She ___ home when the storm began. | was walking | walked | is walking | walks | Cô ấy đang đi bộ về nhà thì cơn bão bắt đầu. | Storm began chen ngang quá trình was walking.",
       "We were watched a film. | We ___ a film when the power went out. | were watching | watched | are watching | watching | Chúng tôi đang xem phim thì mất điện. | Power went out là sự kiện ngắn giữa quá trình xem phim.",
       "He slept at ten last night. | At 10 last night, Tom ___ soundly. | was sleeping | slept | is sleeping | sleeps | Lúc 10 giờ đêm qua Tom đang ngủ say. | At 10 last night nhấn mạnh một hành động đang diễn ra đúng thời điểm đó.",
