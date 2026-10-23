@@ -64,6 +64,7 @@ function assess(kind,response,reference){
  if(!answer)return "review";
  const approved=acceptedChoices(reference).map(normalize);
  if(approved.includes(answer))return "correct";
+ if((reference.reviewChoices||[]).some(v=>normalize(v)===answer))return "review";
  if(["mcq","match","ynng","tfng"].includes(kind))return "wrong";
  // Word formation/open cloze may allow additional legitimate inflections.
  return "review";
