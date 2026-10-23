@@ -627,7 +627,11 @@
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
       },
-      "line": 9
+      "line": 9,
+      "acceptedAnswers": [
+        "Nevertheless → Though",
+        "Nevertheless → Even though"
+      ]
     },
     {
       "partId": "b2",
@@ -798,7 +802,10 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "dietitian"
+      ]
     },
     {
       "partId": "b3",
@@ -1490,7 +1497,10 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "even"
+      ]
     },
     {
       "partId": "c5",
@@ -1553,7 +1563,10 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "become"
+      ]
     },
     {
       "partId": "c5",
@@ -1826,7 +1839,10 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "acceptedAnswers": [
+        "under no obligation to finish"
+      ]
     },
     {
       "partId": "d",
