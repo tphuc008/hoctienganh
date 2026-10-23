@@ -154,6 +154,151 @@
         "official": false
       },
       "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "v",
+      "number": 26,
+      "verified": true,
+      "correctAnswer": "to hear",
+      "explanation": "Sau the first person dùng to-infinitive bổ nghĩa cho người đầu tiên thực hiện hành động.",
+      "evidence": [
+        {
+          "location": "V · câu 26",
+          "quote": "the first person in his family to hear the news",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "the first/second/last + noun + to V",
+      "examples": [
+        {
+          "word": "to hear",
+          "en": "She was the first student to finish the assignment.",
+          "vi": "Cô ấy là học sinh đầu tiên hoàn thành bài tập."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "v",
+      "number": 27,
+      "verified": true,
+      "correctAnswer": "Having been convinced",
+      "explanation": "Phân từ hoàn thành bị động Having been + V3 diễn đạt việc được thuyết phục trước khi quyết định nộp học bổng.",
+      "evidence": [
+        {
+          "location": "V · câu 27",
+          "quote": "Having been convinced of the benefits",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Having been + V3, subject + past verb",
+      "examples": [
+        {
+          "word": "Having been convinced",
+          "en": "Having been warned about the storm, they stayed indoors.",
+          "vi": "Vì đã được cảnh báo về cơn bão trước đó, họ ở trong nhà."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "v",
+      "number": 28,
+      "verified": true,
+      "correctAnswer": "had been informed",
+      "explanation": "Trong điều kiện loại 3, nếu người được thông báo là đối tượng nhận tác động, dùng had been informed.",
+      "evidence": [
+        {
+          "location": "V · câu 28",
+          "quote": "if she had been informed",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "If + S + had been + V3, S + would/could have + V3",
+      "examples": [
+        {
+          "word": "had been informed",
+          "en": "If I had been informed earlier, I would have attended.",
+          "vi": "Nếu được thông báo sớm hơn, tôi đã tham dự."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "v",
+      "number": 29,
+      "verified": true,
+      "correctAnswer": "not stay",
+      "explanation": "Sau recommendation that, dùng thức giả định nguyên mẫu; phủ định đặt not trước V nguyên mẫu.",
+      "evidence": [
+        {
+          "location": "V · câu 29",
+          "quote": "recommended that he not stay up late",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "recommend that + S + (should) not + V",
+      "examples": [
+        {
+          "word": "not stay",
+          "en": "The doctor recommended that she not skip meals.",
+          "vi": "Bác sĩ khuyên cô ấy không nên bỏ bữa."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "v",
+      "number": 30,
+      "verified": true,
+      "correctAnswer": "to have been living",
+      "explanation": "Be believed + to have been V-ing biểu thị hành động bắt đầu trước và kéo dài tới mốc tham chiếu.",
+      "evidence": [
+        {
+          "location": "V · câu 30",
+          "quote": "is believed to have been living for several months",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "be believed to have been + V-ing",
+      "examples": [
+        {
+          "word": "to have been living",
+          "en": "The scientist is believed to have been working on it for years.",
+          "vi": "Người ta tin rằng nhà khoa học đã nghiên cứu điều đó nhiều năm."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
     }
   ],
   "source": {
