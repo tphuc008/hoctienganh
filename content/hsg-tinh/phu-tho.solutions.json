@@ -1591,5 +1591,21 @@
         "official": false
       }
     }
-  ]
+  ],
+  "essayGuidance": {
+    "topic": "In the digital era, students should know how to use AI tools effectively for self-study. Write a paragraph of about 140–160 words expressing your opinion.",
+    "sample": "I believe students should learn to use AI tools for self-study, provided they treat them as learning partners rather than substitutes for independent thinking. One major benefit is immediate, personalised feedback. For example, when a student cannot understand a grammar rule, an AI tool can offer a simpler explanation and create extra practice questions. This allows learners to work on their weaknesses without having to wait for the next lesson. However, using AI to produce complete assignments can weaken students' ability to reason and solve problems on their own. It may also provide inaccurate answers, especially when a question requires careful interpretation. Therefore, students should attempt tasks independently before asking AI for hints, check important information against reliable sources and explain solutions in their own words. Used in this way, AI can make self-study more efficient while helping students develop the judgement needed to learn responsibly.",
+    "criteria": [
+      "Viết một đoạn khoảng 140–160 từ, có quan điểm rõ ràng.",
+      "Giải thích lợi ích của AI cho tự học và đưa ví dụ cụ thể.",
+      "Nêu giới hạn/rủi ro thật sự rồi đề xuất cách sử dụng có kiểm soát.",
+      "Kiểm tra mạch lập luận, tính chính xác và ví dụ, không chỉ đếm keyword.",
+      "Đây là bài viết mẫu AI tạo, không phải đáp án chính thức."
+    ],
+    "wordCount": 146,
+    "verified": false,
+    "source": "AI-authored illustrative essay; not an official model answer",
+    "partId": "essay",
+    "status": "model-answer"
+  }
 }
