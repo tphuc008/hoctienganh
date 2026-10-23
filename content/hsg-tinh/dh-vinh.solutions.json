@@ -1991,5 +1991,21 @@
         "official": false
       }
     }
-  ]
+  ],
+  "essayGuidance": {
+    "topic": "Some people think that the government should provide people with free healthcare. Others believe that people should pay for their own healthcare. Discuss both views and give your opinion.",
+    "sample": "Whether healthcare should be financed by the government or paid for by individual patients is a question of both fairness and financial sustainability. While requiring people to contribute to their medical bills may discourage unnecessary use of services, I believe essential healthcare should be available regardless of income.\n\nSupporters of personal payment argue that healthcare systems have limited resources. When every appointment or treatment is free at the point of use, some patients may seek professional help for minor conditions that could be managed at home. A modest contribution could encourage more responsible use and provide hospitals with additional funding. Moreover, people who can afford private insurance may prefer to pay for faster access and a wider choice of specialists.\n\nHowever, this approach becomes problematic when the cost of treatment determines whether someone receives it. Serious illnesses rarely occur according to a family's financial situation, and patients who delay visiting a doctor because of high fees may require more expensive treatment later. Publicly funded services can therefore protect vulnerable groups while also reducing the wider economic costs of preventable disease. For example, affordable vaccination and early screening programmes may prevent outbreaks and detect conditions before they become severe.\n\nIn my view, the strongest solution combines universal access to essential treatment with carefully regulated private options. Governments should finance emergency care, preventive services and necessary treatment through taxation, while allowing patients to pay voluntarily for additional comforts or elective procedures. Such a system would not eliminate financial pressure on public hospitals, but it would distribute that burden more fairly and prevent healthcare from becoming a privilege reserved for the wealthy.",
+    "criteria": [
+      "Trả lời cân bằng cả hai quan điểm trước khi nêu lập trường riêng.",
+      "Giải thích cơ chế: chi phí chăm sóc sức khỏe, khả năng tiếp cận, gánh nặng ngân sách.",
+      "Ví dụ thực tế có chức năng chứng minh lập luận, không đưa số liệu bịa.",
+      "Tổ chức 4–5 đoạn theo thông tin: quan điểm → phản biện → giải pháp → kết luận.",
+      "Bài mẫu chỉ để tham khảo; chấm ý, độ chính xác và mạch lập luận bằng giáo viên."
+    ],
+    "wordCount": 269,
+    "verified": false,
+    "source": "AI-authored illustrative essay; not an official model answer",
+    "partId": "essay",
+    "status": "model-answer"
+  }
 }
