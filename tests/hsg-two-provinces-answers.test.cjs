@@ -1,0 +1,49 @@
+/* Run: node tests/hsg-two-provinces-answers.test.cjs */
+"use strict";
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const vm=require("node:vm");
+const path=require("node:path");
+const root=path.resolve(__dirname,"..");
+const read=p=>fs.readFileSync(path.join(root,p),"utf8");
+const api={};
+vm.runInNewContext(read("features/hsg-exam-solutions-v1.js"),{window:api});
+const check=(id,sections,expectedCount,fixtures)=>{
+ const sol=JSON.parse(read("content/hsg-tinh/"+id+".solutions.json"));
+ const man=JSON.parse(read("content/hsg-tinh/"+id+".workspace.json"));
+ const partList=man.parts.map(p=>({id:p.id,start:p.start,end:p.end,kind:p.input}));
+ api.HSGExamSolutions.validate(sol,id,partList);
+ assert.equal(sol.status,"partially-verified");
+ assert.equal(sol.records.length,expectedCount);
+ assert.ok(sol.records.every(item=>item.verified&&item.explanation.length>15&&item.evidence.length));
+ assert.ok(sol.records.every(item=>item.provenance?.official===false));
+ for(const [key,answer] of Object.entries(fixtures)){
+  const v=api.HSGExamSolutions.findSolution(sol,key);
+  assert.ok(v,"Missing reference for "+key);
+  assert.equal(v.correctAnswer,answer,"Unexpected reference value for "+key);
+ }
+ const essay=sol.essayGuidance;
+ assert.ok(essay&&essay.verified===false&&essay.sample.length>200);
+ assert.ok(essay.criteria.length>=4);
+ const words=essay.sample.trim().split(/\s+/).length;
+ assert.equal(essay.wordCount,words);
+ if(id==="phu-tho")assert.ok(words>=140&&words<=160);
+ if(id==="dh-vinh")assert.ok(words>=250);
+ const all=partList.reduce((sum,p)=>sum+p.end-p.start+1,0);
+ assert.equal(all,expectedCount+1);
+ assert.ok(!api.HSGExamSolutions.findSolution(sol,"essay:1"),"Essay must not receive a fixed correct answer");
+ const example=api.HSGExamSolutions.findSolution(sol,id==="dh-vinh"?"b1:1":"g:21");
+ assert.equal(api.HSGExamSolutions.assess("mcq",{value:example.correctAnswer},example),"correct");
+ const other=["A","B","C","D"].find(c=>c!==example.correctAnswer);
+ assert.equal(api.HSGExamSolutions.assess("mcq",{value:other},example),"wrong");
+ assert.equal(api.HSGExamSolutions.assess("mcq",{value:""},example),"unanswered");
+ assert.equal(api.HSGExamSolutions.assess("essay",{value:"Student essay"},null),"review");
+ const ungraded=api.HSGExamSolutions.findSolution(sol,id==="dh-vinh"?"d:1":"w:81");
+ assert.equal(api.HSGExamSolutions.assess("rewrite",{value:"different potentially valid sentence"},ungraded),"review");
+ return sol;
+};
+const v=check("dh-vinh",null,90,{"b1:1":"B","b2:21":"has cracked → cracked","c1:1":"C","c2:11":"NOT GIVEN","c4:19":"E","c5:30":"be","c6:34":"H","d:10":"overcame all the obstacles"});
+const p=check("phu-tho",null,70,{"g:21":"B","g:26":"D","wf:36":"scientists","e:49":"device → devices","r1:60":"B","r2:68":"horse","r3:80":"D","w:90":"turned on the waterworks"});
+assert.equal(api.HSGExamSolutions.assess("fill",{value:"become"},api.HSGExamSolutions.findSolution(v,"c5:30")),"correct");
+assert.equal(api.HSGExamSolutions.assess("fill",{value:"which"},api.HSGExamSolutions.findSolution(p,"r2:70")),"correct");
+console.log("Verified 160 reference answer records, alternative spellings, conservative assessment and non-scored essay models.");
