@@ -167,7 +167,9 @@ function getQuestion(g,n){
  for(const p of pages){
   const re=new RegExp(HSG_HEADER.source,"g"),matches=[...p.t.matchAll(re)];
   for(let i=0;i<matches.length;i++){const match=matches[i];if(Number(match[1])!==n)continue;
-   const fragment=p.t.slice(match.index+match[0].length,matches[i+1]?.index??p.t.length).trim();
+   const fragment=p.t.slice(match.index+match[0].length,matches[i+1]?.index??p.t.length)
+    // A final question must not absorb the next printed paper Part.
+    .split(/(?:^|\n)\s*(?:Part\s+\d+[.)]\s*(?:Paragraph|Essay)\s+writing\b|SECTION\s+[IVX]+[.)]\s*WRITING\b|[-—]{6,}\s*HẾT)/i)[0].trim();
    const op=parseOptions(fragment),stem=(op?fragment.slice(0,op.first):fragment).split(/\n(?:YOUR ANSWERS|Your answers)/)[0].trim();
    const score=(op?30:0)+Math.min(stem.length/20,30)-(fragment.length>1500?15:0);
    if(stem||op)choices.push({type,stem:stem.slice(0,900),options:op?.options||null,score,sourcePage:p.p,lastOnPage:i===matches.length-1});
