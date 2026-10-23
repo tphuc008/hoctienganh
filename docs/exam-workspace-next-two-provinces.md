@@ -23,19 +23,28 @@ The counts above include the Essay item. A learner's answer is always addressed 
 
 Both manifests are `exam-workspace-v1`, validated by `features/hsg-workspace-v1.js`. The extension `numbering: "per-part"` allows overlapping local question numbers without the globally contiguous constraint used by Hải Phòng. The source files remain in their existing compressed original form and the editor's answer-draft keys are unchanged.
 
-## Solution structure (review-first, verified-only)
+## Solution structure — published reference answers (2026-10-23)
 
-Both exams load a companion `*.solutions.json` with schema:
+**Đại học Vinh**: 90 sourced reference answers (11 Parts, 91 items with one essay); the suggested key was found in the non-official *Đáp án đề nghị Chuyên Anh Đại học Vinh 2026–2027* and checked against the test topic and numbering. **Phú Thọ**: 70 worked/cross-checked answers (8 Parts, 71 items with one essay) based on the matching 2026 official paper and the Springboard 2026 explanation article. A similarly named *Phú Thọ mock test answer key* is for a DIFFERENT test and was intentionally not used.
 
-- `correctAnswer`: verified reference answer
-- `explanation`: why this answer is correct in the source context
-- `evidence`: location and quotation in the original task
-- `distractorAnalysis`: why incorrect choices are not suitable
-- `transferablePattern`: reusable grammar, vocabulary or reasoning insight
+URLs:
+- Đại học Vinh: https://www.scribd.com/document/1052832015
+- Phú Thọ: https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/
+- Phú Thọ annotated paper: https://www.scribd.com/document/1070081848
 
-No answer records have been authored or verified for these two exams at this point. The UI therefore shows **answer coverage**, the learner's **saved responses**, source question previews and a way to reopen each question, not fabricated correctness marks or an official score. Each unverified response is explicitly flagged as awaiting an answer/explanation. When verified records are added, the shared module validates their provenance and can show structured explanatory panels in review mode.
+Each record has the reference answer, explanatory reasoning in Vietnamese, task/source locator, potential distractor notes, transferable pattern, reference provenance and non-official source flag. The answer structure is open to future editorial improvements; a sourced answer is not an official answer key, and the notes do not claim that the original examiners have confirmed every accepted alternative.
 
-Do **not** use Hải Phòng's exam-specific answer keys or automatic scoring for Vinh or Phú Thọ. Even if matching Part IDs appear across exams, the sources and correct responses are different.
+The shared solution module now:
+- Compares MCQ, YES/NO/NOT GIVEN and letter matching with the published reference, marking **correct** or **wrong**
+- Marks a matching Word Formation, Cloze or Sentence Transformation answer **correct**, but unmatched free-text answers **need review**, not automatically incorrect
+- Leaves Error Correction answers requiring reviewer judgment, since original passages ask for several errors in one text and answers may be entered in different slots
+- Treats written essays as non-scored, shows an illustrative AI-written model after finishing (269 words for Vinh, 146 words for Phú Thọ) and a short rubric
+- Displays item-level explanation panels only in the answer-review stage, with links to the non-official external answer/reference source
+- Shows the dashboard status breakdown **correct / wrong / needs review / blank**, preserving the learner's draft data and supporting resume
+
+No 100%-accurate official score is promised. The user-facing result includes a non-official-grading notice, so a valid alternate rewriting will not be marked wrong merely because it differs from the sample reference.
+
+Do not use Hải Phòng's exam-specific answer keys or automatic scoring for Vinh or Phú Thọ. Even if matching Part IDs appear across exams, the sources and correct responses are different.
 
 ## Files
 
@@ -48,9 +57,10 @@ Do **not** use Hải Phòng's exam-specific answer keys or automatic scoring for
 - `features/hsg-exam-solutions-v1.js` (reusable solution contract and ungraded answer review)
 - `features/hsg-tinh.js` (three provincial exams now routed through the same workspace UI)
 - `tests/hsg-workspace-two-provinces.test.cjs` (validation and synthetic rendering regression)
+- `tests/hsg-two-provinces-answers.test.cjs` (reference keys, essays, aliases and grading safeguards)
 
 ## Regression and limitations
 
 Run `node tests/hsg-workspace-two-provinces.test.cjs` at the repository root. Validate existing saved answers per group, switch among Part and Essay, test scrolling on desktop/mobile, print a subset and all parts, submit for ungraded review and resume.
 
-Both new exams currently use the original source text extractor; they **do not** have fully transcribed, independently verified structured question datasets or answer keys. Interface normalization is complete at the manifest and renderer level, but a browser-level UX check and content audit are still required before calling each exam fully verified. Older province exams retain their previous UX and grading behavior until explicitly migrated.
+Both exams still render the original compressed paper via source extraction, rather than a fully transcribed typed question JSON. Browser-level QA and independent proofreading of solution alternatives remain advisable.
