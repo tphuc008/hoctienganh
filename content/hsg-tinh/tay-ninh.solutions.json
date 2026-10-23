@@ -154,6 +154,151 @@
         "official": false
       },
       "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 26,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Must have been suy đoán có cơ sở về sự ngạc nhiên trong quá khứ: bạn thân bất ngờ xuất hiện tại lễ tốt nghiệp.",
+      "evidence": [
+        {
+          "location": "G · câu 26",
+          "quote": "you must have been surprised",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "must have + past participle",
+      "examples": [
+        {
+          "word": "C",
+          "en": "You must have been thrilled to see your old friends.",
+          "vi": "Hẳn bạn đã rất phấn khích khi gặp lại những người bạn cũ."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 27,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Bury the hatchet là thành ngữ chỉ giảng hòa sau mâu thuẫn kéo dài; câu nhắc hai người bạn gặp lại nhau sau nhiều năm.",
+      "evidence": [
+        {
+          "location": "G · câu 27",
+          "quote": "decided to bury the hatchet",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "bury the hatchet = make peace",
+      "examples": [
+        {
+          "word": "D",
+          "en": "They finally buried the hatchet after years of arguing.",
+          "vi": "Cuối cùng họ đã làm hòa sau nhiều năm tranh cãi."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 28,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Ragged performance mô tả màn trình diễn thiếu đồng đều, không ăn khớp; nhóm nhạc liên tục mất nhịp.",
+      "evidence": [
+        {
+          "location": "G · câu 28",
+          "quote": "a ragged performance",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "ragged performance = uneven execution",
+      "examples": [
+        {
+          "word": "D",
+          "en": "The choir gave a ragged performance without enough rehearsal.",
+          "vi": "Dàn hợp xướng biểu diễn thiếu đồng đều vì chưa tập đủ."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 29,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Take a sideswipe at somebody là công kích bóng gió, phù hợp với ứng viên chỉ trích đối thủ nhân câu hỏi về giao thông.",
+      "evidence": [
+        {
+          "location": "G · câu 29",
+          "quote": "took a sideswipe at his opponent",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "take a sideswipe at someone",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The speaker took a sideswipe at his rival during the debate.",
+          "vi": "Diễn giả bóng gió công kích đối thủ trong cuộc tranh luận."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 30,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Swallow up diễn tả doanh nghiệp lớn thôn tính doanh nghiệp nhỏ; phù hợp quá trình các hiệu sách độc lập bị tập đoàn bán lẻ lớn lấn át.",
+      "evidence": [
+        {
+          "location": "G · câu 30",
+          "quote": "bookstores have been swallowed up by large retailers",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "be swallowed up by = be absorbed or taken over",
+      "examples": [
+        {
+          "word": "A",
+          "en": "Small shops were swallowed up by international chains.",
+          "vi": "Những cửa hàng nhỏ bị các chuỗi quốc tế thâu tóm."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
     }
   ],
   "source": {
