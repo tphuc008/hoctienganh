@@ -1,0 +1,115 @@
+/* Exam Workspace Standard V1: shared visual rules for source-driven exams.
+ * This file is deliberately agnostic to Hai Phong or any other province.
+ * It applies ONLY when a validated workspace has .hsg-exam-ws-v1.
+ * Paper/print rendering is owned by hsg-print.css and is not altered.
+ */
+@media screen {
+ .hsg-root.hsg-exam-ws-v1 {
+  --exam-ws-ink:#1b2c45;
+  --exam-ws-muted:#657993;
+  --exam-ws-line:#dce7f4;
+  --exam-ws-panel:#fff;
+  --exam-ws-accent:#2563eb;
+  --exam-ws-radius:12px;
+  color:var(--exam-ws-ink);
+  min-width:0;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-study-layout,
+ .hsg-root.hsg-exam-ws-v1 .hsg-study-main{
+  min-width:0;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-hp-focusbar{
+  font-family:inherit;
+ }
+ .hsg-root.hsg-exam-ws-v1 #hsg-hp-part-select{
+  max-width:100%;
+ }
+ .hsg-root.hsg-exam-ws-v1 :is(.hsg-reading-q-card,.hsg-study-question){
+  background:var(--exam-ws-panel);
+  border:1px solid var(--exam-ws-line);
+  border-radius:var(--exam-ws-radius);
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-reading-question-head{
+  min-width:0;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-reading-question-head p{
+  overflow-wrap:anywhere;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-current-form :is(button,input,textarea),
+ .hsg-root.hsg-exam-ws-v1 #hsg-answer-editor :is(button,input,textarea){
+  font-family:inherit;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-current-form .answer{
+  min-height:43px;line-height:1.5;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-reading-map{
+  overflow:hidden;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-reading-map-buttons{
+  scrollbar-width:thin;
+ }
+ .hsg-root.hsg-exam-ws-v1 :is(.hsg-passage-left,.hsg-passage-right){
+  min-height:0;overscroll-behavior-y:contain;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-passage-column-head{
+  min-width:0;
+ }
+ .hsg-root.hsg-exam-ws-v1 :is(.hsg-passage-paragraph,.hsg-schema-block){
+  overflow-wrap:break-word;
+ }
+ /* Each mode makes the correct information hierarchy explicit. */
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--focused .hsg-study-layout:not(.has-shared-passage){
+  grid-template-columns:minmax(0,1fr) minmax(170px,202px);
+  gap:12px;align-items:start;
+ }
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--focused .hsg-study-question{
+  width:100%;
+ }
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--focused .hsg-question-stem{
+  max-width:88ch;
+ }
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--split .hsg-passage-questions,
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--error .hsg-passage-questions,
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--reading .hsg-passage-questions{
+  display:block;
+  overflow:visible;
+ }
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--split #hsg-answer-list>.hsg-reading-q-card,
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--error #hsg-answer-list>.hsg-reading-q-card,
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--reading #hsg-answer-list>.hsg-reading-q-card{
+  display:block;
+ }
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--reading .hsg-passage-right{
+  overflow-y:auto;overflow-x:hidden;
+ }
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--reading #hsg-answer-list>.hsg-reading-q-card{
+  margin-bottom:12px;
+ }
+ .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--error .hsg-split-error :is(input,textarea){
+  min-width:0;max-width:100%;
+ }
+ .hsg-root.hsg-exam-ws-v1 :where(.hsg-hp-exit,#hsg-hp-part-select,.hsg-reading-map button,.hsg-current-form button):focus-visible{
+  outline:3px solid #93c5fd;outline-offset:2px;
+ }
+ @media(max-width:880px){
+  .hsg-root.hsg-exam-ws-v1.hsg-exam-mode--focused .hsg-study-layout:not(.has-shared-passage){
+   grid-template-columns:minmax(0,1fr);
+  }
+  .hsg-root.hsg-exam-ws-v1 .hsg-passage-mobile-tabs{
+   display:flex;
+  }
+ }
+ @media(max-width:480px){
+  .hsg-root.hsg-exam-ws-v1 .hsg-reading-q-card{
+   padding:13px 11px;
+  }
+  .hsg-root.hsg-exam-ws-v1 .hsg-passage-questions{
+   padding:12px 10px 24px;
+  }
+ }
+ @media(prefers-reduced-motion:reduce){
+  .hsg-root.hsg-exam-ws-v1 *{
+   scroll-behavior:auto!important;
+  }
+ }
+}
