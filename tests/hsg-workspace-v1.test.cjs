@@ -57,7 +57,7 @@ reject(x=>x.parts[9].subtasks[0].maxWords=2,"Invalid word limit must fail");
 reject(x=>x.parts[9].subtasks[1].start=97,"Missing rewrite number must fail");
 reject(x=>x.parts[9].subtasks[1].minWords=3,"Word limit leakage to 96-100 must fail");
 const index=get("index.html");
-assert.ok(index.includes('hsg-workspace-v1.js?v=20261023-two-provinces-v1'));
+assert.ok(index.includes('hsg-workspace-v1.js?v=20261023-explanation-v3'));
 assert.ok(index.includes('hsg-workspace-v1.css?v=20261023-two-provinces-v2'));
 const css=get("features/hsg-workspace-v1.css");
 assert.ok(css.includes("@media screen"));
