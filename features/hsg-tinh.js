@@ -651,7 +651,7 @@ function renderExam(){
   '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div>'+
   '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
   '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>';
- root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus'+(g.id==="r"?' hsg-hp-reading-single':''):'')+
+ root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus'+(g.id==="r"?' hsg-hp-reading-single':'')+(g.id==="essay"?' hsg-hp-writing':''):'')+
    (passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'">'+
  (hp?hpHeader:standardHeader)+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
@@ -1290,6 +1290,10 @@ async function open(hash){
   state.page=Math.min(Math.max(0,draft.page||0),data.pages.length-1);
   const g=groups(e).find(x=>x.id===state.group);
   state.question=Number.isInteger(draft.question)&&draft.question>=g.start&&draft.question<=g.end?draft.question:g.start;
+  if(e.id==="hai-phong"){
+   state.passageSplitRatio=g.id==="r"?62:54;
+   state.readingScroll={passage:0,questions:0};
+  }
   renderExam();
  }catch(error){
   root.innerHTML='<div class="hsg-root"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button></div><div class="empty"><b>Không tải được đề thi</b>'+esc(error.message)+'</div></div>';
