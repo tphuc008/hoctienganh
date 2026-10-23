@@ -1,4 +1,4 @@
-/* Teacher Grammar Library: 25 topics in numerical order; six available. */
+/* Teacher Grammar Library: 25 topics in numerical order; eight available. */
 (function(g){
 "use strict";
 const catalog=[
@@ -12,7 +12,7 @@ const catalog=[
 ["Câu điều kiện","Conditional sentences"],["Phát âm","Pronunciation"],
 ["Đảo ngữ","Inversions"],["Mệnh đề quan hệ","Relative clauses"],
 ["Thành ngữ","Idioms"],["Cụm từ cố định","Collocations"],["Một số cấu trúc thông dụng","Useful grammar structures"]
-].map(([vi,en],i)=>({number:i+1,vi,en,available:[3,5,6,19,21,22].includes(i+1),new:[3,5,6,19,22].includes(i+1)}));
+].map(([vi,en],i)=>({number:i+1,vi,en,available:[3,4,5,6,8,19,21,22].includes(i+1),new:[3,4,5,6,8,19,22].includes(i+1)}));
 if(catalog.length!==25)throw Error("Expected 25 grammar topics");
 const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function card(item){
@@ -35,8 +35,8 @@ function render(){
    '<header class="g-lib-hero"><div><span class="g-lib-eyebrow">GRAMMAR · LEARNING LIBRARY</span>'+
       '<h1>25 chuyên đề <em>ngữ pháp</em></h1>'+
       '<p>Học lý thuyết ngắn gọn, luyện từng câu và xem giải thích chi tiết. Sắp xếp theo thứ tự 1–25 để dễ tìm và tiếp tục.</p></div>'+
-     '<div class="g-lib-stats"><div><b>25</b><span>Chuyên đề</span></div><div><b>06</b><span>Đã mở</span></div><div><b>05</b><span>Giai đoạn học</span></div></div></header>'+
-   '<section class="g-lib-status-strip"><div><span class="g-lib-dot"></span><b>Có thể học ngay:</b> Chuyên đề 3, 5, 6, 19, 21 và 22</div>'+
+     '<div class="g-lib-stats"><div><b>25</b><span>Chuyên đề</span></div><div><b>08</b><span>Đã mở</span></div><div><b>05</b><span>Giai đoạn học</span></div></div></header>'+
+   '<section class="g-lib-status-strip"><div><span class="g-lib-dot"></span><b>Có thể học ngay:</b> Chuyên đề 3, 4, 5, 6, 8, 19, 21 và 22</div>'+
      '<span>Những chuyên đề còn lại hiển thị để bạn theo dõi lộ trình</span></section>'+
    groups.map(([start,end,title,sub])=>
      '<section class="g-lib-section"><div class="g-lib-section-heading"><div><span>'+sub+'</span><h2>'+title+'</h2></div>'+
