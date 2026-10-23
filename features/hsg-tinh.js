@@ -50,10 +50,10 @@ function save(){
   {answers:state.answers,review:state.review,group:state.group,page:state.page,question:state.question,
    ...(state.exam.id==="hai-phong"?{answerReviewUnlocked:state.answerReviewUnlocked,resultVisible:state.resultVisible}:{}),
    updatedAt:new Date().toISOString()});
-  const status=$("hsg-save-status");if(status)status.textContent="Đã lưu trên thiết bị theo tài khoản";
+  const status=$("hsg-save-status");if(status)status.textContent=state.exam.id==="hai-phong"?"":"Đã lưu trên thiết bị theo tài khoản";
  }catch(e){const status=$("hsg-save-status");if(status)status.textContent="Chưa lưu được: "+e.message}
 }
-function queueSave(){const s=$("hsg-save-status");if(s)s.textContent="Đang lưu…";clearTimeout(state.saveTimer);state.saveTimer=setTimeout(save,250)}
+function queueSave(){const s=$("hsg-save-status");if(s)s.textContent=state.exam?.id==="hai-phong"?"":"Đang lưu…";clearTimeout(state.saveTimer);state.saveTimer=setTimeout(save,250)}
 function meta(exam){return '<span class="hsg-chip">'+esc(exam.year)+'</span><span class="hsg-chip hsg-chip-subtle">Không có Listening</span>'}
 function progressFor(exam){
  const draft=readDraft(exam), a=draft.answers||{};
@@ -620,7 +620,7 @@ function renderExam(){
   const split=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
   '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
   splitTools+'<div class="hsg-passage-workspace"><section class="hsg-passage-left" id="hsg-passage-left" aria-label="Đoạn văn" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
-  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" id="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong><span>Tự động lưu</span></div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
+  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" id="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong>'+(e.id==="hai-phong"?"":'<span>Tự động lưu</span>')+'</div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
  // One route-owned rendering container for ALL HSG sections.
  removeReadingPortal();
  const root=$("pageMount");
@@ -639,7 +639,7 @@ function renderExam(){
   '<div class="hsg-hp-compact-progress-top"><strong id="hsg-progress-num">'+done+'/'+total+'</strong><span>câu đã làm</span></div>'+
   '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div>'+
   '<span class="hsg-hp-progress-pct" id="hsg-progress-pct">'+pct+'%</span></div>'+
-  '<div class="hsg-hp-focus-actions"><span id="hsg-save-status" role="status">Tự động lưu</span>'+
+  '<div class="hsg-hp-focus-actions"><span id="hsg-save-status" role="status" aria-live="polite"></span>'+
   '<button type="button" class="hsg-light-btn" id="hsg-print" title="In đề thi">In</button>'+
   '<button type="button" id="hsg-toggle-answer-review" class="hsg-hp-review-switch" aria-pressed="'+(state.answerReviewUnlocked?'true':'false')+'">'+
   (state.answerReviewUnlocked?'← Kết quả':'Kết thúc bài làm')+'</button></div></header>';
@@ -779,7 +779,7 @@ function renderEditor(){
   inputs='<label class="hsg-input-label">Điền đáp án<input type="text" data-hsg-field="value" autocomplete="off" placeholder="Nhập từ / cụm từ..." value="'+esc(saved.value||"")+'"></label>';
  }
  editor.innerHTML='<div class="hsg-question-kicker"><span>QUESTION '+String(n).padStart(2,"0")+'</span><span>'+esc(q.type.toUpperCase().replace("MCQ","MULTIPLE CHOICE"))+'</span></div>'+
- '<div class="hsg-question-stem">'+esc(stem)+'</div><p class="hsg-form-note">'+(state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?"Câu trả lời đã được giữ nguyên để xem lại.":"Trả lời bên dưới · Tự lưu · Chưa chấm điểm.")+'</p>'+inputs+
+ '<div class="hsg-question-stem">'+esc(stem)+'</div>'+(state.exam?.id==="hai-phong"?(state.answerReviewUnlocked?'<p class="hsg-form-note">Câu trả lời đã được giữ nguyên để xem lại.</p>':""):'<p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>')+inputs+
  (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':"")+
  hsgExplanationControl(g,n,q)+
  '<div class="hsg-question-actions"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-flag">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu xem lại')+'</button></div>'+
