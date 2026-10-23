@@ -108,7 +108,7 @@ async function getExamData(id){
   throw new Error("Không tải được dữ liệu chuẩn hóa đề "+id+" ("+extra.status+")");
  }
  if(id==="hai-phong"){
-  const workspaceResp=await fetch("content/hsg-tinh/hai-phong.workspace.json?v=20261023-workspace-v1",{cache:"no-store"});
+  const workspaceResp=await fetch("content/hsg-tinh/hai-phong.workspace.json?v=20261023-source-format-v2",{cache:"no-store"});
   if(!workspaceResp.ok)throw Error("Không tải được cấu trúc giao diện đề Hải Phòng ("+workspaceResp.status+")");
   if(!global.HSGWorkspaceV1)throw Error("Chưa tải bộ kiểm tra Exam Workspace V1.");
   result.workspace=global.HSGWorkspaceV1.validate(await workspaceResp.json(),id,HSG_PARTS[id],result.structured);
