@@ -1,7 +1,7 @@
 {
   "version": 1,
   "examId": "son-la",
-  "status": "pending-verification",
+  "status": "partially-verified",
   "format": [
     "correctAnswer",
     "explanation",
@@ -9,5 +9,156 @@
     "distractorAnalysis",
     "transferablePattern"
   ],
-  "records": []
+  "records": [
+    {
+      "partId": "g1",
+      "number": 26,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Mệnh đề quan hệ phi xác định dùng which sau dấu phẩy để thay thế cả nhận định ở mệnh đề trước.",
+      "evidence": [
+        {
+          "location": "Đề son-la · G1 · câu 26",
+          "quote": "which many environmental scientists strongly support",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Non-defining relative clause: comma + which + clause.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "A city introduced low-emission buses, which helped improve air quality.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g1",
+      "number": 27,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Reducing pollution in crowded cities là cụm V-ing đóng vai trò chủ ngữ của has encouraged.",
+      "evidence": [
+        {
+          "location": "Đề son-la · G1 · câu 27",
+          "quote": "Reducing pollution in crowded cities",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Gerund phrase as subject + singular verb.",
+      "examples": [
+        {
+          "word": "B",
+          "en": "Learning vocabulary in context helps students remember words.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g1",
+      "number": 28,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Although nối mệnh đề nhượng bộ có chủ ngữ và động từ; ý hai vế tương phản dù giao thông công cộng tốt hơn.",
+      "evidence": [
+        {
+          "location": "Đề son-la · G1 · câu 28",
+          "quote": "although public transportation is improving",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Although + S + V, S + V.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "Although the train is cheaper, some commuters still drive.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g1",
+      "number": 29,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Because + mệnh đề nêu nguyên nhân thực tế khiến thành phố tăng hỗ trợ phương tiện xanh.",
+      "evidence": [
+        {
+          "location": "Đề son-la · G1 · câu 29",
+          "quote": "Because environmental problems are becoming more serious",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Because + clause; because of + noun/V-ing.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "Because fuel prices rose, more people began cycling to work.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g1",
+      "number": 30,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Đảo ngữ điều kiện loại 1 dùng Should + S + V; mệnh đề sau dùng can diễn đạt kết quả khả dĩ.",
+      "evidence": [
+        {
+          "location": "Đề son-la · G1 · câu 30",
+          "quote": "should the governments encourage people to use greener transportation",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Should + S + V, S + can/will + V.",
+      "examples": [
+        {
+          "word": "C",
+          "en": "Should the school introduce digital exams, students will need training.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    }
+  ],
+  "source": {
+    "referenceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+    "official": false,
+    "sourceNote": "Đáp án tham khảo đối chiếu với dạng bài và ngữ cảnh; chưa có đủ phân tích mọi phương án; cần tiếp tục kiểm tra."
+  }
 }
