@@ -34,7 +34,7 @@ const HSG_PARTS={
  "ptnk":[["139","Mã đề 139",1,130,"mixed",[1,2,3,4,5,6,7,8,9,10]],["240","Mã đề 240",1,130,"mixed",[11,12,13,14,15,16,17,18,19,20]],["306","Mã đề 306",1,130,"mixed",[21,22,23,24,25,26,27,28,29,30]],["4","Mã đề thứ tư",1,130,"mixed",[31,32,33,34,35,36,37,38,39,40]]]
 };
 function mappedGroups(exam){
- const manifest=exam.id==="hai-phong"&&state.exam?.id===exam.id?state.data?.workspace:null;
+ const manifest=state.exam?.id===exam.id?state.data?.workspace:null;
  return (HSG_PARTS[exam.id]||[]).map(([id,name,start,end,kind,pages])=>{
   const layout=global.HSGWorkspaceV1?.getPart(manifest,id);
   return {id,name,start,end,kind,pages,
@@ -56,12 +56,12 @@ function save(){
  if(!state.exam)return;
  try{global.LearningCore?.writeDraft("exam",draftSlug(state.exam),
   {answers:state.answers,review:state.review,group:state.group,page:state.page,question:state.question,
-   ...(state.exam.id==="hai-phong"?{answerReviewUnlocked:state.answerReviewUnlocked,resultVisible:state.resultVisible}:{}),
+   ...(state.data?.workspace?{answerReviewUnlocked:state.answerReviewUnlocked,resultVisible:state.resultVisible}:{}),
    updatedAt:new Date().toISOString()});
-  const status=$("hsg-save-status");if(status)status.textContent=state.exam.id==="hai-phong"?"":"Đã lưu trên thiết bị theo tài khoản";
+  const status=$("hsg-save-status");if(status)status.textContent=state.data?.workspace?"":"Đã lưu trên thiết bị theo tài khoản";
  }catch(e){const status=$("hsg-save-status");if(status)status.textContent="Chưa lưu được: "+e.message}
 }
-function queueSave(){const s=$("hsg-save-status");if(s)s.textContent=state.exam?.id==="hai-phong"?"":"Đang lưu…";clearTimeout(state.saveTimer);state.saveTimer=setTimeout(save,250)}
+function queueSave(){const s=$("hsg-save-status");if(s)s.textContent=state.data?.workspace?"":"Đang lưu…";clearTimeout(state.saveTimer);state.saveTimer=setTimeout(save,250)}
 function meta(exam){return '<span class="hsg-chip">'+esc(exam.year)+'</span><span class="hsg-chip hsg-chip-subtle">Không có Listening</span>'}
 function progressFor(exam){
  const draft=readDraft(exam), a=draft.answers||{};
@@ -107,9 +107,10 @@ async function getExamData(id){
  }else if(extra.status!==404||CONFIGS.find(e=>e.id===id)?.structuredRequired){
   throw new Error("Không tải được dữ liệu chuẩn hóa đề "+id+" ("+extra.status+")");
  }
- if(id==="hai-phong"){
-  const workspaceResp=await fetch("content/hsg-tinh/hai-phong.workspace.json?v=20261023-source-format-v2",{cache:"no-store"});
-  if(!workspaceResp.ok)throw Error("Không tải được cấu trúc giao diện đề Hải Phòng ("+workspaceResp.status+")");
+ if(["hai-phong","dh-vinh","phu-tho"].includes(id)){
+  const workspaceVer=id==="hai-phong"?"20261023-source-format-v2":"20261023-shared-v1";
+  const workspaceResp=await fetch("content/hsg-tinh/"+id+".workspace.json?v="+workspaceVer,{cache:"no-store"});
+  if(!workspaceResp.ok)throw Error("Không tải được cấu trúc giao diện đề "+id+" ("+workspaceResp.status+")");
   if(!global.HSGWorkspaceV1)throw Error("Chưa tải bộ kiểm tra Exam Workspace V1.");
   result.workspace=global.HSGWorkspaceV1.validate(await workspaceResp.json(),id,HSG_PARTS[id],result.structured);
  }
@@ -650,28 +651,28 @@ function renderExam(){
    '<span data-hsg-text-size-label aria-live="polite">'+state.passageTextSize+'px</span>'+
    '<button type="button" data-hsg-text-size="larger" aria-label="Tăng cỡ chữ bài đọc" title="Tăng cỡ chữ">A+</button></div>':
    '<span class="hsg-scroll-help">Cuộn độc lập</span>';
-  const splitTools=passage&&e.id==="hai-phong"?'<div class="hsg-hp-workspace-tools" role="group" aria-label="Điều chỉnh độ rộng phần đọc">'+
+  const splitTools=passage&&!!state.data?.workspace?'<div class="hsg-hp-workspace-tools" role="group" aria-label="Điều chỉnh độ rộng phần đọc">'+
   '<span>Không gian đọc</span><button type="button" data-hsg-ratio="62">Văn bản rộng</button>'+
   '<button type="button" data-hsg-ratio="54">Cân bằng</button>'+
   '<button type="button" data-hsg-ratio="42">Câu hỏi rộng</button></div>':"";
   const split=passage?'<div class="hsg-passage-split" id="hsg-passage-split" data-mobile-tab="questions">'+
   '<div class="hsg-passage-mobile-tabs"><button type="button" data-hsg-mobile-tab="passage" aria-pressed="false">Đoạn văn</button><button type="button" data-hsg-mobile-tab="questions" aria-pressed="true">Câu hỏi & trả lời</button></div>'+
   splitTools+'<div class="hsg-passage-workspace"><section class="hsg-passage-left" id="hsg-passage-left" aria-label="Đoạn văn" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>PASSAGE · SOURCE TEXT</strong>'+fontTools+'</div><div class="hsg-passage-content" id="hsg-passage-left-body">'+originalPages(g)+'</div></section>'+
-  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" id="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong>'+(e.id==="hai-phong"?"":'<span>Tự động lưu</span>')+'</div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
+  '<div class="hsg-passage-divider" aria-hidden="true"></div><section class="hsg-passage-right" id="hsg-passage-right" aria-label="Câu hỏi và phiếu trả lời" role="region" tabindex="0"><div class="hsg-passage-column-head"><strong>QUESTIONS · ANSWERS</strong>'+(state.data?.workspace?"":'<span>Tự động lưu</span>')+'</div><div class="hsg-passage-questions" id="hsg-answer-list"></div></section></div>'+nav+'</div>':"";
  // One route-owned rendering container for ALL HSG sections.
  removeReadingPortal();
  const root=$("pageMount");
  root.style.display="block";
- const hp=e.id==="hai-phong";
+ const hp=!!state.data?.workspace;
  const hpPartIndex=groups(e).findIndex(x=>x.id===g.id)+1;
  const hpHeader='<header class="hsg-hp-focusbar" aria-label="Thanh điều hướng làm bài">'+
   '<button type="button" class="hsg-hp-exit" id="hsg-hp-exit" aria-label="Quay lại thư viện HSG tỉnh" title="Quay lại HSG tỉnh">←</button>'+
-  '<div class="hsg-hp-focus-title"><strong>'+esc(e.title)+'</strong><small>Tiếng Anh chuyên · '+esc(e.year)+'</small></div>'+
+  '<div class="hsg-hp-focus-title"><strong>'+esc(e.title)+'</strong><small>'+esc(e.subtitle||"Đề tiếng Anh chuyên")+' · '+esc(e.year)+'</small></div>'+
   '<div class="hsg-hp-part-picker"><label for="hsg-hp-part-select">'+
   (state.answerReviewUnlocked?'ĐANG XEM LẠI':'CHỌN PHẦN BÀI TẬP')+' · '+hpPartIndex+'/'+groups(e).length+'</label>'+
-  '<select id="hsg-hp-part-select" aria-label="Chọn phần của đề Hải Phòng">'+
+  '<select id="hsg-hp-part-select" aria-label="Chọn phần của đề '+esc(e.title)+'">'+
   groups(e).map((x,i)=>'<option value="'+esc(x.id)+'"'+(x.id===g.id?' selected':'')+'>'+
-   String(i+1).padStart(2,"0")+'. '+esc(x.name)+' ('+(x.id==="essay"?'Bài viết':x.start+'–'+x.end)+')</option>').join("")+'</select></div>'+
+   String(i+1).padStart(2,"0")+'. '+esc(x.name)+' ('+(x.kind==="essay"?'Bài viết':x.start+'–'+x.end)+')</option>').join("")+'</select></div>'+
   '<div class="hsg-hp-compact-progress" aria-label="Tiến độ của phần đang làm">'+
   '<div class="hsg-hp-compact-progress-top"><strong id="hsg-progress-num">'+done+'/'+total+'</strong><span>câu đã làm</span></div>'+
   '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div>'+
@@ -723,7 +724,7 @@ function renderExam(){
   const old=activePassageBlock(g),next=Number(b.dataset.question),now=activePassageBlock(g,next);
   if(g.kind==="mixed"&&old?.start!==now?.start){state.question=next;renderExam()}
   else if(passage){
-    if(e.id==="hai-phong"&&window.matchMedia("(max-width:880px)").matches)switchPassageTab("questions");
+    if(state.data?.workspace&&window.matchMedia("(max-width:880px)").matches)switchPassageTab("questions");
     focusPassageQuestion(next);
   }
   else{state.question=next;renderEditor()}
@@ -750,7 +751,7 @@ function renderExam(){
   syncTextSize();
  });
  syncTextSize();
- if(e.id==="hai-phong"&&passage){
+ if(state.data?.workspace&&passage){
   const grid=root.querySelector(".hsg-passage-workspace");
   const presets=[...root.querySelectorAll("[data-hsg-ratio]")];
   const setRatio=value=>{
