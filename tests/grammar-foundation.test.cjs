@@ -69,7 +69,7 @@ for(const n of [3,6]){
     });
     const click=(action,dataset={})=>mount.click({target:{closest(){return {dataset:{g21:action,...dataset}};}}});
     studio.open(topicRoute.slice(1),{user:{id:"foundation-teacher"}});
-    assert.match(mount.innerHTML,/1\. Ý nghĩa &amp; cách dùng/);
+    assert.match(mount.innerHTML,/1\. Ý nghĩa & cách dùng/);
     assert.match(mount.innerHTML,/4\. Ví dụ đối chiếu/);
     assert.match(mount.innerHTML,/6\. Quick Check/);
     const labels=["Lý thuyết","Luyện tập","Chữa lỗi","Kiểm tra","Ôn tập"];
