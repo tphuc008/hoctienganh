@@ -66,7 +66,7 @@ for(const [id,count] of defs){
   if(part.input==="essay")assert.ok(html.includes("hsg-hp-writing"));
  }
 }
-assert.ok(index.includes("hsg-exam-solutions-v1.js?v=20261023-two-provinces-v2"));
+assert.ok(index.includes("hsg-exam-solutions-v1.js?v=20261023-two-provinces-v3"));
 assert.ok(index.includes("hsg-tinh.js?v=20261023-two-provinces-v2"));
 assert.ok(index.includes("hsg-workspace-v1.css?v=20261023-two-provinces-v2"));
 console.log("Vinh and Phu Tho manifests, answer review and 6 UI render modes validated.");
