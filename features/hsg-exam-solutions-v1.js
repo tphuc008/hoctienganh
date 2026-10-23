@@ -15,7 +15,7 @@ const makeAnswer=r=>{
 };
 function validate(doc,examId,sections){
  if(!doc||doc.version!==1||doc.examId!==examId||
-   doc.status!=="pending-verification"||!Array.isArray(doc.records)||
+   !["pending-verification","partially-verified","verified"].includes(doc.status)||!Array.isArray(doc.records)||
    !Array.isArray(doc.format))throw Error("Invalid solution structure for "+examId);
  const required=["correctAnswer","explanation","evidence","distractorAnalysis","transferablePattern"];
  if(required.some(key=>!doc.format.includes(key)))throw Error("Missing explanation structure");
@@ -34,6 +34,12 @@ function validate(doc,examId,sections){
      !Array.isArray(r.distractorAnalysis)||typeof r.transferablePattern!=="string")
    throw Error("Solution record lacks verified evidence: "+identity);
  }
+ const total=sections.reduce((count,part)=>count+part.end-part.start+1,0);
+ if(doc.status==="pending-verification"&&doc.records.length)throw Error("Pending solutions cannot contain published answers");
+ if(doc.status==="partially-verified"&&(!doc.records.length||doc.records.length>=total))
+  throw Error("Partially verified solution status does not match record coverage");
+ if(doc.status==="verified"&&doc.records.length!==total)
+  throw Error("Fully verified status requires complete source-backed answer coverage");
  return doc;
 }
 function findSolution(doc,id){return doc?.records?.find(p=>p.partId+":"+p.number===id)||null}
@@ -77,7 +83,11 @@ function render(root,report,handlers){
   '<div class="hsg-rs-rate"><strong>'+pct+'%</strong><span>Mức độ hoàn thành</span></div></div>'+
   '<div class="hsg-rs-bars"><span class="hsg-rs-bar-correct" style="width:'+pct+'%"></span>'+
   '<span class="hsg-rs-bar-unanswered" style="width:'+(100-pct)+'%"></span></div>'+
-  '<p class="hsg-rs-disclaimer">Chưa có bộ đáp án và lời giải được xác minh cho đề này. Đây là thống kê tiến độ, KHÔNG phải điểm số hoặc chấm đúng/sai. Bài làm của bạn vẫn được lưu để đối chiếu khi có lời giải.</p></section>'+
+  '<p class="hsg-rs-disclaimer">'+
+   (report.solutions.verifiedCount
+    ?'Chỉ các câu có nguồn đối chiếu mới hiển thị lời giải. Đây là thống kê tiến độ, KHÔNG phải điểm số tự động; những câu chưa có đáp án sẽ tiếp tục được đánh dấu chờ xác minh.'
+    :'Chưa có bộ đáp án và lời giải được xác minh cho đề này. Đây là thống kê tiến độ, KHÔNG phải điểm số hoặc chấm đúng/sai. Bài làm của bạn vẫn được lưu để đối chiếu khi có lời giải.')+
+   '</p></section>'+
   '<section class="hsg-rs-section"><div class="hsg-rs-section-heading"><h2>Tiến độ theo từng Part</h2>'+
   '<span>'+report.parts.length+' phần</span></div><div class="hsg-rs-part-card">'+
   report.parts.map(part=>'<div class="hsg-rs-part"><div class="hsg-rs-part-top"><div><h3>'+esc(part.name)+
@@ -116,5 +126,5 @@ function render(root,report,handlers){
  root.querySelectorAll("[data-exam-review-resume]").forEach(b=>b.onclick=handlers.resume);
  root.querySelector("[data-exam-review-library]").onclick=handlers.library;
 }
-global.HSGExamSolutions=Object.freeze({version:"1.1",validate,findSolution,build,render});
+global.HSGExamSolutions=Object.freeze({version:"1.2",validate,findSolution,build,render});
 })(window);
