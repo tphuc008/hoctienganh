@@ -349,11 +349,30 @@ function hsgExplanationSource(g,n){
  return typed?typed.passage.map(block=>block.text).join("\n"):
   passageOnly(g,n)+"\n"+(getQuestion(g,n)?.stem||"");
 }
+function sharedExamGradeBadge(g,n,q){
+ if(state.exam?.id==="hai-phong"||!state.answerReviewUnlocked||!state.data?.solutions)return "";
+ const reference=global.HSGExamSolutions?.findSolution(state.data.solutions,g.id+":"+n);
+ const answer=state.answers[g.id+":"+n]||{};
+ const status=global.HSGExamSolutions?.assess(g.kind,answer,reference);
+ const info={correct:["✓ Đúng","#187e52"],wrong:["× Sai","#b42335"],
+  review:["Cần đối chiếu","#95650d"],unanswered:["Bỏ trống","#66758a"]}[status];
+ return info?'<span class="hsg-exam-grade-badge hsg-exam-grade-'+status+'" style="color:'+info[1]+'">'+info[0]+'</span>':"";
+}
 function hsgExplanationControl(g,n,q){
  if(state.exam?.id!=="hai-phong"){
   if(!state.answerReviewUnlocked)return "";
   const verified=global.HSGExamSolutions?.findSolution(state.data?.solutions,g.id+":"+n);
-  if(!verified)return "";
+  if(!verified){
+   const essay=state.data?.solutions?.essayGuidance;
+   if(q.type==="essay"&&essay?.partId===g.id){
+    return '<section class="hsg-exam-solution" data-hsg-solution="'+n+'">'+
+     '<button type="button" data-hsg-shared-explain-toggle aria-expanded="false">Xem bài viết mẫu & tiêu chí <span aria-hidden="true">⌄</span></button>'+
+     '<div class="hsg-exam-solution-body" hidden><p><b>Bài mẫu AI soạn để tham khảo, không phải đáp án chính thức.</b></p>'+
+     '<p>'+esc(essay.sample)+'</p><h4>Tiêu chí tham khảo</h4><ul>'+
+     (essay.criteria||[]).map(c=>'<li>'+esc(c)+'</li>').join("")+'</ul></div></section>';
+   }
+   return "";
+  }
   const evidence=(verified.evidence||[]).map(item=>'<li><b>'+esc(item.location)+'</b> · '+esc(item.quote)+'</li>').join("");
   const distractors=(verified.distractorAnalysis||[]).map(item=>'<li>'+esc(typeof item==="string"?item:item.reason||"")+'</li>').join("");
   return '<section class="hsg-exam-solution" data-hsg-solution="'+n+'">'+
@@ -436,7 +455,8 @@ function renderPassageForms(g){
     '<div class="hsg-reading-question-head"><span class="hsg-reading-num">'+n+'</span><p>'+esc(short||fallback)+'</p></div>'+
     (stem.length>450?'<details class="hsg-question-full"><summary>Xem toàn bộ câu hỏi</summary><p>'+esc(stem)+'</p></details>':"")+
     '<div class="hsg-current-form">'+passageInput(g,n,q,r)+'</div>'+
-    (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':"")+
+    (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':
+       state.answerReviewUnlocked?'<div class="hsg-exam-answer-evaluation">'+sharedExamGradeBadge(g,n,q)+'</div>':"")+
     hsgExplanationControl(g,n,q)+
     '<div class="hsg-current-foot"><button type="button" data-hsg-flag aria-pressed="'+!!state.review[k]+'">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu để xem lại')+'</button>'+
     '<span data-hsg-completion>'+(meaningfulAnswer(r)?'Đã trả lời':'Chưa hoàn thành')+'</span>'+
@@ -879,7 +899,8 @@ function renderEditor(){
  (subtask?'<p class="hsg-hp-task-note">'+esc(subtask.instruction)+'</p>':"")+
  (state.exam?.id==="hai-phong"?(state.answerReviewUnlocked?'<p class="hsg-form-note">Câu trả lời đã được giữ nguyên để xem lại.</p>':""):'<p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>')+inputs+
  (wordRule?'<p class="hsg-hp-rewrite-word-count" id="hsg-hp-rewrite-word-count">Đã nhập '+countWords(saved.value)+' từ · Yêu cầu '+subtask.minWords+'–'+subtask.maxWords+' từ (kể cả từ khóa)</p>':"")+
- (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':"")+
+ (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':
+   state.answerReviewUnlocked?'<div class="hsg-exam-answer-evaluation">'+sharedExamGradeBadge(g,n,q)+'</div>':"")+
  hsgExplanationControl(g,n,q)+
  '<div class="hsg-question-actions"><button type="button" id="hsg-clear">Xóa câu trả lời</button><button type="button" id="hsg-flag">'+(state.review[k]?'★ Đã đánh dấu':'☆ Đánh dấu xem lại')+'</button></div>'+
  '<div class="hsg-question-nav"><button class="secondary" id="hsg-prev-question" type="button"'+(n===g.start?' disabled':'')+'>← Câu trước</button><span>'+ (n-g.start+1)+' / '+(g.end-g.start+1)+'</span><button class="primary" id="hsg-next-question" type="button"'+(n===g.end?' disabled':'')+'>Câu tiếp theo →</button></div>';
