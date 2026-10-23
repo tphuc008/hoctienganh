@@ -37,7 +37,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Mệnh đề quan hệ phi xác định which thay cho cả nhận định về tác động của phương tiện xanh, đúng cấu trúc sau dấu phẩy.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Where chỉ nơi chốn, không thể thay thế cả mệnh đề mô tả kết quả giảm phát thải.",
+          "meaning": ""
+        },
+        {
+          "analysis": "That không được dùng để mở mệnh đề quan hệ phi xác định sau dấu phẩy.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Whom dùng làm tân ngữ chỉ người, không thay được sự việc/mệnh đề.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g1",
@@ -66,7 +84,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Reduce nguyên mẫu không thể tự đứng làm chủ ngữ của has encouraged theo cách này.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Reducing pollution ... là danh động từ/cụm V-ing đứng làm chủ ngữ, đúng với has encouraged.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Reduced pollution ... là phân từ quá khứ, không diễn đạt chính xác hành động giảm ô nhiễm làm chủ ngữ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "To reduce thường mở mệnh đề mục đích, không hợp cấu trúc chủ ngữ ngay trước has encouraged.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g1",
@@ -95,7 +131,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Although + mệnh đề đầy đủ thể hiện quan hệ nhượng bộ đối lập với việc vẫn dùng xe cá nhân.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Despite theo sau bằng danh từ/cụm danh từ/V-ing, không nối trực tiếp mệnh đề đầy đủ này.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Because of nêu nguyên nhân, không phù hợp quan hệ tương phản trong đoạn.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Only when là điều kiện thời điểm 'chỉ khi', không đúng ý mặc dù.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g1",
@@ -124,7 +178,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Because + S + V nêu lý do thực tế khiến các thành phố có chính sách khuyến khích.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Much as mang nghĩa nhượng bộ, trái logic nguyên nhân cần diễn đạt.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Although mang nghĩa mặc dù và phần theo sau trong lựa chọn này không lập thành mệnh đề cần thiết.",
+          "meaning": ""
+        },
+        {
+          "analysis": "As though mang nghĩa như thể, hàm ý giả định không đúng với bối cảnh nguyên nhân khách quan.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g1",
@@ -153,7 +225,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Cụm if ... encouraging thiếu động từ hữu hạn làm vị ngữ cho chủ ngữ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Were the governments to ... là đảo ngữ điều kiện loại 2, không khớp mệnh đề kết quả can.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Should the governments encourage ... là đảo ngữ điều kiện loại 1, khớp can help ở mệnh đề chính.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Unless mang nghĩa trừ khi, tạo điều kiện phủ định không phù hợp thông điệp khuyến khích.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g2",
