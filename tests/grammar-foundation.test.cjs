@@ -87,7 +87,9 @@ for(const n of [3,6]){
     click("tab",{tab:"mastery"});
     assert.match(mount.innerHTML,/Kiểm tra mức độ thành thạo/);
     click("tab",{tab:"review"});
-    assert.match(mount.innerHTML,/Review 1/);
+    assert.match(mount.innerHTML,/REVIEW · 2 SETS/);
+    click("review-select",{set:"set1"});
+    assert.match(mount.innerHTML,/REVIEW SET 1/);
   });
 }
 test("Foundation routes are teacher protected and the library exposes both entries",()=>{
