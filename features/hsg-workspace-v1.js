@@ -4,11 +4,11 @@
  */
 (function(global){
 "use strict";
-const LAYOUTS=new Set(["focused","split","error","reading"]);
-const INPUTS=new Set(["mcq","fill","word","error","rewrite","match","ynng","tfng","essay"]);
+const LAYOUTS=new Set(["focused","split","error","reading","adaptive"]);
+const INPUTS=new Set(["mcq","fill","word","error","rewrite","match","ynng","tfng","essay","mixed"]);
 const SOURCES=new Set(["structured","source-extracted"]);
 const OPTIONS=new Set(["compact","stacked","standard"]);
-const FLOW=new Set(["one-at-a-time","scroll-list"]);
+const FLOW=new Set(["one-at-a-time","scroll-list","dynamic"]);
 const own=(value,key)=>Object.prototype.hasOwnProperty.call(value,key);
 const fail=(scope,message)=>{throw Error("Exam Workspace ["+scope+"]: "+message)};
 function validate(doc,examId,legacyParts,structured){
@@ -32,7 +32,8 @@ function validate(doc,examId,legacyParts,structured){
   total+=part.end-part.start+1;
   if(!INPUTS.has(part.input)||part.input!==legacy[4])fail(part.id,"input type differs from exam source");
   if(!LAYOUTS.has(part.layout)||!SOURCES.has(part.source)||!OPTIONS.has(part.optionLayout)||!FLOW.has(part.questionFlow))fail(part.id,"unsupported presentation setting");
-  if(part.questionFlow!==(part.layout==="focused"?"one-at-a-time":"scroll-list"))fail(part.id,"incompatible question flow");
+  if(part.questionFlow!==(part.layout==="focused"?"one-at-a-time":part.layout==="adaptive"?"dynamic":"scroll-list"))fail(part.id,"incompatible question flow");
+  if(part.layout==="adaptive"&&part.input!=="mixed")fail(part.id,"adaptive layout only supports source-typed mixed papers");
   if(part.source==="structured"&&!structuredParts.has(part.id))fail(part.id,"declared structured data is missing");
   if(part.source==="source-extracted"&&structuredParts.has(part.id))fail(part.id,"structured source exists; manifest source status must be updated");
   if(part.layout==="focused"){
