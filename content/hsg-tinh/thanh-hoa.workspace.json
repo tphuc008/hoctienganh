@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "standard": "exam-workspace-v1",
+  "examId": "thanh-hoa",
+  "numbering": "per-part",
+  "settings": {
+    "autoSaveStatus": "errors-only",
+    "passageScroll": "independent",
+    "questionScroll": "independent",
+    "mobileReadingTabs": true,
+    "solutions": {
+      "mode": "review-first",
+      "grading": "not-configured",
+      "answers": "only-verified",
+      "explanations": "source-grounded"
+    }
+  },
+  "parts": [
+    {
+      "id": "p",
+      "start": 21,
+      "end": 25,
+      "input": "mcq",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "v",
+      "start": 26,
+      "end": 30,
+      "input": "word",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "wf",
+      "start": 31,
+      "end": 35,
+      "input": "word",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "e",
+      "start": 36,
+      "end": 40,
+      "input": "error",
+      "layout": "error",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "g",
+      "start": 41,
+      "end": 50,
+      "input": "mcq",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "oc",
+      "start": 51,
+      "end": 58,
+      "input": "fill",
+      "layout": "split",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "c",
+      "start": 59,
+      "end": 66,
+      "input": "mcq",
+      "layout": "split",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "r",
+      "start": 67,
+      "end": 74,
+      "input": "mcq",
+      "layout": "reading",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "m",
+      "start": 75,
+      "end": 80,
+      "input": "match",
+      "layout": "reading",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "w",
+      "start": 81,
+      "end": 90,
+      "input": "rewrite",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "essay",
+      "start": 1,
+      "end": 1,
+      "input": "essay",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    }
+  ]
+}
