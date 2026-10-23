@@ -108,13 +108,13 @@ async function getExamData(id){
   throw new Error("Không tải được dữ liệu chuẩn hóa đề "+id+" ("+extra.status+")");
  }
  if(["hai-phong","dh-vinh","phu-tho","son-la","tay-ninh","thanh-hoa","phan-boi-chau"].includes(id)){
-  const workspaceVer=id==="hai-phong"?"20261023-source-format-v2": "20261023-explanation-v1";
+  const workspaceVer=id==="hai-phong"?"20261023-source-format-v2": "20261023-explanation-v2";
   const workspaceResp=await fetch("content/hsg-tinh/"+id+".workspace.json?v="+workspaceVer,{cache:"no-store"});
   if(!workspaceResp.ok)throw Error("Không tải được cấu trúc giao diện đề "+id+" ("+workspaceResp.status+")");
   if(!global.HSGWorkspaceV1)throw Error("Chưa tải bộ kiểm tra Exam Workspace V1.");
   result.workspace=global.HSGWorkspaceV1.validate(await workspaceResp.json(),id,HSG_PARTS[id],result.structured);
   if(id!=="hai-phong"){
-   const solutionsResp=await fetch("content/hsg-tinh/"+id+".solutions.json?v=20261023-explanation-v1",{cache:"no-store"});
+   const solutionsResp=await fetch("content/hsg-tinh/"+id+".solutions.json?v=20261023-explanation-v2",{cache:"no-store"});
    if(!solutionsResp.ok)throw Error("Không tải được cấu trúc lời giải đề "+id);
    if(!global.HSGExamSolutions)throw Error("Chưa tải bộ chuẩn lời giải HSG.");
    const parts=HSG_PARTS[id].map(([partId,name,start,end,kind])=>({id:partId,name,start,end,kind}));
