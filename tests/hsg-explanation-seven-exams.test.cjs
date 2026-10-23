@@ -16,7 +16,8 @@ const idList=[
  ["son-la",12,57,7],
  ["tay-ninh",9,66,10],
  ["thanh-hoa",11,71,10],
- ["phan-boi-chau",11,77,10]
+ ["phan-boi-chau",11,77,10],
+ ["ptnk",4,520,0]
 ];
 const selector=(id)=>{
  const marker=' "'+id+'":[[',start=source.indexOf(marker);
@@ -68,6 +69,7 @@ for(const [id,count,total,solutionsCount] of idList.filter(x=>x[3]!==null)){
  assert.throws(()=>win.__audit.renderExam(),/CAPTURED/);
  assert.ok(captured.includes("hsg-hp-focusbar"),"Missing shared header "+id);
  assert.equal((captured.match(/<option value=/g)||[]).length,count);
+ if(!docs[id].solutions.records.length)continue;
  const answer=docs[id].solutions.records[0];
  const group={id:answer.partId,kind:docs[id].workspace.parts.find(p=>p.id===answer.partId).input};
  const q={type:group.kind,options:group.kind==="mcq"?["A choice","B choice","C choice","D choice"]:null};
@@ -78,7 +80,7 @@ for(const [id,count,total,solutionsCount] of idList.filter(x=>x[3]!==null)){
 }
 const index=get("index.html");
 assert.ok(index.includes("features/explanation-v1.js"));
-assert.ok(index.includes("features/hsg-exam-solutions-v1.js?v=20261023-explanation-v2"));
-assert.ok(index.includes("features/hsg-tinh.js?v=20261023-explanation-v2"));
+assert.ok(index.includes("features/hsg-exam-solutions-v1.js?v=20261023-explanation-v3"));
+assert.ok(index.includes("features/hsg-tinh.js?v=20261023-explanation-v3"));
 assert.ok(index.includes("features/hsg-print.css?v=20261021-error-lines-v1"));
-console.log("Seven HSG exam workspaces and six solution banks use the original three-step explanation renderer.");
+console.log("Eight HSG exam workspaces and seven solution banks use the original three-step explanation renderer.");
