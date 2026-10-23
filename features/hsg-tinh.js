@@ -527,7 +527,7 @@ function setupPassageDivider(){
   const bounds=grid.getBoundingClientRect();
   const value=Math.max(30,Math.min(70,((event.clientX-bounds.left)/bounds.width)*100));
   grid.style.gridTemplateColumns="minmax(0,"+value+"fr) 7px minmax(0,"+(100-value)+"fr)";
-  if(state.exam?.id==="hai-phong"){
+  if(state.data?.workspace){
    state.passageSplitRatio=Math.round(value);
    document.querySelectorAll(".hsg-hp-v2 [data-hsg-ratio]").forEach(button=>{
     button.setAttribute("aria-pressed",String(Number(button.dataset.hsgRatio)===state.passageSplitRatio));
@@ -634,9 +634,32 @@ function haiPhongGradeBadge(g,n){
  return '<span class="hsg-hp-result-status '+grade.status+'" aria-label="Kết quả câu: '+esc(label)+'" title="'+esc(grade.assessment||"")+'">'+
    info.icon+' '+esc(label)+'</span>';
 }
+/* Shared solution/review UI: no inferred answer key or marks. */
+function renderSharedExamResults(){
+ const mod=global.HSGExamSolutions;
+ if(!mod)throw Error("Chưa tải giao diện xem lại & lời giải.");
+ const report=mod.build(state.exam,groups(state.exam),state.answers,(g,n)=>getQuestion(g,n));
+ mod.render($("pageMount"),report,{
+  library:()=>{location.hash=BASE},
+  reviewQuestion:identity=>{
+   const q=report.all.find(item=>item.key===identity);if(!q)return;
+   state.group=q.group;state.question=q.number;state.resultVisible=false;
+   state.answerReviewUnlocked=true;renderExam();queueSave();
+   const g=groups(state.exam).find(item=>item.id===q.group);
+   if(passageBased(g))focusPassageQuestion(q.number);
+  },
+  reviewAll:()=>{
+   state.resultVisible=false;state.answerReviewUnlocked=true;renderExam();queueSave();
+  },
+  resume:()=>{
+   state.resultVisible=false;state.answerReviewUnlocked=false;renderExam();queueSave();
+  }
+ });
+}
 function renderExam(){
  const e=state.exam;
  if(e?.id==="hai-phong"&&state.resultVisible){renderHaiPhongResults();return}
+ if(e?.id!=="hai-phong"&&state.data?.workspace&&state.resultVisible){renderSharedExamResults();return}
  const g=groups(e).find(x=>x.id===state.group)||groups(e)[0];
  const total=g.end-g.start+1,done=answerCount(),pct=Math.round(done/total*100),passage=passageBased(g);
  const nums=visibleQuestionNumbers(g);
@@ -1327,8 +1350,8 @@ async function open(hash){
   state.exam=e;state.data=data;
   const draft=readDraft(e);
   state.answers=draft.answers||{};state.review=draft.review||{};
-  state.answerReviewUnlocked=e.id==="hai-phong"&&draft.answerReviewUnlocked===true;
-  state.resultVisible=e.id==="hai-phong"&&draft.resultVisible===true;
+  state.answerReviewUnlocked=!!data.workspace&&draft.answerReviewUnlocked===true;
+  state.resultVisible=!!data.workspace&&draft.resultVisible===true;
    if(e.id==="hai-phong"){
     for(let n=61;n<=65;n++){
      const oldKey="oc:"+n,newKey="wp:"+n;
@@ -1341,7 +1364,7 @@ async function open(hash){
   state.page=Math.min(Math.max(0,draft.page||0),data.pages.length-1);
   const g=groups(e).find(x=>x.id===state.group);
   state.question=Number.isInteger(draft.question)&&draft.question>=g.start&&draft.question<=g.end?draft.question:g.start;
-  if(e.id==="hai-phong"){
+  if(data.workspace){
    state.passageSplitRatio=g.passageRatio||54;
    state.readingScroll={passage:0,questions:0};
   }
