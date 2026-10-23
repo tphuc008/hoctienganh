@@ -29,7 +29,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A sai vì didn't they lặp dạng phủ định của mệnh đề chính.",
+        "C và D sai vì chủ ngữ câu là They, không phải he."
       ],
       "transferablePattern": "Tag question: mệnh đề phủ định 'didn't recognize' cần đuôi khẳng định 'did they'",
       "provenance": {
@@ -52,7 +53,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. taking và B. took không đi trực tiếp sau would rather khi cùng chủ ngữ.",
+        "C. to take thêm to không cần thiết vào cấu trúc would rather + bare infinitive."
       ],
       "transferablePattern": "Would rather + bare infinitive diễn đạt sở thích cùng chủ ngữ: would rather take",
       "provenance": {
@@ -75,7 +77,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. of và B. with không tạo thành kết hợp đúng different from.",
+        "D. on cũng không phù hợp để diễn tả sự khác biệt giữa hai bản sắc."
       ],
       "transferablePattern": "Different from là kết hợp giới từ chuẩn",
       "provenance": {
@@ -98,7 +101,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B. ought to have been và C. should have been thiên về kỳ vọng hoặc nghĩa vụ, không diễn đạt suy luận mạnh từ bằng chứng.",
+        "D. could have been chỉ là khả năng, yếu hơn must have been."
       ],
       "transferablePattern": "Must have been diễn đạt suy đoán gần như chắc chắn về quá khứ dựa trên việc lái xe suốt đêm",
       "provenance": {
@@ -121,7 +125,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. Launching là chủ động, trong khi vệ tinh được người khác phóng.",
+        "B. To launch chỉ mục đích; D. Having launched vẫn mang nghĩa chủ động."
       ],
       "transferablePattern": "Mệnh đề phân từ bị động 'Launched' bổ nghĩa cho vệ tinh được phóng",
       "provenance": {
@@ -144,7 +149,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. moreover đơn thuần bổ sung ý, không nêu quan hệ thời gian song song.",
+        "B. therefore gợi hậu quả trực tiếp; C. otherwise gợi điều kiện trái ngược — đều không phải trọng tâm mối liên hệ."
       ],
       "transferablePattern": "Meanwhile nối hai xu hướng xảy ra cùng thời điểm: đi xa giảm nhưng staycation tăng",
       "provenance": {
@@ -167,7 +173,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B. ease off thường dùng khi mức độ căng thẳng tự giảm; trong câu cần ngoại động từ để chủ tọa tác động vào không khí.",
+        "C. break up thiên về giải tán/chia tách; D. put through là nối máy hoặc thực hiện."
       ],
       "transferablePattern": "Calm down the tension diễn đạt hành động làm dịu tình hình tranh luận",
       "provenance": {
@@ -190,7 +197,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B đặt the United States làm đối tượng của Designed by, không hợp lý.",
+        "C và D đặt người dân Pháp làm đối tượng được thiết kế, tạo dangling modifier."
       ],
       "transferablePattern": "Cụm đầu câu Designed by ",
       "provenance": {
@@ -213,7 +221,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. That makes the project ... không dựng thành chủ ngữ mệnh đề phù hợp trước is that.",
+        "C và D thiếu mệnh đề danh từ What makes ... có thể làm chủ ngữ toàn câu."
       ],
       "transferablePattern": "What makes the project so remarkable là mệnh đề danh từ đóng vai trò chủ ngữ của is",
       "provenance": {
@@ -236,7 +245,9 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B. on the house nghĩa là miễn phí do nhà hàng/tổ chức chi trả.",
+        "C. at daggers drawn là bất hòa rất gay gắt nhưng thường theo sau bằng with; at loggerheads over gắn trực tiếp với tranh chấp về quyền sở hữu.",
+        "D. under their breath nghĩa là nói nhỏ, lẩm bẩm."
       ],
       "transferablePattern": "At loggerheads (with somebody) over something = bất đồng gay gắt về vấn đề",
       "provenance": {
@@ -259,7 +270,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. allegedly là bị cáo buộc, không miêu tả cách bác bỏ cáo buộc.",
+        "B. distinctly là rõ ràng nhưng không thành collocation phủ nhận mạnh; D. narrowly là hẹp/sát sao."
       ],
       "transferablePattern": "Categorically reject/deny là collocation bác bỏ dứt khoát",
       "provenance": {
@@ -282,7 +294,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. fertile phù hợp với ideas/soil hơn là cách đánh giá lượng tác phẩm.",
+        "B. fruitful thường tả công việc mang lại kết quả; C. profligate nghĩa là phung phí hoặc hoang phí."
       ],
       "transferablePattern": "Prolific writer diễn đạt tác giả có nhiều tác phẩm, không chỉ fertile hoặc fruitful",
       "provenance": {
@@ -305,7 +318,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B. base không tạo collocation work on the base that.",
+        "C. ground và D. law cũng không thay thế được premise trong kết hợp với mệnh đề that."
       ],
       "transferablePattern": "Work on the premise that ",
       "provenance": {
@@ -328,7 +342,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. persuade và C. convince cần tân ngữ người và cấu trúc ý kiến, không thay thế underestimate.",
+        "D. discourage nghĩa là làm nản lòng, không phù hợp với mức độ đánh giá sức ép."
       ],
       "transferablePattern": "Underestimate pressure = đánh giá thấp sức ép",
       "provenance": {
@@ -351,7 +366,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. I'm afraid I can't trả lời câu hỏi khả năng bản thân, không phải dự đoán.",
+        "B. What for? I don't believe you thiếu căn cứ; C. I'm glad you like it không liên quan cuộc hội thoại."
       ],
       "transferablePattern": "Certainly đáp trực tiếp câu hỏi ý kiến, nêu ví dụ công nghệ tương tự",
       "provenance": {
@@ -705,7 +721,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. sitting không đúng sau đủ ... để làm gì.",
+        "B. to sitting sai dạng V-ing sau to-infinitive; D. sit thiếu to."
       ],
       "transferablePattern": "Enough + to-infinitive: pots small enough to sit on a windowsill",
       "provenance": {
@@ -728,7 +745,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. obtain không tạo thành idiom 'obtain a high price' trong ngữ cảnh cây có giá.",
+        "B. expect diễn tả mong đợi và D. charge nói về người bán tính phí, không phải giá mà cây đạt được."
       ],
       "transferablePattern": "Command a high price là collocation chỉ được bán với giá cao",
       "provenance": {
@@ -751,7 +769,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. intention là ý định của kẻ trộm, không phải thứ cây bonsai thu hút.",
+        "C. petition là đơn kiến nghị; D. location là vị trí."
       ],
       "transferablePattern": "Attract the attention of thieves, không phải intention",
       "provenance": {
@@ -774,7 +793,7 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B. on, C. in và D. of không đi với prices trong cấu trúc sell at good prices."
       ],
       "transferablePattern": "Sell at a price là kết hợp giới từ đúng",
       "provenance": {
@@ -797,7 +816,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. Being lost biến cây bị mất thành chủ ngữ, không khớp Paul.",
+        "B. To have lost gợi mục đích, C. Lost là phân từ bị động không diễn đạt rõ hành động Paul đã đánh mất trước đó."
       ],
       "transferablePattern": "Having lost ",
       "provenance": {
@@ -820,7 +840,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B. set about cần V-ing khi nói bắt tay vào làm.",
+        "C. try out là thử trực tiếp một phương pháp; D. go after là theo đuổi hoặc săn đuổi, không tự nhiên với possibilities."
       ],
       "transferablePattern": "Look into the possibilities = điều tra/xem xét khả năng",
       "provenance": {
@@ -843,7 +864,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. crumb thường kết hợp với bread; B. speck kết hợp với dust.",
+        "C. bean là một hạt đậu, không đúng đơn vị kết hợp với rice."
       ],
       "transferablePattern": "A grain of rice là đơn vị kích thước một hạt gạo",
       "provenance": {
@@ -866,7 +888,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. where dùng cho địa điểm; B. when dùng cho thời gian.",
+        "C. who dùng cho người; information là vật/khái niệm nên dùng which."
       ],
       "transferablePattern": "Which thay thế information ở mệnh đề quan hệ xác định",
       "provenance": {
@@ -889,7 +912,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "B. avoid + V-ing không dùng với somebody from + V-ing.",
+        "C. decide thường đi với to V; D. combine không diễn tả việc ngăn trộm."
       ],
       "transferablePattern": "Prevent somebody from doing something, đúng với from stealing",
       "provenance": {
@@ -912,7 +936,8 @@
         }
       ],
       "distractorAnalysis": [
-        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+        "A. however diễn đạt nhượng bộ, trong khi đây là phản ứng do chip chưa đủ bảo vệ.",
+        "C. moreover bổ sung mà không làm rõ nguyên nhân cần báo động; D. likewise là tương tự, không hợp quan hệ suy ra."
       ],
       "transferablePattern": "Therefore chỉ quan hệ kết quả: chip không ngăn trộm nên lắp thêm báo động",
       "provenance": {
