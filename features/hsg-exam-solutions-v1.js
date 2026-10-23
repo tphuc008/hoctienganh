@@ -92,7 +92,7 @@ function build(exam,sections,answers,getQuestion,solutions){
  }
  return {exam:{id:exam.id,title:exam.title,year:exam.year},parts,all,
   totals:{answered:attempted,unanswered:total-attempted,total,correct,wrong,review,compared:correct+wrong},
-  solutions:{status:solutions?.status||"unverified",verifiedCount:solutions?.records?.length||0}};
+  solutions:{status:solutions?.status||"unverified",verifiedCount:solutions?.records?.length||0,essayGuidance:solutions?.essayGuidance||null}};
 }
 function render(root,report,handlers){
  const total=report.totals.total,done=report.totals.answered;
@@ -111,6 +111,11 @@ function render(root,report,handlers){
   '<p>'+report.totals.correct+' đúng · '+report.totals.wrong+' sai (đối chiếu khách quan) · '+
   report.totals.review+' cần kiểm tra · '+report.totals.unanswered+' bỏ trống</p></div>'+
   '<div class="hsg-rs-rate"><strong>'+pct+'%</strong><span>Mức độ hoàn thành</span></div></div>'+
+  '<div class="hsg-rs-stat-grid">'+
+  [['correct','Đúng'],['wrong','Sai'],['review','Cần kiểm tra'],['unanswered','Bỏ trống']].map(([type,label])=>
+   '<div class="hsg-rs-stat hsg-rs-stat-'+type+'"><span class="hsg-rs-stat-title">'+esc(label)+
+   '</span><strong>'+report.totals[type]+'</strong></div>').join('')+
+   '</div>'+
   '<div class="hsg-rs-bars"><span class="hsg-rs-bar-correct" style="width:'+pct+'%"></span>'+
   '<span class="hsg-rs-bar-unanswered" style="width:'+(100-pct)+'%"></span></div>'+
   '<p class="hsg-rs-disclaimer">'+
@@ -145,6 +150,9 @@ function render(root,report,handlers){
    (q.answer?'<span class="hsg-rs-question-stem">Bài làm: '+esc(q.answer.slice(0,180))+'</span>':"")+
    (q.reference?'<span class="hsg-rs-question-stem">Đáp án tham khảo: '+esc(q.reference.correctAnswer)+'</span>'+
     '<span class="hsg-rs-question-stem">Giải thích: '+esc(q.reference.explanation.slice(0,250))+'</span>':
+    q.kind==="essay"&&report.solutions.essayGuidance?
+    '<span class="hsg-rs-question-stem">Bài mẫu tham khảo (AI soạn, không chấm điểm): '+
+       esc(report.solutions.essayGuidance.sample.slice(0,220))+'…</span>':
     '<span class="hsg-rs-question-stem">Đáp án/lời giải đang chờ xác minh</span>')+
    '</span><span class="hsg-rs-question-status">'+({correct:"✓ Đúng",wrong:"× Sai",review:"Cần đối chiếu",unanswered:"Bỏ trống"}[q.status]||"Đã làm")+'</span>'+
    '<span class="hsg-rs-question-arrow" aria-hidden="true">›</span></button>').join(""):
