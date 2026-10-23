@@ -749,3 +749,12 @@
  .hsg-hp-v2.hsg-hp-focus.hsg-hp-writing .hsg-study-rail{display:none}
  .hsg-hp-v2.hsg-hp-focus.hsg-hp-writing .hsg-study-question{width:100%}
 }
+
+/* Hải Phòng: keep autosave silent. An error message may still appear when saving fails. */
+@media screen {
+ .hsg-hp-v2.hsg-hp-focus #hsg-save-status:empty {display:none!important}
+ .hsg-hp-v2.hsg-hp-focus #hsg-save-status:not(:empty) {
+   display:inline; color:#b45309; font-weight:700;
+   white-space:normal; max-width:190px;
+ }
+}
