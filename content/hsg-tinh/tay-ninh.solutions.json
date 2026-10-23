@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "examId": "tay-ninh",
+  "status": "pending-verification",
+  "format": [
+    "correctAnswer",
+    "explanation",
+    "evidence",
+    "distractorAnalysis",
+    "transferablePattern"
+  ],
+  "records": []
+}
