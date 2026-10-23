@@ -54,7 +54,16 @@
       "source": "source-extracted",
       "optionLayout": "standard",
       "questionFlow": "scroll-list",
-      "passageRatio": 54
+      "passageRatio": 54,
+      "task": {
+        "kind": "find-and-correct",
+        "errorCount": 5,
+        "numberedSourceLines": {
+          "start": 1,
+          "end": 12
+        },
+        "instruction": "Identify FIVE errors in the shared passage and correct them. Use the original line numbers."
+      }
     },
     {
       "id": "wf",
@@ -118,7 +127,24 @@
       "layout": "focused",
       "source": "source-extracted",
       "optionLayout": "standard",
-      "questionFlow": "one-at-a-time"
+      "questionFlow": "one-at-a-time",
+      "subtasks": [
+        {
+          "start": 91,
+          "end": 95,
+          "kind": "keyword-transformation",
+          "minWords": 3,
+          "maxWords": 6,
+          "keywordMustBeUnchanged": true,
+          "instruction": "Use 3–6 words, including the word given. Do not change the given word."
+        },
+        {
+          "start": 96,
+          "end": 100,
+          "kind": "sentence-completion",
+          "instruction": "Complete the second sentence so that it has a similar meaning to the first."
+        }
+      ]
     }
   ]
 }
