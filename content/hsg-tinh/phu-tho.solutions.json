@@ -1,7 +1,7 @@
 {
   "version": 1,
   "examId": "phu-tho",
-  "status": "pending-verification",
+  "status": "partially-verified",
   "format": [
     "correctAnswer",
     "explanation",
@@ -9,5 +9,1562 @@
     "distractorAnalysis",
     "transferablePattern"
   ],
-  "records": []
+  "source": {
+    "referenceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+    "secondaryUrl": "https://www.scribd.com/document/1070081848",
+    "official": false,
+    "sourceNote": "Lời giải tham khảo, không phải hướng dẫn chấm chính thức; phần essay không có một đáp án duy nhất."
+  },
+  "records": [
+    {
+      "partId": "g",
+      "number": 21,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Tag question: mệnh đề phủ định 'didn't recognize' cần đuôi khẳng định 'did they'.",
+      "evidence": [
+        {
+          "location": "Part G · câu 21",
+          "quote": "Original option B (Question 21)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Tag question: mệnh đề phủ định 'didn't recognize' cần đuôi khẳng định 'did they'",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 22,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Would rather + bare infinitive diễn đạt sở thích cùng chủ ngữ: would rather take.",
+      "evidence": [
+        {
+          "location": "Part G · câu 22",
+          "quote": "Original option D (Question 22)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Would rather + bare infinitive diễn đạt sở thích cùng chủ ngữ: would rather take",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 23,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Different from là kết hợp giới từ chuẩn; that thay thế cultural identity.",
+      "evidence": [
+        {
+          "location": "Part G · câu 23",
+          "quote": "Original option C (Question 23)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Different from là kết hợp giới từ chuẩn",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 24,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Must have been diễn đạt suy đoán gần như chắc chắn về quá khứ dựa trên việc lái xe suốt đêm.",
+      "evidence": [
+        {
+          "location": "Part G · câu 24",
+          "quote": "Original option A (Question 24)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Must have been diễn đạt suy đoán gần như chắc chắn về quá khứ dựa trên việc lái xe suốt đêm",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 25,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Mệnh đề phân từ bị động 'Launched' bổ nghĩa cho vệ tinh được phóng.",
+      "evidence": [
+        {
+          "location": "Part G · câu 25",
+          "quote": "Original option C (Question 25)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Mệnh đề phân từ bị động 'Launched' bổ nghĩa cho vệ tinh được phóng",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 26,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Meanwhile nối hai xu hướng xảy ra cùng thời điểm: đi xa giảm nhưng staycation tăng.",
+      "evidence": [
+        {
+          "location": "Part G · câu 26",
+          "quote": "Original option D (Question 26)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Meanwhile nối hai xu hướng xảy ra cùng thời điểm: đi xa giảm nhưng staycation tăng",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 27,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Calm down the tension diễn đạt hành động làm dịu tình hình tranh luận; đối chiếu nghĩa với các phrasal verbs khác.",
+      "evidence": [
+        {
+          "location": "Part G · câu 27",
+          "quote": "Original option A (Question 27)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Calm down the tension diễn đạt hành động làm dịu tình hình tranh luận",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 28,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Cụm đầu câu Designed by ... phải gắn đúng chủ ngữ the Statue of Liberty.",
+      "evidence": [
+        {
+          "location": "Part G · câu 28",
+          "quote": "Original option A (Question 28)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Cụm đầu câu Designed by ",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 29,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "What makes the project so remarkable là mệnh đề danh từ đóng vai trò chủ ngữ của is.",
+      "evidence": [
+        {
+          "location": "Part G · câu 29",
+          "quote": "Original option B (Question 29)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "What makes the project so remarkable là mệnh đề danh từ đóng vai trò chủ ngữ của is",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 30,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "At loggerheads (with somebody) over something = bất đồng gay gắt về vấn đề.",
+      "evidence": [
+        {
+          "location": "Part G · câu 30",
+          "quote": "Original option A (Question 30)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "At loggerheads (with somebody) over something = bất đồng gay gắt về vấn đề",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 31,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Categorically reject/deny là collocation bác bỏ dứt khoát.",
+      "evidence": [
+        {
+          "location": "Part G · câu 31",
+          "quote": "Original option C (Question 31)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Categorically reject/deny là collocation bác bỏ dứt khoát",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 32,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Prolific writer diễn đạt tác giả có nhiều tác phẩm, không chỉ fertile hoặc fruitful.",
+      "evidence": [
+        {
+          "location": "Part G · câu 32",
+          "quote": "Original option D (Question 32)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Prolific writer diễn đạt tác giả có nhiều tác phẩm, không chỉ fertile hoặc fruitful",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 33,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Work on the premise that ... = xuất phát từ giả định rằng.",
+      "evidence": [
+        {
+          "location": "Part G · câu 33",
+          "quote": "Original option A (Question 33)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Work on the premise that ",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 34,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Underestimate pressure = đánh giá thấp sức ép.",
+      "evidence": [
+        {
+          "location": "Part G · câu 34",
+          "quote": "Original option B (Question 34)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Underestimate pressure = đánh giá thấp sức ép",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "g",
+      "number": 35,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Certainly đáp trực tiếp câu hỏi ý kiến, nêu ví dụ công nghệ tương tự.",
+      "evidence": [
+        {
+          "location": "Part G · câu 35",
+          "quote": "Original option D (Question 35)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Certainly đáp trực tiếp câu hỏi ý kiến, nêu ví dụ công nghệ tương tự",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 36,
+      "verified": true,
+      "correctAnswer": "scientists",
+      "explanation": "Modern + plural noun scientists: các nhà khoa học hiện đại.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 36",
+          "quote": "Original question 36: scientists"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Modern + plural noun scientists: các nhà khoa học hiện đại",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 37,
+      "verified": true,
+      "correctAnswer": "enabled",
+      "explanation": "Chủ ngữ observations và mệnh đề quá khứ cần động từ enabled.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 37",
+          "quote": "Original question 37: enabled"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Chủ ngữ observations và mệnh đề quá khứ cần động từ enabled",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 38,
+      "verified": true,
+      "correctAnswer": "admiration",
+      "explanation": "A mixture of fear and admiration: hai danh từ song song sau of.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 38",
+          "quote": "Original question 38: admiration"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "A mixture of fear and admiration: hai danh từ song song sau of",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 39,
+      "verified": true,
+      "correctAnswer": "powerful",
+      "explanation": "More powerful telescopes: so sánh hơn của tính từ chỉ công suất.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 39",
+          "quote": "Original question 39: powerful"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "More powerful telescopes: so sánh hơn của tính từ chỉ công suất",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 40,
+      "verified": true,
+      "correctAnswer": "unchanging",
+      "explanation": "Small and unchanging: hai tính từ chỉ trạng thái đứng sau appeared.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 40",
+          "quote": "Original question 40: unchanging"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Small and unchanging: hai tính từ chỉ trạng thái đứng sau appeared",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 41,
+      "verified": true,
+      "correctAnswer": "complicated",
+      "explanation": "More complicated than: so sánh hơn của tính từ nhiều âm tiết.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 41",
+          "quote": "Original question 41: complicated"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "More complicated than: so sánh hơn của tính từ nhiều âm tiết",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 42,
+      "verified": true,
+      "correctAnswer": "beliefs",
+      "explanation": "Traditional beliefs: danh từ đếm được số nhiều.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 42",
+          "quote": "Original question 42: beliefs"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Traditional beliefs: danh từ đếm được số nhiều",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 43,
+      "verified": true,
+      "correctAnswer": "numerous",
+      "explanation": "Despite numerous difficulties: tính từ chỉ rất nhiều trở ngại.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 43",
+          "quote": "Original question 43: numerous"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Despite numerous difficulties: tính từ chỉ rất nhiều trở ngại",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 44,
+      "verified": true,
+      "correctAnswer": "increasingly",
+      "explanation": "Increasingly reliable: trạng từ bổ nghĩa cho tính từ reliable.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 44",
+          "quote": "Original question 44: increasingly"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Increasingly reliable: trạng từ bổ nghĩa cho tính từ reliable",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "wf",
+      "number": 45,
+      "verified": true,
+      "correctAnswer": "unknown",
+      "explanation": "The unknown: danh từ hóa tính từ để nói về điều chưa biết.",
+      "evidence": [
+        {
+          "location": "Part WF · câu 45",
+          "quote": "Original question 45: unknown"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "The unknown: danh từ hóa tính từ để nói về điều chưa biết",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "e",
+      "number": 46,
+      "verified": true,
+      "correctAnswer": "number → amount",
+      "explanation": "A great amount/deal of time: time là danh từ không đếm được; không dùng number of.",
+      "evidence": [
+        {
+          "location": "Part E · câu 46",
+          "line": 3,
+          "quote": "number (Line 3)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "A great amount/deal of time: time là danh từ không đếm được",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      },
+      "line": 3
+    },
+    {
+      "partId": "e",
+      "number": 47,
+      "verified": true,
+      "correctAnswer": "by → in",
+      "explanation": "In a positive or negative way là kết hợp giới từ đúng.",
+      "evidence": [
+        {
+          "location": "Part E · câu 47",
+          "line": 5,
+          "quote": "by (Line 5)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "In a positive or negative way là kết hợp giới từ đúng",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      },
+      "line": 5
+    },
+    {
+      "partId": "e",
+      "number": 48,
+      "verified": true,
+      "correctAnswer": "staying → stay",
+      "explanation": "Allow someone to do something, không dùng V-ing sau to.",
+      "evidence": [
+        {
+          "location": "Part E · câu 48",
+          "line": 6,
+          "quote": "staying (Line 6)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Allow someone to do something, không dùng V-ing sau to",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      },
+      "line": 6
+    },
+    {
+      "partId": "e",
+      "number": 49,
+      "verified": true,
+      "correctAnswer": "device → devices",
+      "explanation": "Electronic devices được nhắc chung dưới dạng danh từ đếm được số nhiều.",
+      "evidence": [
+        {
+          "location": "Part E · câu 49",
+          "line": 11,
+          "quote": "device (Line 11)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Electronic devices được nhắc chung dưới dạng danh từ đếm được số nhiều",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      },
+      "line": 11
+    },
+    {
+      "partId": "e",
+      "number": 50,
+      "verified": true,
+      "correctAnswer": "a → the",
+      "explanation": "In the modern world: the dùng cho thế giới cụ thể mà mọi người đang sống.",
+      "evidence": [
+        {
+          "location": "Part E · câu 50",
+          "line": 12,
+          "quote": "a (Line 12)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "In the modern world: the dùng cho thế giới cụ thể mà mọi người đang sống",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      },
+      "line": 12
+    },
+    {
+      "partId": "r1",
+      "number": 51,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Enough + to-infinitive: pots small enough to sit on a windowsill.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 51",
+          "quote": "Original option C (Question 51)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Enough + to-infinitive: pots small enough to sit on a windowsill",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 52,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Command a high price là collocation chỉ được bán với giá cao.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 52",
+          "quote": "Original option C (Question 52)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Command a high price là collocation chỉ được bán với giá cao",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 53,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Attract the attention of thieves, không phải intention.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 53",
+          "quote": "Original option B (Question 53)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Attract the attention of thieves, không phải intention",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 54,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Sell at a price là kết hợp giới từ đúng.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 54",
+          "quote": "Original option A (Question 54)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Sell at a price là kết hợp giới từ đúng",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 55,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Having lost ... diễn đạt mất cây trước khi quyết định tìm giải pháp.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 55",
+          "quote": "Original option D (Question 55)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Having lost ",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 56,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Look into the possibilities = điều tra/xem xét khả năng.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 56",
+          "quote": "Original option A (Question 56)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Look into the possibilities = điều tra/xem xét khả năng",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 57,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "A grain of rice là đơn vị kích thước một hạt gạo.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 57",
+          "quote": "Original option D (Question 57)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "A grain of rice là đơn vị kích thước một hạt gạo",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 58,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Which thay thế information ở mệnh đề quan hệ xác định.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 58",
+          "quote": "Original option D (Question 58)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Which thay thế information ở mệnh đề quan hệ xác định",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 59,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Prevent somebody from doing something, đúng với from stealing.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 59",
+          "quote": "Original option A (Question 59)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Prevent somebody from doing something, đúng với from stealing",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r1",
+      "number": 60,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Therefore chỉ quan hệ kết quả: chip không ngăn trộm nên lắp thêm báo động.",
+      "evidence": [
+        {
+          "location": "Part R1 · câu 60",
+          "quote": "Original option B (Question 60)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Therefore chỉ quan hệ kết quả: chip không ngăn trộm nên lắp thêm báo động",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 61,
+      "verified": true,
+      "correctAnswer": "one",
+      "explanation": "One of the world's youngest populations là cấu trúc một trong những ... nhất.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 61",
+          "quote": "Blank (61)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "One of the world's youngest populations là cấu trúc một trong những ",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 62,
+      "verified": true,
+      "correctAnswer": "meet",
+      "explanation": "Meet demands là collocation đáp ứng nhu cầu.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 62",
+          "quote": "Blank (62)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Meet demands là collocation đáp ứng nhu cầu",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 63,
+      "verified": true,
+      "correctAnswer": "from",
+      "explanation": "Suffer from = chịu tác động bất lợi từ.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 63",
+          "quote": "Blank (63)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Suffer from = chịu tác động bất lợi từ",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 64,
+      "verified": true,
+      "correctAnswer": "gaps",
+      "explanation": "Bridge skill gaps = thu hẹp khoảng thiếu hụt kỹ năng.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 64",
+          "quote": "Blank (64)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Bridge skill gaps = thu hẹp khoảng thiếu hụt kỹ năng",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 65,
+      "verified": true,
+      "correctAnswer": "and",
+      "explanation": "And nối yếu tố cuối trong danh sách communication, collaboration, adaptability.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 65",
+          "quote": "Blank (65)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "And nối yếu tố cuối trong danh sách communication, collaboration, adaptability",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 66,
+      "verified": true,
+      "correctAnswer": "Moreover",
+      "explanation": "Moreover bổ sung tác dụng mới của mô hình sau câu nói về hiệu quả huấn luyện.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 66",
+          "quote": "Blank (66)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Moreover bổ sung tác dụng mới của mô hình sau câu nói về hiệu quả huấn luyện",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 67,
+      "verified": true,
+      "correctAnswer": "scale",
+      "explanation": "On a regional scale = ở quy mô khu vực.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 67",
+          "quote": "Blank (67)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "On a regional scale = ở quy mô khu vực",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 68,
+      "verified": true,
+      "correctAnswer": "horse",
+      "explanation": "Put the cart before the horse = đảo ngược thứ tự giải quyết vấn đề.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 68",
+          "quote": "Blank (68)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Put the cart before the horse = đảo ngược thứ tự giải quyết vấn đề",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 69,
+      "verified": true,
+      "correctAnswer": "long",
+      "explanation": "In the long run là thành ngữ chỉ dài hạn.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 69",
+          "quote": "Blank (69)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "In the long run là thành ngữ chỉ dài hạn",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r2",
+      "number": 70,
+      "verified": true,
+      "correctAnswer": "that",
+      "explanation": "That mở mệnh đề quan hệ xác định bổ nghĩa cho pipelines.",
+      "evidence": [
+        {
+          "location": "Part R2 · câu 70",
+          "quote": "Blank (70)"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "That mở mệnh đề quan hệ xác định bổ nghĩa cho pipelines",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 71,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Toàn bài đặt vấn đề sự suy giảm của hội thoại thật trong thời đại kết nối số.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 71",
+          "quote": "Original option A (Question 71)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Toàn bài đặt vấn đề sự suy giảm của hội thoại thật trong thời đại kết nối số",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 72,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Tác giả cho rằng ngay cả trò chuyện bằng giọng nói cũng bị coi là tương tác quá thân mật.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 72",
+          "quote": "Original option C (Question 72)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Tác giả cho rằng ngay cả trò chuyện bằng giọng nói cũng bị coi là tương tác quá thân mật",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 73,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Alone together chỉ nghịch lý kết nối điện tử nhưng cô lập trong quan hệ thực.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 73",
+          "quote": "Original option D (Question 73)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Alone together chỉ nghịch lý kết nối điện tử nhưng cô lập trong quan hệ thực",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 74,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Their laps thuộc về the audience ngồi trong nhà hát.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 74",
+          "quote": "Original option B (Question 74)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Their laps thuộc về the audience ngồi trong nhà hát",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 75,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Growing đồng nghĩa increasing.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 75",
+          "quote": "Original option A (Question 75)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Growing đồng nghĩa increasing",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 76,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Nhận định không có xung đột giữa chính trị gia trái với việc họ ngày càng phân cực.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 76",
+          "quote": "Original option C (Question 76)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Nhận định không có xung đột giữa chính trị gia trái với việc họ ngày càng phân cực",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 77,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "'Death of the book' là ví dụ dự đoán sự biến mất nhiều lần nhưng sách vẫn tồn tại.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 77",
+          "quote": "Original option B (Question 77)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "'Death of the book' là ví dụ dự đoán sự biến mất nhiều lần nhưng sách vẫn tồn tại",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 78,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Remarkable = đáng kể, nổi bật; từ trái nghĩa gần nhất là minor.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 78",
+          "quote": "Original option D (Question 78)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Remarkable = đáng kể, nổi bật",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 79,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Đoạn cuối khẳng định con người vẫn cần bạn bè và trò chuyện ngay cả khi không nhận ra.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 79",
+          "quote": "Original option A (Question 79)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Đoạn cuối khẳng định con người vẫn cần bạn bè và trò chuyện ngay cả khi không nhận ra",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "r3",
+      "number": 80,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Tác giả dự đoán nhu cầu tương tác trực tiếp sẽ tồn tại dù giao tiếp số phát triển.",
+      "evidence": [
+        {
+          "location": "Part R3 · câu 80",
+          "quote": "Original option D (Question 80)"
+        }
+      ],
+      "distractorAnalysis": [
+        "Các lựa chọn còn lại không phù hợp đầy đủ với kết hợp từ, cấu trúc hoặc thông tin của bài."
+      ],
+      "transferablePattern": "Tác giả dự đoán nhu cầu tương tác trực tiếp sẽ tồn tại dù giao tiếp số phát triển",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 81,
+      "verified": true,
+      "correctAnswer": "would Jane agree to such an unreasonable demand",
+      "explanation": "Đảo ngữ sau Never: Never + auxiliary would + subject Jane + verb agree.",
+      "evidence": [
+        {
+          "location": "Part W · câu 81",
+          "quote": "Original question 81: would Jane agree to such an unreasonable demand"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Đảo ngữ sau Never: Never + auxiliary would + subject Jane + verb agree",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 82,
+      "verified": true,
+      "correctAnswer": "so rapidly that it opened many new offices abroad",
+      "explanation": "So + adverb + that nối mức độ phát triển và hệ quả mở nhiều văn phòng.",
+      "evidence": [
+        {
+          "location": "Part W · câu 82",
+          "quote": "Original question 82: so rapidly that it opened many new offices abroad"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "So + adverb + that nối mức độ phát triển và hệ quả mở nhiều văn phòng",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 83,
+      "verified": true,
+      "correctAnswer": "had very little experience, she managed to solve the problem effectively",
+      "explanation": "Although + finite clause thay cho In spite of + V-ing, giữ quan hệ nhượng bộ.",
+      "evidence": [
+        {
+          "location": "Part W · câu 83",
+          "quote": "Original question 83: had very little experience, she managed to solve the problem effectively"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Although + finite clause thay cho In spite of + V-ing, giữ quan hệ nhượng bộ",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 84,
+      "verified": true,
+      "correctAnswer": "not been for the high salary, Tony would not have accepted the job",
+      "explanation": "If it had not been for ... là câu điều kiện loại 3 diễn đạt nguyên nhân quá khứ.",
+      "evidence": [
+        {
+          "location": "Part W · câu 84",
+          "quote": "Original question 84: not been for the high salary, Tony would not have accepted the job"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "If it had not been for ",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 85,
+      "verified": true,
+      "correctAnswer": "completely mystified by alternative medicine",
+      "explanation": "Be completely mystified by = hoàn toàn không hiểu, tương đương complete mystery.",
+      "evidence": [
+        {
+          "location": "Part W · câu 85",
+          "quote": "Original question 85: completely mystified by alternative medicine"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Be completely mystified by = hoàn toàn không hiểu, tương đương complete mystery",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 86,
+      "verified": true,
+      "correctAnswer": "a fish out of water",
+      "explanation": "Like a fish out of water = cảm thấy lạc lõng, không phù hợp môi trường.",
+      "evidence": [
+        {
+          "location": "Part W · câu 86",
+          "quote": "Original question 86: a fish out of water"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Like a fish out of water = cảm thấy lạc lõng, không phù hợp môi trường",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 87,
+      "verified": true,
+      "correctAnswer": "on the tip of my tongue",
+      "explanation": "On the tip of one's tongue = sắp nhớ ra nhưng chưa nói được.",
+      "evidence": [
+        {
+          "location": "Part W · câu 87",
+          "quote": "Original question 87: on the tip of my tongue"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "On the tip of one's tongue = sắp nhớ ra nhưng chưa nói được",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 88,
+      "verified": true,
+      "correctAnswer": "at a loss for words",
+      "explanation": "At a loss for words = không biết nói gì; never mang nghĩa luôn biết cách diễn đạt.",
+      "evidence": [
+        {
+          "location": "Part W · câu 88",
+          "quote": "Original question 88: at a loss for words"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "At a loss for words = không biết nói gì",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 89,
+      "verified": true,
+      "correctAnswer": "as a last resort",
+      "explanation": "As a last resort = phương sách cuối cùng sau mọi cách khác.",
+      "evidence": [
+        {
+          "location": "Part W · câu 89",
+          "quote": "Original question 89: as a last resort"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "As a last resort = phương sách cuối cùng sau mọi cách khác",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    },
+    {
+      "partId": "w",
+      "number": 90,
+      "verified": true,
+      "correctAnswer": "turned on the waterworks",
+      "explanation": "Turn on the waterworks = bật khóc, thường mang nghĩa diễn tả mạnh hoặc hơi hài hước.",
+      "evidence": [
+        {
+          "location": "Part W · câu 90",
+          "quote": "Original question 90: turned on the waterworks"
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Turn on the waterworks = bật khóc, thường mang nghĩa diễn tả mạnh hoặc hơi hài hước",
+      "provenance": {
+        "type": "teacher-solved-and-crosschecked",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
+        "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
+        "official": false
+      }
+    }
+  ]
 }
