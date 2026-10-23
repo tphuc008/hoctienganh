@@ -37,7 +37,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Crooked (tính từ) có -ed đọc /ɪd/, thuộc nhóm âm chung.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Ragged (tính từ) có -ed đọc /ɪd/, không phải phần khác biệt.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Jagged (tính từ) có -ed đọc /ɪd/, giống hai từ trên.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Noticed là quá khứ của notice có -ed đọc /t/, khác ba tính từ trên.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "p",
@@ -66,7 +84,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Aboard có thành tố board đọc theo âm rõ /bɔːd/ hoặc tương đương theo giọng.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Keyboard có board đọc /bɔːd/, không rút như cupboard.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Cupboard đọc /ˈkʌbəd/, khác phát âm tưởng tượng cup + board.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Overboard duy trì phát âm board, thuộc nhóm thường.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "p",
@@ -95,7 +131,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Enclose có đuôi -ose đọc /əʊz/, cùng nhóm.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Suppose có đuôi -ose đọc /əʊz/, cùng nhóm.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Compose có đuôi -ose đọc /əʊz/, cùng nhóm.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Purpose có phần cuối /pəs/, khác nguyên âm/âm cuối so với ba từ trước.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "p",
@@ -124,7 +178,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Evaporate thường có trọng âm chính âm tiết 2, thuộc nhóm so sánh.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Mausoleum trọng âm chính vào âm tiết 3 /ˌmɔːsəˈliːəm/, khác các từ còn lại.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Computerize thường nhấn âm tiết 2, không thuộc nhóm khác biệt.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Compulsory thường nhấn âm tiết 2, cùng xu hướng với evaporate.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "p",
@@ -153,7 +225,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-full-option-analysis"
+      "editorialStatus": "reasoned-and-crosschecked",
+      "optionNotes": [
+        {
+          "analysis": "Veterinary có trọng âm chính âm đầu, khác các từ còn lại.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Preliminary nhấn trọng âm chính ở âm tiết sau âm đầu.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Incendiary nhấn trọng âm ở phần sau của từ, khác veterinary.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Contemporary cũng nhấn trọng âm sau âm đầu, không giống veterinary.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "v",
