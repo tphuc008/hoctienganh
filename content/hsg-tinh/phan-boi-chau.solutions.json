@@ -1,7 +1,7 @@
 {
   "version": 1,
   "examId": "phan-boi-chau",
-  "status": "pending-verification",
+  "status": "partially-verified",
   "format": [
     "correctAnswer",
     "explanation",
@@ -9,5 +9,156 @@
     "distractorAnalysis",
     "transferablePattern"
   ],
-  "records": []
+  "records": [
+    {
+      "partId": "b1",
+      "number": 1,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Vì mệnh đề chính dùng It was the first time, mệnh đề thời gian hoàn thành trước quá khứ phải dùng quá khứ hoàn thành had awarded.",
+      "evidence": [
+        {
+          "location": "Đề phan-boi-chau · B1 · câu 1",
+          "quote": "had awarded",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "It was the first time + past perfect.",
+      "examples": [
+        {
+          "word": "D",
+          "en": "It was the first time the jury had awarded the prize to a student.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 2,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Sau Not until mở đầu, mệnh đề chính đảo trợ động từ thì quá khứ: did she realize.",
+      "evidence": [
+        {
+          "location": "Đề phan-boi-chau · B1 · câu 2",
+          "quote": "Not until ... did she realize",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Not until + time clause + did + S + V.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "Not until she checked the figures did she notice the error.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 3,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Go off mô tả chuông báo động tự phát ra âm thanh; không nhầm với set off nghĩa là kích hoạt.",
+      "evidence": [
+        {
+          "location": "Đề phan-boi-chau · B1 · câu 3",
+          "quote": "the fire alarm went off",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "An alarm goes off; someone sets off an alarm.",
+      "examples": [
+        {
+          "word": "C",
+          "en": "The fire alarm went off at midnight.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 4,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Exhausting diễn tả tính chất khiến người khác mệt mỏi của lịch làm việc; exhausted nói về người cảm thấy mệt.",
+      "evidence": [
+        {
+          "location": "Đề phan-boi-chau · B1 · câu 4",
+          "quote": "exhausting schedule",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "-ing describes a cause; -ed describes someone's state.",
+      "examples": [
+        {
+          "word": "C",
+          "en": "The exhausting timetable left everyone exhausted.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 5,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Even though + mệnh đề S + V diễn đạt nhượng bộ, phù hợp khi một người vẫn làm việc dù đang hồi phục.",
+      "evidence": [
+        {
+          "location": "Đề phan-boi-chau · B1 · câu 5",
+          "quote": "even though he was still recovering",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Even though + finite clause; despite + noun/V-ing.",
+      "examples": [
+        {
+          "word": "C",
+          "en": "Even though she felt ill, she attended the exam.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    }
+  ],
+  "source": {
+    "referenceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+    "official": false,
+    "sourceNote": "Đáp án tham khảo đối chiếu với dạng bài và ngữ cảnh; chưa có đủ phân tích mọi phương án; cần tiếp tục kiểm tra."
+  }
 }
