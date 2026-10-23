@@ -70,8 +70,10 @@ function asExplanationV1(record,question,section){
  const examples=Array.isArray(record.examples)?record.examples.filter(x=>x?.en&&x?.vi):[];
  const qText=keyed>=0&&actual[keyed]?record.correctAnswer+". "+actual[keyed]:record.correctAnswer;
  const fullReason=[record.explanation,...distractorRemarks].filter(Boolean).join("\n");
- const needsReview=record.verified!==true||record.provenance?.official!==true||
-  !evidenced.length||
+ const analysisHtml='<p>'+esc(record.explanation||"")+'</p>'+
+  (distractorRemarks.length?'<ul>'+distractorRemarks.map(note=>'<li>'+esc(note)+'</li>').join("")+'</ul>':"");
+ const needsReview=record.verified!==true||!evidenced.length||
+  record.editorialStatus==="needs-review-for-complete-option-analysis"||
   (objective&&actual.length===4&&(!perChoice||perChoice.some(x=>!x?.analysis)))||
   (objective&&actual.length!==4)||
   (objective&&examples.length!==4)||
@@ -82,6 +84,7 @@ function asExplanationV1(record,question,section){
   quickReason:record.explanation||"",
   evidence:evidenced,
   reasoning:fullReason,
+  analysisHtml,
   options,
   examples,
   application:record.application||record.transferablePattern||"",
