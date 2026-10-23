@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "examId": "ptnk",
+  "status": "pending-verification",
+  "format": [
+    "correctAnswer",
+    "explanation",
+    "evidence",
+    "distractorAnalysis",
+    "transferablePattern"
+  ],
+  "records": [],
+  "source": {
+    "official": false,
+    "sourceNote": "Mỗi mã đề 139/240/306/4 phải có đáp án riêng; chưa có bộ đáp án đã đối chiếu."
+  }
+}
