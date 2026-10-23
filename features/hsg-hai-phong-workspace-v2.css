@@ -632,19 +632,27 @@
   .hsg-hp-v2.hsg-hp-focus .hsg-reading-map {
     min-height:45px;padding:5px 11px;
   }
-  /* Reading comprehension: one question on the right, full passage on the left.
-     Cloze, Error Correction and other shared-passage parts keep the question list. */
-  .hsg-hp-v2.hsg-hp-reading-single #hsg-answer-list > .hsg-reading-section-head{
-    display:none;
+  /* Hải Phòng, Part 9 (81–90): all question cards remain visible.
+     The right pane scrolls independently of the passage on the left. */
+  .hsg-hp-v2.hsg-hp-reading-list .hsg-passage-right{
+    overflow-y:auto;overflow-x:hidden;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
   }
-  .hsg-hp-v2.hsg-hp-reading-single #hsg-answer-list > .hsg-reading-q-card:not(.is-active) {
-    display:none;
+  .hsg-hp-v2.hsg-hp-reading-list .hsg-passage-questions{
+    display:block;
+    overflow:visible;
+    padding:15px clamp(13px,1.8vw,23px) 27px;
   }
-  .hsg-hp-v2.hsg-hp-reading-single .hsg-passage-questions {
-    padding:18px clamp(13px,2vw,23px) 26px;
+  .hsg-hp-v2.hsg-hp-reading-list #hsg-answer-list > .hsg-reading-section-head{
+    display:block;
   }
-  .hsg-hp-v2.hsg-hp-reading-single .hsg-reading-q-card {
-    margin:0;
+  .hsg-hp-v2.hsg-hp-reading-list #hsg-answer-list > .hsg-reading-q-card{
+    display:block;
+    margin:0 0 12px;
+  }
+  .hsg-hp-v2.hsg-hp-reading-list #hsg-answer-list > .hsg-reading-q-card:last-child{
+    margin-bottom:0;
   }
   /* Focused questions and essay have a wider answer surface. */
   .hsg-hp-v2.hsg-hp-focus .hsg-study-layout:not(.has-shared-passage) {
