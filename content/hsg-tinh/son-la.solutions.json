@@ -154,6 +154,64 @@
         "official": false
       },
       "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g2",
+      "number": 31,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Has evolved là thì hiện tại hoàn thành nhấn mạnh quá trình đánh giá số đã phát triển thành phần cơ bản của kiểm tra trường học tới hiện tại.",
+      "evidence": [
+        {
+          "location": "G2 · câu 31",
+          "quote": "digital evaluation has evolved",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "has/have + V3 for development through the present",
+      "examples": [
+        {
+          "word": "A",
+          "en": "Online learning has evolved rapidly over the last decade.",
+          "vi": "Việc học trực tuyến đã phát triển nhanh chóng trong thập kỷ qua."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "g2",
+      "number": 32,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Điều kiện hỗn hợp với a decade ago ở mệnh đề If dùng had adopted, kết quả today dùng would be.",
+      "evidence": [
+        {
+          "location": "G2 · câu 32",
+          "quote": "If schools had adopted ... a decade ago",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "If + past perfect, S + would + V now",
+      "examples": [
+        {
+          "word": "B",
+          "en": "If she had studied harder, she would be more confident now.",
+          "vi": "Nếu trước đây học chăm hơn, giờ cô ấy đã tự tin hơn."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
     }
   ],
   "source": {
