@@ -360,35 +360,26 @@ function sharedExamGradeBadge(g,n,q){
 }
 function hsgExplanationControl(g,n,q){
  if(state.exam?.id!=="hai-phong"){
-  if(!state.answerReviewUnlocked)return "";
-  const verified=global.HSGExamSolutions?.findSolution(state.data?.solutions,g.id+":"+n);
-  if(!verified){
-   const essay=state.data?.solutions?.essayGuidance;
-   if(q.type==="essay"&&essay?.partId===g.id){
-    return '<section class="hsg-exam-solution" data-hsg-solution="'+n+'">'+
-     '<button type="button" data-hsg-shared-explain-toggle aria-expanded="false">Xem bài viết mẫu & tiêu chí <span aria-hidden="true">⌄</span></button>'+
-     '<div class="hsg-exam-solution-body" hidden><p><b>Bài mẫu AI soạn để tham khảo, không phải đáp án chính thức.</b></p>'+
-     '<p>'+esc(essay.sample)+'</p><h4>Tiêu chí tham khảo</h4><ul>'+
-     (essay.criteria||[]).map(c=>'<li>'+esc(c)+'</li>').join("")+'</ul></div></section>';
-   }
-   return "";
-  }
-  const evidence=(verified.evidence||[]).map(item=>'<li><b>'+esc(item.location)+'</b> · '+esc(item.quote)+'</li>').join("");
-  const refUrl=String(verified.provenance?.sourceUrl||"");
-  const sourceLink=/^https:\/\//.test(refUrl)
-    ?'<p class="hsg-exam-source-note">Nguồn: <a href="'+esc(refUrl)+'" target="_blank" rel="noopener noreferrer">đáp án tham khảo (không chính thức)</a></p>'
-    :'<p class="hsg-exam-source-note">Lời giải tham khảo, không phải đáp án chính thức.</p>';
-  const distractors=(verified.distractorAnalysis||[]).map(item=>'<li>'+esc(typeof item==="string"?item:item.reason||"")+'</li>').join("");
+  if(!state.answerReviewUnlocked||!global.ExplanationV1||!global.HSGExamSolutions)return "";
+  const bank=state.data?.solutions;
+  const record=global.HSGExamSolutions.findSolution(bank,g.id+":"+n);
+  const essay=bank?.essayGuidance;
+  const spec=record?global.HSGExamSolutions.asExplanationV1(record,q,g):
+    q.type==="essay"&&essay?.partId===g.id?
+      global.HSGExamSolutions.essayExplanationV1(essay):null;
+  if(!spec)return "";
+  const href=String(record?.provenance?.sourceUrl||bank?.source?.referenceUrl||"");
+  const link=/^https:\/\//.test(href)
+   ?'<p class="hsg-exam-source-note">Nguồn đối chiếu: <a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">đáp án tham khảo không chính thức</a></p>'
+   :'<p class="hsg-exam-source-note">Lời giải tự suy luận từ đề gốc; cần đối chiếu thêm trước khi coi là đáp án chính thức.</p>';
   return '<section class="hsg-exam-solution" data-hsg-solution="'+n+'">'+
-   '<button type="button" data-hsg-shared-explain-toggle aria-expanded="false">Xem đáp án / giải thích <span aria-hidden="true">⌄</span></button>'+
-   '<div class="hsg-exam-solution-body" hidden><p><b>Đáp án:</b> '+esc(verified.correctAnswer)+'</p>'+
-   '<p><b>Giải thích:</b> '+esc(verified.explanation)+'</p>'+
-   (evidence?'<h4>Bằng chứng trong đề</h4><ul>'+evidence+'</ul>':"")+
-   (distractors?'<h4>Phân tích phương án</h4><ul>'+distractors+'</ul>':"")+
-   (verified.transferablePattern?'<p><b>Kiến thức áp dụng:</b> '+esc(verified.transferablePattern)+'</p>':"")+
-   sourceLink+'</div></section>';
+   '<button type="button" data-hsg-shared-explain-toggle aria-expanded="false">'+
+   (record?'Xem đáp án & giải thích ba bước':'Xem bài mẫu & hướng dẫn viết')+
+   ' <span aria-hidden="true">⌄</span></button>'+
+   '<div class="hsg-exam-solution-body" hidden>'+
+   global.ExplanationV1.render(spec,{className:"hsg-hp-reference",print:true})+
+   link+'</div></section>';
  }
-
  // Do not include any answer UI in a practice-phase question card.
  if(state.exam?.id==="hai-phong"&&!state.answerReviewUnlocked)return "";
  if(state.exam?.id!=="hai-phong"||
