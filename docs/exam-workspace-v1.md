@@ -50,6 +50,7 @@ Rules confirmed by reading the compressed original source `content/hsg-tinh/hai-
 - **Q51–55 — Error Correction:** find *five* errors in one shared passage. The original printed source has **12 numbered lines**. The website presents five response slots alongside this passage; it must not treat the text as five independent passages.
 - **Q91–95 — keyword transformation:** use the given keyword **without changing it**, and enter **3–6 words including that keyword**. Word count is a guidance indicator; automated scoring does not establish semantic equivalence for every possible valid rewriting.
 - **Q96–100 — sentence completion:** complete the second sentence while preserving the meaning. **Do not apply Q91–95's mandatory keyword or 3–6-word constraint** to these five questions.
+- **Q100 — next-task boundary:** the question is the last numbered item on its source page, followed by the original paper’s **Part 3. Paragraph writing**. Screen extraction stops at this heading, preventing the removed essay prompt from appearing in Q100. The validated print-source extractor likewise stops at the next Part heading.
 - **Q29 — physical page boundary:** the question stem is at the end of original source page 2, while its A–D options begin source page 3. The shared source extractor recovers a complete next-page A–D sequence *only* from the prefix preceding the next numbered question. The preserved answer choices are "Were you to require", "Should you require", "Required", "Had you required".
 - **Q21–40** have 20 MCQs; **Q56–60** are five standalone word-form questions; **Q91–100** have ten rewriting stems. These four source-extracted groups still need an editorial proofread before a full 10/10 source-normalization claim.
 
@@ -60,7 +61,7 @@ Manifest fields `task` (shared error passage) and `subtasks` (rewrite constraint
 Run both commands in the repository root:
 
 - `node tests/hsg-workspace-v1.test.cjs` — schema integrity, layout count and invalid-config rejection.
-- `node tests/hsg-hai-phong-source-audit.test.cjs` — decompresses the original paper, checks original numbered error lines and rewriting instructions, and checks complete Q21–40 / Q56–60 / Q91–100 question parsing (including Q29 options across pages).
+- `node tests/hsg-hai-phong-source-audit.test.cjs` — decompresses the original paper, checks original numbered error lines and rewriting instructions, and checks complete Q21–40 / Q56–60 / Q91–100 question parsing (including Q29 options across pages and the Q100 essay boundary).
 
 The original source is a PDF-text extraction, not an independently authenticated official final answer key. Keep original exam text and editorial/reference answers separate. A code-level audit does not replace checking the actual screen, mobile behavior and print preview after publication.
 
