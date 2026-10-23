@@ -503,3 +503,228 @@
   .hsg-hp-v2.hsg-hp-compact .hsg-progress-track i{transition:none}
  }
 }
+
+
+/*
+ * Hải Phòng · Distraction-Free Exam Workspace V3
+ * Activated automatically by the Hai Phong exam mount, no maximize control.
+ * Keep the Results Dashboard and every paper-print rule untouched.
+ */
+@media screen {
+  /* The site shell disappears only while the exam editor itself is mounted. */
+  body:has(#pageMount > .hsg-hp-focus) .site-header {
+    display:none!important;
+  }
+  body:has(#pageMount > .hsg-hp-focus) .wrap {
+    width:calc(100% - 12px)!important;
+    max-width:none!important;
+    padding:6px 0 12px!important;
+    margin:0 auto!important;
+  }
+  body:has(#pageMount > .hsg-hp-focus) .panel {
+    border:0!important;background:transparent!important;
+    box-shadow:none!important;border-radius:0!important;
+    padding:0!important;overflow:visible!important;
+  }
+  body:has(#pageMount > .hsg-hp-focus) #pageMount {
+    width:100%!important;max-width:none!important;
+    padding:0!important;margin:0!important;
+    min-height:0!important;overflow:visible!important;
+    animation:none!important;
+  }
+  .hsg-hp-v2.hsg-hp-focus {
+    background:transparent;isolation:isolate;min-width:0;
+  }
+  /* One persistent, slender navigation bar: exit, exam, Part, status, finish. */
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-focusbar {
+    display:grid;
+    grid-template-columns:34px minmax(98px,135px) minmax(235px,1fr) minmax(100px,140px) auto;
+    gap:12px;align-items:center;
+    min-height:63px;padding:8px 14px;
+    border:1px solid #d8e5f4;border-radius:12px;
+    background:rgba(255,255,255,.98);
+    box-shadow:0 2px 12px rgba(20,47,88,.035);
+    margin:0 0 7px;
+    position:relative;
+    z-index:4;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-exit {
+    width:34px;height:36px;border-radius:9px;
+    display:grid;place-items:center;
+    background:#f1f6ff;color:#2359a4;border:1px solid #d7e6f8;
+    font-size:20px;font-weight:650;cursor:pointer;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-exit:hover {
+    background:#e5f0ff;border-color:#abcdf4;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-title {min-width:0;display:grid;gap:1px}
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-title strong {
+    font-size:14px;line-height:1.25;font-weight:850;color:#183b69;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-title small {
+    font-size:10px;color:#75869d;line-height:1.35;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-part-picker{
+    min-width:0;max-width:none;display:grid;gap:3px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-part-picker label{
+    font-size:9px;line-height:1.2;letter-spacing:.07em;
+  }
+  .hsg-hp-v2.hsg-hp-focus #hsg-hp-part-select {
+    width:100%;min-height:36px;padding:7px 33px 7px 10px;
+    background:#f8fbff;border:1px solid #c7d9f0;
+    border-radius:8px;color:#214775;font-size:12px;font-weight:750;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress {
+    min-width:0;display:grid;grid-template-columns:1fr auto;
+    grid-template-rows:auto 6px;align-content:center;
+    gap:5px 6px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress-top{
+    grid-column:1;grid-row:1;
+    justify-content:flex-start;gap:5px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress-top strong {
+    font-size:12px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress-top span{
+    font-size:10px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-progress-track{
+    grid-column:1/-1;grid-row:2;height:6px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-progress-pct {
+    grid-column:2;grid-row:1;align-self:center;
+    font-size:10px;font-weight:800;color:#2d63b4;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-actions {
+    display:flex;align-items:center;justify-content:flex-end;gap:7px;
+    min-width:0;
+  }
+  .hsg-hp-v2.hsg-hp-focus #hsg-save-status{
+    font-size:10px;color:#71849b;margin:0;
+    white-space:nowrap;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-actions button{
+    min-height:35px;padding:7px 11px;font-size:11px;
+    font-weight:750;border-radius:8px;white-space:nowrap;
+    box-shadow:none;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-study-layout {
+    margin:0;min-width:0;
+  }
+  /* Screen workspace expands to the full available browser height. */
+  .hsg-hp-v2.hsg-hp-focus.hsg-reading-mode .hsg-passage-workspace {
+    height:max(410px,calc(100dvh - 174px));
+    min-height:410px;max-height:none;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-workspace-tools{
+    min-height:32px;padding:4px 12px;gap:5px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-hp-workspace-tools button {
+    min-height:26px;padding:4px 8px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-passage-column-head {
+    min-height:38px;padding:8px 14px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-reading-map {
+    min-height:45px;padding:5px 11px;
+  }
+  /* Reading comprehension: one question on the right, full passage on the left.
+     Cloze, Error Correction and other shared-passage parts keep the question list. */
+  .hsg-hp-v2.hsg-hp-reading-single #hsg-answer-list > .hsg-reading-section-head{
+    display:none;
+  }
+  .hsg-hp-v2.hsg-hp-reading-single #hsg-answer-list > .hsg-reading-q-card:not(.is-active) {
+    display:none;
+  }
+  .hsg-hp-v2.hsg-hp-reading-single .hsg-passage-questions {
+    padding:18px clamp(13px,2vw,23px) 26px;
+  }
+  .hsg-hp-v2.hsg-hp-reading-single .hsg-reading-q-card {
+    margin:0;
+  }
+  /* Focused questions and essay have a wider answer surface. */
+  .hsg-hp-v2.hsg-hp-focus .hsg-study-layout:not(.has-shared-passage) {
+    grid-template-columns:minmax(0,1fr) 202px;gap:10px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-study-question {
+    padding:clamp(18px,2.5vw,30px);
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-source-details {
+    margin-top:10px;
+  }
+  .hsg-hp-v2.hsg-hp-focus .hsg-study-rail {
+    position:sticky;top:8px;
+  }
+  @media(max-width:1080px) {
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focusbar{
+      grid-template-columns:34px 102px minmax(210px,1fr) 110px auto;
+      gap:9px;padding-inline:9px;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-title small {display:none}
+    .hsg-hp-v2.hsg-hp-focus #hsg-save-status{display:none}
+  }
+  @media(max-width:880px) {
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focusbar{
+      grid-template-columns:34px minmax(0,1fr) auto;
+      grid-template-areas:"exit title actions" "picker picker progress";
+      gap:7px 10px;padding:8px 10px;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-exit{grid-area:exit}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-title{grid-area:title}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-part-picker{grid-area:picker}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress{grid-area:progress;min-width:102px}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-actions{grid-area:actions}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-progress-pct{display:none}
+    .hsg-hp-v2.hsg-hp-focus .hsg-passage-mobile-tabs{
+      padding:6px;gap:6px;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-passage-mobile-tabs button{
+      min-height:40px;
+    }
+    .hsg-hp-v2.hsg-hp-focus.hsg-reading-mode .hsg-passage-workspace{
+      height:max(350px,calc(100dvh - 217px));
+      min-height:350px;max-height:none;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-study-layout:not(.has-shared-passage){
+      grid-template-columns:minmax(0,1fr);
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-study-rail{position:static;top:auto}
+  }
+  @media(max-width:460px){
+    body:has(#pageMount > .hsg-hp-focus) .wrap{
+      width:calc(100% - 8px)!important;padding-top:4px!important;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focusbar{
+      grid-template-columns:30px minmax(0,1fr) auto;
+      gap:6px;padding:7px;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-exit{width:30px;height:33px}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-title strong{font-size:13px}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-actions{gap:4px}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-focus-actions button{
+      padding:6px 8px;font-size:10px;min-height:33px;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress {min-width:76px}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress-top span{display:none}
+    .hsg-hp-v2.hsg-hp-focus .hsg-hp-compact-progress-top strong{font-size:11px}
+    .hsg-hp-v2.hsg-hp-focus.hsg-reading-mode .hsg-passage-workspace{
+      height:max(330px,calc(100dvh - 202px));
+      min-height:330px;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-passage-content{
+      padding:17px 14px 28px;
+    }
+    .hsg-hp-v2.hsg-hp-focus .hsg-passage-questions{
+      padding:12px 10px 24px;
+    }
+  }
+  @media(prefers-reduced-motion:reduce){
+    .hsg-hp-v2.hsg-hp-focus :is(.hsg-hp-focusbar,.hsg-passage-workspace){
+      transition:none;
+    }
+  }
+}
