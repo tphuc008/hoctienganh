@@ -1,7 +1,7 @@
 {
   "version": 1,
   "examId": "thanh-hoa",
-  "status": "pending-verification",
+  "status": "partially-verified",
   "format": [
     "correctAnswer",
     "explanation",
@@ -9,5 +9,156 @@
     "distractorAnalysis",
     "transferablePattern"
   ],
-  "records": []
+  "records": [
+    {
+      "partId": "p",
+      "number": 21,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Noticed có -ed đọc /t/, còn crooked, ragged, jagged khi là tính từ có đuôi /ɪd/.",
+      "evidence": [
+        {
+          "location": "Đề thanh-hoa · P · câu 21",
+          "quote": "crooked · ragged · jagged · noticed",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "-ed pronunciation varies by sound and lexicalized adjective.",
+      "examples": [
+        {
+          "word": "D",
+          "en": "She noticed the crooked picture frame.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "p",
+      "number": 22,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Cupboard đọc /ˈkʌbəd/ chứ không có âm board thường thấy trong aboard, keyboard, overboard.",
+      "evidence": [
+        {
+          "location": "Đề thanh-hoa · P · câu 22",
+          "quote": "aboard · keyboard · cupboard · overboard",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Do not infer pronunciation solely from spelling.",
+      "examples": [
+        {
+          "word": "C",
+          "en": "The cups are in the kitchen cupboard.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "p",
+      "number": 23,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Enclose, suppose và compose có cụm âm cuối /əʊz/, còn purpose kết thúc /pəs/.",
+      "evidence": [
+        {
+          "location": "Đề thanh-hoa · P · câu 23",
+          "quote": "enclose · suppose · compose · purpose",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Contrast word endings by actual phonemes, not letters.",
+      "examples": [
+        {
+          "word": "D",
+          "en": "What is the purpose of this meeting?",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "p",
+      "number": 24,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Mausoleum nhấn chính âm tiết thứ ba /ˌmɔːsəˈliːəm/, khác evaporate, computerize và compulsory (trọng âm thứ hai).",
+      "evidence": [
+        {
+          "location": "Đề thanh-hoa · P · câu 24",
+          "quote": "evaporate · mausoleum · computerize · compulsory",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Word stress must be learned by phonological pattern and exceptions.",
+      "examples": [
+        {
+          "word": "B",
+          "en": "The guide described an ancient mausoleum.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "p",
+      "number": 25,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Veterinary thường nhấn âm đầu, khác preliminary, incendiary và contemporary có trọng âm chính rơi về sau.",
+      "evidence": [
+        {
+          "location": "Đề thanh-hoa · P · câu 25",
+          "quote": "veterinary · preliminary · incendiary · contemporary",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Primary stress depends on lexical pronunciation.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "She wants to study veterinary medicine.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    }
+  ],
+  "source": {
+    "referenceUrl": "https://springboard.vn/de-thi-chuyen-anh-thanh-hoa-2026/",
+    "official": false,
+    "sourceNote": "Đáp án tham khảo đối chiếu với dạng bài và ngữ cảnh; chưa có đủ phân tích mọi phương án; cần tiếp tục kiểm tra."
+  }
 }
