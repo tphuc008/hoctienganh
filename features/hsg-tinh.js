@@ -186,7 +186,7 @@ function getQuestion(g,n){
     const text=pages[index+1].t;
     const header=new RegExp(HSG_HEADER.source,"g").exec(text);
     const prefix=text.slice(0,header?header.index:Math.min(text.length,1400)).trim();
-    if(/^A[.)]\\s+/.test(prefix)){
+    if(/^A[.)]\s+/.test(prefix)){
      const recovered=parseOptions(prefix);
      if(recovered)q.options=recovered.options;
     }
