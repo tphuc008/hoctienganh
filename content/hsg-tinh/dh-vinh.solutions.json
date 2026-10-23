@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "examId": "dh-vinh",
+  "status": "pending-verification",
+  "format": [
+    "correctAnswer",
+    "explanation",
+    "evidence",
+    "distractorAnalysis",
+    "transferablePattern"
+  ],
+  "records": []
+}
