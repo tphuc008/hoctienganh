@@ -1,7 +1,7 @@
 {
   "version": 1,
   "examId": "tay-ninh",
-  "status": "pending-verification",
+  "status": "partially-verified",
   "format": [
     "correctAnswer",
     "explanation",
@@ -9,5 +9,156 @@
     "distractorAnalysis",
     "transferablePattern"
   ],
-  "records": []
+  "records": [
+    {
+      "partId": "g",
+      "number": 21,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Cụm phân từ độc lập her hands trembling bổ sung tình trạng xảy ra cùng lúc; hai vế có chủ ngữ riêng.",
+      "evidence": [
+        {
+          "location": "Đề tay-ninh · G · câu 21",
+          "quote": "Her hands trembling",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Nominative absolute: noun + present participle, main clause.",
+      "examples": [
+        {
+          "word": "B",
+          "en": "His heart pounding, he stepped onto the stage.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 22,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "On cloud nine diễn tả vui sướng tột cùng; hợp tình huống nhận học bổng từ đại học mơ ước.",
+      "evidence": [
+        {
+          "location": "Đề tay-ninh · G · câu 22",
+          "quote": "on cloud nine",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Be on cloud nine = extremely happy.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "She was on cloud nine after winning the scholarship.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 23,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Urge that + S + (should) + bare infinitive dùng thức giả định; dự án là đối tượng được hoàn thành nên be completed.",
+      "evidence": [
+        {
+          "location": "Đề tay-ninh · G · câu 23",
+          "quote": "be completed",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Urge that + S + (should) + be + V3.",
+      "examples": [
+        {
+          "word": "C",
+          "en": "The committee urged that the proposal be reviewed immediately.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 24,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Rút gọn mệnh đề quan hệ ở bị động: bỏ đại từ quan hệ và be, giữ quá khứ phân từ bổ nghĩa cho report.",
+      "evidence": [
+        {
+          "location": "Đề tay-ninh · G · câu 24",
+          "quote": "a report compiled by an independent committee",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Reduced passive relative clause: N + V3.",
+      "examples": [
+        {
+          "word": "B",
+          "en": "The report prepared by the committee was released today.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "g",
+      "number": 25,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Abide by là cụm động từ có nghĩa tuân thủ quy tắc hoặc thỏa thuận, phù hợp với code of conduct.",
+      "evidence": [
+        {
+          "location": "Đề tay-ninh · G · câu 25",
+          "quote": "abide by the company's code of conduct",
+          "note": "Cấu trúc/cụm từ xuất hiện trong câu hoặc phương án của đề gốc."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Abide by + rules/law/agreement.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "All employees must abide by the company's safety rules.",
+          "vi": "Ví dụ vận dụng cấu trúc trong tình huống thực tế."
+        }
+      ],
+      "provenance": {
+        "type": "independently-reasoned-and-public-key-cross-check",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-full-option-analysis"
+    }
+  ],
+  "source": {
+    "referenceUrl": "https://springboard.vn/de-thi-chuyen-anh-tay-ninh-2026/",
+    "official": false,
+    "sourceNote": "Đáp án tham khảo đối chiếu với dạng bài và ngữ cảnh; chưa có đủ phân tích mọi phương án; cần tiếp tục kiểm tra."
+  }
 }
