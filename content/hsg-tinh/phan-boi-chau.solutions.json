@@ -154,6 +154,151 @@
         "official": false
       },
       "editorialStatus": "needs-review-for-full-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 6,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Sau require that dùng mandative subjunctive: bare infinitive; dụng cụ là đối tượng nhận tác động nên dùng be sterilized.",
+      "evidence": [
+        {
+          "location": "B1 · câu 6",
+          "quote": "require that all medical equipment be sterilized",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "require that + S + (should) + be + V3",
+      "examples": [
+        {
+          "word": "B",
+          "en": "The hospital requires that all instruments be sterilized.",
+          "vi": "Bệnh viện yêu cầu toàn bộ dụng cụ phải được khử trùng."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 7,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Out of the blue là thành ngữ chỉ sự xuất hiện hoàn toàn bất ngờ, phù hợp với con nai lao ra trước đầu xe.",
+      "evidence": [
+        {
+          "location": "B1 · câu 7",
+          "quote": "appeared out of the blue",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "out of the blue = unexpectedly",
+      "examples": [
+        {
+          "word": "D",
+          "en": "A former classmate called me out of the blue.",
+          "vi": "Một người bạn học cũ bất ngờ gọi điện cho tôi."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 8,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Semiannually là nửa năm một lần, nghĩa là twice a year; phân biệt với biennially là hai năm một lần.",
+      "evidence": [
+        {
+          "location": "B1 · câu 8",
+          "quote": "semiannually",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "semiannually = twice a year",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The company reviews employee salaries semiannually.",
+          "vi": "Công ty rà soát lương nhân viên mỗi sáu tháng."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 9,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Down in the dumps là buồn chán, thất vọng; câu hỏi yêu cầu từ trái nghĩa nên chọn on top of the world.",
+      "evidence": [
+        {
+          "location": "B1 · câu 9",
+          "quote": "down in the dumps ↔ on top of the world",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "on top of the world = extremely happy",
+      "examples": [
+        {
+          "word": "C",
+          "en": "She felt on top of the world after the competition.",
+          "vi": "Cô ấy vô cùng hạnh phúc sau cuộc thi."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "b1",
+      "number": 10,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "I think you may have a point there diễn đạt đồng ý có cân nhắc với nhận xét trước; các công việc văn phòng đã được tự động hóa.",
+      "evidence": [
+        {
+          "location": "B1 · câu 10",
+          "quote": "I think you may have a point there",
+          "note": "Tín hiệu ngữ pháp, nghĩa hoặc từ loại giúp xác định đáp án."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "You may have a point = your argument may be valid",
+      "examples": [
+        {
+          "word": "C",
+          "en": "You may have a point about starting the project earlier.",
+          "vi": "Có thể bạn có lý khi đề xuất bắt đầu dự án sớm hơn."
+        }
+      ],
+      "provenance": {
+        "type": "independent-solution-with-public-answer-crosscheck",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-pbc-nghe-an-2026/",
+        "official": false
+      },
+      "editorialStatus": "needs-review-for-complete-option-analysis"
     }
   ],
   "source": {
