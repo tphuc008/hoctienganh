@@ -92,10 +92,10 @@ for(const n of [3,6]){
 }
 test("Foundation routes are teacher protected and the library exposes both entries",()=>{
   const html=read("index.html"),lib=read("features/grammar-library.js");
-  assert.match(html,/teacher\\\/grammar\\\/topic-\\(\?:3\\|5\\|6\\|19\\|21\\|22/);
-  assert.match(html,/content\\\/grammar-topic3\\.js/);
-  assert.match(html,/content\\\/grammar-topic6\\.js/);
-  assert.match(html,/content\\\/grammar-foundation-explanations\\.js/);
+  assert.ok(html.includes("topic-(?:3|5|6|19|21|22)"));
+  assert.ok(html.includes("content/grammar-topic3.js"));
+  assert.ok(html.includes("content/grammar-topic6.js"));
+  assert.ok(html.includes("content/grammar-foundation-explanations.js"));
   assert.ok(html.indexOf("await hasTeacherPreviewAccess(learnerSession)")<html.indexOf("await renderTeacherGrammarNew(hash,learnerSession)"));
-  assert.match(lib,/available:\[3,5,6,19,21,22\]/);
+  assert.ok(lib.includes("available:[3,5,6,19,21,22]"));
 });
