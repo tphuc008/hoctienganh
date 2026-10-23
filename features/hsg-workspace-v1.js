@@ -35,6 +35,35 @@ function validate(doc,examId,legacyParts,structured){
    if(own(part,"passageRatio"))fail(part.id,"focused layout cannot define passage width");
   }else if(!Number.isInteger(part.passageRatio)||part.passageRatio<30||part.passageRatio>70)fail(part.id,"passageRatio must be 30–70");
   if(part.layout==="error"&&part.input!=="error")fail(part.id,"error correction needs error input");
+  if(own(part,"task")){
+   const task=part.task;
+   if(part.input!=="error"||task?.kind!=="find-and-correct"||
+      !Number.isInteger(task.errorCount)||task.errorCount!==part.end-part.start+1||
+      !Number.isInteger(task.numberedSourceLines?.start)||!Number.isInteger(task.numberedSourceLines?.end)||
+      task.numberedSourceLines.start!==1||task.numberedSourceLines.end<task.numberedSourceLines.start||
+      typeof task.instruction!=="string"||!task.instruction.trim())
+    fail(part.id,"invalid shared error-passage specification");
+  }
+  if(own(part,"subtasks")){
+   if(part.input!=="rewrite"||part.layout!=="focused"||!Array.isArray(part.subtasks)||!part.subtasks.length)
+    fail(part.id,"subtasks only supported for focused rewrites");
+   let expected=part.start;
+   for(const sub of part.subtasks){
+    if(!Number.isInteger(sub.start)||!Number.isInteger(sub.end)||sub.start!==expected||sub.end<sub.start||
+       sub.end>part.end||typeof sub.instruction!=="string"||!sub.instruction.trim())
+     fail(part.id,"subtask range or instruction is invalid");
+    expected=sub.end+1;
+    if(sub.kind==="keyword-transformation"){
+     if(!Number.isInteger(sub.minWords)||!Number.isInteger(sub.maxWords)||
+        sub.minWords<1||sub.maxWords<sub.minWords||sub.keywordMustBeUnchanged!==true)
+      fail(part.id,"keyword transformation requires a word limit and unchanged keyword");
+    }else if(sub.kind==="sentence-completion"){
+     if(own(sub,"minWords")||own(sub,"maxWords")||own(sub,"keywordMustBeUnchanged"))
+      fail(part.id,"sentence completion cannot inherit keyword restrictions");
+    }else fail(part.id,"unknown subtask kind");
+   }
+   if(expected!==part.end+1)fail(part.id,"rewrite subtasks leave uncovered questions");
+  }
   return Object.freeze({...part});
  });
  if(expectedStart!==range.end+1||total!==range.end-range.start+1)fail(examId,"uncovered exam questions");
@@ -43,6 +72,7 @@ function validate(doc,examId,legacyParts,structured){
  return Object.freeze({...doc,parts:Object.freeze(parts),questionTotal:total});
 }
 function getPart(doc,id){return doc?.parts?.find(part=>part.id===id)||null}
+function getSubtask(part,number){return part?.subtasks?.find(sub=>number>=sub.start&&number<=sub.end)||null}
 function className(part){return part&&LAYOUTS.has(part.layout)?"hsg-exam-ws-v1 hsg-exam-mode--"+part.layout:""}
-global.HSGWorkspaceV1=Object.freeze({version:"1.0",validate,getPart,className});
+global.HSGWorkspaceV1=Object.freeze({version:"1.1",validate,getPart,getSubtask,className});
 })(window);
