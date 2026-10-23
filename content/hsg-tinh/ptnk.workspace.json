@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "standard": "exam-workspace-v1",
+  "examId": "ptnk",
+  "numbering": "per-part",
+  "settings": {
+    "autoSaveStatus": "errors-only",
+    "passageScroll": "independent",
+    "questionScroll": "independent",
+    "mobileReadingTabs": true,
+    "solutions": {
+      "mode": "review-first",
+      "grading": "not-configured",
+      "answers": "only-verified",
+      "explanations": "source-grounded"
+    }
+  },
+  "parts": [
+    {
+      "id": "139",
+      "start": 1,
+      "end": 130,
+      "input": "mixed",
+      "layout": "adaptive",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "dynamic",
+      "passageRatio": 54
+    },
+    {
+      "id": "240",
+      "start": 1,
+      "end": 130,
+      "input": "mixed",
+      "layout": "adaptive",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "dynamic",
+      "passageRatio": 54
+    },
+    {
+      "id": "306",
+      "start": 1,
+      "end": 130,
+      "input": "mixed",
+      "layout": "adaptive",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "dynamic",
+      "passageRatio": 54
+    },
+    {
+      "id": "4",
+      "start": 1,
+      "end": 130,
+      "input": "mixed",
+      "layout": "adaptive",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "dynamic",
+      "passageRatio": 54
+    }
+  ]
+}
