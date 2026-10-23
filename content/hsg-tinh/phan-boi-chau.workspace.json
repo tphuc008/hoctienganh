@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "standard": "exam-workspace-v1",
+  "examId": "phan-boi-chau",
+  "numbering": "per-part",
+  "settings": {
+    "autoSaveStatus": "errors-only",
+    "passageScroll": "independent",
+    "questionScroll": "independent",
+    "mobileReadingTabs": true,
+    "solutions": {
+      "mode": "review-first",
+      "grading": "not-configured",
+      "answers": "only-verified",
+      "explanations": "source-grounded"
+    }
+  },
+  "parts": [
+    {
+      "id": "b1",
+      "start": 1,
+      "end": 10,
+      "input": "mcq",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "b2",
+      "start": 1,
+      "end": 10,
+      "input": "error",
+      "layout": "error",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "b3",
+      "start": 1,
+      "end": 10,
+      "input": "word",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "c1",
+      "start": 1,
+      "end": 10,
+      "input": "mcq",
+      "layout": "reading",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "c2",
+      "start": 1,
+      "end": 10,
+      "input": "fill",
+      "layout": "split",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "c3",
+      "start": 1,
+      "end": 8,
+      "input": "mcq",
+      "layout": "reading",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "c4",
+      "start": 1,
+      "end": 6,
+      "input": "match",
+      "layout": "reading",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "c5",
+      "start": 7,
+      "end": 12,
+      "input": "tfng",
+      "layout": "reading",
+      "source": "source-extracted",
+      "optionLayout": "stacked",
+      "questionFlow": "scroll-list",
+      "passageRatio": 54
+    },
+    {
+      "id": "d1",
+      "start": 1,
+      "end": 5,
+      "input": "rewrite",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "d2",
+      "start": 1,
+      "end": 1,
+      "input": "essay",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    },
+    {
+      "id": "d3",
+      "start": 1,
+      "end": 1,
+      "input": "essay",
+      "layout": "focused",
+      "source": "source-extracted",
+      "optionLayout": "standard",
+      "questionFlow": "one-at-a-time"
+    }
+  ]
+}
