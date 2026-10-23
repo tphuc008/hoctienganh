@@ -76,7 +76,7 @@ function asExplanationV1(record,question,section){
   record.editorialStatus==="needs-review-for-complete-option-analysis"||
   (objective&&actual.length===4&&(!perChoice||perChoice.some(x=>!x?.analysis)))||
   (objective&&actual.length!==4)||
-  (objective&&examples.length!==4)||
+  (kind==="vocabulary"&&examples.length!==4)||
   !!record.advisory;
  return {
   type:objective?(["match","ynng","tfng"].includes(kind)?"reading":"grammar"):"written",
