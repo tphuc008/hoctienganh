@@ -13,7 +13,31 @@ const makeAnswer=r=>{
  if(r.type==="error")return [r.line&&"Line "+r.line,r.error,r.correction&&"→ "+r.correction].filter(Boolean).join(" · ");
  return String(r.value||"");
 };
-function build(exam,sections,answers,getQuestion){
+function validate(doc,examId,sections){
+ if(!doc||doc.version!==1||doc.examId!==examId||
+   doc.status!=="pending-verification"||!Array.isArray(doc.records)||
+   !Array.isArray(doc.format))throw Error("Invalid solution structure for "+examId);
+ const required=["correctAnswer","explanation","evidence","distractorAnalysis","transferablePattern"];
+ if(required.some(key=>!doc.format.includes(key)))throw Error("Missing explanation structure");
+ const used=new Set();
+ for(const r of doc.records){
+  const g=sections.find(p=>p.id===r.partId);
+  if(!g||!Number.isInteger(r.number)||r.number<g.start||r.number>g.end)throw Error("Unknown solution question");
+  const identity=r.partId+":"+r.number;
+  if(used.has(identity))throw Error("Duplicate solution record");
+  used.add(identity);
+  if(r.verified!==true||typeof r.correctAnswer!=="string"||!r.correctAnswer.trim()||
+     typeof r.explanation!=="string"||!r.explanation.trim()||
+     !Array.isArray(r.evidence)||r.evidence.length===0||
+     r.evidence.some(ref=>!ref||typeof ref.location!=="string"||!ref.location.trim()||
+       typeof ref.quote!=="string"||!ref.quote.trim())||
+     !Array.isArray(r.distractorAnalysis)||typeof r.transferablePattern!=="string")
+   throw Error("Solution record lacks verified evidence: "+identity);
+ }
+ return doc;
+}
+function findSolution(doc,id){return doc?.records?.find(p=>p.partId+":"+p.number===id)||null}
+function build(exam,sections,answers,getQuestion,solutions){
  const all=[],parts=[];let attempted=0,total=0;
  for(const part of sections){
   const items=[];let answered=0;
@@ -21,9 +45,10 @@ function build(exam,sections,answers,getQuestion){
    const response=answers[part.id+":"+n]||{};
    const isAnswered=meaningful(response);
    const q=getQuestion(part,n);
-   const item={key:part.id+":"+n,group:part.id,number:n,part:part.name,
+   const key=part.id+":"+n,reference=findSolution(solutions,key);
+   const item={key,group:part.id,number:n,part:part.name,
     stem:String(q?.stem||""),answer:makeAnswer(response),
-    status:isAnswered?"answered":"unanswered",kind:part.kind};
+    status:isAnswered?"answered":"unanswered",kind:part.kind,reference};
    items.push(item);all.push(item);total++;
    if(isAnswered){answered++;attempted++}
   }
@@ -32,7 +57,7 @@ function build(exam,sections,answers,getQuestion){
  }
  return {exam:{id:exam.id,title:exam.title,year:exam.year},parts,all,
   totals:{answered:attempted,unanswered:total-attempted,total},
-  solutions:{status:"unverified",answerKey:null,explanations:null}};
+  solutions:{status:solutions?.status||"unverified",verifiedCount:solutions?.records?.length||0}};
 }
 function render(root,report,handlers){
  const total=report.totals.total,done=report.totals.answered;
@@ -77,6 +102,9 @@ function render(root,report,handlers){
    '<small>'+esc(q.part)+'</small>'+
    (q.stem?'<span class="hsg-rs-question-stem">'+esc(q.stem.replace(/\s+/g," ").slice(0,150))+'</span>':"")+
    (q.answer?'<span class="hsg-rs-question-stem">Bài làm: '+esc(q.answer.slice(0,180))+'</span>':"")+
+   (q.reference?'<span class="hsg-rs-question-stem">Đáp án tham khảo: '+esc(q.reference.correctAnswer)+'</span>'+
+    '<span class="hsg-rs-question-stem">Giải thích: '+esc(q.reference.explanation.slice(0,250))+'</span>':
+    '<span class="hsg-rs-question-stem">Đáp án/lời giải đang chờ xác minh</span>')+
    '</span><span class="hsg-rs-question-status">'+(q.status==="answered"?"Đã làm":"Bỏ trống")+'</span>'+
    '<span class="hsg-rs-question-arrow" aria-hidden="true">›</span></button>').join(""):
    '<div class="hsg-rs-empty">Không có câu hỏi trong nhóm này.</div>';
@@ -88,5 +116,5 @@ function render(root,report,handlers){
  root.querySelectorAll("[data-exam-review-resume]").forEach(b=>b.onclick=handlers.resume);
  root.querySelector("[data-exam-review-library]").onclick=handlers.library;
 }
-global.HSGExamSolutions=Object.freeze({version:"1.0",build,render});
+global.HSGExamSolutions=Object.freeze({version:"1.1",validate,findSolution,build,render});
 })(window);
