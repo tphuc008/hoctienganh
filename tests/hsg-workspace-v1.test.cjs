@@ -1,0 +1,46 @@
+/* Run with: node tests/hsg-workspace-v1.test.cjs
+ * No dependencies or browser required. Checks the deployed manifest contract. */
+"use strict";
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const path=require("node:path");
+const vm=require("node:vm");
+const root=path.resolve(__dirname,"..");
+const get=path=>fs.readFileSync(require("node:path").join(root,path),"utf8");
+const script=get("features/hsg-workspace-v1.js");
+const sandbox={window:{}};
+vm.runInNewContext(script,sandbox);
+const layoutSystem=sandbox.window.HSGWorkspaceV1;
+const manifest=JSON.parse(get("content/hsg-tinh/hai-phong.workspace.json"));
+const structured=JSON.parse(get("content/hsg-tinh/hai-phong.structured.json"));
+const examSource=get("features/hsg-tinh.js");
+const match=examSource.match(/"hai-phong":(\[\[[\s\S]*?\]\]),\s*\n "dh-vinh":/);
+assert.ok(match,"Could not identify Hai Phong's canonical part list");
+const canonical=JSON.parse(match[1]);
+const verified=layoutSystem.validate(manifest,"hai-phong",canonical,structured);
+assert.equal(verified.parts.length,10);
+assert.equal(verified.questionTotal,80);
+assert.equal(verified.parts[0].start,21);
+assert.equal(verified.parts.at(-1).end,100);
+assert.equal(verified.parts.filter(p=>p.source==="structured").length,6);
+assert.equal(verified.parts.filter(p=>p.source==="source-extracted").length,4);
+assert.equal(verified.parts.find(p=>p.id==="r").layout,"reading");
+assert.equal(verified.parts.find(p=>p.id==="e").layout,"error");
+assert.ok(verified.parts.every(p=>p.layout==="focused"?(p.questionFlow==="one-at-a-time"):(p.questionFlow==="scroll-list")));
+const reject=(change,label)=>{
+ const specimen=JSON.parse(JSON.stringify(manifest));
+ change(specimen);
+ assert.throws(()=>layoutSystem.validate(specimen,"hai-phong",canonical,structured),undefined,label);
+};
+reject(x=>x.parts.pop(),"Missing Part must fail");
+reject(x=>x.parts[2].start=45,"Overlapping ranges must fail");
+reject(x=>x.parts[0].source="structured","False structured source must fail");
+reject(x=>x.parts[8].layout="other","Unknown layout must fail");
+reject(x=>x.parts[8].passageRatio=88,"Invalid width must fail");
+const index=get("index.html");
+assert.ok(index.includes('hsg-workspace-v1.js?v=20261023-ws-v1'));
+assert.ok(index.includes('hsg-workspace-v1.css?v=20261023-ws-v1'));
+const css=get("features/hsg-workspace-v1.css");
+assert.ok(css.includes("@media screen"));
+assert.ok(!css.includes("@media print"));
+console.log("Exam Workspace V1: all manifest, coverage, validation, and asset checks passed.");
