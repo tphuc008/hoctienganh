@@ -40,6 +40,30 @@ For full data normalization later, compare against the original question-paper s
 
 The existing `HSGPartSystem` currently accepts typed `guided_cloze`, `open_cloze`, `word_formation` and `reading_comprehension` records. New typed kinds or separate standalone question schema support must be introduced and tested **before** moving the four remaining sections to `structured`.
 
+
+## Verified original Hai Phong paper rules (audit, 2026-10-23)
+
+The **10 displayed website Parts are logical learning units**; they are not a literal transcription of the paper's original Part labels. For example, the advertisement and letter are separated into website Parts 2 and 3 even though both belong to the original Guided Cloze grouping. The original paper also contains a final paragraph-writing prompt. It is **excluded from online practice by user decision**, not absent from the original source. Website question coverage intentionally remains Q21–100 (80 questions).
+
+Rules confirmed by reading the compressed original source `content/hsg-tinh/hai-phong.txt`:
+
+- **Q51–55 — Error Correction:** find *five* errors in one shared passage. The original printed source has **12 numbered lines**. The website presents five response slots alongside this passage; it must not treat the text as five independent passages.
+- **Q91–95 — keyword transformation:** use the given keyword **without changing it**, and enter **3–6 words including that keyword**. Word count is a guidance indicator; automated scoring does not establish semantic equivalence for every possible valid rewriting.
+- **Q96–100 — sentence completion:** complete the second sentence while preserving the meaning. **Do not apply Q91–95's mandatory keyword or 3–6-word constraint** to these five questions.
+- **Q29 — physical page boundary:** the question stem is at the end of original source page 2, while its A–D options begin source page 3. The shared source extractor recovers a complete next-page A–D sequence *only* from the prefix preceding the next numbered question. The preserved answer choices are "Were you to require", "Should you require", "Required", "Had you required".
+- **Q21–40** have 20 MCQs; **Q56–60** are five standalone word-form questions; **Q91–100** have ten rewriting stems. These four source-extracted groups still need an editorial proofread before a full 10/10 source-normalization claim.
+
+Manifest fields `task` (shared error passage) and `subtasks` (rewrite constraints) are validated by `HSGWorkspaceV1` and interpreted by the Hai Phong renderer. The display shows the distinct rewrite instructions and a non-blocking 3–6-word counter for Q91–95. **Answers remain saved in their original draft keys** and no result or print pipelines were replaced.
+
+### Regression tests
+
+Run both commands in the repository root:
+
+- `node tests/hsg-workspace-v1.test.cjs` — schema integrity, layout count and invalid-config rejection.
+- `node tests/hsg-hai-phong-source-audit.test.cjs` — decompresses the original paper, checks original numbered error lines and rewriting instructions, and checks complete Q21–40 / Q56–60 / Q91–100 question parsing (including Q29 options across pages).
+
+The original source is a PDF-text extraction, not an independently authenticated official final answer key. Keep original exam text and editorial/reference answers separate. A code-level audit does not replace checking the actual screen, mobile behavior and print preview after publication.
+
 ## Reuse with a second province
 
 When adding another provincial exam, do not copy Hai Phong ID-specific CSS selectors or its answers. Build a new verified workspace manifest for that exam and use the shared `HSGWorkspaceV1` validator and `hsg-exam-ws-v1` / `hsg-exam-mode--*` CSS classes. This V1 contract assumes contiguous question numbering; exams with multiple question-number sequences (e.g. an essay numbered 1) need an extended coverage policy first.
