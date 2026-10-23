@@ -432,7 +432,7 @@ function attachHSGExplanationControls(root,g){
 }
 
 function freezeHaiPhongAnswers(root){
- if(state.exam?.id!=="hai-phong"||!state.answerReviewUnlocked||!root)return;
+ if(!state.data?.workspace||!state.answerReviewUnlocked||!root)return;
  root.querySelectorAll(".answer,[data-hsg-choice],[data-hsg-field],[data-hsg-clear],"+
   "[data-hsg-flag],#hsg-clear,#hsg-flag").forEach(el=>{
    el.disabled=true;el.setAttribute("aria-disabled","true");
@@ -897,7 +897,7 @@ function renderEditor(){
  editor.innerHTML='<div class="hsg-question-kicker"><span>QUESTION '+String(n).padStart(2,"0")+'</span><span>'+esc(q.type.toUpperCase().replace("MCQ","MULTIPLE CHOICE"))+'</span></div>'+
  '<div class="hsg-question-stem">'+esc(stem)+'</div>'+
  (subtask?'<p class="hsg-hp-task-note">'+esc(subtask.instruction)+'</p>':"")+
- (state.exam?.id==="hai-phong"?(state.answerReviewUnlocked?'<p class="hsg-form-note">Câu trả lời đã được giữ nguyên để xem lại.</p>':""):'<p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>')+inputs+
+ (state.data?.workspace?(state.answerReviewUnlocked?'<p class="hsg-form-note">Câu trả lời đã được giữ nguyên để đối chiếu. Chọn Tiếp tục làm bài ở trang kết quả để chỉnh sửa.</p>':""):'<p class="hsg-form-note">Trả lời bên dưới · Tự lưu · Chưa chấm điểm.</p>')+inputs+
  (wordRule?'<p class="hsg-hp-rewrite-word-count" id="hsg-hp-rewrite-word-count">Đã nhập '+countWords(saved.value)+' từ · Yêu cầu '+subtask.minWords+'–'+subtask.maxWords+' từ (kể cả từ khóa)</p>':"")+
  (state.exam?.id==="hai-phong"&&state.answerReviewUnlocked?'<div class="hsg-hp-answer-evaluation">'+haiPhongGradeBadge(g,n)+'</div>':
    state.answerReviewUnlocked?'<div class="hsg-exam-answer-evaluation">'+sharedExamGradeBadge(g,n,q)+'</div>':"")+
