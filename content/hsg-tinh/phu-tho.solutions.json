@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "examId": "phu-tho",
+  "status": "pending-verification",
+  "format": [
+    "correctAnswer",
+    "explanation",
+    "evidence",
+    "distractorAnalysis",
+    "transferablePattern"
+  ],
+  "records": []
+}
