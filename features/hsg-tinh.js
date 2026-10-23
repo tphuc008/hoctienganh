@@ -625,27 +625,40 @@ function renderExam(){
  removeReadingPortal();
  const root=$("pageMount");
  root.style.display="block";
- root.innerHTML='<div class="hsg-root hsg-modern'+(e.id==="hai-phong"?' hsg-hp-v2 hsg-hp-compact':'')+(passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\''+BASE+'\'">HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
- '<div class="hsg-exam-head"><div><div class="hsg-kicker">'+(e.id==="hai-phong"?"ĐỀ THI TIẾNG ANH CHUYÊN · ":"INTERACTIVE EXAM · ")+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1>'+
- (e.id==="hai-phong"?"":'<p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p>')+'</div><div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button>'+(e.id==="hai-phong"?"":'<button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button>')+
- (e.id==="hai-phong"?'<button type="button" id="hsg-toggle-answer-review" class="hsg-hp-review-switch" aria-pressed="'+(state.answerReviewUnlocked?'true':'false')+'">'+
-   (state.answerReviewUnlocked?'← Về trang kết quả':'Kết thúc bài làm')+'</button>':"")+'</div></div>'+
- (e.id==="hai-phong"?'<div class="hsg-hp-compact-nav" aria-label="Điều hướng phần thi và tiến độ">'+
+ const hp=e.id==="hai-phong";
+ const hpPartIndex=groups(e).findIndex(x=>x.id===g.id)+1;
+ const hpHeader='<header class="hsg-hp-focusbar" aria-label="Thanh điều hướng làm bài">'+
+  '<button type="button" class="hsg-hp-exit" id="hsg-hp-exit" aria-label="Quay lại thư viện HSG tỉnh" title="Quay lại HSG tỉnh">←</button>'+
+  '<div class="hsg-hp-focus-title"><strong>'+esc(e.title)+'</strong><small>Tiếng Anh chuyên · '+esc(e.year)+'</small></div>'+
   '<div class="hsg-hp-part-picker"><label for="hsg-hp-part-select">'+
-  (state.answerReviewUnlocked?'ĐANG XEM LẠI':'PHẦN ĐANG LÀM')+' · '+(groups(e).findIndex(x=>x.id===g.id)+1)+'/'+groups(e).length+'</label>'+
+  (state.answerReviewUnlocked?'ĐANG XEM LẠI':'CHỌN PHẦN BÀI TẬP')+' · '+hpPartIndex+'/'+groups(e).length+'</label>'+
   '<select id="hsg-hp-part-select" aria-label="Chọn phần của đề Hải Phòng">'+
-  groups(e).map(x=>'<option value="'+esc(x.id)+'"'+(x.id===g.id?' selected':'')+'>'+esc(x.name)+'</option>').join("")+'</select>'+
-  '<span id="hsg-save-status" class="hsg-hp-save-status" role="status">Tự động lưu theo tài khoản</span></div>'+
-  '<div class="hsg-hp-compact-progress"><div class="hsg-hp-compact-progress-top">'+
-  '<strong id="hsg-progress-num">'+done+'/'+total+'</strong><span>câu đã làm</span></div>'+
+  groups(e).map((x,i)=>'<option value="'+esc(x.id)+'"'+(x.id===g.id?' selected':'')+'>'+
+   String(i+1).padStart(2,"0")+'. '+esc(x.name)+' ('+(x.id==="essay"?'Bài viết':x.start+'–'+x.end)+')</option>').join("")+'</select></div>'+
+  '<div class="hsg-hp-compact-progress" aria-label="Tiến độ của phần đang làm">'+
+  '<div class="hsg-hp-compact-progress-top"><strong id="hsg-progress-num">'+done+'/'+total+'</strong><span>câu đã làm</span></div>'+
   '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div>'+
-  '<div class="hsg-hp-compact-progress-bottom"><span>Phạm vi: '+(g.id==="essay"?"Bài viết":g.start+'–'+g.end)+'</span>'+
-  '<span id="hsg-progress-pct">'+pct+'%</span></div></div></div>':
- '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div><div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
- '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>')+
+  '<span class="hsg-hp-progress-pct" id="hsg-progress-pct">'+pct+'%</span></div>'+
+  '<div class="hsg-hp-focus-actions"><span id="hsg-save-status" role="status">Tự động lưu</span>'+
+  '<button type="button" class="hsg-light-btn" id="hsg-print" title="In đề thi">In</button>'+
+  '<button type="button" id="hsg-toggle-answer-review" class="hsg-hp-review-switch" aria-pressed="'+(state.answerReviewUnlocked?'true':'false')+'">'+
+  (state.answerReviewUnlocked?'← Kết quả':'Kết thúc bài làm')+'</button></div></header>';
+ const standardHeader='<div class="breadcrumbs"><button class="crumb-btn" type="button" data-hsg-exit>HSG tỉnh</button><span>›</span><span>'+esc(e.title)+'</span></div>'+
+  '<div class="hsg-exam-head"><div><div class="hsg-kicker">INTERACTIVE EXAM · '+esc(e.year)+'</div><h1>'+esc(e.title)+'</h1>'+
+  '<p>Trả lời trực tiếp · Không Listening · Chưa có lời giải</p></div>'+
+  '<div class="hsg-exam-head-actions"><button type="button" class="hsg-light-btn" id="hsg-print">In</button>'+
+  '<button type="button" class="hsg-main-btn" id="hsg-export">Xuất bài làm</button></div></div>'+
+  '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div>'+
+  '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
+  '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>';
+ root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus'+(g.id==="r"?' hsg-hp-reading-single':''):'')+
+   (passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'">'+
+ (hp?hpHeader:standardHeader)+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
  (passage?split:'<section class="hsg-study-question" id="hsg-answer-editor" aria-label="Câu hỏi"></section><details class="hsg-source-details"><summary>Xem nguyên văn đề gốc</summary><div class="hsg-original-pages">'+originalPages(g)+'</div></details>')+
  '</main>'+(passage?'':'<aside class="hsg-study-rail"><div class="hsg-study-rail-head"><strong>QUESTION MAP</strong><p>'+esc(g.name)+'</p></div><div class="hsg-number-grid">'+range(g).map(n=>'<button type="button" class="hsg-number'+(meaningfulAnswer(state.answers[key(n)])?' has-answer':'')+(state.review[key(n)]?' flagged':'')+(state.question===n?' selected':'')+'" data-question="'+n+'">'+n+'</button>').join("")+'</div><p class="hsg-study-rail-foot">Chọn số để chuyển câu. Màu xanh: đã trả lời; dấu vàng: cần xem lại.</p></aside>')+'</div></div>';
+ const back=root.querySelector("#hsg-hp-exit, [data-hsg-exit]");
+ if(back)back.onclick=()=>{location.hash=BASE};
  const reviewSwitch=root.querySelector("#hsg-toggle-answer-review");
  if(reviewSwitch)reviewSwitch.onclick=()=>{
   // Review stays read-only; after finishing show an independent dashboard.
@@ -660,7 +673,10 @@ function renderExam(){
  const hpPartSelect=root.querySelector("#hsg-hp-part-select");
  if(hpPartSelect)hpPartSelect.onchange=()=>{
   const next=groups(e).find(x=>x.id===hpPartSelect.value);if(!next)return;
-  state.group=next.id;state.question=next.start;renderExam();queueSave();
+  state.group=next.id;state.question=next.start;
+  state.passageSplitRatio=next.id==="r"?62:54;
+  state.readingScroll={passage:0,questions:0};
+  renderExam();queueSave();
  };
  root.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>{
   const next=groups(e).find(x=>x.id===b.dataset.group);if(!next)return;
