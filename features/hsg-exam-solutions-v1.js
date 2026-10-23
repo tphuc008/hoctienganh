@@ -73,7 +73,7 @@ function asExplanationV1(record,question,section){
  const analysisHtml='<p>'+esc(record.explanation||"")+'</p>'+
   (distractorRemarks.length?'<ul>'+distractorRemarks.map(note=>'<li>'+esc(note)+'</li>').join("")+'</ul>':"");
  const needsReview=record.verified!==true||!evidenced.length||
-  record.editorialStatus==="needs-review-for-complete-option-analysis"||
+  String(record.editorialStatus||"").includes("needs-review")||
   (objective&&actual.length===4&&(!perChoice||perChoice.some(x=>!x?.analysis)))||
   (objective&&actual.length!==4)||
   (kind==="vocabulary"&&examples.length!==4)||
