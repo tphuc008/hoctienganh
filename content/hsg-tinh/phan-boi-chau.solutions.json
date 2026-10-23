@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "examId": "phan-boi-chau",
+  "status": "pending-verification",
+  "format": [
+    "correctAnswer",
+    "explanation",
+    "evidence",
+    "distractorAnalysis",
+    "transferablePattern"
+  ],
+  "records": []
+}
