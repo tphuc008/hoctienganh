@@ -116,7 +116,7 @@ function acceptedChoices(reference){
 }
 function assess(kind,response,reference){
  if(!meaningful(response))return "unanswered";
- if(!reference?.verified)return "review";
+ if(!reference?.verified||reference.editorialStatus==="source-quote-needs-review")return "review";
  if(kind==="essay"||kind==="rewrite"||kind==="error"){
   if(kind==="rewrite"&&acceptedChoices(reference).some(v=>normalize(v)===normalize(response.value)))return "correct";
   return "review";
