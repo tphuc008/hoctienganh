@@ -113,3 +113,20 @@
   }
  }
 }
+
+/* Paper-specific instructions remain visible without large banners. */
+@media screen {
+ .hsg-root.hsg-exam-ws-v1 .hsg-hp-task-note{
+  font-size:12px;line-height:1.6;color:#385474;
+  background:#f5f9ff;border-left:2px solid #a7c7ec;
+  border-radius:0 5px 5px 0;
+  padding:7px 10px;margin:9px 0 12px;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-hp-rewrite-word-count{
+  margin:6px 0 11px;font-size:11px;line-height:1.5;
+  color:#697b94;
+ }
+ .hsg-root.hsg-exam-ws-v1 .hsg-hp-rewrite-word-count.is-valid{
+  color:#276749;
+ }
+}
