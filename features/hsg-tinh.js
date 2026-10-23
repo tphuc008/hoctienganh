@@ -34,7 +34,15 @@ const HSG_PARTS={
  "ptnk":[["139","Mã đề 139",1,130,"mixed",[1,2,3,4,5,6,7,8,9,10]],["240","Mã đề 240",1,130,"mixed",[11,12,13,14,15,16,17,18,19,20]],["306","Mã đề 306",1,130,"mixed",[21,22,23,24,25,26,27,28,29,30]],["4","Mã đề thứ tư",1,130,"mixed",[31,32,33,34,35,36,37,38,39,40]]]
 };
 function mappedGroups(exam){
- return (HSG_PARTS[exam.id]||[]).map(([id,name,start,end,kind,pages])=>({id,name,start,end,kind,pages}));
+ const manifest=exam.id==="hai-phong"&&state.exam?.id===exam.id?state.data?.workspace:null;
+ return (HSG_PARTS[exam.id]||[]).map(([id,name,start,end,kind,pages])=>{
+  const layout=global.HSGWorkspaceV1?.getPart(manifest,id);
+  return {id,name,start,end,kind,pages,
+   ...(layout?{workspaceLayout:layout.layout,workspaceInput:layout.input,
+     workspaceSource:layout.source,workspaceOptions:layout.optionLayout,
+     questionFlow:layout.questionFlow,passageRatio:layout.passageRatio}:{}),
+  };
+ });
 }
 
 const groups=exam=>mappedGroups(exam);
@@ -98,6 +106,12 @@ async function getExamData(id){
   result.structured=global.HSGPartSystem.validate(await extra.json(),id);
  }else if(extra.status!==404||CONFIGS.find(e=>e.id===id)?.structuredRequired){
   throw new Error("Không tải được dữ liệu chuẩn hóa đề "+id+" ("+extra.status+")");
+ }
+ if(id==="hai-phong"){
+  const workspaceResp=await fetch("content/hsg-tinh/hai-phong.workspace.json?v=20261023-workspace-v1",{cache:"no-store"});
+  if(!workspaceResp.ok)throw Error("Không tải được cấu trúc giao diện đề Hải Phòng ("+workspaceResp.status+")");
+  if(!global.HSGWorkspaceV1)throw Error("Chưa tải bộ kiểm tra Exam Workspace V1.");
+  result.workspace=global.HSGWorkspaceV1.validate(await workspaceResp.json(),id,HSG_PARTS[id],result.structured);
  }
  CACHE.set(id,result);
  return result;
@@ -196,6 +210,8 @@ function visibleQuestionNumbers(g){
 
 function passageBased(g){
  if(!g)return false;
+ // Exam Workspace V1: render by validated layout, not by keyword or province name.
+ if(g.workspaceLayout)return g.workspaceLayout!=="focused";
  if(structuredPart(g))return true;
  if(g.kind==="mixed")return !!activePassageBlock(g);
  return ["error","fill","match","tfng","ynng"].includes(g.kind)
@@ -651,7 +667,7 @@ function renderExam(){
   '<div class="hsg-exam-progress"><div><b id="hsg-progress-num">'+done+'/'+total+'</b> câu đã làm <span id="hsg-save-status">Tự động lưu theo tài khoản</span></div>'+
   '<div class="hsg-progress-track"><i id="hsg-progress-fill" style="width:'+pct+'%"></i></div><strong id="hsg-progress-pct">'+pct+'%</strong></div>'+
   '<div class="hsg-group-tabs">'+groups(e).map(x=>'<button type="button" data-group="'+esc(x.id)+'" class="'+(x.id===g.id?'active':'')+'">'+esc(x.name)+'</button>').join("")+jump+'</div>';
- root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus'+(g.id==="r"?' hsg-hp-reading-list':'')+(g.id==="essay"?' hsg-hp-writing':''):'')+
+ root.innerHTML='<div class="hsg-root hsg-modern'+(hp?' hsg-hp-v2 hsg-hp-compact hsg-hp-focus '+global.HSGWorkspaceV1.className(global.HSGWorkspaceV1.getPart(state.data?.workspace,g.id))+(g.workspaceLayout==="reading"?' hsg-hp-reading-list':'')+(g.kind==="essay"?' hsg-hp-writing':''):'')+
    (passage?' hsg-reading-mode'+(structuredPart(g)?' hsg-pilot hsg-pilot-'+structuredPart(g).kind+(structuredPart(g).optionsLayout?' hsg-layout-'+structuredPart(g).optionsLayout:''):''):'')+'">'+
  (hp?hpHeader:standardHeader)+
  '<div class="hsg-study-layout'+(passage?' has-shared-passage':'')+'"><main class="hsg-study-main">'+
@@ -674,7 +690,7 @@ function renderExam(){
  if(hpPartSelect)hpPartSelect.onchange=()=>{
   const next=groups(e).find(x=>x.id===hpPartSelect.value);if(!next)return;
   state.group=next.id;state.question=next.start;
-  state.passageSplitRatio=next.id==="r"?62:54;
+  state.passageSplitRatio=next.passageRatio||54;
   state.readingScroll={passage:0,questions:0};
   renderExam();queueSave();
  };
@@ -1291,7 +1307,7 @@ async function open(hash){
   const g=groups(e).find(x=>x.id===state.group);
   state.question=Number.isInteger(draft.question)&&draft.question>=g.start&&draft.question<=g.end?draft.question:g.start;
   if(e.id==="hai-phong"){
-   state.passageSplitRatio=g.id==="r"?62:54;
+   state.passageSplitRatio=g.passageRatio||54;
    state.readingScroll={passage:0,questions:0};
   }
   renderExam();
