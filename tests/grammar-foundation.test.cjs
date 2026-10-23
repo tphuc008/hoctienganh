@@ -8,11 +8,11 @@ const read=name=>fs.readFileSync(path.join(root,name),"utf8");
 function boot(){
   const window={};
   const ctx=vm.createContext({window});
-  for(const file of ["content/grammar-topic-compiler.js","content/grammar-topic3.js","content/grammar-topic6.js","content/grammar-foundation-explanations.js"])
+  for(const file of ["content/grammar-topic-compiler.js","content/grammar-topic3.js","content/grammar-topic4.js","content/grammar-topic6.js","content/grammar-topic8.js","content/grammar-foundation-explanations.js","content/grammar-foundation-advanced-explanations.js"])
     vm.runInContext(read(file),ctx,{filename:file});
   return window;
 }
-for(const n of [3,6]){
+for(const n of [3,4,6,8]){
   test("Foundation Topic "+n+" compiles eight complete lessons in the Topic 05 format",()=>{
     const g=boot(),d=g["GrammarTopic"+n+"Data"];
     assert.equal(d.sections.length,8);
@@ -47,6 +47,7 @@ for(const n of [3,6]){
       assert.ok(s.checks.every(q=>q.discovery?.correct===0&&q.discovery?.options.length===2),s.id);
     }
     assert.equal(g.GrammarFoundationExplanationAudit,160);
+    assert.equal(g.GrammarFoundationAdvancedExplanationAudit,160);
   });
   test("Foundation Topic "+n+" uses the original five-stage Grammar 05 studio UI",()=>{
     const g=boot();
@@ -94,10 +95,13 @@ for(const n of [3,6]){
 }
 test("Foundation routes are teacher protected and the library exposes both entries",()=>{
   const html=read("index.html"),lib=read("features/grammar-library.js");
-  assert.ok(html.includes("topic-(?:3|5|6|19|21|22)"));
+  assert.ok(html.includes("topic-(?:3|4|5|6|8|19|21|22)"));
   assert.ok(html.includes("content/grammar-topic3.js"));
+  assert.ok(html.includes("content/grammar-topic4.js"));
+  assert.ok(html.includes("content/grammar-topic8.js"));
+  assert.ok(html.includes("content/grammar-foundation-advanced-explanations.js"));
   assert.ok(html.includes("content/grammar-topic6.js"));
   assert.ok(html.includes("content/grammar-foundation-explanations.js"));
   assert.ok(html.indexOf("await hasTeacherPreviewAccess(learnerSession)")<html.indexOf("await renderTeacherGrammarNew(hash,learnerSession)"));
-  assert.ok(lib.includes("available:[3,5,6,19,21,22]"));
+  assert.ok(lib.includes("available:[3,4,5,6,8,19,21,22]"));
 });
