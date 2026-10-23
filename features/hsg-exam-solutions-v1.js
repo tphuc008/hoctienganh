@@ -43,6 +43,64 @@ function validate(doc,examId,sections){
  return doc;
 }
 function findSolution(doc,id){return doc?.records?.find(p=>p.partId+":"+p.number===id)||null}
+
+/* Adapt any sourced HSG answer to the site's existing Explanation Standard V1:
+ * (1) Bằng chứng (2) Phân tích A-D/cách giải (3) Vận dụng.
+ * Missing option-specific analysis or genuine examples stay review-required.
+ * Do not synthesize evidence, distractor rationales or example sentences.
+ */
+function asExplanationV1(record,question,section){
+ if(!record)return null;
+ const kind=section?.kind||question?.type||"";
+ const objective=["mcq","match","ynng","tfng"].includes(kind);
+ const actual=Array.isArray(question?.options)?question.options:[];
+ const keyed=/^[A-D]$/.test(String(record.correctAnswer||""))
+  ?record.correctAnswer.charCodeAt(0)-65:-1;
+ const perChoice=Array.isArray(record.optionNotes)&&record.optionNotes.length===4
+  ?record.optionNotes:null;
+ const options=objective&&actual.length===4?actual.map((word,i)=>({
+  word:String(word),correct:keyed===i,
+  meaning:perChoice?.[i]?.meaning||"",
+  analysis:perChoice?.[i]?.analysis|| (i===keyed?record.explanation:"")
+ })):[];
+ const distractorRemarks=(record.distractorAnalysis||[]).filter(Boolean).map(x=>
+  typeof x==="string"?x:x.reason||"").filter(Boolean);
+ const evidenced=(record.evidence||[]).filter(x=>x&&x.location&&x.quote)
+  .map(x=>({locator:x.location,quote:x.quote,note:x.note||""}));
+ const examples=Array.isArray(record.examples)?record.examples.filter(x=>x?.en&&x?.vi):[];
+ const qText=keyed>=0&&actual[keyed]?record.correctAnswer+". "+actual[keyed]:record.correctAnswer;
+ const fullReason=[record.explanation,...distractorRemarks].filter(Boolean).join("\n");
+ const needsReview=record.verified!==true||record.provenance?.official!==true||
+  !evidenced.length||
+  (objective&&actual.length===4&&(!perChoice||perChoice.some(x=>!x?.analysis)))||
+  (objective&&actual.length!==4)||
+  (objective&&examples.length!==4)||
+  !!record.advisory;
+ return {
+  type:objective?(["match","ynng","tfng"].includes(kind)?"reading":"grammar"):"written",
+  answer:qText,
+  quickReason:record.explanation||"",
+  evidence:evidenced,
+  reasoning:fullReason,
+  options,
+  examples,
+  application:record.application||record.transferablePattern||"",
+  remember:record.transferablePattern||"",
+  needsReview
+ };
+}
+function essayExplanationV1(essay){
+ if(!essay?.sample)return null;
+ return {type:"essay",answer:"Bài viết mở — không có đáp án duy nhất",
+  quickReason:"Bài mẫu tham khảo để phân tích lập luận, không phải đáp án chính thức hoặc điểm số.",
+  evidence:essay.topic?[{locator:"Đề bài Writing",quote:essay.topic,
+   note:"Đối chiếu bài mẫu với yêu cầu và phạm vi của đề."}]:[],
+  reasoning:(essay.criteria||[]).join("\n"),
+  options:[],application:essay.sample,
+  remember:"Chỉ tham khảo cách triển khai ý; không học thuộc nguyên bài.",
+  needsReview:true};
+}
+
 /* Transparent, conservative marking: objective responses can be compared;
  * an unmatched constructed response is REVIEW, never automatically "wrong".
  */
@@ -166,5 +224,5 @@ function render(root,report,handlers){
  root.querySelectorAll("[data-exam-review-resume]").forEach(b=>b.onclick=handlers.resume);
  root.querySelector("[data-exam-review-library]").onclick=handlers.library;
 }
-global.HSGExamSolutions=Object.freeze({version:"2.0",validate,findSolution,assess,build,render});
+global.HSGExamSolutions=Object.freeze({version:"2.1",validate,findSolution,asExplanationV1,essayExplanationV1,assess,build,render});
 })(window);
