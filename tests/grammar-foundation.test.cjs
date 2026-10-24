@@ -8,11 +8,11 @@ const read=name=>fs.readFileSync(path.join(root,name),"utf8");
 function boot(){
   const window={};
   const ctx=vm.createContext({window});
-  for(const file of ["content/grammar-topic-compiler.js","content/grammar-topic3.js","content/grammar-topic4.js","content/grammar-topic6.js","content/grammar-topic8.js","content/grammar-foundation-explanations.js","content/grammar-foundation-advanced-explanations.js"])
+  for(const file of ["content/grammar-topic-compiler.js","content/grammar-topic1.js","content/grammar-topic2.js","content/grammar-topic3.js","content/grammar-topic4.js","content/grammar-topic6.js","content/grammar-topic7.js","content/grammar-topic8.js","content/grammar-foundation-explanations.js","content/grammar-foundation-advanced-explanations.js","content/grammar-new-foundation-feedback.js"])
     vm.runInContext(read(file),ctx,{filename:file});
   return window;
 }
-for(const n of [3,4,6,8]){
+for(const n of [1,2,3,4,6,7,8]){
   test("Foundation Topic "+n+" compiles eight complete lessons in the Topic 05 format",()=>{
     const g=boot(),d=g["GrammarTopic"+n+"Data"];
     assert.equal(d.sections.length,8);
@@ -48,6 +48,7 @@ for(const n of [3,4,6,8]){
     }
     assert.equal(g.GrammarFoundationExplanationAudit,160);
     assert.equal(g.GrammarFoundationAdvancedExplanationAudit,160);
+    assert.equal(g.GrammarNewFoundationExplanationAudit,240);
   });
   test("Foundation Topic "+n+" uses the original five-stage Grammar 05 studio UI",()=>{
     const g=boot();
@@ -95,7 +96,11 @@ for(const n of [3,4,6,8]){
 }
 test("Foundation routes are teacher protected and the library exposes both entries",()=>{
   const html=read("index.html"),lib=read("features/grammar-library.js");
-  assert.ok(html.includes("topic-(?:3|4|5|6|8|19|21|22)"));
+  assert.ok(html.includes("topic-(?:1|2|3|4|5|6|7|8|19|21|22)"));
+  assert.ok(html.includes("content/grammar-topic1.js"));
+  assert.ok(html.includes("content/grammar-topic2.js"));
+  assert.ok(html.includes("content/grammar-topic7.js"));
+  assert.ok(html.includes("content/grammar-new-foundation-feedback.js"));
   assert.ok(html.includes("content/grammar-topic3.js"));
   assert.ok(html.includes("content/grammar-topic4.js"));
   assert.ok(html.includes("content/grammar-topic8.js"));
@@ -103,5 +108,5 @@ test("Foundation routes are teacher protected and the library exposes both entri
   assert.ok(html.includes("content/grammar-topic6.js"));
   assert.ok(html.includes("content/grammar-foundation-explanations.js"));
   assert.ok(html.indexOf("await hasTeacherPreviewAccess(learnerSession)")<html.indexOf("await renderTeacherGrammarNew(hash,learnerSession)"));
-  assert.ok(lib.includes("available:[3,4,5,6,8,19,21,22]"));
+  assert.ok(lib.includes("available:[1,2,3,4,5,6,7,8,19,21,22]"));
 });
