@@ -1,0 +1,131 @@
+/* Topic 07 — Phrasal verbs: contextual selection, grammar, meanings and separability. */
+(function(g){"use strict";
+const raw=[
+{id:"daily-life",title:"Sinh hoạt hằng ngày và việc nhà",meaning:"Phrasal verb thường mang nghĩa khác tổng nghĩa của các thành tố: wake up (tỉnh giấc) khác get up (rời giường); turn on/off có nghĩa đối lập; put on/take off đối lập khi nói về quần áo.",form:"wake up ≠ get up; turn on ↔ turn off; put on ↔ take off",core:"Tìm hành động đích và đối tượng trong câu; phân biệt trạng thái thức giấc, đứng dậy, bật/tắt và cất/bỏ đồ.",mistake:"Đừng dịch từng giới từ: wake up không đồng nghĩa hoàn toàn với get up.",rows:[
+["I heard the alarm, but I was so exhausted that I could barely ___ at six.","wake up","get up","put on","turn on","Tôi nghe báo thức nhưng quá kiệt sức nên gần như không tỉnh dậy nổi lúc sáu giờ.","Wake up là chuyển từ ngủ sang thức; báo thức dùng để đánh thức."],
+["She was already awake, but she didn't want to ___ and leave her warm bed.","get up","wake up","clean up","throw away","Cô ấy đã tỉnh nhưng chưa muốn dậy khỏi giường.","Already awake loại wake up; get up là rời giường."],
+["Nobody is using the room, so please ___ the ceiling light to save electricity.","turn off","turn on","put on","get up","Không ai dùng phòng; hãy tắt đèn trần để tiết kiệm điện.","Save electricity và nobody is using đòi hành động tắt."],
+["The hall is pitch-dark. Could you ___ the lights so we can see the stairs?","turn on","turn off","throw away","get up","Hành lang rất tối; bật đèn lên để nhìn bậc thang.","Pitch-dark và so we can see chỉ hành động bật."],
+["It's below ten degrees outdoors. Remember to ___ your thick coat before going out.","put on","take off","throw away","turn off","Ngoài trời dưới mười độ; nhớ mặc áo khoác dày.","Cold outdoors → mặc thêm áo, put on."],
+["You're inside now and it's warm. Feel free to ___ your coat.","take off","put on","turn on","wake up","Trong nhà ấm rồi, bạn có thể cởi áo khoác.","Room warm → remove clothing; take off."],
+["Before our guests arrive, could you ___ the living room by putting everything in its place?","tidy up","turn on","wake up","throw away","Hãy sắp xếp phòng khách gọn gàng trước khi khách đến.","Putting everything in its place giải thích tidy up, không phải vứt mọi đồ đi."],
+["Paint spilled everywhere. We had to ___ the mess before it dried.","clean up","wake up","turn on","put on","Sơn đổ khắp nơi; phải dọn sạch trước khi khô.","Mess và spilled paint yêu cầu clean up."],
+["After you use the scissors, please ___ them in the drawer rather than leave them on the table.","put away","put on","get up","turn off","Dùng kéo xong hãy cất vào ngăn kéo.","In the drawer → đưa vật về nơi cất giữ, put away."],
+["This cracked glass cannot be repaired, so we should ___ it safely.","throw away","put on","turn on","wake up","Chiếc cốc nứt không sửa được nên cần vứt bỏ an toàn.","Cannot be repaired → dispose of, throw away."]]},
+{id:"study-work",title:"Học tập, nghiên cứu và công việc",meaning:"Học theo chức năng: hand in = nộp; look up = tra cứu; go over = ôn lại; carry out = thực hiện; keep up with = theo kịp. Giới từ đi kèm là một phần của cụm.",form:"hand in an assignment · look up a word · go over notes · carry out research",core:"Đọc mục tiêu cụ thể: nộp sản phẩm, tìm thông tin, ôn lại, ghi chép hay tiến hành kế hoạch.",mistake:"Look up a word (tra từ) không có nghĩa là go over a chapter (ôn lại chương).",rows:[
+["The deadline is midnight; you must ___ your essay before the online portal closes.","hand in","look up","go over","set up","Hạn chót là nửa đêm; bạn phải nộp bài luận trước khi hệ thống đóng.","Deadline và submit a completed essay yêu cầu hand in."],
+["If a technical term is unfamiliar, ___ its definition in a reliable dictionary.","look up","hand in","write down","set up","Nếu chưa biết thuật ngữ, hãy tra định nghĩa trong từ điển đáng tin.","Definition in a dictionary → look up."],
+["Our exam is tomorrow, so let's ___ the key grammar rules one more time.","go over","hand in","set up","fill in","Ngày mai thi; hãy ôn lại các quy tắc chính.","One more time before an exam → review, go over."],
+["The lecture contains many dates; please ___ the important ones in your notebook.","write down","look up","set up","hand in","Bài giảng có nhiều mốc thời gian; hãy ghi chúng vào vở.","In your notebook cho biết ghi lại, write down."],
+["After missing three classes, Minh worked hard to ___ the lessons his classmates had already studied.","catch up on","hand in","fill in","set up","Minh nghỉ ba buổi nên phải học bù phần bạn bè đã học.","Missed classes + previous lessons → catch up on."],
+["The software keeps crashing, and we need to ___ exactly what is causing it.","figure out","hand in","write down","fill in","Phần mềm liên tục lỗi; cần tìm ra nguyên nhân chính xác.","Exactly what is causing it → figure out a problem."],
+["Before publishing the study, the team must ___ several controlled experiments.","carry out","hand in","look up","write down","Trước khi công bố nghiên cứu, nhóm phải tiến hành các thí nghiệm có kiểm soát.","Experiments are conducted/carried out, not submitted or looked up."],
+["We have bought the projector; can you help us ___ the equipment in the classroom?","set up","look up","hand in","catch up on","Đã mua máy chiếu; bạn giúp lắp đặt thiết bị trong lớp nhé.","Equipment in classroom → install and arrange, set up."],
+["The application form is blank; please ___ your name and contact details.","fill in","carry out","go over","hand in","Biểu mẫu còn trống; hãy điền tên và thông tin liên hệ.","Blank form with fields → fill in."],
+["The reading course is moving quickly, and I struggle to ___ the weekly assignments.","keep up with","hand in","set up","look up","Khóa đọc tiến triển nhanh nên tôi khó theo kịp bài tập mỗi tuần.","Course moving quickly → keep up with the pace and tasks."]]},
+{id:"relationships",title:"Giao tiếp và các mối quan hệ",meaning:"Các cụm động từ thể hiện quan hệ: get along with (hòa thuận), fall out with (bất hòa), make up with (hòa giải), bring up (đề cập), point out (chỉ ra), open up to (tâm sự).",form:"get along with someone · fall out with someone · make up with someone",core:"Nhận diện mối quan hệ tích cực/tiêu cực và hành động trao đổi, thông báo hay bộc bạch.",mistake:"Fall out with không phải 'ngã ra khỏi'; trong quan hệ có nghĩa là bất hòa với ai.",rows:[
+["Despite their very different personalities, the two roommates ___ each other very well.","get along with","fall out with","bring up","point out","Dù tính cách khác nhau, hai bạn cùng phòng vẫn hòa thuận.","Very well dù khác nhau → get along with."],
+["The cousins used to be close, but they ___ each other over a disagreement about money.","fall out with","get along with","hear from","hang out with","Hai anh em họ từng thân nhưng bất hòa vì tranh chấp tiền bạc.","Disagreement broke relationship → fall out with."],
+["After apologizing sincerely, Hoa managed to ___ her best friend.","make up with","fall out with","point out","reach out to","Sau lời xin lỗi chân thành, Hoa đã làm hòa với bạn thân.","After apologizing → restore relationship, make up with."],
+["The budget is sensitive, so please don't ___ that subject during the celebration.","bring up","get along with","hear from","hang out with","Ngân sách là chủ đề nhạy cảm, đừng đề cập trong buổi lễ.","Mention a subject in discussion = bring up."],
+["The reviewer will ___ any factual errors she notices in the report.","point out","make up with","hang out with","fall out with","Người đánh giá sẽ chỉ ra lỗi thông tin trong báo cáo.","Identify specific errors explicitly = point out."],
+["The room is noisy; you'll need to ___ so everyone can hear your question.","speak up","get along with","fall out with","hear from","Phòng ồn nên bạn phải nói to rõ hơn.","So everyone can hear → speak up."],
+["He's usually quiet, but he can ___ his sister about his worries.","open up to","point out","fall out with","hang out with","Anh ấy ít nói nhưng có thể tâm sự với chị về nỗi lo.","Share personal worries → open up to someone."],
+["When a former classmate seemed lonely, I decided to ___ her and ask if she needed help.","reach out to","fall out with","bring up","point out","Tôi chủ động liên hệ bạn học cũ để hỏi thăm.","Initiate contact to offer help = reach out to."],
+["I sent a message last week, but I still haven't managed to ___ my old teacher.","hear from","fall out with","make up with","bring up","Tôi nhắn tuần trước nhưng vẫn chưa nhận tin từ thầy cũ.","Haven't received a reply → hear from."],
+["On Saturdays, they like to ___ their friends at a café rather than stay home.","hang out with","point out","fall out with","reach out to","Thứ Bảy họ thích tụ tập với bạn ở quán cà phê.","Spend relaxed social time = hang out with."]]},
+{id:"travel",title:"Di chuyển và du lịch",meaning:"Set off = khởi hành; check in/out = làm thủ tục nhận/trả phòng; pick up/drop off = đón/đưa xuống; get on/off = lên/xuống phương tiện công cộng.",form:"set off at dawn · check in at reception · pick up passengers · get off a bus",core:"Xác định ai di chuyển, thời điểm khởi hành, điểm đến và hướng di chuyển lên/xuống xe.",mistake:"Không nhầm pick up (đón lên xe) và drop off (đưa xuống tại điểm đến).",rows:[
+["We wanted to avoid the traffic, so we decided to ___ before sunrise.","set off","check out","get off","stop over","Để tránh kẹt xe, chúng tôi quyết định khởi hành trước bình minh.","Before sunrise + avoid traffic → begin the journey, set off."],
+["Our room is reserved, but we must ___ at the hotel reception before getting the key.","check in","check out","set off","turn back","Phòng đã đặt; cần làm thủ tục nhận phòng tại lễ tân.","Before getting room key → check in."],
+["We need to ___ by eleven and return the room key to reception.","check out","check in","get on","set off","Cần trả phòng trước 11 giờ và trả lại chìa khóa.","Leave room and return key → check out."],
+["My sister's flight lands at nine; I'll ___ her from the airport.","pick up","drop off","set off","check out","Chuyến bay chị đến lúc chín giờ; tôi sẽ đến đón.","Airport arrival → collect passenger, pick up."],
+["The taxi will ___ us outside the museum, then continue to the station.","drop off","pick up","get on","check in","Taxi sẽ cho chúng tôi xuống trước bảo tàng.","Leave passengers at destination = drop off."],
+["The train is about to depart; please ___ quickly and find your seat.","get on","get off","turn back","check out","Tàu sắp chạy; hãy lên tàu và tìm chỗ.","Boarding a train = get on."],
+["This is your stop. You should ___ the bus here.","get off","get on","stop over","set off","Đây là trạm của bạn; hãy xuống xe buýt tại đây.","Leaving a bus = get off."],
+["Heavy snow blocked the mountain road, forcing us to ___ and return to town.","turn back","get on","check in","stop over","Tuyết chặn đường núi khiến chúng tôi phải quay đầu.","Blocked road → reverse direction, turn back."],
+["The flight to Sydney is very long, so we'll ___ in Singapore for one night.","stop over","set off","get off","check out","Chuyến bay dài nên chúng tôi dừng ở Singapore một đêm.","A short stay en route → stop over."],
+["The car's fuel gauge is almost empty; if we don't refuel, we'll ___ petrol.","run out of","pick up","check in","stop over","Nếu không đổ thêm, xe sẽ hết xăng.","No fuel remains → run out of petrol."]]},
+{id:"problems",title:"Giải quyết vấn đề và thay đổi",meaning:"Break down = hỏng máy; sort out = xử lý rắc rối; work out = tìm ra giải pháp; get over = vượt qua; phase out = loại bỏ dần. Chọn nghĩa theo tân ngữ và tình huống.",form:"a car breaks down · sort out a mistake · work out a solution · phase out a product",core:"Phân biệt thiết bị bị hỏng, bài toán có lời giải, mâu thuẫn được giải quyết và hệ thống bị loại bỏ dần.",mistake:"Break down của xe không phải break up của mối quan hệ; work out còn có nghĩa tập thể dục nhưng không phải trong mọi câu.",rows:[
+["Our car suddenly ___ on the highway, so the mechanic had to tow it away.","break down","sort out","phase out","turn down","Xe bị hỏng giữa đường cao tốc, phải kéo về gara.","Mechanic + tow away → mechanical failure, break down."],
+["The numbers looked impossible at first, but the students finally managed to ___ the answer.","work out","break down","phase out","get over","Ban đầu bài toán khó nhưng học sinh cuối cùng tìm ra đáp án.","Solve a calculation or puzzle → work out."],
+["There was a mistake with my ticket, but the airline promised to ___ the problem.","sort out","turn down","phase out","fall behind","Vé có lỗi và hãng hứa giải quyết vấn đề.","Fix administrative problem → sort out."],
+["We need to ___ a customer complaint calmly rather than ignore it.","deal with","break down","phase out","turn down","Cần xử lý khiếu nại của khách bình tĩnh.","Handle a complaint = deal with."],
+["It took her months to ___ the disappointment of not getting the scholarship.","get over","deal with","break down","phase out","Cô ấy mất nhiều tháng mới vượt qua nỗi thất vọng.","Recover emotionally from disappointment = get over."],
+["The team needs to ___ a practical idea to reduce plastic waste.","come up with","get over","break down","turn down","Nhóm cần nghĩ ra ý tưởng thực tế để giảm nhựa.","Generate a new idea = come up with."],
+["If you keep missing homework, you'll ___ the rest of the class.","fall behind","deal with","phase out","work out","Nếu cứ không nộp bài, bạn sẽ tụt lại so với cả lớp.","Fail to keep pace → fall behind."],
+["To improve my sleep, I'm trying to ___ the amount of coffee I drink.","cut down on","come up with","get over","turn down","Tôi đang giảm lượng cà phê để ngủ tốt hơn.","Reduce consumption = cut down on."],
+["The company plans to ___ old diesel buses over the next five years.","phase out","break down","deal with","turn down","Công ty dự định loại bỏ dần xe buýt diesel cũ.","Gradually discontinue = phase out."],
+["The salary was far below her expectations, so she decided to ___ the job offer.","turn down","break down","sort out","come up with","Lương thấp hơn mong đợi nên cô ấy từ chối lời mời việc.","Reject an offer = turn down."]]},
+{id:"money-shopping",title:"Tiền bạc, mua sắm và giá cả",meaning:"Save up = dành dụm cho mục tiêu; pay back = trả nợ; sell out = bán hết; shop around = khảo giá; chip in = góp tiền. Hiểu quan hệ thanh toán và xu hướng giá.",form:"save up for a laptop · pay back a loan · sell out of tickets · chip in for a gift",core:"Xác định tiền được tích lũy, hoàn trả, giảm chi, quyên góp hay giá tăng/giảm.",mistake:"Pay back là hoàn trả khoản đã vay, khác save up là tích lũy trước khi mua.",rows:[
+["I'm putting part of my salary aside every month to ___ for a new laptop.","save up","pay back","sell out","chip in","Tôi dành tiền mỗi tháng để tích cóp mua laptop.","Put money aside for a future purchase = save up."],
+["You lent me two hundred thousand dong; I promise to ___ the money on Friday.","pay back","save up","shop around","sell out","Bạn cho tôi vay tiền; tôi hứa trả vào thứ Sáu.","Return borrowed money = pay back."],
+["Rent is rising, so we need to ___ our spending on unnecessary subscriptions.","cut back on","shop around","sell out","chip in","Tiền thuê tăng, cần cắt bớt phí đăng ký không cần thiết.","Reduce expenditure = cut back on."],
+["All concert tickets were purchased within an hour; the event managed to ___ completely.","sell out","pay back","try on","save up","Vé hòa nhạc bán hết trong một giờ.","No tickets remain for sale = sell out."],
+["Before buying an expensive phone, it's wise to ___ and compare different stores' prices.","shop around","sell out","pay back","try on","Trước khi mua điện thoại đắt, nên khảo giá nhiều nơi.","Compare merchants before purchase = shop around."],
+["These shoes look nice, but I need to ___ them to check the fit.","try on","chip in","sell out","save up","Giày đẹp nhưng tôi phải thử để kiểm tra độ vừa.","Wear briefly to test fit = try on."],
+["The price of bus tickets may ___ next month because fuel costs have risen.","go up","sell out","try on","pay back","Giá vé xe có thể tăng do nhiên liệu đắt hơn.","Price increases → go up."],
+["The total bill for the trip will ___ about three million dong after discounts.","come down to","pay back","sell out","shop around","Tổng hóa đơn sau giảm giá sẽ còn khoảng ba triệu đồng.","Final figure after adjustments → come down to."],
+["The figures on the invoice don't ___; the listed items total less than the final charge.","add up","try on","chip in","save up","Các số trên hóa đơn không khớp với tổng tiền.","Numbers do not make a correct total = don't add up."],
+["We're buying a farewell gift; everyone in the team agreed to ___ twenty thousand dong.","chip in","shop around","sell out","try on","Cả nhóm đồng ý góp mỗi người hai mươi nghìn mua quà.","Contribute money together = chip in."]]},
+{id:"word-order",title:"Tân ngữ đại từ: tách được và không tách được",meaning:"Với cụm tách được như turn off, pick up, hand in, tân ngữ đại từ thường đứng giữa hai thành tố: turn it off, pick her up. Với look after, run into, come across, đại từ đi sau giới từ.",form:"turn it off (NOT turn off it) · look after her (NOT look her after)",core:"Xác định cụm động từ tách được hay không; với tân ngữ là it/him/her/them, áp dụng đúng trật tự.",mistake:"Không dùng turn off it hay look her after; hai nhóm phrasal verbs có cấu trúc khác nhau.",rows:[
+["The laptop is still running. Please ___ before packing it.","turn it off","turn off it","turn it on","turn on it","Laptop còn chạy; hãy tắt trước khi cất.","Turn off là cụm tách được: tân ngữ it đặt giữa turn và off."],
+["Her flight lands at seven. Could you ___ at the airport?","pick her up","pick up her","drop her off","pick it up","Chuyến bay của cô ấy hạ cánh lúc bảy giờ; bạn đón cô ấy nhé.","Pick up là cụm tách được; her phải đứng giữa pick và up."],
+["You've finished using the dictionary. Please ___ on the shelf.","put it away","put away it","put it on","put away them","Dùng xong từ điển hãy cất lên kệ.","Với đại từ it, dùng put it away thay vì put away it."],
+["Her parents are travelling, so I'll ___ during the weekend.","look after her","look her after","look up her","look after it","Bố mẹ cô ấy đi xa nên tôi sẽ chăm sóc cô ấy cuối tuần.","Look after là cụm không tách được; her theo sau after."],
+["I wasn't expecting to see my former teacher, but I ___ at the market yesterday.","ran into him","ran him into","ran over him","ran into it","Hôm qua tôi tình cờ gặp thầy cũ ở chợ.","Run into someone = tình cờ gặp, him đứng sau into."],
+["I don't know the spelling of the word, so I'll ___ in the online dictionary.","look it up","look up it","look after it","look it after","Tôi chưa biết cách viết của từ, sẽ tra trên từ điển.","Look up là cụm tách được; it phải đứng giữa."],
+["The storm made the outdoor event unsafe, so the organisers had to ___.","call it off","call off it","call it on","call on it","Bão khiến sự kiện ngoài trời không an toàn, ban tổ chức phải hủy.","Call off = hủy sự kiện; đại từ it đứng giữa."],
+["The teacher needs the signed form by Friday, so make sure you ___.","hand it in","hand in it","hand it out","hand it over","Giáo viên cần đơn đã ký trước thứ Sáu; nhớ nộp.","Hand in = nộp bài/đơn; đại từ it chen giữa."],
+["She was devastated by the setback but eventually managed to ___.","get over it","get it over","get by it","get off it","Cô ấy suy sụp vì thất bại nhưng cuối cùng vượt qua được.","Get over = vượt qua cú sốc; it đứng sau over."],
+["He wasn't searching for that postcard; he happened to ___ while sorting his desk.","come across it","come it across","come up with it","come across him","Anh ấy không tìm bưu thiếp mà vô tình bắt gặp khi dọn bàn.","Come across = tình cờ tìm thấy; it theo sau across."]]},
+{id:"advanced-idioms",title:"Phrasal verbs nâng cao trong ngữ cảnh",meaning:"Một số cụm có nghĩa thành ngữ: brush up on = ôn lại; put up with = chịu đựng; back out of = rút khỏi; live up to = đáp ứng kỳ vọng; get away with = làm sai mà không bị phạt.",form:"brush up on French · put up with noise · back out of an agreement",core:"Dựa vào hành động và hệ quả: chấp nhận phiền toái, bỏ cam kết, hoàn thành dù sợ hãi, đáp ứng tiêu chuẩn...",mistake:"Look down on = coi thường, không phải 'nhìn xuống'; get away with = thoát bị trừng phạt, không đồng nghĩa get over.",rows:[
+["I studied French years ago, but I need to ___ it before travelling to Paris.","brush up on","put up with","back out of","look down on","Tôi học tiếng Pháp từ lâu và cần ôn lại trước khi đi Paris.","Already learned + refresh = brush up on."],
+["The neighbours are renovating, and we have to ___ the noise for another week.","put up with","brush up on","live up to","get away with","Hàng xóm sửa nhà nên phải chịu tiếng ồn thêm một tuần.","Tolerate inconvenience = put up with."],
+["A respectful teacher would never ___ students because of their accents.","look down on","reach out to","brush up on","go through with","Giáo viên tôn trọng học sinh sẽ không coi thường các em vì giọng nói.","Treat someone as inferior = look down on."],
+["I feel feverish and have a sore throat; I might be ___ the flu.","coming down with","getting away with","living up to","backing out of","Tôi sốt và đau họng, có thể sắp bị cúm.","Come down with an illness = bắt đầu mắc bệnh."],
+["He signed the contract, but at the last minute he tried to ___ the agreement.","back out of","go through with","brush up on","put up with","Anh ấy ký hợp đồng nhưng phút cuối định rút khỏi thỏa thuận.","Withdraw from commitment = back out of."],
+["The treatment was frightening, but she decided to ___ it despite her fear.","go through with","back out of","look down on","put up with","Việc điều trị đáng sợ nhưng cô ấy quyết tâm thực hiện đến cùng.","Carry out a difficult planned action = go through with."],
+["We don't have the ideal tools, so we'll have to ___ the equipment we already own.","make do with","look down on","get away with","back out of","Không có dụng cụ lý tưởng, đành xoay xở với đồ đang có.","Manage with insufficient resources = make do with."],
+["The product promised excellent battery life but failed to ___ customers' expectations.","live up to","brush up on","put up with","go through with","Sản phẩm hứa pin tốt nhưng không đáp ứng kỳ vọng khách.","Meet an expected standard = live up to."],
+["He copied the assignment once and thought he could ___ cheating without being caught.","get away with","brush up on","live up to","back out of","Anh ta nghĩ có thể gian lận mà không bị phát hiện.","Avoid punishment for a wrongdoing = get away with."],
+["The outdoor concert was delayed because of heavy rain; the organisers decided to ___ it until Sunday.","put off","look down on","make do with","brush up on","Hòa nhạc ngoài trời hoãn đến Chủ Nhật vì mưa.","Postpone an event to a later date = put off."]]}
+];
+const glossary={
+"wake up":"tỉnh giấc","get up":"dậy khỏi giường","turn off":"tắt thiết bị","turn on":"bật thiết bị",
+"put on":"mặc/đeo","take off":"cởi ra","tidy up":"sắp xếp gọn","clean up":"dọn sạch",
+"put away":"cất đi","throw away":"vứt bỏ","hand in":"nộp","look up":"tra cứu",
+"go over":"ôn/xem lại","write down":"ghi chép","catch up on":"học bù, bắt kịp phần đã bỏ lỡ","figure out":"tìm ra, hiểu ra",
+"carry out":"tiến hành","set up":"lắp đặt, thiết lập","fill in":"điền vào biểu mẫu","keep up with":"theo kịp",
+"get along with":"hòa thuận với","fall out with":"bất hòa với","make up with":"làm hòa với",
+"bring up":"đề cập","point out":"chỉ ra","speak up":"nói to, lên tiếng","open up to":"tâm sự với",
+"reach out to":"chủ động liên hệ","hear from":"nhận tin từ","hang out with":"tụ tập với",
+"set off":"khởi hành","check in":"làm thủ tục nhận phòng","check out":"trả phòng",
+"pick up":"đón","drop off":"đưa đến và cho xuống","get on":"lên tàu/xe","get off":"xuống tàu/xe",
+"turn back":"quay đầu","stop over":"dừng chân giữa hành trình","run out of":"hết thứ gì",
+"break down":"hỏng máy","work out":"tìm ra lời giải","sort out":"giải quyết rắc rối",
+"deal with":"xử lý","get over":"vượt qua","come up with":"nghĩ ra","fall behind":"tụt lại",
+"cut down on":"giảm tiêu thụ","phase out":"loại bỏ dần","turn down":"từ chối",
+"save up":"dành dụm","pay back":"trả nợ","cut back on":"cắt giảm","sell out":"bán hết",
+"shop around":"khảo giá","try on":"mặc/thử đồ","go up":"tăng","come down to":"giảm/còn lại con số",
+"add up":"khớp khi cộng lại","chip in":"góp tiền",
+"brush up on":"ôn lại kỹ năng","put up with":"chịu đựng","look down on":"coi thường",
+"coming down with":"bắt đầu bị bệnh","getting away with":"thoát bị phạt","living up to":"đáp ứng kỳ vọng",
+"backing out of":"rút khỏi cam kết","back out of":"rút khỏi cam kết","go through with":"thực hiện đến cùng",
+"make do with":"xoay xở với thứ đang có","live up to":"đáp ứng kỳ vọng","get away with":"thoát bị trừng phạt","put off":"hoãn lại"
+};
+const lessons=raw.map(l=>({
+ id:l.id,title:l.title,meaning:l.meaning,form:l.form,core:l.core,mistake:l.mistake,
+ outcome:"Chọn đúng cụm động từ theo tình huống, tân ngữ và ý nghĩa: "+l.title.toLowerCase()+".",
+ faults:["nghĩa của cụm này không khớp hành động/đối tượng","khác hẳn mục đích hoặc kết quả trong câu","sai lựa chọn hoặc vị trí tân ngữ đại từ"],
+ entries:l.rows.map(([stem,a,b,c,d,vi,why])=>[stem.replace("___",b),stem,a,b,c,d,vi,why])
+}));
+g.GrammarTopic7Data=g.GrammarTopicCompiler.build({
+ number:7,title:"CHUYÊN ĐỀ 7. CỤM ĐỘNG TỪ – PHRASAL VERBS",lessons,
+ writing:[
+ ["Combine: I don't know this word. I will consult a dictionary.","I will look it up in a dictionary.",["look up = tra cứu","đại từ it đứng giữa look và up"]],
+ ["Rewrite with a phrasal verb: They postponed the meeting until Monday.","They put off the meeting until Monday.",["put off = postpone","put the meeting off cũng đúng"]],
+ ["Contrast: She woke up at six but left her bed at seven.","She woke up at six but got up at seven.",["wake up = tỉnh giấc","get up = ra khỏi giường"]],
+ ["Correct the pronoun placement: Please turn off it.","Please turn it off.",["turn off tách được","it phải ở giữa turn và off"]]
+ ]});
+g.GrammarTopic7Glossary=glossary;
+})(window);
