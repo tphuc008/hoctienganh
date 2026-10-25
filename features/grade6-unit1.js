@@ -119,9 +119,9 @@ function G6Filled(q){
  const example=(q.answers||[])[0]||"";
  if(!example)return "";
  const fills=example.split(/\s*\|\s*/);let pos=0;
- let text=q.q.replace(/\(([^)]*)\)\s*______/g,()=>fills[pos++]||"______")
-              .replace(/______/g,()=>fills[pos++]||"______");
- return text.replace(/\s+/g," ").replace(/→/g,"→").trim();
+ let text=q.q.replace(/______/g,()=>fills[pos++]||"______")
+              .replace(/\([A-Za-z ]+\)\s*/g,"");
+ return text.replace(/\s+/g," ").trim();
 }
 function G6Clue(q,g){
  if(G6_READING_CLUES[q.id])return G6_READING_CLUES[q.id];
