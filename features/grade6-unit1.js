@@ -97,13 +97,14 @@ function questionBlock(q,g){
  const count=val.trim()?val.trim().split(/\s+/).length:0;
  answerHTML='<textarea class="g6-essay" data-g6-answer="'+esc(q.id)+'" rows="8" placeholder="Write your paragraph here...">'+esc(val)+'</textarea><p class="g6-small" data-g6-word-count="'+esc(q.id)+'">'+count+' words · Mục tiêu 80–100 từ</p>';
  }else{
- const multi=q.q.split("______").length>2;
- answerHTML='<input type="text" class="g6-input" data-g6-answer="'+esc(q.id)+'" value="'+esc(val)+'" autocomplete="off" spellcheck="false" placeholder="'+(multi?"Đáp án 1 | Đáp án 2":"Nhập đáp án…")+'"/>'+
- (multi?'<p class="g6-small">Điền các chỗ trống theo thứ tự, ngăn cách bằng dấu |.</p>':"");
+ const slots=q.q.split("______").length-1;
+ const parts=val.split(/\s*\|\s*/);
+ answerHTML=slots>1?'<div class="g6-grid">'+Array.from({length:slots},(_,i)=>'<label><span class="g6-small">Chỗ trống '+(i+1)+'</span><input type="text" class="g6-input" data-g6-answer="'+esc(q.id)+'" data-g6-index="'+i+'" value="'+esc(parts[i]||"")+'" autocomplete="off" placeholder="Nhập đáp án '+(i+1)+'"/></label>').join("")+'</div>':
+ '<input type="text" class="g6-input" data-g6-answer="'+esc(q.id)+'" value="'+esc(val)+'" autocomplete="off" spellcheck="false" placeholder="Nhập đáp án…"/>';
  }
  return '<article class="g6-item" id="g6-q-'+esc(q.id)+'"><div class="g6-no">QUESTION '+String(q.no).padStart(2,"0")+'</div><h4>'+rich(q.q)+'</h4>'+answerHTML+
  (q.kind==="essay"?'<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'">Lưu bài viết</button>':
- '<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'" '+(val===""?"disabled":"")+'>Kiểm tra / Đối chiếu</button>')+
+ '<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'" '+((!val.trim()||q.kind==="input"&&q.q.split("______").length>2&&val.split("|").some(x=>!x.trim()))?"disabled":"")+'>Kiểm tra / Đối chiếu</button>')+
  feedback(q,g)+'</article>';
 }
 function renderOriginal(){const g=original.find(x=>x.id===state.group)||original[0];
@@ -129,12 +130,22 @@ function render(tab,keepScroll){
  mount.innerHTML=header(activeTab)+(activeTab==="knowledge"?lesson():activeTab==="original"?renderOriginal():renderPractice());
  if(keepScroll)global.scrollTo(0,scroll);else global.scrollTo(0,0);
 }
+function captureAnswer(t){
+ hydrate();const id=t.dataset.g6Answer;
+ if(t.hasAttribute("data-g6-index")){
+   const values=(state.answers[id]||"").split("|");values[Number(t.dataset.g6Index)]=t.value;
+   state.answers[id]=values.map(x=>x.trim()).join(" | ");
+ }else state.answers[id]=t.value;
+ delete state.checked[id];save();
+ const block=t.closest(".g6-item");block?.querySelector(".g6-result")?.remove();
+ const inputs=block?.querySelectorAll("[data-g6-index]")||[];
+ const incomplete=inputs.length?Array.from(inputs).some(x=>!x.value.trim()):!t.value.trim();
+ const check=block?.querySelector("[data-g6-check]");if(check)check.disabled=incomplete;
+}
 function onChange(ev){
  const t=ev.target;
  if(!t.closest?.(".g6-root"))return;
- if(t.matches("[data-g6-answer]")){hydrate();state.answers[t.dataset.g6Answer]=t.value;delete state.checked[t.dataset.g6Answer];save();
- const block=t.closest(".g6-item");block?.querySelector(".g6-result")?.remove();const check=block?.querySelector("[data-g6-check]");if(check)check.disabled=!t.value.trim();
- }
+ if(t.matches("[data-g6-answer]"))captureAnswer(t);
  if(t.matches("[data-g6-practice-count]")){state.practiceLimit=Number(t.value)||10;state.practiceStarted=false;save();render("practice",true);}
 }
 function onInput(ev){
@@ -143,8 +154,7 @@ function onInput(ev){
  const query=t.value.toLocaleLowerCase("vi").trim();document.querySelectorAll("[data-g6-word-row]").forEach(row=>{row.hidden=!row.dataset.g6WordRow.includes(query)});return;
  }
  if(!t.matches?.("[data-g6-answer]"))return;
- hydrate();state.answers[t.dataset.g6Answer]=t.value;delete state.checked[t.dataset.g6Answer];save();
- const block=t.closest(".g6-item"),check=block?.querySelector("[data-g6-check]");block?.querySelector(".g6-result")?.remove();if(check)check.disabled=!t.value.trim();
+ captureAnswer(t);
  const counter=document.querySelector('[data-g6-word-count="'+t.dataset.g6Answer+'"]');if(counter)counter.textContent=(t.value.trim()?t.value.trim().split(/\s+/).length:0)+" words · Mục tiêu 80–100 từ";
 }
 function onClick(ev){
