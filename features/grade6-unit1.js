@@ -32,7 +32,12 @@ function hydrate(){
  if(state&&owner===who)return;
  owner=who;
  const stored=global.LearningCore?.readDraft?.("grade6",STORE);
- state=stored&&stored.version===VERSION&&stored.answers&&stored.checked?{...fresh(),...stored}:fresh();
+ const validIds=new Set([...all,extra].flatMap(g=>g.items.map(q=>q.id)));
+ state=stored&&stored.answers&&stored.checked?{
+   ...fresh(),...stored,version:VERSION,
+   answers:Object.fromEntries(Object.entries(stored.answers).filter(([id])=>validIds.has(id))),
+   checked:Object.fromEntries(Object.entries(stored.checked).filter(([id])=>validIds.has(id)))
+ }:fresh();
  if(!original.some(g=>g.id===state.group))state.group=original[0].id;
  if(![1,2,3].includes(Number(state.practiceSet)))state.practiceSet=1;
 }
