@@ -5,6 +5,7 @@
 (function(global){
   "use strict";
   const grades=[
+    {id:6,title:"Lớp 6",live:true},
     {id:9,title:"Lớp 9",live:true},{id:10,title:"Lớp 10",live:true},
     {id:11,title:"Lớp 11",live:false},{id:12,title:"Lớp 12",live:true}
   ];
@@ -28,12 +29,24 @@
     {slug:"prefix-suffix",title:"Prefix & Suffix",subtitle:"Word building and contextual choice",source:"grammar-prefix-suffix-bank.js",bankGlobal:"GRAMMAR_BANKS"}
   ];
   const units=[
+    {grade:6,id:1,title:"Unit 1",subtitle:"My New School",live:true,route:"grade-6/unit-1",type:"lesson-practice"},
+    {grade:6,id:2,title:"Unit 2",subtitle:"My Home",live:false,route:"grade-6/unit-2",type:"lesson-practice"},
+    {grade:6,id:3,title:"Unit 3",subtitle:"My Friends",live:false,route:"grade-6/unit-3",type:"lesson-practice"},
     ...vocabulary.map(x=>({grade:x.grade,id:x.id,title:x.title,subtitle:x.subtitle,live:true,
       route:"grade-"+x.grade+"/unit-"+x.id,review:!!x.review,type:"vocabulary"})),
     {grade:10,id:99,title:"Mid Term Test",subtitle:"Test 1–6 · 279 câu · Đề gốc & luyện tập",
       live:true,midterm:true,type:"exam",route:"grade-10/mid-term-test"}
   ];
   const pages=[
+    {id:"g6-unit1-knowledge",route:"grade-6/unit-1",title:"Unit 1 · Kiến thức",category:"grade6-unit",grade:6,
+      kind:"handler",handler:"renderGrade6Unit1",args:["knowledge"],source:"features/grade6-unit1.js?v=20261025-v2",
+      dependencies:["content/grade6-unit1-part-a.js?v=20261025-v1","content/grade6-unit1-part-b.js?v=20261025-v1"]},
+    {id:"g6-unit1-original",route:"grade-6/unit-1/original",title:"Unit 1 · Bài tập gốc",category:"grade6-unit",grade:6,
+      kind:"handler",handler:"renderGrade6Unit1",args:["original"],source:"features/grade6-unit1.js?v=20261025-v2",
+      dependencies:["content/grade6-unit1-part-a.js?v=20261025-v1","content/grade6-unit1-part-b.js?v=20261025-v1"]},
+    {id:"g6-unit1-practice",route:"grade-6/unit-1/practice",title:"Unit 1 · Luyện tập thêm",category:"grade6-unit",grade:6,
+      kind:"handler",handler:"renderGrade6Unit1",args:["practice"],source:"features/grade6-unit1.js?v=20261025-v2",
+      dependencies:["content/grade6-unit1-part-a.js?v=20261025-v1","content/grade6-unit1-part-b.js?v=20261025-v1"]},
     {id:"grammar-home",route:"grammar",title:"Grammar",category:"grammar-home",kind:"handler",handler:"renderGrammarHome"},
     {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",kind:"handler",handler:"renderSchoolGrade10",source:"school-ui.js?v=20261020-allprint1"},
     {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",kind:"handler",handler:"renderSchoolMidterm1",source:"school-ui.js?v=20261020-allprint1"},
