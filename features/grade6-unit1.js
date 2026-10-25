@@ -78,7 +78,7 @@ function mcqLabels(q,g){
 function feedback(q,g){
  if(!state.checked[q.id])return "";
  if(q.kind==="essay")return '<div class="g6-result"><strong>Đã lưu bản nháp</strong><p>Đoạn văn được lưu trên thiết bị theo tài khoản. Bài mở cần giáo viên xem và nhận xét.</p></div>';
- const ungraded=(q.kind==="mcq"&&q.a===null)||!q.answers?.length||g.id==="transformation"||g.id==="rearrangement";
+ const ungraded=q.kind==="mcq"?(q.a===null):(!q.answers?.length||g.id==="transformation"||g.id==="rearrangement");
  const correct=scored(q,g);
  const expected=q.kind==="mcq"&&q.a!==null?("ABCD"[q.a]+". "+q.o[q.a]):q.answers?.[0]||"";
  const label=ungraded?"Đối chiếu đáp án / Không chấm tự động":correct?"✓ Chính xác":"✕ Chưa khớp đáp án tham khảo";
