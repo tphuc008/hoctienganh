@@ -25,7 +25,7 @@ let state=null,owner=null,activeTab="knowledge";
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function rich(v){return esc(v).replace(/&lt;u&gt;/g,"<u>").replace(/&lt;\/u&gt;/g,"</u>").replace(/\n/g,"<br>");}
 function normalized(v){return String(v||"").toLowerCase().trim().replace(/[’‘]/g,"'").replace(/\s*\|\s*/g,"|").replace(/[.!?]+$/g,"").replace(/\s+/g," ");}
-function findItem(id){for(const g of all){const q=g.items.find(x=>x.id===id);if(q)return {q,g};}return null;}
+function findItem(id){for(const g of [...all,extra]){const q=g.items.find(x=>x.id===id);if(q)return {q,g};}return null;}
 function fresh(){return {version:VERSION,answers:{},checked:{},group:original[0].id,practiceSet:1};}
 function hydrate(){
  const who=global.LearningCore?.userId?.()||"guest";
@@ -178,6 +178,11 @@ function feedback(q,g){
  const label=ungraded?"Đáp án tham khảo · Không chấm tự động":correct?"✓ Chính xác":"✕ Chưa chính xác";
  return '<div class="g6-result" role="status"><strong>'+label+'</strong>'+G6Explanation(q,g)+'</div>';
 }
+function G6VisiblePrompt(q,g){
+ if(["pronunciation","stress"].includes(g.id))return "";
+ if(g.id==="reading-cloze")return "Blank "+q.no;
+ return q.q;
+}
 function questionBlock(q,g){
  const checked=!!state.checked[q.id],val=answer(q.id);
  let answerHTML="";
@@ -193,13 +198,14 @@ function questionBlock(q,g){
  answerHTML=slots>1?'<div class="g6-grid">'+Array.from({length:slots},(_,i)=>'<label><span class="g6-small">Chỗ trống '+(i+1)+'</span><input type="text" class="g6-input" data-g6-answer="'+esc(q.id)+'" data-g6-index="'+i+'" value="'+esc(parts[i]||"")+'" autocomplete="off" placeholder="Nhập đáp án '+(i+1)+'"/></label>').join("")+'</div>':
  '<input type="text" class="g6-input" data-g6-answer="'+esc(q.id)+'" value="'+esc(val)+'" autocomplete="off" spellcheck="false" placeholder="Nhập đáp án…"/>';
  }
- return '<article class="g6-item" id="g6-q-'+esc(q.id)+'"><div class="g6-no">QUESTION '+String(q.no).padStart(2,"0")+'</div><h4>'+rich(q.q)+'</h4>'+answerHTML+
+ return '<article class="g6-item" id="g6-q-'+esc(q.id)+'"><div class="g6-no">QUESTION '+String(q.no).padStart(2,"0")+'</div>'+(G6VisiblePrompt(q,g)?'<h4>'+rich(G6VisiblePrompt(q,g))+'</h4>':"")+
+ answerHTML+
  (q.kind==="essay"?'<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'">Lưu bài viết</button>':
  '<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'" '+((!val.trim()||q.kind==="input"&&q.q.split("______").length>2&&val.split("|").some(x=>!x.trim()))?"disabled":"")+'>Kiểm tra / Đối chiếu</button>')+
  feedback(q,g)+'</article>';
 }
 function renderOriginal(){const g=original.find(x=>x.id===state.group)||original[0];
- return '<div class="g6-root"><h2>Bài tập gốc · Original Worksheet</h2>'<p class="g6-small">Worksheet Unit 1 G6 · GV Nguyễn Bích Vân</p>'+groupSelector()+'<section class="g6-block"><h3>'+esc(g.title)+'</h3>'+sectionProgress(g)+
+ return '<div class="g6-root"><h2>Bài tập gốc · Original Worksheet</h2><p class="g6-small">Worksheet Unit 1 G6 · GV Nguyễn Bích Vân</p>'+groupSelector()+'<section class="g6-block"><h3>'+esc(g.title)+'</h3>'+sectionProgress(g)+
  (g.wordBank?'<div class="g6-bank">'+g.wordBank.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>':"")+
  (g.passage?'<div class="g6-passage">'+esc(g.passage)+'</div>':"")+
  g.items.map(q=>questionBlock(q,g)).join("")+'</section></div>';
