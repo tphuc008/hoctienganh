@@ -25,6 +25,7 @@ jobs:
           sleep 2
       - name: Exercise learner journeys without production credentials
         run: |
+          node tests/grade6-unit1-browser.cjs
           node tests/browser-smoke.cjs
           node tests/manifest-browser.cjs
           node tests/lesson-quiz-print-browser.cjs
