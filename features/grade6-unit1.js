@@ -6,6 +6,7 @@ if(!A||!B)throw Error("Missing Grade 6 Unit 1 source data");
 const all=[...A.groups,...B.groups];
 const original=all.filter(g=>g.id!=="extra");
 const extra=B.extra;
+extra.items.forEach((q,i)=>{q.id=q.id||("extra-"+(i+1));q.no=i+1;});
 const originalTotal=original.reduce((n,g)=>n+g.items.length,0);
 const VERSION=global.LearningCore?.fingerprint?.([A.groups,B.groups,extra.items])||"g6-1";
 const BASE="grade-6/unit-1";
@@ -34,7 +35,9 @@ function hydrate(){
 }
 function save(){global.LearningCore?.writeDraft?.("grade6",STORE,state);}
 function answer(id){return state.answers[id]||"";}
-function scored(q,g){if(q.kind==="essay"||q.a===null&&q.kind==="mcq"||!q.answers?.length)return null;
+function scored(q,g){if(q.kind==="essay")return null;
+ if(q.kind==="mcq")return q.a===null?null:String(q.a)===String(answer(q.id));
+ if(!q.answers?.length)return null;
  if(g.id==="transformation"||g.id==="rearrangement")return null;
  if(q.kind==="mcq")return String(q.a)===String(answer(q.id));
  return q.answers.some(x=>normalized(x)===normalized(answer(q.id)));
