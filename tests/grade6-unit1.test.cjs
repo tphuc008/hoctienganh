@@ -64,7 +64,7 @@ test("Unit 1 interface initializes and renders exactly three tabs, no print tab"
   assert.match(html,/34 từ vựng/);
   assert.match(html,/Present Simple/);
   assert.match(html,/My cousin lives at a boarding school/);
-  assert.match(html,/We don't have English lessons on Sundays/);
+  assert.match(html,/We don&#39;t have English lessons on Sundays/);
   w.renderGrade6Unit1("original");
   assert.match(html,/132 bài tập gốc/);
   assert.match(html,/Phát âm khác biệt/);
