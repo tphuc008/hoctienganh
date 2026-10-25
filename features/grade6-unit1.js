@@ -88,17 +88,95 @@ function mcqLabels(q,g){
  const decorated=q.q.split(": ").slice(1).join(": ").split(" / ");
  return decorated.length===4?decorated.map(rich):q.o.map(esc);
 }
+const G6_WORD_HELP=Object.fromEntries(
+ ("kindergarten:trường mẫu giáo;activities:những hoạt động;hobby:sở thích;equipments:dạng số nhiều không dùng vì equipment không đếm được;overseas:ở nước ngoài;high school:trường trung học phổ thông;secondary school:trường trung học;pay:trả tiền;knock:gõ cửa;borrow:mượn;help:giúp đỡ;gym:phòng thể dục;meals:những bữa ăn;break time:giờ nghỉ;poem:bài thơ;warm:ấm áp;healthy:khỏe mạnh;quiet:yên tĩnh;hard-working:chăm chỉ;uniform:đồng phục;pocket money:tiền tiêu vặt;worry:lo lắng;interesting:thú vị;studied:đã học;had:đã có;played:đã chơi;did:đã làm;studying:đang học;doing:đang làm;playing:đang chơi;having:đang có hoặc đang dùng;have:có;does:làm hoặc trợ động từ của ngôi ba;plays:chơi (ngôi ba);has:có (ngôi ba);studies:học (ngôi ba);do:làm;play:chơi;on:trên hoặc chỉ ngày;at:ở hoặc chỉ giờ;for:cho;to:đến;about:về;with:với;surrounded:được bao quanh;built:được xây;covered:được phủ;grounded:được tiếp đất;table tennis:bóng bàn;football:bóng đá;Where:ở đâu;What:cái gì;When:khi nào;What time:mấy giờ;rubbers:những cục tẩy;calculators:những máy tính;pencils:những bút chì;dictionaries:những cuốn từ điển;private:tư thục hoặc riêng tư;public:công lập hoặc công cộng;international:quốc tế;clothing:quần áo;coat:áo khoác;suit:bộ com-lê;takes:mang hoặc lấy;send:gửi;lend:cho mượn;nice:tốt đẹp;pleasant:dễ chịu;disappointing:đáng thất vọng;taking:đang làm hoặc tham gia;making:đang tạo ra;working:đang làm việc;writing:đang viết;sink:bồn rửa;wardrobe:tủ quần áo;cupboar:từ bị thiếu chữ d (cupboard);country house:nhà ở vùng quê;flat:căn hộ;hall:đại sảnh;activity:hoạt động;personality:tính cách;appearance:ngoại hình;bedroom:phòng ngủ;living room:phòng khách;kitchen:nhà bếp;bathroo:từ bị thiếu chữ m (bathroom);dinner:bữa tối;lunch:bữa trưa;breakfast:bữa sáng;younger:nhỏ tuổi hơn;little:nhỏ;small:nhỏ;older:lớn tuổi hơn;getting:dạng V-ing của get;to get:động từ nguyên mẫu có to;gets:động từ ngôi ba của get;get:lấy hoặc trở nên;music room:phòng âm nhạc;library:thư viện;sport center:trung tâm thể thao;computer room:phòng máy tính;quietly:một cách yên lặng;quieter:yên tĩnh hơn;look at:nhìn vào;take part in:tham gia;put on:mặc vào;participate:tham gia;air-conditioners:máy điều hòa;projectors:máy chiếu;chairs:những chiếc ghế;All are correct:tất cả đều đúng;do:làm;wear:mặc;wears:mặc (ngôi ba);is wearing:đang mặc (ngôi ba);wearing:dạng V-ing của wear;study:học;share:chia sẻ;surround:bao quanh;remember:ghi nhớ;greenhouse:nhà kính;swimming pool:hồ bơi;ruler:thước kẻ;confident:tự tin;shy:rụt rè;tired:mệt;noisy:ồn ào;write:viết;writes:viết (ngôi ba);is write:cấu trúc sai;Are:trợ động từ số nhiều;Is:trợ động từ số ít;Does:trợ động từ hiện tại đơn ngôi ba;Do:trợ động từ hiện tại đơn;looks:trông có vẻ;classmate:bạn cùng lớp;boarding:thuộc nội trú;equipment:thiết bị;rubber:cục tẩy;calculator:máy tính;judo:môn võ judo")
+ .split(";").map(part=>{const p=part.indexOf(":");return [part.slice(0,p),part.slice(p+1)];}));
+const G6_READING_CLUES={
+"reading-cloze-1":"Every day, she gets up at seven o'clock. After waking up, she washes her face and brushes her teeth.",
+"reading-cloze-2":"She is eleven years old. She is in grade 6. / Mike is her (2) _____ brother. He is in grade 10.",
+"reading-cloze-3":"Jane goes to school after (3) _____ dressed at 7:45 in the morning.",
+"reading-cloze-4":"a (4) _____ full of interesting books",
+"reading-cloze-5":"read storybooks and do her homework (5) _____",
+"reading-comprehension-1":"they learn Literature in both Vietnamese and English; and they also study Science and Geography in English.",
+"reading-comprehension-2":"students also play sports and join many different clubs.",
+"reading-comprehension-3":"The classrooms are bright and modern, with big windows, air-conditioners, projectors, and comfortable chairs.",
+"reading-comprehension-4":"Students love studying here because the teachers are friendly and the facilities are excellent.",
+"reading-comprehension-5":"they only need to wear uniform on Mondays and Fridays. Besides studying, students also play sports and join many different clubs."
+};
+const G6_SOUNDS=[
+["/ʌ/","/ʌ/","/ʌ/","/juː/"],["/æ/","/ɑː/","/ɑː/","/ɑː/"],
+["/k/","/tʃ/","/tʃ/","/tʃ/"],["/ɑː/","/ɑː/","/ə/","/ɑː/"],
+["/ʌ/","/əʊ/","/ʌ/","/ʌ/"]
+];
+const G6_STRESS=[[1,1,2,1],[1,1,1,2],[2,1,1,1],[2,1,2,2],[2,1,1,1]];
+const G6_WORDS=Object.fromEntries(A.words.flatMap(g=>g.items).map(w=>[w.word,w]));
+function G6Filled(q){
+ const example=(q.answers||[])[0]||"";
+ if(!example)return "";
+ const fills=example.split(/\s*\|\s*/);let pos=0;
+ let text=q.q.replace(/\(([^)]*)\)\s*______/g,()=>fills[pos++]||"______")
+              .replace(/______/g,()=>fills[pos++]||"______");
+ return text.replace(/\s+/g," ").replace(/→/g,"→").trim();
+}
+function G6Clue(q,g){
+ if(G6_READING_CLUES[q.id])return G6_READING_CLUES[q.id];
+ if(g.id==="pronunciation")return "Các phần chữ được gạch chân trong bốn từ của câu.";
+ if(g.id==="stress")return q.o.join(" / ");
+ return q.q.replace(/<[^>]*>/g,"").replace(/\s+/g," ").slice(0,270);
+}
+function G6OptionInfo(q,g,i){
+ const opt=q.o[i],correct=q.a===i;
+ if(g.id==="pronunciation"){
+   const sound=G6_SOUNDS[q.no-1]?.[i]||"";
+   return {word:opt,meaning:sound,correct,analysis:(correct?"Đáp án khác nhóm: ":"Cùng nhóm phát âm: ")+sound+". "+(correct?q.note:"So sánh âm được gạch chân, không dựa vào cách viết.")};
+ }
+ if(g.id==="stress"){
+   const n=G6_STRESS[q.no-1]?.[i];
+   return {word:opt,meaning:n?"Nhấn âm "+n:"",correct,analysis:(correct?"Trọng âm khác nhóm. ":"Trọng âm cùng nhóm. ")+q.note};
+ }
+ const known=G6_WORDS[opt],meaning=known?.meaning||G6_WORD_HELP[opt]||"";
+ if(correct)return {word:opt,meaning,correct:true,analysis:q.note};
+ if(q.a===null)return {word:opt,meaning,correct:false,analysis:meaning?"Nghĩa/cách dùng: "+meaning+". Cần xét cùng các lựa chọn khác trước khi xác định đáp án.":"Đề gốc chưa xác định được một đáp án duy nhất."};
+ if(g.id==="reading-comprehension")return {word:opt,meaning,correct:false,analysis:"Đối chiếu với câu dẫn chứng: "+G6Clue(q,g)+" Chi tiết này không trả lời đầy đủ câu hỏi bằng phương án "+String.fromCharCode(65+i)+"."};
+ if(g.id==="reading-cloze")return {word:opt,meaning,correct:false,analysis:(meaning?"Nghĩa: "+meaning+". ":"")+"Khi đặt vào chỗ trống, phương án này không đáp ứng chi tiết hoặc cấu trúc: "+q.note};
+ return {word:opt,meaning,correct:false,analysis:(meaning?"Nghĩa/cách dùng: "+meaning+". ":"")+"Không phù hợp với yêu cầu của câu: "+q.note};
+}
+function G6Application(q,g){
+ const opt=q.kind==="mcq"&&q.a!==null?q.o[q.a]:"";
+ const known=G6_WORDS[opt];
+ if(known?.examples?.length)return "Ví dụ A2–B1: "+known.examples[0]+(known.usage?" · Cụm thường dùng: "+known.usage:"");
+ if(g.id==="pronunciation")return "Đọc từng từ và so sánh đúng âm đã gạch chân; cùng một chữ cái có thể mang những âm khác nhau.";
+ if(g.id==="stress")return "Tách từ thành các âm tiết rồi nhận diện âm tiết được nhấn mạnh nhất.";
+ if(g.id==="reading-comprehension")return "Khi đọc lại đoạn văn, đối chiếu nguyên ý của dẫn chứng với câu hỏi, không chỉ tìm từ xuất hiện giống nhau.";
+ if(g.id==="reading-cloze"&&opt)return "Thử đặt "+opt+" vào cả câu trong đoạn văn để kiểm tra nghĩa và cấu trúc.";
+ if(q.kind==="input"&&q.answers?.length)return "Câu hoàn chỉnh / mẫu biến đổi: "+G6Filled(q);
+ if(opt&&q.q.includes("______"))return "Đặt vào câu: "+q.q.replace("______",opt);
+ if(g.id==="paragraph")return "Gợi ý bố cục: mở đầu giới thiệu ngày đầu đi học; thân bài kể 1–2 hoạt động cụ thể; kết bài nêu cảm xúc.";
+ return q.note;
+}
+function G6Explanation(q,g){
+ const isMC=q.kind==="mcq",ambiguous=isMC&&q.a===null;
+ const answerText=isMC?(ambiguous?"Chưa có đáp án duy nhất":String.fromCharCode(65+q.a)+". "+q.o[q.a]):q.answers?.length?q.answers.join(" / "):"Cần giáo viên rà soát";
+ const evidence=G6Clue(q,g);
+ const reasoning=q.note+(q.flag?" Lưu ý: "+q.flag:"");
+ const spec={
+   type:isMC?"school-mcq":"school-written",answer:answerText,quickReason:q.note,
+   evidence:[{locator:g.passage?"Dẫn chứng trong bài đọc":"Dấu hiệu trong câu",quote:evidence,note:q.note}],
+   reasoning,
+   options:isMC?q.o.map((_,i)=>G6OptionInfo(q,g,i)):[],
+   application:G6Application(q,g),
+   remember:q.flag||"",
+   needsReview:ambiguous||!!q.flag
+ };
+ return global.ExplanationV1?.render?global.ExplanationV1.render(spec):'<p>'+esc(answerText)+'</p><p>'+esc(q.note)+'</p><p>'+esc(G6Application(q,g))+'</p>';
+}
 function feedback(q,g){
  if(!state.checked[q.id])return "";
- if(q.kind==="essay")return '<div class="g6-result"><strong>Đã lưu bản nháp</strong><p>Đoạn văn được lưu trên thiết bị theo tài khoản. Bài mở cần giáo viên xem và nhận xét.</p></div>';
+ if(q.kind==="essay")return '<div class="g6-result"><strong>Đã lưu bài viết</strong><p>Giáo viên có thể xem nội dung và nhận xét thủ công.</p></div>';
  const ungraded=q.kind==="mcq"?(q.a===null):(!q.answers?.length||g.id==="transformation"||g.id==="rearrangement");
  const correct=scored(q,g);
- const expected=q.kind==="mcq"&&q.a!==null?("ABCD"[q.a]+". "+q.o[q.a]):q.answers?.[0]||"";
- const label=ungraded?"Đối chiếu đáp án / Không chấm tự động":correct?"✓ Chính xác":"✕ Chưa khớp đáp án tham khảo";
- return '<div class="g6-result feedback semantic-feedback" role="status"><strong>'+label+'</strong>'+
- (expected?'<p><b>Đáp án'+(ungraded?" tham khảo":"")+':</b> '+esc(expected)+'</p>':"")+
- (q.note?'<p class="ev1-short"><b>Giải thích nhanh:</b> '+esc(q.note)+'</p>':"")+
- (q.flag?'<p class="g6-issue">Lưu ý đề gốc: '+esc(q.flag)+'</p>':"")+'</div>';
+ const label=ungraded?"Đáp án tham khảo · Không chấm tự động":correct?"✓ Chính xác":"✕ Chưa chính xác";
+ return '<div class="g6-result" role="status"><strong>'+label+'</strong>'+G6Explanation(q,g)+'</div>';
 }
 function questionBlock(q,g){
  const checked=!!state.checked[q.id],val=answer(q.id);
