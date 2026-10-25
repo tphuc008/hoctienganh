@@ -103,12 +103,12 @@ function questionBlock(q,g){
  }
  return '<article class="g6-item" id="g6-q-'+esc(q.id)+'"><div class="g6-no">QUESTION '+String(q.no).padStart(2,"0")+'</div><h4>'+rich(q.q)+'</h4>'+answerHTML+
  (q.kind==="essay"?'<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'">Lưu bài viết</button>':
- '<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'" '+(val===""&&!(q.a===null||!q.answers?.length)?"disabled":"")+'>Kiểm tra / Đối chiếu</button>')+
+ '<button class="g6-check" type="button" data-g6-check="'+esc(q.id)+'" '+(val===""?"disabled":"")+'>Kiểm tra / Đối chiếu</button>')+
  feedback(q,g)+'</article>';
 }
 function renderOriginal(){const g=original.find(x=>x.id===state.group)||original[0];
  return '<div class="g6-root"><h2>Bài tập gốc · Original Worksheet</h2><p class="g6-lead">Giữ các dạng bài theo PDF, chia thành '+original.length+' nhóm để dễ học. Đáp án và giải thích ngắn hiện sau khi bấm Kiểm tra. Câu gốc thiếu đáp án duy nhất được đánh dấu và không chấm tự động.</p>'+
- groupSelector()+'<section class="g6-block"><h3>'+esc(g.title)+'</h3>'+sectionProgress(g)+
+ '<p class="g6-small">Nguồn: Worksheet Unit 1 G6 · GV Nguyễn Bích Vân. Những câu chưa rõ đáp án được giữ lại để giáo viên rà soát.</p>'+groupSelector()+'<section class="g6-block"><h3>'+esc(g.title)+'</h3>'+sectionProgress(g)+
  (g.wordBank?'<div class="g6-bank">'+g.wordBank.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>':"")+
  (g.passage?'<div class="g6-passage">'+esc(g.passage)+'</div>':"")+
  g.items.map(q=>questionBlock(q,g)).join("")+'</section></div>';
@@ -133,7 +133,7 @@ function onChange(ev){
  const t=ev.target;
  if(!t.closest?.(".g6-root"))return;
  if(t.matches("[data-g6-answer]")){hydrate();state.answers[t.dataset.g6Answer]=t.value;delete state.checked[t.dataset.g6Answer];save();
- const block=t.closest(".g6-item");const check=block?.querySelector("[data-g6-check]");if(check)check.disabled=!t.value.trim();
+ const block=t.closest(".g6-item");block?.querySelector(".g6-result")?.remove();const check=block?.querySelector("[data-g6-check]");if(check)check.disabled=!t.value.trim();
  }
  if(t.matches("[data-g6-practice-count]")){state.practiceLimit=Number(t.value)||10;state.practiceStarted=false;save();render("practice",true);}
 }
@@ -144,7 +144,7 @@ function onInput(ev){
  }
  if(!t.matches?.("[data-g6-answer]"))return;
  hydrate();state.answers[t.dataset.g6Answer]=t.value;delete state.checked[t.dataset.g6Answer];save();
- const block=t.closest(".g6-item"),check=block?.querySelector("[data-g6-check]");if(check)check.disabled=!t.value.trim();
+ const block=t.closest(".g6-item"),check=block?.querySelector("[data-g6-check]");block?.querySelector(".g6-result")?.remove();if(check)check.disabled=!t.value.trim();
  const counter=document.querySelector('[data-g6-word-count="'+t.dataset.g6Answer+'"]');if(counter)counter.textContent=(t.value.trim()?t.value.trim().split(/\s+/).length:0)+" words · Mục tiêu 80–100 từ";
 }
 function onClick(ev){
