@@ -186,7 +186,9 @@ function render(root,report,handlers){
   '<span class="hsg-rs-bar-unanswered" style="width:'+(100-pct)+'%"></span></div>'+
   '<p class="hsg-rs-disclaimer">'+
    (report.solutions.verifiedCount
-    ?'Bài được đối chiếu bằng đáp án tham khảo, KHÔNG phải kết quả chấm chính thức. Chỉ trắc nghiệm/ghép đáp án khách quan được tự xác định đúng-sai. Đáp án mở, viết lại câu, sửa lỗi và bài viết có thể có biến thể hợp lệ nên cần đối chiếu lời giải hoặc giáo viên.'
+    ?(["dh-vinh","phu-tho","son-la"].includes(report.exam.id)
+      ?'Bảng tổng kết đối chiếu theo lời giải tham khảo. Câu trắc nghiệm được so sánh với đáp án; bài viết, sửa lỗi và cách diễn đạt tương đương được giữ để người học xem lại.'
+      :'Bài được đối chiếu bằng đáp án tham khảo, KHÔNG phải kết quả chấm chính thức. Chỉ trắc nghiệm/ghép đáp án khách quan được tự xác định đúng-sai. Đáp án mở, viết lại câu, sửa lỗi và bài viết có thể có biến thể hợp lệ nên cần đối chiếu lời giải hoặc giáo viên.')
     :'Chưa có bộ đáp án và lời giải được xác minh cho đề này. Đây là thống kê tiến độ, KHÔNG phải điểm số hoặc chấm đúng/sai. Bài làm của bạn vẫn được lưu để đối chiếu khi có lời giải.')+
    '</p></section>'+
   '<section class="hsg-rs-section"><div class="hsg-rs-section-heading"><h2>Tiến độ theo từng Part</h2>'+
