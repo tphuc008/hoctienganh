@@ -371,9 +371,12 @@ function hsgExplanationControl(g,n,q){
       global.HSGExamSolutions.essayExplanationV1(essay):null;
   if(!spec)return "";
   const href=String(record?.provenance?.sourceUrl||bank?.source?.referenceUrl||"");
+  const neutralSource=["dh-vinh","phu-tho","son-la"].includes(state.exam.id);
   const link=/^https:\/\//.test(href)
-   ?'<p class="hsg-exam-source-note">Nguồn đối chiếu: <a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">đáp án tham khảo không chính thức</a></p>'
-   :'<p class="hsg-exam-source-note">Lời giải tự suy luận từ đề gốc; cần đối chiếu thêm trước khi coi là đáp án chính thức.</p>';
+   ?'<p class="hsg-exam-source-note">Nguồn đối chiếu: <a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+
+     (neutralSource?'tài liệu tham khảo':'đáp án tham khảo không chính thức')+'</a></p>'
+   :'<p class="hsg-exam-source-note">'+
+     (neutralSource?'Giải thích được biên soạn dựa trên đề gốc.':'Lời giải tự suy luận từ đề gốc; cần đối chiếu thêm trước khi coi là đáp án chính thức.')+'</p>';
   const formatted=record&&global.HSGNextThreeFormat?.render(state.exam.id,g.id,n,q,record,spec);
   return '<section class="hsg-exam-solution" data-hsg-solution="'+n+'">'+
    '<button type="button" data-hsg-shared-explain-toggle aria-expanded="false">'+
