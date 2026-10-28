@@ -41,6 +41,70 @@ const EX={
 49:[P("Managers need to control project costs.","Người quản lý cần kiểm soát chi phí dự án."),P("Researchers observed changes in productivity.","Các nhà nghiên cứu quan sát sự thay đổi năng suất."),P("Companies must adapt their methods to new conditions.","Các công ty phải điều chỉnh phương pháp theo hoàn cảnh mới."),P("Regular breaks can enhance concentration.","Nghỉ giải lao đều đặn có thể cải thiện sự tập trung.")],
 50:[P("The company advertised a new vacancy.","Công ty đăng tuyển một vị trí còn trống."),P("An accountant checked the financial statements.","Một kế toán viên kiểm tra báo cáo tài chính."),P("Contact the HR department about your contract.","Hãy liên hệ phòng nhân sự về hợp đồng."),P("Our bank opened a new branch downtown.","Ngân hàng mở chi nhánh mới ở trung tâm.")]
 };
+
+/* Contextual Vietnamese meaning, not a fabricated full-sentence translation. */
+const TRANSLATIONS={
+21:"vốn là một người rất tình cảm",22:"trình bày các ý hỗ trợ rõ ràng hơn",
+23:"dù vậy, hai cơn đau tim vẫn không khiến anh ấy ngừng hút thuốc",
+24:"chủ động hành động trong công việc nhóm",
+25:"người phải chịu trách nhiệm nếu mọi chuyện xấu đi",
+26:"thứ Hai và thứ Tư đều đặn, không bỏ lần nào",
+27:"thoáng nhìn thấy cô ấy rồi mất dấu",
+28:"nhớ Henry từng hỏi những câu rất ngớ ngẩn",
+29:"nếu cần thêm thông tin, vui lòng liên hệ",
+30:"chính sách bắt đầu có hiệu lực",
+31:"để một cơ hội như vậy trôi qua",
+32:"trình bày một bài phát biểu đầy nhiệt huyết",
+33:"hầu như không ai",34:"không đáng giá đến thế",
+35:"trực tiếp đối mặt với vấn đề và bắt đầu lại",
+36:"đã tiến hành một cuộc nghiên cứu toàn diện",
+37:"ước tính sơ bộ về tổng chi phí",
+38:"mối lo ngại ngày càng lớn làm dấy lên tranh luận gay gắt",
+39:"vì vậy, chúng tôi buộc phải tăng giá",
+40:"yêu cầu tất cả nhân viên có mặt",
+41:"những ngôi nhà còn lại trong nhóm được so sánh",
+42:"nền tảng của triết lý thiết kế",
+43:"ở trung tâm là cam kết về ý thức sinh thái",
+44:"khách hàng đã chuyển vào ở",
+45:"khả năng mua những căn nhà này xét về mặt tài chính (cụm gốc ít thông dụng)",
+46:"chúng tôi muốn thông báo cho bạn",
+47:"xét đến phản hồi gần đây",
+48:"miễn là họ bảo đảm trực tuyến",
+49:"nâng cao năng suất của nhân viên",
+50:"hãy liên hệ phòng nhân sự"
+};
+const GLOSSES={
+21:["đặc điểm","bản tính","tính cách","phản ứng"],
+22:["chợt nhận ra","nhượng bộ","tình cờ gặp/phát hiện","trình bày"],
+23:["theo đó","nhưng","phòng khi","dù vậy"],
+24:["làm","tạo ra","chủ động thực hiện","nhận được"],
+25:["thay đổi tốt lên","vui sướng tột độ","nghe quen","chịu trách nhiệm"],
+26:["nghi ngờ","bỏ lỡ","nhất định (without fail)","bỏ bê"],
+27:["chú ý","mất liên lạc","để mắt","thoáng trông thấy"],
+28:["nhớ anh ấy hỏi","để anh ấy hỏi","hỏi anh ấy","việc anh ấy bị hỏi"],
+29:["nếu giả sử cần","nếu cần","được yêu cầu","nếu trước đó cần"],
+30:["hiệu lực (force)","hiệu lực (effect)","chú ý","lượt"],
+31:["tăng","giảm","hợp với","trôi qua"],
+32:["thuật lại","phát biểu","tạo ra","phát hiện"],
+33:["mọi người","ai đó","bất kỳ ai","không ai"],
+34:["sai trật tự","đến thế","sai trật tự","sai trật tự"],
+35:["một công đôi việc","gây xáo trộn","đương đầu khó khăn","thoát cạnh tranh"],
+36:["kiệt sức","toàn diện","có thể cạn kiệt","gây mệt mỏi"],
+37:["sơ bộ","khắc nghiệt","khó khăn","nghiêm ngặt"],
+38:["which + has sparked","has sparked: số ít","have sparked: số nhiều","who + have sparked"],
+39:["rõ ràng","vì vậy","hoàn toàn","về cơ bản"],
+40:["đã được","sẽ được","be nguyên mẫu","việc đang"],
+41:["khác + danh từ","các cái còn lại","một cái khác","những cái khác"],
+42:["ở giữa","bên cạnh","ở phần dưới","vì lợi ích"],
+43:["đảo ngữ vị trí","nằm (số nhiều)","cam kết nằm ở","đảo câu hỏi"],
+44:["đáp ứng kỳ vọng","chuyển vào","nghĩ ra","nổi bật"],
+45:["thuộc tài khóa","thuộc thương mại","thuộc tiền bạc","thuộc nghĩa vụ tín thác"],
+46:["để thông báo","việc thông báo","đến việc thông báo","thông báo"],
+47:["bằng phương tiện","bất chấp","xét đến","thay mặt"],
+48:["nhận được","bảo đảm (make sure)","lấy/thực hiện","ở lại"],
+49:["kiểm soát","quan sát","thích nghi","nâng cao"],
+50:["vị trí trống","kế toán viên","bộ phận","chi nhánh"]
+};
 const WORD_TYPE={56:"Danh từ (noun)",57:"Trạng từ (adverb)",58:"Động từ quá khứ (past simple)",59:"Tính từ (adjective)",60:"Danh từ (noun)",61:"Tính từ (adjective)",62:"Danh từ (noun)",63:"Tính từ (adjective)",64:"Danh từ (noun)",65:"Danh từ số nhiều (plural noun)"};
 const FOCUS={
 81:"Câu main idea: tìm chủ đề bao quát các đoạn, không chọn một chi tiết hoặc ví dụ riêng lẻ.",
@@ -87,7 +151,7 @@ function optionAnalysis(spec,n){
   let analysis=String(x.analysis||"").trim();
   if(n===83&&i===0)analysis='Có liên hệ đến “demands of caring for families”, nhưng “required to stay at home” (bắt buộc ở nhà) mạnh hơn thông tin về gánh nặng chăm sóc gia đình.';
   if(n===83&&i===1)analysis='Đúng với yêu cầu EXCEPT: thiếu đào tạo (lack of training) không đồng nghĩa với thiếu năng lực (lack of ability). Bài không khẳng định phụ nữ thiếu năng lực kinh doanh.';
-  return '<div class="ev1-choice semantic-option'+(x.correct?' correct-analysis':'')+'"><div class="semantic-option-head"><span>'+"ABCD"[i]+'</span><b>'+h(x.word||"")+'</b>'+(x.meaning?'<em>'+h(x.meaning)+'</em>':"")+'</div>'+para(analysis||"Cần đối chiếu lý do cho phương án này.")+'</div>';
+  return '<div class="ev1-choice semantic-option'+(x.correct?' correct-analysis':'')+'"><div class="semantic-option-head"><span>'+"ABCD"[i]+'</span><b>'+h(x.word||"")+'</b>'+((x.meaning||GLOSSES[n]?.[i])?'<em>'+h(x.meaning||GLOSSES[n][i])+'</em>':"")+'</div>'+para(analysis||"Cần đối chiếu lý do cho phương án này.")+'</div>';
  });
  return list.length?'<div class="semantic-options-grid">'+list.join("")+'</div>':'<p class="ev1-muted">Chưa trích xuất được đầy đủ phương án A–D.</p>';
 }
@@ -123,7 +187,7 @@ function render(groupId,n,q,passage,spec){
  if(["g1","g2a","g2b"].includes(groupId)){
   parts.push(section(1,"Giải thích collocation / idiom / phrase / grammar",
    field("Dấu hiệu trong câu",anchor)+para(why)+field("Cấu trúc và cách dùng",rule)+optionAnalysis(spec,n)));
-  parts.push(section(2,"Dịch / nghĩa tiếng Việt",para(why)));
+  parts.push(section(2,"Dịch / nghĩa tiếng Việt",para(TRANSLATIONS[n]||why)));
   parts.push(section(3,"Bốn ví dụ thực tế B1–C1 cho A–D",
    examples(n,q,spec)+field("Ghi nhớ",rule)));
  }else if(groupId==="e"){
