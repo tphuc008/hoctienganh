@@ -92,6 +92,7 @@ function asExplanationV1(record,question,section){
   needsReview
  };
 }
+function essayFor(solutions,partId){return solutions?.essayGuidances?.find(e=>e.partId===partId)||solutions?.essayGuidance||null}
 function essayExplanationV1(essay){
  if(!essay?.sample)return null;
  return {type:"essay",answer:"Bài viết mở — không có đáp án duy nhất",
@@ -157,7 +158,7 @@ function build(exam,sections,answers,getQuestion,solutions){
  }
  return {exam:{id:exam.id,title:exam.title,year:exam.year},parts,all,
   totals:{answered:attempted,unanswered:total-attempted,total,correct,wrong,review,compared:correct+wrong},
-  solutions:{status:solutions?.status||"unverified",verifiedCount:solutions?.records?.length||0,essayGuidance:solutions?.essayGuidance||null}};
+  solutions:{status:solutions?.status||"unverified",verifiedCount:solutions?.records?.length||0,essayGuidance:solutions?.essayGuidance||null,essayGuidances:solutions?.essayGuidances||null}};
 }
 function render(root,report,handlers){
  const total=report.totals.total,done=report.totals.answered;
@@ -215,9 +216,9 @@ function render(root,report,handlers){
    (q.answer?'<span class="hsg-rs-question-stem">Bài làm: '+esc(q.answer.slice(0,180))+'</span>':"")+
    (q.reference?'<span class="hsg-rs-question-stem">Đáp án tham khảo: '+esc(q.reference.correctAnswer)+'</span>'+
     '<span class="hsg-rs-question-stem">Giải thích: '+esc(q.reference.explanation.slice(0,250))+'</span>':
-    q.kind==="essay"&&report.solutions.essayGuidance?
-    '<span class="hsg-rs-question-stem">Bài mẫu tham khảo (AI soạn, không chấm điểm): '+
-       esc(report.solutions.essayGuidance.sample.slice(0,220))+'…</span>':
+    q.kind==="essay"&&essayFor(report.solutions,q.group)?
+    '<span class="hsg-rs-question-stem">Bài mẫu tham khảo (không chấm điểm): '+
+       esc(essayFor(report.solutions,q.group).sample.slice(0,220))+'…</span>':
     '<span class="hsg-rs-question-stem">Đáp án/lời giải đang chờ xác minh</span>')+
    '</span><span class="hsg-rs-question-status">'+({correct:"✓ Đúng",wrong:"× Sai",review:"Cần đối chiếu",unanswered:"Bỏ trống"}[q.status]||"Đã làm")+'</span>'+
    '<span class="hsg-rs-question-arrow" aria-hidden="true">›</span></button>').join(""):
