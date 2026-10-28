@@ -16,14 +16,14 @@ const expected={
  "phu-tho":{r1:[51,60,"guided_cloze"],r2:[61,70,"open_cloze"],r3:[71,80,"reading_comprehension"]},
  "son-la":{g1:[26,30,"guided_cloze"],g2:[31,40,"guided_cloze"],oc:[51,55,"open_cloze"],r:[61,67,"reading_comprehension"]}
 };
-const norm=s=>String(s).replace(/[\\u200b-\\u200d\\ufeff]/g," ").replace(/\\s+/g," ").trim();
+const norm=s=>String(s).replace(/[\u200b-\u200d\ufeff]/g," ").replace(/\s+/g," ").trim();
 for(const [id,parts] of Object.entries(expected)){
  const folder=path.join(root,"content/hsg-tinh");
  const doc=JSON.parse(fs.readFileSync(path.join(folder,id+".structured.json"),"utf8"));
  const workspace=JSON.parse(fs.readFileSync(path.join(folder,id+".workspace.json"),"utf8"));
  const compressed=fs.readFileSync(path.join(folder,id+".txt"),"utf8").trim();
  const source=JSON.parse(zlib.gunzipSync(Buffer.from(compressed,"base64")).toString("utf8"));
- const text=norm(source.pages.map(p=>p.text).join("\\n"));
+ const text=norm(source.pages.map(p=>p.text).join("\n"));
  test(id+": schema, source boundaries and workspace alignment",()=>{
   assert.equal(typed.validate(doc,id),doc);
   assert.deepEqual(Object.keys(parts).sort(),doc.parts.map(p=>p.id).sort());
