@@ -178,3 +178,22 @@ test("Both Sơn La open-writing tasks contain independent word-count-compliant m
  assert.ok(w(tasks[0].sample)>=70&&w(tasks[0].sample)<=80);
  assert.ok(w(tasks[1].sample)>=140&&w(tasks[1].sample)<=160);
 });
+
+
+test("Two Sơn La writing guides are routed to their own post-submit part",()=>{
+ const source=read("features/hsg-tinh.js");
+ assert.match(source,/bank\?\.essayGuidances\?\.find\(x=>x\.partId===g\.id\)/);
+ const d=docs["son-la"];
+ const parts=[
+  {id:"email",name:"Email Writing",start:1,end:1,kind:"essay"},
+  {id:"essay",name:"Paragraph Writing",start:1,end:1,kind:"essay"}
+ ];
+ const report=M.build({id:"son-la",title:"Sơn La",year:"2026–2027"},parts,{},()=>({type:"essay",stem:"Writing task"}),d);
+ assert.equal(report.solutions.essayGuidances.length,2);
+ assert.equal(report.parts.length,2);
+ for(const part of report.parts){
+  const guide=report.solutions.essayGuidances.find(x=>x.partId===part.id);
+  assert.ok(guide);
+  assert.equal(M.essayExplanationV1(guide).application,guide.sample);
+ }
+});
