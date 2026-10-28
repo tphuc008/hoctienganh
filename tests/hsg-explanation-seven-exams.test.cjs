@@ -30,7 +30,8 @@ const docs={};
 for(const [id,count,total,solutionsCount] of idList){
  const conf=JSON.parse(get("content/hsg-tinh/"+id+".workspace.json"));
  const parts=selector(id);
- const structured=id==="hai-phong"?JSON.parse(get("content/hsg-tinh/hai-phong.structured.json")):null;
+ const typedPath="content/hsg-tinh/"+id+".structured.json";
+ const structured=fs.existsSync(path.join(root,typedPath))?JSON.parse(get(typedPath)):null;
  const validated=win.HSGWorkspaceV1.validate(conf,id,parts,structured);
  assert.equal(validated.parts.length,count);
  assert.equal(validated.questionTotal,total);
