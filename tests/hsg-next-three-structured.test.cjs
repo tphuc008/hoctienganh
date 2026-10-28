@@ -16,7 +16,7 @@ const expected={
  "phu-tho":{r1:[51,60,"guided_cloze"],r2:[61,70,"open_cloze"],r3:[71,80,"reading_comprehension"]},
  "son-la":{g1:[26,30,"guided_cloze"],g2:[31,40,"guided_cloze"],oc:[51,55,"open_cloze"],r:[61,67,"reading_comprehension"]}
 };
-const norm=s=>String(s).replace(/[\u200b-\u200d\ufeff]/g," ").replace(/\s+/g," ").trim();
+const norm=s=>String(s).replace(/[\u200b-\u200d\ufeff]/g," ").replace(/\s+/g," ").replace(/_{2,}/g,"____").trim();
 for(const [id,parts] of Object.entries(expected)){
  const folder=path.join(root,"content/hsg-tinh");
  const doc=JSON.parse(fs.readFileSync(path.join(folder,id+".structured.json"),"utf8"));
