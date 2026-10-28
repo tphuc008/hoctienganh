@@ -1412,6 +1412,7 @@ function ensureTeacherHSG(){
       await loadGrammar21Asset("script","features/hsg-hai-phong-explanation-formats.js?v=20261028-type-specific-v1");
       await loadGrammar21Asset("script","features/hsg-hai-phong-results-v1.js?v=20261022-autograde-v2");
       await loadGrammar21Asset("script","features/hsg-exam-solutions-v1.js?v=20261023-explanation-v3");
+      await loadGrammar21Asset("script","features/hsg-next-three-explanation-formats.js?v=20261028-next-three-v1");
       await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261023-explanation-v3");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});

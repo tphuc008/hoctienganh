@@ -302,6 +302,121 @@
         "official": false
       },
       "editorialStatus": "needs-review-for-complete-option-analysis"
+    },
+    {
+      "partId": "w",
+      "number": 76,
+      "verified": true,
+      "correctAnswer": "her friend called her did Mai remember that she had had the English club meeting",
+      "explanation": "Only after đứng đầu câu đòi đảo trợ động từ did trước Mai remember; mệnh đề after không đảo.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 76",
+          "quote": "Mai didn't remember that she had had the English club meeting until her friend called her.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Only after + clause + did + S + V",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 77,
+      "verified": true,
+      "correctAnswer": "dedication inspired the whole class, developed a revolutionary app",
+      "explanation": "Whose thay cho her dedication; dấu phẩy bao mệnh đề quan hệ không xác định, developed vẫn là động từ chính.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 77",
+          "quote": "The young programmer developed a revolutionary app, and her dedication inspired the whole class.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "whose + N + V (non-defining relative clause)",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 78,
+      "verified": true,
+      "correctAnswer": "expected to announce the winner of the STEM Contest tomorrow",
+      "explanation": "Chuyển cấu trúc They expect that S will V sang S is expected to V; hành động announce dự kiến xảy ra vào ngày mai.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 78",
+          "quote": "They expect that the principal will announce the winner of the STEM Contest tomorrow.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "S + be expected to + V",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 79,
+      "verified": true,
+      "correctAnswer": "trying to memorize the entire textbook the night before the final exam",
+      "explanation": "No point (in) + V-ing diễn đạt việc làm vô ích; tương đương It is absolutely useless to V.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 79",
+          "quote": "It is absolutely useless to try to memorize the entire textbook the night before the final exam.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "There is no point (in) + V-ing",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 80,
+      "verified": true,
+      "correctAnswer": "interacted with her pen pal from France for two months",
+      "explanation": "Dùng hiện tại hoàn thành phủ định với for two months để diễn tả việc không còn tương tác trong khoảng thời gian tính đến hiện tại.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 80",
+          "quote": "The last time Sophia interacted with her pen pal from France was two months ago.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "S + have/has not + V3 + for + duration",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
     }
   ],
   "source": {
