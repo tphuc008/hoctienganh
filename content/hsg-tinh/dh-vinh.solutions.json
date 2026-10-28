@@ -2021,8 +2021,8 @@
       "partId": "d",
       "number": 7,
       "verified": true,
-      "correctAnswer": "have viewed what happened in",
-      "explanation": "View what happened in ... khôi phục quan hệ thời gian và ý nghĩa câu nguồn.",
+      "correctAnswer": "have viewed what happened in a",
+      "explanation": "Should have + V3 diễn tả điều đáng lẽ nên làm trong quá khứ. View something in a positive light = nhìn nhận điều gì một cách tích cực; cụm này bắt buộc có mạo từ a, nên phần điền phải kết thúc bằng in a.",
       "evidence": [
         {
           "location": "Bản đề gốc · Sentence Transformation · câu 7",
@@ -2031,13 +2031,14 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "View what happened in ",
+      "transferablePattern": "S + should have + V3; view something in a positive light",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "editorialStatus": "needs-review"
     },
     {
       "partId": "d",
