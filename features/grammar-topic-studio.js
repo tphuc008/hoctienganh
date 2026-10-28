@@ -302,9 +302,67 @@ function guidedWizard(section){
     (current>0?'<div class="g21-actions"><button class="g21-btn" data-g21="guided-prev" data-section="'+esc(section.id)+'">← Câu trước</button></div>':"")+
   '</section>';
 }
+function learnTopic5V11(s,done){
+  const v=s.learnV11;
+  if(!v||v.cases.length!==3||v.steps.length!==3)throw Error("Missing Grammar 5 V1.1 lesson: "+s.id);
+  return '<div class="g21-layout">'+side()+
+   '<article class="g21-main g21-lesson g21-learn-v1 g21-learn-v11">'+
+    '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / '+String(d.sections.length).padStart(2,"0")+'</span>'+
+      '<span class="g21-time">◷ '+s.minutes+' phút</span></div>'+
+    '<h2>'+esc(s.title)+'</h2>'+
+    '<div class="g21-progress-track">'+progressHTML()+'</div>'+
+    '<section class="g21-teaching g21-v11-intro">'+
+      '<div class="g21-v1-block g21-v1-meaning"><h3>1. Nhận diện & hiểu ý nghĩa</h3><p>'+esc(v.intro)+'</p></div>'+
+    '</section>'+
+    '<section class="g21-teaching g21-v11-rules">'+
+      '<div class="g21-sectionhead"><h3>2. Công thức & ví dụ</h3><span>3 trường hợp trọng tâm</span></div>'+
+      '<div class="g21-v11-rule-grid">'+v.cases.map((c,i)=>
+        '<article class="g21-v11-rule-card">'+
+          '<div class="g21-v11-rule-head"><span>'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(c.name)+'</h4></div>'+
+          '<p class="g21-v11-formula">'+esc(c.formula)+'</p>'+
+          '<p class="g21-v11-sentence">'+esc(c.sentence)+'</p>'+
+          '<p class="g21-v11-vi"><b>Nghĩa:</b> '+esc(c.vi)+'</p>'+
+          '<p class="g21-v11-why"><b>Vì sao?</b> '+esc(c.why)+'</p>'+
+        '</article>'
+      ).join("")+'</div>'+
+    '</section>'+
+    '<section class="g21-teaching g21-v11-method">'+
+      '<h3>3. Cách xác định động từ đúng</h3>'+
+      '<ol class="g21-v11-steps">'+v.steps.map((step,i)=>
+         '<li><span class="g21-v11-step-count">'+(i+1)+'</span><span>'+esc(step)+'</span></li>'
+      ).join("")+'</ol>'+
+      '<div class="g21-v11-contrast"><b>Ví dụ đối chiếu quan trọng</b>'+
+        '<p class="g21-v11-contrast-a">'+esc(v.contrast[0])+'</p>'+
+        '<p class="g21-v11-contrast-b">'+esc(v.contrast[1])+'</p>'+
+        '<p class="g21-v11-contrast-note">'+esc(v.contrast[2])+'</p>'+
+      '</div>'+
+    '</section>'+
+    '<section class="g21-teaching g21-v1-examples g21-v11-examples">'+
+      '<div class="g21-sectionhead"><h3>4. Ví dụ đối chiếu</h3>'+
+        '<span>3 câu đầu · '+s.examples.length+' câu tất cả</span></div>'+
+      examples(s)+'</section>'+
+    '<section class="g21-teaching g21-v1-pitfalls g21-v11-pitfalls">'+
+      '<details class="g21-more g21-v1-pitfalls-details">'+
+        '<summary>5. Lỗi dễ nhầm & ngoại lệ ('+v.pitfalls.length+' trường hợp) <span aria-hidden="true">⌄</span></summary>'+
+        '<div class="g21-more-body"><div class="g21-v11-pitfall-list">'+v.pitfalls.map((x,i)=>
+          '<article class="g21-v11-pitfall"><h4>'+(i+1)+'. '+esc(x.title)+'</h4>'+
+          '<p>'+esc(x.rule)+'</p>'+
+          '<p class="g21-v11-pitfall-example">'+esc(x.example)+'</p>'+
+          '<p class="g21-v11-pitfall-vi"><b>Nghĩa:</b> '+esc(x.vi)+'</p></article>'
+        ).join("")+'</div></div>'+
+      '</details></section>'+
+    guidedWizard(s)+
+    '<div class="g21-actions g21-lesson-actions"><button class="g21-btn" data-g21="prev"'+(state.lesson===0?" disabled":"")+'>← Bài trước</button>'+
+      (state.lesson<d.sections.length-1?
+        '<button class="g21-btn primary" data-g21="next">Bài tiếp theo →</button>':
+        '<button class="g21-btn primary" data-g21="tab" data-tab="practice">Sang phần luyện tập →</button>')+
+    '</div><p class="g21-foot">Đã xong '+done+'/'+d.sections.length+' bài · Tự lưu tiến độ.</p>'+
+   '</article></div>';
+}
 function learn(){
   const s=d.sections[state.lesson],done=completeCount(),v=s.learnV1;
   if(!v)throw new Error("Grammar Explanation V1 lesson content is missing for "+s.id);
+  if(topicNum==="5"&&s.learnV11)return learnTopic5V11(s,done);
   return '<div class="g21-layout">'+side()+
     '<article class="g21-main g21-lesson g21-learn-v1">'+
       '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / '+String(d.sections.length).padStart(2,"0")+'</span>'+
