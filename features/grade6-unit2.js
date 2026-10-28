@@ -258,9 +258,9 @@ function render(tab,keepScroll){
  if(keepScroll)global.scrollTo(0,scroll);else global.scrollTo(0,0);
 }
 function captureAnswer(t){
- hydrate();const id=t.dataset.g6Answer;
+ hydrate();const id=t.dataset.g6U2Answer;
  if(t.hasAttribute("data-g6-u2-index")){
-   const values=(state.answers[id]||"").split("|");values[Number(t.dataset.g6Index)]=t.value;
+   const values=(state.answers[id]||"").split("|");values[Number(t.dataset.g6U2Index)]=t.value;
    state.answers[id]=values.map(x=>x.trim()).join(" | ");
  }else state.answers[id]=t.value;
  delete state.checked[id];save();
@@ -278,24 +278,24 @@ function onChange(ev){
 function onInput(ev){
  const t=ev.target;
  if(t.matches?.("[data-g6-u2-search]")){
- const query=t.value.toLocaleLowerCase("vi").trim();document.querySelectorAll("[data-g6-u2-word-row]").forEach(row=>{row.hidden=!row.dataset.g6WordRow.includes(query)});return;
+ const query=t.value.toLocaleLowerCase("vi").trim();document.querySelectorAll("[data-g6-u2-word-row]").forEach(row=>{row.hidden=!row.dataset.g6U2WordRow.includes(query)});return;
  }
  if(!t.matches?.("[data-g6-u2-answer]"))return;
  captureAnswer(t);
- const counter=document.querySelector('[data-g6-u2-word-count="'+t.dataset.g6Answer+'"]');if(counter)counter.textContent=(t.value.trim()?t.value.trim().split(/\s+/).length:0)+" words · Mục tiêu 80–100 từ";
+ const counter=document.querySelector('[data-g6-u2-word-count="'+t.dataset.g6U2Answer+'"]');if(counter)counter.textContent=(t.value.trim()?t.value.trim().split(/\s+/).length:0)+" words · Mục tiêu 80–100 từ";
 }
 function onClick(ev){
- const g=ev.target.closest?.("[data-g6-u2-group]");if(g){hydrate();state.group=g.dataset.g6Group;save();render("original",true);return;}
- const choice=ev.target.closest?.("[data-g6-u2-set]");if(choice){hydrate();state.practiceSet=Number(choice.dataset.g6Set);save();render("practice",false);return;}
+ const g=ev.target.closest?.("[data-g6-u2-group]");if(g){hydrate();state.group=g.dataset.g6U2Group;save();render("original",true);return;}
+ const choice=ev.target.closest?.("[data-g6-u2-set]");if(choice){hydrate();state.practiceSet=Number(choice.dataset.g6U2Set);save();render("practice",false);return;}
  const reset=ev.target.closest?.("[data-g6-u2-reset-set]");if(reset){
-   hydrate();const set=practiceSets.find(x=>x.number===Number(reset.dataset.g6ResetSet));
+   hydrate();const set=practiceSets.find(x=>x.number===Number(reset.dataset.g6U2ResetSet));
    if(!set)return;
    if(typeof global.confirm==="function"&&!global.confirm("Xóa câu trả lời trong Set "+set.number+"?"))return;
    set.items.forEach(q=>{delete state.answers[q.id];delete state.checked[q.id];});
    save();render("practice",true);return;
  }
  const t=ev.target.closest?.("[data-g6-u2-check]");if(!t)return;
- hydrate();const x=findItem(t.dataset.g6Check);if(!x)return;
+ hydrate();const x=findItem(t.dataset.g6U2Check);if(!x)return;
  state.checked[x.q.id]=true;save();render(activeTab,true);
  const result=document.getElementById("g6-q-"+x.q.id)?.querySelector(".g6-result");if(result)result.scrollIntoView({block:"nearest"});
 }
