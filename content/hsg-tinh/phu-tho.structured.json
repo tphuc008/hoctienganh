@@ -1,0 +1,329 @@
+{
+  "version": 1,
+  "examId": "phu-tho",
+  "parts": [
+    {
+      "id": "r1",
+      "kind": "guided_cloze",
+      "title": "Reading · Getting to the Root of Bonsai Crime",
+      "start": 51,
+      "end": 60,
+      "optionsLayout": "compact",
+      "passage": [
+        {
+          "type": "heading",
+          "text": "Getting to the root of Bonsai crime"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bonsai trees have always been a source of great fascination to people. They are perfect miniatures, grown in pots small enough (51) _____ on a windowsill. You have to keep reminding yourself that these trees are actually real and identical to their larger cousins in all respects except their size. Rather like other small and perfectly-formed artifacts, bonsai trees (52) _____ quite a high price in the marketplace and so it doesn’t come as a great surprise to find that they also attract the (53) _____ of thieves. It seems that quite a flourishing business has evolved, in which they are stolen from the homes of growers and collectors, then repotted and trimmed by unscrupulous dealers, to be sold on, (54) _____ good prices, to unsuspecting buyers."
+        },
+        {
+          "type": "paragraph",
+          "text": "One of Britain’s top collectors of bonsai trees, Paul Waddington, believes that he has found a solution, however. (55) _____ his life’s work, valued at £250,000, when burglars broke into his home one night, Paul decided to (56) _____ the possibilities of electronically tagging the trees he bought as a replacement. This involves injecting a microchip the size of a (57) _____ of rice into the trunk of each tree. Each chip is laser-etched with information (58) _____ is stored in a central register held by the police. Paul is quite aware that this kind of data-tagging doesn’t (59) _____ thieves from stealing the trees in the first place, although it may increase the chances of getting them back. (60) _____, he’s also installing a security alarm system, complete with infra-red detectors, in his home."
+        }
+      ],
+      "questions": [
+        {
+          "number": 51,
+          "stem": "Choose the best option for gap (51).",
+          "options": [
+            "sitting",
+            "to sitting",
+            "to sit",
+            "sit"
+          ]
+        },
+        {
+          "number": 52,
+          "stem": "Choose the best option for gap (52).",
+          "options": [
+            "obtain",
+            "expect",
+            "command",
+            "charge"
+          ]
+        },
+        {
+          "number": 53,
+          "stem": "Choose the best option for gap (53).",
+          "options": [
+            "intention",
+            "attention",
+            "petition",
+            "location"
+          ]
+        },
+        {
+          "number": 54,
+          "stem": "Choose the best option for gap (54).",
+          "options": [
+            "at",
+            "on",
+            "in",
+            "of"
+          ]
+        },
+        {
+          "number": 55,
+          "stem": "Choose the best option for gap (55).",
+          "options": [
+            "Being lost",
+            "To have lost",
+            "Lost",
+            "Having lost"
+          ]
+        },
+        {
+          "number": 56,
+          "stem": "Choose the best option for gap (56).",
+          "options": [
+            "look into",
+            "set about",
+            "try out",
+            "go after"
+          ]
+        },
+        {
+          "number": 57,
+          "stem": "Choose the best option for gap (57).",
+          "options": [
+            "crumb",
+            "speck",
+            "bean",
+            "grain"
+          ]
+        },
+        {
+          "number": 58,
+          "stem": "Choose the best option for gap (58).",
+          "options": [
+            "where",
+            "when",
+            "who",
+            "which"
+          ]
+        },
+        {
+          "number": 59,
+          "stem": "Choose the best option for gap (59).",
+          "options": [
+            "prevent",
+            "avoid",
+            "decide",
+            "combine"
+          ]
+        },
+        {
+          "number": 60,
+          "stem": "Choose the best option for gap (60).",
+          "options": [
+            "However",
+            "Therefore",
+            "Moreover",
+            "Likewise"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "r2",
+      "kind": "open_cloze",
+      "title": "Reading · Youth Skills in East Africa",
+      "start": 61,
+      "end": 70,
+      "passage": [
+        {
+          "type": "paragraph",
+          "text": "With automation and technological disruption accelerating globally, East Africa now finds itself at a critical crossroads. Having (61) _____ of the world’s youngest populations, the region has an incredible opportunity to harness the potential of its youth to (62) _____ shifting labor market demands. Traditional and institutional training models frequently suffer (63) _____ content mismatches and weak employer linkages, leaving graduates ill-prepared."
+        },
+        {
+          "type": "paragraph",
+          "text": "To address this, field pilots across Uganda, Tanzania, and Rwanda demonstrate that youth-designed, peer-led training networks effectively bridge such critical soft-skill (64) _____. By deploying near-peer mentors to run small-group labs, these innovative programs make abstract competencies like communication, collaboration, (65) _____ adaptability entirely possible through practical, real-world simulations. (66) _____, this operational model actively uses performance as verifiable portfolios and credits that local hiring managers genuinely trust. On a regional (67) _____, civic hubs, donors, and employers must combine resources to embed these modular projects into university career centers and startup incubators. Believing that traditional educational institutions can solve this employment mismatch without modernizing is a textbook case of putting the cart before the (68) _____. Expanding these low-cost, flexible frameworks through public incentives and employer co-investment is the key to widespread economic integration in the (69) _____ run. By empowering youth to lead both curriculum design and instruction, East African nations can successfully convert promising local experiments into durable pipelines (70) _____ securely link modern learning to sustainable livelihoods."
+        }
+      ],
+      "questions": [
+        {
+          "number": 61,
+          "stem": "Write ONE suitable word for gap (61)."
+        },
+        {
+          "number": 62,
+          "stem": "Write ONE suitable word for gap (62)."
+        },
+        {
+          "number": 63,
+          "stem": "Write ONE suitable word for gap (63)."
+        },
+        {
+          "number": 64,
+          "stem": "Write ONE suitable word for gap (64)."
+        },
+        {
+          "number": 65,
+          "stem": "Write ONE suitable word for gap (65)."
+        },
+        {
+          "number": 66,
+          "stem": "Write ONE suitable word for gap (66)."
+        },
+        {
+          "number": 67,
+          "stem": "Write ONE suitable word for gap (67)."
+        },
+        {
+          "number": 68,
+          "stem": "Write ONE suitable word for gap (68)."
+        },
+        {
+          "number": 69,
+          "stem": "Write ONE suitable word for gap (69)."
+        },
+        {
+          "number": 70,
+          "stem": "Write ONE suitable word for gap (70)."
+        }
+      ]
+    },
+    {
+      "id": "r3",
+      "kind": "reading_comprehension",
+      "title": "Reading · The Death of Conversation?",
+      "start": 71,
+      "end": 80,
+      "optionsLayout": "stacked",
+      "passage": [
+        {
+          "type": "heading",
+          "text": "NOW EVERYONE IS CONNECTED, IS THIS THE DEATH OF CONVERSATION?"
+        },
+        {
+          "type": "paragraph",
+          "text": "I first noticed it in a restaurant. The place was oddly quiet, and at one table a group sat with their heads bowed, their eyes hooded and their hands in their laps. I then realised that every one, whatever their age group, was gazing at a handheld phone or tablet. People strolled in the street outside likewise, with arms at right angles, necks bent and heads in awkward postures. Mothers with babies were doing it. Students in groups were doing it. The scene resembled something from an old science fiction film. There was no conversation."
+        },
+        {
+          "type": "paragraph",
+          "text": "Every visit to California convinces me that the digital revolution is over, by which I mean it is won. Everyone is connected. The New York Times last week declared the death of conversation. While mobile phones may at last be falling victim to considerate behaviour, this is largely because even talk is considered too intimate a contact. No such bar applies to emailing, texting, messaging, posting and tweeting. It is ubiquitous, the ultimate connectivity, the brain wired full-time to infinity."
+        },
+        {
+          "type": "paragraph",
+          "text": "The MIT professor and psychologist Sherry Turkle claims that her students are close to mastering the art of maintaining eye contact with a person while texting someone else. It is like an organist playing different tunes with hands and feet. To Turkle, these people are “alone together ... a tribe of one”. Anyone with 3,000 Facebook friends has none."
+        },
+        {
+          "type": "paragraph",
+          "text": "The audience in many theatres now sit, row on row, with lit machines in their laps, looking to the stage occasionally but mostly scrolling and tapping away. The same happens at meetings and lectures, in coffee bars and on jogging tracks. Psychologists have identified this as “fear of conversation”, and have come up with the term “conversational avoidance devices” for headphones. In consequence, there is now a growing demand for online “conversation” with robots and artificial voices. Mobiles come loaded with customized “boyfriends” or “girlfriends”. People sign up with computerised dating advisors, even claim to fall in love with their on-board GPS guides. A robot seal can be picked up in online stores to sit and listen to elderly individuals talk, tilting its head and blinking in sympathy. In his Conversation: A History of a Declining Art, Stephen Miller notes that public discourse is now dominated by ill-tempered disagreement, by “intersecting monologues”. Anger and lack of restraint are treated as assets in public debate, in place of a willingness to listen and adjust one’s point of view. Politics thus becomes a platform of rival angers. American politicians are ever more polarised, reduced to conveying a genuine hatred for each other. All that said, the death of conversation has been announced as often as that of the book. As far back as the 18th century, the literary figure Samuel Johnson worried that the decline of political conversation would lead to violent civil disorder. Writing 70 years ago, George Orwell concluded that “the trend of the age was away from creative communal amusements and toward solitary mechanical ones”. The philosopher Michael Oakeshott professed himself desperate to \"rescue the art of conversation\". Somehow we have muddled through."
+        },
+        {
+          "type": "paragraph",
+          "text": "The “post-digital” phenomenon, the craving for live experience, is showing a remarkable turnaround. The US is a place of ever greater congregation and migration, to parks, beaches and restaurants for concerts, rock festivals, ball games. Common interest groups, springing up across the country, desperately seek escape from the digital dictatorship, using Facebook and Twitter not as destinations but as route maps to meet up with real people."
+        },
+        {
+          "type": "paragraph",
+          "text": "Somewhere in this cultural mix, I am convinced the desire for friendship will preserve the qualities essential for a civilised life, qualities of politeness, listening and courtesy. Those obsessed with fashionable connectivity and personal avoidance are not escaping reality. They may be unaware of it but deep down they, too, still want someone to talk to."
+        }
+      ],
+      "questions": [
+        {
+          "number": 71,
+          "stem": "What is the main topic of the passage?",
+          "options": [
+            "The decline of genuine human conversation in the digital age",
+            "The harmful effects of social media on young people’s mental health",
+            "The increasing popularity of artificial intelligence in daily life",
+            "The reasons why modern technology improves communication"
+          ]
+        },
+        {
+          "number": 72,
+          "stem": "The writer believes the main reason for the decreasing use of mobile phones is ______.",
+          "options": [
+            "the realisation that it is bad manners to use them in public places",
+            "an overall reduction in the use of electronic devices for communication",
+            "the fact that people are increasingly reluctant to speak to one another",
+            "a general feeling that they are rapidly becoming obsolete technology"
+          ]
+        },
+        {
+          "number": 73,
+          "stem": "According to Sherry Turkle, certain people nowadays are ______.",
+          "options": [
+            "incapable of forming true friendships except through social media",
+            "more skillful at communicating with others via music than in words",
+            "determined to return to a more traditional form of social structure",
+            "electronically connected but isolated from genuine human interaction"
+          ]
+        },
+        {
+          "number": 74,
+          "stem": "The word their in paragraph 4 refers to ______.",
+          "options": [
+            "coffee bars",
+            "the audience",
+            "lit machines",
+            "theaters"
+          ]
+        },
+        {
+          "number": 75,
+          "stem": "The word growing in paragraph 5 is closest in meaning to ______.",
+          "options": [
+            "increasing",
+            "declining",
+            "changing",
+            "caring"
+          ]
+        },
+        {
+          "number": 76,
+          "stem": "According to paragraph 6, which of the following statements is NOT TRUE?",
+          "options": [
+            "Public discourse is dominated by ill-tempered disagreement.",
+            "People are not willing to listen to others’ points of view.",
+            "There are no violent conflicts among American politicians.",
+            "Anger and lack of restraint are commonly seen in public debate."
+          ]
+        },
+        {
+          "number": 77,
+          "stem": "The writer mentions the book in paragraph 7 as ______.",
+          "options": [
+            "the basis of the theory that people would soon stop talking to each other",
+            "an example of something else that people wrongly predicted would disappear",
+            "a way of introducing the works of famous writers from earlier centuries",
+            "the source of information about the current state of political debate in the USA"
+          ]
+        },
+        {
+          "number": 78,
+          "stem": "The word remarkable in paragraph 8 is OPPOSITE in meaning to ______.",
+          "options": [
+            "great",
+            "fresh",
+            "full",
+            "minor"
+          ]
+        },
+        {
+          "number": 79,
+          "stem": "What point does the writer make in the last paragraph?",
+          "options": [
+            "Everybody needs human contact whether they realise it or not.",
+            "Some traditional human values are eventually bound to disappear.",
+            "Nobody can escape the negative effects of the digital revolution.",
+            "Only those who remain polite and courteous will have friends."
+          ]
+        },
+        {
+          "number": 80,
+          "stem": "Which of the following can be inferred from the passage?",
+          "options": [
+            "The writer believes that technology will completely destroy human relationships in the future.",
+            "People who frequently use digital devices are less intelligent than previous generations.",
+            "Most psychologists agree that social media should completely be banned in public places.",
+            "Despite the growth of digital communication, many people still desire real human interaction."
+          ]
+        }
+      ]
+    }
+  ]
+}

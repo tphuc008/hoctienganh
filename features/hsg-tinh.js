@@ -3,10 +3,10 @@
 "use strict";
 const CONFIGS=[
  {id:"hai-phong",title:"Hải Phòng",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:21,end:100,structuredRequired:true},
- {id:"dh-vinh",title:"Đại học Vinh",subtitle:"Trường THPT chuyên · Vòng 2",year:"2026–2027",
+ {id:"dh-vinh",title:"Đại học Vinh",subtitle:"Trường THPT chuyên · Vòng 2",year:"2026–2027",structuredRequired:true,
   groups:[{id:"b",name:"Vocabulary & Grammar",start:1,end:40},{id:"c",name:"Reading",start:1,end:40},{id:"d",name:"Writing",start:1,end:10}]},
- {id:"phu-tho",title:"Phú Thọ",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:21,end:100},
- {id:"son-la",title:"Sơn La",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:26,end:85},
+ {id:"phu-tho",title:"Phú Thọ",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",structuredRequired:true,start:21,end:100},
+ {id:"son-la",title:"Sơn La",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",structuredRequired:true,start:26,end:85},
  {id:"tay-ninh",title:"Tây Ninh",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:21,end:85},
  {id:"thanh-hoa",title:"Thanh Hóa",subtitle:"Đề Tiếng Anh chuyên",year:"2026–2027",start:21,end:100},
  {id:"phan-boi-chau",title:"Chuyên Phan Bội Châu",subtitle:"Nghệ An · Tiếng Anh chuyên",year:"2026–2027",
@@ -439,7 +439,7 @@ function renderPassageForms(g){
  const mount=$("hsg-answer-list");if(!mount)return;
  const nums=visibleQuestionNumbers(g),first=nums[0],last=nums[nums.length-1],typed=structuredPart(g);
  const wsPart=global.HSGWorkspaceV1?.getPart(state.data?.workspace,g.id);
- const instruction=wsPart?.task?.instruction||(typed?(typed.kind==="word_formation"?"Complete the gaps using the correct form of the word in brackets.":typed.kind==="open_cloze"?"Fill each gap with ONE suitable word.":typed.kind==="reading_comprehension"?"Read the passage and choose the best answer A, B, C or D.":"Choose the best option A, B, C or D for each numbered gap."):actualKind(g,first)==="error"?
+ const instruction=wsPart?.task?.instruction||(typed?(typed.kind==="word_formation"?"Complete the gaps using the correct form of the word in brackets.":typed.kind==="open_cloze"?"Fill each gap with ONE suitable word.":typed.kind==="reading_comprehension"?"Read the passage and choose the best answer A, B, C or D.":typed.kind==="yes_no_not_given"?"For each statement, choose YES, NO or NOT GIVEN using evidence from the passage.":typed.kind==="matching"?"Match each statement with a person from the source list (A–E).":"Choose the best option A, B, C or D for each numbered gap."):actualKind(g,first)==="error"?
   "Find and correct the errors in the passage. Each correction is saved separately.":
   "Read the passage on the left and answer the questions below.");
  mount.innerHTML='<div class="hsg-reading-section-head"><span class="hsg-reading-eyebrow">'+esc(activePassageBlock(g)?.title||g.name)+'</span>'+
