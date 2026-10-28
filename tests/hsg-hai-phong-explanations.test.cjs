@@ -57,7 +57,7 @@ test("UI provides explicit reveal and never scores reference material",()=>{
  assert.match(js,/function attachHSGExplanationControls\(/);
  assert.match(js,/data-hsg-explain-toggle/);
  assert.match(js,/global\.ExplanationV1\.render\(spec/);
- assert.match(js,/Chưa đối chiếu với đáp án chính thức/);
+ assert.match(read("features/hsg-hai-phong-explanation-formats.js"),/không dùng để chấm điểm/);
  assert.match(js,/data-hsg-exp-jump/);
  assert.ok(ix.indexOf("features/hsg-hai-phong-explanations.js")<ix.indexOf("features/hsg-hai-phong-explanation-formats.js"));
  assert.ok(ix.indexOf("features/hsg-hai-phong-explanation-formats.js")<ix.indexOf("features/hsg-tinh.js"));
