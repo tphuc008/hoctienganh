@@ -13,7 +13,7 @@ const idList=[
  ["hai-phong",10,80,null],
  ["dh-vinh",11,91,90],
  ["phu-tho",8,71,70],
- ["son-la",12,57,12],
+ ["son-la",12,57,55],
  ["tay-ninh",9,66,10],
  ["thanh-hoa",11,71,10],
  ["phan-boi-chau",11,77,10],
