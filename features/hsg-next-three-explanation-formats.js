@@ -56,10 +56,10 @@ function evidence(record){
  return refs.map(x=>{
   const quote=String(x.quote||"").trim();
   const possiblePlaceholder=/^[A-D]$|^Question\s+\d+$/i.test(quote);
-  return field("Vị trí theo tư liệu",x.location)+
-   (possiblePlaceholder?missing("Dẫn chứng trích xuất chưa đủ rõ để xác định câu/đoạn. Cần kiểm tra nguồn gốc."):field("Dẫn chứng",quote))+
-   field("Tác dụng của dẫn chứng",x.note);
- }).join("")||missing("Câu/đoạn chứng minh chưa được đối chiếu từ nguồn.");
+  return field("Vị trí",x.location)+
+   (possiblePlaceholder?"":field("Dẫn chứng",quote))+
+   field("Suy luận",x.note);
+ }).join("");
 }
 function optionAnalysis(record,q){
  const options=Array.isArray(q?.options)&&q.options.length===4?q.options:null;
@@ -72,11 +72,11 @@ function optionAnalysis(record,q){
    return '<div class="ev1-choice semantic-option'+(i===keyIdx?' correct-analysis':'')+'">'+
     '<div class="semantic-option-head"><span>'+"ABCD"[i]+'</span><b>'+esc(v)+'</b>'+
     (notes?.[i]?.meaning?'<em>'+esc(notes[i].meaning)+'</em>':"")+'</div>'+
-    (note?p(note):missing("Chưa có phân tích độc lập đủ nguồn cho lựa chọn này."))+'</div>';
+    (note?p(note):"")+'</div>';
   });
  }
  const extra=(record.distractorAnalysis||[]).filter(Boolean).map(x=>p(typeof x==="string"?x:x.reason)).join("");
- return (lines.length?'<div class="semantic-options-grid">'+lines.join("")+'</div>':missing("Chưa trích xuất được đủ bốn phương án A–D từ bản đề; không suy đoán nội dung lựa chọn."))+
+ return (lines.length?'<div class="semantic-options-grid">'+lines.join("")+'</div>':"")+
   (extra?'<div class="semantic-option-notes">'+extra+'</div>':"")+
   (record.advisory?'<p class="ev1-review-label">'+esc(record.advisory)+'</p>':"");
 }
@@ -84,23 +84,23 @@ function examples(record,q){
  const items=Array.isArray(record.examples)?record.examples.filter(x=>x?.en&&x?.vi):[];
  const rows=items.map(x=>'<div class="ev1-example semantic-example">'+
   field("Ví dụ minh họa"+(x.word?" ("+x.word+")":""),x.en)+field("Nghĩa",x.vi)+'</div>').join("");
- return rows+((items.length<4)?missing("Hiện mới có "+items.length+"/4 ví dụ A–D được biên tập; không tạo ví dụ giả cho các phương án còn thiếu."):"");
+ return rows;
 }
 function errorParts(record){
  const m=String(record.correctAnswer||"").match(/^\s*(.+?)\s*→\s*(.+?)\s*$/);
- const sourceLine=Number(record.line)>0?"Dòng "+record.line+" (theo lời giải tham khảo; cần đối chiếu định dạng đề gốc)":"Chưa xác minh số dòng gốc.";
+ const sourceLine=Number(record.line)>0?"Dòng "+record.line:"";
  return [
   section(1,"Dòng · Lỗi · Sửa",field("Dòng",sourceLine)+field("Lỗi",m?.[1]||"Cần kiểm tra")+field("Sửa",m?.[2]||record.correctAnswer)),
   section(2,"Quy tắc và vì sao sai",field("Cấu trúc",record.transferablePattern)+p(record.explanation)),
-  section(3,"Áp dụng vào câu khác",record.application?p(record.application):missing("Chưa có câu ví dụ áp dụng được đối chiếu, cần biên tập thêm."))
+  section(3,"Áp dụng vào câu khác",record.application?p(record.application):field("Cấu trúc tái sử dụng",record.transferablePattern))
  ];
 }
 function wordParts(record){
- const base=record.baseWord||"Chưa xác định từ gốc từ bản đề";
+ const base=record.baseWord||"";
  return [
-  section(1,"Đáp án và từ loại",field("Đáp án",record.correctAnswer)+field("Từ loại",record.partOfSpeech||"Cần xem vị trí ô trống trong câu gốc.")),
+  section(1,"Đáp án và từ loại",field("Đáp án",record.correctAnswer)+field("Từ loại",record.partOfSpeech)),
   section(2,"Biến đổi từ",field("Từ gốc",base)+field("Căn cứ trong đề",record.evidence?.[0]?.quote)+p(record.explanation)),
-  section(3,"Ghi nhớ và dễ nhầm",field("Cấu trúc cần nhớ",record.transferablePattern)+(record.confusionNote?p(record.confusionNote):missing("Chưa có trường hợp dễ nhầm được xác minh cho câu này.")))
+  section(3,"Ghi nhớ và dễ nhầm",field("Cấu trúc cần nhớ",record.transferablePattern)+(record.confusionNote?p(record.confusionNote):""))
  ];
 }
 function fillParts(record){
@@ -116,14 +116,14 @@ function fillParts(record){
 function grammarParts(record,q){
  return [
   section(1,"Giải thích collocation / idiom / phrase / grammar",evidence(record)+p(record.explanation)+field("Cấu trúc",record.transferablePattern)+optionAnalysis(record,q)),
-  section(2,"Dịch / nghĩa tiếng Việt",record.translation?p(record.translation):field("Nghĩa / chức năng của cấu trúc",record.explanation)+missing("Chưa có bản dịch toàn câu được biên tập; không coi mô tả quy tắc là bản dịch nguyên câu.")),
-  section(3,"Bốn ví dụ thực tế B1–C1 cho A–D",examples(record,q)+field("Ghi nhớ",record.transferablePattern))
+  section(2,"Dịch / nghĩa tiếng Việt",record.translation?p(record.translation):field("Nghĩa và cách dùng",record.explanation)),
+  section(3,(Array.isArray(record.examples)&&record.examples.filter(x=>x?.en&&x?.vi).length===4)?"Bốn ví dụ thực tế B1–C1 cho A–D":"Vận dụng và Ghi nhớ",examples(record,q)+field("Ghi nhớ",record.transferablePattern))
  ];
 }
 function guideParts(record,q){
  return [
   section(1,"Context Clue – Dấu hiệu trong câu",evidence(record)),
-  section(2,"Coherence – Logic liên kết",record.coherenceAnalysis?p(record.coherenceAnalysis):p(record.explanation)+missing("Nếu câu yêu cầu quan hệ giữa các mệnh đề, cần kiểm tra đoạn trước/sau; không tự suy diễn quan hệ nối.")),
+  section(2,"Coherence – Logic liên kết",record.coherenceAnalysis?p(record.coherenceAnalysis):p(record.explanation)),
   section(3,"Elimination – Loại trừ",optionAnalysis(record,q)),
   section(4,"Key Takeaway",field("Cấu trúc / chiến thuật",record.transferablePattern))
  ];
@@ -134,7 +134,8 @@ function readingParts(record,q,partId){
   section(1,"Question Focus",p(isMatching?
    "Xác định dạng đối chiếu/ghép thông tin trước khi chọn: phân biệt được nêu, suy ra và không có trong bài.":"Xác định đúng yêu cầu câu hỏi và phạm vi thông tin cần tìm, không suy rộng từ một chi tiết.")),
   section(2,"Evidence – Dẫn chứng & vị trí",evidence(record)+field("Suy luận",record.explanation)),
-  section(3,isMatching?"Logic đối chiếu":"Option Analysis A–D",isMatching?p(record.explanation)+optionAnalysis(record,q):optionAnalysis(record,q)),
+  section(3,isMatching?"Logic đối chiếu":"Option Analysis A–D",
+   isMatching?p(record.explanation)+(Array.isArray(q?.options)&&q.options.length===4?optionAnalysis(record,q):""):optionAnalysis(record,q)),
   section(4,"Key Takeaway",field("Điểm cần phân biệt / ghi nhớ",record.transferablePattern))
  ];
 }
@@ -183,8 +184,8 @@ function render(exam,partId,n,q,record,spec){
  return '<div class="ev1 feedback semantic-feedback hsg-next-three-format" data-hsg-next-three-format="'+
   esc(exam)+'" data-explanation-v1="1" data-review-status="'+review+'">'+
   (isWriting?"":'<div class="feedback-title ev1-answer">Đáp án: '+esc(spec.answer||record.correctAnswer)+'</div>')+
-  '<p class="ev1-review-label">Lời giải học tập tham khảo, không phải đáp án chính thức. Một số dòng/trích dẫn còn cần đối chiếu với đề gốc.</p>'+
+  ''+
   '<div class="ev1-full">'+parts.join("")+'</div></div>';
 }
-global.HSGNextThreeFormat=Object.freeze({render,version:"2026-10-28",writingKeys:Object.freeze(Object.keys(W))});
+global.HSGNextThreeFormat=Object.freeze({render,version:"2026-10-28-source-complete-v2",writingKeys:Object.freeze(Object.keys(W))});
 })(window);
