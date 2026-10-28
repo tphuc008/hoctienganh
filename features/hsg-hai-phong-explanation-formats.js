@@ -175,6 +175,142 @@ function errorLine(n,source,wrong){
  }
  return "Chưa xác định chắc chắn từ nguồn trích xuất; không suy số dòng từ vị trí câu.";
 }
+
+/* The 10 original printed rewriting prompts were checked against Hải Phòng
+ * 2026–2027, Writing Parts 1–2. Do not reuse with a different source paper.
+ * "answer" is the fragment that fills the original printed blank; the
+ * complete rewritten sentence is composed with its untouched printed prefix.
+ */
+const WRITING={
+ 91:{
+  source:"They remain close friends despite having had many arguments.",
+  answer:"though they have had arguments",
+  prefix:"Frequently ",suffix:", they remain close friends.",
+  pattern:"Adv + though/as + S + V, S + V",
+  meaning:"Cấu trúc nhượng bộ đưa trạng từ lên trước though/as để nhấn mạnh sự tương phản: dù thường xuyên xảy ra tranh cãi, họ vẫn duy trì tình bạn. Cách đảo này mang sắc thái văn viết và khá hiếm; trong giao tiếp có thể dùng Although they have often argued, they remain close friends.",
+  takeaway:[
+   ["have an argument with somebody","tranh cãi với ai (không nhất thiết chấm dứt quan hệ)"],
+   ["fall out with somebody","bất hòa với ai, thường khiến quan hệ trở nên căng thẳng"]
+  ]
+ },
+ 92:{
+  source:"He was not given details of the company's new plans.",
+  answer:"kept in the dark about",
+  prefix:"He was ",suffix:" the company's new plans.",
+  pattern:"S + be + kept in the dark about + N / V-ing",
+  meaning:"Dạng bị động của keep somebody in the dark about something: ai đó không được cho biết thông tin về một việc. Cụm này thường hàm ý thông tin bị giữ lại có chủ ý, mạnh hơn việc đơn thuần chưa nhận được thông báo.",
+  takeaway:[
+   ["keep somebody in the dark about something","không cho ai biết, giấu ai thông tin về việc gì"],
+   ["keep somebody in the loop","liên tục cập nhật thông tin cho ai"]
+  ]
+ },
+ 93:{
+  source:"Simon's approach to life is very practical.",
+  answer:"has a down-to-earth",
+  prefix:"Simon ",suffix:" approach to life.",
+  pattern:"S + have/has + a down-to-earth approach to + N / V-ing",
+  meaning:"Thay mệnh đề miêu tả a practical approach bằng cấu trúc have a down-to-earth approach: có cách nhìn hoặc xử lý vấn đề thực tế, không viển vông. Down-to-earth là tính từ ghép, đặt ngay trước approach.",
+  takeaway:[
+   ["down-to-earth","thực tế, không viển vông"],
+   ["an approach to something / doing something","cách tiếp cận một vấn đề hoặc hoạt động"]
+  ]
+ },
+ 94:{
+  source:"I couldn't help smiling when he told me of his plan.",
+  answer:"keep a straight face when",
+  prefix:"I couldn't ",suffix:" he told me of his plan.",
+  pattern:"S + cannot/could not + keep a straight face + when + S + V",
+  meaning:"Không thể giữ nét mặt nghiêm túc khi nghe hoặc chứng kiến điều buồn cười. Couldn't help smiling diễn đạt việc không nhịn được cười; couldn't keep a straight face chuyển sang thành ngữ tương đương.",
+  takeaway:[
+   ["cannot help + V-ing","không thể ngăn bản thân làm gì"],
+   ["keep a straight face","giữ mặt nghiêm, nhịn cười"]
+  ]
+ },
+ 95:{
+  source:"I'd made up my mind, but at the last minute I lost my confidence.",
+  answer:"I got cold feet",
+  prefix:"I'd made up my mind, but at the last minute ",suffix:".",
+  pattern:"S + get/got cold feet + (about + N / V-ing)",
+  meaning:"Get cold feet là thành ngữ chỉ việc đột nhiên lo sợ, mất can đảm hoặc chùn bước ngay trước một quyết định/hành động đã dự tính. Ở đây got dùng thì quá khứ để tương ứng với lost my confidence.",
+  takeaway:[
+   ["make up one's mind","quyết định, hạ quyết tâm"],
+   ["at the last minute","vào phút chót"]
+  ]
+ },
+ 96:{
+  source:"My brother works better when he is pressed for time.",
+  answer:"time my brother has, the better he works.",
+  prefix:"The less ",suffix:"",
+  pattern:"The + comparative + S + V, the + comparative + S + V",
+  meaning:"So sánh tương quan: càng ít thời gian thì anh trai tôi càng làm việc hiệu quả. Dùng less time vì time là danh từ không đếm được khi chỉ lượng thời gian; tránh fewer time.",
+  takeaway:[
+   ["be pressed for time","có rất ít thời gian, đang gấp"],
+   ["work under pressure","làm việc dưới áp lực"]
+  ]
+ },
+ 97:{
+  source:"I tried to remember what has happened all those years before.",
+  answer:"my mind back to what had happened all those years before.",
+  prefix:"I cast ",suffix:"",
+  pattern:"S + cast one's mind back to + N / wh-clause",
+  meaning:"Cast one's mind back to nghĩa là cố hồi tưởng lại một việc trong quá khứ xa. Sau to có thể là danh từ hoặc mệnh đề what happened. Had happened đặt sự việc được nhớ lại trước hành động cast trong quá khứ; câu gốc dùng has happened với all those years before có sự lệch mốc thời gian.",
+  takeaway:[
+   ["cast one's mind back to something","cố nhớ lại chuyện đã xảy ra từ lâu"],
+   ["bring back memories of something","gợi lại ký ức về việc gì"]
+  ]
+ },
+ 98:{
+  source:"It's your fault that the plan failed, Tom,",
+  answer:"the blame for the plan's failure on Tom.",
+  prefix:"Lisa put ",suffix:"",
+  pattern:"S + put the blame for + N / V-ing + on + somebody",
+  meaning:"Put the blame for something on somebody là quy trách nhiệm hoặc đổ lỗi cho ai về một sự việc. Câu chuyển từ lời nói trực tiếp của Lisa sang câu tường thuật, nhưng không khẳng định Tom thực sự có lỗi.",
+  takeaway:[
+   ["blame somebody for something / doing something","đổ lỗi cho ai về việc gì"],
+   ["take the blame for something","nhận trách nhiệm, nhận lỗi về việc gì"]
+  ]
+ },
+ 99:{
+  source:"The truth only came out on the publication of the president's personal diaries.",
+  answer:"the president's personal diaries were published did the truth come out.",
+  prefix:"Only when ",suffix:"",
+  pattern:"Only when + S + V + auxiliary + S + bare infinitive",
+  meaning:"Khi Only when mở đầu câu để giới hạn thời điểm, mệnh đề chính phải đảo trợ động từ: did the truth come out, không phải the truth came out hay did the truth came out. Mệnh đề when giữ trật tự chủ ngữ–động từ thông thường.",
+  takeaway:[
+   ["come out","được tiết lộ, trở nên công khai (thông tin)"],
+   ["come to light","được phát hiện hoặc bị phơi bày"]
+  ]
+ },
+ 100:{
+  source:"People say that an electrical fault caused the fire in the factory last week.",
+  answer:"the factory last week is said to have been caused by an electrical fault.",
+  prefix:"The fire in ",suffix:"",
+  pattern:"S + be said to + have been + V3/ed + (by + agent)",
+  meaning:"Câu bị động tường thuật: is said diễn tả nhận định được nói ở hiện tại; to have been caused cho biết nguyên nhân gây cháy đã xảy ra trong quá khứ. Dùng hoàn thành nguyên mẫu bị động vì sự kiện gây cháy xảy ra trước lời tường thuật.",
+  takeaway:[
+   ["be said to have + V3/ed","được cho là đã làm gì (trước thời điểm tường thuật)"],
+   ["be caused by an electrical fault","bị gây ra bởi một sự cố điện"]
+  ]
+ }
+};
+function writingHtml(n,q,passage,spec,raw){
+ const item=WRITING[n];
+ if(!item||!raw||!spec||String(raw.answer||"").trim()!==item.answer||
+    String(spec.answer||"").trim()!==item.answer)return null;
+ // Avoid binding a sentence from another exam/version to the Hai Phong key.
+ const normalize=s=>String(s||"").replace(/\s+/g," ").toLowerCase().trim();
+ const reference=normalize(String(q?.stem||"")+" "+String(passage||""));
+ if(!reference.includes(normalize(item.source)))return null;
+ const completed=item.prefix+item.answer+item.suffix;
+ const takeaway=item.takeaway.map(pair=>'<p><strong>'+h(pair[0])+'</strong> = '+h(pair[1])+'</p>').join("");
+ return [
+  section(1,"Đáp án",para(item.answer)),
+  section(2,"Câu hoàn chỉnh",para(completed)),
+  section(3,"Cấu trúc ngữ pháp",field("Công thức",item.pattern)+field("Giải thích nghĩa và cách dùng",item.meaning)),
+  section(4,"Ghi nhớ (Key Takeaway)",takeaway)
+ ].join("");
+}
+
 function render(groupId,n,q,passage,spec){
  const raw=global.HSGHaiPhongExpandedV11?.entries?.find(x=>x.g===groupId&&x.n===Number(n));
  if(!spec)return "";
@@ -236,14 +372,14 @@ function render(groupId,n,q,passage,spec){
     n===83?para("Không đánh đồng thiếu cơ hội được đào tạo với thiếu năng lực. Với EXCEPT, kiểm tra cả việc một phương án có nói mạnh hơn chứng cứ gốc hay không.")
       :field("Điểm cần phân biệt",rule)));
  }else if(groupId==="w"){
-  // The user did not specify a replacement format for sentence transformations.
-  // Keep the existing explanation structure for this part.
-  return null;
+  const form=writingHtml(Number(n),q,passage,spec,raw);
+  if(!form)return null; // Preserve original source-verification fallback.
+  parts.push(form);
  }else return null;
  const warn='<p class="ev1-review-label">Lời giải tham khảo đang chờ đối chiếu đáp án và nguồn gốc; không dùng để chấm điểm.</p>';
  return '<div class="ev1 feedback semantic-feedback hsg-hp-format" data-hsg-hp-format="'+h(groupId)+'" data-explanation-v1="1" data-review-status="needs_review">'+
-   '<div class="feedback-title ev1-answer">Đáp án: '+h(answer)+'</div>'+warn+
+   (groupId==="w"?"":'<div class="feedback-title ev1-answer">Đáp án: '+h(answer)+'</div>')+warn+
    '<div class="ev1-full">'+parts.join("")+'</div></div>';
 }
-global.HSGHaiPhongFormat=Object.freeze({render,version:"2026-10-28",exampleCoverage:Object.freeze(Object.keys(EX).map(Number))});
+global.HSGHaiPhongFormat=Object.freeze({render,version:"2026-10-28-sentence-transformation-v1",exampleCoverage:Object.freeze(Object.keys(EX).map(Number))});
 })(window);

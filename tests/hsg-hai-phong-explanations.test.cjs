@@ -65,7 +65,7 @@ test("UI provides explicit reveal and never scores reference material",()=>{
  assert.equal(M.available("phu-tho","e",51,{type:"error"},"Peer pressure is a psychological force that influence many teenagers"),false);
 });
 
-test("Hai Phong-only formats render by task type and preserve sentence transformation",()=>{
+test("Hai Phong-only formats render by task type",()=>{
  const from=(id,number)=>{
   const part=data.parts.find(p=>p.id===id),q=part.questions.find(x=>x.number===number);
   const passage=part.passage.map(x=>x.text).join("\n");
@@ -98,7 +98,58 @@ test("Hai Phong-only formats render by task type and preserve sentence transform
   M.spec("hai-phong","e",51,{type:"error",stem:"Identify errors"},
   "Peer pressure is a psychological force that influence many teenagers"));
  assert.match(error,/Dòng/); assert.match(error,/Vì sao sai/);
- const w=F.render("w",91,{stem:"sentence transformation"},"",{
+ const w=F.render("w",91,{stem:"unrelated question"},"",{
   answer:"Example",quickReason:"Explanation",reasoning:"Rule"});
- assert.equal(w,null);
+ assert.equal(w,null); // Source mismatch must not invent a complete rewritten sentence.
+});
+
+
+test("All 10 original Hai Phong sentence transformations have four source-guarded explanation stages",()=>{
+ const originals={
+  91:"They remain close friends despite having had many arguments.",
+  92:"He was not given details of the company's new plans.",
+  93:"Simon's approach to life is very practical.",
+  94:"I couldn't help smiling when he told me of his plan.",
+  95:"I'd made up my mind, but at the last minute I lost my confidence.",
+  96:"My brother works better when he is pressed for time.",
+  97:"I tried to remember what has happened all those years before.",
+  98:'"It\'s your fault that the plan failed, Tom," said Lisa.',
+  99:"The truth only came out on the publication of the president's personal diaries.",
+  100:"People say that an electrical fault caused the fire in the factory last week."
+ };
+ const answers={
+  91:"though they have had arguments",
+  92:"kept in the dark about",
+  93:"has a down-to-earth",
+  94:"keep a straight face when",
+  95:"I got cold feet",
+  96:"time my brother has, the better he works.",
+  97:"my mind back to what had happened all those years before.",
+  98:"the blame for the plan's failure on Tom.",
+  99:"the president's personal diaries were published did the truth come out.",
+  100:"the factory last week is said to have been caused by an electrical fault."
+ };
+ for(let n=91;n<=100;n++){
+  const q={type:"rewrite",stem:originals[n]+" \n→ _______"};
+  const spec=M.spec("hai-phong","w",n,q,q.stem);
+  assert.ok(spec,"Missing source-matched reference for "+n);
+  assert.equal(spec.answer,answers[n],"Printed blank must remain unchanged for "+n);
+  const html=F.render("w",n,q,q.stem,spec);
+  assert.ok(html,"Missing format for "+n);
+  assert.equal((html.match(/semantic-step-label/g)||[]).length,4);
+  for(const label of ["Đáp án","Câu hoàn chỉnh","Cấu trúc ngữ pháp","Ghi nhớ (Key Takeaway)"])
+   assert.ok(html.includes(label),"Missing "+label+" in question "+n);
+  assert.equal((html.match(/class="feedback-title ev1-answer"/g)||[]).length,0,
+   "No duplicate answer header for "+n);
+  assert.match(html,/data-review-status="needs_review"/);
+  assert.equal(F.render("w",n,{stem:"Different source"},"",spec),null,
+   "Do not attach this explanation to a different prompt");
+ }
+ const q={type:"rewrite",stem:originals[91]};
+ const spec=M.spec("hai-phong","w",91,q,q.stem);
+ const html=F.render("w",91,q,q.stem,spec);
+ assert.ok(html.includes("have an argument with somebody"));
+ assert.ok(html.includes("fall out with somebody"));
+ assert.ok(html.includes("Adv + though/as + S + V, S + V"));
+ assert.ok(html.includes("Frequently though they have had arguments, they remain close friends."));
 });
