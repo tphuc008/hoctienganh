@@ -374,12 +374,13 @@ function hsgExplanationControl(g,n,q){
   const link=/^https:\/\//.test(href)
    ?'<p class="hsg-exam-source-note">Nguồn đối chiếu: <a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">đáp án tham khảo không chính thức</a></p>'
    :'<p class="hsg-exam-source-note">Lời giải tự suy luận từ đề gốc; cần đối chiếu thêm trước khi coi là đáp án chính thức.</p>';
+  const formatted=record&&global.HSGNextThreeFormat?.render(state.exam.id,g.id,n,q,record,spec);
   return '<section class="hsg-exam-solution" data-hsg-solution="'+n+'">'+
    '<button type="button" data-hsg-shared-explain-toggle aria-expanded="false">'+
-   (record?'Xem đáp án & giải thích ba bước':'Xem bài mẫu & hướng dẫn viết')+
+   (record?(formatted?'Xem đáp án & giải thích theo dạng bài':'Xem đáp án & giải thích ba bước'):'Xem bài mẫu & hướng dẫn viết')+
    ' <span aria-hidden="true">⌄</span></button>'+
    '<div class="hsg-exam-solution-body" hidden>'+
-   global.ExplanationV1.render(spec,{className:"hsg-hp-reference",print:true})+
+   (formatted||global.ExplanationV1.render(spec,{className:"hsg-hp-reference",print:true}))+
    link+'</div></section>';
  }
  // Do not include any answer UI in a practice-phase question card.
