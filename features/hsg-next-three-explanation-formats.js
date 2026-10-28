@@ -142,12 +142,15 @@ function writingParts(exam,g,n,record,q){
  if(!meta)return null;
  const [prefix,suffix,pattern,meaning,...takeaways]=meta;
  const quote=String(record.evidence?.[0]?.quote||"");
- const original=String(q?.stem||"")+" "+quote;
+ const stem=String(q?.stem||"");
  const answer=String(record.correctAnswer||"").trim();
- // The old Vinh/Phu Tho PDFs sometimes omit underscores. Never construct
- // a complete sentence from a loose number match alone.
- if(!answer||!original||original.length<30||
-   (!original.includes(prefix.trim())&&!original.includes(quote.slice(0,25))))return null;
+ // The old Vinh/Phu Tho PDFs sometimes omit whitespace near the blank.
+ // Require BOTH the printed target prefix and overlap with the source quote.
+ const norm=s=>String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+ const quoteStart=quote.split(/\s[—>]\s/)[0];
+ const sourceHead=norm(quoteStart).slice(0,34);
+ if(!answer||norm(stem).length<35||!norm(stem).includes(norm(prefix))||
+    !sourceHead||!norm(stem).includes(sourceHead))return null;
  const full=prefix+answer+suffix;
  const safeTakeaways=takeaways.map(x=>{
   const [phrase,...meaningParts]=x.split("|");
