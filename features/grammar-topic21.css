@@ -619,3 +619,41 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
  .g21 .g21-learn-v1 .g21-v1-core .g21-v1-explain-reason{padding:10px 11px;font-size:12.8px}
  .g21 .g21-explanation-v2 .g21-v2-mechanism{padding:9px 10px}
 }
+
+/* Topic 5 only: Grammar Explanation V1.1 — worked examples before abstract rules. */
+.g21 .g21-learn-v11 .g21-v11-intro{margin-bottom:12px}
+.g21 .g21-learn-v11 .g21-v11-intro .g21-v1-block{border-left:3px solid #78a2d5}
+.g21 .g21-learn-v11 .g21-v11-rules{margin-top:10px}
+.g21 .g21-learn-v11 .g21-v11-rule-grid{display:grid;gap:11px}
+.g21 .g21-learn-v11 .g21-v11-rule-card{border:1px solid #dbe6f1;border-radius:12px;background:#f7fafe;padding:17px 19px}
+.g21 .g21-learn-v11 .g21-v11-rule-head{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.g21 .g21-learn-v11 .g21-v11-rule-head>span{display:inline-flex;align-items:center;justify-content:center;background:#dceaf9;border-radius:7px;color:#2c5f91;font-size:11px;font-weight:800;min-width:26px;height:26px}
+.g21 .g21-learn-v11 .g21-v11-rule-head h4{color:#1e3f64;font-size:14px;font-weight:800;margin:0;line-height:1.5}
+.g21 .g21-learn-v11 .g21-v11-formula{font-size:13.5px;font-weight:750;line-height:1.6;color:#284768;margin:0 0 10px}
+.g21 .g21-learn-v11 .g21-v11-sentence{font-size:15px;line-height:1.65;font-weight:750;color:#182d46;margin:0 0 4px}
+.g21 .g21-learn-v11 .g21-v11-vi{font-size:13px;color:#6c7d91;margin:0 0 9px;line-height:1.6}
+.g21 .g21-learn-v11 .g21-v11-why{font-size:13px;line-height:1.7;color:#40556f;margin:0}
+.g21 .g21-learn-v11 .g21-v11-why b{color:#2c5f91}
+.g21 .g21-learn-v11 .g21-v11-method{margin-top:13px}
+.g21 .g21-learn-v11 .g21-v11-method>h3{margin:0 0 13px;color:#193b5d;font-size:16px;font-weight:800}
+.g21 .g21-learn-v11 .g21-v11-steps{padding:0;margin:0;list-style:none;display:grid;gap:10px}
+.g21 .g21-learn-v11 .g21-v11-steps li{display:flex;align-items:flex-start;gap:11px;color:#38516e;line-height:1.75;font-size:13.5px}
+.g21 .g21-learn-v11 .g21-v11-step-count{border:1px solid #b9d2ee;background:#eef5ff;color:#285d90;border-radius:50%;width:24px;height:24px;min-width:24px;display:inline-flex;justify-content:center;align-items:center;font-weight:800;font-size:11px;line-height:1}
+.g21 .g21-learn-v11 .g21-v11-contrast{border:1px solid #dde6ef;border-left:3px solid #7ba1c6;border-radius:10px;background:#fbfcff;padding:14px 16px;margin-top:17px}
+.g21 .g21-learn-v11 .g21-v11-contrast>b{display:block;font-size:13px;font-weight:800;color:#315e8a;margin-bottom:11px}
+.g21 .g21-learn-v11 .g21-v11-contrast-a,.g21 .g21-learn-v11 .g21-v11-contrast-b{font-size:13.5px;line-height:1.65;font-weight:720;color:#1f3651;margin:0 0 7px}
+.g21 .g21-learn-v11 .g21-v11-contrast-note{font-size:12.7px;line-height:1.7;color:#61738a;margin:9px 0 0;padding-top:8px;border-top:1px solid #e5ebf3}
+.g21 .g21-learn-v11 .g21-v11-examples{margin-top:13px}
+.g21 .g21-learn-v11 .g21-v11-pitfalls{margin-top:13px}
+.g21 .g21-learn-v11 .g21-v11-pitfall-list{display:grid;gap:10px}
+.g21 .g21-learn-v11 .g21-v11-pitfall{padding:12px 14px;border:1px solid #e5eaf0;border-radius:9px;background:#fff}
+.g21 .g21-learn-v11 .g21-v11-pitfall h4{font-size:13px;line-height:1.6;color:#244261;margin:0 0 6px;font-weight:800}
+.g21 .g21-learn-v11 .g21-v11-pitfall p{font-size:13px;line-height:1.75;color:#485b72;margin:0 0 6px}
+.g21 .g21-learn-v11 .g21-v11-pitfall p.g21-v11-pitfall-example{color:#24476d;font-weight:720}
+.g21 .g21-learn-v11 .g21-v11-pitfall p.g21-v11-pitfall-vi{font-size:12px;color:#77869a;margin:0}
+@media(max-width:700px){
+.g21 .g21-learn-v11 .g21-v11-rule-card{padding:13px 14px}
+.g21 .g21-learn-v11 .g21-v11-rule-head h4{font-size:13.4px}
+.g21 .g21-learn-v11 .g21-v11-sentence{font-size:14px}
+.g21 .g21-learn-v11 .g21-v11-contrast{padding:12px 13px}
+}
