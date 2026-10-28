@@ -26,6 +26,8 @@ For genuine multiple-choice explanation records that lack four A–D bilingual e
 
 ## Source corrections and safeguards
 
+- Phú Thọ Grammar 21–35: 15 original contextual Vietnamese translations and **60 original bilingual examples** (one each for A–D). Phú Thọ Word Formation 36–45 also identifies the root word, target part of speech and specific confusion traps.
+- Phú Thọ G30: both **at loggerheads over** and **at daggers drawn over** can be grammatical in context. The original reference prefers A, but C is explicitly marked **review**, not automatically incorrect.
 - Vinh D7: the idiom is **in a positive light**. The fragment must include final **a** so that the fixed printed suffix makes a grammatical complete sentence.
 - Phú Thọ W90: retains **suddenly**, which is part of the original meaning; it remains within the 2–6-word constraint.
 - Sơn La W76–80: source-checked teacher-authored suggestions, marked needs-review (not official keys).
