@@ -540,7 +540,8 @@
         "official": false
       },
       "line": 1,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "The explorer returned to England in 1920, not has returned."
     },
     {
       "partId": "b2",
@@ -563,7 +564,8 @@
         "official": false
       },
       "line": 2,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "Her performance was stronger than expected."
     },
     {
       "partId": "b2",
@@ -586,7 +588,8 @@
         "official": false
       },
       "line": 4,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "This is one of the finest films I've ever seen."
     },
     {
       "partId": "b2",
@@ -609,7 +612,8 @@
         "official": false
       },
       "line": 5,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "They hired a specialist to decipher the manuscript."
     },
     {
       "partId": "b2",
@@ -632,7 +636,8 @@
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
       },
-      "line": 6
+      "line": 6,
+      "application": "He appears arrogant, but he's actually shy."
     },
     {
       "partId": "b2",
@@ -655,7 +660,8 @@
         "official": false
       },
       "line": 7,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "Her persistence sets her apart from the other candidates."
     },
     {
       "partId": "b2",
@@ -682,7 +688,8 @@
         "Nevertheless → Though",
         "Nevertheless → Even though"
       ],
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "Although the book was long, I finished it in two days."
     },
     {
       "partId": "b2",
@@ -705,7 +712,8 @@
         "official": false
       },
       "line": 10,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "The story ends with several unexpected twists."
     },
     {
       "partId": "b2",
@@ -728,7 +736,8 @@
         "official": false
       },
       "line": 10,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "She gave an outstanding performance on stage."
     },
     {
       "partId": "b2",
@@ -751,7 +760,8 @@
         "official": false
       },
       "line": 11,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "The documentary asks thought-provoking questions."
     },
     {
       "partId": "b3",
@@ -767,13 +777,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Belittle là động từ 'hạ thấp', theo sau to + động từ nguyên mẫu",
+      "transferablePattern": "little (adj) → belittle (v)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "LITTLE",
+      "partOfSpeech": "Động từ nguyên mẫu sau to",
+      "confusionNote": "Little nghĩa nhỏ/ít; belittle nghĩa coi thường, hạ thấp thành tựu người khác."
     },
     {
       "partId": "b3",
@@ -789,13 +802,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Be activated = được kích hoạt",
+      "transferablePattern": "act (v) → activate (v) → activated (V3)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "ACT",
+      "partOfSpeech": "Quá khứ phân từ trong bị động",
+      "confusionNote": "Active là tính từ 'đang hoạt động'; activate là hành động kích hoạt thiết bị."
     },
     {
       "partId": "b3",
@@ -811,13 +827,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Withdraw là động từ rút lui, cùng loại từ và chức năng với chỗ trống",
+      "transferablePattern": "draw (v) → withdraw (v)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "DRAW",
+      "partOfSpeech": "Động từ nguyên mẫu sau had to",
+      "confusionNote": "Draw nghĩa vẽ/kéo; withdraw from a team nghĩa rút khỏi đội."
     },
     {
       "partId": "b3",
@@ -833,13 +852,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Anti-aging bổ nghĩa cho danh từ theo nghĩa chống lão hóa",
+      "transferablePattern": "age (v/n) → aging (n/adj) → anti-aging (adj)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "AGE",
+      "partOfSpeech": "Tính từ ghép trước danh từ cream",
+      "confusionNote": "Anti-aging cream = kem chống lão hóa; aging chỉ quá trình già đi."
     },
     {
       "partId": "b3",
@@ -855,7 +877,7 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Dietician là danh từ chỉ chuyên gia dinh dưỡng",
+      "transferablePattern": "diet (n/v) → dietician/dietitian (n)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
@@ -864,7 +886,10 @@
       },
       "acceptedAnswers": [
         "dietitian"
-      ]
+      ],
+      "baseWord": "DIET",
+      "partOfSpeech": "Danh từ đếm được chỉ người",
+      "confusionNote": "Dietician và dietitian đều chỉ chuyên gia dinh dưỡng; diet là chế độ ăn."
     },
     {
       "partId": "b3",
@@ -880,13 +905,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Multinational là tính từ chỉ công ty hoạt động ở nhiều quốc gia",
+      "transferablePattern": "nation (n) → national (adj) → multinational (adj)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "NATION",
+      "partOfSpeech": "Tính từ đứng trước corporation",
+      "confusionNote": "National = thuộc một quốc gia; multinational = hoạt động ở nhiều quốc gia."
     },
     {
       "partId": "b3",
@@ -902,13 +930,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Lawmakers là danh từ số nhiều chỉ các nhà lập pháp",
+      "transferablePattern": "law (n) + maker (n) → lawmaker (n) → lawmakers (plural)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "LAW",
+      "partOfSpeech": "Danh từ số nhiều, chủ ngữ",
+      "confusionNote": "Lawyer là luật sư; lawmaker là nhà lập pháp."
     },
     {
       "partId": "b3",
@@ -924,13 +955,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Mind-blowing là tính từ ghép chỉ điều cực kỳ ấn tượng",
+      "transferablePattern": "mind (n) + blowing → mind-blowing (adj)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "MIND",
+      "partOfSpeech": "Tính từ ghép trước scenery",
+      "confusionNote": "Mind-blowing nghĩa gây choáng ngợp, cực kỳ ấn tượng."
     },
     {
       "partId": "b3",
@@ -946,13 +980,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Newsworthy = đáng đưa tin, phù hợp một sự kiện thu hút truyền thông",
+      "transferablePattern": "news (n) + worthy → newsworthy (adj)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "NEWS",
+      "partOfSpeech": "Tính từ mô tả event",
+      "confusionNote": "Newsworthy nghĩa đáng đưa tin, khác news reporting là hoạt động đưa tin."
     },
     {
       "partId": "b3",
@@ -968,13 +1005,16 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Apparently là trạng từ đánh giá: dường như, có vẻ",
+      "transferablePattern": "appear (v) → apparent (adj) → apparently (adv)",
       "provenance": {
         "type": "third-party-reference",
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      }
+      },
+      "baseWord": "APPEAR",
+      "partOfSpeech": "Trạng từ đánh giá bổ nghĩa toàn mệnh đề",
+      "confusionNote": "Apparently thường hàm ý dựa trên dấu hiệu, dường như; appearance là danh từ chỉ vẻ ngoài/sự xuất hiện."
     },
     {
       "partId": "c1",
@@ -1510,8 +1550,9 @@
       "explanation": "Developing countries là cụm chỉ các nước đang phát triển.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 24",
-          "quote": "Original telemedicine passage, numbered gap 24"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 24",
+          "quote": "those in some (24) countries are not so lucky",
+          "note": "Developing countries là cụm chỉ các nước đang phát triển."
         }
       ],
       "distractorAnalysis": [],
@@ -1521,8 +1562,7 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      },
-      "editorialStatus": "source-quote-needs-review"
+      }
     },
     {
       "partId": "c5",
@@ -1532,8 +1572,9 @@
       "explanation": "A link between A and B: đường kết nối giữa bệnh nhân và chuyên gia.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 25",
-          "quote": "Original telemedicine passage, numbered gap 25"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 25",
+          "quote": "could establish a direct link (25) them and hospital specialists globally",
+          "note": "A link between A and B: đường kết nối giữa bệnh nhân và chuyên gia."
         }
       ],
       "distractorAnalysis": [],
@@ -1543,8 +1584,7 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      },
-      "editorialStatus": "source-quote-needs-review"
+      }
     },
     {
       "partId": "c5",
@@ -1554,8 +1594,9 @@
       "explanation": "At a distance: từ xa, định nghĩa trực tiếp telemedicine.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 26",
-          "quote": "Original telemedicine passage, numbered gap 26"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 26",
+          "quote": "Telemedicine, the practice of medicine at a (26)",
+          "note": "At a distance: từ xa, định nghĩa trực tiếp telemedicine."
         }
       ],
       "distractorAnalysis": [],
@@ -1565,8 +1606,7 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      },
-      "editorialStatus": "source-quote-needs-review"
+      }
     },
     {
       "partId": "c5",
@@ -1576,8 +1616,9 @@
       "explanation": "Even trong 'even in extreme environments' nhấn mạnh hoàn cảnh khắc nghiệt.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 27",
-          "quote": "Original telemedicine passage, numbered gap 27"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 27",
+          "quote": "examine patients across continents and (27) in extreme environments like Antarctica",
+          "note": "Even trong 'even in extreme environments' nhấn mạnh hoàn cảnh khắc nghiệt."
         }
       ],
       "distractorAnalysis": [],
@@ -1590,8 +1631,7 @@
       },
       "acceptedAnswers": [
         "even"
-      ],
-      "editorialStatus": "source-quote-needs-review"
+      ]
     },
     {
       "partId": "c5",
@@ -1601,8 +1641,9 @@
       "explanation": "By + V-ing biểu thị phương tiện: bằng cách giảm hàng chờ.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 28",
-          "quote": "Original telemedicine passage, numbered gap 28"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 28",
+          "quote": "revolutionize everyday healthcare (28) reducing hospital queues",
+          "note": "By + V-ing biểu thị phương tiện: bằng cách giảm hàng chờ."
         }
       ],
       "distractorAnalysis": [],
@@ -1612,8 +1653,7 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      },
-      "editorialStatus": "source-quote-needs-review"
+      }
     },
     {
       "partId": "c5",
@@ -1623,8 +1663,8 @@
       "explanation": "And nối các lợi ích song song của khám chữa bệnh từ xa.",
       "evidence": [
         {
-          "location": "Bản đề gốc · Reading · Telemedicine · câu 29",
-          "quote": "30. 31. 32. 33. , began with the telephone. Today, it utilizes video technology PART 4. For questions 34-40, read the following passage about the weather. Seven sentences have been removeD. Choose from the sentences A-H the one which fits each gap. There is one extra sentence which you do not need to use. Write your answers in the numbered spaces provided. THE WEATHER Weather plays an in",
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 29",
+          "quote": "minimizing patient travel for follow-up appointments, (29) enhancing care for the elderly",
           "note": "And nối các lợi ích song song của khám chữa bệnh từ xa."
         }
       ],
@@ -1645,8 +1685,9 @@
       "explanation": "Become/be commonplace: trở nên phổ biến; sau will dùng nguyên mẫu.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 30",
-          "quote": "Original telemedicine passage, numbered gap 30"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 30",
+          "quote": "video-conferencing calls with doctors for faraway examinations will (30) commonplace",
+          "note": "Become/be commonplace: trở nên phổ biến; sau will dùng nguyên mẫu."
         }
       ],
       "distractorAnalysis": [],
@@ -1659,8 +1700,7 @@
       },
       "acceptedAnswers": [
         "become"
-      ],
-      "editorialStatus": "source-quote-needs-review"
+      ]
     },
     {
       "partId": "c5",
@@ -1670,8 +1710,9 @@
       "explanation": "Which thay thế cả mệnh đề trước và mở mệnh đề quan hệ không xác định.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 31",
-          "quote": "Original telemedicine passage, numbered gap 31"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 31",
+          "quote": "telemedicine is transforming medical education, (31) allows students worldwide",
+          "note": "Which thay thế cả mệnh đề trước và mở mệnh đề quan hệ không xác định."
         }
       ],
       "distractorAnalysis": [],
@@ -1681,8 +1722,7 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      },
-      "editorialStatus": "source-quote-needs-review"
+      }
     },
     {
       "partId": "c5",
@@ -1692,8 +1732,9 @@
       "explanation": "Remote locations là những địa điểm xa xôi, khó tiếp cận.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 32",
-          "quote": "Original telemedicine passage, numbered gap 32"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 32",
+          "quote": "The application of telemedicine extends to (32) locations like ships and offshore installations",
+          "note": "Remote locations là những địa điểm xa xôi, khó tiếp cận."
         }
       ],
       "distractorAnalysis": [],
@@ -1703,8 +1744,7 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      },
-      "editorialStatus": "source-quote-needs-review"
+      }
     },
     {
       "partId": "c5",
@@ -1714,8 +1754,9 @@
       "explanation": "When mở mệnh đề thời gian nêu lúc bão khiến việc di chuyển không thể thực hiện.",
       "evidence": [
         {
-          "location": "SECTION C · C5 · Question 33",
-          "quote": "Original telemedicine passage, numbered gap 33"
+          "location": "Original Vinh paper · SECTION C · PART 3 · gap 33",
+          "quote": "diagnosing an oil-rig worker’s head injury via video link (33) stormy weather prevented transport",
+          "note": "When mở mệnh đề thời gian nêu lúc bão khiến việc di chuyển không thể thực hiện."
         }
       ],
       "distractorAnalysis": [],
@@ -1725,8 +1766,7 @@
         "sourceUrl": "https://www.scribd.com/document/1052832015",
         "label": "Đáp án đề nghị chuyên Anh Đại học Vinh 2026–2027",
         "official": false
-      },
-      "editorialStatus": "source-quote-needs-review"
+      }
     },
     {
       "partId": "c6",
