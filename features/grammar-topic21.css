@@ -600,3 +600,22 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
  .g21 .g21-learn-v1 .g21-v1-block p{font-size:13.5px}
  .g21 .g21-learn-v1 .g21-v1-extra{padding:10px 12px}
 }
+
+/* Grammar explanation depth V3 — readable teaching notes without altering layout */
+.g21 .g21-learn-v1 .g21-v1-core .g21-v1-explain-reason{
+ margin:10px 0 0;padding:11px 13px;border-radius:8px;
+ border-left:3px solid #7ca6cc;background:#f5f9fe;
+ font-size:13px;line-height:1.75;color:#334b67;
+}
+.g21 .g21-v1-explain-reason span{display:block;font-size:11px;letter-spacing:.02em;font-weight:800;color:#31628b;margin-bottom:4px}
+.g21 .g21-explanation-v2 .g21-v2-clue{font-size:13px;line-height:1.7;color:#3f5870;margin:8px 0;padding-top:8px;border-top:1px solid #dbe6e0}
+.g21 .g21-explanation-v2 .g21-v2-brief{border-top:0;padding-top:0}
+.g21 .g21-explanation-v2 .g21-v2-mechanism{
+ margin:8px 0 3px;padding:10px 12px;border-radius:8px;
+ background:#f5f8fc;color:#334861;font-size:13px;line-height:1.75;
+}
+.g21 .g21-explanation-v2 .g21-v2-mechanism b{color:#24547f}
+@media(max-width:700px){
+ .g21 .g21-learn-v1 .g21-v1-core .g21-v1-explain-reason{padding:10px 11px;font-size:12.8px}
+ .g21 .g21-explanation-v2 .g21-v2-mechanism{padding:9px 10px}
+}
