@@ -4,7 +4,8 @@
 const A=global.G6_U1_PART_A, B=global.G6_U1_PART_B;
 if(!A||!B)throw Error("Missing Grade 6 Unit 1 source data");
 const all=[...A.groups,...B.groups];
-const original=all.filter(g=>g.id!=="extra");
+// Keep the legacy paragraph in source data but do not show it in the Unit 1 worksheet.
+const original=all.filter(g=>g.id!=="extra"&&g.id!=="paragraph");
 const extra=B.extra;
 extra.items.forEach((q,i)=>{q.id=q.id||("extra-"+(i+1));q.no=i+1;});
 const practiceSets=[1,2,3].map(n=>({number:n,items:extra.items.filter(q=>q.set===n)}));
@@ -56,6 +57,7 @@ function styles(){
  const el=document.createElement("style");el.id="g6unit1Styles";
  el.textContent=".g6-root{max-width:1120px;margin:auto}.g6-tabs{display:flex;gap:9px;flex-wrap:wrap;margin:19px 0 24px;border-bottom:1px solid var(--line);padding-bottom:12px}.g6-tabs a{padding:11px 16px;border-radius:12px;color:inherit;text-decoration:none;border:1px solid var(--line);font-weight:700;font-size:14px}.g6-tabs a.current{background:#eaf2ff;border-color:#8daedf;color:#144c83}.g6-lead{color:var(--muted);line-height:1.75}.g6-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}.g6-tile{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:20px}.g6-tile h3{margin:4px 0 9px;font-size:18px}.g6-table{width:100%;border-collapse:collapse;font-size:14px}.g6-table th,.g6-table td{padding:11px 13px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.g6-table th{font-size:12px;color:var(--muted);text-transform:uppercase}.g6-table td:first-child{font-weight:700}.g6-vocab-group{border:1px solid var(--line);border-radius:17px;margin:12px 0;overflow:hidden;background:var(--card)}.g6-vocab-group h3{font-size:15px;margin:0;padding:13px 16px;background:rgba(125,147,192,.08)}.g6-word-search{width:100%;padding:13px 15px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:inherit;font:inherit}.g6-lesson{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:19px;margin:13px 0;line-height:1.75}.g6-lesson summary{cursor:pointer;font-weight:800;font-size:17px}.g6-formula{background:rgba(126,145,186,.09);padding:11px 14px;border-radius:10px;display:block;margin:8px 0;font-weight:650}.g6-groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px;margin:15px 0 21px}.g6-group{padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:inherit;text-align:left;cursor:pointer}.g6-group.selected{border-color:#729aca;background:rgba(116,162,217,.12)}.g6-group b{display:block;font-size:13px}.g6-group small{display:block;color:var(--muted);margin-top:5px}.g6-block{padding:19px;border:1px solid var(--line);border-radius:18px;background:var(--card);margin:15px 0}.g6-block h3{margin:0 0 9px}.g6-bank{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.g6-bank span{background:rgba(118,152,206,.13);border-radius:9px;padding:6px 10px;font-size:13px}.g6-item{border:1px solid var(--line);border-radius:15px;padding:18px;margin:13px 0;background:var(--card)}.g6-item h4{font-size:15px;line-height:1.65;font-weight:650;white-space:normal;margin:5px 0 13px}.g6-no{color:var(--muted);font-weight:700;font-size:12px}.g6-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.g6-option{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--line);border-radius:11px;padding:10px;cursor:pointer;font-size:14px;line-height:1.5;min-width:0}.g6-option:has(input:checked){border-color:#638ac3;background:rgba(107,159,222,.10)}.g6-option input{accent-color:#3469a8;margin-top:4px}.g6-option span{overflow-wrap:anywhere}.g6-input,.g6-essay{box-sizing:border-box;display:block;width:100%;max-width:700px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:inherit;font:inherit;line-height:1.5;padding:12px}.g6-essay{min-height:190px;max-width:none}.g6-small{font-size:12px;color:var(--muted);margin:7px 0}.g6-check{margin-top:12px;padding:9px 15px;border-radius:10px;border:1px solid #729aca;background:#eaf2ff;color:#214d7a;font-weight:700;cursor:pointer}.g6-check[disabled]{opacity:.48;cursor:not-allowed}.g6-result{margin-top:13px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:rgba(96,137,187,.08);line-height:1.65}.g6-result strong{display:block;margin-bottom:5px}.g6-result p{margin:0}.g6-issue{border-left:3px solid #a77b32;padding-left:10px;margin-top:8px!important;color:var(--muted);font-size:13px}.g6-note{background:rgba(119,150,186,.08);border-radius:11px;padding:12px 14px;line-height:1.7}.g6-passage{white-space:pre-wrap;line-height:1.85;border:1px solid var(--line);border-radius:13px;padding:17px;margin:14px 0;background:rgba(132,164,202,.06)}.g6-setup{display:flex;align-items:center;gap:13px;flex-wrap:wrap}.g6-setup select{padding:9px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:inherit}.g6-section-title{margin:26px 0 12px}.g6-progress{font-size:13px;color:var(--muted)}@media(max-width:620px){.g6-opts{grid-template-columns:1fr}.g6-table th,.g6-table td{padding:9px 6px;font-size:12px}.g6-item{padding:13px}.g6-tabs a{flex:1 1 30%;text-align:center;padding:10px 7px;font-size:12px}.g6-groups{grid-template-columns:repeat(2,minmax(0,1fr))}.g6-group{padding:10px}}";
  el.textContent+=".g6-root .g6-quick{line-height:1.7;font-size:14px}.g6-root .g6-quick p{margin:0 0 7px}.g6-root .g6-quick p:last-child{margin-bottom:0}.g6-root .g6-quick p{overflow-wrap:anywhere}.g6-root .g6-quick .g6-issue{font-size:13px;margin-top:9px!important}.g6-root .g6-quick b{font-weight:750}";
+ el.textContent+=".g6-root .g6-example-set{margin-top:11px;padding-top:9px;border-top:1px solid var(--line)}.g6-root .g6-example-row{padding:8px 0;border-bottom:1px solid var(--line);display:grid;gap:1px;font-size:13px}.g6-root .g6-example-row:last-child{border-bottom:0}.g6-root .g6-example-row span{display:block}.g6-root .g6-example-vi{color:var(--muted)}.g6-root .g6-reading-location{margin-top:9px;padding-top:7px;border-top:1px solid var(--line)}.g6-root .g6-cited-sentence{margin:6px 0!important;padding-left:9px;border-left:2px solid var(--line);font-size:13px;line-height:1.6}";
  el.textContent+=".g6-word-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;padding:13px}.g6-word{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 15px;line-height:1.62}.g6-word-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}.g6-word-heading b{font-size:17px;display:block}.g6-ipa{display:block;color:var(--muted);font-size:12px}.g6-meaning{font-size:13px;font-weight:650;color:#24568d}.g6-usage{font-size:13px;margin:10px 0 8px;color:var(--muted)}.g6-word-examples p{margin:5px 0;font-size:13px}.g6-word-examples small{color:var(--muted);margin-right:6px}.g6-grammar-usage{font-weight:500}.g6-lesson .g6-formula{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}.g6-lesson .g6-formula b{font-size:13px}.g6-grammar-examples{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;margin:9px 0 18px}.g6-grammar-examples>div{border:1px solid var(--line);padding:12px;border-radius:12px}.g6-grammar-examples p{margin:5px 0}.g6-grammar-examples small{color:var(--muted)}.g6-set-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}.g6-set{position:relative;text-align:left;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:16px;padding:19px;background:var(--card);color:inherit;cursor:pointer;overflow:hidden}.g6-set.selected{background:rgba(117,155,207,.12);border-color:#729aca}.g6-set span{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:800}.g6-set strong{font-size:16px}.g6-set small{color:var(--muted)}.g6-set i{position:absolute;bottom:0;left:0;height:4px;background:#5b91cc;transition:width .2s}.g6-set-header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.g6-reset{padding:9px 13px;border:1px solid var(--line);background:var(--card);color:inherit;border-radius:10px;cursor:pointer}.g6-word[hidden]{display:none}@media(max-width:620px){.g6-word-grid{grid-template-columns:1fr}.g6-set-grid{gap:7px}.g6-set{padding:12px 9px}.g6-set strong{font-size:13px}}";
  document.head.appendChild(el);
 }
@@ -162,16 +164,38 @@ function G6Application(q,g){
 }
 function G6Explanation(q,g){
  const isMC=q.kind==="mcq",ambiguous=isMC&&q.a===null;
- const answerText=isMC?(ambiguous?"Chưa có đáp án duy nhất":String.fromCharCode(65+q.a)+". "+q.o[q.a]):q.answers?.length?q.answers.join(" / "):"Cần giáo viên rà soát";
- // Grade 6 Unit 1 is intentionally a four-field, concise solution: no repeated
- // generic option analysis or expandable essay-length content.
+ const answerText=isMC?(ambiguous?(q.id==="reading-comprehension-5"?"Không có đáp án sai để chọn":"Chưa có đáp án duy nhất"):String.fromCharCode(65+q.a)+". "+q.o[q.a]):q.answers?.length?q.answers.join(" / "):"Cần giáo viên rà soát";
+ const warning=q.flag?'<p class="g6-issue"><b>Lưu ý đề gốc:</b> '+esc(q.flag)+'</p>':"";
+ // Reading takes priority over general MCQ, since the student needs a traceable source sentence.
+ if(g.id==="reading-cloze"||g.id==="reading-comprehension"){
+   const citations=Array.isArray(q.readingEvidence)?q.readingEvidence:[];
+   const location=citations.length?'Đoạn '+citations[0].paragraph+', câu '+citations.map(x=>x.sentence).join(", "):"Đang cần đối chiếu bài đọc";
+   const excerpts=citations.map(x=>'<p class="g6-cited-sentence"><b>Câu '+esc(x.sentence)+':</b> '+esc(x.text)+'</p>').join("");
+   return '<div class="g6-quick" data-g6-reading-explanation="1">'+
+     '<p><b>Đáp án:</b> '+esc(answerText)+'</p>'+
+     '<p><b>Giải thích tiếng Việt:</b> '+esc(q.note)+'</p>'+
+     '<div class="g6-reading-location"><p><b>Vị trí trong bài:</b> '+esc(location)+'</p>'+
+     '<p><b>Câu chứa bằng chứng:</b></p>'+excerpts+'</div>'+warning+'</div>';
+ }
+ if(isMC){
+   const examples=Array.isArray(q.examples)?q.examples:[];
+   const allExamples=examples.length===4&&examples.every((x,i)=>x.word===q.o[i]&&x.en&&x.vi);
+   const exampleRows=allExamples?examples.map((x,i)=>
+     '<div class="g6-example-row"><b>'+String.fromCharCode(65+i)+'. '+esc(x.word)+'</b>'+
+       '<span>'+esc(x.en)+'</span><span class="g6-example-vi">→ '+esc(x.vi)+'</span></div>').join(""):
+     '<p class="g6-issue">Ví dụ của câu này cần được rà soát.</p>';
+   return '<div class="g6-quick" data-g6-mcq-explanation="1">'+
+     '<p><b>Đáp án:</b> '+esc(answerText)+'</p>'+
+     '<p><b>Giải thích:</b> '+esc(q.note)+'</p>'+
+     '<p><b>Dịch:</b> '+esc(q.translation||"")+'</p>'+
+     '<div class="g6-example-set"><b>4 ví dụ A1–B1 (A–D):</b>'+exampleRows+'</div>'+warning+'</div>';
+ }
+ // Retain the existing four fields for non-MCQ, non-Reading exercises.
  return '<div class="g6-quick" data-g6-concise-explanation="1">'+
    '<p><b>Đáp án:</b> '+esc(answerText)+'</p>'+
    '<p><b>Vùng kiến thức:</b> '+esc(q.zone||g.title)+'</p>'+
    '<p><b>Giải thích:</b> '+esc(q.note)+'</p>'+
-   (q.translation?'<p><b>Dịch:</b> '+esc(q.translation)+'</p>':'')+
-   (q.flag?'<p class="g6-issue"><b>Lưu ý đề gốc:</b> '+esc(q.flag)+'</p>':'')+
-   '</div>';
+   (q.translation?'<p><b>Dịch:</b> '+esc(q.translation)+'</p>':'')+warning+'</div>';
 }
 function feedback(q,g){
  if(!state.checked[q.id])return "";
