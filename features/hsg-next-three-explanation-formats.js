@@ -77,7 +77,8 @@ function optionAnalysis(record,q){
  }
  const extra=(record.distractorAnalysis||[]).filter(Boolean).map(x=>p(typeof x==="string"?x:x.reason)).join("");
  return (lines.length?'<div class="semantic-options-grid">'+lines.join("")+'</div>':missing("Chưa trích xuất được đủ bốn phương án A–D từ bản đề; không suy đoán nội dung lựa chọn."))+
-  (extra?'<div class="semantic-option-notes">'+extra+'</div>':"");
+  (extra?'<div class="semantic-option-notes">'+extra+'</div>':"")+
+  (record.advisory?'<p class="ev1-review-label">'+esc(record.advisory)+'</p>':"");
 }
 function examples(record,q){
  const items=Array.isArray(record.examples)?record.examples.filter(x=>x?.en&&x?.vi):[];
