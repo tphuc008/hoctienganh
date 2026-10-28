@@ -62,7 +62,7 @@ test("UI provides explicit reveal and never scores reference material",()=>{
  assert.ok(ix.indexOf("features/hsg-hai-phong-explanations.js")<ix.indexOf("features/hsg-hai-phong-explanation-formats.js"));
  assert.ok(ix.indexOf("features/hsg-hai-phong-explanation-formats.js")<ix.indexOf("features/hsg-tinh.js"));
  assert.match(js,/global\.HSGHaiPhongFormat\?\.render/);
- assert.equal(M.available("phu-tho","e",51,{type:"error"},fragment),false);
+ assert.equal(M.available("phu-tho","e",51,{type:"error"},"Peer pressure is a psychological force that influence many teenagers"),false);
 });
 
 test("Hai Phong-only formats render by task type and preserve sentence transformation",()=>{
