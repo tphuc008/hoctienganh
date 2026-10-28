@@ -99,3 +99,28 @@ test("Other exams and unreleased essays keep existing renderer / review behavior
  assert.ok(js.includes("global.HSGNextThreeFormat?.render"));
  assert.ok(js.includes("global.ExplanationV1.render(spec"));
 });
+
+
+test("Phu Tho Lexico-Grammar has 60 original bilingual A-D examples and full Vietnamese meanings",()=>{
+ const d=docs["phu-tho"];
+ for(let n=21;n<=35;n++){
+  const r=d.records.find(x=>x.partId==="g"&&x.number===n);
+  assert.equal(r.examples.length,4,"Missing A–D example for Phú Thọ "+n);
+  assert.equal(r.examples.map(x=>x.word).join(""),"ABCD");
+  assert.ok(r.examples.every(x=>x.en.length>20&&x.vi.length>15));
+  assert.ok(r.translation.length>20,"Missing Vietnamese contextual translation "+n);
+  const q={type:"mcq",stem:r.evidence[0].quote,options:["A","B","C","D"]};
+  const spec=M.asExplanationV1(r,q,{kind:"mcq"});
+  const html=F.render("phu-tho","g",n,q,r,spec);
+  assert.equal((html.match(/class="ev1-example semantic-example"/g)||[]).length,4);
+  assert.ok(!html.includes("Hiện mới có"));
+ }
+ for(let n=36;n<=45;n++){
+  const r=d.records.find(x=>x.partId==="wf"&&x.number===n);
+  assert.ok(r.baseWord&&r.partOfSpeech&&r.confusionNote);
+ }
+ const question30=d.records.find(x=>x.partId==="g"&&x.number===30);
+ assert.deepEqual(question30.reviewChoices,["C"]);
+ assert.equal(M.assess("mcq",{value:"C"},question30),"review");
+ assert.match(F.render("phu-tho","g",30,{type:"mcq",stem:question30.evidence[0].quote,options:["at loggerheads","on the house","at daggers drawn","under their breath"]},question30,M.asExplanationV1(question30,{type:"mcq",options:["at loggerheads","on the house","at daggers drawn","under their breath"]},{kind:"mcq"})),/cũng có cơ sở ngôn ngữ/);
+});
