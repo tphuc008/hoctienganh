@@ -365,7 +365,7 @@ function hsgExplanationControl(g,n,q){
   if(!state.answerReviewUnlocked||!global.ExplanationV1||!global.HSGExamSolutions)return "";
   const bank=state.data?.solutions;
   const record=global.HSGExamSolutions.findSolution(bank,g.id+":"+n);
-  const essay=bank?.essayGuidance;
+  const essay=bank?.essayGuidances?.find(x=>x.partId===g.id)||bank?.essayGuidance;
   const spec=record?global.HSGExamSolutions.asExplanationV1(record,q,g):
     q.type==="essay"&&essay?.partId===g.id?
       global.HSGExamSolutions.essayExplanationV1(essay):null;
