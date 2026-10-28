@@ -50,7 +50,7 @@ for(const unit of [2,3]){
  test("Unit "+unit+" renders knowledge, original exercise, practice, and isolated feedback",()=>{
   const [a,b]=data(unit);
   const w={};
-  Object.assign(w,{"G6_U"+unit+"_PART_A":a,"G6_U"+unit+"_PART_B":b});
+  w["G6_U"+unit+"_PART_A"]=a; w["G6_U"+unit+"_PART_B"]=b;
   const handlers={};let html="",stored=null;
   const mount={style:{},set innerHTML(v){html=v},get innerHTML(){return html}};
   const doc={
