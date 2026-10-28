@@ -18,7 +18,7 @@ Short answer, quick reason and editorial `needs_review` state are part of the sa
 | Hải Phòng | 10 | 80 | Existing independently authored 80-item system | Existing answer/explanation module preserved |
 | Đại học Vinh | 11 | 91 | 90 | One essay has no fixed answer; 65 prompt excerpts upgraded from original source, 25 remain source-review |
 | Phú Thọ | 8 | 71 | 70 | One essay has no fixed answer; 65 prompt excerpts upgraded, 5 original correction lines remain source-review |
-| Sơn La | 12 | 57 | 7 | New reasoning, phrase clues, some option analysis and real bilingual examples |
+| Sơn La | 12 | 57 | 55 | All 55 answerable tasks have source-based answers; both open essays have model guidance |
 | Tây Ninh | 9 | 66 | 10 | Original prompt/collocation and A-D analysis for 5 items |
 | Thanh Hóa | 11 | 71 | 10 | IPA/stress A-D analysis on phonetics, five verb-form explanations |
 | Phan Bội Châu | 11 | 77 | 10 | Ten lexico-grammar items with grammar, collocations, bilingual transfer examples |
@@ -54,3 +54,8 @@ The website is currently GitHub Pages, a publicly delivered frontend. Hidden HTM
 `tests/hsg-explanation-seven-exams.test.cjs` (now checks all eight exams) covers manifest/question counts and solution specs from the live repo, including PTNK; existing Hai Phong and two-province tests were adjusted to the current build version. The test scripts were syntax-checked and the layout/solution schemas checked through the connected repo, but a full Node CI run and browser E2E must still be performed.
 
 **Not yet complete:** solve/source-check remaining exam questions; repair the 30 Vinh/Phu Tho excerpts that could not be safely reconstructed; deepen per-option distractor analysis for the existing 160 references; validate the PTNK four answer keys; audit real mobile and desktop rendering and printing. Do not imply that unfilled answers are done.
+
+
+### Son La completion addendum (2026-10-28)
+
+All 55 non-essay items now have stored teacher-reasoned answers. The email and academic paragraph have separate non-scored examples constrained to the actual source tasks. Some original multiple-choice questions contain more than one defensible English option (34, 36 and 38); conservative grading recognizes the disputed alternatives rather than claiming the source has no ambiguity.

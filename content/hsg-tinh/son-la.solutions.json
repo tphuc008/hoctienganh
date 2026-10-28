@@ -28,8 +28,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "A city introduced low-emission buses, which helped improve air quality.",
-          "vi": "Thành phố đã đưa xe buýt ít khí thải vào hoạt động, điều này giúp cải thiện chất lượng không khí."
+          "en": "The project reduced waste, which pleased local residents.",
+          "vi": "Dự án giảm rác thải, điều này khiến người dân hài lòng."
+        },
+        {
+          "word": "B",
+          "en": "This is the village where my grandparents grew up.",
+          "vi": "Đây là làng nơi ông bà tôi lớn lên."
+        },
+        {
+          "word": "C",
+          "en": "I believe that the policy will work.",
+          "vi": "Tôi tin rằng chính sách sẽ hiệu quả."
+        },
+        {
+          "word": "D",
+          "en": "The candidate whom we interviewed was qualified.",
+          "vi": "Ứng viên mà chúng tôi phỏng vấn có năng lực."
         }
       ],
       "provenance": {
@@ -74,9 +89,24 @@
       "transferablePattern": "Gerund phrase as subject + singular verb.",
       "examples": [
         {
+          "word": "A",
+          "en": "Reduce the volume before starting the call.",
+          "vi": "Hãy giảm âm lượng trước cuộc gọi."
+        },
+        {
           "word": "B",
-          "en": "Learning vocabulary in context helps students remember words.",
-          "vi": "Học từ vựng trong ngữ cảnh giúp học sinh ghi nhớ từ tốt hơn."
+          "en": "Reducing traffic congestion benefits commuters.",
+          "vi": "Giảm ùn tắc mang lại lợi ích cho người đi làm."
+        },
+        {
+          "word": "C",
+          "en": "Reduced prices attracted more customers.",
+          "vi": "Giá giảm đã thu hút thêm khách."
+        },
+        {
+          "word": "D",
+          "en": "To reduce costs, we shared equipment.",
+          "vi": "Để giảm chi phí, chúng tôi dùng chung thiết bị."
         }
       ],
       "provenance": {
@@ -122,8 +152,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "Although the train is cheaper, some commuters still drive.",
-          "vi": "Mặc dù tàu hỏa rẻ hơn, một số người đi làm vẫn lái ô tô."
+          "en": "Although it was raining, we continued cycling.",
+          "vi": "Dù trời mưa, chúng tôi vẫn tiếp tục đạp xe."
+        },
+        {
+          "word": "B",
+          "en": "Despite the rain, we continued cycling.",
+          "vi": "Bất chấp mưa, chúng tôi vẫn đạp xe."
+        },
+        {
+          "word": "C",
+          "en": "Because of the storm, the match was postponed.",
+          "vi": "Vì cơn bão, trận đấu bị hoãn."
+        },
+        {
+          "word": "D",
+          "en": "You may enter only when the signal turns green.",
+          "vi": "Bạn chỉ có thể vào khi tín hiệu chuyển xanh."
         }
       ],
       "provenance": {
@@ -169,8 +214,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "Because fuel prices rose, more people began cycling to work.",
-          "vi": "Vì giá nhiên liệu tăng, nhiều người bắt đầu đạp xe đi làm."
+          "en": "Because prices rose, demand fell.",
+          "vi": "Vì giá tăng, nhu cầu giảm."
+        },
+        {
+          "word": "B",
+          "en": "Much as I admire her, I disagree with her decision.",
+          "vi": "Dù rất ngưỡng mộ cô ấy, tôi không đồng ý quyết định đó."
+        },
+        {
+          "word": "C",
+          "en": "Although the road is narrow, buses can pass.",
+          "vi": "Dù đường hẹp, xe buýt vẫn có thể đi qua."
+        },
+        {
+          "word": "D",
+          "en": "He spoke as though he knew everything.",
+          "vi": "Anh ấy nói như thể biết mọi thứ."
         }
       ],
       "provenance": {
@@ -215,9 +275,24 @@
       "transferablePattern": "Should + S + V, S + can/will + V.",
       "examples": [
         {
+          "word": "A",
+          "en": "If governments invest in cycling, emissions may fall.",
+          "vi": "Nếu chính phủ đầu tư đường xe đạp, khí thải có thể giảm."
+        },
+        {
+          "word": "B",
+          "en": "Were the school to close, families would need alternatives.",
+          "vi": "Nếu trường đóng cửa, gia đình sẽ cần lựa chọn khác."
+        },
+        {
           "word": "C",
-          "en": "Should the school introduce digital exams, students will need training.",
-          "vi": "Nếu trường áp dụng kỳ thi kỹ thuật số, học sinh sẽ cần được hướng dẫn."
+          "en": "Should you need help, contact the librarian.",
+          "vi": "Nếu bạn cần hỗ trợ, hãy liên hệ thủ thư."
+        },
+        {
+          "word": "D",
+          "en": "Unless you revise, you may forget the rules.",
+          "vi": "Trừ khi ôn tập, bạn có thể quên quy tắc."
         }
       ],
       "provenance": {
@@ -263,8 +338,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "Online learning has evolved rapidly over the last decade.",
-          "vi": "Việc học trực tuyến đã phát triển nhanh chóng trong thập kỷ qua."
+          "en": "Digital testing has evolved rapidly.",
+          "vi": "Kiểm tra số đã phát triển nhanh chóng."
+        },
+        {
+          "word": "B",
+          "en": "The course evolved over several years.",
+          "vi": "Khóa học phát triển qua nhiều năm."
+        },
+        {
+          "word": "C",
+          "en": "The system is evolving to meet new needs.",
+          "vi": "Hệ thống đang thay đổi để đáp ứng nhu cầu mới."
+        },
+        {
+          "word": "D",
+          "en": "The school evolves its curriculum each year.",
+          "vi": "Trường điều chỉnh chương trình mỗi năm."
         }
       ],
       "provenance": {
@@ -272,7 +362,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-complete-option-analysis"
+      "editorialStatus": "needs-review-for-complete-option-analysis",
+      "optionNotes": [
+        {
+          "analysis": "Has evolved diễn tả sự biến đổi từ trước tới trạng thái hiện tại, hợp 'once dismissed' và 'into a fundamental component'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Evolved là quá khứ đơn, không khớp cách nhấn mạnh kết quả tới nay.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Is evolving nhấn mạnh tiến trình đang diễn ra, không bao quát trạng thái đã thành nền tảng.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Evolves là thói quen hoặc chân lý, không nêu kết quả chuyển đổi cụ thể.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -291,9 +399,24 @@
       "transferablePattern": "If + past perfect, S + would + V now",
       "examples": [
         {
+          "word": "A",
+          "en": "Many schools adopt digital textbooks.",
+          "vi": "Nhiều trường sử dụng sách giáo khoa số."
+        },
+        {
           "word": "B",
-          "en": "If she had studied harder, she would be more confident now.",
-          "vi": "Nếu trước đây học chăm hơn, giờ cô ấy đã tự tin hơn."
+          "en": "If they had adopted the method earlier, results would be better now.",
+          "vi": "Nếu họ áp dụng phương pháp sớm hơn, kết quả hiện tại sẽ tốt hơn."
+        },
+        {
+          "word": "C",
+          "en": "They would adopt the plan if funding were available.",
+          "vi": "Họ sẽ áp dụng kế hoạch nếu có kinh phí."
+        },
+        {
+          "word": "D",
+          "en": "Several colleges have adopted online exams.",
+          "vi": "Một số trường cao đẳng đã áp dụng thi trực tuyến."
         }
       ],
       "provenance": {
@@ -301,7 +424,1463 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-complete-option-analysis"
+      "editorialStatus": "needs-review-for-complete-option-analysis",
+      "optionNotes": [
+        {
+          "analysis": "Adopt ở hiện tại đơn không phù hợp điều kiện trái quá khứ 'a decade ago'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Had adopted là quá khứ hoàn thành cho điều kiện không có thật trong quá khứ, kết quả hiện tại 'would be ... today'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Would adopt không dùng trong mệnh đề if loại hỗn hợp này.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Have adopted không đúng thời điểm đã được xác định từ một thập kỷ trước.",
+          "meaning": ""
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 33,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Sau significantly cần so sánh hơn bổ nghĩa expensive; less expensive than cho biết thi điện tử tiết kiệm hơn in giấy. 'More expensive' đúng hình thức nhưng trái luận điểm nghiên cứu đang chứng minh lợi ích tiết kiệm.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 33",
+          "quote": "processing electronic tests across online networks is significantly (33) ______ expensive than printing thousands of physical paper sheets",
+          "note": "Sau significantly cần so sánh hơn bổ nghĩa expensive; less expensive than cho biết thi điện tử tiết kiệm hơn in giấy. 'More expensive' đúng hình thức nhưng trái luận điểm nghiên cứu đang chứng minh lợi ích tiết kiệm."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "significantly less + adjective + than + comparison",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "Least là so sánh nhất, không kết hợp than.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Much không thể đứng một mình trước expensive để tạo so sánh hơn.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Less expensive than diễn tả ít tốn kém hơn, đúng cả ngữ pháp lẫn luận điểm.",
+          "meaning": ""
+        },
+        {
+          "analysis": "More expensive than cũng đúng ngữ pháp nhưng ngược ý giải thích lợi ích của hình thức thi số.",
+          "meaning": ""
+        }
+      ],
+      "translation": "Nghiên cứu cho thấy xử lý bài thi điện tử qua mạng ít tốn kém hơn đáng kể so với in hàng nghìn tờ giấy mỗi năm.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "This is the least expensive option.",
+          "vi": "Đây là lựa chọn ít tốn kém nhất."
+        },
+        {
+          "word": "B",
+          "en": "The task is much easier than expected.",
+          "vi": "Nhiệm vụ dễ hơn dự kiến rất nhiều."
+        },
+        {
+          "word": "C",
+          "en": "Digital copies are less expensive than printed books.",
+          "vi": "Bản số ít tốn kém hơn sách in."
+        },
+        {
+          "word": "D",
+          "en": "The updated software is more expensive.",
+          "vi": "Phần mềm mới đắt hơn."
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 34,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Reach a milestone là cách kết hợp thông dụng và rõ nghĩa: đạt một cột mốc quan trọng. 'Hit a milestone' cũng có thể dùng trong tiếng Anh tự nhiên, nên ghi nhận C như lựa chọn có cơ sở; lời giải tham khảo khác chọn take nhưng 'take a milestone' không phải cách kết hợp chuẩn trong câu này.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 34",
+          "quote": "allowing schools to eliminate physical waste and (34) ______ a major milestone in modernizing classroom infrastructure",
+          "note": "Reach a milestone là cách kết hợp thông dụng và rõ nghĩa: đạt một cột mốc quan trọng. 'Hit a milestone' cũng có thể dùng trong tiếng Anh tự nhiên, nên ghi nhận C như lựa chọn có cơ sở; lời giải tham khảo khác chọn take nhưng 'take a milestone' không phải cách kết hợp chuẩn trong câu này."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "reach / hit a milestone (in doing something)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "Reach a milestone là kết hợp chuẩn nghĩa đạt cột mốc mới.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Take a milestone không phải kết hợp thông dụng trong tiếng Anh chuẩn.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Hit a milestone cũng là thành ngữ hợp ngữ pháp/ngữ nghĩa, nên cần chấp nhận biến thể này.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Make a milestone không phải cách kết hợp tự nhiên theo nghĩa đạt cột mốc.",
+          "meaning": ""
+        }
+      ],
+      "reviewChoices": [
+        "C"
+      ],
+      "advisory": "A (reach) là phương án ưu tiên. C (hit) cũng có nghĩa và cách kết hợp hợp lệ; nên cần đối chiếu nếu đáp án chấm chỉ cho một lựa chọn.",
+      "translation": "Phương pháp mới giúp nhà trường giảm rác thải giấy và đạt một cột mốc quan trọng trong hiện đại hóa hạ tầng lớp học.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The team reached an important milestone.",
+          "vi": "Nhóm đã đạt một cột mốc quan trọng."
+        },
+        {
+          "word": "B",
+          "en": "Please take these documents to reception.",
+          "vi": "Hãy mang tài liệu này đến lễ tân."
+        },
+        {
+          "word": "C",
+          "en": "Our startup hit its first major milestone.",
+          "vi": "Công ty khởi nghiệp đạt cột mốc lớn đầu tiên."
+        },
+        {
+          "word": "D",
+          "en": "They made steady progress during the semester.",
+          "vi": "Họ tiến bộ đều trong học kỳ."
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 35,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Have often been viewed là hiện tại hoàn thành bị động: kỳ thi được nhìn nhận như thước đo, không phải kỳ thi chủ động nhìn thứ gì.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 35",
+          "quote": "Traditional high-stakes examinations have often (35) ______ as the absolute metric for measuring student intelligence",
+          "note": "Have often been viewed là hiện tại hoàn thành bị động: kỳ thi được nhìn nhận như thước đo, không phải kỳ thi chủ động nhìn thứ gì."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "have/has + (adverb) + been + V3; be viewed as + N",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "Have viewed là chủ động, thiếu tân ngữ/người đang nhìn nhận.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Have been viewed là hiện tại hoàn thành bị động đúng.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Have being viewed sai chuỗi trợ động từ; phải là been.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Have been viewing là hiện tại hoàn thành tiếp diễn chủ động, không phù hợp.",
+          "meaning": ""
+        }
+      ],
+      "translation": "Các kỳ thi quan trọng lâu nay thường được xem như thước đo tuyệt đối đánh giá trí thông minh của học sinh.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "They viewed the exhibition yesterday.",
+          "vi": "Họ đã xem triển lãm hôm qua."
+        },
+        {
+          "word": "B",
+          "en": "The policy has been viewed as a success.",
+          "vi": "Chính sách đã được xem là thành công."
+        },
+        {
+          "word": "C",
+          "en": "The issue is being viewed from another angle.",
+          "vi": "Vấn đề đang được xem xét từ góc độ khác."
+        },
+        {
+          "word": "D",
+          "en": "The engineers have been viewing the recordings.",
+          "vi": "Các kỹ sư đã liên tục xem các bản ghi."
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 36,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Look through data là xem xét/kiểm tra dữ liệu để phát hiện vấn đề; sát với chức năng giám sát bảo mật của chương trình. 'Set up exam data' có thể là chuẩn bị dữ liệu nhưng thiếu chỉ dấu đề nói đến bước thiết lập; lời giải bên ngoài chọn B nên không được coi A/B là chắc chắn duy nhất.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 36",
+          "quote": "A digital encryption program (36) ______ the exam data, monitoring security protocols continuously",
+          "note": "Look through data là xem xét/kiểm tra dữ liệu để phát hiện vấn đề; sát với chức năng giám sát bảo mật của chương trình. 'Set up exam data' có thể là chuẩn bị dữ liệu nhưng thiếu chỉ dấu đề nói đến bước thiết lập; lời giải bên ngoài chọn B nên không được coi A/B là chắc chắn duy nhất."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "look through + data / documents = rà soát thông tin",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "Looks through = rà soát dữ liệu; sát ý kiểm tra và giám sát.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Sets up = thiết lập/chuẩn bị dữ liệu, có thể hợp văn cảnh hệ thống; tuy nhiên mô tả chức năng chưa đủ để loại trừ A.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Brings about = gây ra, không mang nghĩa kiểm tra dữ liệu.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Runs after = chạy theo/đuổi theo, không đúng tân ngữ dữ liệu.",
+          "meaning": ""
+        }
+      ],
+      "reviewChoices": [
+        "B"
+      ],
+      "advisory": "Câu gốc thiếu động từ chuyên biệt (encrypts/scans). A hợp ngữ cảnh đọc/kiểm tra dữ liệu; tài liệu tham khảo chọn B. Cả hai cần xem như trường hợp cần đối chiếu, không chấm tuyệt đối một đáp án.",
+      "translation": "Chương trình mã hóa rà soát dữ liệu bài thi và liên tục giám sát các giao thức bảo mật.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The analyst looked through the data for errors.",
+          "vi": "Chuyên viên rà dữ liệu để tìm lỗi."
+        },
+        {
+          "word": "B",
+          "en": "The technician set up the new server.",
+          "vi": "Kỹ thuật viên thiết lập máy chủ mới."
+        },
+        {
+          "word": "C",
+          "en": "The policy brought about major changes.",
+          "vi": "Chính sách dẫn đến nhiều thay đổi lớn."
+        },
+        {
+          "word": "D",
+          "en": "The child ran after the departing bus.",
+          "vi": "Đứa trẻ chạy theo xe buýt sắp rời đi."
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 37,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Ready to be processed là nguyên mẫu bị động sau ready vì bài làm được giám khảo xử lý, không phải tự xử lý.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 37",
+          "quote": "each electronic script is ready (37) ______ processed by external examiners",
+          "note": "Ready to be processed là nguyên mẫu bị động sau ready vì bài làm được giám khảo xử lý, không phải tự xử lý."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "be ready + to be + past participle",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "To be processed là hình thức bị động nguyên mẫu đúng.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Being processed không đứng trực tiếp sau ready theo cấu trúc dự định/chưa xảy ra.",
+          "meaning": ""
+        },
+        {
+          "analysis": "For being processed không phải cấu trúc ready + complement ở đây.",
+          "meaning": ""
+        },
+        {
+          "analysis": "To have processed là chủ động hoàn thành, sai tác thể.",
+          "meaning": ""
+        }
+      ],
+      "translation": "Mỗi bài làm điện tử sẵn sàng để được giám khảo bên ngoài xử lý.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The papers are ready to be marked.",
+          "vi": "Bài thi đã sẵn sàng để chấm."
+        },
+        {
+          "word": "B",
+          "en": "The system is currently being updated.",
+          "vi": "Hệ thống hiện đang được cập nhật."
+        },
+        {
+          "word": "C",
+          "en": "They thanked her for being patient.",
+          "vi": "Họ cảm ơn cô ấy vì đã kiên nhẫn."
+        },
+        {
+          "word": "D",
+          "en": "The teacher is expected to have completed the grading.",
+          "vi": "Giáo viên được kỳ vọng đã chấm xong."
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 38,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Run up against và come up against đều là phrasal verbs hợp lệ mang nghĩa gặp phải khó khăn bất ngờ. Vì bản đề có sẵn up against, cả B come và C run đều cho câu đúng. Lời giải tham khảo chọn C.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 38",
+          "quote": "IT coordinators must (38) ______ up against unexpected technical glitches and internet connectivity issues",
+          "note": "Run up against và come up against đều là phrasal verbs hợp lệ mang nghĩa gặp phải khó khăn bất ngờ. Vì bản đề có sẵn up against, cả B come và C run đều cho câu đúng. Lời giải tham khảo chọn C."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "run / come up against + obstacle / problem",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "Cope phải đi với with, không phải up against.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Come up against là phrasal verb hợp lệ, không thể bác bỏ chỉ bằng ngữ pháp.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Run up against là phrasal verb hợp lệ, nghĩa bất ngờ gặp trở ngại.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Face đi trực tiếp với obstacle, không có up against.",
+          "meaning": ""
+        }
+      ],
+      "reviewChoices": [
+        "B"
+      ],
+      "advisory": "Đề có hai đáp án đều đúng: come up against và run up against. Chấp nhận B/C hoặc chuyển chấm thủ công.",
+      "translation": "Nhân viên CNTT phải đối mặt với các trục trặc kỹ thuật và vấn đề kết nối bất ngờ.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "We cope with problems by planning ahead.",
+          "vi": "Chúng tôi xử lý vấn đề bằng cách chuẩn bị trước."
+        },
+        {
+          "word": "B",
+          "en": "New businesses often come up against funding problems.",
+          "vi": "Doanh nghiệp mới thường gặp trở ngại vốn."
+        },
+        {
+          "word": "C",
+          "en": "Engineers ran up against unexpected delays.",
+          "vi": "Kỹ sư bất ngờ gặp chậm trễ."
+        },
+        {
+          "word": "D",
+          "en": "The team faced a difficult challenge.",
+          "vi": "Nhóm đối mặt với thách thức khó."
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 39,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "The more..., the more... là cấu trúc so sánh tương quan. Sau become là tính từ so sánh hơn more reliable.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 39",
+          "quote": "the more we refine these digital platforms, the (39) ______ our evaluation systems will become",
+          "note": "The more..., the more... là cấu trúc so sánh tương quan. Sau become là tính từ so sánh hơn more reliable."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "The + comparative + clause, the + comparative + clause",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "Reliable là tính từ nguyên cấp, thiếu so sánh hơn.",
+          "meaning": ""
+        },
+        {
+          "analysis": "More reliable là so sánh hơn cần cho vế sau.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Most reliable là so sánh nhất, không hợp cấu trúc.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Reliably là trạng từ; become trong câu này đòi tính từ làm bổ ngữ.",
+          "meaning": ""
+        }
+      ],
+      "translation": "Chúng ta càng hoàn thiện các nền tảng số, hệ thống đánh giá càng đáng tin cậy.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The source is reliable.",
+          "vi": "Nguồn này đáng tin cậy."
+        },
+        {
+          "word": "B",
+          "en": "Newer tests are more reliable.",
+          "vi": "Bài kiểm tra mới đáng tin cậy hơn."
+        },
+        {
+          "word": "C",
+          "en": "This is the most reliable method.",
+          "vi": "Đây là phương pháp đáng tin cậy nhất."
+        },
+        {
+          "word": "D",
+          "en": "The machine works reliably.",
+          "vi": "Máy vận hành ổn định."
+        }
+      ]
+    },
+    {
+      "partId": "g2",
+      "number": 40,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Take into account là cụm cố định nghĩa cân nhắc/tính đến; ba động từ khác không tạo thành thành ngữ này.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · g2 · câu 40",
+          "quote": "work together to (40) ______ into account the vital operational advantages of electronic testing",
+          "note": "Take into account là cụm cố định nghĩa cân nhắc/tính đến; ba động từ khác không tạo thành thành ngữ này."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "take something into account / take into account + N",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "optionNotes": [
+        {
+          "analysis": "Put không tạo idiom 'put into account' theo ý cân nhắc.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Give không đi với into account trong cấu trúc này.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Bring không tạo collocation cần chọn.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Take tạo cụm take into account nghĩa tính đến.",
+          "meaning": ""
+        }
+      ],
+      "translation": "Các nhà hoạch định chính sách cần cân nhắc các lợi thế vận hành của việc thi điện tử.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "Put the books on the shelf.",
+          "vi": "Hãy đặt sách lên kệ."
+        },
+        {
+          "word": "B",
+          "en": "Give the class a short break.",
+          "vi": "Hãy cho lớp nghỉ giải lao."
+        },
+        {
+          "word": "C",
+          "en": "The reform brought major benefits.",
+          "vi": "Cải cách mang lại lợi ích lớn."
+        },
+        {
+          "word": "D",
+          "en": "We must take the risks into account.",
+          "vi": "Chúng ta phải tính đến những rủi ro."
+        }
+      ]
+    },
+    {
+      "partId": "wf",
+      "number": 41,
+      "verified": true,
+      "correctAnswer": "dissatisfaction",
+      "explanation": "Sau expressed cần danh từ. Việc bị cấm khiến các em không hài lòng, nên từ satisfy cần chuyển thành danh từ phủ định dissatisfaction.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · wf · câu 41",
+          "quote": "Being banned from social media, some Australian teenagers expressed ______, believing it limited their personal freedom.",
+          "note": "Sau expressed cần danh từ. Việc bị cấm khiến các em không hài lòng, nên từ satisfy cần chuyển thành danh từ phủ định dissatisfaction."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "satisfy (V) → satisfaction (N) → dissatisfaction (N)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "baseWord": "SATISFY",
+      "partOfSpeech": "Danh từ không đếm được",
+      "confusionNote": "Satisfaction là sự hài lòng, không hợp thái độ phản đối quyền tự do bị hạn chế."
+    },
+    {
+      "partId": "wf",
+      "number": 42,
+      "verified": true,
+      "correctAnswer": "disappearance",
+      "explanation": "The sudden ... of cần danh từ, còn puzzles today cho thấy sự biến mất bí ẩn; disappearance là danh từ mang nghĩa biến mất.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · wf · câu 42",
+          "quote": "The sudden ______ of the ancient civilization still puzzles archeologists today.",
+          "note": "The sudden ... of cần danh từ, còn puzzles today cho thấy sự biến mất bí ẩn; disappearance là danh từ mang nghĩa biến mất."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "appear (V) → appearance (N) → disappearance (N)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "baseWord": "APPEAR",
+      "partOfSpeech": "Danh từ số ít",
+      "confusionNote": "Appearance nghĩa sự xuất hiện hoặc diện mạo, trái với ý nền văn minh không còn tồn tại."
+    },
+    {
+      "partId": "wf",
+      "number": 43,
+      "verified": true,
+      "correctAnswer": "decisive",
+      "explanation": "Đứng trước leadership phải là tính từ; decisive chỉ sự quyết đoán khi đưa ra quyết định trong khủng hoảng.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · wf · câu 43",
+          "quote": "He was praised for his ______ leadership during the economic crisis.",
+          "note": "Đứng trước leadership phải là tính từ; decisive chỉ sự quyết đoán khi đưa ra quyết định trong khủng hoảng."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "decide (V) → decision (N) → decisive (Adj)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "baseWord": "DECIDE",
+      "partOfSpeech": "Tính từ",
+      "confusionNote": "Deciding mang nghĩa quyết định kết quả, không chỉ phẩm chất lãnh đạo quyết đoán."
+    },
+    {
+      "partId": "wf",
+      "number": 44,
+      "verified": true,
+      "correctAnswer": "complaints",
+      "explanation": "A wide variety of đứng trước danh từ đếm được số nhiều; complain chuyển thành complaint rồi plural complaints.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · wf · câu 44",
+          "quote": "The customer service department deals with a wide variety of ______ every day.",
+          "note": "A wide variety of đứng trước danh từ đếm được số nhiều; complain chuyển thành complaint rồi plural complaints."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "complain (V) → complaint (N) → complaints (plural N)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "baseWord": "COMPLAIN",
+      "partOfSpeech": "Danh từ đếm được số nhiều",
+      "confusionNote": "Complaint là danh từ; complain là động từ nên không đặt trực tiếp sau variety of."
+    },
+    {
+      "partId": "wf",
+      "number": 45,
+      "verified": true,
+      "correctAnswer": "inconclusive",
+      "explanation": "Sau is still cần tính từ; requires further analysis là bằng chứng dữ liệu chưa cho kết luận chắc chắn.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · wf · câu 45",
+          "quote": "The data gathered from the research is still ______ and requires further analysis.",
+          "note": "Sau is still cần tính từ; requires further analysis là bằng chứng dữ liệu chưa cho kết luận chắc chắn."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "conclude (V) → conclusive (Adj) → inconclusive (Adj)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "baseWord": "CONCLUDE",
+      "partOfSpeech": "Tính từ phủ định",
+      "confusionNote": "Conclusive nghĩa đủ sức kết luận, mâu thuẫn requires further analysis."
+    },
+    {
+      "partId": "pr",
+      "number": 46,
+      "verified": true,
+      "correctAnswer": "for",
+      "explanation": "Talent for + activity/V-ing là cách dùng danh từ talent với giới từ for.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · pr · câu 46",
+          "quote": "He had a great talent ______ singing",
+          "note": "Talent for + activity/V-ing là cách dùng danh từ talent với giới từ for."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "have a talent for + N/V-ing",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "pr",
+      "number": 47,
+      "verified": true,
+      "correctAnswer": "of",
+      "explanation": "Aware of + something nghĩa nhận thức/ý thức được điều gì.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · pr · câu 47",
+          "quote": "People ought to be aware ______ the damage they are causing to the environment",
+          "note": "Aware of + something nghĩa nhận thức/ý thức được điều gì."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "be aware of + N/V-ing",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "pr",
+      "number": 48,
+      "verified": true,
+      "correctAnswer": "on",
+      "explanation": "Concentrate on + N/V-ing nghĩa tập trung vào.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · pr · câu 48",
+          "quote": "If you concentrated more ______ your school work",
+          "note": "Concentrate on + N/V-ing nghĩa tập trung vào."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "concentrate on + N/V-ing",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "pr",
+      "number": 49,
+      "verified": true,
+      "correctAnswer": "under",
+      "explanation": "Under repair là cụm chỉ tình trạng đang được sửa chữa.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · pr · câu 49",
+          "quote": "It's in the garage ______ repair",
+          "note": "Under repair là cụm chỉ tình trạng đang được sửa chữa."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "be under repair = đang được sửa chữa",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "pr",
+      "number": 50,
+      "verified": true,
+      "correctAnswer": "a",
+      "explanation": "A large number of + plural noun là cụm xác định số lượng lớn khách du lịch.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · pr · câu 50",
+          "quote": "Moc Chau Highland attracted ______ large number of tourists",
+          "note": "A large number of + plural noun là cụm xác định số lượng lớn khách du lịch."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "a large number of + plural countable N",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "oc",
+      "number": 51,
+      "verified": true,
+      "correctAnswer": "who",
+      "explanation": "Who là đại từ quan hệ làm chủ ngữ của have mastered và chỉ students.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · oc · câu 51",
+          "quote": "students (51) ______ have mastered emotional intelligence tend to perform better in team environments",
+          "note": "Who là đại từ quan hệ làm chủ ngữ của have mastered và chỉ students."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "students who + V = những học sinh mà ...",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "acceptedAnswers": []
+    },
+    {
+      "partId": "oc",
+      "number": 52,
+      "verified": true,
+      "correctAnswer": "enables",
+      "explanation": "Cụm danh động từ Acquiring these abilities là chủ ngữ số ít về mặt ngữ pháp, nên động từ ở hiện tại đơn chia enables; enable somebody to do something.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · oc · câu 52",
+          "quote": "Acquiring these abilities (52) ______ adolescents to navigate complex social dynamics",
+          "note": "Cụm danh động từ Acquiring these abilities là chủ ngữ số ít về mặt ngữ pháp, nên động từ ở hiện tại đơn chia enables; enable somebody to do something."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "enable somebody to + V = cho phép/giúp ai làm gì",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "acceptedAnswers": []
+    },
+    {
+      "partId": "oc",
+      "number": 53,
+      "verified": true,
+      "correctAnswer": "into",
+      "explanation": "Put something into practice = áp dụng điều gì vào thực tế, là collocation cố định.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · oc · câu 53",
+          "quote": "put these vital skills (53) ______ practice",
+          "note": "Put something into practice = áp dụng điều gì vào thực tế, là collocation cố định."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "put something into practice = áp dụng vào thực tiễn",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "acceptedAnswers": []
+    },
+    {
+      "partId": "oc",
+      "number": 54,
+      "verified": true,
+      "correctAnswer": "since",
+      "explanation": "Since mở mệnh đề nêu nguyên nhân hệ thống chấm điểm không đo tốt sự phát triển kỹ năng mềm. Because/as cũng hợp cả ngữ pháp lẫn nghĩa.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · oc · câu 54",
+          "quote": "integrating soft skills training into traditional frameworks presents challenges, (54) ______ standard grading systems are often ill-equipped to measure subjective growth",
+          "note": "Since mở mệnh đề nêu nguyên nhân hệ thống chấm điểm không đo tốt sự phát triển kỹ năng mềm. Because/as cũng hợp cả ngữ pháp lẫn nghĩa."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "since / because / as + S + V (cause)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "acceptedAnswers": [
+        "because",
+        "as"
+      ]
+    },
+    {
+      "partId": "oc",
+      "number": 55,
+      "verified": true,
+      "correctAnswer": "well",
+      "explanation": "Well-prepared mô tả mức độ sẵn sàng của học sinh sau tốt nghiệp; trong vị trí này well prepared là cụm trạng từ bổ nghĩa tính từ. Fully prepared và better prepared cũng có thể hợp văn cảnh.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La · oc · câu 55",
+          "quote": "ensuring they graduate (55) ______ prepared to face modern workplace challenges",
+          "note": "Well-prepared mô tả mức độ sẵn sàng của học sinh sau tốt nghiệp; trong vị trí này well prepared là cụm trạng từ bổ nghĩa tính từ. Fully prepared và better prepared cũng có thể hợp văn cảnh."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "well / fully / better prepared (to + V)",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đề gốc trong repository, đối chiếu ngữ pháp và lời giải tham khảo; không phải đáp án chính thức"
+      },
+      "acceptedAnswers": [
+        "fully",
+        "better"
+      ]
+    },
+    {
+      "partId": "m",
+      "number": 56,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Traditional land-clearing practices chính là agricultural burning, được nêu làm nguyên nhân chính của ô nhiễm.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu 1–2",
+          "quote": "Environmental researchers have identified agricultural burning and forest fires as the primary drivers behind this massive pollution.",
+          "note": "Traditional land-clearing practices chính là agricultural burning, được nêu làm nguyên nhân chính của ô nhiễm."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Recognise paraphrase: land-clearing = agricultural burning.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 57,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Giảm chất lượng không khí khiến khách đổi hành trình, kéo theo du lịch và doanh thu kinh doanh giảm.",
+      "evidence": [
+        {
+          "location": "Đoạn B · câu 2–4",
+          "quote": "Tourism, a major source of income for suburban areas, has experienced a sharp decline",
+          "note": "Giảm chất lượng không khí khiến khách đổi hành trình, kéo theo du lịch và doanh thu kinh doanh giảm."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Financial impact: tourism decline → lost local revenue.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 58,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Advanced satellite imagery = thiết bị quan sát theo dõi các hành vi đốt ngoài trời vi phạm quy định.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu cuối",
+          "quote": "local enforcement units are employing advanced satellite imagery to monitor open burning and penalize landowners who violate environmental safety zones",
+          "note": "Advanced satellite imagery = thiết bị quan sát theo dõi các hành vi đốt ngoài trời vi phạm quy định."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Tracking equipment = satellite imagery; illegal acts = violating safety zones.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 59,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Đơn vị y tế khuyến nghị trẻ em và người già hạn chế ở ngoài trời vì sương mù độc hại.",
+      "evidence": [
+        {
+          "location": "Đoạn A · câu cuối",
+          "quote": "strongly advising people, particularly children and the elderly, to avoid spending time outdoors until the hazardous haze clears",
+          "note": "Đơn vị y tế khuyến nghị trẻ em và người già hạn chế ở ngoài trời vì sương mù độc hại."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Vulnerable groups = children/elderly; open-air exposure = outdoors.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 60,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Chiến dịch giáo dục giúp cộng đồng tự theo dõi chỉ số chất lượng không khí.",
+      "evidence": [
+        {
+          "location": "Đoạn D · câu 2–3",
+          "quote": "campaigns to help community groups monitor local air quality indexes independently",
+          "note": "Chiến dịch giáo dục giúp cộng đồng tự theo dõi chỉ số chất lượng không khí."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Independently monitor = observe on their own.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 61,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Shattered nghĩa phá vỡ các giới hạn cũ, tương đương destroyed; đối lập với restored/protected.",
+      "evidence": [
+        {
+          "location": "Đoạn 1 · câu 2",
+          "quote": "the emergence of AI-driven applications has shattered these conventional boundaries",
+          "note": "Shattered nghĩa phá vỡ các giới hạn cũ, tương đương destroyed; đối lập với restored/protected."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "shatter boundaries = break down barriers.",
+      "optionNotes": [
+        {
+          "analysis": "Restored nghĩa khôi phục, trái với việc phá bỏ giới hạn.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Destroyed nghĩa phá vỡ, đúng với shattered.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Protected là bảo vệ, trái nghĩa.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Followed là đi theo, không mang nghĩa thay đổi ranh giới.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 62,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "These technological advancements hồi chỉ các AI-driven applications, speech-recognition software và AI-powered writing assistants trong ba đoạn trước; blended learning là giải pháp đề xuất ngay sau cụm chỉ.",
+      "evidence": [
+        {
+          "location": "Đoạn 4 · câu 1; liên hệ đoạn 1–2",
+          "quote": "To optimize these technological advancements, educators must advocate for a blended learning approach.",
+          "note": "These technological advancements hồi chỉ các AI-driven applications, speech-recognition software và AI-powered writing assistants trong ba đoạn trước; blended learning là giải pháp đề xuất ngay sau cụm chỉ."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Resolve demonstrative reference by prior technological tools, not proposed response.",
+      "optionNotes": [
+        {
+          "analysis": "Repetitive tasks là loại công việc AI có thể xử lý, không phải toàn bộ tiến bộ công nghệ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Cultural nuance là hạn chế AI đang gặp, không phải tiến bộ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "AI-driven applications and intelligent software là đối tượng được nhắc xuyên suốt.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Blended learning là cách phối hợp được đề xuất, không phải công nghệ mà these trỏ tới.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 63,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "AI writing assistants phân tích ngữ pháp, lựa chọn từ và gợi ý cách diễn đạt nâng cao để cải thiện bài viết; phương án C diễn đạt đúng ý.",
+      "evidence": [
+        {
+          "location": "Đoạn 2 · câu cuối",
+          "quote": "suggesting sophisticated alternatives that enhance a user's writing style and overall comprehension",
+          "note": "AI writing assistants phân tích ngữ pháp, lựa chọn từ và gợi ý cách diễn đạt nâng cao để cải thiện bài viết; phương án C diễn đạt đúng ý."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Explicit factual question: sophisticated alternatives = advanced vocabulary suggestions.",
+      "optionNotes": [
+        {
+          "analysis": "Dịch tự động nhiều ngôn ngữ không được nêu là chức năng trong bài.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Tốc độ chấm so với giáo viên không được so sánh trong bài.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Đúng với sophisticated alternatives that enhance writing style.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Ép học sinh ghi nhớ định nghĩa từ điển không được nói đến.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 64,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Đoạn 1–2 bàn lợi ích; đoạn 3 nêu hạn chế; đoạn 4 kết luận phối hợp AI với giáo viên. D bao quát toàn bộ bố cục.",
+      "evidence": [
+        {
+          "location": "Đoạn 1–4; đặc biệt đoạn kết",
+          "quote": "AI should not be viewed as a total replacement for human instructors, but rather as a complementary tool that enhances classroom learning.",
+          "note": "Đoạn 1–2 bàn lợi ích; đoạn 3 nêu hạn chế; đoạn 4 kết luận phối hợp AI với giáo viên. D bao quát toàn bộ bố cục."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Main idea = benefits + limitations + balanced use.",
+      "optionNotes": [
+        {
+          "analysis": "Không tập trung lịch sử hình thành trường đại học trực tuyến.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Không khẳng định giáo viên luôn vượt trội mọi công cụ AI, mà ủng hộ bổ trợ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Thuật toán nhận diện giọng nói chỉ là ví dụ nhỏ ở đoạn 2.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Bao quát đủ lợi ích, hạn chế và cách dùng kết hợp.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 65,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "A giữ quan hệ nguyên nhân: ngôn ngữ gắn với yếu tố xã hội, văn hóa, cảm xúc nên máy thường khó hiểu chính xác. B–D đổi chiều hoặc thêm kết luận không có.",
+      "evidence": [
+        {
+          "location": "Đoạn 3 · câu 3",
+          "quote": "Language is inherently social and deeply tied to cultural contexts, idioms, and subtle emotional cues that machines often fail to interpret accurately.",
+          "note": "A giữ quan hệ nguyên nhân: ngôn ngữ gắn với yếu tố xã hội, văn hóa, cảm xúc nên máy thường khó hiểu chính xác. B–D đổi chiều hoặc thêm kết luận không có."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Paraphrase meaning, preserve scope (often) and cause-effect.",
+      "optionNotes": [
+        {
+          "analysis": "Giữ đúng bản chất xã hội và hạn chế hiểu sắc thái của máy.",
+          "meaning": ""
+        },
+        {
+          "analysis": "B nêu sở thích của người bản ngữ, bài không nói.",
+          "meaning": ""
+        },
+        {
+          "analysis": "C nói AI xử lý dễ dàng, trái với often fail.",
+          "meaning": ""
+        },
+        {
+          "analysis": "D yêu cầu tránh idiom và văn hóa, không được suy ra từ đoạn.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 66,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Văn bản nêu thiếu sắc thái văn hóa, trí tuệ cảm xúc và nguy cơ nói máy móc; không nêu phí đăng ký ứng dụng. NOT mentioned → B.",
+      "evidence": [
+        {
+          "location": "Đoạn 3 · toàn đoạn",
+          "quote": "The most critical issue is the lack of genuine cultural nuance and emotional intelligence in AI interactions.",
+          "note": "Văn bản nêu thiếu sắc thái văn hóa, trí tuệ cảm xúc và nguy cơ nói máy móc; không nêu phí đăng ký ứng dụng. NOT mentioned → B."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "EXCEPT/NOT mentioned: search for absent claim, not plausible outside knowledge.",
+      "optionNotes": [
+        {
+          "analysis": "Thiếu trí tuệ cảm xúc được nêu cụ thể.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Chi phí đăng ký cao hoàn toàn không được đoạn này nhắc đến.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Mechanical language use được nêu trực tiếp.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Khó hiểu cultural contexts và idioms được nêu trực tiếp.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 67,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Câu kết xác nhận kết hợp thế mạnh của con người (đồng cảm, sắc thái) với tính chính xác của công nghệ. B là suy luận bám trực tiếp thông tin.",
+      "evidence": [
+        {
+          "location": "Đoạn 4 · câu cuối",
+          "quote": "the future of English learning lies in a harmonious partnership between human empathy and technological precision.",
+          "note": "Câu kết xác nhận kết hợp thế mạnh của con người (đồng cảm, sắc thái) với tính chính xác của công nghệ. B là suy luận bám trực tiếp thông tin."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Ideal outcome: complementary human + AI roles, not full replacement.",
+      "optionNotes": [
+        {
+          "analysis": "AI thay thế hoàn toàn trái 'not ... a total replacement'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Kết hợp công nghệ với giáo viên đúng câu kết.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Bài không giới hạn AI chỉ cho học viên nâng cao.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Bài cũng không kết luận lớp học không có công nghệ là tốt nhất.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 68,
+      "verified": true,
+      "correctAnswer": "v",
+      "explanation": "Đoạn A so sánh giới hạn của cá thể với trí tuệ bầy đàn; heading v khớp trọng tâm.",
+      "evidence": [
+        {
+          "location": "Đoạn A · câu 3–4",
+          "quote": "while an individual ant may possess limited intelligence, the collective behavior of the colony exhibits a remarkable level of problem-solving",
+          "note": "Đoạn A so sánh giới hạn của cá thể với trí tuệ bầy đàn; heading v khớp trọng tâm."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading v = collective intelligence vs individual limitations.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 69,
+      "verified": true,
+      "correctAnswer": "iv",
+      "explanation": "Đoạn B mô tả phân công lao động không do kiến chúa điều khiển mà tự hình thành theo tuổi, kích cỡ và nhu cầu.",
+      "evidence": [
+        {
+          "location": "Đoạn B · câu 2",
+          "quote": "roles are not assigned by a central leader but emerge through a decentralized process",
+          "note": "Đoạn B mô tả phân công lao động không do kiến chúa điều khiển mà tự hình thành theo tuổi, kích cỡ và nhu cầu."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading iv = decentralized task management.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 70,
+      "verified": true,
+      "correctAnswer": "i",
+      "explanation": "Đoạn C bàn pheromone cùng tín hiệu tiếp xúc và rung động, đúng vai trò tín hiệu hóa học và vật lý.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu 2–5",
+          "quote": "rely on an elaborate system of chemical signals called pheromones",
+          "note": "Đoạn C bàn pheromone cùng tín hiệu tiếp xúc và rung động, đúng vai trò tín hiệu hóa học và vật lý."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading i = chemical/physical signals.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 71,
+      "verified": true,
+      "correctAnswer": "ii",
+      "explanation": "Đoạn D nêu cá thể hy sinh để bảo vệ cả đàn và giải thích bằng quan hệ di truyền, nên heading ii bao quát.",
+      "evidence": [
+        {
+          "location": "Đoạn D · câu 2–4",
+          "quote": "Individual ants frequently sacrifice their own well-being, and even their lives, for the survival of the colony.",
+          "note": "Đoạn D nêu cá thể hy sinh để bảo vệ cả đàn và giải thích bằng quan hệ di truyền, nên heading ii bao quát."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading ii = sacrifice for colony survival.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 72,
+      "verified": true,
+      "correctAnswer": "FALSE",
+      "explanation": "Phát biểu nói kiến chúa chủ động phân việc; bài khẳng định rõ không có thủ lĩnh trung tâm phân công, vậy là FALSE.",
+      "evidence": [
+        {
+          "location": "Đoạn B · câu 2",
+          "quote": "roles are not assigned by a central leader but emerge through a decentralized process",
+          "note": "Phát biểu nói kiến chúa chủ động phân việc; bài khẳng định rõ không có thủ lĩnh trung tâm phân công, vậy là FALSE."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "FALSE requires contradiction; not simply no mention.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 73,
+      "verified": true,
+      "correctAnswer": "TRUE",
+      "explanation": "Khả năng dẫn đường của pheromone tăng cường khi nhiều kiến dùng dấu vết; đúng với phát biểu.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu 4",
+          "quote": "The strength of the trail is reinforced as more ants use it",
+          "note": "Khả năng dẫn đường của pheromone tăng cường khi nhiều kiến dùng dấu vết; đúng với phát biểu."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "TRUE: same meaning via reinforced = stronger.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 74,
+      "verified": true,
+      "correctAnswer": "TRUE",
+      "explanation": "Các nhà nghiên cứu robot/khoa học máy tính áp dụng cơ chế giao tiếp kiến vào thuật toán cho xe tự hành và mạng dữ liệu.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu cuối",
+          "quote": "researchers in robotics and computer science are developing algorithms to improve how autonomous vehicles and data networks operate",
+          "note": "Các nhà nghiên cứu robot/khoa học máy tính áp dụng cơ chế giao tiếp kiến vào thuật toán cho xe tự hành và mạng dữ liệu."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Apply principles in technology = inspired research-based algorithms.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 75,
+      "verified": true,
+      "correctAnswer": "NOT GIVEN",
+      "explanation": "Bài chỉ nói kiến gác cửa dùng đầu bịt lối vào tổ, không đánh giá chúng hung dữ nhất. Không có đủ dữ kiện để kết luận TRUE hay FALSE.",
+      "evidence": [
+        {
+          "location": "Đoạn D · câu 3",
+          "quote": "some species have 'door-keeper' ants with heads shaped specifically to plug the entrance of the nest",
+          "note": "Bài chỉ nói kiến gác cửa dùng đầu bịt lối vào tổ, không đánh giá chúng hung dữ nhất. Không có đủ dữ kiện để kết luận TRUE hay FALSE."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "NOT GIVEN: property is absent; do not assume 'door-keeper' means most aggressive.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
     },
     {
       "partId": "w",
@@ -423,5 +2002,40 @@
     "referenceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
     "official": false,
     "sourceNote": "Đáp án tham khảo đối chiếu với dạng bài và ngữ cảnh; chưa có đủ phân tích mọi phương án; cần tiếp tục kiểm tra."
-  }
+  },
+  "essayGuidances": [
+    {
+      "partId": "email",
+      "topic": "You are Minh. Write a 70–80-word email to David about your new online course and why you enjoy it.",
+      "sample": "Hi David,\n\nI’ve recently joined an online English course, and I’m really enjoying it. We meet twice a week on video calls, where we practise speaking in small groups and receive feedback from our tutor. I especially like the short interactive quizzes because they help me remember new expressions without simply memorising lists. The lessons also fit around my school schedule, so I can study without feeling rushed. Have you tried an online course before?\n\nBest,\nMinh",
+      "wordCount": 77,
+      "verified": true,
+      "status": "teacher-created-illustrative-not-a-unique-key",
+      "source": "Original Sơn La Writing Part 2",
+      "criteria": [
+        "Đúng vai Minh viết thư thân mật gửi David, có chào hỏi và kết thư phù hợp.",
+        "Nêu khóa học mới, hình thức/nội dung học rõ ràng.",
+        "Giải thích cụ thể lý do thích khóa học, không chỉ nói 'I enjoy it'.",
+        "Giữ giới hạn 70–80 từ theo quy định của đề gốc.",
+        "Bài mẫu chỉ minh họa cách trả lời; học sinh có thể triển khai khác hợp lý."
+      ]
+    },
+    {
+      "partId": "essay",
+      "topic": "Write an academic paragraph of 140–160 words on at least two benefits of community volunteering: empathy, practical life skills, and stronger community bonds.",
+      "sample": "Community volunteering can benefit both individuals and the wider society, particularly by developing empathy and strengthening social connections. When young people help at a community kitchen, for example, they meet families whose financial difficulties may be very different from their own. Listening to these experiences can challenge assumptions and encourage volunteers to respond to others with greater sensitivity. Volunteering can also help students acquire practical skills. Organising a donation drive requires them to plan tasks, communicate with local businesses and solve unexpected problems, abilities that are useful in both education and employment. These activities also bring residents who might otherwise remain strangers into contact with one another. As they work toward a common goal, they may begin to trust and support each other beyond the initial event. Although volunteering alone cannot solve structural social problems, it can create valuable opportunities for personal growth and stronger community relationships.",
+      "wordCount": 147,
+      "verified": true,
+      "status": "teacher-created-illustrative-not-a-unique-key",
+      "source": "Original Sơn La Writing Part 3",
+      "criteria": [
+        "Có topic sentence thể hiện phạm vi lợi ích cá nhân và xã hội.",
+        "Phân tích ít nhất hai lợi ích, cho thấy quá trình/cơ chế dẫn tới lợi ích.",
+        "Dùng ví dụ cụ thể liên quan tình nguyện; tránh liệt kê chung chung.",
+        "Giữ phạm vi luận điểm và tránh tuyệt đối hóa tác dụng của tình nguyện.",
+        "Đúng 140–160 từ, chỉ một đoạn học thuật, không chia thành bài luận nhiều đoạn.",
+        "Bài mẫu minh họa, không phải đáp án duy nhất hoặc bài được chấm điểm."
+      ]
+    }
+  ]
 }

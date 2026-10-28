@@ -9,7 +9,7 @@ const F=win.HSGNextThreeFormat,M=win.HSGExamSolutions;
 const examGroups={
  "dh-vinh":{b1:"mcq",b2:"error",b3:"word",c1:"mcq",c2:"ynng",c3:"fill",c4:"match",c5:"fill",c6:"match",d:"rewrite"},
  "phu-tho":{g:"mcq",wf:"word",e:"error",r1:"mcq",r2:"fill",r3:"mcq",w:"rewrite"},
- "son-la":{g1:"mcq",g2:"mcq",w:"rewrite"}
+ "son-la":{g1:"mcq",g2:"mcq",wf:"word",pr:"fill",oc:"fill",m:"match",r:"mcq",h:"match",tf:"tfng",w:"rewrite"}
 };
 const docs=Object.fromEntries(Object.keys(examGroups).map(id=>[id,JSON.parse(read("content/hsg-tinh/"+id+".solutions.json"))]));
 const prefixes={
@@ -22,7 +22,7 @@ const norm=s=>String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
 const storedPaper=id=>JSON.parse(zlib.gunzipSync(Buffer.from(read("content/hsg-tinh/"+id+".txt").trim(),"base64")).toString("utf8")).pages.map(x=>x.text).join("\n");
 
 test("Three neighboring HSG papers have an accurate number of sourced explanation records",()=>{
- assert.deepEqual(Object.fromEntries(Object.entries(docs).map(([id,d])=>[id,d.records.length])),{"dh-vinh":90,"phu-tho":70,"son-la":12});
+ assert.deepEqual(Object.fromEntries(Object.entries(docs).map(([id,d])=>[id,d.records.length])),{"dh-vinh":90,"phu-tho":70,"son-la":55});
  for(const [id,d] of Object.entries(docs)){
   const used=new Set();
   for(const record of d.records){
@@ -52,12 +52,13 @@ test("Every published reference uses its own subject-specific stages and remains
    }else{
     assert.ok((html.match(/semantic-step-label/g)||[]).length>=3);
    }
-   assert.ok(html.includes("không phải đáp án chính thức"));
+   assert.ok(html.includes("data-hsg-next-three-format"));
+   assert.ok(!html.includes("Một số dòng/trích dẫn còn cần đối chiếu"));
    assert.ok(!html.includes("undefined")&&!html.includes("null</p>"));
    done++;
   }
  }
- assert.equal(done,172);
+ assert.equal(done,215);
 });
 test("Original question text supports all 25 curated full sentences and source-verified prefixes",()=>{
  for(const [id,doc] of Object.entries(docs)){
@@ -123,4 +124,76 @@ test("Phu Tho Lexico-Grammar has 60 original bilingual A-D examples and full Vie
  assert.deepEqual(question30.reviewChoices,["C"]);
  assert.equal(M.assess("mcq",{value:"C"},question30),"review");
  assert.match(F.render("phu-tho","g",30,{type:"mcq",stem:question30.evidence[0].quote,options:["at loggerheads","on the house","at daggers drawn","under their breath"]},question30,M.asExplanationV1(question30,{type:"mcq",options:["at loggerheads","on the house","at daggers drawn","under their breath"]},{kind:"mcq"})),/cũng có cơ sở ngôn ngữ/);
+});
+
+
+test("All 55 Sơn La answerable questions have source-specific evidence and type-aligned answers",()=>{
+ const d=docs["son-la"],groups=examGroups["son-la"],counts={};
+ const keys=new Set(d.records.map(r=>r.partId+":"+r.number));
+ for(const r of d.records){
+  counts[r.partId]=(counts[r.partId]||0)+1;
+  assert.ok(r.evidence[0].quote.length>=20,"Missing context for "+r.partId+":"+r.number);
+  assert.ok(r.explanation.length>=30,"Missing causal explanation for "+r.partId+":"+r.number);
+  assert.ok(r.transferablePattern.length>=10,"Missing transferable pattern for "+r.partId+":"+r.number);
+  const q={type:groups[r.partId],stem:r.evidence[0].quote,options:["A","B","C","D"]};
+  const html=F.render("son-la",r.partId,r.number,q,r,M.asExplanationV1(r,q,{kind:groups[r.partId]}));
+  if(r.partId!=="w")assert.ok(html&&html.includes("Đáp án"),"No answer card "+r.partId+":"+r.number);
+ }
+ for(const [part,start,end] of [["g1",26,30],["g2",31,40],["wf",41,45],["pr",46,50],["oc",51,55],["m",56,60],["r",61,67],["h",68,71],["tf",72,75],["w",76,80]])
+  for(let n=start;n<=end;n++)assert.ok(keys.has(part+":"+n),"Missing Son La "+part+":"+n);
+ assert.deepEqual(counts,{g1:5,g2:10,w:5,wf:5,pr:5,oc:5,m:5,r:7,h:4,tf:4});
+ for(let n=26;n<=40;n++){
+  const r=d.records.find(r=>r.number===n);
+  assert.equal(r.examples.length,4,"Four distinct A–D examples for "+n);
+  assert.equal(r.examples.map(e=>e.word).join(""),"ABCD");
+  assert.equal(r.optionNotes.length,4,"Four option explanations for "+n);
+ }
+});
+test("Ambiguous source questions are never categorically marked wrong",()=>{
+ const d=docs["son-la"];
+ for(const [part,n,alternative,main] of [["g2",34,"C","A"],["g2",36,"B","A"],["g2",38,"B","C"]]){
+  const r=d.records.find(r=>r.partId===part&&r.number===n);
+  assert.equal(r.correctAnswer,main);
+  assert.ok(r.reviewChoices.includes(alternative));
+  assert.equal(M.assess("mcq",{value:alternative},r),"review");
+  assert.equal(M.assess("mcq",{value:main},r),"correct");
+ }
+ for(const [n,alt] of [[54,"because"],[54,"as"],[55,"fully"],[55,"better"]]){
+  const r=d.records.find(r=>r.partId==="oc"&&r.number===n);
+  assert.ok(r.acceptedAnswers.includes(alt));
+  assert.equal(M.assess("fill",{value:alt},r),"correct");
+ }
+});
+test("Both Sơn La open-writing tasks contain independent word-count-compliant models",()=>{
+ const d=docs["son-la"];
+ const tasks=d.essayGuidances;
+ assert.equal(tasks.length,2);
+ assert.equal(tasks.map(x=>x.partId).join(","),"email,essay");
+ const w=s=>s.trim().split(/\s+/).length;
+ for(const x of tasks){
+  assert.equal(x.wordCount,w(x.sample));
+  assert.ok(M.essayExplanationV1(x).application===x.sample);
+  assert.ok(x.criteria.length>=4);
+ }
+ assert.ok(w(tasks[0].sample)>=70&&w(tasks[0].sample)<=80);
+ assert.ok(w(tasks[1].sample)>=140&&w(tasks[1].sample)<=160);
+});
+
+
+test("Two Sơn La writing guides are routed to their own post-submit part",()=>{
+ const source=read("features/hsg-tinh.js");
+ assert.match(source,/bank\?\.essayGuidances\?\.find\(x=>x\.partId===g\.id\)/);
+ const d=docs["son-la"];
+ const parts=[
+  {id:"email",name:"Email Writing",start:1,end:1,kind:"essay"},
+  {id:"essay",name:"Paragraph Writing",start:1,end:1,kind:"essay"}
+ ];
+ const report=M.build({id:"son-la",title:"Sơn La",year:"2026–2027"},parts,{},()=>({type:"essay",stem:"Writing task"}),d);
+ assert.equal(report.solutions.essayGuidances.length,2);
+ assert.equal(report.parts.length,2);
+ for(const part of report.parts){
+  const guide=report.solutions.essayGuidances.find(x=>x.partId===part.id);
+  assert.ok(guide);
+  assert.equal(M.essayExplanationV1(guide).application,guide.sample);
+ }
 });
