@@ -188,6 +188,7 @@ function feedback(q,pick,wasCorrect,kind){
   const order=optionOrder(q);
   const rightLetter=String.fromCharCode(65+order.indexOf(q.correct));
   const rule=note.rule||q.why;
+  const mechanism=note.reasoning||"";
   if(retry){
     return '<div class="g21-feedback bad g21-v2-hint" role="status">'+
       '<strong>Chưa đúng — thử lại nhé</strong>'+
@@ -203,10 +204,12 @@ function feedback(q,pick,wasCorrect,kind){
     '<p class="g21-v2-answer"><b>Đáp án '+rightLetter+':</b> '+esc(q.options[q.correct])+'</p>'+
     '<p class="g21-v2-sentence"><b>'+(isFormula?'Công thức đúng:':'Câu hoàn chỉnh:')+'</b> '+filledExample(q)+'</p>'+
     (q.vi?'<p class="g21-v2-translation"><b>Nghĩa:</b> '+esc(q.vi)+'</p>':"")+
+    (usefulClue?'<p class="g21-v2-clue"><b>Dấu hiệu:</b> '+esc(note.clue)+'</p>':"")+
     '<p class="g21-v2-brief"><b>Vì sao '+rightLetter+' đúng?</b> '+esc(rule)+'</p>'+
+    (mechanism?'<p class="g21-v2-mechanism"><b>Cách suy luận:</b> '+esc(mechanism)+'</p>':"")+
     '<details class="g21-more g21-explain-more"><summary>Xem giải thích chi tiết <span aria-hidden="true">⌄</span></summary>'+
     '<div class="g21-more-body">'+
-    (usefulClue?'<div class="g21-v2-reason"><b>1. Dấu hiệu trong đề</b><p>'+esc(note.clue)+'</p></div>':"")+
+    (!usefulClue&&note.clue?'<div class="g21-v2-reason"><b>Dấu hiệu trong đề</b><p>'+esc(note.clue)+'</p></div>':"")+
     '<h4 class="g21-wrong-heading">Phân tích từng lựa chọn A–D</h4>'+
     order.map(i=>explanationChoice(q,i,order)).join("")+
     (q.pitfall?'<p class="g21-v2-pitfall"><b>Lỗi dễ nhầm:</b> '+esc(q.pitfall)+'</p>':"")+
@@ -310,7 +313,7 @@ function learn(){
         '<div class="g21-v1-block g21-v1-formula"><h3>2. Công thức</h3>'+
           '<p class="g21-v1-formula-text">'+esc(v.formula)+'</p>'+
           '<small>S = chủ ngữ · V = động từ · V2 = quá khứ đơn · V3 = quá khứ phân từ</small></div>'+
-        '<div class="g21-v1-block g21-v1-core"><h3>3. Quy tắc cốt lõi</h3><p>'+esc(v.core)+'</p></div>'+
+        '<div class="g21-v1-block g21-v1-core"><h3>3. Quy tắc cốt lõi</h3><p>'+esc(v.core)+'</p>'+(v.reason?'<p class="g21-v1-explain-reason"><span>Hiểu bản chất</span>'+esc(v.reason)+'</p>':"")+'</div>'+
       '</section>'+
       '<section class="g21-teaching g21-v1-examples">'+
         '<div class="g21-sectionhead"><h3>4. Ví dụ đối chiếu</h3><span>3 câu đầu · '+s.examples.length+' câu tất cả</span></div>'+
