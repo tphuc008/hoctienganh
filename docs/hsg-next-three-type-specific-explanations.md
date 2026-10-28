@@ -42,7 +42,7 @@ For genuine multiple-choice explanation records that lack four A–D bilingual e
 - `features/hsg-tinh.js` — after-unlock type-specific renderer with existing V1 fallback.
 - `index.html` — loads the type-specific file before the HSG view.
 - `content/hsg-tinh/{dh-vinh,phu-tho,son-la}.solutions.json` — source-preserving corrections and Sơn La Writing records.
-- `tests/hsg-next-three-explanation-formats.test.cjs` — all 172 cards, all 25 four-section sentence transformations, prompt-source checks, no cross-exam leakage.
+- `tests/hsg-next-three-explanation-formats.test.cjs` — all 215 cards, all 25 four-section sentence transformations, prompt-source checks, no cross-exam leakage.
 
 ## 2026-10-28 completion and re-check
 
