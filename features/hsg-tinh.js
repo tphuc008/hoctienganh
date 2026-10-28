@@ -416,7 +416,9 @@ function attachHSGExplanationControls(root,g){
     }
     // Only display material requested by the user. Do not evaluate or change any
     // saved answers, scores, unlocks or answer keys.
-    panel.innerHTML=
+    const scopedHtml=global.HSGHaiPhongFormat?.render(
+      g.id,n,q,hsgExplanationSource(g,n),spec);
+    panel.innerHTML=scopedHtml||
       global.ExplanationV1.render(spec,{className:"hsg-hp-reference"});
     // One click reveals both the suggested answer and all three V1.1
     // explanation stages. The shared renderer remains unchanged.
