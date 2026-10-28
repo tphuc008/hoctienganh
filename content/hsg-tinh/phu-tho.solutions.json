@@ -39,7 +39,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "They arrived late, didn't they?",
+          "vi": "Họ đến muộn, phải không?"
+        },
+        {
+          "word": "B",
+          "en": "They didn't leave early, did they?",
+          "vi": "Họ không rời đi sớm, đúng không?"
+        },
+        {
+          "word": "C",
+          "en": "He joined the team, didn't he?",
+          "vi": "Anh ấy đã gia nhập đội, đúng không?"
+        },
+        {
+          "word": "D",
+          "en": "He didn't attend the meeting, did he?",
+          "vi": "Anh ấy đã không dự họp, phải không?"
+        }
+      ],
+      "translation": "Họ không nhận ra người nổi tiếng khi anh ấy đeo kính râm, phải không?"
     },
     {
       "partId": "g",
@@ -64,7 +87,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "Taking notes helps me remember key points.",
+          "vi": "Việc ghi chép giúp tôi nhớ các ý chính."
+        },
+        {
+          "word": "B",
+          "en": "She took a short break after class.",
+          "vi": "Cô ấy nghỉ giải lao sau giờ học."
+        },
+        {
+          "word": "C",
+          "en": "I plan to take a holiday in June.",
+          "vi": "Tôi định đi nghỉ vào tháng Sáu."
+        },
+        {
+          "word": "D",
+          "en": "I'd rather take the train than fly.",
+          "vi": "Tôi thích đi tàu hơn đi máy bay."
+        }
+      ],
+      "translation": "Tôi thích đi nghỉ ở Ai Cập hơn. Tôi rất thích đồ ăn ở đó."
     },
     {
       "partId": "g",
@@ -89,7 +135,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "She is proud of her achievements.",
+          "vi": "Cô ấy tự hào về những thành tựu của mình."
+        },
+        {
+          "word": "B",
+          "en": "Are you familiar with this procedure?",
+          "vi": "Bạn có quen với quy trình này không?"
+        },
+        {
+          "word": "C",
+          "en": "My opinion differs from yours.",
+          "vi": "Quan điểm của tôi khác quan điểm của bạn."
+        },
+        {
+          "word": "D",
+          "en": "The outcome depends on the budget.",
+          "vi": "Kết quả phụ thuộc vào ngân sách."
+        }
+      ],
+      "translation": "Úc có bản sắc văn hóa riêng, rất khác với bản sắc của Anh."
     },
     {
       "partId": "g",
@@ -114,7 +183,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "She must have been exhausted after the long journey.",
+          "vi": "Chắc hẳn cô ấy rất mệt sau chuyến đi dài."
+        },
+        {
+          "word": "B",
+          "en": "The report ought to have been checked before publication.",
+          "vi": "Lẽ ra báo cáo phải được kiểm tra trước khi xuất bản."
+        },
+        {
+          "word": "C",
+          "en": "The warning should have been issued earlier.",
+          "vi": "Lẽ ra cảnh báo phải được đưa ra sớm hơn."
+        },
+        {
+          "word": "D",
+          "en": "The fault could have been caused by heavy rain.",
+          "vi": "Sự cố có thể đã do mưa lớn gây ra."
+        }
+      ],
+      "translation": "Larry lái xe suốt đêm để dự đám cưới của chị gái; chắc hẳn anh ấy rất mệt khi đến nơi."
     },
     {
       "partId": "g",
@@ -139,7 +231,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "Launching the service requires careful planning.",
+          "vi": "Việc ra mắt dịch vụ đòi hỏi lập kế hoạch cẩn thận."
+        },
+        {
+          "word": "B",
+          "en": "To launch a new product, the team needs funding.",
+          "vi": "Để ra mắt sản phẩm mới, nhóm cần kinh phí."
+        },
+        {
+          "word": "C",
+          "en": "Launched in 2020, the satellite still provides data.",
+          "vi": "Được phóng năm 2020, vệ tinh vẫn cung cấp dữ liệu."
+        },
+        {
+          "word": "D",
+          "en": "Having launched the app, they began collecting feedback.",
+          "vi": "Sau khi ra mắt ứng dụng, họ bắt đầu thu thập phản hồi."
+        }
+      ],
+      "translation": "Được phóng thành công năm ngoái, vệ tinh đã truyền dữ liệu hữu ích về Trái Đất."
     },
     {
       "partId": "g",
@@ -168,7 +283,30 @@
       "reviewChoices": [
         "B"
       ],
-      "advisory": "Therefore có thể diễn giải staycation tăng như một hệ quả của chi phí du lịch tăng; nguồn giải chọn meanwhile."
+      "advisory": "Therefore có thể diễn giải staycation tăng như một hệ quả của chi phí du lịch tăng; nguồn giải chọn meanwhile.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The plan is affordable; moreover, it reduces emissions.",
+          "vi": "Kế hoạch có chi phí hợp lý; hơn nữa, nó còn giảm khí thải."
+        },
+        {
+          "word": "B",
+          "en": "The road was blocked; therefore, we took another route.",
+          "vi": "Đường bị chặn; vì vậy, chúng tôi đi đường khác."
+        },
+        {
+          "word": "C",
+          "en": "Please hurry; otherwise, you'll miss the train.",
+          "vi": "Hãy nhanh lên; nếu không bạn sẽ lỡ tàu."
+        },
+        {
+          "word": "D",
+          "en": "The students worked on the report; meanwhile, their teacher checked the data.",
+          "vi": "Học sinh làm báo cáo; trong khi đó, giáo viên kiểm tra dữ liệu."
+        }
+      ],
+      "translation": "Lạm phát tăng khiến nhiều gia đình giảm du lịch xa; trong khi đó, du lịch nghỉ dưỡng gần nhà tăng mạnh."
     },
     {
       "partId": "g",
@@ -193,7 +331,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "The teacher helped calm down the anxious students.",
+          "vi": "Giáo viên giúp các học sinh lo lắng bình tĩnh lại."
+        },
+        {
+          "word": "B",
+          "en": "The storm finally eased off overnight.",
+          "vi": "Cơn bão cuối cùng cũng dịu bớt trong đêm."
+        },
+        {
+          "word": "C",
+          "en": "Security guards tried to break up the fight.",
+          "vi": "Nhân viên an ninh cố ngăn cuộc ẩu đả."
+        },
+        {
+          "word": "D",
+          "en": "Could you put me through to the finance department?",
+          "vi": "Bạn nối máy cho tôi đến phòng tài chính được không?"
+        }
+      ],
+      "translation": "Khi cuộc thảo luận trở nên căng thẳng, chủ tọa cố gắng làm dịu tình hình bằng cách đổi chủ đề."
     },
     {
       "partId": "g",
@@ -218,7 +379,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "The statue was donated to the museum by a local family.",
+          "vi": "Bức tượng được một gia đình địa phương tặng cho bảo tàng."
+        },
+        {
+          "word": "B",
+          "en": "The museum was given a new sculpture by the artist.",
+          "vi": "Bảo tàng được nghệ sĩ tặng một tác phẩm điêu khắc mới."
+        },
+        {
+          "word": "C",
+          "en": "The residents presented their town with a new library.",
+          "vi": "Người dân tặng thị trấn của họ một thư viện mới."
+        },
+        {
+          "word": "D",
+          "en": "The artist designed a monument for the city.",
+          "vi": "Nghệ sĩ thiết kế một đài tưởng niệm cho thành phố."
+        }
+      ],
+      "translation": "Được Bartholdi thiết kế, Tượng Nữ thần Tự do đã được nhân dân Pháp tặng cho Hoa Kỳ."
     },
     {
       "partId": "g",
@@ -243,7 +427,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "That makes the project more useful to local schools.",
+          "vi": "Điều đó khiến dự án hữu ích hơn cho các trường địa phương."
+        },
+        {
+          "word": "B",
+          "en": "What makes this project remarkable is its low cost.",
+          "vi": "Điều khiến dự án này nổi bật là chi phí thấp."
+        },
+        {
+          "word": "C",
+          "en": "The students' project is ready for exhibition.",
+          "vi": "Dự án của học sinh đã sẵn sàng để trưng bày."
+        },
+        {
+          "word": "D",
+          "en": "Their project, which is now complete, will be presented tomorrow.",
+          "vi": "Dự án của họ, hiện đã hoàn thành, sẽ được trình bày ngày mai."
+        }
+      ],
+      "translation": "Điều khiến dự án đáng chú ý là những học sinh trẻ phát triển thành công mô hình AI dù nguồn lực hạn chế."
     },
     {
       "partId": "g",
@@ -273,7 +480,31 @@
       "reviewChoices": [
         "C"
       ],
-      "advisory": "At daggers drawn (with somebody over something) cũng có thể mô tả hai bên bất hòa; xét thêm ý nghĩa và cấu trúc."
+      "advisory": "At daggers drawn over something có thể diễn tả xung đột gay gắt về một vấn đề; đáp án C cũng có cơ sở ngôn ngữ. A là đáp án tham khảo vì collocation at loggerheads over đặc biệt phổ biến, nhưng không nên tự chấm C là sai tuyệt đối.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The two directors are at loggerheads over the budget.",
+          "vi": "Hai giám đốc đang bất đồng gay gắt về ngân sách."
+        },
+        {
+          "word": "B",
+          "en": "Dessert was on the house tonight.",
+          "vi": "Tối nay món tráng miệng được nhà hàng tặng miễn phí."
+        },
+        {
+          "word": "C",
+          "en": "The neighbours have been at daggers drawn for years.",
+          "vi": "Hai người hàng xóm đã đối đầu gay gắt trong nhiều năm."
+        },
+        {
+          "word": "D",
+          "en": "She muttered her objection under her breath.",
+          "vi": "Cô ấy lẩm bẩm lời phản đối rất khẽ."
+        }
+      ],
+      "translation": "Hai anh chị em đang bất đồng gay gắt về quyền sở hữu ngôi nhà của gia đình.",
+      "editorialStatus": "needs-review"
     },
     {
       "partId": "g",
@@ -298,7 +529,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "The manager allegedly concealed the complaint.",
+          "vi": "Người quản lý bị cáo buộc đã che giấu đơn khiếu nại."
+        },
+        {
+          "word": "B",
+          "en": "I distinctly remember receiving that message.",
+          "vi": "Tôi nhớ rất rõ mình đã nhận tin nhắn đó."
+        },
+        {
+          "word": "C",
+          "en": "The company categorically denied the allegations.",
+          "vi": "Công ty kiên quyết bác bỏ các cáo buộc."
+        },
+        {
+          "word": "D",
+          "en": "The cyclist narrowly avoided an accident.",
+          "vi": "Người đi xe đạp suýt gặp tai nạn."
+        }
+      ],
+      "translation": "Chúng tôi kiên quyết bác bỏ mọi cáo buộc thao túng hoặc thay đổi trái phép bóng thi đấu."
     },
     {
       "partId": "g",
@@ -323,7 +577,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "The valley has fertile soil suitable for farming.",
+          "vi": "Thung lũng có đất màu mỡ thích hợp trồng trọt."
+        },
+        {
+          "word": "B",
+          "en": "The negotiations were fruitful for both sides.",
+          "vi": "Các cuộc đàm phán mang lại kết quả tốt cho cả hai bên."
+        },
+        {
+          "word": "C",
+          "en": "His profligate spending left him in debt.",
+          "vi": "Việc chi tiêu hoang phí khiến anh ấy mắc nợ."
+        },
+        {
+          "word": "D",
+          "en": "She is a prolific writer of children's books.",
+          "vi": "Cô ấy là tác giả viết rất nhiều sách thiếu nhi."
+        }
+      ],
+      "translation": "Vera bắt đầu viết sách ở tuổi ngoài 60 nhưng trở thành một trong những tác giả sáng tác nhiều nhất thế hệ."
     },
     {
       "partId": "g",
@@ -348,7 +625,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "We are working on the premise that demand will rise.",
+          "vi": "Chúng tôi hành động dựa trên giả định rằng nhu cầu sẽ tăng."
+        },
+        {
+          "word": "B",
+          "en": "The company has a strong customer base.",
+          "vi": "Công ty có nền tảng khách hàng vững chắc."
+        },
+        {
+          "word": "C",
+          "en": "There is no ground for dismissing the complaint.",
+          "vi": "Không có căn cứ để bác bỏ khiếu nại."
+        },
+        {
+          "word": "D",
+          "en": "The new law protects personal information.",
+          "vi": "Luật mới bảo vệ thông tin cá nhân."
+        }
+      ],
+      "translation": "Chúng ta nên hành động dựa trên giả định rằng kế hoạch sẽ thành công."
     },
     {
       "partId": "g",
@@ -373,7 +673,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "The coach persuaded her to try again.",
+          "vi": "Huấn luyện viên thuyết phục cô ấy thử lại."
+        },
+        {
+          "word": "B",
+          "en": "Don't underestimate the pressure students face.",
+          "vi": "Đừng đánh giá thấp áp lực mà học sinh phải đối mặt."
+        },
+        {
+          "word": "C",
+          "en": "The new evidence convinced the jury.",
+          "vi": "Chứng cứ mới đã thuyết phục bồi thẩm đoàn."
+        },
+        {
+          "word": "D",
+          "en": "High fees discourage some families from applying.",
+          "vi": "Học phí cao khiến một số gia đình ngần ngại nộp đơn."
+        }
+      ],
+      "translation": "Nhiều phụ huynh thường đánh giá thấp áp lực mạng xã hội đặt lên thanh thiếu niên."
     },
     {
       "partId": "g",
@@ -398,7 +721,30 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "examples": [
+        {
+          "word": "A",
+          "en": "I'm afraid I can't attend the meeting tomorrow.",
+          "vi": "Tôi e là ngày mai tôi không thể dự họp."
+        },
+        {
+          "word": "B",
+          "en": "What for? I don't believe you need another laptop.",
+          "vi": "Để làm gì? Tôi không tin bạn cần thêm máy tính xách tay."
+        },
+        {
+          "word": "C",
+          "en": "I'm glad you like the course.",
+          "vi": "Tôi rất vui vì bạn thích khóa học."
+        },
+        {
+          "word": "D",
+          "en": "Certainly! Driverless cars already exist.",
+          "vi": "Chắc chắn rồi! Xe tự lái đã tồn tại."
+        }
+      ],
+      "translation": "Joe đồng ý rằng tương lai có thể có máy bay không người lái, viện dẫn xe tự lái làm ví dụ."
     },
     {
       "partId": "wf",
@@ -420,7 +766,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "SCIENCE",
+      "partOfSpeech": "Danh từ số nhiều (plural noun)",
+      "confusionNote": "Scientist là một nhà khoa học; science là ngành khoa học; vị trí chủ ngữ số nhiều yêu cầu scientists."
     },
     {
       "partId": "wf",
@@ -442,7 +791,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "ABLE",
+      "partOfSpeech": "Động từ quá khứ (past simple)",
+      "confusionNote": "Able là tính từ, enable là động từ (en- + able); mốc kể chuyện quá khứ yêu cầu enabled."
     },
     {
       "partId": "wf",
@@ -464,7 +816,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "ADMIRE",
+      "partOfSpeech": "Danh từ không đếm được (uncountable noun)",
+      "confusionNote": "Admire là động từ; admiration là danh từ đi song song với fear."
     },
     {
       "partId": "wf",
@@ -486,7 +841,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "POWER",
+      "partOfSpeech": "Tính từ (adjective)",
+      "confusionNote": "Powerful là tính từ 'mạnh'; power là danh từ/động từ. More powerful là so sánh hơn."
     },
     {
       "partId": "wf",
@@ -508,7 +866,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "CHANGE",
+      "partOfSpeech": "Tính từ (adjective)",
+      "confusionNote": "Unchanging = không thay đổi; changing = đang thay đổi. Ngữ cảnh đối chiếu với dynamic systems."
     },
     {
       "partId": "wf",
@@ -530,7 +891,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "COMPLICATE",
+      "partOfSpeech": "Tính từ (adjective)",
+      "confusionNote": "Complicated là tính từ chỉ độ phức tạp; complicate là động từ."
     },
     {
       "partId": "wf",
@@ -552,7 +916,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "BELIEVE",
+      "partOfSpeech": "Danh từ số nhiều (plural noun)",
+      "confusionNote": "Belief (danh từ) có số nhiều beliefs, khác với believe (động từ)."
     },
     {
       "partId": "wf",
@@ -577,7 +944,10 @@
       },
       "acceptedAnswers": [
         "innumerable"
-      ]
+      ],
+      "baseWord": "NUMBER",
+      "partOfSpeech": "Tính từ (adjective)",
+      "confusionNote": "Numerous là tính từ chỉ số lượng lớn; number ở dạng danh từ không bổ nghĩa trực tiếp theo ý này."
     },
     {
       "partId": "wf",
@@ -599,7 +969,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "INCREASE",
+      "partOfSpeech": "Trạng từ (adverb)",
+      "confusionNote": "Increasingly là trạng từ bổ nghĩa reliable; increasing là tính từ không phù hợp vị trí này."
     },
     {
       "partId": "wf",
@@ -621,7 +994,10 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "baseWord": "KNOW",
+      "partOfSpeech": "Danh từ hóa tính từ (nominalised adjective)",
+      "confusionNote": "The unknown là phần/điều chưa biết; dùng the + adjective để danh từ hóa."
     },
     {
       "partId": "e",
