@@ -89,6 +89,22 @@ for(const unit of [2,3]){
   assert.equal((html.match(/class="g6-example-row"/g)||[]).length,4);
  });
 }
+test("All ten Unit 2–3 pronunciation questions have keys, marked sounds and no warning",()=>{
+ const expected={2:[1,2,0,2,0],3:[3,1,0,3,0]};
+ for(const unit of [2,3]){
+  const [a]=data(unit);
+  const qs=a.groups.find(g=>g.id==="pronunciation").items;
+  assert.equal(qs.length,5);
+  qs.forEach((q,i)=>{
+   assert.equal(q.a,expected[unit][i],q.id+" unit "+unit);
+   assert.equal(q.flag,"",q.id+" warning");
+   assert.ok(q.note.length>35,q.id+" explanation");
+   assert.equal((q.q.match(/<u>/g)||[]).length,4,q.id+" underlines");
+   assert.equal((q.q.match(/<\/u>/g)||[]).length,4,q.id+" closing underlines");
+  });
+ }
+});
+
 test("Grade 6 Unit 1 remains untouched and the two new units have their own routes",()=>{
  const m=read("content/manifest.js");
  for(const u of [1,2,3])for(const suffix of ["","/original","/practice"])
