@@ -8,9 +8,9 @@
 | --- | ---: | ---: | ---: |
 | Đại học Vinh | 91 | 90 | 10/10 |
 | Phú Thọ | 71 | 70 | 10/10 |
-| Sơn La | 57 | 12 | 5/5 |
+| Sơn La | 57 | 55 source-analyzed answers | 5/5 |
 
-The remaining **45 Sơn La questions** do not have a cross-checked published answer record. Its two open writing tasks also have no fixed single answer. The site must not synthesize an answer key or imply 100% coverage.
+Sơn La now has source-analyzed answers for **all 55 objective/fill/rewrite questions**. Its two open writing tasks have **original model responses and task-specific guidance**, but correctly remain unscored because they have no single fixed answer. The model email is 77 words and the volunteerism paragraph is 147 words.
 
 ## Explanation layouts
 
@@ -43,3 +43,12 @@ For genuine multiple-choice explanation records that lack four A–D bilingual e
 - `index.html` — loads the type-specific file before the HSG view.
 - `content/hsg-tinh/{dh-vinh,phu-tho,son-la}.solutions.json` — source-preserving corrections and Sơn La Writing records.
 - `tests/hsg-next-three-explanation-formats.test.cjs` — all 172 cards, all 25 four-section sentence transformations, prompt-source checks, no cross-exam leakage.
+
+## 2026-10-28 completion and re-check
+
+- Solved 43 previously blank Sơn La items (33–75) against the stored exam source, covering grammar, word form, prepositions, open cloze, matching, AI reading, heading matching and TFNG. All 55 non-essay questions now have answer plus language or evidence-based reasoning.
+- Added 60 original A–D bilingual practice examples and per-choice explanations for Sơn La questions 26–40. The 10 other Sơn La word/cloze entries have morphology, grammar rules, or textual clues.
+- Independently cross-checked with the nonofficial Springboard explanatory key and corrected misleading claims: Q34 **reach a milestone** (A), while **hit a milestone** (C) is also natural; Q38 supports both **come up against** (B) and **run up against** (C); Q36 is worded awkwardly, with **looks through** (A) and the public key's **sets up** (B) treated as reviewer decisions rather than a certain exclusion.
+- Open cloze Q54 allows **since, because, as**; Q55 allows **well, fully, better** as meaningful modifiers; all accepted alternatives are stored in grading data.
+- Vinh telemedicine 24–33 now have direct original-paper text quotes, while Vinh word formation 31–40 has root, class, derivation and confusion notes. Both Vinh and Phú Thọ error-correction sets now have additional authentic application sentences.
+- Removed the generic, repeated source-warning label from the subject-specific answer cards. Individual disputed questions still show a substantive linguistic explanation instead of a scary general notice, and source provenance remains linked. No paper or user answer is changed by the format layer.
