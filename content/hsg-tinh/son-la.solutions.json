@@ -28,8 +28,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "A city introduced low-emission buses, which helped improve air quality.",
-          "vi": "Thành phố đã đưa xe buýt ít khí thải vào hoạt động, điều này giúp cải thiện chất lượng không khí."
+          "en": "The project reduced waste, which pleased local residents.",
+          "vi": "Dự án giảm rác thải, điều này khiến người dân hài lòng."
+        },
+        {
+          "word": "B",
+          "en": "This is the village where my grandparents grew up.",
+          "vi": "Đây là làng nơi ông bà tôi lớn lên."
+        },
+        {
+          "word": "C",
+          "en": "I believe that the policy will work.",
+          "vi": "Tôi tin rằng chính sách sẽ hiệu quả."
+        },
+        {
+          "word": "D",
+          "en": "The candidate whom we interviewed was qualified.",
+          "vi": "Ứng viên mà chúng tôi phỏng vấn có năng lực."
         }
       ],
       "provenance": {
@@ -74,9 +89,24 @@
       "transferablePattern": "Gerund phrase as subject + singular verb.",
       "examples": [
         {
+          "word": "A",
+          "en": "Reduce the volume before starting the call.",
+          "vi": "Hãy giảm âm lượng trước cuộc gọi."
+        },
+        {
           "word": "B",
-          "en": "Learning vocabulary in context helps students remember words.",
-          "vi": "Học từ vựng trong ngữ cảnh giúp học sinh ghi nhớ từ tốt hơn."
+          "en": "Reducing traffic congestion benefits commuters.",
+          "vi": "Giảm ùn tắc mang lại lợi ích cho người đi làm."
+        },
+        {
+          "word": "C",
+          "en": "Reduced prices attracted more customers.",
+          "vi": "Giá giảm đã thu hút thêm khách."
+        },
+        {
+          "word": "D",
+          "en": "To reduce costs, we shared equipment.",
+          "vi": "Để giảm chi phí, chúng tôi dùng chung thiết bị."
         }
       ],
       "provenance": {
@@ -122,8 +152,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "Although the train is cheaper, some commuters still drive.",
-          "vi": "Mặc dù tàu hỏa rẻ hơn, một số người đi làm vẫn lái ô tô."
+          "en": "Although it was raining, we continued cycling.",
+          "vi": "Dù trời mưa, chúng tôi vẫn tiếp tục đạp xe."
+        },
+        {
+          "word": "B",
+          "en": "Despite the rain, we continued cycling.",
+          "vi": "Bất chấp mưa, chúng tôi vẫn đạp xe."
+        },
+        {
+          "word": "C",
+          "en": "Because of the storm, the match was postponed.",
+          "vi": "Vì cơn bão, trận đấu bị hoãn."
+        },
+        {
+          "word": "D",
+          "en": "You may enter only when the signal turns green.",
+          "vi": "Bạn chỉ có thể vào khi tín hiệu chuyển xanh."
         }
       ],
       "provenance": {
@@ -169,8 +214,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "Because fuel prices rose, more people began cycling to work.",
-          "vi": "Vì giá nhiên liệu tăng, nhiều người bắt đầu đạp xe đi làm."
+          "en": "Because prices rose, demand fell.",
+          "vi": "Vì giá tăng, nhu cầu giảm."
+        },
+        {
+          "word": "B",
+          "en": "Much as I admire her, I disagree with her decision.",
+          "vi": "Dù rất ngưỡng mộ cô ấy, tôi không đồng ý quyết định đó."
+        },
+        {
+          "word": "C",
+          "en": "Although the road is narrow, buses can pass.",
+          "vi": "Dù đường hẹp, xe buýt vẫn có thể đi qua."
+        },
+        {
+          "word": "D",
+          "en": "He spoke as though he knew everything.",
+          "vi": "Anh ấy nói như thể biết mọi thứ."
         }
       ],
       "provenance": {
@@ -215,9 +275,24 @@
       "transferablePattern": "Should + S + V, S + can/will + V.",
       "examples": [
         {
+          "word": "A",
+          "en": "If governments invest in cycling, emissions may fall.",
+          "vi": "Nếu chính phủ đầu tư đường xe đạp, khí thải có thể giảm."
+        },
+        {
+          "word": "B",
+          "en": "Were the school to close, families would need alternatives.",
+          "vi": "Nếu trường đóng cửa, gia đình sẽ cần lựa chọn khác."
+        },
+        {
           "word": "C",
-          "en": "Should the school introduce digital exams, students will need training.",
-          "vi": "Nếu trường áp dụng kỳ thi kỹ thuật số, học sinh sẽ cần được hướng dẫn."
+          "en": "Should you need help, contact the librarian.",
+          "vi": "Nếu bạn cần hỗ trợ, hãy liên hệ thủ thư."
+        },
+        {
+          "word": "D",
+          "en": "Unless you revise, you may forget the rules.",
+          "vi": "Trừ khi ôn tập, bạn có thể quên quy tắc."
         }
       ],
       "provenance": {
@@ -263,8 +338,23 @@
       "examples": [
         {
           "word": "A",
-          "en": "Online learning has evolved rapidly over the last decade.",
-          "vi": "Việc học trực tuyến đã phát triển nhanh chóng trong thập kỷ qua."
+          "en": "Digital testing has evolved rapidly.",
+          "vi": "Kiểm tra số đã phát triển nhanh chóng."
+        },
+        {
+          "word": "B",
+          "en": "The course evolved over several years.",
+          "vi": "Khóa học phát triển qua nhiều năm."
+        },
+        {
+          "word": "C",
+          "en": "The system is evolving to meet new needs.",
+          "vi": "Hệ thống đang thay đổi để đáp ứng nhu cầu mới."
+        },
+        {
+          "word": "D",
+          "en": "The school evolves its curriculum each year.",
+          "vi": "Trường điều chỉnh chương trình mỗi năm."
         }
       ],
       "provenance": {
@@ -272,7 +362,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-complete-option-analysis"
+      "editorialStatus": "needs-review-for-complete-option-analysis",
+      "optionNotes": [
+        {
+          "analysis": "Has evolved diễn tả sự biến đổi từ trước tới trạng thái hiện tại, hợp 'once dismissed' và 'into a fundamental component'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Evolved là quá khứ đơn, không khớp cách nhấn mạnh kết quả tới nay.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Is evolving nhấn mạnh tiến trình đang diễn ra, không bao quát trạng thái đã thành nền tảng.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Evolves là thói quen hoặc chân lý, không nêu kết quả chuyển đổi cụ thể.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -291,9 +399,24 @@
       "transferablePattern": "If + past perfect, S + would + V now",
       "examples": [
         {
+          "word": "A",
+          "en": "Many schools adopt digital textbooks.",
+          "vi": "Nhiều trường sử dụng sách giáo khoa số."
+        },
+        {
           "word": "B",
-          "en": "If she had studied harder, she would be more confident now.",
-          "vi": "Nếu trước đây học chăm hơn, giờ cô ấy đã tự tin hơn."
+          "en": "If they had adopted the method earlier, results would be better now.",
+          "vi": "Nếu họ áp dụng phương pháp sớm hơn, kết quả hiện tại sẽ tốt hơn."
+        },
+        {
+          "word": "C",
+          "en": "They would adopt the plan if funding were available.",
+          "vi": "Họ sẽ áp dụng kế hoạch nếu có kinh phí."
+        },
+        {
+          "word": "D",
+          "en": "Several colleges have adopted online exams.",
+          "vi": "Một số trường cao đẳng đã áp dụng thi trực tuyến."
         }
       ],
       "provenance": {
@@ -301,7 +424,25 @@
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
         "official": false
       },
-      "editorialStatus": "needs-review-for-complete-option-analysis"
+      "editorialStatus": "needs-review-for-complete-option-analysis",
+      "optionNotes": [
+        {
+          "analysis": "Adopt ở hiện tại đơn không phù hợp điều kiện trái quá khứ 'a decade ago'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Had adopted là quá khứ hoàn thành cho điều kiện không có thật trong quá khứ, kết quả hiện tại 'would be ... today'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Would adopt không dùng trong mệnh đề if loại hỗn hợp này.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Have adopted không đúng thời điểm đã được xác định từ một thập kỷ trước.",
+          "meaning": ""
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -342,7 +483,29 @@
           "meaning": ""
         }
       ],
-      "translation": "Nghiên cứu cho thấy xử lý bài thi điện tử qua mạng ít tốn kém hơn đáng kể so với in hàng nghìn tờ giấy mỗi năm."
+      "translation": "Nghiên cứu cho thấy xử lý bài thi điện tử qua mạng ít tốn kém hơn đáng kể so với in hàng nghìn tờ giấy mỗi năm.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "This is the least expensive option.",
+          "vi": "Đây là lựa chọn ít tốn kém nhất."
+        },
+        {
+          "word": "B",
+          "en": "The task is much easier than expected.",
+          "vi": "Nhiệm vụ dễ hơn dự kiến rất nhiều."
+        },
+        {
+          "word": "C",
+          "en": "Digital copies are less expensive than printed books.",
+          "vi": "Bản số ít tốn kém hơn sách in."
+        },
+        {
+          "word": "D",
+          "en": "The updated software is more expensive.",
+          "vi": "Phần mềm mới đắt hơn."
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -387,7 +550,29 @@
         "C"
       ],
       "advisory": "A (reach) là phương án ưu tiên. C (hit) cũng có nghĩa và cách kết hợp hợp lệ; nên cần đối chiếu nếu đáp án chấm chỉ cho một lựa chọn.",
-      "translation": "Phương pháp mới giúp nhà trường giảm rác thải giấy và đạt một cột mốc quan trọng trong hiện đại hóa hạ tầng lớp học."
+      "translation": "Phương pháp mới giúp nhà trường giảm rác thải giấy và đạt một cột mốc quan trọng trong hiện đại hóa hạ tầng lớp học.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The team reached an important milestone.",
+          "vi": "Nhóm đã đạt một cột mốc quan trọng."
+        },
+        {
+          "word": "B",
+          "en": "Please take these documents to reception.",
+          "vi": "Hãy mang tài liệu này đến lễ tân."
+        },
+        {
+          "word": "C",
+          "en": "Our startup hit its first major milestone.",
+          "vi": "Công ty khởi nghiệp đạt cột mốc lớn đầu tiên."
+        },
+        {
+          "word": "D",
+          "en": "They made steady progress during the semester.",
+          "vi": "Họ tiến bộ đều trong học kỳ."
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -428,7 +613,29 @@
           "meaning": ""
         }
       ],
-      "translation": "Các kỳ thi quan trọng lâu nay thường được xem như thước đo tuyệt đối đánh giá trí thông minh của học sinh."
+      "translation": "Các kỳ thi quan trọng lâu nay thường được xem như thước đo tuyệt đối đánh giá trí thông minh của học sinh.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "They viewed the exhibition yesterday.",
+          "vi": "Họ đã xem triển lãm hôm qua."
+        },
+        {
+          "word": "B",
+          "en": "The policy has been viewed as a success.",
+          "vi": "Chính sách đã được xem là thành công."
+        },
+        {
+          "word": "C",
+          "en": "The issue is being viewed from another angle.",
+          "vi": "Vấn đề đang được xem xét từ góc độ khác."
+        },
+        {
+          "word": "D",
+          "en": "The engineers have been viewing the recordings.",
+          "vi": "Các kỹ sư đã liên tục xem các bản ghi."
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -473,7 +680,29 @@
         "B"
       ],
       "advisory": "Câu gốc thiếu động từ chuyên biệt (encrypts/scans). A hợp ngữ cảnh đọc/kiểm tra dữ liệu; tài liệu tham khảo chọn B. Cả hai cần xem như trường hợp cần đối chiếu, không chấm tuyệt đối một đáp án.",
-      "translation": "Chương trình mã hóa rà soát dữ liệu bài thi và liên tục giám sát các giao thức bảo mật."
+      "translation": "Chương trình mã hóa rà soát dữ liệu bài thi và liên tục giám sát các giao thức bảo mật.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The analyst looked through the data for errors.",
+          "vi": "Chuyên viên rà dữ liệu để tìm lỗi."
+        },
+        {
+          "word": "B",
+          "en": "The technician set up the new server.",
+          "vi": "Kỹ thuật viên thiết lập máy chủ mới."
+        },
+        {
+          "word": "C",
+          "en": "The policy brought about major changes.",
+          "vi": "Chính sách dẫn đến nhiều thay đổi lớn."
+        },
+        {
+          "word": "D",
+          "en": "The child ran after the departing bus.",
+          "vi": "Đứa trẻ chạy theo xe buýt sắp rời đi."
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -514,7 +743,29 @@
           "meaning": ""
         }
       ],
-      "translation": "Mỗi bài làm điện tử sẵn sàng để được giám khảo bên ngoài xử lý."
+      "translation": "Mỗi bài làm điện tử sẵn sàng để được giám khảo bên ngoài xử lý.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The papers are ready to be marked.",
+          "vi": "Bài thi đã sẵn sàng để chấm."
+        },
+        {
+          "word": "B",
+          "en": "The system is currently being updated.",
+          "vi": "Hệ thống hiện đang được cập nhật."
+        },
+        {
+          "word": "C",
+          "en": "They thanked her for being patient.",
+          "vi": "Họ cảm ơn cô ấy vì đã kiên nhẫn."
+        },
+        {
+          "word": "D",
+          "en": "The teacher is expected to have completed the grading.",
+          "vi": "Giáo viên được kỳ vọng đã chấm xong."
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -559,7 +810,29 @@
         "B"
       ],
       "advisory": "Đề có hai đáp án đều đúng: come up against và run up against. Chấp nhận B/C hoặc chuyển chấm thủ công.",
-      "translation": "Nhân viên CNTT phải đối mặt với các trục trặc kỹ thuật và vấn đề kết nối bất ngờ."
+      "translation": "Nhân viên CNTT phải đối mặt với các trục trặc kỹ thuật và vấn đề kết nối bất ngờ.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "We cope with problems by planning ahead.",
+          "vi": "Chúng tôi xử lý vấn đề bằng cách chuẩn bị trước."
+        },
+        {
+          "word": "B",
+          "en": "New businesses often come up against funding problems.",
+          "vi": "Doanh nghiệp mới thường gặp trở ngại vốn."
+        },
+        {
+          "word": "C",
+          "en": "Engineers ran up against unexpected delays.",
+          "vi": "Kỹ sư bất ngờ gặp chậm trễ."
+        },
+        {
+          "word": "D",
+          "en": "The team faced a difficult challenge.",
+          "vi": "Nhóm đối mặt với thách thức khó."
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -600,7 +873,29 @@
           "meaning": ""
         }
       ],
-      "translation": "Chúng ta càng hoàn thiện các nền tảng số, hệ thống đánh giá càng đáng tin cậy."
+      "translation": "Chúng ta càng hoàn thiện các nền tảng số, hệ thống đánh giá càng đáng tin cậy.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "The source is reliable.",
+          "vi": "Nguồn này đáng tin cậy."
+        },
+        {
+          "word": "B",
+          "en": "Newer tests are more reliable.",
+          "vi": "Bài kiểm tra mới đáng tin cậy hơn."
+        },
+        {
+          "word": "C",
+          "en": "This is the most reliable method.",
+          "vi": "Đây là phương pháp đáng tin cậy nhất."
+        },
+        {
+          "word": "D",
+          "en": "The machine works reliably.",
+          "vi": "Máy vận hành ổn định."
+        }
+      ]
     },
     {
       "partId": "g2",
@@ -641,7 +936,29 @@
           "meaning": ""
         }
       ],
-      "translation": "Các nhà hoạch định chính sách cần cân nhắc các lợi thế vận hành của việc thi điện tử."
+      "translation": "Các nhà hoạch định chính sách cần cân nhắc các lợi thế vận hành của việc thi điện tử.",
+      "examples": [
+        {
+          "word": "A",
+          "en": "Put the books on the shelf.",
+          "vi": "Hãy đặt sách lên kệ."
+        },
+        {
+          "word": "B",
+          "en": "Give the class a short break.",
+          "vi": "Hãy cho lớp nghỉ giải lao."
+        },
+        {
+          "word": "C",
+          "en": "The reform brought major benefits.",
+          "vi": "Cải cách mang lại lợi ích lớn."
+        },
+        {
+          "word": "D",
+          "en": "We must take the risks into account.",
+          "vi": "Chúng ta phải tính đến những rủi ro."
+        }
+      ]
     },
     {
       "partId": "wf",
