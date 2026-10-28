@@ -1690,8 +1690,8 @@
       "partId": "w",
       "number": 90,
       "verified": true,
-      "correctAnswer": "turned on the waterworks",
-      "explanation": "Turn on the waterworks = bật khóc, thường mang nghĩa diễn tả mạnh hoặc hơi hài hước.",
+      "correctAnswer": "suddenly turned on the waterworks",
+      "explanation": "Turn on the waterworks = òa khóc/bật khóc (thành ngữ thân mật). Giữ suddenly để bảo toàn chi tiết 'suddenly dissolved into tears' trong câu gốc.",
       "evidence": [
         {
           "location": "Bản đề gốc · Sentence Transformation · câu 90",
@@ -1700,13 +1700,14 @@
         }
       ],
       "distractorAnalysis": [],
-      "transferablePattern": "Turn on the waterworks = bật khóc, thường mang nghĩa diễn tả mạnh hoặc hơi hài hước",
+      "transferablePattern": "(suddenly) turn on the waterworks = bất chợt bật khóc",
       "provenance": {
         "type": "teacher-solved-and-crosschecked",
         "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-phu-tho-2026/",
         "label": "Springboard 2026–2027; đối chiếu thêm với đề giải tham khảo",
         "official": false
-      }
+      },
+      "editorialStatus": "needs-review"
     }
   ],
   "essayGuidance": {
