@@ -28,6 +28,17 @@ test("Grade 6 Unit 1 has 34 vocabulary entries and 132 source items in the prope
   const ids=groups.flatMap(g=>g.items.map(q=>q.id));
   assert.equal(new Set(ids).size,132);
 });
+test("All 162 Grade 6 Unit 1 responses have a precise knowledge area, focused reason and Vietnamese translation",()=>{
+  const w=boot();
+  const groups=[...w.G6_U1_PART_A.groups,...w.G6_U1_PART_B.groups,w.G6_U1_PART_B.extra];
+  const items=groups.flatMap(g=>g.items);
+  assert.equal(items.length,162);
+  for(const q of items){
+    assert.ok(typeof q.zone==="string"&&q.zone.length>12,q.id+" knowledge area");
+    assert.ok(typeof q.note==="string"&&q.note.length>=40,q.id+" explanation");
+    assert.ok(typeof q.translation==="string"&&q.translation.length>12,q.id+" translation");
+  }
+});
 test("Every scored choice has four options, validated key and brief source-specific explanation",()=>{
   const w=boot();
   const all=[...w.G6_U1_PART_A.groups,...w.G6_U1_PART_B.groups,w.G6_U1_PART_B.extra];
@@ -115,6 +126,10 @@ test("Website ExplanationV1 shows its three-stage detail after checking a set an
   handlers.change({target:field});
   handlers.click({target:{closest:s=>s==="[data-g6-check]"?{dataset:{g6Check:"extra-1"}}:null}});
   assert.match(html,/data-explanation-v1="1"/);
+  assert.match(html,/Vùng kiến thức:/);
+  assert.match(html,/Giải thích:/);
+  assert.match(html,/Dịch:/);
+  assert.match(html,/g6-quick/);
   assert.match(html,/Xem giải thích chi tiết/);
   assert.match(html,/Bằng chứng/);
   assert.match(html,/Phân tích A–D/);
