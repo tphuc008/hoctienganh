@@ -304,121 +304,6 @@
       "editorialStatus": "needs-review-for-complete-option-analysis"
     },
     {
-      "partId": "w",
-      "number": 76,
-      "verified": true,
-      "correctAnswer": "her friend called her did Mai remember that she had had the English club meeting",
-      "explanation": "Only after đứng đầu câu đòi đảo trợ động từ did trước Mai remember; mệnh đề after không đảo.",
-      "evidence": [
-        {
-          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 76",
-          "quote": "Mai didn't remember that she had had the English club meeting until her friend called her.",
-          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
-        }
-      ],
-      "distractorAnalysis": [],
-      "transferablePattern": "Only after + clause + did + S + V",
-      "provenance": {
-        "type": "independently-reasoned-from-original-paper",
-        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
-        "official": false,
-        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
-      },
-      "editorialStatus": "needs-review"
-    },
-    {
-      "partId": "w",
-      "number": 77,
-      "verified": true,
-      "correctAnswer": "dedication inspired the whole class, developed a revolutionary app",
-      "explanation": "Whose thay cho her dedication; dấu phẩy bao mệnh đề quan hệ không xác định, developed vẫn là động từ chính.",
-      "evidence": [
-        {
-          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 77",
-          "quote": "The young programmer developed a revolutionary app, and her dedication inspired the whole class.",
-          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
-        }
-      ],
-      "distractorAnalysis": [],
-      "transferablePattern": "whose + N + V (non-defining relative clause)",
-      "provenance": {
-        "type": "independently-reasoned-from-original-paper",
-        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
-        "official": false,
-        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
-      },
-      "editorialStatus": "needs-review"
-    },
-    {
-      "partId": "w",
-      "number": 78,
-      "verified": true,
-      "correctAnswer": "expected to announce the winner of the STEM Contest tomorrow",
-      "explanation": "Chuyển cấu trúc They expect that S will V sang S is expected to V; hành động announce dự kiến xảy ra vào ngày mai.",
-      "evidence": [
-        {
-          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 78",
-          "quote": "They expect that the principal will announce the winner of the STEM Contest tomorrow.",
-          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
-        }
-      ],
-      "distractorAnalysis": [],
-      "transferablePattern": "S + be expected to + V",
-      "provenance": {
-        "type": "independently-reasoned-from-original-paper",
-        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
-        "official": false,
-        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
-      },
-      "editorialStatus": "needs-review"
-    },
-    {
-      "partId": "w",
-      "number": 79,
-      "verified": true,
-      "correctAnswer": "trying to memorize the entire textbook the night before the final exam",
-      "explanation": "No point (in) + V-ing diễn đạt việc làm vô ích; tương đương It is absolutely useless to V.",
-      "evidence": [
-        {
-          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 79",
-          "quote": "It is absolutely useless to try to memorize the entire textbook the night before the final exam.",
-          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
-        }
-      ],
-      "distractorAnalysis": [],
-      "transferablePattern": "There is no point (in) + V-ing",
-      "provenance": {
-        "type": "independently-reasoned-from-original-paper",
-        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
-        "official": false,
-        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
-      },
-      "editorialStatus": "needs-review"
-    },
-    {
-      "partId": "w",
-      "number": 80,
-      "verified": true,
-      "correctAnswer": "interacted with her pen pal from France for two months",
-      "explanation": "Dùng hiện tại hoàn thành phủ định với for two months để diễn tả việc không còn tương tác trong khoảng thời gian tính đến hiện tại.",
-      "evidence": [
-        {
-          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 80",
-          "quote": "The last time Sophia interacted with her pen pal from France was two months ago.",
-          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
-        }
-      ],
-      "distractorAnalysis": [],
-      "transferablePattern": "S + have/has not + V3 + for + duration",
-      "provenance": {
-        "type": "independently-reasoned-from-original-paper",
-        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
-        "official": false,
-        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
-      },
-      "editorialStatus": "needs-review"
-    },
-    {
       "partId": "g2",
       "number": 33,
       "verified": true,
@@ -1113,6 +998,687 @@
         "fully",
         "better"
       ]
+    },
+    {
+      "partId": "m",
+      "number": 56,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Traditional land-clearing practices chính là agricultural burning, được nêu làm nguyên nhân chính của ô nhiễm.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu 1–2",
+          "quote": "Environmental researchers have identified agricultural burning and forest fires as the primary drivers behind this massive pollution.",
+          "note": "Traditional land-clearing practices chính là agricultural burning, được nêu làm nguyên nhân chính của ô nhiễm."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Recognise paraphrase: land-clearing = agricultural burning.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 57,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Giảm chất lượng không khí khiến khách đổi hành trình, kéo theo du lịch và doanh thu kinh doanh giảm.",
+      "evidence": [
+        {
+          "location": "Đoạn B · câu 2–4",
+          "quote": "Tourism, a major source of income for suburban areas, has experienced a sharp decline",
+          "note": "Giảm chất lượng không khí khiến khách đổi hành trình, kéo theo du lịch và doanh thu kinh doanh giảm."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Financial impact: tourism decline → lost local revenue.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 58,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "Advanced satellite imagery = thiết bị quan sát theo dõi các hành vi đốt ngoài trời vi phạm quy định.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu cuối",
+          "quote": "local enforcement units are employing advanced satellite imagery to monitor open burning and penalize landowners who violate environmental safety zones",
+          "note": "Advanced satellite imagery = thiết bị quan sát theo dõi các hành vi đốt ngoài trời vi phạm quy định."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Tracking equipment = satellite imagery; illegal acts = violating safety zones.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 59,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "Đơn vị y tế khuyến nghị trẻ em và người già hạn chế ở ngoài trời vì sương mù độc hại.",
+      "evidence": [
+        {
+          "location": "Đoạn A · câu cuối",
+          "quote": "strongly advising people, particularly children and the elderly, to avoid spending time outdoors until the hazardous haze clears",
+          "note": "Đơn vị y tế khuyến nghị trẻ em và người già hạn chế ở ngoài trời vì sương mù độc hại."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Vulnerable groups = children/elderly; open-air exposure = outdoors.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "m",
+      "number": 60,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Chiến dịch giáo dục giúp cộng đồng tự theo dõi chỉ số chất lượng không khí.",
+      "evidence": [
+        {
+          "location": "Đoạn D · câu 2–3",
+          "quote": "campaigns to help community groups monitor local air quality indexes independently",
+          "note": "Chiến dịch giáo dục giúp cộng đồng tự theo dõi chỉ số chất lượng không khí."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Independently monitor = observe on their own.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 61,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Shattered nghĩa phá vỡ các giới hạn cũ, tương đương destroyed; đối lập với restored/protected.",
+      "evidence": [
+        {
+          "location": "Đoạn 1 · câu 2",
+          "quote": "the emergence of AI-driven applications has shattered these conventional boundaries",
+          "note": "Shattered nghĩa phá vỡ các giới hạn cũ, tương đương destroyed; đối lập với restored/protected."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "shatter boundaries = break down barriers.",
+      "optionNotes": [
+        {
+          "analysis": "Restored nghĩa khôi phục, trái với việc phá bỏ giới hạn.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Destroyed nghĩa phá vỡ, đúng với shattered.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Protected là bảo vệ, trái nghĩa.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Followed là đi theo, không mang nghĩa thay đổi ranh giới.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 62,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "These technological advancements hồi chỉ các AI-driven applications, speech-recognition software và AI-powered writing assistants trong ba đoạn trước; blended learning là giải pháp đề xuất ngay sau cụm chỉ.",
+      "evidence": [
+        {
+          "location": "Đoạn 4 · câu 1; liên hệ đoạn 1–2",
+          "quote": "To optimize these technological advancements, educators must advocate for a blended learning approach.",
+          "note": "These technological advancements hồi chỉ các AI-driven applications, speech-recognition software và AI-powered writing assistants trong ba đoạn trước; blended learning là giải pháp đề xuất ngay sau cụm chỉ."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Resolve demonstrative reference by prior technological tools, not proposed response.",
+      "optionNotes": [
+        {
+          "analysis": "Repetitive tasks là loại công việc AI có thể xử lý, không phải toàn bộ tiến bộ công nghệ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Cultural nuance là hạn chế AI đang gặp, không phải tiến bộ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "AI-driven applications and intelligent software là đối tượng được nhắc xuyên suốt.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Blended learning là cách phối hợp được đề xuất, không phải công nghệ mà these trỏ tới.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 63,
+      "verified": true,
+      "correctAnswer": "C",
+      "explanation": "AI writing assistants phân tích ngữ pháp, lựa chọn từ và gợi ý cách diễn đạt nâng cao để cải thiện bài viết; phương án C diễn đạt đúng ý.",
+      "evidence": [
+        {
+          "location": "Đoạn 2 · câu cuối",
+          "quote": "suggesting sophisticated alternatives that enhance a user's writing style and overall comprehension",
+          "note": "AI writing assistants phân tích ngữ pháp, lựa chọn từ và gợi ý cách diễn đạt nâng cao để cải thiện bài viết; phương án C diễn đạt đúng ý."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Explicit factual question: sophisticated alternatives = advanced vocabulary suggestions.",
+      "optionNotes": [
+        {
+          "analysis": "Dịch tự động nhiều ngôn ngữ không được nêu là chức năng trong bài.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Tốc độ chấm so với giáo viên không được so sánh trong bài.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Đúng với sophisticated alternatives that enhance writing style.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Ép học sinh ghi nhớ định nghĩa từ điển không được nói đến.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 64,
+      "verified": true,
+      "correctAnswer": "D",
+      "explanation": "Đoạn 1–2 bàn lợi ích; đoạn 3 nêu hạn chế; đoạn 4 kết luận phối hợp AI với giáo viên. D bao quát toàn bộ bố cục.",
+      "evidence": [
+        {
+          "location": "Đoạn 1–4; đặc biệt đoạn kết",
+          "quote": "AI should not be viewed as a total replacement for human instructors, but rather as a complementary tool that enhances classroom learning.",
+          "note": "Đoạn 1–2 bàn lợi ích; đoạn 3 nêu hạn chế; đoạn 4 kết luận phối hợp AI với giáo viên. D bao quát toàn bộ bố cục."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Main idea = benefits + limitations + balanced use.",
+      "optionNotes": [
+        {
+          "analysis": "Không tập trung lịch sử hình thành trường đại học trực tuyến.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Không khẳng định giáo viên luôn vượt trội mọi công cụ AI, mà ủng hộ bổ trợ.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Thuật toán nhận diện giọng nói chỉ là ví dụ nhỏ ở đoạn 2.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Bao quát đủ lợi ích, hạn chế và cách dùng kết hợp.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 65,
+      "verified": true,
+      "correctAnswer": "A",
+      "explanation": "A giữ quan hệ nguyên nhân: ngôn ngữ gắn với yếu tố xã hội, văn hóa, cảm xúc nên máy thường khó hiểu chính xác. B–D đổi chiều hoặc thêm kết luận không có.",
+      "evidence": [
+        {
+          "location": "Đoạn 3 · câu 3",
+          "quote": "Language is inherently social and deeply tied to cultural contexts, idioms, and subtle emotional cues that machines often fail to interpret accurately.",
+          "note": "A giữ quan hệ nguyên nhân: ngôn ngữ gắn với yếu tố xã hội, văn hóa, cảm xúc nên máy thường khó hiểu chính xác. B–D đổi chiều hoặc thêm kết luận không có."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Paraphrase meaning, preserve scope (often) and cause-effect.",
+      "optionNotes": [
+        {
+          "analysis": "Giữ đúng bản chất xã hội và hạn chế hiểu sắc thái của máy.",
+          "meaning": ""
+        },
+        {
+          "analysis": "B nêu sở thích của người bản ngữ, bài không nói.",
+          "meaning": ""
+        },
+        {
+          "analysis": "C nói AI xử lý dễ dàng, trái với often fail.",
+          "meaning": ""
+        },
+        {
+          "analysis": "D yêu cầu tránh idiom và văn hóa, không được suy ra từ đoạn.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 66,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Văn bản nêu thiếu sắc thái văn hóa, trí tuệ cảm xúc và nguy cơ nói máy móc; không nêu phí đăng ký ứng dụng. NOT mentioned → B.",
+      "evidence": [
+        {
+          "location": "Đoạn 3 · toàn đoạn",
+          "quote": "The most critical issue is the lack of genuine cultural nuance and emotional intelligence in AI interactions.",
+          "note": "Văn bản nêu thiếu sắc thái văn hóa, trí tuệ cảm xúc và nguy cơ nói máy móc; không nêu phí đăng ký ứng dụng. NOT mentioned → B."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "EXCEPT/NOT mentioned: search for absent claim, not plausible outside knowledge.",
+      "optionNotes": [
+        {
+          "analysis": "Thiếu trí tuệ cảm xúc được nêu cụ thể.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Chi phí đăng ký cao hoàn toàn không được đoạn này nhắc đến.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Mechanical language use được nêu trực tiếp.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Khó hiểu cultural contexts và idioms được nêu trực tiếp.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "r",
+      "number": 67,
+      "verified": true,
+      "correctAnswer": "B",
+      "explanation": "Câu kết xác nhận kết hợp thế mạnh của con người (đồng cảm, sắc thái) với tính chính xác của công nghệ. B là suy luận bám trực tiếp thông tin.",
+      "evidence": [
+        {
+          "location": "Đoạn 4 · câu cuối",
+          "quote": "the future of English learning lies in a harmonious partnership between human empathy and technological precision.",
+          "note": "Câu kết xác nhận kết hợp thế mạnh của con người (đồng cảm, sắc thái) với tính chính xác của công nghệ. B là suy luận bám trực tiếp thông tin."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Ideal outcome: complementary human + AI roles, not full replacement.",
+      "optionNotes": [
+        {
+          "analysis": "AI thay thế hoàn toàn trái 'not ... a total replacement'.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Kết hợp công nghệ với giáo viên đúng câu kết.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Bài không giới hạn AI chỉ cho học viên nâng cao.",
+          "meaning": ""
+        },
+        {
+          "analysis": "Bài cũng không kết luận lớp học không có công nghệ là tốt nhất.",
+          "meaning": ""
+        }
+      ],
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 68,
+      "verified": true,
+      "correctAnswer": "v",
+      "explanation": "Đoạn A so sánh giới hạn của cá thể với trí tuệ bầy đàn; heading v khớp trọng tâm.",
+      "evidence": [
+        {
+          "location": "Đoạn A · câu 3–4",
+          "quote": "while an individual ant may possess limited intelligence, the collective behavior of the colony exhibits a remarkable level of problem-solving",
+          "note": "Đoạn A so sánh giới hạn của cá thể với trí tuệ bầy đàn; heading v khớp trọng tâm."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading v = collective intelligence vs individual limitations.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 69,
+      "verified": true,
+      "correctAnswer": "iv",
+      "explanation": "Đoạn B mô tả phân công lao động không do kiến chúa điều khiển mà tự hình thành theo tuổi, kích cỡ và nhu cầu.",
+      "evidence": [
+        {
+          "location": "Đoạn B · câu 2",
+          "quote": "roles are not assigned by a central leader but emerge through a decentralized process",
+          "note": "Đoạn B mô tả phân công lao động không do kiến chúa điều khiển mà tự hình thành theo tuổi, kích cỡ và nhu cầu."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading iv = decentralized task management.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 70,
+      "verified": true,
+      "correctAnswer": "i",
+      "explanation": "Đoạn C bàn pheromone cùng tín hiệu tiếp xúc và rung động, đúng vai trò tín hiệu hóa học và vật lý.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu 2–5",
+          "quote": "rely on an elaborate system of chemical signals called pheromones",
+          "note": "Đoạn C bàn pheromone cùng tín hiệu tiếp xúc và rung động, đúng vai trò tín hiệu hóa học và vật lý."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading i = chemical/physical signals.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "h",
+      "number": 71,
+      "verified": true,
+      "correctAnswer": "ii",
+      "explanation": "Đoạn D nêu cá thể hy sinh để bảo vệ cả đàn và giải thích bằng quan hệ di truyền, nên heading ii bao quát.",
+      "evidence": [
+        {
+          "location": "Đoạn D · câu 2–4",
+          "quote": "Individual ants frequently sacrifice their own well-being, and even their lives, for the survival of the colony.",
+          "note": "Đoạn D nêu cá thể hy sinh để bảo vệ cả đàn và giải thích bằng quan hệ di truyền, nên heading ii bao quát."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Heading ii = sacrifice for colony survival.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 72,
+      "verified": true,
+      "correctAnswer": "FALSE",
+      "explanation": "Phát biểu nói kiến chúa chủ động phân việc; bài khẳng định rõ không có thủ lĩnh trung tâm phân công, vậy là FALSE.",
+      "evidence": [
+        {
+          "location": "Đoạn B · câu 2",
+          "quote": "roles are not assigned by a central leader but emerge through a decentralized process",
+          "note": "Phát biểu nói kiến chúa chủ động phân việc; bài khẳng định rõ không có thủ lĩnh trung tâm phân công, vậy là FALSE."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "FALSE requires contradiction; not simply no mention.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 73,
+      "verified": true,
+      "correctAnswer": "TRUE",
+      "explanation": "Khả năng dẫn đường của pheromone tăng cường khi nhiều kiến dùng dấu vết; đúng với phát biểu.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu 4",
+          "quote": "The strength of the trail is reinforced as more ants use it",
+          "note": "Khả năng dẫn đường của pheromone tăng cường khi nhiều kiến dùng dấu vết; đúng với phát biểu."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "TRUE: same meaning via reinforced = stronger.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 74,
+      "verified": true,
+      "correctAnswer": "TRUE",
+      "explanation": "Các nhà nghiên cứu robot/khoa học máy tính áp dụng cơ chế giao tiếp kiến vào thuật toán cho xe tự hành và mạng dữ liệu.",
+      "evidence": [
+        {
+          "location": "Đoạn C · câu cuối",
+          "quote": "researchers in robotics and computer science are developing algorithms to improve how autonomous vehicles and data networks operate",
+          "note": "Các nhà nghiên cứu robot/khoa học máy tính áp dụng cơ chế giao tiếp kiến vào thuật toán cho xe tự hành và mạng dữ liệu."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Apply principles in technology = inspired research-based algorithms.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "tf",
+      "number": 75,
+      "verified": true,
+      "correctAnswer": "NOT GIVEN",
+      "explanation": "Bài chỉ nói kiến gác cửa dùng đầu bịt lối vào tổ, không đánh giá chúng hung dữ nhất. Không có đủ dữ kiện để kết luận TRUE hay FALSE.",
+      "evidence": [
+        {
+          "location": "Đoạn D · câu 3",
+          "quote": "some species have 'door-keeper' ants with heads shaped specifically to plug the entrance of the nest",
+          "note": "Bài chỉ nói kiến gác cửa dùng đầu bịt lối vào tổ, không đánh giá chúng hung dữ nhất. Không có đủ dữ kiện để kết luận TRUE hay FALSE."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "NOT GIVEN: property is absent; do not assume 'door-keeper' means most aggressive.",
+      "provenance": {
+        "type": "teacher-reasoned-original-paper-crosschecked-with-public-annotated-key",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Bài đọc gốc và câu hỏi được đối chiếu, không phải đáp án chính thức"
+      }
+    },
+    {
+      "partId": "w",
+      "number": 76,
+      "verified": true,
+      "correctAnswer": "her friend called her did Mai remember that she had had the English club meeting",
+      "explanation": "Only after đứng đầu câu đòi đảo trợ động từ did trước Mai remember; mệnh đề after không đảo.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 76",
+          "quote": "Mai didn't remember that she had had the English club meeting until her friend called her.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "Only after + clause + did + S + V",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 77,
+      "verified": true,
+      "correctAnswer": "dedication inspired the whole class, developed a revolutionary app",
+      "explanation": "Whose thay cho her dedication; dấu phẩy bao mệnh đề quan hệ không xác định, developed vẫn là động từ chính.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 77",
+          "quote": "The young programmer developed a revolutionary app, and her dedication inspired the whole class.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "whose + N + V (non-defining relative clause)",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 78,
+      "verified": true,
+      "correctAnswer": "expected to announce the winner of the STEM Contest tomorrow",
+      "explanation": "Chuyển cấu trúc They expect that S will V sang S is expected to V; hành động announce dự kiến xảy ra vào ngày mai.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 78",
+          "quote": "They expect that the principal will announce the winner of the STEM Contest tomorrow.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "S + be expected to + V",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 79,
+      "verified": true,
+      "correctAnswer": "trying to memorize the entire textbook the night before the final exam",
+      "explanation": "No point (in) + V-ing diễn đạt việc làm vô ích; tương đương It is absolutely useless to V.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 79",
+          "quote": "It is absolutely useless to try to memorize the entire textbook the night before the final exam.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "There is no point (in) + V-ing",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
+    },
+    {
+      "partId": "w",
+      "number": 80,
+      "verified": true,
+      "correctAnswer": "interacted with her pen pal from France for two months",
+      "explanation": "Dùng hiện tại hoàn thành phủ định với for two months để diễn tả việc không còn tương tác trong khoảng thời gian tính đến hiện tại.",
+      "evidence": [
+        {
+          "location": "Đề Sơn La 2026–2027 · Writing Part 1 · Question 80",
+          "quote": "The last time Sophia interacted with her pen pal from France was two months ago.",
+          "note": "Câu gốc kiểm tra từ bản đề, phần điền dùng tiền tố cố định của câu thứ hai."
+        }
+      ],
+      "distractorAnalysis": [],
+      "transferablePattern": "S + have/has not + V3 + for + duration",
+      "provenance": {
+        "type": "independently-reasoned-from-original-paper",
+        "sourceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
+        "official": false,
+        "label": "Đối chiếu yêu cầu và câu in nguyên bản trên đề; chưa phải hướng dẫn chấm chính thức"
+      },
+      "editorialStatus": "needs-review"
     }
   ],
   "source": {
