@@ -2002,5 +2002,40 @@
     "referenceUrl": "https://springboard.vn/de-thi-chuyen-anh-son-la-2026/",
     "official": false,
     "sourceNote": "Đáp án tham khảo đối chiếu với dạng bài và ngữ cảnh; chưa có đủ phân tích mọi phương án; cần tiếp tục kiểm tra."
-  }
+  },
+  "essayGuidances": [
+    {
+      "partId": "email",
+      "topic": "You are Minh. Write a 70–80-word email to David about your new online course and why you enjoy it.",
+      "sample": "Hi David,\n\nI’ve recently joined an online English course, and I’m really enjoying it. We meet twice a week on video calls, where we practise speaking in small groups and receive feedback from our tutor. I especially like the short interactive quizzes because they help me remember new expressions without simply memorising lists. The lessons also fit around my school schedule, so I can study without feeling rushed. Have you tried an online course before?\n\nBest,\nMinh",
+      "wordCount": 77,
+      "verified": true,
+      "status": "teacher-created-illustrative-not-a-unique-key",
+      "source": "Original Sơn La Writing Part 2",
+      "criteria": [
+        "Đúng vai Minh viết thư thân mật gửi David, có chào hỏi và kết thư phù hợp.",
+        "Nêu khóa học mới, hình thức/nội dung học rõ ràng.",
+        "Giải thích cụ thể lý do thích khóa học, không chỉ nói 'I enjoy it'.",
+        "Giữ giới hạn 70–80 từ theo quy định của đề gốc.",
+        "Bài mẫu chỉ minh họa cách trả lời; học sinh có thể triển khai khác hợp lý."
+      ]
+    },
+    {
+      "partId": "essay",
+      "topic": "Write an academic paragraph of 140–160 words on at least two benefits of community volunteering: empathy, practical life skills, and stronger community bonds.",
+      "sample": "Community volunteering can benefit both individuals and the wider society, particularly by developing empathy and strengthening social connections. When young people help at a community kitchen, for example, they meet families whose financial difficulties may be very different from their own. Listening to these experiences can challenge assumptions and encourage volunteers to respond to others with greater sensitivity. Volunteering can also help students acquire practical skills. Organising a donation drive requires them to plan tasks, communicate with local businesses and solve unexpected problems, abilities that are useful in both education and employment. These activities also bring residents who might otherwise remain strangers into contact with one another. As they work toward a common goal, they may begin to trust and support each other beyond the initial event. Although volunteering alone cannot solve structural social problems, it can create valuable opportunities for personal growth and stronger community relationships.",
+      "wordCount": 147,
+      "verified": true,
+      "status": "teacher-created-illustrative-not-a-unique-key",
+      "source": "Original Sơn La Writing Part 3",
+      "criteria": [
+        "Có topic sentence thể hiện phạm vi lợi ích cá nhân và xã hội.",
+        "Phân tích ít nhất hai lợi ích, cho thấy quá trình/cơ chế dẫn tới lợi ích.",
+        "Dùng ví dụ cụ thể liên quan tình nguyện; tránh liệt kê chung chung.",
+        "Giữ phạm vi luận điểm và tránh tuyệt đối hóa tác dụng của tình nguyện.",
+        "Đúng 140–160 từ, chỉ một đoạn học thuật, không chia thành bài luận nhiều đoạn.",
+        "Bài mẫu minh họa, không phải đáp án duy nhất hoặc bài được chấm điểm."
+      ]
+    }
+  ]
 }
