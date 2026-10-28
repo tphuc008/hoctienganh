@@ -1280,7 +1280,7 @@ function ensureTeacherGrammar21(){
       await loadGrammar21Asset("script","content/grammar-topic21-review-set2.js?v=20261021-review64-v1");
       await loadGrammar21Asset("script","content/grammar-topic21-explanation-v2.js?v=20261021-explanation-v2");
       await loadGrammar21Asset("script","content/grammar-topic21-learn-v1.js?v=20261021-learn-v1");
-      await loadGrammar21Asset("script","content/grammar-explanation-depth-v3.js?v=20261028-depth-v3");
+      await loadGrammar21Asset("script","content/grammar-explanation-depth-v3.js?v=20261028-depth-v3-t21");
       await loadGrammar21Asset("script","features/grammar-topic21.js?v=20261028-depth-v3");
       if(!window.TeacherGrammar21)throw new Error("Grammar preview chưa khởi tạo.");
     })().catch(err=>{grammar21AssetsPromise=null;throw err});
@@ -1348,7 +1348,7 @@ function ensureTeacherGrammarNew(){
        await loadGrammar21Asset("script","content/grammar-foundation-explanations.js?v=20261023-foundation-v1");
       await loadGrammar21Asset("script","content/grammar-foundation-advanced-explanations.js?v=20261023-foundation-v3");
       await loadGrammar21Asset("script","content/grammar-new-foundation-feedback.js?v=20261024-foundation-v1");
-      await loadGrammar21Asset("script","content/grammar-explanation-depth-v3.js?v=20261028-depth-v3");
+      await loadGrammar21Asset("script","content/grammar-explanation-depth-v3.js?v=20261028-depth-v3-studio");
       await loadGrammar21Asset("script","features/grammar-topic-studio.js?v=20261028-depth-v3");
       const configs={
         1:{topicNum:1,heroVi:"Phát âm",heroEn:"Pronunciation",
