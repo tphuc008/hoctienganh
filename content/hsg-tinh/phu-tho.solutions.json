@@ -1024,7 +1024,8 @@
       "acceptedAnswers": [
         "number → deal"
       ],
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "We spent a great deal of time discussing the project."
     },
     {
       "partId": "e",
@@ -1048,7 +1049,8 @@
         "official": false
       },
       "line": 5,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "Social media can influence habits in a positive way."
     },
     {
       "partId": "e",
@@ -1072,7 +1074,8 @@
         "official": false
       },
       "line": 6,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "Teachers allow students to work together."
     },
     {
       "partId": "e",
@@ -1096,7 +1099,8 @@
         "official": false
       },
       "line": 11,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "Many electronic devices require regular maintenance."
     },
     {
       "partId": "e",
@@ -1120,7 +1124,8 @@
         "official": false
       },
       "line": 12,
-      "editorialStatus": "source-quote-needs-review"
+      "editorialStatus": "source-quote-needs-review",
+      "application": "Online services are common in the modern world."
     },
     {
       "partId": "r1",
