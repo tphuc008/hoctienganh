@@ -35,7 +35,8 @@ test("All 162 Grade 6 Unit 1 responses have a precise knowledge area, focused re
   assert.equal(items.length,162);
   for(const q of items){
     assert.ok(typeof q.zone==="string"&&q.zone.length>12,q.id+" knowledge area");
-    assert.ok(typeof q.note==="string"&&q.note.length>=40,q.id+" explanation");
+    assert.ok(typeof q.note==="string"&&q.note.length>=30,q.id+" explanation");
+    assert.ok(q.note.trim().split(/\s+/).length<=26,q.id+" explanation too long");
     assert.ok(typeof q.translation==="string"&&q.translation.length>12,q.id+" translation");
   }
 });
@@ -106,7 +107,7 @@ test("Each new practice set has distinct stable IDs and complete answer feedback
     else assert.ok(Array.isArray(item.answers)&&item.answers.length>=1);
   }
 });
-test("Website ExplanationV1 shows its three-stage detail after checking a set answer",()=>{
+test("Grade 6 Unit 1 shows a concise four-field solution after checking an answer",()=>{
   const w=boot(), handlers={};let html="",saved=null;
   const mount={style:{},set innerHTML(value){html=value;},get innerHTML(){return html;}};
   const doc={head:{appendChild(){}},addEventListener(name,callback){handlers[name]=callback;},
@@ -125,14 +126,12 @@ test("Website ExplanationV1 shows its three-stage detail after checking a set an
     closest:s=>s===".g6-root"?{}:s===".g6-item"?root:null};
   handlers.change({target:field});
   handlers.click({target:{closest:s=>s==="[data-g6-check]"?{dataset:{g6Check:"extra-1"}}:null}});
-  assert.match(html,/data-explanation-v1="1"/);
+  assert.match(html,/data-g6-concise-explanation="1"/);
+  assert.match(html,/Đáp án:/);
   assert.match(html,/Vùng kiến thức:/);
   assert.match(html,/Giải thích:/);
   assert.match(html,/Dịch:/);
-  assert.match(html,/g6-quick/);
-  assert.match(html,/Xem giải thích chi tiết/);
-  assert.match(html,/Bằng chứng/);
-  assert.match(html,/Phân tích A–D/);
-  assert.match(html,/Vận dụng/);
-  assert.match(html,/data-review-status="ready"/);
+  assert.match(html,/friendly/);
+  assert.doesNotMatch(html,/Xem giải thích chi tiết/);
+  assert.doesNotMatch(html,/Phân tích A–D/);
 });
