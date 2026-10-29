@@ -13,7 +13,13 @@ const catalog={
   "a ship":{file:"En-uk-a_ship.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
   "a sheep":{file:"En-uk-a_sheep.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
   "book":{file:"En-uk-book.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
-  "sea":{file:"En-uk-sea.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"}
+  "sea":{file:"En-uk-sea.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
+  "bed":{file:"En-uk-bed.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
+  "machine":{file:"En-uk-machine.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
+  "alone":{file:"En-uk-alone.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
+  "celebration":{file:"En-uk-celebration.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
+  "chair":{file:"En-uk-chair.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"},
+  "coffee":{file:"En-uk-coffee.ogg",license:"CC BY 3.0 US",author:"Judith Franck / Association Shtooka"}
 };
 const safe=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let player=null,playingId="",sequenceToken=0;
