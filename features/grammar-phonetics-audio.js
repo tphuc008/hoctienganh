@@ -94,6 +94,7 @@ function context(topic,kind,section,object,index){
   if(c.length>=2){
    items=[caseWords(topic,section,c[0],0)[0],caseWords(topic,section,c[1],1)[0]].filter(Boolean);
    if(topic===1&&section.id==="vowels-i")items=[{word:"a ship",label:"A · /ɪ/",display:"a ship"},{word:"a sheep",label:"B · /iː/",display:"a sheep"}];
+   if(topic===2&&section.id==="noun-verb-shift")items=caseWords(topic,section,c[0],0);
   }
  }
  if(kind==="question")items=questionWords(topic,object);
@@ -141,13 +142,18 @@ function single(text,slow,token,done,btn){
   const media=new g.Audio(link);
   player=media;
   media.preload="none";media.playbackRate=slow?.85:1;
+  let usedFallback=false;
+  const fallback=()=>{
+    if(sequenceToken!==token||usedFallback)return;
+    usedFallback=true;player=null;speak(text,slow,token,done,btn);
+  };
   media.onended=()=>{if(sequenceToken===token){player=null;if(done)done();}};
-  media.onerror=()=>{if(sequenceToken===token){player=null;speak(text,slow,token,done,btn);}};
+  media.onerror=fallback;
   status(btn,"Bản ghi Anh–Anh · Wikimedia Commons (CC BY 3.0)");
   try{
     const p=media.play();
-    if(p&&typeof p.catch==="function")p.catch(()=>{if(sequenceToken===token){player=null;speak(text,slow,token,done,btn);}});
-  }catch(_){player=null;speak(text,slow,token,done,btn);}
+    if(p&&typeof p.catch==="function")p.catch(fallback);
+  }catch(_){fallback();}
  }else speak(text,slow,token,done,btn);
 }
 function handleButton(btn){
