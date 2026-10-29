@@ -302,9 +302,9 @@ function guidedWizard(section){
     (current>0?'<div class="g21-actions"><button class="g21-btn" data-g21="guided-prev" data-section="'+esc(section.id)+'">← Câu trước</button></div>':"")+
   '</section>';
 }
-function learnTopic5V11(s,done){
+function learnFoundationV11(s,done){
   const v=s.learnV11;
-  if(!v||v.cases.length!==3||v.steps.length!==3)throw Error("Missing Grammar 5 V1.1 lesson: "+s.id);
+  if(!v||v.cases.length!==3||v.steps.length!==3)throw Error("Missing Foundation Grammar V1.1 lesson: "+s.id);
   return '<div class="g21-layout">'+side()+
    '<article class="g21-main g21-lesson g21-learn-v1 g21-learn-v11">'+
     '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / '+String(d.sections.length).padStart(2,"0")+'</span>'+
@@ -316,6 +316,8 @@ function learnTopic5V11(s,done){
     '</section>'+
     '<section class="g21-teaching g21-v11-rules">'+
       '<div class="g21-sectionhead"><h3>2. Công thức & ví dụ</h3><span>3 trường hợp trọng tâm</span></div>'+
+      (v.fullFormula?'<div class="g21-v11-overview"><b>'+esc(v.formulaLabel||"Công thức tổng hợp")+'</b>'+
+        '<p>'+esc(v.fullFormula)+'</p></div>':"")+
       '<div class="g21-v11-rule-grid">'+v.cases.map((c,i)=>
         '<article class="g21-v11-rule-card">'+
           '<div class="g21-v11-rule-head"><span>'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(c.name)+'</h4></div>'+
@@ -362,7 +364,7 @@ function learnTopic5V11(s,done){
 function learn(){
   const s=d.sections[state.lesson],done=completeCount(),v=s.learnV1;
   if(!v)throw new Error("Grammar Explanation V1 lesson content is missing for "+s.id);
-  if(topicNum==="5"&&s.learnV11)return learnTopic5V11(s,done);
+  if(s.learnV11)return learnFoundationV11(s,done);
   return '<div class="g21-layout">'+side()+
     '<article class="g21-main g21-lesson g21-learn-v1">'+
       '<div class="g21-lesson-top"><span class="g21-label">BÀI '+String(state.lesson+1).padStart(2,"0")+' / '+String(d.sections.length).padStart(2,"0")+'</span>'+
