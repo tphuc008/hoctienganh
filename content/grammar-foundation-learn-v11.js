@@ -147,7 +147,18 @@ function build(topic,section){
    pitfalls:mistakes,
    fullFormula:section.form||section.learnV1?.formula||"",
    formulaLabel:topic===1?"Mẫu âm và phiên âm IPA":topic===2?"Quy luật trọng âm và từ minh họa":topic===7?"Các cụm động từ trọng tâm":"Công thức tổng hợp",
-   specialKind:topic===1?"pronunciation":topic===2?"stress":"grammar"
+   specialKind:topic===1?"pronunciation":topic===2?"stress":"grammar",
+   introHeading:topic===1?"1. Nhận diện âm & cách phát âm":topic===2?"1. Nhận diện & cách đánh trọng âm":"1. Nhận diện & hiểu ý nghĩa",
+   ruleHeading:topic===1?"2. Quy tắc âm & ví dụ":topic===2?"2. Quy tắc trọng âm & ví dụ":topic===7?"2. Cụm từ & ví dụ":"2. Công thức & ví dụ",
+   methodTitle:({
+     1:"3. Cách nhận diện âm đúng",
+     2:"3. Cách xác định trọng âm",
+     3:"3. Cách chọn thì phù hợp",
+     4:"3. Cách phối hợp thì",
+     6:"3. Cách chọn động từ khuyết thiếu",
+     7:"3. Cách chọn phrasal verb",
+     8:"3. Cách nhận diện thức giả định"
+   })[topic]
  };
 }
 const report={};
