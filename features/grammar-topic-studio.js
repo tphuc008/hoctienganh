@@ -312,10 +312,10 @@ function learnFoundationV11(s,done){
     '<h2>'+esc(s.title)+'</h2>'+
     '<div class="g21-progress-track">'+progressHTML()+'</div>'+
     '<section class="g21-teaching g21-v11-intro">'+
-      '<div class="g21-v1-block g21-v1-meaning"><h3>1. Nhận diện & hiểu ý nghĩa</h3><p>'+esc(v.intro)+'</p></div>'+
+      '<div class="g21-v1-block g21-v1-meaning"><h3>'+esc(v.introHeading||"1. Nhận diện & hiểu ý nghĩa")+'</h3><p>'+esc(v.intro)+'</p></div>'+
     '</section>'+
     '<section class="g21-teaching g21-v11-rules">'+
-      '<div class="g21-sectionhead"><h3>2. Công thức & ví dụ</h3><span>3 trường hợp trọng tâm</span></div>'+
+      '<div class="g21-sectionhead"><h3>'+esc(v.ruleHeading||"2. Công thức & ví dụ")+'</h3><span>3 trường hợp trọng tâm</span></div>'+
       (v.fullFormula?'<div class="g21-v11-overview"><b>'+esc(v.formulaLabel||"Công thức tổng hợp")+'</b>'+
         '<p>'+esc(v.fullFormula)+'</p></div>':"")+
       '<div class="g21-v11-rule-grid">'+v.cases.map((c,i)=>
@@ -323,13 +323,13 @@ function learnFoundationV11(s,done){
           '<div class="g21-v11-rule-head"><span>'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(c.name)+'</h4></div>'+
           '<p class="g21-v11-formula">'+esc(c.formula)+'</p>'+
           '<p class="g21-v11-sentence">'+esc(c.sentence)+'</p>'+
-          '<p class="g21-v11-vi"><b>Nghĩa:</b> '+esc(c.vi)+'</p>'+
+          '<p class="g21-v11-vi"><b>'+(v.specialKind==="pronunciation"||v.specialKind==="stress"?"Giải thích tiếng Việt:":"Nghĩa:")+'</b> '+esc(c.vi)+'</p>'+
           '<p class="g21-v11-why"><b>Vì sao?</b> '+esc(c.why)+'</p>'+
         '</article>'
       ).join("")+'</div>'+
     '</section>'+
     '<section class="g21-teaching g21-v11-method">'+
-      '<h3>3. Cách xác định động từ đúng</h3>'+
+      '<h3>'+esc(v.methodTitle||"3. Cách xác định động từ đúng")+'</h3>'+
       '<ol class="g21-v11-steps">'+v.steps.map((step,i)=>
          '<li><span class="g21-v11-step-count">'+(i+1)+'</span><span>'+esc(step)+'</span></li>'
       ).join("")+'</ol>'+
