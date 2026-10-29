@@ -83,9 +83,13 @@ function controls(items,opts){
  let body=items.map(item=>button(item,"normal",opts.short)).join("");
  if(items.length===1){body+=button({...items[0],label:"Nghe chậm"},"slow",true);}
  if(items.length>=2){
-   body+='<button type="button" class="g-audio-btn g-audio-compare" data-grammar-audio-pair="'+
-      safe(items.map(x=>x.word).join("|"))+'" aria-label="Nghe đối chiếu A rồi B">'+
-      '<span aria-hidden="true">↔</span><span>Nghe A → B</span></button>';
+   const pair=safe(items.map(x=>x.word).join("|"));
+   body+='<button type="button" class="g-audio-btn g-audio-compare" data-grammar-audio-pair="'+pair+
+      '" aria-label="Nghe đối chiếu A rồi B">'+
+      '<span aria-hidden="true">↔</span><span>Nghe A → B</span></button>'+
+      '<button type="button" class="g-audio-btn g-audio-compare" data-grammar-audio-pair="'+pair+
+      '" data-grammar-audio-mode="slow" aria-label="Nghe chậm cả hai từ">'+
+      '<span aria-hidden="true">🐢</span><span>A → B chậm</span></button>';
  }
  return '<div class="g-audio-controls" data-grammar-audio-controls="'+safe(id)+'">'+body+
    '<span class="g-audio-status" role="status" aria-live="polite"></span></div>';
@@ -171,7 +175,8 @@ function handleButton(btn){
  if(pair){
    const xs=pair.split("|").filter(valid).slice(0,2);
    if(xs.length!==2){status(btn,"Cặp từ chưa hợp lệ.");return true;}
-   single(xs[0],false,token,()=>{if(token===sequenceToken)single(xs[1],false,token,null,btn)},btn);
+   const slow=btn.dataset.grammarAudioMode==="slow";
+   single(xs[0],slow,token,()=>{if(token===sequenceToken)single(xs[1],slow,token,null,btn)},btn);
  }else single(word,btn.dataset.grammarAudioMode==="slow",token,null,btn);
  return true;
 }
