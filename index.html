@@ -1269,7 +1269,7 @@ function ensureTeacherGrammar21(){
   if(window.TeacherGrammar21)return Promise.resolve();
   if(!grammar21AssetsPromise){
     grammar21AssetsPromise=(async()=>{
-      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261029-foundation-v11");
+      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261029-phonetics-audio-v1");
       await loadGrammar21Asset("script","content/grammar-topic21-data.js?v=20261020-pilot1");
       await loadGrammar21Asset("script","content/grammar-topic21-explanations.js?v=20261020-explain1");
       await loadGrammar21Asset("script","content/grammar-topic21-interactions.js?v=20261020-focus3");
@@ -1309,7 +1309,7 @@ function ensureTeacherGrammarLibrary(){
   if(window.TeacherGrammarLibrary)return Promise.resolve();
   if(!grammarLibraryAssetsPromise){
     grammarLibraryAssetsPromise=(async()=>{
-      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261029-foundation-v11");
+      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261029-phonetics-audio-v1");
       await loadGrammar21Asset("link","features/grammar-library.css?v=20261023-foundation-v1");
       await loadGrammar21Asset("script","features/grammar-library.js?v=20261023-foundation-v3");
       if(!window.TeacherGrammarLibrary)throw Error("Không thể mở thư viện Grammar");
@@ -1332,7 +1332,7 @@ function ensureTeacherGrammarNew(){
   if([1,2,3,4,5,6,7,8,19,22].every(n=>window['TeacherGrammar'+n]))return Promise.resolve();
   if(!grammarNewAssetsPromise){
     grammarNewAssetsPromise=(async()=>{
-      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261029-foundation-v11");
+      await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261029-phonetics-audio-v1");
       await loadGrammar21Asset("script","content/grammar-topic-compiler.js?v=20261022-studio4");
       await loadGrammar21Asset("script","content/grammar-topic1.js?v=20261024-foundation-v1");
       await loadGrammar21Asset("script","content/grammar-topic2.js?v=20261024-foundation-v1");
@@ -1350,8 +1350,9 @@ function ensureTeacherGrammarNew(){
       await loadGrammar21Asset("script","content/grammar-new-foundation-feedback.js?v=20261024-foundation-v1");
       await loadGrammar21Asset("script","content/grammar-explanation-depth-v3.js?v=20261028-depth-v3-studio");
       await loadGrammar21Asset("script","content/grammar-topic5-learn-v11.js?v=20261028-topic5-v11");
-      await loadGrammar21Asset("script","content/grammar-foundation-learn-v11.js?v=20261029-foundation-v11-r2");
-      await loadGrammar21Asset("script","features/grammar-topic-studio.js?v=20261029-foundation-v11-r2");
+      await loadGrammar21Asset("script","content/grammar-foundation-learn-v11.js?v=20261029-phonetics-audio-v1");
+      await loadGrammar21Asset("script","features/grammar-phonetics-audio.js?v=20261029-phonetics-audio-v1");
+      await loadGrammar21Asset("script","features/grammar-topic-studio.js?v=20261029-phonetics-audio-v1");
       const configs={
         1:{topicNum:1,heroVi:"Phát âm",heroEn:"Pronunciation",
           subtitle:"Phân biệt IPA, cặp âm dễ nhầm, phụ âm và cách đọc hậu tố -ed/-s theo giọng Anh-Anh.",beforeLabel:"Cách đọc dễ nhầm",afterLabel:"Phiên âm đúng",reviewCount:24},
