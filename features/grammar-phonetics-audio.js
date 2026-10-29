@@ -175,6 +175,16 @@ function handleButton(btn){
  }else single(word,btn.dataset.grammarAudioMode==="slow",token,null,btn);
  return true;
 }
-g.GrammarPhoneticsAudioV1={context,handleButton,stop,questionWords,caseWords,exampleWords,
+function attributionHTML(){
+ const links=Object.values(catalog).map(x=>
+   '<a href="https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(x.file)+
+   '" target="_blank" rel="noopener noreferrer">'+safe(x.file.replace(/^En-uk-|\.ogg$/g,""))+'</a>');
+ return '<details class="g-audio-credits"><summary>Danh sách bản ghi được cấp phép ('+links.length+')</summary>'+
+   '<p>Người đọc: Judith Franck · Association Shtooka · CC BY 3.0 US. '+
+   '<a href="https://creativecommons.org/licenses/by/3.0/us/" target="_blank" rel="noopener noreferrer">Điều kiện giấy phép</a>.</p>'+
+   '<div class="g-audio-credit-links">'+links.join(' · ')+'</div></details>';
+}
+g.addEventListener?.("hashchange",()=>stop());
+g.GrammarPhoneticsAudioV1={context,handleButton,stop,questionWords,caseWords,exampleWords,attributionHTML,
   verifiedClips:Object.keys(catalog),attribution:"Audio: Association Shtooka / Judith Franck, CC BY 3.0 US (Wikimedia Commons). Các từ còn lại: giọng đọc từ thiết bị; accent có thể thay đổi."};
 })(window);
