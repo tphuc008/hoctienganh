@@ -618,6 +618,7 @@ function render(preserveScroll){
   mount.innerHTML='<div class="g21">'+(location.hash.replace(/^#/,"")==="teacher/grammar"?
     home():topbar()+hero()+tabs()+
     (state.tab==="learn"?learn():state.tab==="practice"?stageFrame("practice",exam("practice")):state.tab==="clinic"?stageFrame("clinic",clinic()):state.tab==="mastery"?stageFrame("mastery",exam("mastery")):review())+
+    (phonetics()?'<p class="g-audio-license">Âm thanh: bản ghi Anh–Anh đã xác minh (nếu có), hoặc giọng đọc từ thiết bị. Giọng thiết bị có thể khác Anh–Anh. <a href="https://commons.wikimedia.org/wiki/File:En-uk-book.ogg" target="_blank" rel="noopener noreferrer">Nguồn và giấy phép audio · Judith Franck / Association Shtooka · CC BY 3.0 US</a>.</p>':"")+
     '<p class="g21-foot">Tham khảo: Mai Lan Hương · 25 chuyên đề trọng tâm · Cambridge Grammar · British Council. Tiến độ lưu cục bộ theo tài khoản.</p>')+'</div>';
   if(opened.length&&mount.querySelectorAll){
     mount.querySelectorAll(".g21-repair").forEach(node=>{if(opened.includes(node.getAttribute("data-g21-skill")))node.open=true;});
