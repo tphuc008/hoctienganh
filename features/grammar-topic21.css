@@ -657,3 +657,11 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
 .g21 .g21-learn-v11 .g21-v11-sentence{font-size:14px}
 .g21 .g21-learn-v11 .g21-v11-contrast{padding:12px 13px}
 }
+
+/* Foundation V1.1: topic-specific formulas (IPA, stress, grammar, phrasal verbs). */
+.g21 .g21-learn-v11 .g21-v11-overview{border:1px solid #e3eaf2;background:#f9fbfe;border-radius:10px;padding:12px 15px;margin:0 0 13px}
+.g21 .g21-learn-v11 .g21-v11-overview>b{display:block;margin-bottom:7px;font-size:12px;color:#476989;font-weight:800}
+.g21 .g21-learn-v11 .g21-v11-overview>p{font-size:13px;line-height:1.9;color:#36536f;white-space:pre-line;margin:0}
+.g21 .g21-learn-v11 .g21-v11-rule-card{overflow-wrap:anywhere}
+.g21 .g21-learn-v11 .g21-v11-contrast-a,.g21 .g21-learn-v11 .g21-v11-contrast-b{overflow-wrap:anywhere}
+@media(max-width:700px){.g21 .g21-learn-v11 .g21-v11-overview{padding:11px 12px}}
