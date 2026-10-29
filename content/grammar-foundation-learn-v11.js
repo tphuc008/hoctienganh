@@ -90,9 +90,9 @@ const custom={
  ["buses /ˈbʌsɪz/","Trong buses, đuôi -es được phát âm /ɪz/.","Bus kết thúc bằng /s/, một âm xì, nên thêm -es tạo âm tiết /ɪz/."]
  ],
  "1/letter-combinations":[
- ["phone /fəʊn/","Ph trong phone biểu thị âm /f/.","Ph trong phone phát âm /f/, không phải /p/ hay /h/."],
- ["chemistry /ˈkemɪstri/","Ch trong chemistry biểu thị âm /k/.","Ch trong chemistry đọc /k/ dù trong chair cùng hai chữ này đọc /tʃ/."],
- ["chef /ʃef/","Ch trong chef biểu thị âm /ʃ/.","Chef có ch đọc /ʃ/; cách đọc tùy từ, không tự suy ra từ chính tả."]
+ ["phone /fəʊn/","Trong phone, ph biểu thị âm /f/.","Ph trong phone đọc /f/, không phải /p/ hay /h/."],
+ ["graph /ɡrɑːf/","Trong graph, ph biểu thị âm /f/.","Ph trong graph cũng đọc /f/; không nên phát âm cả hai chữ ph như hai phụ âm riêng."],
+ ["chemistry /ˈkemɪstri/","Trong chemistry, ch biểu thị âm /k/.","Ch trong chemistry đọc /k/, khác ch /tʃ/ trong chair; cần kiểm tra theo từ cụ thể."]
  ]
 };
 function method(topic,s,plan){
