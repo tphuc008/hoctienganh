@@ -144,10 +144,15 @@ function stageRail(kind){
 function stageFrame(kind,content){
   return '<div class="g21-layout g21-stage-layout">'+stageRail(kind)+content+'</div>';
 }
+function phonetics(){return topicNum==="1"||topicNum==="2"?g.GrammarPhoneticsAudioV1:null;}
+function audioContext(kind,s,x,i){
+  const audio=phonetics();
+  return audio?audio.context(Number(topicNum),kind,s,x,i):"";
+}
 function exampleItem(s,x,i){
   return '<div class="g21-example"><span class="g21-example-index">Ví dụ '+(i+1)+'</span>'+
     '<p class="g21-before"><span>'+esc(config.beforeLabel||"Câu gốc")+'</span>'+esc(x.normal)+'</p>'+
-    '<p class="g21-after"><span>'+esc(config.afterLabel||"Câu chuẩn")+'</span>'+esc(x.inverted)+'</p>'+
+    '<p class="g21-after"><span>'+esc(config.afterLabel||"Câu chuẩn")+'</span>'+esc(x.inverted)+'</p>'+audioContext("example",s,x,i)+
     (s.vi?.examples?.[i]?'<p class="g21-example-meaning"><span>Nghĩa</span>'+esc(s.vi.examples[i])+'</p>':"")+
     '<p class="g21-why">'+esc(x.why)+'</p></div>';
 }
@@ -260,14 +265,16 @@ function question(q,num,kind){
   const complete=guided?state.guided[q.id]?.correct:repair?state.repairs[q.id]?.correct:false;
   return '<article class="g21-question" id="g21-'+esc(q.id)+'">'+
     '<div class="g21-qmeta"><span>QUESTION '+String(num).padStart(2,"0")+'</span><span>'+esc(d.skills.find(s=>s.id===q.skill)?.title||q.skill)+'</span></div>'+
-    '<p class="g21-prompt">'+esc(q.stem)+'</p>'+
+    '<p class="g21-prompt">'+esc(q.stem)+'</p>'+audioContext("question",null,q,0)+
     '<div class="g21-options" role="group" aria-label="Đáp án câu '+num+'">'+optionOrder(q).map((originalIndex,displayIndex)=>{
       const opt=q.options[originalIndex];
       const mark=selected===originalIndex;
       const graded=reveal&&!guided&&!repair;
       const status=graded?(originalIndex===q.correct?" is-correct":mark?" is-wrong":""):"";
-      return '<button type="button" class="g21-option'+(mark?" selected":"")+status+'" data-g21="answer" data-kind="'+field+'" data-id="'+esc(q.id)+'" data-index="'+originalIndex+'" aria-pressed="'+mark+'"'+(locked?' disabled aria-disabled="true"':"")+'>'+
+      const answerButton='<button type="button" class="g21-option'+(mark?" selected":"")+status+'" data-g21="answer" data-kind="'+field+'" data-id="'+esc(q.id)+'" data-index="'+originalIndex+'" aria-pressed="'+mark+'"'+(locked?' disabled aria-disabled="true"':"")+'>'+
       '<span class="g21-letter">'+String.fromCharCode(65+displayIndex)+'</span><span>'+esc(opt)+'</span></button>';
+      const optionAudio=audioContext("option",null,q,originalIndex);
+      return optionAudio?'<div class="g-audio-option-row">'+answerButton+optionAudio+'</div>':answerButton;
     }).join("")+'</div>'+
     (reveal?feedback(q,selected,complete,kind):"")+
     (guided&&complete?'<div class="g21-foot">Đã hiểu và trả lời đúng. Tiếp tục câu tiếp theo.</div>':"")+'</article>';
@@ -322,7 +329,7 @@ function learnFoundationV11(s,done){
         '<article class="g21-v11-rule-card">'+
           '<div class="g21-v11-rule-head"><span>'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(c.name)+'</h4></div>'+
           '<p class="g21-v11-formula">'+esc(c.formula)+'</p>'+
-          '<p class="g21-v11-sentence">'+esc(c.sentence)+'</p>'+
+          '<p class="g21-v11-sentence">'+esc(c.sentence)+'</p>'+audioContext("case",s,c,i)+
           '<p class="g21-v11-vi"><b>'+(v.specialKind==="pronunciation"||v.specialKind==="stress"?"Giải thích tiếng Việt:":"Nghĩa:")+'</b> '+esc(c.vi)+'</p>'+
           '<p class="g21-v11-why"><b>Vì sao?</b> '+esc(c.why)+'</p>'+
         '</article>'
@@ -335,7 +342,7 @@ function learnFoundationV11(s,done){
       ).join("")+'</ol>'+
       '<div class="g21-v11-contrast"><b>Ví dụ đối chiếu quan trọng</b>'+
         '<p class="g21-v11-contrast-a">'+esc(v.contrast[0])+'</p>'+
-        '<p class="g21-v11-contrast-b">'+esc(v.contrast[1])+'</p>'+
+        '<p class="g21-v11-contrast-b">'+esc(v.contrast[1])+'</p>'+audioContext("comparison",s,v.contrast,0)+
         '<p class="g21-v11-contrast-note">'+esc(v.contrast[2])+'</p>'+
       '</div>'+
     '</section>'+
@@ -603,6 +610,7 @@ function home(){
 }
 function render(preserveScroll){
   if(!state)return;
+  phonetics()?.stop();
   const y=preserveScroll?window.scrollY:0;
   const opened=preserveScroll&&state.tab==="clinic"&&mount.querySelectorAll?
     [...mount.querySelectorAll(".g21-repair[open]")].map(node=>node.getAttribute("data-g21-skill")):[];
@@ -654,6 +662,12 @@ function updateAnswer(kind,id,pick){
 }
 mount.addEventListener("click",function(e){
   if(location.hash.replace(/^#/,"")!==topicRoute)return;
+  const audioBtn=e.target.closest?.("[data-grammar-audio-word],[data-grammar-audio-pair]");
+  if(audioBtn&&mount.contains(audioBtn)){
+    e.preventDefault?.();
+    g.GrammarPhoneticsAudioV1?.handleButton(audioBtn);
+    return;
+  }
   const btn=e.target.closest("[data-g21]");
   if(!btn||!mount.contains(btn))return;
   const a=btn.dataset.g21;
