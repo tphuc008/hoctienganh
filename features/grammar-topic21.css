@@ -689,3 +689,10 @@ body:has(#pageMount .g21) .site-header{margin-bottom:18px}
 .g21 .g-audio-option-row>.g-audio-controls{margin-left:5px;min-height:28px}
 .g21 .g-audio-option-row .g-audio-btn{min-height:29px;padding:5px 9px}
 }
+
+/* Compact, licensed audio attribution for Topics 1 and 2 */
+.g21 .g-audio-credits{padding:7px 0 10px;color:#6c8196;font-size:11px;line-height:1.6}
+.g21 .g-audio-credits summary{cursor:pointer;font-weight:700;color:#47708e;outline-offset:3px}
+.g21 .g-audio-credits p{margin:6px 0}
+.g21 .g-audio-credits a{color:#2a6696;text-decoration:underline;text-underline-offset:2px}
+.g21 .g-audio-credit-links{line-height:1.95}
