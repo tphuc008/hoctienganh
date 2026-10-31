@@ -67,10 +67,10 @@ function diagnose9(q,opt){
 }
 function diagnose10(q,opt){
  const correct=q.options[0];
- const neg=x=>/\b(?:n't|not)\b/.test(x);
+ const neg=x=>/(?:n't\b|\bnot\b)/.test(x);
  const pieces=x=>x.trim().split(/\s+/);
  const [a,pron]=pieces(opt),[want,wantPron]=pieces(correct);
- if(neg(opt)!==neg(correct))return "“"+opt+"” sai cực tính đối với câu xác nhận thông thường; mệnh đề chính "+(neg(correct)?"khẳng định nên tag phủ định":"phủ định nên tag khẳng định")+". "+q.why;
+ if(neg(opt)!==neg(correct))return "“"+opt+"” không phù hợp mẫu câu hỏi đuôi xác nhận thông thường: mệnh đề chính "+(neg(correct)?"khẳng định nên tag phủ định":"phủ định nên tag khẳng định")+". Tag cùng cực tính có thể dùng để bộc lộ ngạc nhiên, nhưng không phải ý của câu hỏi này. "+q.why;
  if(pron!==wantPron)return "“"+opt+"” dùng đại từ “"+(pron||"")+"” không quy chiếu đúng chủ ngữ của mệnh đề chính; cần “"+wantPron+"”. "+q.why;
  if(a!==want)return "“"+opt+"” có trợ động từ/modal “"+a+"” không khớp thì hoặc loại động từ của mệnh đề chính; cần “"+want+"”. "+q.why;
  return "“"+opt+"” không tương ứng với cấu trúc chính: "+q.why;
