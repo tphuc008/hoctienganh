@@ -129,10 +129,16 @@ L("advanced","Have to, used to, ought to và những trường hợp khác","Hav
 "We must finish now ~ mustn't we ~ don't we ~ are we ~ didn't we ~ Chúng ta phải hoàn thành ngay, đúng không? ~ Must diễn tả nghĩa vụ, tag thường mustn't we."
 ])
 ];
-g.GrammarTopics9to11Factory.make(10,"CHUYÊN ĐỀ 10. CÂU HỎI ĐUÔI – TAG QUESTIONS",lessons,[
+const topic10=g.GrammarTopics9to11Factory.make(10,"CHUYÊN ĐỀ 10. CÂU HỎI ĐUÔI – TAG QUESTIONS",lessons,[
 ["Complete: She is ready, ___?","She is ready, isn't she?",["is/isn't","she"]],
 ["Complete: He works here, ___?","He works here, doesn't he?",["doesn't he"]],
 ["Complete: Let's begin, ___?","Let's begin, shall we?",["shall we"]],
 ["Complete: Nobody called, ___?","Nobody called, did they?",["negative word","did they"]]
 ]);
+topic10.sections[0].learnV11.pitfalls.push({
+ title:"Câu hỏi đuôi cùng cực tính cũng tồn tại",
+ rule:"Câu khẳng định + tag khẳng định có thể diễn đạt sự ngạc nhiên hoặc phản ứng trong hội thoại (She got the job, did she?). Bộ câu hỏi đang kiểm tra mẫu xác nhận thông thường: khẳng định + tag phủ định.",
+ example:"Oh, she got the job, did she?",
+ vi:"Ồ, vậy cô ấy được nhận việc rồi à?"
+});
 })(window);
