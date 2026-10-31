@@ -24,6 +24,15 @@ function make(n,title,lessons,writing){
  const d=g.GrammarTopicCompiler.build(config);
  for(let k=0;k<8;k++){
   const l=lessons[k],s=d.sections[k],first=s.examples[0],second=s.examples[1];
+  // Error-clinic must not present a grammatical alternative with a different
+  // meaning (e.g. stop to smoke) or a conversational same-polarity tag as wrong.
+  const preferSyntaxError=(n===10||(n===9&&(l.id==="meaning-shifts"||l.id==="try-regret")));
+  if(preferSyntaxError){
+    const q=s.checks[0],incorrect=q.stem.replace("___",q.options[2]);
+    d.detectives[k].wrongSentence=incorrect;
+    d.detectives[k].choices=[s.examples[0].inverted,incorrect];
+    d.detectives[k].clues=[l.clue,l.core];
+  }
   s.learnV11={
     intro:l.meaning,
     cases:l.cases.map((item,i)=>{
