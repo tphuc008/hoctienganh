@@ -119,6 +119,11 @@ for(const n of [9,10,11]){
   q.explain.clue=scope;
   q.explain.rule=q.why;
   q.explain.reasoning=(n===9?"Xác định động từ hoặc giới từ chi phối bổ ngữ. ":n===10?"Đầu tiên xác định cực tính và trợ động từ của mệnh đề chính. ":"Trước hết xác định phạm vi và quan hệ so sánh. ")+scope+" Dấu hiệu áp dụng trong câu: "+q.why;
+  q.explain.retryHint=(n===9
+    ? "Hãy tìm động từ/cụm chi phối ô trống và xác định cần V-ing, to V, nguyên mẫu không to hay nghĩa nào của động từ."
+    : n===10
+      ? "Kiểm tra trợ động từ của mệnh đề chính, cực tính khẳng định/phủ định và đại từ thay cho chủ ngữ."
+      : "Xác định số đối tượng được so sánh, mức độ bằng/hơn/nhất, rồi chọn dạng tính từ hoặc lượng từ phù hợp.");
   for(let i=1;i<=3;i++){
    const diagnosis=(n===9?diagnose9:n===10?diagnose10:diagnose11)(q,q.options[i]);
    q.explain.wrong[i]=diagnosis.startsWith("“"+q.options[i]+"”")?diagnosis:"“"+q.options[i]+"”: "+diagnosis;
