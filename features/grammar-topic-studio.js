@@ -200,7 +200,7 @@ function feedback(q,pick,wasCorrect,kind){
   if(retry){
     return '<div class="g21-feedback bad g21-v2-hint" role="status">'+
       '<strong>Chưa đúng — thử lại nhé</strong>'+
-      '<p>'+esc(specific||"Xem lại dấu hiệu ngữ pháp quyết định đáp án.")+'</p>'+
+      '<p>'+esc(note.retryHint||specific||"Xem lại dấu hiệu ngữ pháp quyết định đáp án.")+'</p>'+
       (note.clue?'<p class="g21-feedback-hint">'+esc(note.clue)+'</p>':"")+
       '</div>';
   }
