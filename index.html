@@ -1311,7 +1311,7 @@ function ensureTeacherGrammarLibrary(){
     grammarLibraryAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/grammar-topic21.css?v=20261029-phonetics-audio-v3");
       await loadGrammar21Asset("link","features/grammar-library.css?v=20261023-foundation-v1");
-      await loadGrammar21Asset("script","features/grammar-library.js?v=20261023-foundation-v3");
+      await loadGrammar21Asset("script","features/grammar-library.js?v=20261031-t9-11-v1");
       if(!window.TeacherGrammarLibrary)throw Error("Không thể mở thư viện Grammar");
     })().catch(e=>{grammarLibraryAssetsPromise=null;throw e});
   }
