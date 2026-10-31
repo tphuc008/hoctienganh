@@ -63,7 +63,7 @@ L("short-est","So sánh nhất với tính từ ngắn","So sánh một người
 "That is ___ road in the town. ~ the longest ~ longer ~ the longer ~ longest than ~ Đó là con đường dài nhất thị trấn. ~ Long → longest.",
 "She chose ___ box of all. ~ the smallest ~ smaller ~ the smaller ~ smallest than ~ Cô ấy chọn hộp nhỏ nhất. ~ Small → smallest.",
 "He is ___ member of the club. ~ the youngest ~ younger ~ the younger ~ youngest than ~ Anh ấy là thành viên trẻ nhất câu lạc bộ. ~ Young → youngest.",
-"July was ___ day of the summer. ~ the hottest ~ hotter ~ the hotter ~ hottest than ~ Tháng Bảy có ngày nóng nhất mùa hè. ~ Hot → hottest.",
+"The tenth of July was ___ day of the summer. ~ the hottest ~ hotter ~ the hotter ~ hottest than ~ Ngày mười tháng Bảy là ngày nóng nhất mùa hè. ~ Hot → hottest.",
 "This is ___ bag in the store. ~ the lightest ~ lighter ~ the lighter ~ lightest than ~ Đây là túi nhẹ nhất cửa hàng. ~ Light → lightest.",
 "She picked ___ route of the three. ~ the shortest ~ shorter ~ the shorter ~ shortest than ~ Cô ấy chọn đường ngắn nhất trong ba đường. ~ Short → shortest."
 ]),
