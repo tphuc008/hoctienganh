@@ -106,7 +106,7 @@ L("structures","Các cấu trúc worth / enough / used to","Worth/no use/can't h
 "The box is too heavy ___. ~ to lift ~ lifting ~ lift ~ lifted ~ Hộp quá nặng để nhấc. ~ Too + adj + to V.",
 "She is tall enough ___ the shelf. ~ to reach ~ reaching ~ reach ~ reached ~ Cô ấy đủ cao để với tới kệ. ~ Adj + enough + to V.",
 "As a child, he used ___ to school. ~ to walk ~ walking ~ walk ~ walked ~ Hồi nhỏ anh ấy thường đi bộ đến trường. ~ Used to + V.",
-"She is used to ___ early. ~ getting up ~ to get up ~ get up ~ got up ~ Cô ấy quen dậy sớm. ~ Be used to + V-ing.",
+"She has become accustomed to ___ early. ~ getting up ~ to get up ~ get up ~ got up ~ Cô ấy đã quen dậy sớm. ~ Become accustomed to + V-ing.",
 "She couldn't help ___ at the joke. ~ laughing ~ to laugh ~ laugh ~ laughed ~ Cô ấy không nhịn được cười. ~ Can't help + V-ing.",
 "He is busy ___ the documents. ~ checking ~ to check ~ check ~ checked ~ Anh ấy bận kiểm tra tài liệu. ~ Busy + V-ing.",
 "The puzzle is easy enough ___ quickly. ~ to solve ~ solving ~ solve ~ solved ~ Câu đố đủ dễ để giải nhanh. ~ Adj + enough + to V.",
