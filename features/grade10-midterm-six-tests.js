@@ -127,7 +127,7 @@ function score(){
 }
 function passage(q){
  let v=String(q.intro||"").trim();
- if(!v||v.length<95||!/(?:read|music|plastic|pollution|environment|technology|food|conservation|work|family|AI|circular|camp|concert|notice)/i.test(v))return "";
+ if(!v||v.length<95||!/(?:read|music|plastic|pollution|environment|technology|food|conservation|work|family|AI|circular|camp|concert|notice|feedback|performer|talent show)/i.test(v))return "";
  return v;
 }
 function kindLabel(q){
