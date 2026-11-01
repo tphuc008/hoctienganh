@@ -4,8 +4,8 @@
 const ROOT="grade-10/mid-term-test";
 const BASE="./content/grade10-midterm-six-tests.txt?v=20261021-all6-1";
 const STYLE="features/grade10-midterm-study.css?v=20261021-unified-v1";
-const COUNTS=[0,50,43,45,50,45,46];
-const NAMES=["","Mr. Khanh","Ms. Oanh","Mr. Tuấn Anh","Ms. Nguyên","Mr. Trí","Mrs. Quyên 2"];
+const COUNTS=[0,50,43,45,50,45,46,69];
+const NAMES=["","Mr. Khanh","Ms. Oanh","Mr. Tuấn Anh","Ms. Nguyên","Mr. Trí","Mrs. Quyên 2","Marie Curie"];
 const state={doc:null,questions:[],test:0,index:0,answers:{},checked:{},revealed:{},flags:{},owner:null,parsed:null,graded:null,draft:null,summary:false,unsaved:false};
 let allText=null;
 const $=id=>document.getElementById(id);
@@ -223,7 +223,7 @@ function render(){
  '<button type="button" data-g10x-action="check-all">Kiểm tra các câu đã làm</button>'+
  '<button type="button" data-g10x-action="summary" class="g10x-primary">Xem tổng kết</button>'+
  '<button type="button" data-g10x-action="print">In đề đầy đủ</button>'+
- '<button type="button" data-g10x-action="home">← Danh sách 6 Test</button></div>'+
+ '<button type="button" data-g10x-action="home">← Danh sách 7 Test</button></div>'+
  '</div></aside></div>'+printReady()+'</div>';
  bind();
 }
@@ -309,13 +309,14 @@ function bind(){
 }
 async function open(n){
  n=Number(n);
- if(!Number.isInteger(n)||n<1||n>6){location.hash=ROOT;return}
+ if(!Number.isInteger(n)||n<1||n>7){location.hash=ROOT;return}
  initCss();
  const mount=$("pageMount");mount.style.display="block";$("quizShell")?.style&&($("quizShell").style.display="none");
  mount.innerHTML='<div class="g10x-hero"><h1>Đang mở Test '+n+'…</h1></div>';
  try{
-  const raw=testText(await fetchText(),n);
-  const doc=parsePaper(raw,n);correctCounts(doc,n);
+  const doc=n===7?global.G10_MIDTERM_MARIE?.paper:parsePaper(testText(await fetchText(),n),n);
+  if(!doc)throw Error("Chưa tải được dữ liệu Marie Curie.");
+  correctCounts(doc,n);
   if(location.hash!="#"+ROOT+"/source-test-"+n)return;
   const all=await global.G10MidtermAssessment.load();
   const gradeTest=all.find(t=>t.id===n);
@@ -333,7 +334,7 @@ async function open(n){
   persist();render();global.scrollTo?.({top:0,behavior:"smooth"});
  }catch(err){
   mount.innerHTML='<div class="unit-hero"><h1>Không mở được Test '+n+'</h1><p>'+esc(err.message||err)+'</p>'+
-  '<button class="secondary" onclick="location.hash=\''+ROOT+'\'">Quay lại 6 đề</button></div>';
+  '<button class="secondary" onclick="location.hash=\''+ROOT+'\'">Quay lại 7 đề</button></div>';
  }
 }
 global.renderG10MidTermSourceTest=open;
