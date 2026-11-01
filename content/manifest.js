@@ -66,16 +66,16 @@
       kind:"handler",handler:"renderGrade6Unit3",args:["practice"],source:"features/grade6-unit3.js?v=20261028-unit3-v3",
       dependencies:["content/grade6-unit3-part-a.js?v=20261028-unit3-v3","content/grade6-unit3-part-b.js?v=20261028-unit3-v3"]},
     {id:"grammar-home",route:"grammar",title:"Grammar",category:"grammar-home",kind:"handler",handler:"renderGrammarHome"},
-    {id:"school-home",route:"school",title:"Học trên trường",category:"school-home",kind:"handler",handler:"renderSchoolHome",source:"school-ui.js?v=20261020-allprint1"},
-    {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",kind:"handler",handler:"renderSchoolGrade10",source:"school-ui.js?v=20261020-allprint1"},
-    {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",kind:"handler",handler:"renderSchoolMidterm1",source:"school-ui.js?v=20261020-allprint1"},
+    {id:"school-home",route:"school",title:"Học trên trường",category:"school-home",kind:"handler",handler:"renderSchoolHome",source:"school-ui.js?v=20261101-schoolunits-v2"},
+    {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",kind:"handler",handler:"renderSchoolGrade10",source:"school-ui.js?v=20261101-schoolunits-v2"},
+    {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",kind:"handler",handler:"renderSchoolMidterm1",source:"school-ui.js?v=20261101-schoolunits-v2"},
     // School Grade 10 Units 3/4: original PDF and Mid-Term-style question flow.
     ...[3,4].flatMap(unit=>[
       {id:"school-g10-unit-"+unit,route:"school/grade-10/unit-"+unit,
         title:"Unit "+unit,category:"school",grade:10,kind:"handler",
         handler:"schoolUnitHome",args:[unit],
-        source:"features/school-grade10-units.js?v=20261101-g10school-v1",
-        dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v1"]},
+        source:"features/school-grade10-units.js?v=20261101-g10school-v2",
+        dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v2"]},
       ...({3:{A:2,B:3,C:3,D:2,E:5},4:{A:2,B:3,C:4,D:2,E:5}}[unit]
         ?Object.entries({3:{A:2,B:3,C:3,D:2,E:5},4:{A:2,B:3,C:4,D:2,E:5}}[unit])
           .flatMap(([section,taskCount])=>Array.from({length:taskCount},(_,i)=>({
@@ -84,8 +84,8 @@
             title:"Unit "+unit+" · "+section+" · Task "+(i+1),
             category:"school",grade:10,kind:"handler",
             handler:"schoolUnitTask",args:[unit,section+"-"+(i+1)],
-            source:"features/school-grade10-units.js?v=20261101-g10school-v1",
-            dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v1"]
+            source:"features/school-grade10-units.js?v=20261101-g10school-v2",
+            dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v2"]
           })))
         :[])
     ]),
@@ -119,7 +119,7 @@
     {id:"grade10-midterm",route:"grade-10/mid-term-test",title:"Grade 10 Mid-term Test",category:"exam",grade:10,kind:"handler",handler:"renderG10MidTermHome",source:"grade10-midterm.js?v=20261101-marie-v1"},
     ...Array.from({length:7},(_,i)=>({id:"school-g10-midterm1-set-"+(i+1),
       route:"school/grade-10/midterm-1/set-"+(i+1),title:"Ôn tập giữa kì 1 · Set "+(i+1),
-      category:"school",grade:10,kind:"handler",handler:"renderSchoolSetIntro",source:"school-ui.js?v=20261020-allprint1",args:[i+1]})),
+      category:"school",grade:10,kind:"handler",handler:"renderSchoolSetIntro",source:"school-ui.js?v=20261101-schoolunits-v2",args:[i+1]})),
     ...[1,2,3,4,5,6,7].map(n=>({id:"grade10-midterm-test-"+n,route:"grade-10/mid-term-test/test-"+n,
       title:"Grade 10 Mid-term · Test "+n,category:"exam",grade:10,
       kind:"handler",handler:"renderG10MidTermTest",source:"grade10-midterm.js?v=20261101-marie-v1",args:[n]})),
