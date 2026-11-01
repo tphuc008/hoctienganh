@@ -69,6 +69,26 @@
     {id:"school-home",route:"school",title:"Học trên trường",category:"school-home",kind:"handler",handler:"renderSchoolHome",source:"school-ui.js?v=20261020-allprint1"},
     {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",kind:"handler",handler:"renderSchoolGrade10",source:"school-ui.js?v=20261020-allprint1"},
     {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",kind:"handler",handler:"renderSchoolMidterm1",source:"school-ui.js?v=20261020-allprint1"},
+    // School Grade 10 Units 3/4: original PDF and Mid-Term-style question flow.
+    ...[3,4].flatMap(unit=>[
+      {id:"school-g10-unit-"+unit,route:"school/grade-10/unit-"+unit,
+        title:"Unit "+unit,category:"school",grade:10,kind:"handler",
+        handler:"schoolUnitHome",args:[unit],
+        source:"features/school-grade10-units.js?v=20261101-g10school-v1",
+        dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v1"]},
+      ...({3:{A:2,B:3,C:3,D:2,E:5},4:{A:2,B:3,C:4,D:2,E:5}}[unit]
+        ?Object.entries({3:{A:2,B:3,C:3,D:2,E:5},4:{A:2,B:3,C:4,D:2,E:5}}[unit])
+          .flatMap(([section,taskCount])=>Array.from({length:taskCount},(_,i)=>({
+            id:"school-g10-unit-"+unit+"-"+section.toLowerCase()+(i+1),
+            route:"school/grade-10/unit-"+unit+"/"+section+"-"+(i+1),
+            title:"Unit "+unit+" · "+section+" · Task "+(i+1),
+            category:"school",grade:10,kind:"handler",
+            handler:"schoolUnitTask",args:[unit,section+"-"+(i+1)],
+            source:"features/school-grade10-units.js?v=20261101-g10school-v1",
+            dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v1"]
+          })))
+        :[])
+    ]),
     // Separate lesson-plan catalogue and routes, independent of old Vocabulary Units.
     {id:"g12-lesson-plans-home",route:"grade-12/lesson-plans",title:"Lesson Plans & Practice",
       category:"lesson-plans-home",grade:12,kind:"handler",handler:"renderLessonPlansHome",
