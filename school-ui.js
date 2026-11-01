@@ -161,7 +161,7 @@ function renderSchoolGrade10(){
       <div class="eyebrow">School · Grade 10</div>
       <h1>Lớp 10</h1>
     </div>
-    <div class="section-title"><h2>Ôn tập</h2><span>1 mục</span></div>
+    <div class="section-title"><h2>Ôn tập & các Unit</h2><span>3 mục</span></div>
     <div class="exercise-grid">
       <button class="exercise-card" onclick="location.hash='school/grade-10/midterm-1'">
         <div class="exercise-icon">1</div>
@@ -172,6 +172,16 @@ function renderSchoolGrade10(){
           <span class="chip">${esc(data.subtitle)}</span>
           <span class="chip">Immediate feedback</span>
         </div>
+      </button>
+      <button class="exercise-card" onclick="location.hash='school/grade-10/unit-3'">
+        <div class="exercise-icon">3</div>
+        <h3>Unit 3: Music</h3>
+        <div class="meta"><span class="chip">142 questions</span><span class="chip">72 vocabulary items</span><span class="chip">Original PDF</span></div>
+      </button>
+      <button class="exercise-card" onclick="location.hash='school/grade-10/unit-4'">
+        <div class="exercise-icon">4</div>
+        <h3>Unit 4: For a Better Community</h3>
+        <div class="meta"><span class="chip">164 questions</span><span class="chip">68 vocabulary items</span><span class="chip">Original PDF</span></div>
       </button>
     </div>`;
   window.scrollTo({top:0,behavior:"smooth"});
