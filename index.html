@@ -65,7 +65,7 @@
 
 <script src="core/learning-core.js?v=20261020-v1"></script>
 <script src="core/learning-flow.js?v=20261020-v1"></script>
-<script src="content/manifest.js?v=20261101-marie-midterm-v1"></script>
+<script src="content/manifest.js?v=20261101-school-home-fix1"></script>
 <script src="core/history-core.js"></script>
 <script src="features/learning-history.js?v=20261021-compact1"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
@@ -1625,9 +1625,14 @@ async function route(){
   }
 
   if(hash==="school"){
+    pageMount.style.display="block";
+    pageMount.innerHTML='<div class="empty"><b>Đang kiểm tra quyền truy cập…</b></div>';
     if(await validateStoredAccess("school")){
       setActiveArea("school");
-      renderSchoolHome();
+      if(!LearningCore.renderRoute("school")){
+        pageMount.style.display="block";
+        pageMount.innerHTML='<div class="empty"><b>Không mở được Học trên trường</b>Vui lòng tải lại trang.</div>';
+      }
     }else{
       clearStoredAccess("school");
       clearActiveArea();
@@ -1649,6 +1654,8 @@ async function route(){
   }
 
   if(hash.startsWith("school/")){
+    pageMount.style.display="block";
+    pageMount.innerHTML='<div class="empty"><b>Đang kiểm tra quyền truy cập…</b></div>';
     if(!await validateStoredAccess("school")){
       clearStoredAccess("school");
       clearActiveArea();
