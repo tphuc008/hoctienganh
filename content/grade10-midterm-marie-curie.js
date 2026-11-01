@@ -802,7 +802,7 @@ const questions=ROWS.map(([number,section,stem,options,answer,hint,warning])=>({
 }));
 const intro={39:"III. READING COMPREHENSION\nRead the following passage and answer the questions.\n"+PASSAGE_AI,44:"Read the following study note and answer the questions.\n"+PASSAGE_NOTE};
 const paperQuestions=questions.map(q=>({
- id:String(q.number),number:q.number,knowledge:null,prompt:q.stem,choices:q.options,kind:q.options?"choice":"written",
+ id:String(q.number),number:q.number,section:q.section,knowledge:null,prompt:q.stem,choices:q.options,kind:q.options?"choice":"written",
  intro:q.context,canonicalId:q.id
 }));
 let lines=["MARIE CURIE HIGH SCHOOL - HO CHI MINH CITY","PRACTICE TEST - GRADE 10 - MID-TERM 1"];
