@@ -39,7 +39,8 @@ function vocab(unit){
  }
  if(unit===3){if(seen.has(35))seen.get(35).word='play an important role';}
  else {if(seen.has(8))seen.get(8).word='get involved = join, take part in';
-   if(!seen.has(18))seen.set(18,{no:18,word:'donate = raise money for charity',pos:'(v)',ipa:'/dəʊˈneɪt/',vi:'quyên góp'});}
+   if(!seen.has(18))seen.set(18,{no:18,word:'donate = raise money for charity',pos:'(v)',ipa:'/dəʊˈneɪt/',vi:'quyên góp'});
+   if(!seen.has(42))seen.set(42,{no:42,word:'non-profit organisation',pos:'(n.phr)',ipa:'/nɒn-ˈprɒfɪt ˌɔːgənaɪˈzeɪʃən/',vi:'tổ chức phi lợi nhuận'});}
  return [...seen.values()].sort((a,b)=>a.no-b.no);
 }
 function taskParts(unit){
