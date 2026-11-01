@@ -20,7 +20,7 @@ function explain(q,context,renderer){
  n===42?"Đoạn 1 không nhắc một bài hát cụ thể, hai ngôi sao hoặc phản ứng của người nghe.":
  n===43?"Audiences still want to feel a real human connection when they listen to music.":
  n===44?"Filling – Give one suggestion for improvement and explain how to do it.":
- "Top slice – Start with something specific ... Filling – Give one suggestion ... Bottom slice – End with encouragement.":"");
+ "Top slice – Start with something specific ... Filling – Give one suggestion ... Bottom slice – End with encouragement."):"";
  const evidence=[q.hint,paragraph].filter(Boolean);
  const writtenExample=demo?demo[0]+" — "+demo[1]:"";
  return renderer.render({
