@@ -131,6 +131,7 @@ function passage(q){
  return v;
 }
 function kindLabel(q){
+ if(q.section)return q.section;
  if(q.knowledge)return "Knowledge "+q.knowledge+" · "+(q.kind==="choice"?"Trắc nghiệm":"Tự luận");
  return q.kind==="choice"?"Chọn một đáp án A–D":"Viết câu trả lời";
 }
