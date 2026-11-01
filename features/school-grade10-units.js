@@ -5,8 +5,8 @@ const TITLES={3:'Music',4:'For a Better Community'};
 const SECTION={A:'Phonetics',B:'Vocabulary',C:'Grammar',D:'Sentence Arrangement',E:'Reading'};
 const TASKS={A:{1:'Pronunciation',2:'Word Stress'},B:{1:'Closest Meaning',2:'Opposite Meaning',3:'Vocabulary & Usage'},C:{1:'Grammar Practice',2:'Grammar Practice',3:'Grammar Practice',4:'Grammar MCQ'},D:{1:'Conversation Arrangement',2:'Letter & Paragraph Arrangement'},E:{1:'Advertisement',2:'Cloze Passage',3:'Text Completion',4:'Reading Comprehension',5:'Reading Comprehension'}};
 const KEYS={
-  3:{'A-2':'D C B D A B A C D C','B-1':'C D A D C','B-2':'A C B A B','B-3':'A A C B B B D B A B D C A B A A A D C D A A C D C B C A C B','C-3':'B A C B A C D B D C B A A C D A D C A B','D-1':'A B A D','D-2':'B B A A','E-1':'A D C B D','E-2':'A B D B C','E-3':'C A B D A B','E-4':'C D B C D C A C','E-5':'C B A A C B D A C A'},
-  4:{'A-2':'D B C C A B C D A B','B-1':'B B D C C','B-2':'D A C D B','B-3':'C D B C A C B D A B C B C B C B A C A C B D D B A B A D C A','C-4':'D B A B D C B A C D B A C D A D B B A C C B A B D','D-1':'C A C B','D-2':'C D A D','E-1':'D C A B D','E-2':'B C A B A','E-3':'D B D A A D','E-4':'B C D A B D B B','E-5':'C C B B D C C B C D'}
+  3:{'A-1':'C D A B C B D A C D','A-2':'D C B D A B A C D C','B-1':'C D A D C','B-2':'A C B A B','B-3':'A A C B B B D B A B D C A B A A A D C D A A C D C B C A C B','C-3':'B A C B A C D B D C B A A C D A D C A B','D-1':'A B A D','D-2':'B B A A','E-1':'A D C B D','E-2':'A B D B C','E-3':'C A B D A B','E-4':'C D B C D C A C','E-5':'C B A A C B D A C A'},
+  4:{'A-1':'D B C D B A C A D A','A-2':'D B C C A B C D A B','B-1':'B B D C C','B-2':'D A C D B','B-3':'C D B C A C B D A B C B C B C B A C A C B D D B A B A D C A','C-4':'D B A B D C B A C D B A C D A D B B A C C B A B D','D-1':'C A C B','D-2':'C D A D','E-1':'D C A B D','E-2':'B C A B A','E-3':'D B D A A D','E-4':'B C D A B D B B','E-5':'C C B B D C C B C D'}
 };
 const WRITTEN={
   3:{'C-1':["I'd like to go to the party, but I'm too busy.","It was rainy, so Lan took an umbrella.","Anna is an amazing dancer, and her parents are proud of her.","You can vote online for your favourite singer, or you can send text messages.","Lisa went shopping yesterday, but she didn't buy anything.","John's parents own a restaurant, and sometimes he helps in the kitchen at weekends.","Go inside or you will catch a cold.","Rita is a good drummer, so she will probably be invited to join the band.","She can’t sing, nor can she play any musical instruments.","He went to the concert, for he loved the band’s music."],
@@ -17,13 +17,14 @@ const WRITTEN={
 };
 const WARNINGS={
  '3:C-1:2':'Đáp án in trong PDF viết “It was sunny”, trái với đề “It was rainy”. Ở đây giữ dữ kiện rainy của câu hỏi và sửa lỗi chép trong KEY.',
- '3:A-1:*':'PDF có phần gạch chân nhưng lớp văn bản trích xuất không giữ được chính xác vị trí gạch chân. Tạm thời không chấm điểm phát âm để tránh chấm oan.',
- '4:A-1:*':'PDF có phần gạch chân nhưng lớp văn bản trích xuất không giữ được chính xác vị trí gạch chân. Tạm thời không chấm điểm phát âm để tránh chấm oan.',
+ '3:A-1:*':'Phần gạch chân được phục dựng từ vị trí ký tự trong PDF gốc. Đáp án được đối chiếu phát âm; tài liệu không in KEY cho dạng này.',
+ '4:A-1:*':'Phần gạch chân được phục dựng từ vị trí ký tự trong PDF gốc. Đáp án được đối chiếu phát âm; tài liệu không in KEY cho dạng này.',
  '4:E-3:5':'“One another” và “each other” đều dùng được sau supported; đề có hai lựa chọn hợp lệ. Chấp nhận cả A lẫn D.',
  '4:C-4:22':'Cả “volunteered” và “was volunteering” có thể phù hợp trong ngữ cảnh này. Chấp nhận cả A và B.',
  '3:B-3:2':'“Competition at the regional music competition” bị lặp từ trong câu gốc PDF; đáp án A vẫn là từ loại phù hợp nhất.',
  '4:E-1:1':'PDF có ghi chú tiếng Việt ngay trong lựa chọn; trình bày lại các lựa chọn theo đúng văn bản nguồn.'
 };
+const UNDERLINE={3:[[0,0,1,6],[3,2,4,2],[6,5,4,3],[4,2,3,1],[1,2,1,0],[1,4,3,8],[6,7,4,4],[1,2,1,1],[1,1,1,2],[0,4,2,3]],4:[[1,3,1,1],[0,0,4,1],[1,1,1,3],[1,0,1,1],[2,4,1,2],[7,5,6,4],[2,2,0,3],[0,0,0,0],[7,8,0,0],[2,0,2,4]]};
 const ALTERNATIVES={'4:E-3:5':['A','D'],'4:C-4:22':['A','B']};
 const NEEDS_REVIEW=new Set(['3:B-1:5','4:E-3:4']);
 let cached=null, session=null;
@@ -75,7 +76,7 @@ function parseTask(unit,src){
   if(mcq){options[3]=options[3].replace(/\s*--- THE END ---[\s\S]*$/,'').trim();if(unit===4&&name==='E-1')options[3]=options[3].split('\n')[0].trim();}
   const answer=mcq?(key[i]||null):(written[i]||null);
   const id=unit+':'+name+':'+(i+1),warning=WARNINGS[id]||WARNINGS[unit+':'+name+':*']||'';
-  const eligible=!!answer && !NEEDS_REVIEW.has(id) && !(src.section==='A'&&src.task===1);
+  const eligible=!!answer && !NEEDS_REVIEW.has(id);
   items.push({id,no:+m[1],stem,options,kind:mcq?'mcq':'written',answer,warning,eligible,
     section:src.section,task:src.task,group:name,context:src.section==='E'?context:''});
  }
@@ -94,7 +95,14 @@ function data(){
  return cached;
 }
 function route(unit,group){return 'school/grade-10/unit-'+unit+(group?'/'+group:'');}
-function base(){const m=document.getElementById('pageMount');m.style.display='block';const q=document.getElementById('quizShell');if(q)q.style.display='none';const r=document.getElementById('resultScreen');if(r)r.style.display='none';return m;}
+
+function ensureStyles(){
+ if(document.getElementById('school-grade10-midterm-css'))return;
+ const st=document.createElement('style');st.id='school-grade10-midterm-css';
+ st.textContent='.mt-subtle{color:var(--muted);font-size:13px;line-height:1.7}.mt-question{margin:18px 0 22px;padding:22px;border:1px solid var(--line);border-radius:20px;background:var(--card,rgba(255,255,255,.5))}.mt-stem{font-size:16px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere;margin:15px 0 22px}.mt-option{display:flex;align-items:flex-start;gap:13px;padding:15px;margin:9px 0;border:1px solid var(--line);border-radius:14px;cursor:pointer;transition:.12s background}.mt-option input{margin-top:5px;accent-color:#c02675}.mt-option b{width:20px;flex:none}.mt-option:hover{background:rgba(227,97,150,.07)}.mt-option.selected{border-color:#d94691;background:rgba(236,72,153,.075)}.mt-option:has(input:disabled){cursor:default}.mt-passage{margin:16px 0;padding:16px 18px;border-radius:16px;background:rgba(125,110,160,.07);border:1px solid var(--line)}.mt-passage summary{font-weight:800;cursor:pointer}.mt-passage-text{white-space:pre-wrap;line-height:1.8;font-size:14px;margin-top:14px;overflow-wrap:anywhere}.mt-controls{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:16px 0}.mt-controls button{max-width:100%}.mt-count{font-size:13px;color:var(--muted);font-weight:700}.mt-progress{display:flex;gap:3px;margin:12px 0}.mt-progress i{height:6px;flex:1;min-width:3px;border-radius:12px;background:var(--line)}.mt-progress i.done{background:#16a34a}.mt-progress i.current{background:#d94691}.mt-written{min-height:92px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:12px;color:inherit;font:inherit;line-height:1.6}.mt-score{font-size:18px;font-weight:800}.mt-badge{display:inline-block;background:rgba(108,105,170,.1);padding:6px 10px;border-radius:20px;font-size:12px;font-weight:700}.mt-note{border:1px solid #d97706;background:rgba(245,158,11,.08);padding:13px 15px;border-radius:14px;line-height:1.7;margin:12px 0}.mt-quiz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.mt-quiz-grid .exercise-card{text-align:left;cursor:pointer}.mt-review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:8px;margin:20px 0}.mt-review-grid button{padding:10px 3px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:inherit;cursor:pointer}.mt-review-grid .completed{border-color:#16a34a}.mt-review-grid .missed{border-color:#dc2626}.school-vocab-table{border-collapse:collapse;width:100%;font-size:13px}.school-vocab-table th,.school-vocab-table td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.school-vocab-table th{white-space:nowrap}.school-analysis-options p{margin:10px 0;line-height:1.8}@media(max-width:640px){.mt-question{padding:15px;margin:12px 0}.mt-option{padding:11px}.mt-stem{font-size:15px}.mt-controls button{flex:1}}';
+ document.head.appendChild(st);
+}
+function base(){ensureStyles();const m=document.getElementById('pageMount');m.style.display='block';const q=document.getElementById('quizShell');if(q)q.style.display='none';const r=document.getElementById('resultScreen');if(r)r.style.display='none';return m;}
 function crumb(unit,tail){return '<div class="breadcrumbs"><button class="crumb-btn" onclick="location.hash=\'school/grade-10\'">Lớp 10</button><span>›</span>'+(tail?'<button class="crumb-btn" onclick="location.hash=\''+route(unit)+'\'">Unit '+unit+'</button><span>›</span>'+safe(tail):'Unit '+unit)+'</div>';}
 function scroll(){window.scrollTo({top:0,behavior:'smooth'});}
 function renderUnit(unit){
@@ -140,6 +148,7 @@ function answerOk(q,value){
  return actual===expected;
 }
 function progress(){const s=session;return '<div class="mt-count">'+s.group.items.filter(x=>s.checked[x.id]).length+'/'+s.group.items.length+' câu đã kiểm tra</div><div class="mt-progress">'+s.group.items.map((x,i)=>'<i class="'+(s.checked[x.id]?'done':i===s.index?'current':'')+'"></i>').join('')+'</div>';}
+function optionLabel(q,o,i){if(q.section==='A'&&q.task===1){const pos=UNDERLINE[+q.id[0]]?.[q.no-1]?.[i];if(pos!=null)return safe(o.slice(0,pos))+'<u>'+safe(o.slice(pos,pos+((q.no===8&&q.id[0]==='3')?2:1)))+'</u>'+safe(o.slice(pos+((q.no===8&&q.id[0]==='3')?2:1)));}return safe(o);}
 function correctLabel(q){if(!q.answer)return 'Chưa có đáp án xác thực';return q.kind==='mcq'?q.answer+'. '+q.options['ABCD'.indexOf(q.answer)]:q.answer;}
 function explain(q){
  const answer=correctLabel(q),plain=q.stem.replace(/\s+/g,' ').slice(0,450),isRead=q.section==='E',isGrammar=q.section==='C';
