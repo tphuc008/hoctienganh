@@ -66,6 +66,7 @@
       kind:"handler",handler:"renderGrade6Unit3",args:["practice"],source:"features/grade6-unit3.js?v=20261028-unit3-v3",
       dependencies:["content/grade6-unit3-part-a.js?v=20261028-unit3-v3","content/grade6-unit3-part-b.js?v=20261028-unit3-v3"]},
     {id:"grammar-home",route:"grammar",title:"Grammar",category:"grammar-home",kind:"handler",handler:"renderGrammarHome"},
+    {id:"school-home",route:"school",title:"Học trên trường",category:"school-home",kind:"handler",handler:"renderSchoolHome",source:"school-ui.js?v=20261020-allprint1"},
     {id:"school-g10-home",route:"school/grade-10",title:"Lớp 10",category:"school-home",kind:"handler",handler:"renderSchoolGrade10",source:"school-ui.js?v=20261020-allprint1"},
     {id:"school-g10-midterm1",route:"school/grade-10/midterm-1",title:"Ôn tập giữa kì 1",category:"school-home",kind:"handler",handler:"renderSchoolMidterm1",source:"school-ui.js?v=20261020-allprint1"},
     // Separate lesson-plan catalogue and routes, independent of old Vocabulary Units.
