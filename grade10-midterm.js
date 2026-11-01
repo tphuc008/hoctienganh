@@ -1,7 +1,7 @@
 /* Grade 10 midterm interactive quizzes, Grade 12-style semantic explanations. */
 const mtState={"tests":null,"chosenTest":null,"index":0,"answers":{},"checked":{},"revealed":{},"loading":null,"results":false,"startedAt":0,"submissionId":null,"recorded":false,"owner":null};
 const MT_ALTERNATIVES={"1-13":["A","C"],"1-17":["A","B"],"1-20":["A","B"],"3-26":["C","D"],"3-27":["A","B"],"3-35":["A","C"],"4-11":["B","C"],"4-16":["A","B","C","D"],"5-13":["B","C"],"5-14":["B","C"],"5-29":["A","B"],"6-9":["C","D"],"6-22":["C","D"]};
-const MT_NO_SCORE=new Set(["1-41","1-42","1-43","4-16","6-26","6-29"]);
+const MT_NO_SCORE=new Set(["1-41","1-42","1-43","4-16","6-26","6-29","7-42"]);
 function mtKey(id){return "grade-10/mid-term-test/test-"+id}
 function mtSave(){
  if(!mtState.chosenTest||!LearningCore.userId()||mtState.owner!==LearningCore.userId())return;
@@ -80,8 +80,10 @@ async function mtLoad(){
   const textFull=await full.text(),parser=window.G10MidtermPaperParser;
   if(!parser||!window.G10_MIDTERM_FIRST_TWO)throw new Error("Thiếu bộ xử lý đáp án Test 1–2.");
   const added=[1,2].map(n=>window.G10_MIDTERM_FIRST_TWO.fromParsed(n,parser.parsePaper(parser.testText(textFull,n),n)));
-  const data=[...added,...legacy];
-  if(data.length!==6||data.map(x=>x.questions.length).join(",")!=="50,43,45,50,45,46")throw new Error("Số lượng câu hỏi không khớp dữ liệu nguồn.");
+  const marie=window.G10_MIDTERM_MARIE?.test;
+  if(!marie)throw new Error("Thiếu dữ liệu Test 7 Marie Curie.");
+  const data=[...added,...legacy,marie];
+  if(data.length!==7||data.map(x=>x.questions.length).join(",")!=="50,43,45,50,45,46,69")throw new Error("Số lượng câu hỏi không khớp dữ liệu nguồn.");
   for(const t of data)for(const q of t.questions)if(!q.answer||(!!q.options&&q.options.length!==4))throw new Error("Lỗi dữ liệu tại câu "+q.id);
   mtState.tests=data;return data;
  })();
@@ -92,7 +94,7 @@ function mtShowError(err){mtBase().innerHTML='<div class="unit-hero"><h1>Chưa t
 async function mtHome(){
  mtShowLoading();try{const tests=await mtLoad();if(location.hash!="#grade-10/mid-term-test")return;
  
- const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><span>Mid Term Test</span></div><div class="unit-hero"><div class="eyebrow">Grade 10 · Mid Term Test</div><h1>Mid Term Test</h1><p>6 TEST · 279 câu</p></div><div class="section-title"><h2>Exercises</h2><span>6 tests</span></div><div class="mt-quiz-grid">'+tests.map(t=>'<button class="exercise-card" onclick="location.hash=\'grade-10/mid-term-test/source-test-'+t.id+'\'"><div class="exercise-icon">'+t.id+'</div><h3>'+mtEsc(t.title)+'</h3><div class="meta"><span class="chip">'+t.questions.length+' questions</span></div></button>').join("")+'</div>';
+ const m=mtBase();m.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" onclick="goGrade(10)">Lớp 10</button><span>›</span><span>Mid Term Test</span></div><div class="unit-hero"><div class="eyebrow">Grade 10 · Mid Term Test</div><h1>Mid Term Test</h1><p>"+tests.length+" TEST · "+tests.reduce((n,t)=>n+t.questions.length,0)+" câu</p></div><div class="section-title"><h2>Exercises</h2><span>"+tests.length+" tests</span></div><div class="mt-quiz-grid">'+tests.map(t=>'<button class="exercise-card" onclick="location.hash=\'grade-10/mid-term-test/source-test-'+t.id+'\'"><div class="exercise-icon">'+t.id+'</div><h3>'+mtEsc(t.title)+'</h3><div class="meta"><span class="chip">'+t.questions.length+' questions</span></div></button>').join("")+'</div>';
 
  window.scrollTo({top:0,behavior:"smooth"});
  }catch(err){mtShowError(err)}
@@ -122,6 +124,7 @@ function mtProgress(test){
  return '<div class="mt-count">'+checked+'/'+test.questions.length+' câu đã kiểm tra</div><div class="mt-progress">'+test.questions.map((q,i)=>'<i class="'+(mtState.checked[q.id]?'done':i===mtState.index?'current':'')+'"></i>').join("")+'</div>';
 }
 function mtAnswerLabel(q){
+ if(q.id==="7-42")return "Không xác định — đề gốc không đủ dữ kiện";
  if(!q.options)return String(q.answer);
  const i="ABCD".indexOf(q.answer);return q.answer+". "+q.options[i];
 }
@@ -148,6 +151,7 @@ function mtWrittenFeedback(q){
 }
 function mtDeepExplanation(q,context){
  if(!window.ExplanationV1)return "";
+ if(/^7-/.test(q.id)&&window.G10_MIDTERM_MARIE_EXPLAIN)return window.G10_MIDTERM_MARIE_EXPLAIN(q,context,window.ExplanationV1);
  if(!q.options){
    if(/^1-/.test(q.id)&&window.G10_MIDTERM_FIRST_TWO_WRITTEN)return window.G10_MIDTERM_FIRST_TWO_WRITTEN(q,window.ExplanationV1);
    // Reuse the three authored stages of the original written solution.
@@ -180,6 +184,7 @@ function mtDeepExplanation(q,context){
 function mtWrittenCorrect(q,input){
  const typed=String(input||"").trim(),answer=String(q.answer||"").trim();
  if(!typed)return false;
+ if((window.G10_MIDTERM_MARIE?.ACCEPT_WRITTEN?.[q.id]||[]).some(x=>mtNormal(typed)===mtNormal(x)))return true;
  if(mtNormal(typed)===mtNormal(answer))return true;
  if(mtSection(q)==="Sentence Rearrangement"){
   const letters=answer.split("-").map(x=>x.trim()),parts=mtReorderParts(q);
@@ -235,7 +240,7 @@ function mtResults(){
 }
 
 window.getUniversalMidtermPrintData=function(){
- const route=location.hash.replace(/^#/,""),m=route.match(/^grade-10\/mid-term-test\/test-([1-6])$/);
+ const route=location.hash.replace(/^#/,""),m=route.match(/^grade-10\/mid-term-test\/test-([1-7])$/);
  if(!m||!Array.isArray(mtState.tests))return null;
  const test=mtState.tests.find(t=>t.id===Number(m[1]));if(!test)return null;
  const groups=[],sections=new Map();
