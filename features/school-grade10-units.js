@@ -203,7 +203,7 @@ function explain(q){
     const options=q.kind==='mcq'?q.options.map((word,i)=>({
       ...(detail.options?.[i]||{}),
       word:String(word).replace(/\s*DINH TIEN HOANG SCHOOL[\s\S]*$/i,'').trim(),
-      correct:(ALTERNATIVES[q.id]||[q.answer]).includes('ABCD'[i])
+      correct:q.eligible&&(ALTERNATIVES[q.id]||[q.answer]).includes('ABCD'[i])
     })):[];
     const examples=q.section==='B'?q.options.map((word,i)=>({
       ...(detail.examples?.[i]||{}),
