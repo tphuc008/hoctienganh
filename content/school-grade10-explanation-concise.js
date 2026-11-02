@@ -32,7 +32,7 @@ for(const [id,d] of Object.entries(bank)){
     /Mối liên kết giữa các lời thoại\/ý/.test(ev.note||''))ev.note='';
   if(id==='3:C-2:7')ev.note='';
  }
- if(d.options?.length===4 && simple(d.reasoning)===simple(d.quickReason))d.reasoning='';
+ if(d.options?.length===4 && d.options.some(o=>simple(o.analysis)))d.reasoning='';
  if(cat==='B'&&d.examples?.length===4&&/Bốn ví dụ Anh–Việt/.test(d.application||''))d.application='';
  if(cat==='E'&&/^Khi tự luyện, gạch chân/.test(d.application||''))d.application='So sánh ý và phạm vi nghĩa, không chỉ từ khóa.';
  if(group==='A-1'&&/Luyện đọc riêng âm/.test(d.application||''))d.application='So sánh âm được gạch chân.';
