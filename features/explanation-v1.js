@@ -28,7 +28,7 @@ function validated(s){
  const hasExamples=Array.isArray(s.examples)&&s.examples.length===4&&
    s.examples.every((x,i)=>plain(x.en)&&plain(x.vi)&&(!options[i]||plain(x.word)===plain(options[i].word)));
  const evidence=Array.isArray(s.evidence)?s.evidence.filter(Boolean):[s.evidence].filter(Boolean);
- const requirements=s.type==="midterm"?(evidence.length>0&&hasOptions&&hasExamples):(plain(s.quickReason)&&evidence.length>0&&plain(s.reasoning||s.analysisHtml||s.legacyHtml));
+ const requirements=s.type==="midterm"?(evidence.length>0&&hasOptions&&hasExamples):(plain(s.quickReason)&&evidence.length>0&&(plain(s.reasoning||s.analysisHtml||s.legacyHtml)||hasOptions));
  const vocabulary=s.type==="vocabulary";
  return {options,hasOptions,hasExamples,evidence,
   status:requirements&&(!options.length||hasOptions)&&(!vocabulary||hasExamples)&&!s.needsReview&&!([s.quickReason,s.reasoning,s.remember,...options.map(x=>x.analysis)].some(hasFiller))?"ready":"needs_review"};

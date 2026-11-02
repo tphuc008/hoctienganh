@@ -75,7 +75,7 @@
         title:"Unit "+unit,category:"school",grade:10,kind:"handler",
         handler:"schoolUnitHome",args:[unit],
         source:"features/school-grade10-units.js?v=20261102-explain-v1",
-        dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v2","content/school-grade10-explain-1.js?v=20261102-explain-v1","content/school-grade10-explain-2.js?v=20261102-explain-v1","content/school-grade10-explain-3.js?v=20261102-explain-v1","content/school-grade10-explain-4.js?v=20261102-explain-v1","content/school-grade10-explain-5.js?v=20261102-explain-v1","content/school-grade10-explain-6.js?v=20261102-explain-v1","content/school-grade10-explain-7.js?v=20261102-explain-v1","content/school-grade10-explain-8.js?v=20261102-explain-v1","content/school-grade10-explain-9.js?v=20261102-explain-v1"]},
+        dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v2","content/school-grade10-explain-1.js?v=20261102-explain-v1","content/school-grade10-explain-2.js?v=20261102-explain-v1","content/school-grade10-explain-3.js?v=20261102-explain-v1","content/school-grade10-explain-4.js?v=20261102-explain-v1","content/school-grade10-explain-5.js?v=20261102-explain-v1","content/school-grade10-explain-6.js?v=20261102-explain-v1","content/school-grade10-explain-7.js?v=20261102-explain-v1","content/school-grade10-explain-8.js?v=20261102-explain-v1","content/school-grade10-explain-9.js?v=20261102-explain-v1","content/school-grade10-explanation-concise.js?v=20261102-compact-v1"]},
       ...({3:{A:2,B:3,C:3,D:2,E:5},4:{A:2,B:3,C:4,D:2,E:5}}[unit]
         ?Object.entries({3:{A:2,B:3,C:3,D:2,E:5},4:{A:2,B:3,C:4,D:2,E:5}}[unit])
           .flatMap(([section,taskCount])=>Array.from({length:taskCount},(_,i)=>({
@@ -85,7 +85,7 @@
             category:"school",grade:10,kind:"handler",
             handler:"schoolUnitTask",args:[unit,section+"-"+(i+1)],
             source:"features/school-grade10-units.js?v=20261102-explain-v1",
-            dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v2","content/school-grade10-explain-1.js?v=20261102-explain-v1","content/school-grade10-explain-2.js?v=20261102-explain-v1","content/school-grade10-explain-3.js?v=20261102-explain-v1","content/school-grade10-explain-4.js?v=20261102-explain-v1","content/school-grade10-explain-5.js?v=20261102-explain-v1","content/school-grade10-explain-6.js?v=20261102-explain-v1","content/school-grade10-explain-7.js?v=20261102-explain-v1","content/school-grade10-explain-8.js?v=20261102-explain-v1","content/school-grade10-explain-9.js?v=20261102-explain-v1"]
+            dependencies:["content/school-grade10-pdf.js?v=20261101-g10school-v2","content/school-grade10-explain-1.js?v=20261102-explain-v1","content/school-grade10-explain-2.js?v=20261102-explain-v1","content/school-grade10-explain-3.js?v=20261102-explain-v1","content/school-grade10-explain-4.js?v=20261102-explain-v1","content/school-grade10-explain-5.js?v=20261102-explain-v1","content/school-grade10-explain-6.js?v=20261102-explain-v1","content/school-grade10-explain-7.js?v=20261102-explain-v1","content/school-grade10-explain-8.js?v=20261102-explain-v1","content/school-grade10-explain-9.js?v=20261102-explain-v1","content/school-grade10-explanation-concise.js?v=20261102-compact-v1"]
           })))
         :[])
     ]),
