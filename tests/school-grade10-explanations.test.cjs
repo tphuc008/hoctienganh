@@ -11,6 +11,7 @@ function load(){
   execute('features/explanation-v1.js');
   execute('content/school-grade10-pdf.js');
   for(let i=1;i<=9;i++)execute(`content/school-grade10-explain-${i}.js`);
+  execute('content/school-grade10-explanation-concise.js');
   execute('features/school-grade10-units.js');
   return sandbox.window;
 }
@@ -28,14 +29,14 @@ test('All 306 School Grade 10 questions have source-linked, three-stage explanat
     questions++;
     assert.ok(!ids.has(q.id),`Duplicate ${q.id}`);ids.add(q.id);
     const detail=details[q.id];assert.ok(detail,`Missing detail: ${q.id}`);
-    assert.ok(detail.quickReason?.length>35,`Insufficient quick explanation: ${q.id}`);
+    assert.ok(detail.quickReason?.length>15,`Insufficient quick explanation: ${q.id}`);
     assert.ok(detail.evidence?.length>0,`Missing source evidence: ${q.id}`);
-    assert.ok(detail.reasoning?.length>35,`Missing reasoning: ${q.id}`);
-    assert.ok(detail.application?.length>10,`Missing transfer: ${q.id}`);
+    assert.ok(detail.reasoning?.length>15 || detail.options?.some(o=>o.analysis?.length>10),`Missing reasoning: ${q.id}`);
+    assert.ok(detail.application?.length>10 || detail.examples?.length===4,`Missing transfer: ${q.id}`);
     if(q.kind==='mcq'){
       assert.equal(q.options.length,4,`Bad source options: ${q.id}`);
       assert.equal(detail.options?.length,4,`Missing A-D contrast: ${q.id}`);
-      assert.ok(detail.options.every(x=>x.analysis?.length>28),`Thin option rationale: ${q.id}`);
+      assert.ok(detail.options.every(x=>x.analysis?.length>8),`Thin option rationale: ${q.id}`);
     }else written++;
     if(q.section==='B'){
       vocab++;
@@ -65,4 +66,35 @@ test('Canonical ExplanationV1 renderer shows quick reason, three stages and four
   assert.equal((html.match(/class="example-en"/g)||[]).length,4);
   assert.equal((html.match(/class="example-vi"/g)||[]).length,4);
   assert.match(html,/data-review-status="ready"/);
+});
+
+test('School Grade 10 explanations omit repeated long-form filler without dropping evidence or examples',()=>{
+ const api=load(),data=api.SCHOOL_G10_DETAILED_EXPLANATIONS;
+ assert.equal(api.SCHOOL_G10_EXPLANATIONS_CONCISE_VERSION,1);
+ let optionCount=0,exampleCount=0,duplicateNotes=0,wordCount=0;
+ for(const [id,d] of Object.entries(data)){
+  assert.ok(Array.isArray(d.evidence)&&d.evidence.length, 'Missing evidence '+id);
+  for(const e of d.evidence){
+   assert.ok(e.quote?.length>3,'Source quote dropped '+id);
+   if(e.note && e.note.trim()===d.quickReason.trim())duplicateNotes++;
+  }
+  const analyses=d.options||[];
+  if(analyses.length===4){
+    assert.equal(d.reasoning||'', '', 'Duplicate long MCQ reasoning '+id);
+    optionCount+=analyses.length;
+  }
+  for(const o of analyses){
+    assert.doesNotMatch(o.analysis,/Chỗ trống giữa|thay đổi ý hoặc chức năng của thông tin tại vị trí hỏi|Đối chiếu cụ thể:|kiểm tra cặp hỏi–đáp\/đại từ ở các câu tương ứng/i,'Unedited filler '+id);
+  }
+  if(id.includes(':B-')){
+    assert.equal(d.examples.length,4,'Bilingual vocabulary examples dropped '+id);
+    exampleCount+=d.examples.length;
+    assert.equal(d.application||'', '', 'Redundant introduction before four bilingual examples '+id);
+  }
+  wordCount+=JSON.stringify(d).length;
+ }
+ assert.equal(duplicateNotes,0);
+ assert.equal(optionCount,864);
+ assert.equal(exampleCount,320);
+ assert.ok(wordCount<350000, 'Explanation bank remains excessively repetitive: '+wordCount);
 });
