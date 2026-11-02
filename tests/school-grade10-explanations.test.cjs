@@ -8,6 +8,7 @@ function load(){
   const sandbox={window:{},console,document:{},location:{hash:''}};
   vm.createContext(sandbox);
   function execute(file){vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),sandbox,{filename:file});}
+  execute('features/explanation-v1.js');
   execute('content/school-grade10-pdf.js');
   for(let i=1;i<=9;i++)execute(`content/school-grade10-explain-${i}.js`);
   execute('features/school-grade10-units.js');
@@ -50,4 +51,18 @@ test('All 306 School Grade 10 questions have source-linked, three-stage explanat
     const [unit,group,num]=id.split(':');
     assert.equal(db[+unit].groups.find(x=>x.id===group).items[+num-1].eligible,false,`Flawed source key remains scored: ${id}`);
   }
+});
+test('Canonical ExplanationV1 renderer shows quick reason, three stages and four bilingual examples',()=>{
+  const api=load(), db=api.schoolUnitData(), group=db[3].groups.find(x=>x.id==='B-3');
+  const q=group.items[0],d=api.SCHOOL_G10_DETAILED_EXPLANATIONS[q.id];
+  const options=d.options.map((o,i)=>({...o,word:q.options[i]}));
+  const examples=d.examples.map((o,i)=>({...o,word:q.options[i]}));
+  const html=api.ExplanationV1.render({...d,options,examples,answer:q.answer});
+  assert.match(html,/ev1-details/);
+  assert.match(html,/ev1-short/);
+  assert.equal((html.match(/class="semantic-step ev1-step"/g)||[]).length,3);
+  assert.equal((html.match(/semantic-option-head/g)||[]).length,4);
+  assert.equal((html.match(/class="example-en"/g)||[]).length,4);
+  assert.equal((html.match(/class="example-vi"/g)||[]).length,4);
+  assert.match(html,/data-review-status="ready"/);
 });
