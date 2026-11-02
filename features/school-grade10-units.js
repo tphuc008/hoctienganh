@@ -22,11 +22,13 @@ const WARNINGS={
  '4:E-3:5':'“One another” và “each other” đều dùng được sau supported; đề có hai lựa chọn hợp lệ. Chấp nhận cả A lẫn D.',
  '4:C-4:22':'Cả “volunteered” và “was volunteering” có thể phù hợp trong ngữ cảnh này. Chấp nhận cả A và B.',
  '3:B-3:2':'“Competition at the regional music competition” bị lặp từ trong câu gốc PDF; đáp án A vẫn là từ loại phù hợp nhất.',
- '4:E-1:1':'PDF có ghi chú tiếng Việt ngay trong lựa chọn; trình bày lại các lựa chọn theo đúng văn bản nguồn.'
+ '4:E-1:1':'PDF có ghi chú tiếng Việt ngay trong lựa chọn; trình bày lại các lựa chọn theo đúng văn bản nguồn.',
+ '3:A-2:2':'“Upload” đổi trọng âm theo từ loại (danh từ nhấn âm 1, động từ nhấn âm 2). Đề không nêu từ loại nên chưa có một đáp án duy nhất.',
+ '4:A-2:6':'Local, donate, willing và project (danh từ) đều nhấn âm tiết đầu; đáp án in trong đề không xác định được từ khác nhóm.'
 };
 const UNDERLINE={3:[[0,0,1,6],[3,2,4,2],[6,5,4,3],[4,2,3,1],[1,2,1,0],[1,4,3,8],[6,7,4,4],[1,2,1,1],[1,1,1,2],[0,4,2,3]],4:[[1,3,1,1],[0,0,4,1],[1,1,1,3],[1,0,1,1],[2,4,1,2],[7,5,6,4],[2,2,0,3],[0,0,0,0],[7,8,0,0],[2,0,2,4]]};
 const ALTERNATIVES={'4:E-3:5':['A','D'],'4:C-4:22':['A','B']};
-const NEEDS_REVIEW=new Set(['3:B-1:5','4:E-3:4']);
+const NEEDS_REVIEW=new Set(['3:B-1:5','4:E-3:4','3:A-2:2','4:A-2:6']);
 let cached=null, session=null;
 function safe(value){return String(value==null?'':value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function clean(raw){return String(raw||'').replace(/^EXERCISE BOOK - GRADE 10[^\n]*\n/gm,'').replace(/^\s*DINH TIEN HOANG SCHOOL[^\n]*\n?/gm,'').replace(/\u0000/g,'');}
@@ -72,7 +74,7 @@ function parseTask(unit,src){
   let stem=mcq?block.slice(0,opt[0].index).replace(/^\d+\.\s*/,'').trim():block.replace(/^\d+\.\s*/,'').trim();
   if(!stem)stem=src.section==='A'?(src.task===1?'Choose the word whose underlined part is pronounced differently (see original PDF for underlines).':'Choose the word with different primary stress.'):'Choose the best option for blank ('+(i+1)+') in the passage.';
   stem=stem.replace(/\s*=>\s*_{3,}[\s\S]*$/,'').replace(/_{8,}/g,'______').replace(/\n{3,}/g,'\n\n').trim();
-  const options=mcq?opt.map((o,j)=>{let raw=block.slice(o.index+o[0].length,j+1<opt.length?opt[j+1].index:block.length).trim();if(unit===4&&name==='E-1'&&j===3)raw=raw.split('\n')[0];return raw.replace(/\s+/g,' ');}):[];
+  const options=mcq?opt.map((o,j)=>{let raw=block.slice(o.index+o[0].length,j+1<opt.length?opt[j+1].index:block.length).trim();if(unit===4&&name==='E-1'&&j===3)raw=raw.split('\n')[0];return raw.replace(/\s*DINH TIEN HOANG SCHOOL[\s\S]*$/i,'').replace(/\s*--- THE END ---[\s\S]*$/i,'').replace(/\s+/g,' ');}):[];
   // Content after last option may contain a source-reference or the end marker, not an answer choice.
   if(mcq){options[3]=options[3].replace(/\s*--- THE END ---[\s\S]*$/,'').trim();if(unit===4&&name==='E-1')options[3]=options[3].split('\n')[0].trim();}
   const answer=mcq?(key[i]||null):(written[i]||null);
@@ -194,6 +196,24 @@ function progress(){
 function optionLabel(q,o,i){if(q.section==='A'&&q.task===1){const pos=UNDERLINE[+q.id[0]]?.[q.no-1]?.[i];if(pos!=null)return safe(o.slice(0,pos))+'<u>'+safe(o.slice(pos,pos+((q.no===8&&q.id[0]==='3')?2:1)))+'</u>'+safe(o.slice(pos+((q.no===8&&q.id[0]==='3')?2:1)));}return safe(o);}
 function correctLabel(q){if(!q.answer)return 'Chưa có đáp án xác thực';return q.kind==='mcq'?q.answer+'. '+q.options['ABCD'.indexOf(q.answer)]:q.answer;}
 function explain(q){
+  // Shared Explanation Standard V1.1: quick reason followed by evidence,
+  // A-D contrast (or written solution), and transfer.
+  const detail=global.SCHOOL_G10_DETAILED_EXPLANATIONS?.[q.id];
+  if(detail&&global.ExplanationV1?.render){
+    const options=q.kind==='mcq'?q.options.map((word,i)=>({
+      ...(detail.options?.[i]||{}),
+      word:String(word).replace(/\s*DINH TIEN HOANG SCHOOL[\s\S]*$/i,'').trim(),
+      correct:q.eligible&&(ALTERNATIVES[q.id]||[q.answer]).includes('ABCD'[i])
+    })):[];
+    const examples=q.section==='B'?q.options.map((word,i)=>({
+      ...(detail.examples?.[i]||{}),
+      word:options[i]?.word||String(word)
+    })):[];
+    const warning=q.warning?'<div class="g10x-warning">⚠ '+safe(q.warning)+'</div>':'';
+    const spec={...detail,answer:q.eligible?correctLabel(q):'Câu chưa đủ điều kiện chấm tự động',
+      options,examples,needsReview:!!detail.needsReview||!q.eligible};
+    return global.ExplanationV1.render(spec)+warning;
+  }
  const answer=correctLabel(q),plain=q.stem.replace(/\s+/g,' ').slice(0,450),isRead=q.section==='E',isGrammar=q.section==='C';
  let clue='Dữ kiện trong câu gốc: “'+safe(plain)+'”.';
  if(isRead)clue='Đọc đoạn văn gốc phía trên để xác định thông tin trực tiếp, quan hệ tham chiếu hoặc điều kiện ngữ pháp trước và sau chỗ trống.';
