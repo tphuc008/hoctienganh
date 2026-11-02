@@ -94,7 +94,7 @@ test('School Grade 10 explanations omit repeated long-form filler without droppi
   wordCount+=JSON.stringify(d).length;
  }
  assert.equal(duplicateNotes,0);
- assert.equal(optionCount,864);
+ assert.equal(optionCount,996);
  assert.equal(exampleCount,320);
  assert.ok(wordCount<350000, 'Explanation bank remains excessively repetitive: '+wordCount);
 });
