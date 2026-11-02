@@ -77,7 +77,7 @@ for(const [id,d] of Object.entries(bank)){
    }
   }
   if(s.length>205){if(s.includes('. Đối chiếu'))s=s.split('. Đối chiếu')[0]+'.';if(s.length>205)s=clip(s,200);}
-  o.analysis=s;
+  o.analysis=s.replace(/([.!?])”\.$/,'$1”').replace(/\.\.$/,'.');
  }
 }
 g.SCHOOL_G10_EXPLANATIONS_CONCISE_VERSION=1;
