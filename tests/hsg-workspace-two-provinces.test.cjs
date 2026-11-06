@@ -20,10 +20,12 @@ for(const [id,count,total] of defs){
  const match=main.match(new RegExp('"'+id+'":(\\[\\[[\\s\\S]*?\\]\\]),\\s*\\n "'));
  assert.ok(match,"Missing canonical groups for "+id);
  const original=JSON.parse(match[1]);
- const typed=browser.HSGWorkspaceV1.validate(m,id,original,null);
+ const sourceDoc=JSON.parse(read("content/hsg-tinh/"+id+".structured.json"));
+ const typed=browser.HSGWorkspaceV1.validate(m,id,original,sourceDoc);
  assert.equal(typed.parts.length,count);
  assert.equal(typed.questionTotal,total);
- assert.ok(typed.parts.every(x=>x.source==="source-extracted"));
+ assert.equal(typed.parts.filter(x=>x.source==="structured").length,sourceDoc.parts.length);
+ assert.ok(typed.parts.every(x=>x.source===(sourceDoc.parts.some(p=>p.id===x.id)?"structured":"source-extracted")));
  assert.ok(typed.parts.every(x=>x.questionFlow===(x.layout==="focused"?"one-at-a-time":"scroll-list")));
  const pages=original.map(([partId,name,start,end,kind])=>({id:partId,name,start,end,kind}));
  const checked=browser.HSGExamSolutions.validate(solutions,id,pages);
@@ -58,7 +60,7 @@ for(const [id,count] of defs){
  for(const part of [manifest.parts[0],manifest.parts.find(p=>p.layout==="reading"),manifest.parts.find(p=>p.input==="essay")]){
   const state=local.__audit.state;
   state.exam={id,title:id,subtitle:"HSG exam",year:"2026"};
-  state.data={workspace:manifest,pages:[],structured:null};
+  state.data={workspace:manifest,pages:[],structured:JSON.parse(read("content/hsg-tinh/"+id+".structured.json"))};
   state.group=part.id;state.question=part.start;
   state.answers={};state.review={};state.resultVisible=false;
   assert.throws(()=>local.__audit.renderExam(),/HTML_CAPTURED/);
