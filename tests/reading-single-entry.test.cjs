@@ -17,5 +17,10 @@ test("Reading library still lists all published articles and original passage ro
   assert.match(list,/entries\.map\(item=>/);
   assert.match(list,/location\.hash=btn\.dataset\.readingPath/);
   const routes=[...manifest.matchAll(/route:"grade-12\/reading\/[^"]+"/g)].map(x=>x[0]);
-  assert.equal(routes.length,7,"Seven published Reading passage routes remain");
+  assert.equal(routes.length,2,"Only the two original Reading passages remain");
+  assert.ok(routes.some(x=>x.includes("/robots-and-us")));
+  assert.ok(routes.some(x=>x.includes("/marketing-and-the-information-age")));
+  for(const slug of ["yawning","being-left-handed-in-a-right-handed-world","pacific-navigation-and-voyaging","the-importance-of-law","australian-artist-margaret-preston"]){
+    assert.ok(!routes.some(x=>x.includes("/"+slug)),slug+" removed from catalogue");
+  }
 });
