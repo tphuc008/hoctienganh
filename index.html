@@ -1962,10 +1962,11 @@ function renderGrade(id){
 
   const readingHTML=id===12?[
     '<div class="section-title"><h2>Reading</h2><span>IELTS Academic</span></div>',
-    '<div class="exercise-grid">'+LearningCore.list({category:"reading",grade:12,listing:true})
-      .map(item=>'<button type="button" class="exercise-card" data-reading-route="'+esc(item.route)+'">'+
-      '<div class="exercise-icon">📖</div><h3>'+esc(item.title)+'</h3><p>'+esc(item.description||"IELTS Academic Reading")+'</p>'+
-      '<div class="meta"><span class="chip">'+esc(item.questions||14)+' câu</span><span class="chip">'+esc(item.minutes||25)+' phút</span></div></button>').join("")+'</div>'
+    '<div class="exercise-grid"><button type="button" class="exercise-card" data-reading-route="grade-12/reading">'+
+    '<div class="exercise-icon">📖</div><h3>Reading</h3>'+
+    '<p>Tất cả bài IELTS Reading trong một thư viện · Làm bài, xem đáp án và giải thích chi tiết</p>'+
+    '<div class="meta"><span class="chip">'+LearningCore.list({category:"reading",grade:12,listing:true}).length+' bài đọc</span>'+
+    '<span class="chip">IELTS Academic</span></div></button></div>'
   ].join(""):"";
 
   const lessonPlansHTML=id===12?`
