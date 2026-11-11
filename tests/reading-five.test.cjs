@@ -45,7 +45,7 @@ test("Five study adaptations contain exactly 67 graded marks and complete deep f
    const choices=q.options||sec.options||[];
    if(q.type==="choice"){
     assert.ok(choices.length>=3,"choice bank underpopulated "+slug+" #"+q.id);
-    assert.deepEqual(Object.keys(q.analysis).sort(),choices.map(x=>x[0]).sort(),"option-level rationale missing "+slug+" #"+q.id);
+    assert.deepEqual(Object.keys(q.analysis).sort(),Array.from(choices,x=>x[0]).sort(),"option-level rationale missing "+slug+" #"+q.id);
     for(const c of choices)assert.ok(q.analysis[c[0]].length>20);
    }else if(q.type==="input"){
     assert.equal(q.maxWords,1);
