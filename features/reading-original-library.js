@@ -41,7 +41,7 @@ function tick(){if(!state||!$("mis-clock"))return;
 function start(reset){
  const old=read();if(reset&&old&&!old.submitted&&!confirm("Làm lại và xóa tiến độ hiện tại?"))return;
  if(reset)global.LearningFlow?.reset?.("reading",lesson.route);
- state=reset||!old?fresh():old;state.highlights=state.highlights||[];state.answers=state.answers||{};save();render();
+ state=reset||!old?fresh():old;state.saving=false;state.highlights=state.highlights||[];state.answers=state.answers||{};save();render();
 }
 function exitPage(){if(state&&!state.submitted&&!confirm("Thoát bài? Câu trả lời và thời gian đang làm được giữ lại."))return;location.hash="grade-12/reading"}
 function switchTab(tab){if(!state||!$("mis-app"))return;
@@ -68,7 +68,7 @@ function passageHTML(){return '<div class="mis-kicker">Original IELTS-style prac
  '<p id="mis-selection-status" class="mis-selection-status">Bôi đen cụm từ trong bài đọc để đánh dấu hoặc tra từ.</p>'+
  lesson.paragraphs.map((p,i)=>'<p class="mis-paragraph" id="mis-p-'+i+'" data-p="'+i+'"><strong>'+String.fromCharCode(65+i)+'.</strong> '+renderMarked(p,i)+'</p>').join("");
 }
-function options(q){return q.options||lesson.banks?.[q.bank]||[]}
+function options(q){if(q.type==="ynng")return ["YES","NO","NOT GIVEN"].map(key=>({key,text:""}));if(q.type==="tfng")return ["TRUE","FALSE","NOT GIVEN"].map(key=>({key,text:""}));return q.options||lesson.banks?.[q.bank]||[]}
 function choiceHTML(q){
  const isTwo=q.type==="choose2",chosen=isTwo?(state.answers[q.id]||[]):[state.answers[q.id]];
  return '<div class="mis-options'+(isTwo?" mis-multi-options":"")+'" role="group" aria-label="Câu '+h(slotIds(q).join("–"))+'">'+options(q).map(o=>{
@@ -83,9 +83,7 @@ function explanation(q){
  if(!state.submitted)return "";
  const e=q.explain||{},opts=options(q),answer=Array.isArray(q.answer)?q.answer.join(" + "):q.answer;
  const analysis='<p>'+h(e.mechanism||"")+'</p>'+
- (opts.length?'<div class="mis-review-options">'+opts.map(o=>'<div class="mis-review-choice"><strong>'+h(o.key)+'. '+(o.text||"")+'</strong><p>'+
- h((e.options||{})[o.key]||(Array.isArray(q.answer)?q.answer.includes(o.key):q.answer===o.key
- ?("Đáp án phù hợp bằng chứng đã trích: "+(e.mechanism||"")):"Phương án này không chứng minh đủ điều kiện được hỏi; so sánh với mệnh đề và bằng chứng quyết định ở trên."))+'</p></div>').join("")+'</div>':"")+
+ (e.options?'<div class="mis-review-options">'+opts.filter(o=>(e.options||{})[o.key]).map(o=>'<div class="mis-review-choice"><strong>'+h(o.key)+'. '+h(o.text||"")+'</strong><p>'+h(e.options[o.key])+'</p></div>').join("")+'</div>':"")+
  (e.trap?'<p><strong>Bẫy cần tránh:</strong> '+h(e.trap)+'</p>':"");
  const application=[e.paraphrase,e.takeaway].filter(Boolean).join(" · ");
  const spec={type:"reading",answer,quickReason:e.quick||e.mechanism||"",
@@ -125,9 +123,9 @@ function capture(){
  const sel=window.getSelection?.();if(!sel||sel.isCollapsed||!sel.rangeCount)return;
  const range=sel.getRangeAt(0),root=range.commonAncestorContainer.nodeType===1?range.commonAncestorContainer:range.commonAncestorContainer.parentElement;
  const para=root?.closest?.(".mis-paragraph");if(!para)return;
- const text=range.toString().trim();if(!text||text.length>500)return;
+ const raw=range.toString(),text=raw.trim();if(!text||text.length>500)return;
  const pre=range.cloneRange();pre.selectNodeContents(para);pre.setEnd(range.startContainer,range.startOffset);
- const start=pre.toString().length-3;const p=Number(para.dataset.p);
+ const start=pre.toString().length-3+(raw.length-raw.trimStart().length);const p=Number(para.dataset.p);
  if(start<0||lesson.paragraphs[p]?.slice(start,start+text.length)!==text)return;
  selection={p,text,start,end:start+text.length};
  if($("mis-selection-status"))$("mis-selection-status").textContent="Đã chọn: “"+text.slice(0,72)+"”";
@@ -159,11 +157,12 @@ function choose(id,letter){
  }else state.answers[id]=letter;
  state.focus=id;save();
  const card=$("mis-q-"+id),opts=card?.querySelector(".mis-options");
- if(opts)opts.outerHTML=choiceHTML(q).replace(/<div class="mis-selection-status">[\s\S]*$/,"");
- // Re-render whole card for multi-selection counter and state consistency.
- if(q.type==="choose2"&&card){
-  const after=card.querySelector(".mis-options");if(after)after.outerHTML=choiceHTML(q);
+ if(opts){
+  if(q.type==="choose2"&&opts.nextElementSibling?.classList.contains("mis-selection-status"))
+    opts.nextElementSibling.remove();
+  opts.outerHTML=choiceHTML(q);
  }
+
  paint();
 }
 function go(id,showEvidence){
@@ -196,7 +195,8 @@ async function persist(){
  try{
   const auth=typeof readLearnerSession==="function"?readLearnerSession():null;
   if(!auth?.access_token||!auth?.user?.id)throw Error("Cần đăng nhập để lưu kết quả");
-  const url=global.SUPABASE_URL,api=global.SUPABASE_KEY;
+  const url=global.SUPABASE_URL||"https://ouicitkpfukterkilqzu.supabase.co";
+  const api=global.SUPABASE_KEY||"sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
   if(!url||!api)throw Error("Cấu hình lưu kết quả không khả dụng");
   const meta=auth.user.user_metadata||{},answers={};
   lesson.questions.forEach(q=>{const selected=state.answers[q.id]??"";
