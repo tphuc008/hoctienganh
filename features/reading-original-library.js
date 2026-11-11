@@ -201,9 +201,9 @@ async function persist(){
   const meta=auth.user.user_metadata||{},answers={};
   lesson.questions.forEach(q=>{
    if(q.type==="choose2"){
-    const selected=[...(state.answers[q.id]||[])].sort((a,b)=>Number(q.answer.includes(b))-Number(q.answer.includes(a))||a.localeCompare(b));
+    const selected=[...(state.answers[q.id]||[])];
     q.ids.forEach((id,i)=>{const answer=selected[i]||"";
-     answers[id]={answer,correct_answer:q.answer[i],is_correct:q.answer.includes(answer),question_type:q.type};
+     answers[id]={answer,correct_answer:q.answer.join(" / ")+" (any order)",is_correct:q.answer.includes(answer),question_type:q.type};
     });
    }else{
     answers[q.id]={answer:state.answers[q.id]??"",correct_answer:q.answer,is_correct:singleCorrect(q),question_type:q.type};
