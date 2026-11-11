@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#F8FBFF">
 <title>English Practice Hub</title>
 <link rel="stylesheet" href="styles/site.css?v=20261020-ui4">
-<link rel="stylesheet" href="grade12-reading.css?v=20261016-v1">
+<link rel="stylesheet" href="grade12-reading.css?v=20261111-five-reading-v1">
 <link rel="stylesheet" href="features/lesson-plans.css?v=20261021-paper-v12">
 <link rel="stylesheet" href="styles/blue-unified.css?v=20261020-v1">
 <link rel="stylesheet" href="styles/study-workspace.css?v=20261020-workspace-v1">
@@ -90,7 +90,7 @@
 <script src="grade12-basic-review.js?v=20261006-basic-review-v1"></script>
 <script src="features/print-design-system.js?v=20261021-paper-v12c"></script>
 <script src="features/universal-print.js?v=20261021-paper-v12b"></script>
-<script src="features/explanation-v1.js?v=20261102-concise-g10-v1"></script>
+<script src="features/explanation-v1.js?v=20261111-three-choice-v1"></script>
 <script>
 
 
@@ -1589,6 +1589,7 @@ async function route(){
   hideAll();
   if(typeof window.destroyMISReading==="function")window.destroyMISReading();
   if(typeof window.destroyRobotsReading==="function")window.destroyRobotsReading();
+  if(typeof window.destroyOriginalReading==="function")window.destroyOriginalReading();
 
   const learnerSession=await ensureLearnerSession();
   if(!learnerSession){
