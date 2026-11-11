@@ -21,7 +21,7 @@ test("Five original Reading lessons publish 67 answer slots with unique routes a
   assert.ok(!routes.has(l.route));routes.add(l.route);
   const ids=l.questions.flatMap(q=>q.type==="choose2"?q.ids:[q.id]);
   slots+=ids.length;
-  assert.deepEqual(ids,[...Array(ids.length)].map((_,i)=>i+1),l.slug+" continuous numbering");
+  assert.deepEqual(Array.from(ids),[...Array(ids.length)].map((_,i)=>i+1),l.slug+" continuous numbering");
   assert.equal(l.groups.flatMap(g=>g.ids).join(","),l.questions.map(q=>q.id).join(","));
   assert.ok(l.paragraphs.length>=5,l.slug+" substantial independent passage");
  });
@@ -52,7 +52,7 @@ test("Every answer is legal for its type and has an exact source clue and specif
    assert.deepEqual(Object.keys(ex.options||{}).sort(),["A","B","C","D"],d.slug+" #"+q.id+" all distractors analysed");
   }
   if(q.type==="choose2"){
-   assert.deepEqual(q.ids,[7,8]);
+   assert.deepEqual(Array.from(q.ids),[7,8]);
    assert.equal(q.answer.length,2);
    assert.equal(new Set(q.answer).size,2);
    assert.equal(q.answer.filter(x=>["B","D"].includes(x)).length,2);
