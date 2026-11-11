@@ -169,7 +169,79 @@ const margaret={
  Q(12,"input","Even at an advanced age, she remained devoted to ______ and other artistic activities.","painting",6,"She maintained her interest in painting, printmaking and travelling.","Painting là danh từ hoạt động; cấu trúc devoted to cần danh từ hoặc V-ing.","Không chọn painter vì đó là người chứ không phải hoạt động.",{maxWords:1,paraphrase:"continuing artistic work ↔ painting"}),
  Q(13,"input","By the end of her career, she had created more than ______ artworks.","400",6,"Her lifetime output exceeded 400 works.","Số 400 là ngưỡng tối thiểu, không phải chính xác tổng cuối cùng; câu có more than nên điền 400.","Không điền 1963: đó là năm mất, không phải số tác phẩm.",{maxWords:1,numericOnly:true,paraphrase:"more than four hundred ↔ more than 400"})
  ]};
+/* Rich, question-specific contrast notes for every selectable response.
+ * Matching options can repeat; selection must distinguish subject, paragraph and scope. */
+const YCON={
+ A:"chủ đề tổng quát về cấu trúc và chức năng, không xác định một hiện tượng/đơn vị đo cụ thể",
+ B:"loại cơn ngáp có thời lượng dài, chỉ phù hợp nếu câu hỏi nhắm quan hệ giữa độ dài với tần suất",
+ C:"mốc thời gian ngắn ở rìa phân bố, không phải thời lượng thông thường",
+ D:"thuật ngữ gọi chương trình vận động bẩm sinh, không phải một đại lượng thời gian",
+ E:"thời gian ngăn cách giữa hai lần ngáp, không phải độ dài một lần",
+ F:"loại cơn ngáp ngắn, trái chiều với cơ chế kéo dài để bù được nhắc đến",
+ G:"phản xạ đơn giản có kích thích và đáp ứng nhanh; bài phân biệt nó với chuỗi vận động khi ngáp",
+ H:"hiện tượng hắt hơi được dùng để so sánh tính không thể ngắt giữa chừng",
+ I:"khái niệm thời lượng ngắn nói chung, không phải con số hoặc tên hiện tượng mà câu yêu cầu",
+ J:"giá trị khoảng sáu giây đo cho một cơn ngáp điển hình",
+ K:"cơn ngáp nửa chừng mà tác giả cho rằng không thực sự tồn tại"
+};
+const YFOCUS={1:"một loại cơn ngáp không thể tồn tại",2:"hiện tượng tương tự một cái ngáp sau khi bắt đầu",3:"tên phân loại của chuỗi vận động",4:"độ dài thông thường của một lần ngáp",5:"khoảng cách giữa các lần ngáp",6:"kiểu ngáp được giả định là để bù khi ngáp ít"};
+const LFOCUS={1:"hiện tượng thiên về một bên ở động vật",2:"xác suất tay thuận theo tình trạng cha mẹ",3:"độ tuổi tay thuận ổn định",4:"nghề nghiệp có người thuận tay trái",5:"phát hiện ban đầu về chức năng hai bán cầu"};
+const LRESEARCH={A:"Michael Corballis",B:"Marian Annett",C:"Marc Dax",D:"Milner và Rasmussen",E:"Marc Dax",F:"Peter Hepper",G:"không được bằng chứng trong bài xác nhận"};
+const HFOCUS={1:"sự áp dụng của luật suốt đời người",2:"khả năng công chúng tham gia xây dựng luật",3:"đối chiếu các lĩnh vực kiến thức chuyên môn",4:"số lượng và sự tăng trưởng của luật",5:"định kiến tiêu cực về luật sư",6:"lập luận phản bác chỉ trích quy chụp"};
+const HCON={
+ i:"các mảng chuyên môn và vai trò cần thiết của người am hiểu luật",
+ ii:"các lý do vì sao không thể dùng một số ví dụ tiêu cực để kết án cả giới luật sư",
+ iii:"các nhược điểm hoặc tác hại của hệ thống pháp luật; không phải phạm vi áp dụng hay số lượng văn bản",
+ iv:"pháp luật chi phối hoạt động hằng ngày ở mọi giai đoạn cuộc sống",
+ v:"ảnh hưởng của luật đối với một biến cố lịch sử cụ thể",
+ vi:"những định kiến và đánh giá bất lợi nhắm tới luật sư",
+ vii:"người dân có thêm cơ hội tiếp cận và đóng góp thay đổi luật",
+ viii:"số lượng quy phạm và văn bản pháp luật tăng lên"
+};
+const PCON={
+ A:"thế mạnh của nghiên cứu nằm ở sự đa dạng phương pháp, không phải hành vi của người đi biển",
+ B:"mệnh đề mất hứng thú ở giới trẻ trái với việc kỹ năng truyền thống được khôi phục",
+ C:"giới hạn của bằng chứng là chưa thể chứng minh dứt khoát một lý thuyết",
+ D:"năng lực của người đi biển là biết thay đổi kỹ thuật theo điều kiện",
+ E:"đại dương đóng vai trò tuyến giao lưu có chủ đích",
+ F:"tốc độ di cư không được nêu như kết luận hoặc lợi thế chủ chốt"
+};
+const ANCHORS={
+ yawning:{1:"there is no meaningful half-yawn",2:"The process resembles a sneeze",3:"fixed action pattern",4:"roughly six seconds",5:"about 68 seconds",6:"infrequent yawners do not necessarily produce longer yawns",7:"Their mouths provided the necessary route for air",8:"wide opening of the jaws",9:"whether the nose alone could provide an adequate route",10:"paralysed arm during a yawn",11:"ancient unconscious motor routines",12:"students saw the topic as too trivial",13:"without demonstrating that fetuses were practising conscious motor control",14:"a mistake to search for one exclusive purpose"},
+ "being-left-handed-in-a-right-handed-world":{1:"Side preference is not unique to people",2:"In families with two right-handed parents",3:"two or three years of age",4:"left-handed artists, composers and influential thinkers",5:"physician Marc Dax noticed",6:"does not depend on one gene alone",7:"faster development on one side of the fetus",8:"predominantly in the left hemisphere",9:"speech grew out of gestures",10:"identical twins may differ in handedness",11:"did not widely embrace the idea",12:"procedure involving temporary anaesthesia",13:"Claims that left-handed people are inherently more creative"},
+ "pacific-navigation-and-voyaging":{1:"islands that had previously been uninhabited",2:"Other writers had discussed island migration before him",3:"chance drifting and favourable circumstances",4:"revived interest and encouraged practical research",5:"No comparison establishing that he personally disagreed with Lewis",6:"aboard traditional canoes, not aboard his yacht",7:"star positions provided directions",8:"electronic instruments and recorded speed",9:"human energy paddling or rowing required",10:"linguistic similarities between widely separated island populations",11:"not conclusive proof of one comprehensive theory",12:"voyages, physical measurements and models",13:"respond to conditions instead of relying on one rigid procedure",14:"route for planned exchange and settlement"},
+ "the-importance-of-law":{1:"from the beginning of life to questions about estates after death",2:"citizens to understand proposals and contribute to legal reform",3:"Understanding legal rules deserves a comparable level of importance",4:"body of legislation continues to expand",5:"long faced jokes and negative stereotypes",6:"same charge could be made against a few journalists or scientists",7:"Modern organisations often depend on computer and communications specialists",9:"valuing personal profit more than truth",10:"journalists or scientists",11:"nurses",12:"motivated by dedication",13:"prepare documents"},
+ "australian-artist-margaret-preston":{1:"represented natural subjects realistically",2:"does not identify a particular famous art college",3:"met William Preston on a vessel travelling back to Australia",4:"shared exhibitions does not establish",5:"cannot, on its own, prove that they were simpler",6:"less on vivid colour",7:"plants now grew around her home",8:"adopted symbols and earthy colours",9:"acknowledged these sources in the titles",10:"old method of stenciling",11:"collected books concerning Chinese art",12:"continued painting, making prints and travelling",13:"more than 400 paintings and prints"}
+};
 const all=[yawning,left,pacific,law,margaret];
+left.paragraphs=left.paragraphs.map(p=>p.replace(/^[A-G]\.\s+/,""));
+margaret.paragraphs=margaret.paragraphs.map(p=>p.replace(/\u200b/g,""));
+for(const l of all){
+ for(const q of l.questions){
+  const opts=q.options||l.sections.find(s=>s.ids.includes(q.id))?.options||[];
+  const anchor=ANCHORS[l.slug]?.[q.id];
+  if(anchor&&l.paragraphs[q.p].includes(anchor))q.anchor=anchor;
+  if(q.type!=="choice"||q.analysis)continue;
+  q.analysis={};
+  for(const [letter,description] of opts){
+    if(letter===q.answer){q.analysis[letter]="ĐÚNG. "+q.reason;continue;}
+    if(l===yawning&&q.id<=6){q.analysis[letter]="SAI. "+description+": "+YCON[letter]+". Câu "+q.id+" đòi hỏi "+YFOCUS[q.id]+".";continue;}
+    if(l===left&&q.id<=5){q.analysis[letter]="SAI. Đoạn "+letter+" nói về "+description.toLowerCase()+", trong khi thông tin phải định vị là "+LFOCUS[q.id]+".";continue;}
+    if(l===left&&q.id<=9){q.analysis[letter]="SAI. Nội dung này thuộc "+LRESEARCH[letter]+", không phải người nghiên cứu mà câu "+q.id+" đang hỏi.";continue;}
+    if(l===law&&q.id<=6){q.analysis[letter]="SAI. Heading "+letter+" nói về "+HCON[letter]+", còn chủ đề bao quát của đoạn phải là "+HFOCUS[q.id]+".";continue;}
+    if(l===pacific&&q.id>=11){q.analysis[letter]="SAI. Mảnh ghép này nêu "+PCON[letter]+"; đọc lại chủ ngữ của câu "+q.id+" để kiểm tra quan hệ nội dung.";continue;}
+    const positive=["YES","TRUE"],negative=["NO","FALSE"];
+    if(positive.includes(q.answer)){
+      q.analysis[letter]=negative.includes(letter)?"SAI. Đoạn chứng cứ xác nhận mệnh đề, không đưa ra khẳng định ngược lại: "+q.evidence:"SAI. Thông tin đã được xác lập trực tiếp, nên không thể coi là thiếu bằng chứng: "+q.evidence;
+    }else if(negative.includes(q.answer)){
+      q.analysis[letter]=positive.includes(letter)?"SAI. Bài đưa ra sự kiện trái chiều: "+q.evidence:"SAI. Đây không phải thiếu dữ kiện; đối chiếu lời văn cho thấy một mâu thuẫn cụ thể: "+q.evidence;
+    }else if(q.answer==="NOT GIVEN"){
+      q.analysis[letter]=positive.includes(letter)?"SAI. Các thông tin liên quan chưa chứng minh được toàn bộ mệnh đề: "+q.evidence:"SAI. Để chọn phủ định, phải có bằng chứng trái ngược trực tiếp; đoạn đang xét chỉ không xác nhận khẳng định đó: "+q.evidence;
+    }
+  }
+ }
+}
+
 all.forEach(function(l){
  if(l.slug==="the-importance-of-law")l.questions.find(q=>q.id===7).answer=["C","D"];
  const ids=l.questions.map(q=>q.id),num=l.questions.reduce((n,q)=>n+(q.type==="multi"?q.choose:1),0);
