@@ -24,7 +24,8 @@ const clean=v=>{let x=plain(v);for(const re of boilerplate){re.lastIndex=0;x=x.r
 
 function validated(s){
  const options=Array.isArray(s.options)?s.options:[];
- const hasOptions=options.length===4&&options.every(x=>clean(x.analysis));
+ const expected=(s.type==="vocabulary"||s.type==="midterm")?4:(Number.isInteger(s.optionCount)?s.optionCount:options.length);
+  const hasOptions=options.length>=2&&options.length<=12&&options.length===expected&&options.every(x=>clean(x.analysis));
  const hasExamples=Array.isArray(s.examples)&&s.examples.length===4&&
    s.examples.every((x,i)=>plain(x.en)&&plain(x.vi)&&(!options[i]||plain(x.word)===plain(options[i].word)));
  const evidence=Array.isArray(s.evidence)?s.evidence.filter(Boolean):[s.evidence].filter(Boolean);
