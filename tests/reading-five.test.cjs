@@ -51,7 +51,7 @@ test("Five study adaptations contain exactly 67 graded marks and complete deep f
     assert.equal(q.maxWords,1);
    }else if(q.type==="multi"){
     assert.equal(q.choose,2);
-    assert.deepEqual(q.answer,["C","D"]);
+    assert.deepEqual(Array.from(q.answer),["C","D"]);
     assert.equal(choices.length,5);
     assert.deepEqual(Object.keys(q.analysis).sort(),["A","B","C","D","E"]);
    }
@@ -75,7 +75,7 @@ test("Choose TWO accepts C+D and D+C, scores partial matches only when complete"
  assert.equal(w.FiveReadingTest.score(q,["C"]),0);
 });
 test("Matching heading labels are unique and heading ii is present",()=>{
- const w=load(),s=w.FIVE_READING_BANK["the-importance-of-law"].sections[0],labels=s.options.map(x=>x[0]);
+ const w=load(),s=w.FIVE_READING_BANK["the-importance-of-law"].sections[0],labels=Array.from(s.options,x=>x[0]);
  assert.deepEqual(labels,["i","ii","iii","iv","v","vi","vii","viii"]);
  assert.equal(w.FIVE_READING_BANK["the-importance-of-law"].questions.find(q=>q.id===6).answer,"ii");
 });
