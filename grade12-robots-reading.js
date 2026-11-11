@@ -78,7 +78,7 @@ function switchTab(tab){
 function markText(text,p){
  const marks=[];
  (state.highlights||[]).filter(function(x){return x.p===p}).forEach(function(x){
-  let pos=text.indexOf(x.text);
+  let pos=Number.isInteger(x.start)&&text.slice(x.start,x.start+x.text.length)===x.text?x.start:text.indexOf(x.text);
   if(pos>=0)marks.push({start:pos,end:pos+x.text.length,kind:"user"});
  });
  if(state.submitted){
@@ -117,7 +117,7 @@ function reviewHTML(q){
  return '<div class="mis-review'+(correct(q)?"":" wrong")+'">'+
    '<p class="mis-review-student"><strong>Bạn chọn:</strong> '+html(selected)+'</p>'+
    window.ExplanationV1.render(window.ExplanationV1.robots(q,REVIEWS[q.id]))+
-   '<button type="button" class="mis-tool" style="margin-top:9px" onclick="robotsGoQuestion('+q.id+')">↖ Tô sáng dẫn chứng trong bài đọc</button></div>';
+   '<button type="button" class="mis-tool" style="margin-top:9px" onclick="robotsGoEvidence('+q.id+')">↖ Tô sáng dẫn chứng trong bài đọc</button></div>';
 }
 
 function questionHTML(q){
@@ -321,13 +321,26 @@ function goQuestion(id){
   if(left){left.addEventListener("mouseup",captureSelection);left.addEventListener("keyup",captureSelection)}
  }
 }
+function goEvidence(id){
+ goQuestion(id);
+ if(window.innerWidth<=730)switchTab("reading");
+}
 function captureSelection(){
  const sel=window.getSelection();
  const txt=sel&&String(sel.toString()).trim();
  const node=sel&&sel.anchorNode;
  const para=node&&(node.nodeType===1?node:node.parentElement)?.closest?.(".mis-paragraph");
  if(txt&&txt.length<=500&&para){
-  selection={p:Number(para.dataset.p),text:txt};
+  const range=sel.rangeCount?sel.getRangeAt(0):null;
+  let at=-1;
+  if(range&&para.contains(range.endContainer)){
+    const prior=range.cloneRange();prior.selectNodeContents(para);prior.setEnd(range.startContainer,range.startOffset);
+    at=prior.toString().length-(para.querySelector("strong")?.textContent||"").length-1;
+  }
+  const p=Number(para.dataset.p);
+  if(at<0||PASSAGE[p].slice(at,at+txt.length)!==txt)at=PASSAGE[p].indexOf(txt);
+  if(at<0)return;
+  selection={p,text:txt,start:at};
   if(el("mis-selection-status"))el("mis-selection-status").textContent="Đã chọn: “"+txt.slice(0,75)+(txt.length>75?"…":"")+"”";
  }
 }
@@ -424,6 +437,7 @@ window.robotsSetInput=setInput;
 window.robotsSubmit=submit;
 window.robotsSaveSubmission=persistSubmission;
 window.robotsGoQuestion=goQuestion;
+window.robotsGoEvidence=goEvidence;
 window.robotsHighlight=highlight;
 window.robotsDictionary=dictionary;
 window.robotsSwitchTab=switchTab;

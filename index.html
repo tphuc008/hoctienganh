@@ -1589,6 +1589,7 @@ async function route(){
   hideAll();
   if(typeof window.destroyMISReading==="function")window.destroyMISReading();
   if(typeof window.destroyRobotsReading==="function")window.destroyRobotsReading();
+  if(typeof window.destroyFiveReading==="function")window.destroyFiveReading();
 
   const learnerSession=await ensureLearnerSession();
   if(!learnerSession){
