@@ -28,6 +28,7 @@ jobs:
           node tests/grade6-unit1-browser.cjs
           node tests/browser-smoke.cjs
           node tests/manifest-browser.cjs
+          node tests/reading-five-browser.cjs
           node tests/lesson-quiz-print-browser.cjs
           node tests/universal-print-browser.cjs
           node tests/flow-browser.cjs
