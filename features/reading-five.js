@@ -76,10 +76,10 @@ function explain(q){if(!state.submitted)return "";var correct=itemScore(q),max=q
  var transfer=q.paraphrase?'<p><b>Paraphrase:</b> '+safe(q.paraphrase)+'</p>':"";
  return '<div class="five-lab-explanation"><b>Đáp án '+safe(a)+'</b> · '+correct+'/'+max+' điểm. <span class="five-result-note">Bạn chọn: '+safe(mine)+'</span><p>'+safe(q.quick||q.reason)+'</p>'+
  '<details><summary>Xem giải thích chi tiết theo 3 bước</summary>'+
- '<section class="five-step"><h4>01 · BẰNG CHỨNG — Hiểu yêu cầu và định vị thông tin</h4><p><b>Đoạn '+String.fromCharCode(65+q.p)+':</b> '+safe(q.evidence)+'</p><p>'+safe(q.bridge||q.reason)+'</p></section>'+
+ '<section class="five-step"><h4>01 · BẰNG CHỨNG — Hiểu yêu cầu và định vị thông tin</h4><p><b>Đoạn '+String.fromCharCode(65+q.p)+':</b> '+safe(q.evidence)+'</p><p>'+safe(q.bridge||('Yêu cầu được kiểm tra: '+q.prompt))+'</p></section>'+
  '<section class="five-step"><h4>02 · PHÂN TÍCH — Vì sao đúng và bẫy nằm ở đâu</h4>'+section2+'</section>'+
  '<section class="five-step"><h4>03 · VẬN DỤNG — Paraphrase và chiến lược tái sử dụng</h4>'+transfer+'<p class="five-sample"><b>Bẫy cụ thể:</b> '+safe(q.trap)+'</p></section></details>'+
- '<button class="mis-tool" type="button" data-five-proof="'+q.id+'">↖ Xem bằng chứng ở đoạn '+String.fromCharCode(65+q.p)+'</button></div>'}
+ '<button class="mis-tool" type="button" data-five-proof="'+q.id+'">↖ Xem bằng chứng ở đoạn '+String.fromCharCode(65+q.p)+'</button>'+(q.warning?'<p class="five-error"><b>Cảnh báo học thuật:</b> '+safe(q.warning)+'</p>':'')+'</div>'}
 function questionsHTML(){var head=state.submitted?'<div class="mis-results-banner"><strong>'+totalScore()+'/'+lesson.total+' câu đúng</strong><div>Đã nộp · '+timefmt(elapsed())+' · Chọn câu và mở lời giải để đọc phân tích chi tiết.</div></div>':"";
  return head+lesson.sections.map(function(sec){var bank=sec.showBank&&sec.options?'<div class="five-bank">'+sec.options.map(function(o){return '<div><b>'+safe(o[0])+'</b> '+safe(o[1])+'</div>'}).join("")+'</div>':"";
  return '<section class="mis-q-section"><h2>'+safe(sec.label)+'</h2><p class="mis-q-instruction">'+safe(sec.instructions)+'</p>'+bank+
