@@ -47,6 +47,8 @@ function source(){
  if(/^grade-10\/mid-term-test\/test-[3-6]$/.test(r))return {get:()=>global.getUniversalMidtermPrintData?.()};
  if(r==="grade-12/reading/marketing-and-the-information-age")return {get:()=>global.getUniversalMISPrintData?.()};
  if(r==="grade-12/reading/robots-and-us")return {get:()=>global.getUniversalRobotsPrintData?.()};
+ if(/^grade-12\/reading\/(?:yawning|being-left-handed-in-a-right-handed-world|pacific-navigation-and-voyaging|the-importance-of-law|australian-artist-margaret-preston)$/.test(r))
+   return {get:()=>global.getOriginalReadingPrintData?.(r.split("/").pop())};
  if(r==="listening/entertainment/change-your-life-one-tiny-step-at-a-time")return {get:()=>listeningData("entertainment")};
  if(r==="listening/news/former-openai-employee-ai-might-really-kill-us-all")return {get:()=>listeningData("news")};
  return null;
