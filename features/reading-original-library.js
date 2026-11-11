@@ -70,13 +70,13 @@ function passageHTML(){return '<div class="mis-kicker">Original IELTS-style prac
 }
 function options(q){if(q.type==="ynng")return ["YES","NO","NOT GIVEN"].map(key=>({key,text:""}));if(q.type==="tfng")return ["TRUE","FALSE","NOT GIVEN"].map(key=>({key,text:""}));return q.options||lesson.banks?.[q.bank]||[]}
 function choiceHTML(q){
- const isTwo=q.type==="choose2",chosen=isTwo?(state.answers[q.id]||[]):[state.answers[q.id]];
+ const isTwo=q.type==="choose2",terse=["bank","match","heading","ending"].includes(q.type),chosen=isTwo?(state.answers[q.id]||[]):[state.answers[q.id]];
  return '<div class="mis-options'+(isTwo?" mis-multi-options":"")+'" role="group" aria-label="Câu '+h(slotIds(q).join("–"))+'">'+options(q).map(o=>{
  const active=chosen.includes(o.key),correct=state.submitted&&(isTwo?q.answer.includes(o.key):q.answer===o.key);
  const wrong=state.submitted&&active&&!correct;
  return '<button type="button" class="mis-option'+(correct?" mis-answer-correct":"")+(wrong?" mis-answer-wrong":"")+
  '" aria-pressed="'+active+'" data-option="'+h(o.key)+'" '+(state.submitted?"disabled":"")+' onclick="originalReadingChoose('+q.id+',\''+h(o.key)+'\')">'+
- '<strong>'+h(o.key)+'</strong>'+(o.text?' <span class="mis-option-text">'+h(o.text)+'</span>':"")+'</button>';
+ '<strong>'+h(o.key)+'</strong>'+(o.text&&!terse?' <span class="mis-option-text">'+h(o.text)+'</span>':"")+'</button>';
  }).join("")+'</div>'+(isTwo?'<div class="mis-selection-status">'+chosen.length+'/2 lựa chọn</div>':"");
 }
 function explanation(q){
@@ -103,7 +103,7 @@ function questionHTML(q){
 function questionsHTML(){
  const result=state.submitted?'<div class="mis-results-banner"><strong>'+score()+'/'+count()+' câu đúng</strong><div>Thời gian: '+formatTime((state.submittedAt-state.startedAt)/1000)+' · Chọn số câu để đối chiếu dẫn chứng.</div></div>':"";
  return result+lesson.groups.map(g=>'<section class="mis-q-section"><h2>Questions '+h(g.label)+'</h2><p class="mis-q-instruction">'+h(g.instruction)+'</p>'+
- (g.bank?'<div class="mis-answer-bank">'+(lesson.banks[g.bank]||[]).map(o=>'<p><strong>'+h(o.key)+'</strong> '+h(o.text)+'</p>').join("")+'</div>':"")+
+ (g.bank&&g.bank!=="paragraphs"?'<div class="mis-answer-bank">'+(lesson.banks[g.bank]||[]).map(o=>'<p><strong>'+h(o.key)+'</strong> '+h(o.text)+'</p>').join("")+'</div>':"")+
  g.ids.map(id=>lesson.questions.find(q=>q.id===id)).filter(Boolean).map(questionHTML).join("")+'</section>').join("");
 }
 function navHTML(){return lesson.questions.flatMap(q=>slotIds(q)).map(id=>'<button id="mis-nav-'+id+'" class="mis-jump" onclick="originalReadingGo('+id+')" aria-label="Đến câu '+id+'">'+id+'</button>').join("")}
@@ -273,7 +273,30 @@ global.originalReadingSubmit=submit;
 global.originalReadingSave=persist;
 global.getOriginalReadingPrintData=function(slug){
  const d=global.ORIGINAL_READING_BANK?.[slug||lesson?.slug];if(!d)return null;
- return {title:d.title,groups:[{label:"Original reading practice",passage:d.paragraphs.map((p,i)=>String.fromCharCode(65+i)+". "+p).join("\n\n"),
- questions:d.questions.map(q=>({number:q.id,prompt:q.question,options:(q.options||d.banks?.[q.bank]||[]).map(o=>o.key+". "+o.text),answer:Array.isArray(q.answer)?q.answer.join(", "):q.answer,details:[{title:"Bằng chứng",text:q.quote},{title:"Cơ chế",text:q.explain?.mechanism||""},{title:"Bẫy",text:q.explain?.trap||""}]}))}]};
-};
+ const passage=d.paragraphs.map((p,i)=>String.fromCharCode(65+i)+". "+p).join("\n\n");
+ const groupList=d.groups.map((g,i)=>({
+  label:"Questions "+g.label,
+  instruction:g.instruction,
+  passage:i===0?passage:"",
+  answerBank:g.bank&&g.bank!=="paragraphs"?(d.banks[g.bank]||[]):[],
+  questions:g.ids.map(id=>d.questions.find(q=>q.id===id)).filter(Boolean).map(q=>{
+   const e=q.explain||{},raw=q.options||d.banks?.[q.bank]||
+    (q.type==="ynng"?["YES","NO","NOT GIVEN"]:q.type==="tfng"?["TRUE","FALSE","NOT GIVEN"]:[]).map(key=>({key,text:""}));
+   const choices=q.type==="bank"?[]:raw;
+   const opts=choices.map(o=>o.text||o.key),labels=choices.map(o=>o.key);
+   const key=Array.isArray(q.answer)?q.answer.join(", "):q.answer;
+   const number=q.type==="choose2"?q.ids.join("–"):q.id;
+   const details=[
+    {title:"Bằng chứng · Đoạn "+String.fromCharCode(65+q.p),text:q.quote},
+    {title:"Cơ chế suy luận",text:e.mechanism||""},
+    ...raw.filter(o=>e.options?.[o.key]).map(o=>({title:"Phân tích "+o.key+". "+(o.text||""),text:e.options[o.key]})),
+    {title:"Bẫy cần tránh",text:e.trap||""},
+    {title:"Paraphrase / Vận dụng",text:e.paraphrase||""}
+   ].filter(x=>x.text);
+   return {number,prompt:q.question,options:opts,optionLabels:labels,answer:key,shortAnswer:key,
+    details};
+  })
+ }));
+ return {title:d.title,groups:groupList};
+}
 })(window);
