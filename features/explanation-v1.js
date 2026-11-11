@@ -24,7 +24,8 @@ const clean=v=>{let x=plain(v);for(const re of boilerplate){re.lastIndex=0;x=x.r
 
 function validated(s){
  const options=Array.isArray(s.options)?s.options:[];
- const hasOptions=options.length===4&&options.every(x=>clean(x.analysis));
+ const requireFour=s.type==="vocabulary"||s.type==="midterm";
+  const hasOptions=options.length>0&&(!requireFour||options.length===4)&&options.every(x=>clean(x.analysis));
  const hasExamples=Array.isArray(s.examples)&&s.examples.length===4&&
    s.examples.every((x,i)=>plain(x.en)&&plain(x.vi)&&(!options[i]||plain(x.word)===plain(options[i].word)));
  const evidence=Array.isArray(s.evidence)?s.evidence.filter(Boolean):[s.evidence].filter(Boolean);
@@ -47,7 +48,7 @@ function render(spec,opts){
     (plain(s.application)?'<p>'+h(s.application)+'</p>':"")+
     (plain(s.remember)?'<div class="semantic-remember"><b>Điểm cần nhớ</b><span>'+h(s.remember)+'</span></div>':"");
  const body='<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>1</span><div><b>Bằng chứng</b></div></div><div class="semantic-prose">'+ (s.evidenceHtml||evidence)+anchor(s.translation,"Dịch / diễn giải")+'</div></section>'+
-    '<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>2</span><div><b>Phân tích'+(v.options.length===4?" A–D":" cách giải")+'</b></div></div>'+
+    '<section class="semantic-step ev1-step"><div class="semantic-step-label"><span>2</span><div><b>Phân tích'+(v.options.length===4?" A–D":v.options.length?" các phương án":" cách giải")+'</b></div></div>'+
       '<div class="semantic-prose">'+ (s.analysisHtml||paragraphs(s.reasoning))+
       (v.options.length?'<div class="semantic-options-grid">'+choices+'</div>':"")+
       (s.legacyHtml?'<div class="ev1-legacy">'+s.legacyHtml+'</div>':"")+

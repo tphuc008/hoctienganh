@@ -76,24 +76,27 @@ function switchTab(tab){
  save();
 }
 function markText(text,p){
- const marks=[];
- (state.highlights||[]).filter(function(x){return x.p===p}).forEach(function(x){
-  let pos=text.indexOf(x.text);
-  if(pos>=0)marks.push({start:pos,end:pos+x.text.length,kind:"user"});
- });
+ const marks=(state.highlights||[]).filter(x=>x.p===p).map(x=>{
+  const a=Number.isInteger(x.start)?x.start:text.indexOf(x.text);
+  return {a,b:a+String(x.text||"").length,type:"user"};
+ }).filter(x=>x.a>=0&&x.b>x.a&&x.b<=text.length);
  if(state.submitted){
-  const q=Q.find(function(x){return x.id===Number(state.focus)});
-  if(q&&q.p===p){let pos=text.indexOf(q.quote);if(pos>=0)marks.push({start:pos,end:pos+q.quote.length,kind:"evidence"})}
+  const q=Q.find(x=>x.id===Number(state.focus));
+  if(q&&q.p===p){const a=text.indexOf(q.quote);if(a>=0)marks.push({a,b:a+q.quote.length,type:"evidence"})}
  }
- marks.sort(function(a,b){return a.start-b.start||(a.kind==="evidence"?-1:1)});
- let result="",pos=0;
- marks.forEach(function(m){
-  if(m.start<pos)return;
-  result+=html(text.slice(pos,m.start));
-  result+='<mark class="'+(m.kind==="evidence"?"mis-evidence":"")+'">'+html(text.slice(m.start,m.end))+"</mark>";
-  pos=m.end;
- });
- return result+html(text.slice(pos));
+ if(!marks.length)return html(text);
+ const flags=new Uint8Array(text.length);
+ marks.filter(x=>x.type==="user").forEach(x=>{for(let i=x.a;i<x.b;i++)flags[i]=1});
+ marks.filter(x=>x.type==="evidence").forEach(x=>{for(let i=x.a;i<x.b;i++)flags[i]=2});
+ let out="",from=0,kind=flags[0]||0;
+ for(let i=1;i<=text.length;i++){
+  const next=i===text.length?-1:flags[i]||0;
+  if(next===kind)continue;
+  const segment=html(text.slice(from,i));
+  out+=kind===2?'<mark class="mis-evidence">'+segment+"</mark>":kind===1?"<mark>"+segment+"</mark>":segment;
+  from=i;kind=next;
+ }
+ return out;
 }
 function passageHTML(){
  return '<div class="mis-kicker">IELTS Academic Reading · Passage 3</div><h1 class="mis-passage-title">Robots and us</h1>'+
@@ -117,7 +120,7 @@ function reviewHTML(q){
  return '<div class="mis-review'+(correct(q)?"":" wrong")+'">'+
    '<p class="mis-review-student"><strong>Bạn chọn:</strong> '+html(selected)+'</p>'+
    window.ExplanationV1.render(window.ExplanationV1.robots(q,REVIEWS[q.id]))+
-   '<button type="button" class="mis-tool" style="margin-top:9px" onclick="robotsGoQuestion('+q.id+')">↖ Tô sáng dẫn chứng trong bài đọc</button></div>';
+   '<button type="button" class="mis-tool" style="margin-top:9px" onclick="robotsGoEvidence('+q.id+')">↖ Tô sáng dẫn chứng trong bài đọc</button></div>';
 }
 
 function questionHTML(q){
@@ -306,35 +309,44 @@ async function persistSubmission(){
  }
 }
 
-function goQuestion(id){
- if(!state||!Q.some(function(q){return q.id===Number(id)}))return;
+function goQuestion(id,showEvidence){
+ if(!state||!Q.some(q=>q.id===Number(id)))return;
  state.focus=Number(id);save();
- if(el("mis-app")&&window.innerWidth<=730)switchTab("questions");
- document.querySelectorAll(".mis-q-card").forEach(function(card){card.classList.toggle("mis-focus",card.id==="mis-q-"+id)});
- const card=el("mis-q-"+id);if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
+ if(el("mis-app")&&window.innerWidth<=730)switchTab(showEvidence?"reading":"questions");
+ document.querySelectorAll(".mis-q-card").forEach(card=>card.classList.toggle("mis-focus",card.id==="mis-q-"+id));
+ if(!showEvidence){const card=el("mis-q-"+id);if(card)card.scrollIntoView({behavior:"smooth",block:"start"})}
  updateProgress();
  if(state.submitted){
-  const left=el("mis-passage-pane");const top=left?left.scrollTop:0;
-  if(left)left.innerHTML=passageHTML();
-  const next=el("mis-p-"+Q.find(function(q){return q.id===Number(id)}).p);
-  if(next)next.scrollIntoView({behavior:"smooth",block:"center"});
-  if(left){left.addEventListener("mouseup",captureSelection);left.addEventListener("keyup",captureSelection)}
+  const left=el("mis-passage-pane");
+  if(left){
+   left.innerHTML=passageHTML();
+   left.addEventListener("mouseup",captureSelection);
+   left.addEventListener("keyup",captureSelection);
+   if(showEvidence||window.innerWidth>730){
+    const next=el("mis-p-"+Q.find(q=>q.id===Number(id)).p);
+    if(next)next.scrollIntoView({behavior:"smooth",block:"center"});
+   }
+  }
  }
 }
 function captureSelection(){
  const sel=window.getSelection();
- const txt=sel&&String(sel.toString()).trim();
- const node=sel&&sel.anchorNode;
- const para=node&&(node.nodeType===1?node:node.parentElement)?.closest?.(".mis-paragraph");
- if(txt&&txt.length<=500&&para){
-  selection={p:Number(para.dataset.p),text:txt};
-  if(el("mis-selection-status"))el("mis-selection-status").textContent="Đã chọn: “"+txt.slice(0,75)+(txt.length>75?"…":"")+"”";
- }
+ if(!sel||sel.isCollapsed||!sel.rangeCount)return;
+ const range=sel.getRangeAt(0),node=range.commonAncestorContainer;
+ const para=(node.nodeType===1?node:node.parentElement)?.closest?.(".mis-paragraph");
+ if(!para)return;
+ const raw=range.toString(),txt=raw.trim();if(!txt||txt.length>500)return;
+ const pre=range.cloneRange();pre.selectNodeContents(para);pre.setEnd(range.startContainer,range.startOffset);
+ const start=pre.toString().length-3+(raw.length-raw.trimStart().length);
+ const p=Number(para.dataset.p);
+ if(start<0||PASSAGE[p]?.slice(start,start+txt.length)!==txt)return;
+ selection={p,text:txt,start,end:start+txt.length};
+ if(el("mis-selection-status"))el("mis-selection-status").textContent="Đã chọn: “"+txt.slice(0,75)+(txt.length>75?"…":"")+"”";
 }
 function highlight(){
  if(!selection){window.alert("Bôi đen cụm từ trước khi Highlight.");return}
  const p=PASSAGE[selection.p];if(!p||!p.includes(selection.text)){window.alert("Hãy chọn chữ nằm trong một đoạn văn.");return}
- if(!(state.highlights||[]).some(function(x){return x.p===selection.p&&x.text===selection.text})){
+ if(!(state.highlights||[]).some(function(x){return x.p===selection.p&&x.start===selection.start&&x.end===selection.end})){
   state.highlights.push(selection);save();
  }
  const left=el("mis-passage-pane");const scroll=left.scrollTop;
@@ -423,7 +435,8 @@ window.robotsSetChoice=setChoice;
 window.robotsSetInput=setInput;
 window.robotsSubmit=submit;
 window.robotsSaveSubmission=persistSubmission;
-window.robotsGoQuestion=goQuestion;
+window.robotsGoQuestion=id=>goQuestion(id,false);
+window.robotsGoEvidence=id=>goQuestion(id,true);
 window.robotsHighlight=highlight;
 window.robotsDictionary=dictionary;
 window.robotsSwitchTab=switchTab;

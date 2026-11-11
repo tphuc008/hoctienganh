@@ -6,7 +6,7 @@ on:
     branches: [main]
 jobs:
   browser-smoke:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +26,7 @@ jobs:
       - name: Exercise learner journeys without production credentials
         run: |
           node tests/grade6-unit1-browser.cjs
+          node tests/reading-original-browser.cjs
           node tests/browser-smoke.cjs
           node tests/manifest-browser.cjs
           node tests/lesson-quiz-print-browser.cjs

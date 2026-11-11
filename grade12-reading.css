@@ -252,3 +252,20 @@
  .mis-save-status{font-size:10px;white-space:normal;max-width:125px}
  .mis-save-retry{padding:6px 8px;font-size:11px}
 }
+
+
+/* Shared original Reading library: long answer banks, grouped choices and review. */
+.mis-app .mis-options:has(.mis-option-text){display:grid;grid-template-columns:minmax(0,1fr);gap:7px}
+.mis-app .mis-option:has(.mis-option-text){display:flex;align-items:flex-start;text-align:left;gap:10px;width:100%;padding:9px 11px;font-size:13px;line-height:1.5}
+.mis-app .mis-option-text{display:inline-block;font-weight:500;white-space:normal;overflow-wrap:anywhere;line-height:1.5}
+.mis-app .mis-multi-options{display:grid;grid-template-columns:minmax(0,1fr);gap:7px}
+.mis-app .mis-multi-options .mis-option{display:flex;gap:11px;align-items:flex-start;text-align:left;padding:9px 11px;width:100%}
+.mis-app .mis-answer-bank{background:#f0f6fc;border:1px solid #d7e5f4;border-radius:9px;padding:10px 12px;margin-bottom:14px}
+.mis-app .mis-answer-bank p{margin:5px 0;font-size:13px;line-height:1.45}
+.mis-app .mis-num{width:auto;min-width:26px;padding:0 5px}
+.mis-app .mis-review-choice{background:#fff;padding:9px 10px;border:1px solid #dce7f0;border-radius:8px;margin:6px 0}
+.mis-app .mis-review-choice strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.mis-app .mis-review-choice p{margin:5px 0 0;font-size:12px}
+.mis-app .mis-evidence-link{margin-top:9px}
+.mis-app .mis-workspace a{color:var(--mis-blue);text-decoration:underline}
+@media(max-width:730px){.mis-app .mis-option:has(.mis-option-text){padding:10px 9px}.mis-app .mis-answer-bank{padding:9px 10px}}

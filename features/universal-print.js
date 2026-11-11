@@ -47,6 +47,8 @@ function source(){
  if(/^grade-10\/mid-term-test\/test-[3-6]$/.test(r))return {get:()=>global.getUniversalMidtermPrintData?.()};
  if(r==="grade-12/reading/marketing-and-the-information-age")return {get:()=>global.getUniversalMISPrintData?.()};
  if(r==="grade-12/reading/robots-and-us")return {get:()=>global.getUniversalRobotsPrintData?.()};
+ if(/^grade-12\/reading\/(?:yawning|being-left-handed-in-a-right-handed-world|pacific-navigation-and-voyaging|the-importance-of-law|australian-artist-margaret-preston)$/.test(r))
+   return {get:()=>global.getOriginalReadingPrintData?.(r.split("/").pop())};
  if(r==="listening/entertainment/change-your-life-one-tiny-step-at-a-time")return {get:()=>listeningData("entertainment")};
  if(r==="listening/news/former-openai-employee-ai-might-really-kill-us-all")return {get:()=>listeningData("news")};
  return null;
@@ -110,6 +112,8 @@ function html(data,groups,mode){
   let section='<section class="ep-part"><h2>'+esc(title)+'</h2>';
   if(listening)section+='<p class="ep-listening-note">Bài Listening: sử dụng audio của bài học trên website khi làm đề giấy.</p>';
   if(sharedContext)section+=design.passage(sharedContext);
+  if(group.instruction)section+='<p class="ep-section-note">'+esc(group.instruction)+'</p>';
+  if(group.answerBank?.length)section+='<div class="ep-options long">'+group.answerBank.map(o=>'<div class="ep-option"><b>'+esc(o.key)+'.</b><span>'+design.multiline(o.text||"")+'</span></div>').join("")+'</div>';
   let lastContext=sharedContext;
   for(const q of questions){
    const number=q.number==null?++auto:q.number;
@@ -121,9 +125,9 @@ function html(data,groups,mode){
    section+='<article class="ep-question'+(String(q.prompt||"").length>360?' long':'')+'">'+
      '<div class="ep-question-head"><b class="ep-num">'+esc(number)+'.</b>'+
      '<span class="ep-stem">'+design.multiline(q.prompt)+'</span></div>';
-   if(options.length===4)section+=design.choices(options);
+   if(options.length===4&&!q.optionLabels)section+=design.choices(options);
    else if(options.length) section+='<div class="ep-options long">'+options.map((o,i)=>
-     '<div class="ep-option"><b>'+esc(A[i]||String(i+1))+'.</b><span>'+design.multiline(o)+'</span></div>').join("")+'</div>';
+     '<div class="ep-option"><b>'+esc(q.optionLabels?.[i]||A[i]||String(i+1))+'.</b><span>'+design.multiline(o)+'</span></div>').join("")+'</div>';
    else section+='<div class="ep-answer-line"></div>';
    keys.push('<span><b>'+esc(number)+'.</b> '+esc(q.shortAnswer??q.answer??"—")+'</span>');
    if(mode==="detailed"){
