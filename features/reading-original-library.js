@@ -199,8 +199,16 @@ async function persist(){
   const api=global.SUPABASE_KEY||"sb_publishable_JI7CbbcaNM_3NJOr81qODg_yemK8QJ2";
   if(!url||!api)throw Error("Cấu hình lưu kết quả không khả dụng");
   const meta=auth.user.user_metadata||{},answers={};
-  lesson.questions.forEach(q=>{const selected=state.answers[q.id]??"";
-   for(const id of slotIds(q))answers[id]={answer:selected,correct_answer:q.answer,is_correct:q.type==="choose2"?points(q)===2:singleCorrect(q),question_type:q.type}});
+  lesson.questions.forEach(q=>{
+   if(q.type==="choose2"){
+    const selected=[...(state.answers[q.id]||[])].sort((a,b)=>Number(q.answer.includes(b))-Number(q.answer.includes(a))||a.localeCompare(b));
+    q.ids.forEach((id,i)=>{const answer=selected[i]||"";
+     answers[id]={answer,correct_answer:q.answer[i],is_correct:q.answer.includes(answer),question_type:q.type};
+    });
+   }else{
+    answers[q.id]={answer:state.answers[q.id]??"",correct_answer:q.answer,is_correct:singleCorrect(q),question_type:q.type};
+   }
+  });
   const payload={submission_id:state.submissionId,user_id:auth.user.id,
    username:String(meta.username||"").slice(0,24),display_name:String(meta.display_name||meta.username||"Học viên").slice(0,40),
    exercise_slug:lesson.route,exercise_title:lesson.title,score:score(),total_questions:count(),answers,
