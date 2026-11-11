@@ -35,6 +35,9 @@ const assert=require("node:assert/strict");
    assert.equal(total,expected[i],slugs[i]+" numbered answer slots");
    const passage=await page.locator(".mis-paragraph").count();
    assert.equal(passage,6,slugs[i]+" paragraph count");
+   if(slugs[i]==="being-left-handed-in-a-right-handed-world"){
+    assert.doesNotMatch(await page.locator("#mis-question-pane").innerText(),/Population patterns and family resemblance/,"paragraph match options must not disclose paragraph summaries");
+   }
    const choices=await page.locator(".mis-option").count();
    assert.ok(choices>0,slugs[i]+" must have interactive options");
    await page.locator(".mis-option").first().click();
@@ -54,6 +57,16 @@ const assert=require("node:assert/strict");
    assert.match(body,new RegExp("/"+expected[i]+" câu đúng"));
    assert.equal(await page.locator(".mis-review").count(),expected[i]-(slugs[i]==="the-importance-of-law"?1:0));
    if(slugs[i]==="the-importance-of-law")assert.match(body,/2\/13|3\/13/);
+    const print=await page.evaluate(()=>window.UniversalPrint?.source?.()?.get?.());
+    assert.ok(print?.groups?.length>=2,"A4 print data must be available after submission");
+    assert.equal(print.groups.filter(g=>g.passage).length,1,"print source passage once");
+    assert.equal(print.groups.reduce((sum,g)=>sum+g.questions.reduce((n,q)=>n+(String(q.number).includes("–")?2:1),0),0),expected[i],"print preserves all answer slots");
+    if(slugs[i]==="the-importance-of-law"){
+     assert.ok(print.groups[0].questions[0].optionLabels.includes("ii"),"Roman heading labels retained");
+     assert.equal(print.groups[1].questions[0].number,"7–8","Choose TWO print grouped numbering");
+    }
+    if(slugs[i]==="yawning")assert.equal(print.groups[0].answerBank.length,11,"summary bank printed once");
+
    await page.setViewportSize({width:390,height:800});
    const btn=page.locator(".mis-evidence-link").first();
    await page.locator('.mis-mobile-switch [data-tab="questions"]').click();
