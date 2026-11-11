@@ -29,6 +29,15 @@ const assert=require("node:assert/strict");
   await page.locator("#mis-app").waitFor({state:"visible",timeout:12000});
  }
  try{
+  await page.goto(base+"#grade-12",{waitUntil:"domcontentloaded"});
+  const gradeReading=page.locator('#pageMount [data-reading-route]');
+  await gradeReading.waitFor({state:"visible",timeout:16000});
+  assert.equal(await gradeReading.count(),1,"Grade 12 should show one Reading library card");
+  assert.equal(await gradeReading.getAttribute("data-reading-route"),"grade-12/reading");
+  await gradeReading.click();
+  await page.locator("#pageMount [data-reading-path]").first().waitFor({state:"visible",timeout:12000});
+  assert.equal(await page.locator("#pageMount [data-reading-path]").count(),7,"Reading library should expose all seven passages");
+  console.log("PASS Grade 12 single Reading card → seven-passage library");
   for(let i=0;i<slugs.length;i++){
    await open(slugs[i]);
    const total=await page.locator(".mis-jump").count();
