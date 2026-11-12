@@ -7,6 +7,7 @@ const vm=require("node:vm");
 const root=path.resolve(__dirname,"..");
 const js=fs.readFileSync(path.join(root,"features/hsg-tinh.js"),"utf8");
 const css=fs.readFileSync(path.join(root,"features/hsg-tinh.css"),"utf8");
+const printCss=fs.readFileSync(path.join(root,"features/hsg-print.css"),"utf8");
 const rules=css.split("HSG Reading V5")[1];
 
 test("script parses and all exam groups mount in #pageMount rather than a detached portal",()=>{
@@ -43,7 +44,8 @@ test("mobile uses the same scrollers with separate tab scroll positions",()=>{
  assert.match(js,/active\.scrollTop=state\.readingScroll\[tab\]\|\|0/);
 });
 test("printing keeps its own layout and source font controls remain intact",()=>{
- assert.match(rules,/@media print/);
+ assert.doesNotMatch(rules,/@media print/);
+ assert.match(printCss,/@media print/);
  assert.match(rules,/max-width:66ch/);
  assert.match(rules,/font-size:var\(--hsg-reading-font-size,17px\)/);
  assert.match(js,/data-hsg-text-size="smaller"/);

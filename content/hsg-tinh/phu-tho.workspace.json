@@ -53,8 +53,8 @@
       "end": 60,
       "input": "mcq",
       "layout": "split",
-      "source": "source-extracted",
-      "optionLayout": "stacked",
+      "source": "structured",
+      "optionLayout": "compact",
       "questionFlow": "scroll-list",
       "passageRatio": 54
     },
@@ -64,7 +64,7 @@
       "end": 70,
       "input": "fill",
       "layout": "split",
-      "source": "source-extracted",
+      "source": "structured",
       "optionLayout": "standard",
       "questionFlow": "scroll-list",
       "passageRatio": 54
@@ -75,7 +75,7 @@
       "end": 80,
       "input": "mcq",
       "layout": "reading",
-      "source": "source-extracted",
+      "source": "structured",
       "optionLayout": "stacked",
       "questionFlow": "scroll-list",
       "passageRatio": 54

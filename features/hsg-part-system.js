@@ -9,7 +9,9 @@ const KINDS=Object.freeze({
  guided_cloze:"mcq",
  open_cloze:"fill",
  word_formation:"word",
- reading_comprehension:"mcq"
+ reading_comprehension:"mcq",
+ yes_no_not_given:"ynng",
+ matching:"match"
 });
 const blockTypes=new Set(["heading","salutation","closing","bullet","paragraph"]);
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
@@ -28,7 +30,7 @@ function validate(doc,expectedExam){
   for(const q of part.questions){
    if(!q||!Number.isInteger(q.number)||q.number<part.start||q.number>part.end||seen.has(q.number)||typeof q.stem!=="string"||!q.stem.trim())fail(part.id,"invalid number or missing stem");
    seen.add(q.number);
-   if(part.kind!=="reading_comprehension"&&!new RegExp("\\("+q.number+"(?:\\.\\s*[^)]*)?\\)\\s*_{2,}").test(passage))fail(part.id,"missing gap "+q.number);
+   if(["guided_cloze","open_cloze","word_formation"].includes(part.kind)&&!new RegExp("\\("+q.number+"(?:\\.\\s*[^)]*)?\\)\\s*_{2,}").test(passage))fail(part.id,"missing gap "+q.number);
    if(part.kind==="word_formation"&&(!q.word||typeof q.word!=="string"))fail(part.id,"missing source word "+q.number);
    if(KINDS[part.kind]==="mcq"&&(!Array.isArray(q.options)||q.options.length!==4||q.options.some(x=>typeof x!=="string"||!x.trim()||x.length>600)))fail(part.id,"missing/incomplete options for "+q.number);
    if(KINDS[part.kind]!=="mcq"&&own(q,"options"))fail(part.id,"unexpected MCQ choices on "+q.number);
