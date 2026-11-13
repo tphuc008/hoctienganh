@@ -571,6 +571,126 @@ addItem(2,10,"ant",
   ["A short holiday in the mountains proved rejuvenating after several months of intense work.","Một kỳ nghỉ ngắn trên núi đã giúp lấy lại năng lượng sau nhiều tháng làm việc căng thẳng."]
  ]});
 
+
+/* SET 2 — KHÓ · Part II: original ten-blank Guided Cloze (Q11–20). */
+addItem(2,12,"cloze","",["take in","crowd out","pass down","bring about"],1,{
+ translation:"Các nhà bảo tồn phát hiện rằng một loài dây leo xâm lấn đang bắt đầu lấn át các loài thực vật bản địa ở vùng đầm lầy.",
+ evidence:"“invasive ... vine” và “native marsh plants” diễn tả loài ngoại lai đang chiếm không gian sống của thực vật bản địa.",
+ reasoning:"Crowd out native plants là lấn át hoặc đẩy loài bản địa ra khỏi môi trường qua cạnh tranh tài nguyên.",
+ phrases:"crowd out native plants = lấn át thực vật bản địa; compete for limited resources = cạnh tranh tài nguyên hữu hạn; ornamental purposes = mục đích làm cảnh.",
+ meanings:["hấp thụ, tiếp nhận, hiểu, thưởng ngoạn","lấn át, đẩy ra khỏi chỗ","truyền lại qua các thế hệ","gây ra, dẫn tới"],
+ analyses:["Sai. Take in có thể nghĩa tiếp nhận/hấp thụ, không diễn tả cạnh tranh khiến loài khác mất chỗ.","Đúng. Crowd out là lấn át đối tượng khác qua việc chiếm không gian hoặc tài nguyên, phù hợp cơ chế cây ngoại lai.","Sai. Pass down đi với truyền thống, kiến thức, tài sản qua thế hệ; không đi với native plants theo nghĩa xâm lấn.","Sai. Bring about đi với kết quả như change hoặc improvement; không diễn tả trực tiếp đẩy loài thực vật bản địa."],
+ examples:[
+  ["We stopped at the viewpoint to take in the breathtaking mountain scenery.","Chúng tôi dừng lại tại điểm ngắm cảnh để chiêm ngưỡng phong cảnh núi non ngoạn mục."],
+  ["Rising commercial rents can crowd out small independent businesses in city centres.","Giá thuê mặt bằng thương mại tăng có thể khiến các doanh nghiệp nhỏ độc lập bị đẩy khỏi khu vực trung tâm thành phố."],
+  ["Traditional cooking techniques are often passed down through generations.","Những kỹ thuật nấu ăn truyền thống thường được truyền lại qua nhiều thế hệ."],
+  ["Investment in public transport can bring about substantial reductions in urban air pollution.","Đầu tư vào giao thông công cộng có thể mang lại sự giảm thiểu đáng kể tình trạng ô nhiễm không khí đô thị."]
+ ]});
+addItem(2,13,"cloze","",["unchecked","rehabilitated","regulated","revitalized"],0,{
+ translation:"Do các cuộc kiểm tra thực địa diễn ra không thường xuyên, sự lan rộng của loài cây này phần lớn không bị kiểm soát, khiến nó bao phủ những khu vực rộng lớn của vùng đất ngập nước.",
+ evidence:"“field inspections were infrequent” dẫn tới loài cây có thể “cover wide stretches of wetland”.",
+ reasoning:"Go largely unchecked là collocation chỉ tình trạng không bị ngăn chặn hiệu quả, phù hợp sự thiếu kiểm tra.",
+ phrases:"field inspections = kiểm tra thực địa; be infrequent = không thường xuyên; go largely unchecked = phần lớn không bị kiểm soát; wide stretches of wetland = vùng đất ngập nước rộng lớn.",
+ meanings:["không bị kiểm soát hoặc ngăn chặn","được phục hồi chức năng","được quản lý theo quy định","được hồi sinh"],
+ analyses:["Đúng. Go unchecked nghĩa tiếp diễn không bị ngăn chặn, phù hợp với sự lan tràn do kiểm tra thưa thớt.","Sai. Rehabilitated dùng cho động vật/người được phục hồi, không miêu tả loài xâm lấn không bị kiểm soát.","Sai. Regulated cho biết đã có cơ chế quản lý; trái với ngữ cảnh thiếu giám sát hiệu quả.","Sai. Go revitalized không phải collocation phù hợp; revitalized nói được hồi sinh, không phải lan rộng không kiểm soát."],
+ examples:[
+  ["If left unchecked, misinformation can spread rapidly across social media platforms.","Nếu không được kiểm soát, thông tin sai lệch có thể lan truyền nhanh chóng trên các nền tảng mạng xã hội."],
+  ["The rehabilitated birds were released after they regained the ability to fly.","Những con chim được phục hồi chức năng đã được thả sau khi lấy lại khả năng bay."],
+  ["Commercial fishing is regulated to prevent the depletion of marine resources.","Hoạt động đánh bắt cá thương mại được quản lý bằng các quy định nhằm ngăn chặn sự cạn kiệt tài nguyên biển."],
+  ["The revitalized town centre attracted new businesses and created more employment opportunities.","Trung tâm thị trấn sau khi được hồi sinh đã thu hút các doanh nghiệp mới và tạo thêm nhiều cơ hội việc làm."]
+ ]});
+addItem(2,14,"cloze","",["conservation","purification","rehabilitation","overexploitation"],3,{
+ translation:"Đồng thời, tình trạng khai thác quá mức các loài cá tầm hoang dã để lấy trứng cá có giá trị cao đã đẩy quần thể cá đến bờ vực sụp đổ.",
+ evidence:"“wild sturgeon for their valuable roe” và “driven fish populations to the verge of collapse” mô tả khai thác gây suy giảm quần thể.",
+ reasoning:"Overexploitation là khai thác vượt tốc độ phục hồi của quần thể, phù hợp nguyên nhân khiến số cá sụp giảm.",
+ phrases:"wild sturgeon = cá tầm hoang dã; valuable roe = trứng cá giá trị cao; drive a population to the verge of collapse = đẩy quần thể đến bờ vực sụp đổ.",
+ meanings:["bảo tồn, gìn giữ","làm sạch, lọc tạp chất","phục hồi sức khỏe/chức năng","khai thác quá mức"],
+ analyses:["Sai. Conservation bảo vệ quần thể, không phải nguyên nhân khiến cá suy giảm vì lấy trứng.","Sai. Purification chỉ làm sạch nước hoặc vật chất, không chỉ việc đánh bắt quá mức.","Sai. Rehabilitation là phục hồi sau tổn thương, trái với nguyên nhân làm quần thể suy kiệt.","Đúng. Overexploitation of sturgeon for roe diễn tả khai thác quá mức khiến quần thể cá gần sụp đổ."],
+ examples:[
+  ["Effective wildlife conservation requires cooperation between governments and local communities.","Công tác bảo tồn động vật hoang dã hiệu quả đòi hỏi sự hợp tác giữa chính phủ và cộng đồng địa phương."],
+  ["Water purification systems are essential in communities without access to clean drinking water.","Hệ thống lọc nước là thiết yếu đối với những cộng đồng không có khả năng tiếp cận nguồn nước uống sạch."],
+  ["Wildlife rehabilitation centres provide medical treatment for injured animals before their release.","Các trung tâm phục hồi động vật hoang dã cung cấp dịch vụ điều trị y tế cho những con vật bị thương trước khi thả chúng về tự nhiên."],
+  ["Overexploitation of groundwater has caused severe water shortages in several agricultural regions.","Việc khai thác nước ngầm quá mức đã gây ra tình trạng thiếu nước nghiêm trọng tại một số vùng nông nghiệp."]
+ ]});
+addItem(2,15,"cloze","",["narrowly","provisionally","unanimously","sporadically"],2,{
+ translation:"Sau khi xem xét các bằng chứng, tất cả thành viên hội đồng khu vực đều ủng hộ những biện pháp được đề xuất, và hội đồng đã nhất trí thông qua các hạn chế nghiêm ngặt hơn.",
+ evidence:"“every member of the regional council endorsed the proposed measures” nêu rõ tất cả đều tán thành.",
+ reasoning:"Vote unanimously là nhất trí biểu quyết; narrowly là cách biệt ít, provisionally là tạm thời và sporadically mô tả tần suất.",
+ phrases:"review the evidence = xem xét bằng chứng; endorse proposed measures = tán thành biện pháp đề xuất; vote unanimously = bỏ phiếu nhất trí; impose tougher restrictions = áp dụng hạn chế nghiêm hơn.",
+ meanings:["với cách biệt nhỏ","tạm thời, có điều kiện","nhất trí hoàn toàn","rải rác, không thường xuyên"],
+ analyses:["Sai. Narrowly approved nghĩa thắng với cách biệt phiếu rất nhỏ; ở đây tất cả đều ủng hộ.","Sai. Provisionally mô tả trạng thái quyết định còn tạm thời, không biểu đạt số phiếu tán thành.","Đúng. Unanimously diễn tả toàn bộ thành viên đồng ý, đúng dữ kiện every member endorsed.","Sai. Sporadically nói hành động thỉnh thoảng diễn ra, không phải mức đồng thuận của cuộc bỏ phiếu."],
+ examples:[
+  ["The proposal was narrowly approved after receiving just one more vote than the required majority.","Đề xuất được thông qua với cách biệt rất nhỏ sau khi nhận nhiều hơn mức đa số cần thiết đúng một phiếu."],
+  ["The university provisionally accepted the application pending verification of the applicant's qualifications.","Trường đại học tạm thời chấp nhận đơn đăng ký trong khi chờ xác minh trình độ của ứng viên."],
+  ["The board unanimously agreed to increase investment in renewable energy.","Hội đồng quản trị nhất trí hoàn toàn về việc tăng đầu tư vào năng lượng tái tạo."],
+  ["Internet access remains sporadically available in some remote mountainous villages.","Khả năng truy cập Internet vẫn chỉ có được một cách không thường xuyên tại một số ngôi làng miền núi xa xôi."]
+ ]});
+addItem(2,16,"cloze","",["incentive","catalyst","deterrent","refuge"],2,{
+ translation:"Những khoản tiền phạt lớn được thiết kế nhằm đóng vai trò như một biện pháp răn đe đối với hoạt động khai thác bất hợp pháp.",
+ evidence:"“Substantial fines” được đặt “to illegal harvesting”, tức tiền phạt dùng để ngăn người ta vi phạm.",
+ reasoning:"Act as a deterrent to something là cụm chỉ yếu tố khiến người khác không thực hiện hành vi vì sợ hậu quả.",
+ phrases:"substantial fines = khoản tiền phạt lớn; be designed to do something = được tạo ra nhằm; act as a deterrent to = làm biện pháp răn đe đối với; illegal harvesting = khai thác trái phép.",
+ meanings:["động lực, phần thưởng khuyến khích","chất xúc tác thúc đẩy thay đổi","yếu tố hoặc biện pháp răn đe","nơi trú ẩn, sự bảo vệ"],
+ analyses:["Sai. Incentive khuyến khích hành động bằng lợi ích, trong khi tiền phạt nhằm ngăn hành vi.","Sai. Catalyst giúp khởi phát thay đổi; không tập trung vào ngăn ngừa vi phạm do sợ bị phạt.","Đúng. Deterrent là yếu tố khiến người ta không muốn săn bắt trái phép vì nguy cơ bị phạt nặng.","Sai. Refuge là nơi trú ẩn an toàn, không phải công cụ xử phạt."],
+ examples:[
+  ["Tax reductions can provide an incentive for companies to invest in renewable energy.","Việc giảm thuế có thể tạo động lực cho các công ty đầu tư vào năng lượng tái tạo."],
+  ["The pandemic acted as a catalyst for the rapid adoption of digital learning platforms.","Đại dịch đóng vai trò là chất xúc tác thúc đẩy việc áp dụng nhanh chóng các nền tảng học tập kỹ thuật số."],
+  ["Heavy penalties can act as a deterrent to companies that repeatedly violate environmental laws.","Những hình phạt nặng có thể đóng vai trò răn đe đối với các công ty liên tục vi phạm luật môi trường."],
+  ["The forest provides refuge for numerous endangered bird species.","Khu rừng cung cấp nơi trú ẩn cho nhiều loài chim có nguy cơ tuyệt chủng."]
+ ]});
+addItem(2,17,"cloze","",["poachers","predators","tourists","rangers"],3,{
+ translation:"Trong khi đó, các kiểm lâm viên của khu bảo tồn được trang bị thiết bị bay không người lái để tuần tra những môi trường sống ở vùng xa xôi, khó tiếp cận.",
+ evidence:"“park ... received drones to patrol remote habitats” chỉ người làm nhiệm vụ tuần tra và bảo vệ khu bảo tồn.",
+ reasoning:"Park rangers là nhân viên kiểm lâm có nhiệm vụ tuần tra; poachers, predators và tourists không phải lực lượng được cấp drone bảo vệ.",
+ phrases:"park rangers = kiểm lâm viên; receive drones = được cấp drone; patrol remote habitats = tuần tra môi trường sống xa xôi; remote habitats = khu vực tự nhiên khó tiếp cận.",
+ meanings:["kẻ săn bắt trái phép","động vật săn mồi","khách du lịch","kiểm lâm viên"],
+ analyses:["Sai. Poachers là những kẻ săn trộm mà kiểm lâm cần ngăn chặn, không phải người được giao drone tuần tra.","Sai. Predators là động vật săn mồi trong tự nhiên; không sử dụng drone tuần tra.","Sai. Tourists tham quan khu bảo tồn nhưng không đảm nhiệm chức trách tuần tra chính thức.","Đúng. Rangers là nhân viên bảo vệ công viên/khu bảo tồn, phù hợp việc giám sát các vùng xa."],
+ examples:[
+  ["Poachers often target endangered animals because their body parts can fetch high prices on illegal markets.","Những kẻ săn trộm thường nhắm đến các loài động vật có nguy cơ tuyệt chủng vì các bộ phận cơ thể của chúng có thể bán được giá cao trên thị trường bất hợp pháp."],
+  ["The disappearance of natural predators can lead to an uncontrolled increase in prey populations.","Sự biến mất của các loài săn mồi tự nhiên có thể dẫn đến sự gia tăng không kiểm soát của quần thể con mồi."],
+  ["Tourists are encouraged to maintain a safe distance from wild animals during guided excursions.","Khách du lịch được khuyến khích giữ khoảng cách an toàn với động vật hoang dã trong các chuyến tham quan có hướng dẫn."],
+  ["Wildlife rangers use camera traps to monitor endangered species and detect illegal hunting activities.","Các kiểm lâm viên sử dụng bẫy ảnh để theo dõi những loài có nguy cơ tuyệt chủng và phát hiện hoạt động săn bắt bất hợp pháp."]
+ ]});
+addItem(2,18,"cloze","",["sanctuary","enclosure","ecosystem","captivity"],0,{
+ translation:"Những con vật bị thương được đưa đến một khu bảo tồn ven biển, nơi các chuyên gia tiến hành phục hồi chức năng cho chúng trước khi chúng có thể trở về môi trường hoang dã.",
+ evidence:"“Injured animals were transported” tới nơi “specialists worked to rehabilitate them” nêu một cơ sở chăm sóc và cứu hộ.",
+ reasoning:"Coastal sanctuary là nơi bảo vệ và chăm sóc động vật; enclosure chỉ khu rào, ecosystem là hệ sinh thái và captivity là tình trạng nuôi nhốt.",
+ phrases:"injured animals = động vật bị thương; be transported to somewhere = được vận chuyển đến; coastal sanctuary = khu cứu hộ/bảo tồn ven biển; eventual return to the wild = cuối cùng trở lại tự nhiên.",
+ meanings:["khu trú ẩn/bảo tồn động vật","khu nuôi được rào kín","hệ sinh thái","tình trạng bị nuôi nhốt"],
+ analyses:["Đúng. Sanctuary có thể là cơ sở cứu hộ nơi chuyên gia chăm sóc con vật trước khi được thả về tự nhiên.","Sai. Enclosure chỉ một khu rào có thể nằm bên trong sanctuary; không tự nói lên chức năng cứu hộ và phục hồi.","Sai. Ecosystem là tổng thể sinh vật và môi trường tương tác, không phải cơ sở chuyên điều trị động vật.","Sai. Captivity là tình trạng nuôi nhốt; cụm to a coastal captivity không phù hợp cách dùng."],
+ examples:[
+  ["The elephant sanctuary provides long-term care for animals rescued from abusive conditions.","Khu bảo tồn voi cung cấp dịch vụ chăm sóc lâu dài cho những con vật được giải cứu khỏi điều kiện nuôi nhốt ngược đãi."],
+  ["The zoo redesigned the tiger enclosure to provide more space and natural vegetation.","Sở thú thiết kế lại khu nuôi hổ để tạo thêm không gian và thảm thực vật tự nhiên."],
+  ["Coral reef ecosystems support a remarkable diversity of marine life.","Các hệ sinh thái rạn san hô duy trì sự đa dạng đáng kinh ngạc của sinh vật biển."],
+  ["Some animals bred in captivity struggle to survive when released into the wild.","Một số động vật được nhân giống trong môi trường nuôi nhốt gặp khó khăn trong việc sinh tồn khi được thả về tự nhiên."]
+ ]});
+addItem(2,19,"cloze","",["domesticate","eradicate","displace","rehabilitate"],3,{
+ translation:"Các chuyên gia tiến hành phục hồi chức năng cho những con vật bị thương trước khi chúng cuối cùng được thả trở lại môi trường tự nhiên.",
+ evidence:"“Injured animals” và “before their eventual return to the wild” cho thấy mục đích là giúp động vật lấy lại khả năng sinh tồn.",
+ reasoning:"Rehabilitate animals nghĩa phục hồi sức khỏe/khả năng hoạt động, phù hợp với việc thả lại tự nhiên.",
+ phrases:"work to do something = nỗ lực thực hiện; rehabilitate injured animals = phục hồi chức năng cho động vật; eventual return to the wild = trở về tự nhiên; release animals = thả động vật.",
+ meanings:["thuần hóa","loại bỏ, diệt trừ hoàn toàn","buộc di dời, đẩy khỏi nơi ở","phục hồi sức khỏe và chức năng"],
+ analyses:["Sai. Domesticate nghĩa thuần hóa để thích nghi với con người, không phù hợp mục tiêu thả về hoang dã.","Sai. Eradicate là tiêu diệt triệt để, trái với cứu hộ và phục hồi.","Sai. Displace là buộc chuyển nơi ở hoặc thay thế; không giúp động vật phục hồi sau thương tích.","Đúng. Rehabilitate là chữa trị và phục hồi khả năng sống độc lập của động vật."],
+ examples:[
+  ["Humans domesticated certain animal species thousands of years ago for farming and transportation.","Con người đã thuần hóa một số loài động vật từ hàng nghìn năm trước để phục vụ nông nghiệp và vận chuyển."],
+  ["Public health authorities launched a nationwide campaign to eradicate the disease.","Các cơ quan y tế công cộng đã triển khai một chiến dịch trên toàn quốc nhằm xóa bỏ căn bệnh."],
+  ["Large infrastructure projects can displace local communities if adequate resettlement plans are not implemented.","Những dự án cơ sở hạ tầng quy mô lớn có thể buộc các cộng đồng địa phương phải di dời nếu không triển khai kế hoạch tái định cư phù hợp."],
+  ["The rescue centre aims to rehabilitate injured sea turtles and release them once they can survive independently.","Trung tâm cứu hộ đặt mục tiêu phục hồi chức năng cho những con rùa biển bị thương và thả chúng khi chúng có thể sinh tồn độc lập."]
+ ]});
+addItem(2,20,"cloze","",["take off","fall through","go off","take over"],1,{
+ translation:"Tuy nhiên, kế hoạch mở rộng chương trình vẫn có thể đổ bể nếu nguồn kinh phí đã được cam kết không trở thành hiện thực.",
+ evidence:"“planned expansion ... if the promised funding failed to materialise” cho biết kế hoạch có thể không được thực hiện vì thiếu tiền.",
+ reasoning:"Fall through dùng với kế hoạch/thỏa thuận không diễn ra như dự định; take off là khởi sắc, go off thường là diễn ra/chuông reo, take over là tiếp quản.",
+ phrases:"planned expansion of the programme = kế hoạch mở rộng chương trình; fall through = đổ bể; promised funding = khoản tài trợ đã hứa; fail to materialise = không trở thành hiện thực.",
+ meanings:["cất cánh, bắt đầu phát triển mạnh","đổ bể, không thành","chuông reo; sự kiện diễn ra; thực phẩm hỏng","tiếp quản, giành quyền điều hành"],
+ analyses:["Sai. Take off có thể nói dự án khởi sắc thành công, khác với nguy cơ thiếu kinh phí.","Đúng. Fall through diễn tả kế hoạch không thực hiện được nếu tài trợ không tới.","Sai. Go off có thể diễn tả sự kiện diễn ra (go off without a hitch), không diễn tả thỏa thuận đổ bể theo ngữ cảnh này.","Sai. Take over nghĩa tiếp quản quyền điều hành một công ty hoặc hoạt động; không nói đến kế hoạch thất bại."],
+ examples:[
+  ["The small technology startup began to take off after securing investment from a major venture capital firm.","Công ty khởi nghiệp công nghệ nhỏ bắt đầu phát triển mạnh sau khi nhận được khoản đầu tư từ một quỹ đầu tư mạo hiểm lớn."],
+  ["The property deal fell through when the buyer failed to secure a mortgage.","Thương vụ mua bán bất động sản đổ bể khi người mua không thể vay được khoản thế chấp."],
+  ["Despite several last-minute changes, the graduation ceremony went off without a hitch.","Mặc dù có một số thay đổi vào phút chót, lễ tốt nghiệp vẫn diễn ra suôn sẻ mà không gặp trục trặc nào."],
+  ["She took over the family business after her father decided to retire.","Cô ấy tiếp quản công việc kinh doanh của gia đình sau khi cha cô quyết định nghỉ hưu."]
+ ]});
+
 //__UNIT8_FULL_ITEMS__
 
 setPools[1].sort((a,b)=>questions[a].sourceQuestionNo-questions[b].sourceQuestionNo);
