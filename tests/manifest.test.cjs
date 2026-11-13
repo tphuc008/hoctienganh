@@ -17,12 +17,14 @@ function boot(code=source,scriptBehavior=()=>{}){
 test("Content Manifest is the authoritative, unique published catalogue",()=>{
   const {manifest}=boot();
   assert.equal(manifest.validate(),true);
-  assert.equal(manifest.vocabulary.length,14);
+  assert.equal(manifest.vocabulary.length,15);
   assert.equal(manifest.grammar.length,1);
   const pages=manifest.entries;
   assert.equal(new Set(pages.map(x=>x.id)).size,pages.length);
   assert.equal(new Set(pages.map(x=>x.route)).size,pages.length);
   assert.ok(pages.find(x=>x.route==="grade-12/unit-8"));
+  assert.ok(pages.find(x=>x.route==="grade-12/unit-88"));
+  assert.equal(manifest.vocabularyItem(12,88).displayUnitNumber,8);
   assert.ok(pages.find(x=>x.route==="school/grade-10/midterm-1/set-7"));
   assert.ok(pages.find(x=>x.route==="grade-10/mid-term-test/test-6"));
   assert.ok(pages.find(x=>x.route==="grammar/prefix-suffix"));
