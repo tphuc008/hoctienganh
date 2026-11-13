@@ -1,9 +1,7 @@
 (()=>{
 "use strict";
-// Grade 12 · Unit 8 — limited live preview, not the full 40-question release.
-// Each set currently has the original questions 1 (synonym) and 11 (guided cloze).
-// The other nine cloze blanks are temporarily filled with their source answers to
-// keep the passage coherent during this two-question interface test.
+// Grade 12 · Unit 8 — original 40-item Wildlife Conservation tests with bilingual explanations.
+// Each set preserves source numbering 1–20 and one shared 10-gap cloze passage.
 // Internal unit 88 keeps the existing published Basic Review unit 8 intact.
 
 const questions=[];
@@ -65,12 +63,12 @@ add(1,{
 // SET 1 — DỄ. Original Question 11: one-blank preview of the full 10-blank passage.
 const easyPassage=[
   "A Day at a Wildlife Rescue Centre",
-  "Last Saturday, our class visited a wildlife rescue centre on the southern (11) ______ of the island. The centre looks after injured birds and sea turtles until they are strong enough to live in the wild again. Many animals had been hurt by plastic waste left on beaches or floating in the sea.",
-  "When a new animal arrives, workers examine it carefully to find out what is wrong. They then treat its injuries and give it suitable food. Once the animals recover, they can be released back into the wild.",
-  "Visitors can support the centre by donating money or helping with cleaning. The staff also teach children to conserve water and energy at home. During our visit, we helped put up signs asking people not to leave rubbish on the beach. By the end of the day, we understood that small actions can make a real difference."
+  "Last Saturday, our class visited a wildlife rescue centre on the southern (11) ______ of the island. The centre (12) ______ injured birds and sea turtles until they are strong enough to live in the wild again. Many animals had been hurt by plastic (13) ______ left on beaches or floating in the sea.",
+  "When a new animal arrives, workers (14) ______ it carefully to find out what is wrong. They then (15) ______ its injuries and give it suitable food. Once the animals (16) ______, they can be released back into the wild.",
+  "Visitors can (17) ______ the centre by donating money or helping with cleaning. The staff also teach children to (18) ______ water and energy at home. During our visit, we helped (19) ______ signs asking people not to leave rubbish on the beach. By the end of the day, we understood that small actions can (20) ______ a real difference."
 ].join("\n\n");
 add(1,{
-  id:"u8-easy-q11",sourceQuestionNo:11,lockOptions:true,type:"reading",
+  id:"u8-easy-q11",sourceQuestionNo:11,lockOptions:true,type:"reading",focus:"(11) ______",
   context:easyPassage,
   q:"Which option best fits blank (11)?",
   o:["forest","valley","desert","coast"],a:3,
@@ -121,12 +119,12 @@ add(2,{
 // SET 2 — KHÓ. Original Question 11: one-blank preview of the full passage.
 const hardPassage=[
   "A Conservation Programme at Risk",
-  "Along the coast of a small island, conservationists discovered that an (11) ______ vine, originally imported for ornamental purposes, was beginning to crowd out native marsh plants. Because field inspections were infrequent, its spread had gone largely unchecked, allowing it to cover wide stretches of wetland. At the same time, the overexploitation of wild sturgeon for their valuable roe had driven fish populations to the verge of collapse.",
-  "After reviewing the evidence, every member of the regional council endorsed the proposed measures, and the council voted unanimously to impose tougher restrictions. Substantial fines were designed to act as a deterrent to illegal harvesting, while park rangers received drones to patrol remote habitats.",
-  "Injured animals were transported to a coastal sanctuary, where specialists worked to rehabilitate them before their eventual return to the wild. However, the planned expansion of the programme could still fall through if the promised funding failed to materialise."
+  "Along the coast of a small island, conservationists discovered that an (11) ______ vine, originally imported for ornamental purposes, was beginning to (12) ______ native marsh plants. Because field inspections were infrequent, its spread had gone largely (13) ______, allowing it to cover wide stretches of wetland. At the same time, the (14) ______ of wild sturgeon for their valuable roe had driven fish populations to the verge of collapse.",
+  "After reviewing the evidence, every member of the regional council endorsed the proposed measures, and the council voted (15) ______ to impose tougher restrictions. Substantial fines were designed to act as a (16) ______ to illegal harvesting, while park (17) ______ received drones to patrol remote habitats.",
+  "Injured animals were transported to a coastal (18) ______, where specialists worked to (19) ______ them before their eventual return to the wild. However, the planned expansion of the programme could still (20) ______ if the promised funding failed to materialise."
 ].join("\n\n");
 add(2,{
-  id:"u8-hard-q11",sourceQuestionNo:11,lockOptions:true,type:"reading",
+  id:"u8-hard-q11",sourceQuestionNo:11,lockOptions:true,type:"reading",focus:"(11) ______",
   context:hardPassage,
   q:"Which option best fits blank (11)?",
   o:["endemic","invasive","terrestrial","restorative"],a:1,
@@ -149,14 +147,47 @@ add(2,{
   remember:"invasive = loài xâm lấn (ngoại lai và gây hại); endemic = loài đặc hữu của một khu vực."
 });
 
+
+// Full-release items use the same verified explanation schema as the four pilot questions.
+function addItem(set,n,kind,source,options,correct,detail){
+  const isCloze=kind==="cloze";
+  if(detail.meanings?.length!==4||detail.analyses?.length!==4||detail.examples?.length!==4)
+    throw new Error("Unit 8 missing four explanations: Set "+set+", Q"+n);
+  add(set,{
+    id:"u8-"+(set===1?"easy":"hard")+"-q"+String(n).padStart(2,"0"),
+    sourceQuestionNo:n,lockOptions:true,
+    ...(isCloze
+      ?{type:"reading",context:set===1?easyPassage:hardPassage,focus:"("+n+") ______"}
+      :{promptType:kind==="syn"?"SYNONYM · CLOSEST IN MEANING":"ANTONYM · OPPOSITE IN MEANING",target:detail.target}),
+    q:isCloze?"Which option best fits blank ("+n+")?":source,
+    o:options,a:correct,
+    e:options[correct]
+  },{
+    translation:detail.translation,
+    evidence:detail.evidence,
+    reasoning:detail.reasoning,
+    phrases:detail.phrases,
+    choices:options.map((word,i)=>({
+      word,meaning:detail.meanings[i],analysis:detail.analyses[i],
+      en:detail.examples[i][0],vi:detail.examples[i][1]
+    })),
+    remember:detail.remember||""
+  });
+}
+
+//__UNIT8_FULL_ITEMS__
+
+setPools[1].sort((a,b)=>questions[a].sourceQuestionNo-questions[b].sourceQuestionNo);
+setPools[2].sort((a,b)=>questions[a].sourceQuestionNo-questions[b].sourceQuestionNo);
+
 window.G12_U8_TEST_BANK={
   grade:12,
   unit:88,
   displayUnitNumber:8,
   displayUnitLabel:"Unit 8",
   title:"Wildlife Conservation",
-  subtitle:"2 Set · Bản xem thử (2/20 câu mỗi Set)",
-  version:2,
+  subtitle:"2 Set · 40 câu · Wildlife Conservation",
+  version:3,
   testOnly:true,
   pilotFixedFormat:true,
   trackSetCompletion:true,
@@ -164,8 +195,8 @@ window.G12_U8_TEST_BANK={
   explanations,
   explanationById,
   levelConfig:{
-    1:{label:"A2–B1",name:"Dễ",title:"Set 1 – Dễ",note:"Bản thử · 2/20 câu · Synonym + Guided Cloze",fixedOrder:true,pool:setPools[1]},
-    2:{label:"B2–C2",name:"Khó",title:"Set 2 – Khó",note:"Bản thử · 2/20 câu · Synonym + Guided Cloze",fixedOrder:true,pool:setPools[2]}
+    1:{label:"A2–B1",name:"Dễ",title:"Set 1 – Dễ",note:"20 câu · Synonym/Antonym + Guided Cloze",fixedOrder:true,pool:setPools[1]},
+    2:{label:"B2–C2",name:"Khó",title:"Set 2 – Khó",note:"20 câu · Synonym/Antonym + Guided Cloze",fixedOrder:true,pool:setPools[2]}
   }
 };
 })();
