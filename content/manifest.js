@@ -23,7 +23,7 @@
     {grade:12,id:5,title:"Unit 5",subtitle:"The World of Work",bankGlobal:"G12_U5_SEMANTIC_BANK",source:"grade12-unit5-semantic.js"},
     {grade:12,id:6,title:"Unit 6",subtitle:"Artificial Intelligence",bankGlobal:"G12_U6_SEMANTIC_BANK",source:"grade12-unit6-semantic.js"},
     {grade:12,id:7,title:"Unit 7",subtitle:"The World of Mass Media",bankGlobal:"G12_U7_SEMANTIC_BANK",source:"grade12-unit7-semantic.js"},
-    {grade:12,id:88,title:"Unit 8",subtitle:"Wildlife Conservation · 2 Set (bản thử)",displayUnitNumber:8,bankGlobal:"G12_U8_TEST_BANK",source:"grade12-unit8-test.js"},
+    {grade:12,id:88,title:"Unit 8",subtitle:"Wildlife Conservation · 2 Set · 40 câu",displayUnitNumber:8,bankGlobal:"G12_U8_TEST_BANK",source:"grade12-unit8-test.js"},
     {grade:12,id:8,title:"Ôn lại cơ bản",subtitle:"100% nằm trong vocab đã học",bankGlobal:"G12_BASIC_REVIEW_BANK",source:"grade12-basic-review.js",review:true}
   ];
   const grammar=[
