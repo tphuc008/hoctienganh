@@ -1078,10 +1078,10 @@ function getSetLevel(setNo){return activeLevelConfig[setNo]?.label||"B1–B2"}
 function getSetLevelName(setNo){return activeLevelConfig[setNo]?.name||"Medium"}
 function getSetNote(setNo){return activeLevelConfig[setNo]?.note||getSetLevelName(setNo)}
 function currentUnitLabel(){
-  return activeBank?.reviewMode?"Ôn lại cơ bản":"Unit "+activeUnit;
+  return activeBank?.displayUnitLabel || (activeBank?.reviewMode?"Ôn lại cơ bản":"Unit "+activeUnit);
 }
 function currentUnitEyebrow(){
-  return activeBank?.reviewMode?"Ôn lại cơ bản":"Unit "+String(activeUnit).padStart(2,"0");
+  return activeBank?.reviewMode?"Ôn lại cơ bản":"Unit "+String(activeBank?.displayUnitNumber||activeUnit).padStart(2,"0");
 }
 function getSetTitle(setNo){
   const cfg=activeLevelConfig[setNo];
@@ -1949,7 +1949,7 @@ function renderGrade(id){
       ${units.map(u=>`
         <button class="unit-card" ${u.live?`onclick="location.hash='${esc(u.route)}'"`:"disabled"} style="${u.live?"":"cursor:default;opacity:.68"}">
           <div class="unit-top">
-            <span class="unit-no">${u.midterm?"MID TERM TEST":u.review?"UNIT ÔN LẠI CƠ BẢN":"UNIT "+String(u.id).padStart(2,"0")}</span>
+            <span class="unit-no">${u.midterm?"MID TERM TEST":u.review?"UNIT ÔN LẠI CƠ BẢN":"UNIT "+String(u.displayUnitNumber||u.id).padStart(2,"0")}</span>
             <span class="status ${u.live?"live":""}">${u.live?"Exercises available":"Coming soon"}</span>
           </div>
           <h3>${esc(u.title)}</h3>
@@ -2006,7 +2006,7 @@ function renderUnit(grade,id){
   const setNumbers=getUnitSetNumbers();
 
   const exerciseHTML=`
-    <div class="section-title"><h2>Exercises</h2><span>${setNumbers.length} sets</span></div>
+    <div class="section-title"><h2>${activeBank?.testOnly?"Tests":"Exercises"}</h2><span>${setNumbers.length} ${activeBank?.testOnly?"test":"sets"}</span></div>
     <div class="exercise-grid">
       ${setNumbers.map(setNo=>{
         const count=getSetCount(setNo);
@@ -2020,7 +2020,7 @@ function renderUnit(grade,id){
             <div class="meta">
               ${completed?'<span class="chip done-chip">✓ Đã làm</span>':""}
               <span class="chip">${getSetNote(setNo)}</span>
-              <span class="chip">${special?((activeLevelConfig[setNo]?.bankSize||24)+"-word bank · 10 per set"):count+" questions"}</span>
+              <span class="chip">${special?((activeLevelConfig[setNo]?.bankSize||24)+"-word bank · 10 per set"):(activeLevelConfig[setNo]?.pending?"Chờ đề":count+" questions")}</span>
               <span class="chip">${level}</span>
 
             </div>
@@ -2052,6 +2052,9 @@ function renderExercise(grade,id,setNo){
   activeLevel=activeLevelConfig[activeSet];
   activeSublevelKey="";
   const nicknameHTML=`<div class="nickname-box"><label>Học viên</label><div style="padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);font-weight:850">${esc(learnerDisplayName())}</div></div>`;
+  const startHTML=activeLevel.pending
+    ? '<div class="empty"><b>Test 1 đang chờ đề</b>Nội dung bài kiểm tra sẽ được bổ sung sau khi giáo viên gửi đề.</div>'
+    : `${nicknameHTML}<button class="primary" style="margin-top:16px" onclick="startQuiz(true)">${LearningFlow.labels.start} →</button>`;
 
   if(activeLevel.contextGuessing){
     pageMount.style.display="block";
@@ -2086,10 +2089,9 @@ function renderExercise(grade,id,setNo){
     </div>
     <div class="exercise-intro">
       <div class="eyebrow">Grade ${activeGrade} · ${esc(currentUnitLabel())} · Set ${activeSet}</div>
-      <h1><span class="gradient">${activeBank?.reviewMode?"Ôn tập · Set "+activeSet:"Vocabulary Practice "+activeSet}</span></h1>
-      <div class="pills"><span class="pill">${activeLevel.note||activeLevel.name}</span><span class="pill">${count} questions</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
-      ${nicknameHTML}
-      <button class="primary" style="margin-top:16px" onclick="startQuiz(true)">${LearningFlow.labels.start} →</button>
+      <h1><span class="gradient">${activeBank?.testOnly?esc(getSetTitle(activeSet)):(activeBank?.reviewMode?"Ôn tập · Set "+activeSet:"Vocabulary Practice "+activeSet)}</span></h1>
+      <div class="pills"><span class="pill">${activeLevel.note||activeLevel.name}</span><span class="pill">${activeLevel.pending?"Chờ đề":count+" questions"}</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
+      ${startHTML}
     </div>`;
 }
 
