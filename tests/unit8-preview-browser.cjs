@@ -42,6 +42,7 @@ const assert=require("node:assert/strict");
       [1,"Set 1 – Dễ","kept safe","coast"],
       [2,"Set 2 – Khó","distraught","invasive"]
     ]){
+      await open("grade-12/unit-88",".exercise-card");
       assert.match(await page.locator(".exercise-card").nth(setNo-1).innerText(),new RegExp(title));
       await open("grade-12/unit-88/vocabulary-practice-"+setNo,".exercise-intro");
       assert.match(await page.locator(".exercise-intro").innerText(),new RegExp(title));
