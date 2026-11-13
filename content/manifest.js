@@ -23,6 +23,7 @@
     {grade:12,id:5,title:"Unit 5",subtitle:"The World of Work",bankGlobal:"G12_U5_SEMANTIC_BANK",source:"grade12-unit5-semantic.js"},
     {grade:12,id:6,title:"Unit 6",subtitle:"Artificial Intelligence",bankGlobal:"G12_U6_SEMANTIC_BANK",source:"grade12-unit6-semantic.js"},
     {grade:12,id:7,title:"Unit 7",subtitle:"The World of Mass Media",bankGlobal:"G12_U7_SEMANTIC_BANK",source:"grade12-unit7-semantic.js"},
+    {grade:12,id:88,title:"Unit 8",subtitle:"Test 1 · Chờ đề",displayUnitNumber:8,bankGlobal:"G12_U8_TEST_BANK",source:"grade12-unit8-test.js"},
     {grade:12,id:8,title:"Ôn lại cơ bản",subtitle:"100% nằm trong vocab đã học",bankGlobal:"G12_BASIC_REVIEW_BANK",source:"grade12-basic-review.js",review:true}
   ];
   const grammar=[
@@ -32,7 +33,7 @@
     {grade:6,id:1,title:"Unit 1",subtitle:"My New School",live:true,route:"grade-6/unit-1",type:"lesson-practice"},
     {grade:6,id:2,title:"Unit 2",subtitle:"My Home",live:true,route:"grade-6/unit-2",type:"lesson-practice"},
     {grade:6,id:3,title:"Unit 3",subtitle:"My Friends",live:true,route:"grade-6/unit-3",type:"lesson-practice"},
-    ...vocabulary.map(x=>({grade:x.grade,id:x.id,title:x.title,subtitle:x.subtitle,live:true,
+    ...vocabulary.map(x=>({grade:x.grade,id:x.id,title:x.title,subtitle:x.subtitle,displayUnitNumber:x.displayUnitNumber,live:true,
       route:"grade-"+x.grade+"/unit-"+x.id,review:!!x.review,type:"vocabulary"})),
     {grade:10,id:99,title:"Mid Term Test",subtitle:"Test 1–6 · 279 câu · Đề gốc & luyện tập",
       live:true,midterm:true,type:"exam",route:"grade-10/mid-term-test"}
