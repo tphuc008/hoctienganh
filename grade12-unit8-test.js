@@ -175,6 +175,144 @@ function addItem(set,n,kind,source,options,correct,detail){
   });
 }
 
+
+/* SET 1 — DỄ · Part I: five synonyms and five antonyms. */
+addItem(1,2,"syn",
+"During the dry season, villagers are encouraged to conserve water by taking shorter showers.",
+["boil","heat","save","waste"],2,{
+ target:"conserve",translation:"Trong mùa khô, người dân trong làng được khuyến khích tiết kiệm nước bằng cách tắm trong thời gian ngắn hơn.",
+ evidence:"“taking shorter showers” cho biết mục đích là giảm lượng nước dùng trong mùa khô.",
+ reasoning:"Conserve water nghĩa là sử dụng nước tiết kiệm, tương đương save water; ba động từ còn lại nói về nhiệt độ hoặc sự lãng phí.",
+ phrases:"during the dry season = trong mùa khô; be encouraged to do something = được khuyến khích; conserve water = tiết kiệm nước; take shorter showers = tắm ít thời gian hơn.",
+ meanings:["đun sôi","làm nóng","tiết kiệm, tránh lãng phí","lãng phí"],
+ analyses:["Sai. Boil làm nước đạt nhiệt độ sôi; không nói đến giảm lượng nước sử dụng.","Sai. Heat tăng nhiệt độ của một thứ; không diễn đạt bảo vệ tài nguyên nước.","Đúng. Save water chỉ dùng ít nước hơn, tránh lãng phí; conserve nhấn mạnh thêm khía cạnh gìn giữ nguồn tài nguyên.","Sai. Waste là dùng quá mức cần thiết, mang nghĩa trái ngược với conserve."],
+ examples:[
+  ["You should boil the water before drinking it.","Bạn nên đun sôi nước trước khi uống."],
+  ["She heated the soup before dinner.","Cô ấy hâm nóng súp trước bữa tối."],
+  ["Turning off the lights when leaving a room can save electricity.","Tắt đèn khi rời khỏi phòng có thể giúp tiết kiệm điện."],
+  ["Don't waste food when many people do not have enough to eat.","Đừng lãng phí thức ăn khi nhiều người vẫn không có đủ đồ ăn."]
+ ]});
+addItem(1,3,"syn",
+"After three weeks of care, the injured turtle finally recovered and could swim again.",
+["disappeared","got better","stayed still","grew older"],1,{
+ target:"recovered",translation:"Sau ba tuần được chăm sóc, con rùa bị thương cuối cùng đã hồi phục và có thể bơi trở lại.",
+ evidence:"“After three weeks of care” và “could swim again” cho biết sức khỏe con rùa đã được cải thiện sau chấn thương.",
+ reasoning:"Recover và get better đều mô tả sự bình phục; biến mất, bất động hay già thêm không diễn đạt cải thiện sức khỏe.",
+ phrases:"after three weeks of care = sau ba tuần chăm sóc; injured turtle = rùa bị thương; recover = hồi phục; be able to swim again = bơi lại được.",
+ meanings:["biến mất","khỏe hơn, bình phục","giữ yên, không di chuyển","già đi, lớn tuổi hơn"],
+ analyses:["Sai. Disappear nghĩa là không còn được nhìn thấy, không phải khỏi chấn thương.","Đúng. Got better mô tả sức khỏe tốt trở lại sau điều trị, phù hợp với recovered.","Sai. Stay still chỉ việc không cử động, trái với bằng chứng rùa đã bơi trở lại.","Sai. Grow older mô tả thời gian làm tuổi tăng lên, không phải sức khỏe được phục hồi."],
+ examples:[
+  ["The cat disappeared from the garden yesterday.","Con mèo đã biến mất khỏi khu vườn hôm qua."],
+  ["My brother got better after resting at home for a few days.","Anh trai tôi khỏe hơn sau khi nghỉ ngơi ở nhà vài ngày."],
+  ["The child stayed still while the doctor checked his arm.","Đứa trẻ giữ yên trong khi bác sĩ kiểm tra cánh tay của em."],
+  ["As people grow older, their interests may change.","Khi con người lớn tuổi hơn, sở thích của họ có thể thay đổi."]
+ ]});
+addItem(1,4,"syn",
+"Local volunteers set up a small centre to help injured animals in the area.",
+["cleaned","visited","closed","started"],3,{
+ target:"set up",translation:"Các tình nguyện viên địa phương đã thành lập một trung tâm nhỏ để giúp đỡ những động vật bị thương trong khu vực.",
+ evidence:"Tân ngữ “a small centre” và mục đích “to help injured animals” cho thấy tình nguyện viên thành lập một cơ sở mới.",
+ reasoning:"Set up a centre có nghĩa thành lập hoặc bắt đầu hoạt động trung tâm, tương đương started a centre.",
+ phrases:"local volunteers = tình nguyện viên địa phương; set up a centre = thành lập trung tâm; injured animals = động vật bị thương; in the area = trong khu vực.",
+ meanings:["làm sạch","ghé thăm","đóng cửa","bắt đầu, thành lập"],
+ analyses:["Sai. Clean chỉ vệ sinh trung tâm, không tạo ra một trung tâm mới.","Sai. Visit là đến một cơ sở đã có sẵn, không phải lập ra cơ sở đó.","Sai. Close a centre là đóng trung tâm hoặc chấm dứt hoạt động, trái với set up.","Đúng. Start a centre diễn tả việc bắt đầu hoặc thành lập một cơ sở mới."],
+ examples:[
+  ["The students cleaned the classroom after the lesson.","Các học sinh dọn dẹp lớp học sau giờ học."],
+  ["We visited a national park during our holiday.","Chúng tôi đã đến thăm một vườn quốc gia trong kỳ nghỉ."],
+  ["The shop closed early because of the storm.","Cửa hàng đóng cửa sớm vì cơn bão."],
+  ["Two friends started a small business selling handmade bags.","Hai người bạn đã thành lập một doanh nghiệp nhỏ bán túi thủ công."]
+ ]});
+addItem(1,5,"syn",
+"Grandparents often pass down stories and traditions to younger family members.",
+["pass on","make up","look for","throw away"],0,{
+ target:"pass down",translation:"Ông bà thường truyền lại những câu chuyện và truyền thống cho các thành viên trẻ tuổi hơn trong gia đình.",
+ evidence:"“stories and traditions” được chuyển “to younger family members”, tức từ thế hệ trước sang thế hệ sau.",
+ reasoning:"Pass down và pass on đều diễn tả việc truyền lại cho người khác; pass down nhấn mạnh tính liên thế hệ.",
+ phrases:"pass down stories and traditions = truyền chuyện và truyền thống cho thế hệ sau; younger family members = thành viên nhỏ tuổi hơn; family traditions = truyền thống gia đình.",
+ meanings:["truyền lại, chuyển tiếp","bịa ra, sáng tác","tìm kiếm","vứt bỏ"],
+ analyses:["Đúng. Pass on stories/traditions có nghĩa chuyển những câu chuyện và truyền thống cho người khác, gần nghĩa với pass down.","Sai. Make up stories là nghĩ ra hoặc bịa chuyện mới, không phải lưu truyền chuyện đã có.","Sai. Look for diễn tả tìm kiếm một thứ, không truyền kiến thức.","Sai. Throw away là loại bỏ, trái với hành động lưu giữ và truyền lại."],
+ examples:[
+  ["Parents can pass on useful life skills to their children.","Cha mẹ có thể truyền lại những kỹ năng sống hữu ích cho con cái."],
+  ["The children made up a funny story about a talking dog.","Những đứa trẻ đã sáng tác một câu chuyện hài hước về chú chó biết nói."],
+  ["She is looking for her lost keys.","Cô ấy đang tìm chùm chìa khóa bị mất."],
+  ["You should not throw away clothes that can still be used.","Bạn không nên vứt bỏ quần áo vẫn còn có thể sử dụng."]
+ ]});
+addItem(1,6,"ant",
+"Joining the wildlife tour is optional, so students can choose whether to take part.",
+["interesting","required","helpful","cheap"],1,{
+ target:"optional",translation:"Việc tham gia chuyến tham quan động vật hoang dã là không bắt buộc, vì vậy học sinh có thể lựa chọn có tham gia hay không.",
+ evidence:"“students can choose whether to take part” xác nhận việc tham gia là tự nguyện.",
+ reasoning:"Optional nghĩa không bắt buộc; required nghĩa bắt buộc theo yêu cầu, là từ trái nghĩa trực tiếp.",
+ phrases:"join a wildlife tour = tham gia chuyến tham quan; be optional = không bắt buộc; choose whether to do something = chọn có làm hay không; take part = tham gia.",
+ meanings:["thú vị","bắt buộc","hữu ích","rẻ, giá thấp"],
+ analyses:["Sai. Interesting nói về độ hấp dẫn, không về nghĩa vụ tham gia.","Đúng. Required chỉ việc phải làm, trái với optional — được tự lựa chọn.","Sai. Helpful đánh giá ích lợi; một chuyến tham quan có thể vừa hữu ích vừa không bắt buộc.","Sai. Cheap nói đến giá tiền, không phải có phải tham gia hay không."],
+ examples:[
+  ["The documentary about ocean animals was very interesting.","Bộ phim tài liệu về động vật đại dương rất thú vị."],
+  ["All students are required to wear uniforms at school.","Tất cả học sinh đều được yêu cầu phải mặc đồng phục ở trường."],
+  ["The teacher gave us some helpful advice before the exam.","Giáo viên đã cho chúng tôi một số lời khuyên hữu ích trước kỳ thi."],
+  ["Taking the bus is usually cheaper than taking a taxi.","Đi xe buýt thường rẻ hơn đi taxi."]
+ ]});
+addItem(1,7,"ant",
+"The school turned down a proposal to build a car park near the lake.",
+["discussed","delayed","changed","accepted"],3,{
+ target:"turned down",translation:"Nhà trường đã từ chối một đề xuất xây dựng bãi đỗ xe gần hồ.",
+ evidence:"Tân ngữ “a proposal” giúp xác định turn down là từ chối đề xuất, không phải giảm âm lượng.",
+ reasoning:"Turn down a proposal nghĩa bác bỏ; accept a proposal nghĩa chấp thuận — hai quyết định trái ngược.",
+ phrases:"turn down a proposal = từ chối đề xuất; a proposal to build something = đề xuất xây dựng; car park = bãi đỗ xe.",
+ meanings:["thảo luận","trì hoãn","thay đổi","chấp nhận, đồng ý"],
+ analyses:["Sai. Discussed chỉ trao đổi về đề xuất, chưa nói quyết định chấp thuận hay không.","Sai. Delayed nghĩa hoãn quyết định hoặc thực hiện; vẫn có thể chấp thuận sau.","Sai. Changed là sửa đổi nội dung, không nhất thiết chấp nhận đề xuất.","Đúng. Accepted là chấp thuận đề xuất, trái nghĩa với turned down."],
+ examples:[
+  ["The students discussed ways to reduce plastic waste.","Các học sinh đã thảo luận những cách giảm rác thải nhựa."],
+  ["Heavy rain delayed the football match.","Mưa lớn đã khiến trận bóng đá bị trì hoãn."],
+  ["The company changed its plans after receiving customer feedback.","Công ty đã thay đổi kế hoạch sau khi nhận được phản hồi từ khách hàng."],
+  ["She accepted the job offer after considering it carefully.","Cô ấy đã chấp nhận lời mời làm việc sau khi cân nhắc kỹ lưỡng."]
+ ]});
+addItem(1,8,"ant",
+"The young birds were protected from cold winds by a wooden shelter.",
+["saved","sheltered","left unprotected","kept warm"],2,{
+ target:"protected",translation:"Những chú chim non được bảo vệ khỏi gió lạnh nhờ một nơi trú ẩn bằng gỗ.",
+ evidence:"“by a wooden shelter” cho thấy chim có nơi che chở khỏi gió lạnh.",
+ reasoning:"Protected là được che chở khỏi nguy hiểm; left unprotected nghĩa bị bỏ mặc không có bảo vệ, trái nghĩa trực tiếp.",
+ phrases:"young birds = chim non; be protected from something = được bảo vệ khỏi; cold winds = gió lạnh; wooden shelter = nơi trú ẩn bằng gỗ.",
+ meanings:["được cứu","được che chở","bị bỏ mặc, không được bảo vệ","được giữ ấm"],
+ analyses:["Sai. Saved mô tả giải cứu khỏi nguy hiểm, gần nghĩa với protected trong câu.","Sai. Sheltered là có nơi trú ẩn hoặc che chở, cùng hướng nghĩa với protected.","Đúng. Left unprotected chỉ tình trạng không có che chở, đối lập việc được nơi trú ẩn bảo vệ.","Sai. Kept warm có thể là tác dụng của việc che gió cho chim, không phải điều đối lập."],
+ examples:[
+  ["The firefighters saved a family from the burning house.","Những người lính cứu hỏa đã cứu một gia đình khỏi ngôi nhà đang cháy."],
+  ["The large tree sheltered the children from the hot sun.","Cây lớn che nắng cho những đứa trẻ."],
+  ["Many animals are left unprotected when forests are destroyed.","Nhiều loài động vật bị bỏ mặc mà không được bảo vệ khi rừng bị phá hủy."],
+  ["The thick blanket kept the baby warm during the night.","Chiếc chăn dày giữ ấm cho em bé suốt đêm."]
+ ]});
+addItem(1,9,"ant",
+"Without conservation efforts, some rare animal species may die out in the future.",
+["survive","decline","disappear","vanish"],0,{
+ target:"die out",translation:"Nếu không có những nỗ lực bảo tồn, một số loài động vật quý hiếm có thể bị tuyệt chủng trong tương lai.",
+ evidence:"“rare animal species” và “without conservation efforts” đặt die out trong nghĩa một loài không còn tồn tại.",
+ reasoning:"Die out là tuyệt chủng, còn survive là tiếp tục sống hoặc tồn tại.",
+ phrases:"conservation efforts = nỗ lực bảo tồn; rare animal species = loài động vật quý hiếm; die out = tuyệt chủng; in the future = trong tương lai.",
+ meanings:["sống sót, tiếp tục tồn tại","suy giảm","biến mất","biến mất, tan biến"],
+ analyses:["Đúng. Survive cho biết loài tiếp tục tồn tại, trái với die out là tuyệt chủng.","Sai. Decline là giảm số lượng; quần thể có thể suy giảm trước khi tuyệt chủng.","Sai. Disappear là biến mất, có thể gần nghĩa với die out khi nói về sự hiện diện của loài.","Sai. Vanish cũng diễn tả việc biến mất, không phải sống sót."],
+ examples:[
+  ["Some desert animals can survive for long periods without drinking water.","Một số động vật sa mạc có thể sống sót trong thời gian dài mà không uống nước."],
+  ["The number of wild elephants has declined in some areas.","Số lượng voi hoang dã đã suy giảm ở một số khu vực."],
+  ["Many birds disappeared from the area after the forest was cut down.","Nhiều loài chim đã biến mất khỏi khu vực sau khi khu rừng bị chặt phá."],
+  ["The rainbow vanished as the dark clouds covered the sky.","Cầu vồng biến mất khi những đám mây đen che phủ bầu trời."]
+ ]});
+addItem(1,10,"ant",
+"The problem seemed trivial at first, but it later caused serious damage to the forest.",
+["small","simple","serious","minor"],2,{
+ target:"trivial",translation:"Ban đầu, vấn đề có vẻ nhỏ nhặt và không nghiêm trọng, nhưng sau đó nó đã gây ra thiệt hại nghiêm trọng cho khu rừng.",
+ evidence:"Sự tương phản “trivial at first, but ... serious damage” đối chiếu đánh giá ban đầu với hậu quả nghiêm trọng.",
+ reasoning:"Trivial nghĩa không đáng kể; serious nghĩa nghiêm trọng hoặc đáng quan tâm, trái nghĩa theo mức độ quan trọng.",
+ phrases:"seem trivial = có vẻ nhỏ nhặt; at first = ban đầu; cause serious damage to something = gây thiệt hại nghiêm trọng cho điều gì.",
+ meanings:["nhỏ","đơn giản","nghiêm trọng, đáng quan tâm","nhỏ, không đáng kể"],
+ analyses:["Sai. Small nói về kích thước hoặc mức độ nhỏ, đôi khi gần trivial về mức độ.","Sai. Simple nói đến độ phức tạp; một vấn đề đơn giản vẫn có thể nghiêm trọng.","Đúng. Serious nói đến vấn đề quan trọng, có thể có hậu quả lớn, trái với trivial.","Sai. Minor nghĩa ít quan trọng hoặc không nghiêm trọng, gần nghĩa với trivial."],
+ examples:[
+  ["The company made a small change to its website.","Công ty đã thực hiện một thay đổi nhỏ trên trang web."],
+  ["The teacher gave us a simple explanation of the problem.","Giáo viên đã đưa ra một lời giải thích đơn giản về vấn đề."],
+  ["Air pollution is a serious problem in many large cities.","Ô nhiễm không khí là một vấn đề nghiêm trọng ở nhiều thành phố lớn."],
+  ["The driver suffered only minor injuries in the accident.","Người lái xe chỉ bị thương nhẹ trong vụ tai nạn."]
+ ]});
+
 //__UNIT8_FULL_ITEMS__
 
 setPools[1].sort((a,b)=>questions[a].sourceQuestionNo-questions[b].sourceQuestionNo);
