@@ -2006,7 +2006,7 @@ function renderUnit(grade,id){
   const setNumbers=getUnitSetNumbers();
 
   const exerciseHTML=`
-    <div class="section-title"><h2>${activeBank?.testOnly?"Tests":"Exercises"}</h2><span>${setNumbers.length} ${activeBank?.testOnly?"test":"sets"}</span></div>
+    <div class="section-title"><h2>${activeBank?.testOnly?"Practice Sets":"Exercises"}</h2><span>${setNumbers.length} sets</span></div>
     <div class="exercise-grid">
       ${setNumbers.map(setNo=>{
         const count=getSetCount(setNo);
@@ -2085,7 +2085,7 @@ function renderExercise(grade,id,setNo){
     <div class="breadcrumbs">
       <button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span>
       <button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span>
-      <button class="crumb-btn" onclick="goUnit(${activeUnit},${activeGrade})">${esc(currentUnitLabel())}</button><span>›</span><span>${activeBank?.reviewMode?"Ôn tập Set "+activeSet:"Vocabulary Practice "+activeSet}</span>
+      <button class="crumb-btn" onclick="goUnit(${activeUnit},${activeGrade})">${esc(currentUnitLabel())}</button><span>›</span><span>${activeBank?.testOnly?esc(getSetTitle(activeSet)):(activeBank?.reviewMode?"Ôn tập Set "+activeSet:"Vocabulary Practice "+activeSet)}</span>
     </div>
     <div class="exercise-intro">
       <div class="eyebrow">Grade ${activeGrade} · ${esc(currentUnitLabel())} · Set ${activeSet}</div>
@@ -2556,7 +2556,7 @@ function finishLearning(){
   }else{
     if(resultCrumbs) resultCrumbs.innerHTML=`<button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span><button class="crumb-btn" onclick="goUnit(${activeUnit},${activeGrade})">${esc(currentUnitLabel())}</button><span>›</span><span>Set ${activeSet} Result</span>`;
     if(backUnitBtn){
-      backUnitBtn.textContent=activeBank?.reviewMode?"Back to Ôn lại cơ bản":"Back to Unit "+activeUnit;
+      backUnitBtn.textContent=activeBank?.reviewMode?"Back to Ôn lại cơ bản":"Back to "+currentUnitLabel();
       backUnitBtn.onclick=()=>goUnit(activeUnit,activeGrade);
     }
   }
