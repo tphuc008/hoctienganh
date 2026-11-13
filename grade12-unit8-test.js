@@ -433,6 +433,144 @@ addItem(1,20,"cloze","",["do","make","take","put"],1,{
   ["Please put the books on the shelf.","Vui lòng đặt những cuốn sách lên kệ."]
  ]});
 
+
+/* SET 2 — KHÓ · Part I: five synonyms and five antonyms. */
+addItem(2,2,"syn",
+"To avoid overstating the success of the conservation programme, researchers adopted a conservative estimate of the number of animals that had successfully returned to the wild.",
+["cautious","inflated","arbitrary","definitive"],0,{
+ target:"conservative",translation:"Để tránh phóng đại mức độ thành công của chương trình bảo tồn, các nhà nghiên cứu đã sử dụng một ước tính thận trọng về số lượng động vật đã trở về môi trường tự nhiên thành công.",
+ evidence:"“To avoid overstating the success” xác định mục đích là tránh nâng kết quả ước tính lên quá mức.",
+ reasoning:"Conservative estimate nghĩa là ước tính thận trọng, không phóng đại; cautious gần nghĩa nhất trong ngữ cảnh định lượng, không liên quan chính trị.",
+ phrases:"avoid overstating something = tránh phóng đại; adopt a conservative estimate = sử dụng mức ước tính thận trọng; return to the wild = trở về tự nhiên.",
+ meanings:["thận trọng","bị thổi phồng","tùy tiện, thiếu cơ sở","mang tính kết luận cuối cùng"],
+ analyses:["Đúng. Cautious diễn tả thận trọng để tránh nhận định quá mức; conservative ở đây nói về mức ước tính có kiểm soát.","Sai. Inflated estimate là ước tính bị thổi phồng, chính điều các nhà nghiên cứu muốn tránh.","Sai. Arbitrary là lựa chọn thiếu căn cứ; một ước tính conservative vẫn có thể dựa trên dữ liệu đáng tin cậy.","Sai. Definitive nói tính cuối cùng của kết luận, không phải mức độ dè dặt trong ước tính."],
+ examples:[
+  ["Economists remain cautious about predicting a rapid recovery despite recent improvements.","Các nhà kinh tế vẫn thận trọng khi dự đoán sự phục hồi nhanh chóng dù gần đây đã có những cải thiện."],
+  ["The company was criticised for publishing inflated sales figures to attract investors.","Công ty bị chỉ trích vì công bố số liệu doanh thu bị thổi phồng nhằm thu hút nhà đầu tư."],
+  ["The school was criticised for imposing arbitrary restrictions without consulting students.","Nhà trường bị chỉ trích vì áp đặt những hạn chế tùy tiện mà không tham khảo ý kiến học sinh."],
+  ["Scientists have yet to find definitive evidence linking the chemical to the disease.","Các nhà khoa học vẫn chưa tìm được bằng chứng mang tính kết luận về mối liên hệ giữa hóa chất đó và căn bệnh."]
+ ]});
+addItem(2,3,"syn",
+"Environmental activists accused the government of trivializing habitat destruction by describing the loss of an entire wetland as a minor inconvenience.",
+["documenting","condemning","downplaying","preventing"],2,{
+ target:"trivializing",translation:"Các nhà hoạt động môi trường cáo buộc chính phủ xem nhẹ tình trạng phá hủy môi trường sống khi mô tả việc mất đi cả một vùng đất ngập nước chỉ là một sự bất tiện nhỏ.",
+ evidence:"“describing the loss of an entire wetland as a minor inconvenience” thể hiện việc làm cho thiệt hại nghiêm trọng có vẻ nhỏ nhặt.",
+ reasoning:"Trivialize và downplay đều diễn tả giảm nhẹ tầm quan trọng của vấn đề; downplay rộng hơn, trivialize nhấn mạnh việc xem thành chuyện vụn vặt.",
+ phrases:"accuse somebody of doing something = cáo buộc ai làm việc gì; habitat destruction = phá hủy môi trường sống; an entire wetland = cả vùng đất ngập nước; a minor inconvenience = bất tiện nhỏ.",
+ meanings:["ghi chép, lập hồ sơ","lên án mạnh mẽ","xem nhẹ mức độ nghiêm trọng","ngăn chặn"],
+ analyses:["Sai. Documenting là ghi lại bằng chứng, không nhất thiết xem nhẹ sự việc.","Sai. Condemning là lên án mạnh mẽ, khác với mô tả mất một vùng đất ngập nước như chuyện nhỏ.","Đúng. Downplaying là khiến một vấn đề có vẻ ít nghiêm trọng hơn thực tế, tương đương trivializing.","Sai. Preventing là chặn sự việc xảy ra, không nói tới cách chính phủ mô tả thiệt hại."],
+ examples:[
+  ["Researchers spent several years documenting changes in the region's biodiversity.","Các nhà nghiên cứu dành nhiều năm ghi chép những thay đổi về đa dạng sinh học của khu vực."],
+  ["Human rights organisations condemned the unlawful detention of peaceful protesters.","Các tổ chức nhân quyền lên án việc giam giữ trái pháp luật những người biểu tình ôn hòa."],
+  ["The company was accused of downplaying the environmental consequences of its operations.","Công ty bị cáo buộc xem nhẹ những hậu quả môi trường do hoạt động của mình gây ra."],
+  ["Stricter safety regulations could prevent similar accidents from occurring in the future.","Những quy định an toàn nghiêm ngặt hơn có thể ngăn các tai nạn tương tự xảy ra trong tương lai."]
+ ]});
+addItem(2,4,"syn",
+"Illegal fishing and industrial pollution continue to pose a threat to several endangered species of sturgeon.",
+["monitor","safeguard","replenish","endanger"],3,{
+ target:"pose a threat to",translation:"Hoạt động đánh bắt cá bất hợp pháp và ô nhiễm công nghiệp tiếp tục đe dọa một số loài cá tầm đang có nguy cơ tuyệt chủng.",
+ evidence:"“Illegal fishing and industrial pollution” là những nguồn gây nguy hiểm đối với “endangered species of sturgeon”.",
+ reasoning:"Pose a threat to = gây ra mối đe dọa; endanger = khiến một đối tượng lâm vào nguy hiểm, cùng quan hệ nghĩa.",
+ phrases:"illegal fishing = đánh bắt trái phép; industrial pollution = ô nhiễm công nghiệp; pose a threat to = đe dọa; endangered species = loài có nguy cơ tuyệt chủng.",
+ meanings:["theo dõi, giám sát","bảo vệ khỏi tổn hại","bổ sung lại nguồn đã cạn","đe dọa, đặt vào nguy hiểm"],
+ analyses:["Sai. Monitor là theo dõi tình trạng cá, chưa hề nói gây hại cho cá.","Sai. Safeguard nghĩa bảo vệ, ngược hành động gây nguy hiểm của illegal fishing.","Sai. Replenish là làm đầy hoặc phục hồi nguồn bị cạn, không phải đe dọa nó.","Đúng. Endanger đặt loài cá tầm vào nguy cơ bị tổn hại, gần nghĩa với pose a threat to."],
+ examples:[
+  ["Scientists use satellite technology to monitor changes in forest cover.","Các nhà khoa học sử dụng công nghệ vệ tinh để theo dõi những thay đổi về diện tích rừng che phủ."],
+  ["The new legislation aims to safeguard the rights of vulnerable workers.","Đạo luật mới nhằm bảo vệ quyền lợi của những người lao động dễ bị tổn thương."],
+  ["The government introduced fishing restrictions to allow depleted fish stocks to replenish.","Chính phủ áp dụng các hạn chế đánh bắt để những quần thể cá bị suy giảm có thể phục hồi số lượng."],
+  ["Unregulated tourism can endanger fragile ecosystems and disturb wildlife.","Du lịch thiếu kiểm soát có thể gây nguy hiểm cho các hệ sinh thái mong manh và làm xáo trộn đời sống động vật hoang dã."]
+ ]});
+addItem(2,5,"syn",
+"Despite the government's emergency assistance programme, many residents of isolated rural communities fell through the cracks and received no financial support.",
+["were compensated","were overlooked","were penalised","were relocated"],1,{
+ target:"fell through the cracks",translation:"Mặc dù chính phủ đã triển khai chương trình hỗ trợ khẩn cấp, nhiều người dân ở các cộng đồng nông thôn biệt lập vẫn bị bỏ sót và không nhận được bất kỳ khoản hỗ trợ tài chính nào.",
+ evidence:"“Despite ... emergency assistance programme” và “received no financial support” cho thấy người dân đáng ra được hỗ trợ lại bị hệ thống bỏ sót.",
+ reasoning:"Fall through the cracks = bị lọt khỏi hệ thống hỗ trợ; were overlooked diễn tả việc bị bỏ qua, dù thành ngữ gốc nhấn mạnh hơn lỗi hệ thống.",
+ phrases:"emergency assistance programme = chương trình hỗ trợ khẩn cấp; isolated rural communities = cộng đồng nông thôn biệt lập; fall through the cracks = bị lọt lưới hỗ trợ; receive financial support = nhận hỗ trợ tài chính.",
+ meanings:["được bồi thường","bị bỏ sót, không được quan tâm","bị xử phạt","bị chuyển, di dời"],
+ analyses:["Sai. Were compensated nghĩa nhận tiền bồi thường, trái với chi tiết không nhận được hỗ trợ.","Đúng. Were overlooked là bị bỏ qua trong quá trình phân phối hỗ trợ, gần nghĩa nhất với fell through the cracks.","Sai. Were penalised là chịu hình phạt vì vi phạm, không phải bị hệ thống bỏ sót.","Sai. Were relocated là phải chuyển chỗ ở, không xác định tình trạng nhận trợ cấp."],
+ examples:[
+  ["Farmers were compensated for the crops destroyed by the severe flooding.","Nông dân được bồi thường cho những vụ mùa bị phá hủy bởi trận lũ nghiêm trọng."],
+  ["Students from disadvantaged backgrounds are sometimes overlooked when scholarships are awarded.","Học sinh có hoàn cảnh khó khăn đôi khi bị bỏ sót trong quá trình xét cấp học bổng."],
+  ["Companies may be penalised for failing to comply with environmental regulations.","Các công ty có thể bị xử phạt vì không tuân thủ những quy định về môi trường."],
+  ["Several families were relocated after landslides made their homes unsafe.","Một số gia đình đã được di dời sau khi sạt lở đất khiến nhà cửa của họ không còn an toàn."]
+ ]});
+addItem(2,6,"ant",
+"The rapid expansion of unregulated wildlife markets has made it increasingly difficult for authorities to prevent the illegal trade of endangered animals.",
+["strictly regulated","unchecked","informal","opaque"],0,{
+ target:"unregulated",translation:"Sự mở rộng nhanh chóng của các chợ buôn bán động vật hoang dã thiếu sự quản lý đã khiến chính quyền ngày càng khó ngăn chặn hoạt động buôn bán trái phép các loài động vật có nguy cơ tuyệt chủng.",
+ evidence:"“unregulated wildlife markets” đối chiếu với mục tiêu của “authorities” là ngăn buôn bán trái phép.",
+ reasoning:"Unregulated nghĩa không chịu quản lý theo quy định; strictly regulated là được kiểm soát bằng quy định nghiêm ngặt, trái nghĩa.",
+ phrases:"rapid expansion = mở rộng nhanh; unregulated wildlife markets = chợ động vật hoang dã không kiểm soát; make it increasingly difficult to = khiến ngày càng khó; illegal trade = buôn bán trái phép.",
+ meanings:["được quản lý nghiêm ngặt","không được kiểm soát","phi chính thức","thiếu minh bạch"],
+ analyses:["Đúng. Strictly regulated là chịu điều chỉnh của luật lệ và kiểm soát chặt, trái nghĩa với unregulated.","Sai. Unchecked chỉ tình trạng tiếp diễn mà không bị hạn chế, gần nghĩa với unregulated.","Sai. Informal là không chính thức, không trực tiếp biểu thị trạng thái ngược của unregulated.","Sai. Opaque là thiếu minh bạch; một thị trường được quản lý vẫn có thể opaque."],
+ examples:[
+  ["The pharmaceutical industry is strictly regulated to protect public health.","Ngành dược phẩm chịu sự quản lý nghiêm ngặt nhằm bảo vệ sức khỏe cộng đồng."],
+  ["Unchecked urban expansion can destroy valuable agricultural land.","Sự mở rộng đô thị không được kiểm soát có thể phá hủy những vùng đất nông nghiệp có giá trị."],
+  ["Informal employment often leaves workers without adequate legal protection.","Việc làm phi chính thức thường khiến người lao động không có sự bảo vệ pháp lý đầy đủ."],
+  ["The organisation faced criticism over its opaque decision-making process.","Tổ chức này phải đối mặt với những lời chỉ trích về quy trình ra quyết định thiếu minh bạch."]
+ ]});
+addItem(2,7,"ant",
+"During the prolonged drought, residents were encouraged to conserve water rather than waste it on unnecessary activities.",
+["preserve","ration","squander","safeguard"],2,{
+ target:"conserve",translation:"Trong đợt hạn hán kéo dài, người dân được khuyến khích tiết kiệm nước thay vì lãng phí vào những hoạt động không cần thiết.",
+ evidence:"Cấu trúc “conserve water rather than waste it” nêu sẵn sự đối lập giữa tiết kiệm và lãng phí.",
+ reasoning:"Squander = lãng phí một cách thiếu suy nghĩ, đối lập conserve; preserve, ration và safeguard đều hướng tới giữ gìn tài nguyên.",
+ phrases:"prolonged drought = hạn hán kéo dài; conserve water = tiết kiệm nước; unnecessary activities = hoạt động không cần thiết; rather than = thay vì.",
+ meanings:["giữ gìn, bảo tồn","phân phối theo định mức","phung phí, lãng phí","bảo vệ khỏi mất mát"],
+ analyses:["Sai. Preserve bảo tồn tài nguyên, có phần nghĩa chung với conserve.","Sai. Ration hạn chế mức dùng của nguồn khan hiếm, có thể là biện pháp conserve nước.","Đúng. Squander nghĩa dùng lãng phí không cần thiết, ngược với conserve.","Sai. Safeguard là giữ tài nguyên an toàn, cùng hướng nghĩa với conserve."],
+ examples:[
+  ["Historical buildings should be preserved for future generations.","Các công trình lịch sử nên được gìn giữ cho những thế hệ tương lai."],
+  ["The authorities had to ration drinking water after the reservoir reached critically low levels.","Chính quyền phải phân phối nước uống theo định mức sau khi mực nước hồ chứa giảm xuống mức cực kỳ thấp."],
+  ["Some governments squander public resources on projects that deliver little long-term benefit.","Một số chính phủ lãng phí nguồn lực công vào những dự án mang lại rất ít lợi ích lâu dài."],
+  ["Effective cybersecurity measures are essential to safeguard personal information.","Các biện pháp an ninh mạng hiệu quả là cần thiết để bảo vệ thông tin cá nhân."]
+ ]});
+addItem(2,8,"ant",
+"After reviewing the scientific evidence, the committee voted unanimously to prohibit commercial fishing in the protected marine area.",
+["without opposition","by consensus","with substantial dissent","in complete agreement"],2,{
+ target:"unanimously",translation:"Sau khi xem xét các bằng chứng khoa học, ủy ban đã nhất trí hoàn toàn trong cuộc bỏ phiếu nhằm cấm hoạt động đánh bắt cá thương mại tại khu vực biển được bảo vệ.",
+ evidence:"“voted unanimously” nghĩa là mọi thành viên tham gia bỏ phiếu đều tán thành đề xuất.",
+ reasoning:"With substantial dissent diễn tả có một bộ phận phản đối đáng kể, trái với sự nhất trí hoàn toàn.",
+ phrases:"review scientific evidence = xem xét bằng chứng khoa học; vote unanimously = bỏ phiếu nhất trí; prohibit commercial fishing = cấm đánh bắt thương mại; protected marine area = khu bảo vệ biển.",
+ meanings:["không gặp phản đối","theo đồng thuận chung","có bất đồng đáng kể","hoàn toàn nhất trí"],
+ analyses:["Sai. Without opposition có nghĩa không có phản đối, gần nghĩa unanimously trong cuộc bỏ phiếu.","Sai. By consensus là quyết định dựa trên đồng thuận rộng rãi; gần nghĩa, dù không nhất thiết là 100% người bỏ phiếu tán thành.","Đúng. With substantial dissent nói có sự phản đối đáng kể, ngược với biểu quyết nhất trí.","Sai. In complete agreement nghĩa hoàn toàn nhất trí, gần như diễn giải trực tiếp unanimously."],
+ examples:[
+  ["The proposal was approved without opposition from the committee members.","Đề xuất được thông qua mà không gặp sự phản đối nào từ các thành viên ủy ban."],
+  ["The international guidelines were adopted by consensus after months of negotiation.","Các hướng dẫn quốc tế được thông qua dựa trên sự đồng thuận sau nhiều tháng đàm phán."],
+  ["The controversial policy was approved with substantial dissent from several senior officials.","Chính sách gây tranh cãi được thông qua dù có sự phản đối đáng kể từ một số quan chức cấp cao."],
+  ["The researchers were in complete agreement about the need for further investigation.","Các nhà nghiên cứu hoàn toàn nhất trí về sự cần thiết phải tiến hành nghiên cứu sâu hơn."]
+ ]});
+addItem(2,9,"ant",
+"The city council announced an ambitious regeneration programme designed to revitalize neglected coastal neighbourhoods.",
+["rejuvenate","restore","reinvigorate","degrade"],3,{
+ target:"revitalize",translation:"Hội đồng thành phố công bố một chương trình tái thiết đầy tham vọng nhằm mang lại sức sống mới cho các khu dân cư ven biển đang bị bỏ bê.",
+ evidence:"“ambitious regeneration programme” hướng tới hồi sinh những khu dân cư “neglected”.",
+ reasoning:"Revitalize = làm sống lại và cải thiện khu vực; degrade = làm xuống cấp, khiến chất lượng xấu đi.",
+ phrases:"city council = hội đồng thành phố; regeneration programme = chương trình phục hồi; revitalize neglected neighbourhoods = hồi sinh khu dân cư bị bỏ bê; coastal neighbourhoods = khu dân cư ven biển.",
+ meanings:["trẻ hóa, làm tươi mới","khôi phục trạng thái ban đầu","tiếp thêm năng lượng/sức sống","làm suy thoái, xuống cấp"],
+ analyses:["Sai. Rejuvenate gần nghĩa mang lại sức sống mới, không ngược revitalize.","Sai. Restore là phục hồi tình trạng hoặc chức năng, cùng hướng cải thiện với revitalize.","Sai. Reinvigorate là tiếp năng lượng trở lại, gần đồng nghĩa revitalize.","Đúng. Degrade là làm suy thoái hoặc kém đi, trái với nỗ lực phục hồi khu dân cư."],
+ examples:[
+  ["A week away from work helped rejuvenate the exhausted employees.","Một tuần nghỉ ngơi giúp những nhân viên kiệt sức lấy lại năng lượng."],
+  ["The government invested heavily in restoring historic buildings damaged by flooding.","Chính phủ đầu tư mạnh vào việc khôi phục các công trình lịch sử bị hư hại do lũ lụt."],
+  ["New investment is expected to reinvigorate the region's struggling economy.","Nguồn đầu tư mới được kỳ vọng sẽ tiếp thêm sức sống cho nền kinh tế đang gặp khó khăn của khu vực."],
+  ["Poorly planned urban development can degrade public spaces and reduce residents' quality of life.","Phát triển đô thị thiếu quy hoạch hợp lý có thể làm xuống cấp không gian công cộng và giảm chất lượng cuộc sống của người dân."]
+ ]});
+addItem(2,10,"ant",
+"Spending time in the quiet forest had a restorative effect on the exhausted wildlife rangers after weeks of demanding fieldwork.",
+["therapeutic","debilitating","soothing","rejuvenating"],1,{
+ target:"restorative",translation:"Dành thời gian trong khu rừng yên tĩnh đã mang lại tác dụng phục hồi đối với những kiểm lâm viên kiệt sức sau nhiều tuần làm việc thực địa đầy vất vả.",
+ evidence:"“exhausted wildlife rangers” sau “weeks of demanding fieldwork” được khôi phục sức lực nhờ thời gian trong rừng.",
+ reasoning:"Restorative là giúp hồi phục năng lượng, sức khỏe; debilitating là gây suy nhược, suy giảm khả năng hoạt động, trái nghĩa.",
+ phrases:"have a restorative effect on somebody = có tác dụng phục hồi; exhausted wildlife rangers = kiểm lâm viên kiệt sức; demanding fieldwork = công việc thực địa vất vả.",
+ meanings:["có tác dụng trị liệu","gây suy nhược","xoa dịu, giảm căng thẳng","làm trẻ lại, tiếp năng lượng"],
+ analyses:["Sai. Therapeutic có tác dụng cải thiện sức khỏe thể chất/tinh thần, gần restorative.","Đúng. Debilitating khiến sức khỏe hoặc năng lực suy yếu, đối lập phục hồi năng lượng.","Sai. Soothing giúp xoa dịu căng thẳng, có tác động tích cực tương đồng.","Sai. Rejuvenating khiến cơ thể tràn đầy năng lượng trở lại, gần nghĩa restorative."],
+ examples:[
+  ["Gardening can have therapeutic benefits for people experiencing chronic stress.","Làm vườn có thể mang lại lợi ích trị liệu cho những người đang chịu căng thẳng kéo dài."],
+  ["Prolonged exposure to extreme heat can have debilitating effects on outdoor workers.","Việc tiếp xúc kéo dài với nhiệt độ cực cao có thể gây ra những ảnh hưởng suy nhược nghiêm trọng đối với người lao động ngoài trời."],
+  ["The soothing sound of rainfall helped her relax after a stressful day.","Tiếng mưa êm dịu giúp cô ấy thư giãn sau một ngày căng thẳng."],
+  ["A short holiday in the mountains proved rejuvenating after several months of intense work.","Một kỳ nghỉ ngắn trên núi đã giúp lấy lại năng lượng sau nhiều tháng làm việc căng thẳng."]
+ ]});
+
 //__UNIT8_FULL_ITEMS__
 
 setPools[1].sort((a,b)=>questions[a].sourceQuestionNo-questions[b].sourceQuestionNo);
