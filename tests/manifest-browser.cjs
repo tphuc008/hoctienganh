@@ -39,7 +39,7 @@ const assert=require("node:assert/strict");
    units:ContentManifest.vocabulary.map(x=>({grade:x.grade,unit:x.id,route:"grade-"+x.grade+"/unit-"+x.id}))
   }));
   assert.equal(catalogue.valid,true);
-  assert.equal(catalogue.count,14);
+  assert.equal(catalogue.count,15);
   assert.equal(new Set(catalogue.routes).size,catalogue.routes.length);
   console.log("Manifest catalogue: "+catalogue.count+" Vocabulary units and "+catalogue.routes.length+" unique pages");
   for(const u of catalogue.units){
