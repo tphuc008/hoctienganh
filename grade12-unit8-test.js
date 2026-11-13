@@ -313,6 +313,126 @@ addItem(1,10,"ant",
   ["The driver suffered only minor injuries in the accident.","Người lái xe chỉ bị thương nhẹ trong vụ tai nạn."]
  ]});
 
+
+/* SET 1 — DỄ · Part II: original ten-blank Guided Cloze (Q11–20). */
+addItem(1,12,"cloze","",["ignores","looks after","sells","hunts"],1,{
+ translation:"Trung tâm chăm sóc những con chim và rùa biển bị thương cho đến khi chúng đủ khỏe để sống trong môi trường hoang dã trở lại.",
+ evidence:"“injured birds and sea turtles until they are strong enough to live in the wild again” cho thấy trung tâm giúp động vật hồi phục.",
+ reasoning:"Look after injured animals là chăm sóc động vật bị thương; trung tâm cứu hộ không phớt lờ, buôn bán hay săn bắt chúng.",
+ phrases:"look after injured animals = chăm sóc thú bị thương; sea turtles = rùa biển; strong enough to do something = đủ khỏe để làm; live in the wild = sống trong tự nhiên.",
+ meanings:["phớt lờ","chăm sóc, trông nom","bán","săn bắt"],
+ analyses:["Sai. Ignore là phớt lờ, trái với nhiệm vụ chăm sóc các con vật bị thương.","Đúng. Looks after chỉ chăm sóc trong thời gian chúng ở trung tâm để bình phục.","Sai. Sell là bán lấy tiền; đoạn văn nói đến việc thả động vật trở lại tự nhiên.","Sai. Hunt là săn bắt, không phải cứu hộ động vật bị thương."],
+ examples:[
+  ["He often ignores messages when he is busy studying.","Anh ấy thường phớt lờ tin nhắn khi bận học."],
+  ["My grandmother looks after my little brother when my parents are at work.","Bà tôi chăm sóc em trai tôi khi bố mẹ đi làm."],
+  ["The farmer sells fresh vegetables at the local market.","Người nông dân bán rau tươi tại chợ địa phương."],
+  ["Some wild animals hunt at night.","Một số động vật hoang dã săn mồi vào ban đêm."]
+ ]});
+addItem(1,13,"cloze","",["waste","food","flowers","sand"],0,{
+ translation:"Nhiều con vật đã bị thương do rác thải nhựa bị bỏ lại trên bãi biển hoặc trôi nổi trên biển.",
+ evidence:"“plastic ... left on beaches or floating in the sea” và “animals had been hurt” cho thấy vật liệu nhựa bị thải bỏ gây hại.",
+ reasoning:"Plastic waste là rác thải nhựa — loại đồ bỏ đi có thể làm động vật biển mắc kẹt hoặc nuốt phải.",
+ phrases:"plastic waste = rác thải nhựa; be hurt by something = bị tổn hại bởi; left on beaches = bị bỏ lại ở bãi biển; float in the sea = trôi nổi trên biển.",
+ meanings:["rác thải, chất thải","thức ăn","những bông hoa","cát"],
+ analyses:["Đúng. Plastic waste gọi đúng rác nhựa nằm trên bờ hoặc nổi trong nước gây thương tích.","Sai. Plastic food không phải tên thông thường cho rác nhựa gây thương tích.","Sai. Plastic flowers là hoa nhựa; dù cũng có thể thành rác, câu đang nói đến rác nhựa nói chung.","Sai. Plastic sand không phải cụm thường dùng để chỉ vật liệu nhựa bị vứt xuống biển."],
+ examples:[
+  ["Plastic waste can harm fish and other marine animals.","Rác thải nhựa có thể gây hại cho cá và các động vật biển khác."],
+  ["The rescue centre provides food for injured birds.","Trung tâm cứu hộ cung cấp thức ăn cho những con chim bị thương."],
+  ["She bought some plastic flowers to decorate her room.","Cô ấy mua một vài bông hoa nhựa để trang trí phòng."],
+  ["The children built a castle with sand on the beach.","Những đứa trẻ xây một lâu đài bằng cát trên bãi biển."]
+ ]});
+addItem(1,14,"cloze","",["leave","follow","examine","release"],2,{
+ translation:"Khi một con vật mới được đưa đến, các nhân viên kiểm tra nó cẩn thận để tìm hiểu xem có vấn đề gì.",
+ evidence:"“carefully to find out what is wrong” chỉ mục đích chẩn đoán tình trạng con vật mới đến.",
+ reasoning:"Examine an animal carefully = kiểm tra kỹ để biết nó đang gặp vấn đề sức khỏe gì, là bước trước điều trị.",
+ phrases:"when a new animal arrives = khi con vật mới đến; examine carefully = kiểm tra kỹ; find out what is wrong = tìm hiểu vấn đề ở đâu; rescue centre workers = nhân viên cứu hộ.",
+ meanings:["rời đi, bỏ lại","đi theo","kiểm tra, khám kỹ","thả, trả tự do"],
+ analyses:["Sai. Leave không giúp xác định tình trạng sức khỏe của con vật.","Sai. Follow là đi theo hoặc theo dõi, không mô tả việc khám để phát hiện thương tích.","Đúng. Examine là kiểm tra kỹ nhằm xác định tình trạng, phù hợp cụm to find out what is wrong.","Sai. Release là thả về tự nhiên, chỉ thực hiện khi con vật đã khỏe, không phải ngay lúc đến."],
+ examples:[
+  ["Please leave your shoes outside the room.","Vui lòng để giày bên ngoài phòng."],
+  ["The little dog followed its owner into the garden.","Chú chó nhỏ đi theo chủ vào khu vườn."],
+  ["The doctor examined the patient's injured leg.","Bác sĩ đã kiểm tra chân bị thương của bệnh nhân."],
+  ["The workers released the healthy birds back into the forest.","Các nhân viên đã thả những con chim khỏe mạnh trở lại khu rừng."]
+ ]});
+addItem(1,15,"cloze","",["lose","carry","count","treat"],3,{
+ translation:"Sau đó, họ điều trị những vết thương của con vật và cung cấp thức ăn phù hợp cho nó.",
+ evidence:"Sau khi “examine” để tìm thương tích, nhân viên phải xử lý “its injuries” và cho thức ăn phù hợp.",
+ reasoning:"Treat injuries là điều trị thương tích; carry hay count injuries không giải quyết thương tích, còn lose không kết hợp với injuries theo nghĩa này.",
+ phrases:"treat injuries = điều trị vết thương; give suitable food = cho thức ăn phù hợp; after examining an animal = sau khi khám động vật.",
+ meanings:["làm mất","mang, vận chuyển","đếm","điều trị"],
+ analyses:["Sai. Lose injuries không phải collocation cho việc cứu chữa con vật.","Sai. Carry an animal là vận chuyển con vật, nhưng carry its injuries không có nghĩa điều trị.","Sai. Count injuries nghĩa đếm số vết thương, không phải chữa chúng.","Đúng. Treat injuries là collocation diễn tả bước điều trị sau khi khám."],
+ examples:[
+  ["He lost his phone on the way to school.","Anh ấy làm mất điện thoại trên đường đến trường."],
+  ["The volunteers carried the injured dog to the car.","Các tình nguyện viên bế con chó bị thương lên xe."],
+  ["The nurse counted the number of patients waiting outside.","Y tá đếm số bệnh nhân đang chờ bên ngoài."],
+  ["The vet treated the injured cat and gave it some medicine.","Bác sĩ thú y đã điều trị cho con mèo bị thương và cho nó uống thuốc."]
+ ]});
+addItem(1,16,"cloze","",["escape","recover","arrive","hide"],1,{
+ translation:"Khi những con vật hồi phục, chúng có thể được thả trở lại môi trường hoang dã.",
+ evidence:"“Once the animals ..., they can be released back into the wild” nêu điều kiện trước khi thả động vật.",
+ reasoning:"Recover nghĩa lấy lại sức khỏe; đây là điều kiện để con vật có thể sinh tồn khi được thả.",
+ phrases:"recover from an injury = hồi phục sau chấn thương; once something happens = một khi việc gì xảy ra; released back into the wild = được thả về tự nhiên.",
+ meanings:["trốn thoát","hồi phục sức khỏe","đến nơi","trốn, ẩn nấp"],
+ analyses:["Sai. Escape nói con vật tự trốn thoát, không phải đã đủ khỏe để được chủ động thả.","Đúng. Recover mô tả việc lấy lại sức khỏe sau chăm sóc, là điều kiện trước khi thả.","Sai. Arrive là đến trung tâm; diễn ra lúc bắt đầu cứu hộ chứ không phải cuối giai đoạn điều trị.","Sai. Hide là trốn tránh, không chứng minh con vật đã hồi phục."],
+ examples:[
+  ["The bird escaped from its cage through an open door.","Con chim đã trốn khỏi lồng qua một cánh cửa mở."],
+  ["It took him several weeks to recover from the accident.","Anh ấy mất vài tuần để hồi phục sau vụ tai nạn."],
+  ["The train arrived at the station ten minutes late.","Tàu đến nhà ga muộn mười phút."],
+  ["The rabbit hid behind a large tree when it saw the fox.","Con thỏ trốn sau một cái cây lớn khi nhìn thấy con cáo."]
+ ]});
+addItem(1,17,"cloze","",["support","damage","forget","stop"],0,{
+ translation:"Khách tham quan có thể hỗ trợ trung tâm bằng cách quyên góp tiền hoặc giúp dọn dẹp.",
+ evidence:"“by donating money or helping with cleaning” mô tả việc đóng góp tiền và công sức cho trung tâm.",
+ reasoning:"Support a centre là giúp cơ sở có thêm nguồn lực; damage, forget và stop đều không diễn tả tác dụng của quyên góp.",
+ phrases:"support a rescue centre = hỗ trợ trung tâm cứu hộ; donate money = quyên góp; help with cleaning = giúp dọn dẹp; by doing something = bằng cách làm gì.",
+ meanings:["hỗ trợ, ủng hộ","gây hư hại","quên","dừng, ngăn chặn"],
+ analyses:["Đúng. Donate money và giúp dọn dẹp là hai cách hỗ trợ hoạt động của trung tâm.","Sai. Damage là gây thiệt hại, trái với hành vi đóng góp.","Sai. Forget là không nhớ, không có quan hệ nhân quả với quyên góp hoặc dọn dẹp.","Sai. Stop the centre nghĩa khiến trung tâm ngừng hoạt động, không phải giúp nó tiếp tục hoạt động."],
+ examples:[
+  ["Many people support local charities by donating clothes and food.","Nhiều người hỗ trợ các tổ chức từ thiện địa phương bằng cách quyên góp quần áo và thức ăn."],
+  ["The storm damaged several houses near the river.","Cơn bão đã làm hư hại một số ngôi nhà gần con sông."],
+  ["I forgot to bring my notebook to school yesterday.","Hôm qua tôi quên mang vở đến trường."],
+  ["The police stopped the cars because the road was unsafe.","Cảnh sát đã chặn các phương tiện vì con đường không an toàn."]
+ ]});
+addItem(1,18,"cloze","",["waste","heat","conserve","collect"],2,{
+ translation:"Các nhân viên cũng dạy trẻ em cách tiết kiệm nước và năng lượng tại nhà.",
+ evidence:"Đoạn văn nói đến giáo dục bảo vệ động vật và môi trường; “water and energy at home” là các nguồn tài nguyên cần tránh lãng phí.",
+ reasoning:"Conserve water and energy là collocation chỉ sử dụng tiết kiệm hai loại tài nguyên, phù hợp nhiệm vụ giáo dục của trung tâm.",
+ phrases:"teach somebody to do something = dạy ai làm gì; conserve water and energy = tiết kiệm nước và năng lượng; at home = tại nhà.",
+ meanings:["lãng phí","làm nóng","tiết kiệm, bảo tồn","thu thập, gom lại"],
+ analyses:["Sai. Waste làm hao phí tài nguyên, ngược mục tiêu bảo tồn của trung tâm.","Sai. Heat water là làm nóng nước; heat energy không có nghĩa tiết kiệm điện.","Đúng. Conserve water and energy diễn tả giảm sử dụng không cần thiết và bảo vệ nguồn lực.","Sai. Collect water có thể nghĩa hứng nước mưa; collect energy không diễn đạt ý dùng tài nguyên tiết kiệm trong gia đình."],
+ examples:[
+  ["Leaving the tap running while brushing your teeth wastes water.","Để vòi nước chảy khi đánh răng gây lãng phí nước."],
+  ["We use electricity to heat our home in winter.","Chúng tôi sử dụng điện để sưởi ấm nhà vào mùa đông."],
+  ["Families can conserve energy by turning off unused electrical appliances.","Các gia đình có thể tiết kiệm năng lượng bằng cách tắt những thiết bị điện không sử dụng."],
+  ["Some families collect rainwater to water their gardens.","Một số gia đình thu gom nước mưa để tưới vườn."]
+ ]});
+addItem(1,19,"cloze","",["take off","turn down","go off","put up"],3,{
+ translation:"Trong chuyến tham quan, chúng tôi đã giúp dựng và treo những tấm biển nhắc nhở mọi người không xả rác trên bãi biển.",
+ evidence:"“signs asking people not to leave rubbish on the beach” là biển thông báo cần dựng/treo ở nơi dễ nhìn.",
+ reasoning:"Put up signs là cụm động từ cố định nghĩa dựng hoặc treo biển; các phrasal verb còn lại không có nghĩa này.",
+ phrases:"during our visit = trong chuyến tham quan; put up signs = dựng/treo biển; ask somebody not to do something = yêu cầu ai không làm gì; leave rubbish on the beach = xả rác ở bãi biển.",
+ meanings:["cởi ra, cất cánh, phát triển mạnh","từ chối hoặc giảm âm lượng","chuông reo, nổ, thực phẩm bị hỏng","dựng, treo lên"],
+ analyses:["Sai. Take off có thể là tháo/cởi ra, không phải dựng biển thông báo.","Sai. Turn down đi với offer, invitation hoặc volume; không diễn tả treo bảng hiệu.","Sai. Go off thường không có tân ngữ signs theo cấu trúc câu này và không có nghĩa dựng biển.","Đúng. Put up signs là cách nói thông dụng để lắp hoặc treo biển nhắc nhở."],
+ examples:[
+  ["Please take off your shoes before entering the house.","Vui lòng cởi giày trước khi vào nhà."],
+  ["Could you turn down the music? I'm trying to study.","Bạn có thể giảm âm lượng nhạc xuống không? Tôi đang cố gắng học bài."],
+  ["My alarm goes off at six o'clock every morning.","Chuông báo thức của tôi reo lúc sáu giờ mỗi sáng."],
+  ["The students put up posters about recycling around the school.","Các học sinh treo những tấm áp phích về tái chế quanh trường."]
+ ]});
+addItem(1,20,"cloze","",["do","make","take","put"],1,{
+ translation:"Đến cuối ngày, chúng tôi hiểu rằng ngay cả những hành động nhỏ cũng có thể tạo ra sự thay đổi thực sự.",
+ evidence:"“small actions can ... a real difference” cần đúng collocation mô tả việc tạo ra thay đổi hoặc tác động.",
+ reasoning:"Make a difference là thành ngữ/collocation cố định; do, take và put không thay thế make trong cụm này.",
+ phrases:"by the end of the day = đến cuối ngày; small actions = những hành động nhỏ; make a real difference = tạo tác động thực sự.",
+ meanings:["làm, thực hiện","tạo ra, gây nên","lấy, nhận, thực hiện","đặt, để"],
+ analyses:["Sai. Do đi với homework, chores, work; không có cụm do a difference.","Đúng. Make a difference là kết hợp từ cố định để nói việc tạo ra tác động.","Sai. Take có trong take action / take responsibility, nhưng không dùng take a difference.","Sai. Put dùng cho việc đặt một thứ vào vị trí, không có cụm put a difference theo nghĩa này."],
+ examples:[
+  ["I usually do my homework after dinner.","Tôi thường làm bài tập về nhà sau bữa tối."],
+  ["Even a small donation can make a difference to someone's life.","Ngay cả một khoản quyên góp nhỏ cũng có thể tạo ra sự khác biệt trong cuộc sống của ai đó."],
+  ["We should take action to protect endangered animals.","Chúng ta nên hành động để bảo vệ các loài động vật có nguy cơ tuyệt chủng."],
+  ["Please put the books on the shelf.","Vui lòng đặt những cuốn sách lên kệ."]
+ ]});
+
 //__UNIT8_FULL_ITEMS__
 
 setPools[1].sort((a,b)=>questions[a].sourceQuestionNo-questions[b].sourceQuestionNo);
