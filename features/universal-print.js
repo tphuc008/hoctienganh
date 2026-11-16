@@ -47,6 +47,7 @@ function source(){
  if(/^grade-10\/mid-term-test\/test-[3-6]$/.test(r))return {get:()=>global.getUniversalMidtermPrintData?.()};
  if(r==="grade-12/reading/marketing-and-the-information-age")return {get:()=>global.getUniversalMISPrintData?.()};
  if(r==="grade-12/reading/robots-and-us")return {get:()=>global.getUniversalRobotsPrintData?.()};
+ if(r==="grade-12/reading/pacific-navigation-and-voyaging")return {get:()=>global.getSmartReadingPrintData?.("pacific-navigation-and-voyaging")};
  if(r==="listening/entertainment/change-your-life-one-tiny-step-at-a-time")return {get:()=>listeningData("entertainment")};
  if(r==="listening/news/former-openai-employee-ai-might-really-kill-us-all")return {get:()=>listeningData("news")};
  return null;
