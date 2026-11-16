@@ -253,3 +253,26 @@
  .mis-save-retry{padding:6px 8px;font-size:11px}
 }
 
+
+
+/* Smart Reading V2: Google Docs explanations (scoped to new renderer only). */
+.mis-doc-exp{margin-top:13px;padding:0!important;overflow:hidden;border:1px solid var(--mis-line);border-radius:13px;background:var(--panel,#fff)}
+.mis-doc-result{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:#F0F7FF;border-bottom:1px solid var(--mis-line)}
+.mis-doc-result>div:first-child{display:flex;flex-direction:column;gap:2px}
+.mis-doc-result strong{font-size:15px;color:#14529A}
+.mis-doc-small{font-size:11px;color:#536982;font-weight:700}
+.mis-doc-picked{font-size:11px;color:#536982;word-break:break-word}
+.mis-doc-summary{font-size:14px;line-height:1.45;margin:12px 14px 4px;color:var(--mis-text)}
+.mis-doc-step{margin:9px 12px;border:1px solid var(--mis-line);border-radius:10px;background:#fff;overflow:hidden}
+.mis-doc-step summary{display:flex;align-items:center;gap:10px;padding:12px;list-style:none;cursor:pointer;user-select:none;font-weight:750;font-size:13px;color:#243D5A}
+.mis-doc-step summary::-webkit-details-marker{display:none}
+.mis-doc-index{font-size:10px;letter-spacing:.04em;color:#1D4ED8;background:#EAF3FF;border-radius:6px;padding:3px 6px}
+.mis-doc-chevron{margin-left:auto;color:#7891A8}
+.mis-doc-step[open] .mis-doc-chevron{transform:rotate(180deg)}
+.mis-doc-prose{border-top:1px solid var(--mis-line);padding:12px 13px;color:#334155;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.mis-doc-prose p{margin:0 0 8px}
+.mis-doc-prose p:last-child{margin-bottom:0}
+.mis-doc-warning{padding:11px 12px;margin:10px 12px;background:#FFF8E7;border-left:3px solid #D4A043;color:#79550B;font-size:12px;line-height:1.6;border-radius:6px}
+.mis-doc-exp .mis-evidence-link{margin:12px;white-space:normal;text-align:left}
+.mis-multi-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:7px}
+@media(max-width:730px){.mis-doc-result{flex-direction:column;align-items:flex-start}.mis-doc-step summary{padding:10px}.mis-doc-prose{padding:10px;font-size:13px}}
