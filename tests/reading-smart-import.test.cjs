@@ -13,8 +13,8 @@ test("Pacific PDF has all 14 original answer slots and three sections",()=>{
  assert.equal(d.questions.length,14);
  assert.deepEqual([...d.questions].map(q=>q.id),Array.from({length:14},(_,i)=>i+1));
  assert.deepEqual([...d.questions].map(q=>q.answer),["YES","NO","YES","YES","NOT GIVEN","A","C","B","D","B","C","A","D","E"]);
- assert.deepEqual(d.groups.map(g=>g.label),["1–5","6–10","11–14"]);
- assert.deepEqual(d.groups.flatMap(g=>g.ids),Array.from({length:14},(_,i)=>i+1));
+ assert.deepEqual([...d.groups].map(g=>g.label),["1–5","6–10","11–14"]);
+ assert.deepEqual([...d.groups].flatMap(g=>[...g.ids]),Array.from({length:14},(_,i)=>i+1));
  assert.ok(d.sourceRevision&&d.sourceDocument);
 });
 
@@ -52,9 +52,9 @@ test("MCQ is four-way while matching endings uses a single shared A-F bank",()=>
  const endings=d.questions.filter(q=>q.type==="ending");
  assert.equal(mcq.length,5);
  assert.equal(endings.length,4);
- assert.deepEqual(d.banks.endings.map(x=>x.key),["A","B","C","D","E","F"]);
+ assert.deepEqual([...d.banks.endings].map(x=>x.key),["A","B","C","D","E","F"]);
  for(const q of mcq){
-  assert.deepEqual(q.options.map(o=>o.key),["A","B","C","D"]);
+  assert.deepEqual([...q.options].map(o=>o.key),["A","B","C","D"]);
   assert.ok(q.options.some(o=>o.key===q.answer));
  }
  for(const q of endings){
