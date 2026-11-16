@@ -1,0 +1,81 @@
+/* HSG practice by question type — isolated from original exam workspace */
+.hsg-p-root{max-width:1160px;margin:0 auto;color:var(--text,#1e293b)}
+.hsg-p-root button,.hsg-p-root input,.hsg-p-root textarea{font:inherit}
+.hsg-p-root button:focus-visible,.hsg-p-root input:focus-visible,.hsg-p-root textarea:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+.hsg-p-crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 20px;font-size:12px;color:#64748b}
+.hsg-p-crumbs button{cursor:pointer;color:#2563eb;border:0;background:transparent;padding:4px 0;font-size:12px;font-weight:650}
+.hsg-p-intro{border:1px solid #bfdbfe;border-radius:22px;padding:29px 32px;background:radial-gradient(circle at 92% 10%,#dbeafe 0,transparent 33%),linear-gradient(110deg,#f0f7ff,#fff 85%);margin-bottom:27px}
+.hsg-p-kicker{font-size:11px;text-transform:uppercase;font-weight:850;letter-spacing:.15em;color:#2563eb}
+.hsg-p-intro h1{font-size:clamp(27px,3.8vw,38px);line-height:1.2;letter-spacing:-.025em;margin:9px 0 7px;color:#0f172a}
+.hsg-p-intro p{font-size:13px;line-height:1.7;color:#64748b;margin:0;max-width:650px}
+.hsg-p-group{margin:27px 0}
+.hsg-p-group-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:13px}
+.hsg-p-group-head h2{font-size:19px;line-height:1.3;margin:0;color:#0f172a}
+.hsg-p-group-head small{font-size:12px;color:#94a3b8}
+.hsg-p-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.hsg-p-card{display:flex;flex-direction:column;text-align:left;min-width:0;min-height:153px;gap:7px;border:1px solid #d9e7f5;background:#fff;color:inherit;border-radius:17px;padding:19px 21px;cursor:pointer;box-shadow:0 6px 23px rgba(31,65,114,.035);transition:transform .18s,box-shadow .18s,border-color .18s}
+.hsg-p-card:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 13px 31px rgba(37,99,235,.10)}
+.hsg-p-card-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hsg-p-number{display:inline-flex;align-items:center;border-radius:8px;padding:6px 9px;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:850}
+.hsg-p-arrow{color:#2563eb;font-size:20px;line-height:1}
+.hsg-p-card h3{font-size:17px;font-weight:800;line-height:1.3;margin:5px 0 0;color:#0f172a;overflow-wrap:anywhere}
+.hsg-p-card p{font-size:12px;line-height:1.55;color:#64748b;margin:0}
+.hsg-p-card-foot{font-size:11px;color:#64748b;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:9px}
+.hsg-p-status{font-size:11px;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.hsg-p-status.ready{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.hsg-p-status.done{color:#166534;border-color:#bbf7d0;background:#f0fdf4}
+.hsg-p-set-card{min-height:155px}
+.hsg-p-set-bar{height:5px;border-radius:8px;overflow:hidden;background:#e6effc;margin-top:5px}
+.hsg-p-set-bar i{display:block;height:100%;background:#3b82f6;border-radius:8px}
+.hsg-p-backline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.hsg-p-back{border:1px solid #dbeafe;color:#1d4ed8;background:#fff;border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12px;font-weight:750}
+.hsg-p-label{color:#64748b;font-size:12px;font-weight:650}
+.hsg-p-exercise{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:16px;align-items:start}
+.hsg-p-main,.hsg-p-side{background:#fff;border:1px solid #d9e7f5;border-radius:17px;box-shadow:0 6px 23px rgba(31,65,114,.035)}
+.hsg-p-main{min-width:0;padding:23px}
+.hsg-p-side{position:sticky;top:16px;padding:18px}
+.hsg-p-side h2{font-size:15px;color:#0f172a;margin:0 0 6px}
+.hsg-p-side p{font-size:12px;color:#64748b;margin:0 0 13px}
+.hsg-p-dot-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.hsg-p-dot{height:36px;border-radius:9px;border:1px solid #d9e7f5;color:#475569;background:#f8fafc;font-size:12px;font-weight:750;cursor:pointer}
+.hsg-p-dot.is-active{background:#2563eb;color:#fff;border-color:#2563eb}
+.hsg-p-dot.is-done:not(.is-active){background:#eff6ff;border-color:#93c5fd;color:#1d4ed8}
+.hsg-p-dot:disabled{cursor:default;opacity:.58}
+.hsg-p-progress{height:6px;background:#e6effc;border-radius:20px;overflow:hidden;margin-top:14px}
+.hsg-p-progress i{display:block;height:100%;background:#3b82f6}
+.hsg-p-q-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#64748b;font-size:12px;font-weight:750}
+.hsg-p-stem{font-size:17px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere;margin:22px 0;color:#0f172a}
+.hsg-p-passage{border:1px solid #e2e8f0;background:#f8fbff;border-radius:12px;padding:18px;margin:18px 0;line-height:1.75;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;color:#334155;max-height:370px;overflow-y:auto}
+.hsg-p-options{display:grid;gap:10px}
+.hsg-p-option{display:flex;gap:12px;align-items:center;text-align:left;padding:13px;border:1px solid #d9e7f5;border-radius:12px;background:#fff;color:#1e293b;cursor:pointer;min-height:54px;font-size:14px;line-height:1.55}
+.hsg-p-option:hover{background:#f8fbff;border-color:#93c5fd}
+.hsg-p-option.selected{background:#eff6ff;border-color:#2563eb}
+.hsg-p-option b{display:grid;place-items:center;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:8px;width:32px;height:32px;flex:0 0 32px}
+.hsg-p-option.selected b{background:#2563eb;color:#fff;border-color:#2563eb}
+.hsg-p-input{width:100%;max-width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:11px;padding:13px 14px;background:#fff;color:#0f172a;font-size:14px;line-height:1.5}
+.hsg-p-actions{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:24px;padding-top:19px;border-top:1px solid #f1f5f9}
+.hsg-p-action{border:1px solid #bfdbfe;background:white;color:#1d4ed8;font-size:12px;font-weight:800;padding:10px 15px;border-radius:10px;cursor:pointer}
+.hsg-p-action.primary{background:#2563eb;border-color:#2563eb;color:#fff}
+.hsg-p-action:disabled{opacity:.45;cursor:not-allowed}
+.hsg-p-empty{padding:45px 18px;text-align:center;display:grid;justify-items:center;gap:12px}
+.hsg-p-empty-mark{height:58px;width:58px;border-radius:18px;background:#eff6ff;border:1px solid #dbeafe;display:grid;place-items:center;color:#1d4ed8;font-size:27px}
+.hsg-p-empty h2{font-size:20px;color:#0f172a;margin:0}
+.hsg-p-empty p{font-size:13px;color:#64748b;line-height:1.7;max-width:390px;margin:0}
+.hsg-p-result{margin-bottom:21px;border:1px solid #bfdbfe;background:#f0f7ff;border-radius:13px;padding:17px}
+.hsg-p-result h2{font-size:20px;margin:0 0 6px;color:#0f172a}
+.hsg-p-result p{font-size:13px;color:#64748b;margin:0}
+.hsg-p-review{border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:11px 0}
+.hsg-p-review h3{font-size:14px;margin:0 0 8px;color:#0f172a}
+.hsg-p-review p{margin:6px 0;line-height:1.7;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.hsg-p-review-answer{font-weight:750;color:#1d4ed8}
+.hsg-p-review-explain{color:#475569}
+.hsg-p-mode-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:16px 0 27px}
+.hsg-p-mode{display:flex;text-align:left;align-items:center;justify-content:space-between;gap:14px;padding:17px 19px;border:1px solid #d9e7f5;border-radius:15px;background:#fff;cursor:pointer;color:#1d4ed8}
+.hsg-p-mode:hover{border-color:#93c5fd;background:#f8fbff}
+.hsg-p-mode.active{background:#eff6ff;border-color:#93c5fd}
+.hsg-p-mode strong{display:block;font-size:15px;color:#0f172a;margin-bottom:5px}
+.hsg-p-mode small{font-size:12px;color:#64748b;line-height:1.5}
+.hsg-p-mode .hsg-p-arrow{font-size:21px}
+@media(max-width:760px){.hsg-p-exercise{grid-template-columns:minmax(0,1fr)}.hsg-p-side{position:static;order:-1}.hsg-p-main{padding:18px}}
+@media(max-width:540px){.hsg-p-grid,.hsg-p-mode-row{grid-template-columns:1fr}.hsg-p-intro{padding:23px 20px}.hsg-p-card{min-height:138px}.hsg-p-group-head{align-items:flex-start;flex-direction:column}.hsg-p-dot-grid{grid-template-columns:repeat(10,minmax(0,1fr))}.hsg-p-dot{height:29px;padding:0;font-size:10px}.hsg-p-exercise{gap:12px}}
+@media(prefers-reduced-motion:reduce){.hsg-p-card{transition:none}}

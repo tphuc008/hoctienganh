@@ -1246,7 +1246,7 @@ function teacherPreviewCards(){
     '</button>',
     '<button class="unit-card" type="button" onclick="location.hash=\'teacher/hsg-tinh\'">',
     '<div class="unit-top"><span class="unit-no">HSG TỈNH</span><span class="status">8 đề</span></div>',
-    '<h3>HSG tỉnh</h3><p>Luyện đề Tiếng Anh chuyên 2026–2027 · không có Listening.</p><span class="unit-arrow">→</span>',
+    '<h3>HSG tỉnh</h3><p>Luyện đề Tiếng Anh chuyên và luyện tập riêng từng dạng.</p><span class="unit-arrow">→</span>',
     '</button>',
     '</div>'
   ].join("");
@@ -1415,6 +1415,7 @@ function ensureTeacherHSG(){
   if(!hsgAssetsPromise){
     hsgAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/hsg-tinh.css?v=20261021-hp-exp-v11b");
+       await loadGrammar21Asset("link","features/hsg-topic-practice.css?v=20261116-layout-v1");
       await loadGrammar21Asset("link","features/hsg-print.css?v=20261021-error-lines-v1");
       await loadGrammar21Asset("link","features/hsg-hai-phong-workspace-v2.css?v=20261023-silent-save-v1");
       await loadGrammar21Asset("link","features/hsg-workspace-v1.css?v=20261023-two-provinces-v2");
@@ -1429,7 +1430,9 @@ function ensureTeacherHSG(){
       await loadGrammar21Asset("script","features/hsg-hai-phong-results-v1.js?v=20261022-autograde-v2");
       await loadGrammar21Asset("script","features/hsg-exam-solutions-v1.js?v=20261023-explanation-v3");
       await loadGrammar21Asset("script","features/hsg-next-three-explanation-formats.js?v=20261028-next-three-v1");
-      await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261023-explanation-v3");
+      await loadGrammar21Asset("script","content/hsg-tinh/practice-bank.js?v=20261116-layout-v1");
+       await loadGrammar21Asset("script","features/hsg-topic-practice.js?v=20261116-layout-v1");
+       await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261116-practice-layout-v1");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});
   }
@@ -1603,7 +1606,7 @@ async function route(){
   if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash.startsWith("teacher/")){
-    if(hash!=="teacher/grammar"&&!/^teacher\/grammar\/topic-(?:1|2|3|4|5|6|7|8|9|10|11|19|21|22)$/.test(hash)&&!/^teacher\/hsg-tinh(?:\/[a-z0-9-]+)?$/.test(hash)){
+    if(hash!=="teacher/grammar"&&!/^teacher\/grammar\/topic-(?:1|2|3|4|5|6|7|8|9|10|11|19|21|22)$/.test(hash)&&!/^teacher\/hsg-tinh(?:\/[a-z0-9-]+){0,3}$/.test(hash)){
       location.hash="";
       return;
     }

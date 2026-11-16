@@ -81,6 +81,6 @@ for(const [id,count,total,solutionsCount] of idList.filter(x=>x[3]!==null)){
 const index=get("index.html");
 assert.ok(index.includes("features/explanation-v1.js"));
 assert.ok(index.includes("features/hsg-exam-solutions-v1.js?v=20261023-explanation-v3"));
-assert.ok(index.includes("features/hsg-tinh.js?v=20261023-explanation-v3"));
+assert.ok(index.includes("features/hsg-tinh.js?v=20261116-practice-layout-v1"));
 assert.ok(index.includes("features/hsg-print.css?v=20261021-error-lines-v1"));
 console.log("Eight HSG exam workspaces and seven solution banks use the original three-step explanation renderer.");
