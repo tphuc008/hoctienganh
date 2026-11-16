@@ -255,24 +255,32 @@
 
 
 
-/* Smart Reading V2: Google Docs explanations (scoped to new renderer only). */
-.mis-doc-exp{margin-top:13px;padding:0!important;overflow:hidden;border:1px solid var(--mis-line);border-radius:13px;background:var(--panel,#fff)}
-.mis-doc-result{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:#F0F7FF;border-bottom:1px solid var(--mis-line)}
-.mis-doc-result>div:first-child{display:flex;flex-direction:column;gap:2px}
-.mis-doc-result strong{font-size:15px;color:#14529A}
-.mis-doc-small{font-size:11px;color:#536982;font-weight:700}
-.mis-doc-picked{font-size:11px;color:#536982;word-break:break-word}
-.mis-doc-summary{font-size:14px;line-height:1.45;margin:12px 14px 4px;color:var(--mis-text)}
-.mis-doc-step{margin:9px 12px;border:1px solid var(--mis-line);border-radius:10px;background:#fff;overflow:hidden}
-.mis-doc-step summary{display:flex;align-items:center;gap:10px;padding:12px;list-style:none;cursor:pointer;user-select:none;font-weight:750;font-size:13px;color:#243D5A}
-.mis-doc-step summary::-webkit-details-marker{display:none}
-.mis-doc-index{font-size:10px;letter-spacing:.04em;color:#1D4ED8;background:#EAF3FF;border-radius:6px;padding:3px 6px}
-.mis-doc-chevron{margin-left:auto;color:#7891A8}
-.mis-doc-step[open] .mis-doc-chevron{transform:rotate(180deg)}
-.mis-doc-prose{border-top:1px solid var(--mis-line);padding:12px 13px;color:#334155;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
-.mis-doc-prose p{margin:0 0 8px}
-.mis-doc-prose p:last-child{margin-bottom:0}
-.mis-doc-warning{padding:11px 12px;margin:10px 12px;background:#FFF8E7;border-left:3px solid #D4A043;color:#79550B;font-size:12px;line-height:1.6;border-radius:6px}
-.mis-doc-exp .mis-evidence-link{margin:12px;white-space:normal;text-align:left}
+/* Smart Reading V2 · Format B: three legible, always-open explanation cards. */
+.mis-doc-exp.mis-doc-layout-cards{margin-top:16px;padding:0!important;min-width:0;overflow:hidden;border:1px solid var(--mis-line);border-radius:14px;background:#fff;color:var(--mis-text);box-shadow:0 2px 12px rgba(34,77,122,.045)}
+.mis-doc-layout-cards .mis-doc-result{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;padding:16px 18px;background:#F0F7FF;border-bottom:1px solid #D5E5F4}
+.mis-doc-layout-cards.wrong .mis-doc-result{background:#FFF2F4}
+.mis-doc-layout-cards .mis-doc-status{display:grid;gap:4px;min-width:0}
+.mis-doc-layout-cards .mis-doc-small{font-size:12px;line-height:1.45;font-weight:750;color:#536982}
+.mis-doc-layout-cards .mis-doc-result strong{font-size:16px;color:#14529A;line-height:1.45}
+.mis-doc-layout-cards .mis-doc-picked{font-size:13px;line-height:1.6;color:#475569;overflow-wrap:anywhere;border:1px solid #D7E6F5;background:#fff;border-radius:9px;padding:8px 11px}
+.mis-doc-layout-cards .mis-doc-picked strong{font-size:13px;color:#244A74}
+.mis-doc-layout-cards .mis-doc-summary{margin:16px 18px 4px;font-size:15px;font-weight:750;line-height:1.55;color:#1C3F62}
+.mis-doc-layout-cards .mis-doc-cards{display:grid;gap:16px;padding:16px 18px 20px}
+.mis-doc-layout-cards .mis-doc-card{min-width:0;padding:18px 19px 17px;overflow-wrap:anywhere;background:#fff;border:1px solid #DCE7F3;border-radius:12px;box-shadow:0 2px 7px rgba(23,68,116,.035)}
+.mis-doc-layout-cards .mis-doc-card--logic{background:#F8FAFD}
+.mis-doc-layout-cards .mis-doc-card--evidence{border-color:#BED8EE}
+.mis-doc-layout-cards .mis-doc-card--traps{background:#FCFDFE}
+.mis-doc-layout-cards .mis-doc-card-heading{display:flex;align-items:center;gap:11px;margin-bottom:13px;border-bottom:1px solid #E8EEF5;padding-bottom:12px}
+.mis-doc-layout-cards .mis-doc-index{flex:0 0 auto;display:grid;place-items:center;border:1px solid #C6DBF2;background:#EAF3FF;color:#1D4ED8;width:35px;height:35px;border-radius:10px;font-size:12px;font-weight:850;letter-spacing:.02em}
+.mis-doc-layout-cards .mis-doc-card-heading h4{margin:0;font-size:15px;line-height:1.5;font-weight:800;color:#223F5A}
+.mis-doc-layout-cards .mis-doc-prose{font-size:15px;line-height:1.82;letter-spacing:0;color:#334155;overflow-wrap:break-word;hyphens:none}
+.mis-doc-layout-cards .mis-doc-prose p{margin:0 0 13px}
+.mis-doc-layout-cards .mis-doc-prose p:last-child{margin-bottom:0}
+.mis-doc-layout-cards .mis-doc-source-quote{margin:13px 0 17px;padding:14px 16px;border-left:4px solid #5296CE;border-radius:0 9px 9px 0;background:#EAF4FE;color:#244668;font-size:15px;font-weight:550;font-style:normal;line-height:1.82;overflow-wrap:break-word}
+.mis-doc-layout-cards .mis-doc-inline-quote{color:#164F83;background:#EAF4FE;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:1px 2px;font-weight:600}
+.mis-doc-layout-cards .mis-evidence-link{display:inline-flex;align-items:center;justify-content:center;margin:18px 0 0;padding:10px 14px;min-height:40px;max-width:100%;font-size:13px;text-align:center;white-space:normal;border-radius:9px;line-height:1.45}
+.mis-doc-layout-cards .mis-doc-warning{margin:0 18px 18px;padding:13px 14px;background:#FFF8E7;border-left:4px solid #D4A043;border-radius:8px;color:#79550B;font-size:13px;line-height:1.7}
 .mis-multi-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:7px}
-@media(max-width:730px){.mis-doc-result{flex-direction:column;align-items:flex-start}.mis-doc-step summary{padding:10px}.mis-doc-prose{padding:10px;font-size:13px}}
+@media(max-width:1100px){.mis-doc-layout-cards .mis-doc-result{padding:14px}.mis-doc-layout-cards .mis-doc-cards{padding:14px;gap:14px}.mis-doc-layout-cards .mis-doc-card{padding:16px}.mis-doc-layout-cards .mis-doc-summary{margin:14px 14px 0}}
+@media(max-width:730px){.mis-doc-exp.mis-doc-layout-cards{margin-top:13px;border-radius:11px}.mis-doc-layout-cards .mis-doc-result{flex-direction:column;align-items:stretch;gap:10px;padding:14px}.mis-doc-layout-cards .mis-doc-picked{width:fit-content;max-width:100%}.mis-doc-layout-cards .mis-doc-cards{gap:13px;padding:12px}.mis-doc-layout-cards .mis-doc-card{padding:14px 13px;border-radius:10px}.mis-doc-layout-cards .mis-doc-card-heading{gap:9px;margin-bottom:10px;padding-bottom:10px}.mis-doc-layout-cards .mis-doc-index{width:32px;height:32px}.mis-doc-layout-cards .mis-doc-card-heading h4{font-size:14px}.mis-doc-layout-cards .mis-doc-prose{font-size:15px;line-height:1.78}.mis-doc-layout-cards .mis-doc-source-quote{font-size:14.5px;padding:11px 12px;margin:10px 0 14px}.mis-doc-layout-cards .mis-doc-summary{margin:13px 13px 0}.mis-doc-layout-cards .mis-doc-warning{margin:0 12px 13px}.mis-doc-layout-cards .mis-evidence-link{width:100%;font-size:13px}}
+@media(max-width:380px){.mis-doc-layout-cards .mis-doc-cards{padding:9px}.mis-doc-layout-cards .mis-doc-card{padding:12px 10px}.mis-doc-layout-cards .mis-doc-prose{font-size:14.5px;line-height:1.75}}
