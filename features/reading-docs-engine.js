@@ -95,8 +95,35 @@ function choiceHTML(q){
  }).join("")+'</div>'+(isTwo?'<div class="mis-selection-status">'+chosen.length+'/2 lựa chọn</div>':"");
 }
 
-function docProse(s){
- return '<p>'+h(s||"").replace(/\n{2,}/g,"</p><p>").replace(/\n/g,"<br>")+'</p>';
+function docInline(value){
+ // Preserve the author's characters; only add semantic emphasis.
+ return h(value).replace(/(“[^”]+”|‘[^’]+’)/g,'<span class="mis-doc-inline-quote">$1</span>');
+}
+function docParagraphs(value){
+ const source=String(value||""),paragraphs=[];
+ for(const block of source.split(/\n{2,}/)){
+  const sentences=block.replace(/([.!?][”’"]?)([ \t]+)(?=[A-ZÀ-Ỹ“])/gu,"$1\u0000$2").split("\u0000");
+  let current="";
+  for(const raw of sentences){
+   const sentence=raw.trim();if(!sentence)continue;
+   if(current&&current.length+sentence.length>255){paragraphs.push(current);current=sentence}
+   else current+=(current?" ":"")+sentence;
+  }
+  if(current)paragraphs.push(current);
+ }
+ return paragraphs.map(text=>'<p>'+docInline(text)+'</p>').join("");
+}
+function docProse(value){
+ const source=String(value||"");
+ // Quote and immediately attached punctuation move together into a source card.
+ const quote=/(“[^”]{75,}”[.!?,;:]?|"[^"]{75,}"[.!?,;:]?)/g;
+ let cursor=0,out="",match;
+ while((match=quote.exec(source))){
+  out+=docParagraphs(source.slice(cursor,match.index));
+  out+='<blockquote class="mis-doc-source-quote">'+h(match[0])+'</blockquote>';
+  cursor=match.index+match[0].length;
+ }
+ return out+docParagraphs(source.slice(cursor));
 }
 function explanation(q){
  if(!state.submitted)return "";
@@ -104,21 +131,25 @@ function explanation(q){
  const answer=Array.isArray(q.answer)?q.answer.join(" + "):q.answer;
  const current=q.type==="choose2"?(state.answers[q.id]||[]).join(", "):state.answers[q.id]||"(chưa trả lời)";
  const steps=[
-  ["01","Hiểu câu chuyện / logic",e.logic],
-  ["02","Bằng chứng & paraphrase",e.evidence],
-  ["03","Phân tích đáp án sai / bẫy",e.traps]
+  ["01","Hiểu câu chuyện / logic",e.logic,"logic"],
+  ["02","Bằng chứng & paraphrase",e.evidence,"evidence"],
+  ["03","Phân tích đáp án sai / bẫy",e.traps,"traps"]
  ];
- const panels=steps.map(([num,title,body],i)=>
-  '<details class="mis-doc-step" '+(i===0||i===1?"open":"")+'><summary><span class="mis-doc-index">'+num+'</span><span>'+h(title)+'</span><span class="mis-doc-chevron" aria-hidden="true">⌄</span></summary>'+
-   '<div class="mis-doc-prose">'+docProse(body)+'</div></details>'
- ).join("");
+ const cards=steps.map(([num,title,body,kind])=>
+  '<section class="mis-doc-card mis-doc-card--'+kind+'" aria-labelledby="mis-doc-title-'+q.id+'-'+num+'">'+
+   '<div class="mis-doc-card-heading"><span class="mis-doc-index">'+num+'</span>'+
+    '<h4 id="mis-doc-title-'+q.id+'-'+num+'">'+h(title)+'</h4></div>'+
+   '<div class="mis-doc-prose">'+docProse(body)+'</div>'+
+   (kind==="evidence"?'<button type="button" class="mis-tool mis-evidence-link" onclick="smartReadingEvidence('+q.id+')">⌖ Trỏ đến dẫn chứng trong bài đọc</button>':"")+
+  '</section>').join("");
  const notice=q.editorialNote?
   '<p class="mis-doc-warning"><strong>Ghi chú đối chiếu:</strong> '+h(q.editorialNote)+'</p>':"";
- return '<div class="mis-review'+(correct?"":" wrong")+' mis-doc-exp">'+
-  '<div class="mis-doc-result"><div><span class="mis-doc-small">Câu '+q.id+' · '+(correct?"Chính xác":"Chưa chính xác")+'</span><strong>Đáp án: '+h(answer)+'</strong></div><div class="mis-doc-picked">Bạn chọn: '+h(current)+'</div></div>'+
+ return '<div class="mis-review'+(correct?"":" wrong")+' mis-doc-exp mis-doc-layout-cards">'+
+  '<div class="mis-doc-result"><div class="mis-doc-status"><span class="mis-doc-small">Câu '+q.id+' · '+(correct?"Chính xác":"Chưa chính xác")+'</span>'+
+   '<strong>Đáp án: '+h(answer)+'</strong></div>'+
+   '<div class="mis-doc-picked">Bạn chọn: <strong>'+h(current)+'</strong></div></div>'+
   (e.heading?'<h3 class="mis-doc-summary">'+h(e.heading.replace(/^Câu\s+\d+\s*[—–-]\s*[^|]*\|\s*/,""))+'</h3>':"")+
-  panels+notice+
-  '<button type="button" class="mis-tool mis-evidence-link" onclick="smartReadingEvidence('+q.id+')">⌖ Trỏ đến dẫn chứng trong bài đọc</button></div>';
+  '<div class="mis-doc-cards">'+cards+'</div>'+notice+'</div>';
 }
 function questionHTML(q){
  const ids=slotIds(q),input=q.type==="input",chosen=state.answers[q.id]||"";
