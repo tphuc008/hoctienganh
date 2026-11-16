@@ -83,8 +83,42 @@ function catalogue(){
  mount(crumbs([{title:"Luyện tập theo dạng"}])+
   intro("Luyện tập theo dạng","Chọn một dạng bài để luyện theo từng set. Nội dung câu hỏi sẽ được cập nhật sau.")+sections);
 }
+
+/* Display the Google Docs author's grammar analyses verbatim, without generating answers. */
+function transformationTarget(q){return String(q.target||"").includes("[Viết lại với từ khóa ở đề]")?"→ …":String(q.target||"")}
+function transformationExplanation(q){
+ const a=q.analysis||{};
+ const detail=(title,value)=>value?'<section class="hsg-st-step"><h4>'+esc(title)+'</h4><p>'+esc(value)+'</p></section>':"";
+ const note=(title,value)=>value?'<div class="hsg-st-note"><strong>'+esc(title)+'</strong><p>'+esc(value)+'</p></div>':"";
+ return '<section class="hsg-st-explanation" aria-label="Đáp án và phân tích ngữ pháp">'+
+  '<div class="hsg-st-answer"><strong>6. Final Answer · Đáp án tham khảo</strong><p>'+esc(q.answer||"")+'</p></div>'+
+  '<div class="hsg-st-pattern"><strong>2. General Grammar Pattern · Công thức tổng quát</strong><p>'+esc(a.pattern||"")+'</p></div>'+
+  '<details class="hsg-st-details"><summary>Phân tích ngữ pháp chi tiết <span aria-hidden="true">⌄</span></summary>'+
+  detail("1. Identify the Structure · Xác định cấu trúc",a.structure)+
+  detail("3. Grammatical Breakdown · Phân tích thành phần",a.breakdown)+
+  detail("4. Transformation Mechanism · Cơ chế biến đổi",a.transformation)+
+  detail("5. Common Pitfalls · Lỗi dễ mắc",a.pitfalls)+
+  note("Lưu ý đáp án gốc (Google Docs)",q.sourceNote)+
+  note("Ghi chú phụ lục (Google Docs)",q.appendixNote)+
+  '</details></section>';
+}
+
 function topicPage(topic){
  const sets=setsFor(topic);
+ if(topic.id==="sentence-transformation"){
+  const rows=sets.map((set,i)=>{
+   const progress=draft(topic,set),total=set.questions.length,answered=Math.min(total,completeCount(progress.answers));
+   const status=progress.submitted?"Đã hoàn thành":answered?answered+"/"+total+" câu":"Bắt đầu";
+   return '<li class="hsg-st-set-item"><button type="button" data-hsgp-route="'+esc(routeFor(topic,set))+'">'+
+     '<span class="hsg-st-set-index">'+String(i+1).padStart(2,"0")+'</span>'+
+     '<span class="hsg-st-set-info"><strong>'+esc(set.title)+'</strong><small>'+total+' câu · PDF trang '+set.questions[0].sourcePage+'</small></span>'+
+     '<span class="hsg-st-set-status">'+esc(status)+'</span><span aria-hidden="true" class="hsg-st-set-arrow">›</span></button></li>';
+  }).join("");
+  mount(crumbs([{title:"Luyện tập theo dạng",route:BASE},{title:topic.title}])+
+   '<header class="hsg-st-heading"><h1>'+esc(topic.title)+'</h1><p>'+sets.length+' set · 131 câu · Đáp án và phân tích từ Google Docs</p></header>'+
+   '<ul class="hsg-st-set-list">'+rows+'</ul>');
+  return;
+ }
  const cards=sets.map((set,i)=>{
   const total=set.questions.length,progress=draft(topic,set);
   const answered=Math.min(total,completeCount(progress.answers));
@@ -126,6 +160,21 @@ function correctLabel(q){
 }
 function resultPage(topic,set,record){
  const qs=set.questions;
+ if(topic.id==="sentence-transformation"){
+  const answered=completeCount(record.answers);
+  return '<div class="hsg-p-result hsg-st-finish"><h2>Hoàn thành · '+esc(set.title)+'</h2>'+
+   '<p>Đã viết '+answered+'/'+qs.length+' câu. Không tự chấm câu viết bằng so khớp ký tự; hãy đối chiếu đáp án tham khảo.</p></div>'+
+   '<div class="hsg-st-results">'+qs.map((q,i)=>{
+    const userAnswer=String(record.answers?.[i]||"");
+    return '<details class="hsg-st-result-item"><summary><span>Câu '+String(q.sourceNumber||i+1).padStart(2,"0")+'</span>'+
+      '<span class="hsg-st-result-preview">'+esc(q.stem)+'</span><span aria-hidden="true">⌄</span></summary>'+
+      '<div class="hsg-st-result-body"><p class="hsg-st-original">'+esc(q.stem)+'</p>'+
+      '<p class="hsg-st-target">'+esc(transformationTarget(q))+'</p>'+
+      '<div class="hsg-st-user-answer"><strong>Bài làm của bạn</strong><p>'+esc(userAnswer||"Chưa trả lời")+'</p></div>'+
+      transformationExplanation(q)+'</div></details>';
+   }).join("")+'</div>';
+ }
+
  const keyed=qs.filter(q=>q.answer!==undefined&&q.answer!==null);
  const score=qs.reduce((sum,q,i)=>sum+(correct(q,record.answers?.[i])?1:0),0);
  const summary=keyed.length===qs.length?score+"/"+qs.length+" câu đúng":
@@ -141,6 +190,7 @@ function resultPage(topic,set,record){
 }
 function setPage(topic,set){
  const current=draft(topic,set);
+ const isSentenceTransformation=topic.id==="sentence-transformation";
  const qs=set.questions;
  let index=Math.max(0,Math.min(qs.length-1,Number(current.index)||0));
  const render=()=>{
@@ -165,6 +215,7 @@ function setPage(topic,set){
    '<div class="hsg-p-q-meta"><span>CÂU '+(index+1)+' / '+total+'</span><span>'+answered+' câu đã làm</span></div>'+
    (item.passage||set.passage?'<div class="hsg-p-passage">'+esc(item.passage||set.passage)+'</div>':"")+
    '<div class="hsg-p-stem">'+esc(item.stem)+'</div>'+
+   (isSentenceTransformation?'<div class="hsg-st-target"><span>VIẾT LẠI CÂU</span><strong>'+esc(transformationTarget(item))+'</strong></div>':"")+
    (Array.isArray(item.options)&&item.options.length?
      '<div class="hsg-p-options">'+item.options.map((choice,i)=>{
       const letter=String.fromCharCode(65+i);
@@ -174,6 +225,10 @@ function setPage(topic,set){
      (topic.id.includes("transformation")?
       '<textarea class="hsg-p-input" rows="4" data-hsgp-answer placeholder="Nhập câu trả lời…">'+esc(answeredNow)+'</textarea>':
       '<input class="hsg-p-input" type="text" data-hsgp-answer placeholder="Nhập đáp án…" value="'+esc(answeredNow)+'">'))+
+   (isSentenceTransformation?
+    '<div class="hsg-st-reveal-area"><button class="hsg-st-reveal" type="button" data-hsgp-reveal aria-expanded="'+!!current.revealed?.[index]+'">'+
+    (current.revealed?.[index]?"Ẩn đáp án & giải thích":"Xem đáp án & giải thích")+'</button></div>'+
+    (current.revealed?.[index]?transformationExplanation(item):""):"")+
    '<div class="hsg-p-actions"><button class="hsg-p-action" type="button" data-hsgp-prev'+(!index?' disabled':'')+'>← Câu trước</button>'+
    (index===total-1?
     '<button class="hsg-p-action primary" type="button" data-hsgp-submit>Nộp bài →</button>':
@@ -197,6 +252,11 @@ function setPage(topic,set){
    el.querySelector(".hsg-p-progress i").style.width=Math.round(all/total*100)+"%";
    el.querySelector('[data-hsgp-go="'+index+'"]')?.classList.toggle("is-done",!!input.value.trim());
   });
+  el.querySelector("[data-hsgp-reveal]")?.addEventListener("click",()=>{
+   current.revealed=current.revealed||{};
+   current.revealed[index]=!current.revealed[index];
+   update();render();
+  });
   el.querySelector("[data-hsgp-prev]")?.addEventListener("click",()=>{index=Math.max(0,index-1);update();render()});
   el.querySelector("[data-hsgp-next]")?.addEventListener("click",()=>{index=Math.min(total-1,index+1);update();render()});
   el.querySelector("[data-hsgp-submit]")?.addEventListener("click",()=>{
@@ -205,7 +265,7 @@ function setPage(topic,set){
    current.submitted=true;update();render();
   });
   el.querySelector("[data-hsgp-reset]")?.addEventListener("click",()=>{
-   current.answers={};current.submitted=false;index=0;update();render();
+   current.answers={};current.revealed={};current.submitted=false;index=0;update();render();
   });
  };
  render();
