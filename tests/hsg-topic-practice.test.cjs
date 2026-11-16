@@ -116,7 +116,7 @@ test("Sentence Transformation presents focused sets and progressive explanation"
  assert.match(root.innerHTML,/Had it not been for his father/);
  assert.match(root.innerHTML,/General Grammar Pattern/);
  assert.match(root.innerHTML,/Grammatical Breakdown/);
- assert.match(root.innerHTML,/Lưu ý đáp án gốc/);
+ assert.match(root.innerHTML,/Common Pitfalls/);
  reveal();
  assert.doesNotMatch(root.innerHTML,/Had it not been for his father/);
 });
