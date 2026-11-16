@@ -7,7 +7,7 @@
   "minutes": 20,
   "level": "Academic Reading",
   "types": "YES / NO / NOT GIVEN · Multiple Choice · Matching Sentence Endings",
-  "sourceDocument": "Google Docs: 1bTbFbX3PFZ-IwSIjBVAPl8t6XmrFWwhlCowcoYLpaPM",
+  "sourceDocument": "User-provided Google Docs; link retained in private import workflow",
   "sourceRevision": "AHj4eMTYJLGt_cSCY4k3afOixjuqi7vTnMQ7orIMZtIDTvr-r96M4ZfdgHP7A8Z79-83wsGfytnOHdPEqBcNFNZNTl-0Zxbz5yt4CcwIJko",
   "layout": "shared-bank",
   "paragraphs": [
