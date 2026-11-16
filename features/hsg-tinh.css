@@ -973,3 +973,54 @@
 }
 .hsg-hp-shortcuts small{color:#8a4f12;font-size:11px;line-height:1.45}
 @media(max-width:740px){.hsg-hp-shortcuts{display:block}.hsg-hp-shortcuts>div{margin:9px 0}}
+
+/* Compact List — HSG tỉnh catalogue; exam workspaces are unchanged. */
+.hsg-catalogue-page{max-width:860px;margin:0 auto;padding-bottom:24px}
+.hsg-catalogue-page .breadcrumbs{margin-bottom:12px}
+.hsg-catalogue-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:10px 0 16px}
+.hsg-catalogue-heading h1{font-size:clamp(25px,3vw,31px);line-height:1.18;letter-spacing:-.035em;color:#0f172a;margin:0}
+.hsg-catalogue-heading>span{font-size:12px;color:#64748b;white-space:nowrap}
+.hsg-catalogue-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;max-width:430px;background:#f1f5f9;border-radius:13px;padding:4px;margin-bottom:18px}
+.hsg-catalogue-switch button{padding:11px 12px;border:0;border-radius:10px;background:transparent;color:#64748b;cursor:pointer;font-weight:750;font-size:13px}
+.hsg-catalogue-switch button.is-active{background:#fff;color:#1d4ed8;box-shadow:0 1px 5px rgba(15,23,42,.11)}
+.hsg-catalogue-switch button:not(.is-active):hover{color:#1e40af;background:#e2e8f0}
+.hsg-catalogue-toolbar{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.hsg-catalogue-search{display:flex;align-items:center;gap:9px;flex:1;max-width:480px;min-width:0;box-sizing:border-box;border:1px solid #d9e7f5;border-radius:11px;background:#fff;padding:0 13px;min-height:42px;color:#94a3b8}
+.hsg-catalogue-search svg{width:17px;height:17px;flex:none}
+.hsg-catalogue-search:focus-within{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.15)}
+.hsg-catalogue-search input{border:0;background:transparent;outline:0;min-width:0;width:100%;font:inherit;font-size:13px;color:#1e293b;line-height:1.5}
+.hsg-catalogue-search input::placeholder{color:#94a3b8}
+.hsg-catalogue-count{font-size:12px;color:#64748b;white-space:nowrap}
+.hsg-catalogue-section-title{font-weight:800;font-size:13px;color:#334155;margin:0 0 9px}
+.hsg-exam-list{list-style:none;margin:0;padding:0;border:1px solid #dce6f2;border-radius:15px;overflow:hidden;background:#fff}
+.hsg-exam-row+.hsg-exam-row{border-top:1px solid #edf1f6}
+.hsg-exam-row[hidden],.hsg-catalogue-empty[hidden]{display:none!important}
+.hsg-exam-row-btn{display:flex;align-items:center;gap:13px;text-align:left;width:100%;min-height:70px;padding:11px 15px;border:0;background:#fff;color:#1e293b;cursor:pointer}
+.hsg-exam-row-btn:hover{background:#f8fbff}
+.hsg-exam-row-btn:focus-visible{outline:3px solid #60a5fa;outline-offset:-3px}
+.hsg-list-index{display:grid;place-items:center;flex:0 0 33px;width:33px;height:33px;border-radius:9px;background:#eff6ff;color:#2563eb;font-weight:800;font-size:12px;font-variant-numeric:tabular-nums}
+.hsg-list-details{display:flex;flex-direction:column;min-width:0;flex:1;gap:3px}
+.hsg-list-details strong{font-size:15px;font-weight:750;line-height:1.28;color:#0f172a;overflow-wrap:anywhere}
+.hsg-list-details small{font-size:11px;color:#64748b;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hsg-list-meter{height:4px;width:min(160px,100%);border-radius:99px;background:#e6effc;overflow:hidden;margin-top:5px}
+.hsg-list-meter i{display:block;height:100%;border-radius:inherit;background:#3b82f6}
+.hsg-list-aside{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex:none}
+.hsg-list-status{color:#64748b;font-size:11px;white-space:nowrap;font-weight:650}
+.hsg-list-status.is-started{color:#1d4ed8}
+.hsg-list-status.is-complete{color:#15803d}
+.hsg-list-chevron{color:#94a3b8;font-size:22px;line-height:1}
+.hsg-catalogue-empty{margin:12px 0;padding:15px;text-align:center;border:1px dashed #cbd5e1;border-radius:12px;font-size:13px;color:#64748b}
+.hsg-catalogue-note{margin:12px 2px 0;font-size:11px;line-height:1.5;color:#94a3b8}
+@media(max-width:560px){
+ .hsg-catalogue-page .breadcrumbs{margin-bottom:10px}
+ .hsg-catalogue-heading{margin:8px 0 14px}
+ .hsg-catalogue-switch{max-width:none;margin-bottom:15px}
+ .hsg-catalogue-switch button{font-size:12px;padding:10px 7px}
+ .hsg-exam-row-btn{padding:11px 12px;gap:10px;min-height:68px}
+ .hsg-list-index{flex-basis:29px;width:29px;height:29px;font-size:11px}
+ .hsg-list-details strong{font-size:14px}
+ .hsg-list-details small{font-size:10px}
+ .hsg-list-aside{gap:8px}
+ .hsg-list-status{font-size:10px}
+ .hsg-list-chevron{font-size:20px}
+}
