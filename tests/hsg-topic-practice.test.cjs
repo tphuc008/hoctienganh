@@ -37,6 +37,22 @@ test("HSG library retains existing papers and adds practice entry",async()=>{
  assert.match(root.innerHTML,/Hải Phòng/);
  assert.match(root.innerHTML,/Luyện tập theo dạng/);
 });
+test("HSG library uses a compact, searchable list of eight papers",async()=>{
+ const {window,root}=boot();
+ await window.TeacherHSG.open("teacher/hsg-tinh");
+ assert.match(root.innerHTML,/class="hsg-exam-list"/);
+ assert.match(root.innerHTML,/id="hsg-catalogue-search"/);
+ assert.equal((root.innerHTML.match(/class="hsg-exam-row"/g)||[]).length,8);
+ assert.doesNotMatch(root.innerHTML,/class="hsg-hero"/);
+});
+test("HSG library puts an unfinished exam ahead of untouched exams",async()=>{
+ const {window,root}=boot();
+ const seed=window.LearningCore.readDraft;
+ window.LearningCore.readDraft=(kind,id)=>id==="hsg-tinh/son-la"?{answers:{"g1:26":{type:"mcq",value:"A"}}}:seed(kind,id);
+ await window.TeacherHSG.open("teacher/hsg-tinh");
+ assert.equal(root.innerHTML.match(/data-exam="([^"]+)"/)[1],"son-la");
+ assert.match(root.innerHTML,/1\/57 câu/);
+});
 test("Practice catalogue renders grouped question types",async()=>{
  const {window,root}=boot();
  await window.TeacherHSG.open("teacher/hsg-tinh/practice");
