@@ -1,4 +1,4 @@
-/* Imported from user-supplied Pacific Navigation PDF and authored Google Docs explanations. */
+/* Imported by Smart Reading V2 from user-supplied Pacific Navigation PDF and Google Docs. */
 (function(w){w.SMART_READING_BANK=w.SMART_READING_BANK||{};w.SMART_READING_BANK["pacific-navigation-and-voyaging"]={
   "slug": "pacific-navigation-and-voyaging",
   "route": "grade-12/reading/pacific-navigation-and-voyaging",
@@ -90,11 +90,11 @@
       "question": "The Pacific islands were uninhabited when migrants arrived by sea from Southeast Asia",
       "answer": "YES",
       "p": 0,
-      "quote": "had no human population until ancestors of today’s islanders sailed from Southeast Asia",
+      "quote": "The many tiny islands of the Pacific Ocean had no human population until ancestors of today’s islanders sailed from Southeast Asia",
       "anchors": [
         {
           "p": 0,
-          "quote": "had no human population until ancestors of today’s islanders sailed from Southeast Asia"
+          "quote": "The many tiny islands of the Pacific Ocean had no human population until ancestors of today’s islanders sailed from Southeast Asia"
         }
       ],
       "explain": {
@@ -117,6 +117,14 @@
         {
           "p": 1,
           "quote": "some early twentieth-century writers"
+        },
+        {
+          "p": 1,
+          "quote": "Andrew Sharp published his research"
+        },
+        {
+          "p": 1,
+          "quote": "was forthcoming until 1956 when"
         }
       ],
       "explain": {
@@ -135,11 +143,11 @@
       "question": "Andrew Sharp believed migratory voyages were based on more on luck than skill",
       "answer": "YES",
       "p": 1,
-      "quote": "being more dependent on good fortune by drifting canoes",
+      "quote": "Sharp challenged the ‘heroic vision’ by asserting that the expertise of the navigators was limited, and that the settlement of the islands was not systematic, being more dependent on good fortune by drifting canoes.",
       "anchors": [
         {
           "p": 1,
-          "quote": "being more dependent on good fortune by drifting canoes"
+          "quote": "Sharp challenged the ‘heroic vision’ by asserting that the expertise of the navigators was limited, and that the settlement of the islands was not systematic, being more dependent on good fortune by drifting canoes."
         }
       ],
       "explain": {
@@ -157,11 +165,11 @@
       "question": "Despite being controversial, Andrew Sharp’s research had positive results",
       "answer": "YES",
       "p": 1,
-      "quote": "it did spark renewed interest in the topic and precipitated valuable new research",
+      "quote": "Sharp’s theory was widely challenged, and deservedly so. If nothing else, however, it did spark renewed interest in the topic and precipitated valuable new research.",
       "anchors": [
         {
           "p": 1,
-          "quote": "it did spark renewed interest in the topic and precipitated valuable new research"
+          "quote": "Sharp’s theory was widely challenged, and deservedly so. If nothing else, however, it did spark renewed interest in the topic and precipitated valuable new research."
         }
       ],
       "explain": {
@@ -179,18 +187,18 @@
       "question": "Edwin Doran disagreed with the findings of Lewis’s research",
       "answer": "NOT GIVEN",
       "p": 4,
-      "quote": "The geographer Edwin Doran followed a quite different approach",
+      "quote": "The geographer Edwin Doran followed a quite different approach.",
       "anchors": [
         {
           "p": 4,
-          "quote": "The geographer Edwin Doran followed a quite different approach"
+          "quote": "The geographer Edwin Doran followed a quite different approach."
         }
       ],
       "explain": {
         "heading": "Câu 5 — NOT GIVEN | Phương pháp khác không đồng nghĩa bất đồng kết quả",
         "logic": "Lewis và Doran cùng nghiên cứu khả năng vượt biển của người xưa, nhưng họ tiếp cận theo hai hướng. Lewis đi cùng những người điều hướng truyền thống để quan sát kỹ năng thực tế. Doran chủ yếu đo tốc độ và tính năng của thuyền. Câu hỏi lại hỏi một điều khác: Doran có phản đối KẾT QUẢ của Lewis hay không? Muốn trả lời YES hoặc NO, ta cần bằng chứng về thái độ đồng tình hoặc bất đồng của Doran.",
         "evidence": "Passage chỉ ghi: “The geographer Edwin Doran followed a quite different approach.” Sau đó mô tả thiết bị điện tử Doran dùng đo tính năng thuyền. “Different approach” nghĩa là phương pháp khác nhau; không có câu nào nói “disagreed with Lewis’s findings”, cũng không cho biết Doran tán thành kết luận của Lewis.",
-        "traps": "NOT GIVEN là đáp án đúng. Chọn YES là đánh tráo sự khác biệt về PHƯƠNG PHÁP thành sự bất đồng về KẾT QUẢ. Chọn NO cũng không có căn cứ: việc hai công trình bổ sung cho nhau không tự động chứng minh Doran đồng ý với Lewis. Đây là kiểu câu dễ nhầm vì người học thường suy luận theo kiến thức hợp lý ngoài văn bản, trong khi IELTS yêu cầu xác nhận điều bài thực sự nói.",
+        "traps": "NOT GIVEN là đáp án đúng. Chọn YES là đánh tráo sự khác biệt về PHƯƠNG PHÁP thành sự bất đồng về KẾT QUẢ. Chọn NO cũng không có căn cứ: việc hai công trình bổ sung cho nhau không tự động chứng minh Doran đồng ý với Lewis. Đây là kiểu câu dễ nhầm vì người học thường suy luận theo kiến thức hợp lý ngoài văn bản, trong khi IELTS yêu cầu xác nhận điều bài thực sự nói.\nPHẦN II — MULTIPLE CHOICE (CÂU 6–10)",
         "docQuestion": "Edwin Doran disagreed with the findings of Lewis’s research.",
         "docAnswer": "NOT GIVEN"
       }
@@ -241,11 +249,11 @@
       "question": "What did David Lewis’s research discover about traditional navigators?",
       "answer": "C",
       "p": 3,
-      "quote": "memorizing which stars rose and set in certain positions along the horizon",
+      "quote": "Lewis found that ancient navigators would have known which course to steer by memorizing which stars rose and set in certain positions along the horizon",
       "anchors": [
         {
           "p": 3,
-          "quote": "memorizing which stars rose and set in certain positions along the horizon"
+          "quote": "Lewis found that ancient navigators would have known which course to steer by memorizing which stars rose and set in certain positions along the horizon"
         }
       ],
       "explain": {
@@ -281,8 +289,16 @@
       "question": "What are we told about Edwin Doran’s research?",
       "answer": "B",
       "p": 4,
-      "quote": "employed the latest electronic instrumentation",
+      "quote": "using his instruments to record canoe speeds in different wind strengths",
       "anchors": [
+        {
+          "p": 4,
+          "quote": "using his instruments to record canoe speeds in different wind strengths"
+        },
+        {
+          "p": 4,
+          "quote": "the angle canoes could sail relative to the wind."
+        },
         {
           "p": 4,
           "quote": "employed the latest electronic instrumentation"
@@ -321,11 +337,15 @@
       "question": "Which of the following did Steven Horvath discover during his research?",
       "answer": "D",
       "p": 5,
-      "quote": "could indeed have propelled for long distances what were primarily sailing vessels",
+      "quote": "paddles, or perhaps long oars, could indeed have propelled for long distances what were primarily sailing vessels.",
       "anchors": [
         {
           "p": 5,
-          "quote": "could indeed have propelled for long distances what were primarily sailing vessels"
+          "quote": "paddles, or perhaps long oars, could indeed have propelled for long distances what were primarily sailing vessels."
+        },
+        {
+          "p": 5,
+          "quote": "Horvath was able to calculate the energy expenditure required to paddle canoes"
         }
       ],
       "explain": {
@@ -366,13 +386,17 @@
         {
           "p": 6,
           "quote": "Clever adaptation of computer simulation techniques pioneered in other disciplines"
+        },
+        {
+          "p": 6,
+          "quote": "Wall Garrard’s unusual method"
         }
       ],
       "explain": {
         "heading": "Câu 10 — B | Cách kết hợp ngôn ngữ học và mô phỏng máy tính",
         "logic": "Nhiều nhà nghiên cứu trước đó đi biển để kiểm tra trực tiếp, nhưng nhóm Wall Garrard lại làm việc trong phòng thí nghiệm. Họ lấy phát hiện của các nhà ngôn ngữ học — nhiều đảo xa nhau vẫn có ngôn ngữ tương tự — rồi vận dụng kỹ thuật mô phỏng máy tính để dựng lại cách các cuộc di cư có thể diễn ra. Điểm được tác giả đánh giá cao là sự phối hợp phương pháp sáng tạo.",
         "evidence": "Hai cụm mang sắc thái đánh giá rõ nhất là “Wall Garrard’s unusual method” và “Clever adaptation of computer simulation techniques pioneered in other disciplines”. “Unusual” nêu tính khác biệt; “clever adaptation” thể hiện sự tán thưởng cách vận dụng thông minh. Vì thế B là suy luận có căn cứ từ cách dùng từ của tác giả.",
-        "traps": "A sai vì câu “remaining safely in the laboratory” mô tả bối cảnh, không đủ để kết luận tác giả thất vọng. C đảo chiều quan hệ: Garrard SỬ DỤNG kết quả của nhà ngôn ngữ học, không phải dùng nghiên cứu của mình để hỗ trợ công việc của họ. D sai vì khoảng cách rất xa giữa các đảo được đưa ra như dữ kiện đáng chú ý, không phải nỗi lo của tác giả. Với câu hỏi thái độ, phải dựa vào từ đánh giá, tránh đoán cảm xúc từ thông tin trung tính.",
+        "traps": "A sai vì câu “remaining safely in the laboratory” mô tả bối cảnh, không đủ để kết luận tác giả thất vọng. C đảo chiều quan hệ: Garrard SỬ DỤNG kết quả của nhà ngôn ngữ học, không phải dùng nghiên cứu của mình để hỗ trợ công việc của họ. D sai vì khoảng cách rất xa giữa các đảo được đưa ra như dữ kiện đáng chú ý, không phải nỗi lo của tác giả. Với câu hỏi thái độ, phải dựa vào từ đánh giá, tránh đoán cảm xúc từ thông tin trung tính.\nPHẦN III — MATCHING SENTENCE ENDINGS (CÂU 11–14)",
         "docQuestion": "What is the writer’s opinion of Wall Garrard’s research? A. He is disappointed it was conducted in the laboratory; B. He is impressed by the originality of the techniques used; C. He is surprised it was used to help linguists with their research; D. He is concerned that the islands studied are long distances apart.",
         "docAnswer": "B"
       },
@@ -401,11 +425,11 @@
       "question": "One limitation in the information produced by all of this research is that it",
       "answer": "C",
       "p": 7,
-      "quote": "experiments such as these cannot categorically confirm or negate a hypothesis",
+      "quote": "experiments such as these cannot categorically confirm or negate a hypothesis.",
       "anchors": [
         {
           "p": 7,
-          "quote": "experiments such as these cannot categorically confirm or negate a hypothesis"
+          "quote": "experiments such as these cannot categorically confirm or negate a hypothesis."
         }
       ],
       "explain": {
@@ -424,11 +448,11 @@
       "question": "The best thing about this type of research",
       "answer": "A",
       "p": 7,
-      "quote": "The strength of this research lay in the range of methodologies employed",
+      "quote": "The strength of this research lay in the range of methodologies employed.",
       "anchors": [
         {
           "p": 7,
-          "quote": "The strength of this research lay in the range of methodologies employed"
+          "quote": "The strength of this research lay in the range of methodologies employed."
         }
       ],
       "explain": {
@@ -452,6 +476,14 @@
         {
           "p": 7,
           "quote": "it was this adaptability which was their greatest accomplishment"
+        },
+        {
+          "p": 7,
+          "quote": "These navigators observed the conditions prevailing at sea"
+        },
+        {
+          "p": 7,
+          "quote": "and altered their techniques accordingly."
         }
       ],
       "explain": {
@@ -470,8 +502,12 @@
       "question": "The migration of people from Asia to the Pacific",
       "answer": "E",
       "p": 7,
-      "quote": "were most likely part of a systematic migration",
+      "quote": "the Pacific peoples were able to view the ocean as an avenue, not a barrier, to communication before any other race on Earth.",
       "anchors": [
+        {
+          "p": 7,
+          "quote": "the Pacific peoples were able to view the ocean as an avenue, not a barrier, to communication before any other race on Earth."
+        },
         {
           "p": 7,
           "quote": "were most likely part of a systematic migration"
@@ -481,7 +517,7 @@
         "heading": "Câu 14 — E (theo đáp án PDF) | Lưu ý một suy luận vượt mức văn bản",
         "logic": "Phần kết mô tả các chuyến di cư bằng thuyền không phải sự trôi dạt bất lực mà nhiều khả năng có tính hệ thống. Nhờ vậy, các cộng đồng Thái Bình Dương đã sớm nhìn đại dương như con đường giao lưu, chứ không chỉ là vật cản. Trong các vế kết A–F, E là lựa chọn được đề gán cho câu này, vì nó liên quan ý tưởng vượt đại dương có chủ đích.",
         "evidence": "Passage nêu “were most likely part of a systematic migration” và “the Pacific peoples were able to view the ocean as an avenue, not a barrier, to communication before any other race on Earth.” Hai câu hỗ trợ ý người di cư có tính chủ động và tiên phong trong cách dùng đại dương để giao tiếp.",
-        "traps": "Tuy nhiên, E diễn đạt MẠNH HƠN bằng chứng: “the first time humans intentionally crossed an ocean” khẳng định đây là lần đầu tiên trong lịch sử loài người chủ động vượt một đại dương. Passage không xác nhận trực tiếp sự kiện lịch sử tuyệt đối đó; “before any other race” gắn với việc nhìn đại dương như tuyến giao lưu. Các vế khác không hợp logic câu dẫn: A nói phương pháp nghiên cứu; B nói giới trẻ ngày nay; C nói giới hạn kết luận; D nói khả năng thích nghi của thủy thủ; F nói tốc độ nghiên cứu. Vì vậy có thể ghi E theo đáp án gốc, nhưng không nên dạy đây là phép paraphrase hoàn toàn chính xác. Đây là một câu có độ chặt chẽ của đề đáng nghi vấn.",
+        "traps": "Tuy nhiên, E diễn đạt MẠNH HƠN bằng chứng: “the first time humans intentionally crossed an ocean” khẳng định đây là lần đầu tiên trong lịch sử loài người chủ động vượt một đại dương. Passage không xác nhận trực tiếp sự kiện lịch sử tuyệt đối đó; “before any other race” gắn với việc nhìn đại dương như tuyến giao lưu. Các vế khác không hợp logic câu dẫn: A nói phương pháp nghiên cứu; B nói giới trẻ ngày nay; C nói giới hạn kết luận; D nói khả năng thích nghi của thủy thủ; F nói tốc độ nghiên cứu. Vì vậy có thể ghi E theo đáp án gốc, nhưng không nên dạy đây là phép paraphrase hoàn toàn chính xác. Đây là một câu có độ chặt chẽ của đề đáng nghi vấn.\nBài giải dựa trên nội dung và đáp án in trong PDF. Đặc biệt với câu 14, nên giải thích rõ giới hạn bằng chứng thay vì biến một nhận định có mức độ thận trọng (“most likely”, “view the ocean as an avenue”) thành khẳng định lịch sử tuyệt đối. Những câu YES/NO/NOT GIVEN không có lựa chọn A–D thì mục 3 phân tích ranh giới giữa YES, NO và NOT GIVEN.",
         "docQuestion": "The migration of people from Asia to the Pacific … [A–F: chọn vế kết phù hợp].",
         "docAnswer": "E"
       },
@@ -489,5 +525,12 @@
       "needsReview": true,
       "editorialNote": "Đáp án E lấy theo Solution của PDF; Google Docs lưu ý E đưa ra khẳng định lịch sử mạnh hơn đoạn văn có thể xác nhận."
     }
+  ],
+  "importVersion": "Smart Reading Import V2",
+  "importWarnings": [
+    "Question text differs from PDF at Q2; check punctuation/source wording",
+    "Question text differs from PDF at Q3; check punctuation/source wording",
+    "Question text differs from PDF at Q9; check punctuation/source wording",
+    "Question text differs from PDF at Q10; check punctuation/source wording"
   ]
 };})(window);
