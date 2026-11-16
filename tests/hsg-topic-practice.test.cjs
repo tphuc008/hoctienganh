@@ -69,5 +69,5 @@ test("Teacher route allows practice topic and nested set URLs",()=>{
  const html=read("index.html");
  assert.match(html,/hsg-topic-practice\.js/);
  assert.match(html,/practice-bank\.js/);
- assert.match(html,/hsg-tinh\(\?:\\\/[a-z0-9-\]\+\)\{0,3\}/);
+ assert.ok(html.includes(String.raw`^teacher\/hsg-tinh(?:\/[a-z0-9-]+){0,3}$`));
 });
