@@ -62,8 +62,10 @@ function findAnchors(paragraphs,evidence){
   const matches=[];
   for(let p=0;p<paragraphs.length;p++){
    if(typeof paragraphs[p]!=="string")continue;
-   const start=paragraphs[p].indexOf(quote);
-   if(start>=0)matches.push({p,quote,start});
+   let start=paragraphs[p].indexOf(quote);
+   // Case differences after a semicolon do not change the actual evidence.
+   if(start<0)start=paragraphs[p].toLocaleLowerCase("en").indexOf(quote.toLocaleLowerCase("en"));
+   if(start>=0)matches.push({p,quote:paragraphs[p].slice(start,start+quote.length),start});
   }
   // A snippet occurring in multiple places is ambiguous and is never guessed.
   if(matches.length!==1)continue;
