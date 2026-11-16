@@ -77,6 +77,9 @@ function opening(){
  '<div class="hsg-hero"><div class="hsg-kicker">TEACHER PREVIEW · EXAM LIBRARY</div><h1>Đề thi <span>Tiếng Anh chuyên</span></h1>'+
  '<p>Luyện đề · Đánh dấu câu · Tự lưu · Không Listening.</p>'+
  '<div class="hsg-hero-facts"><span>8 bộ đề</span><span>Năm học 2026–2027</span><span>Chưa có đáp án chính thức toàn đề</span></div></div>'+
+  '<div class="hsg-p-mode-row">'+
+  '<button class="hsg-p-mode active" type="button" data-hsg-catalogue><span><strong>Luyện đề tổng hợp</strong><small>8 bộ đề HSG tỉnh hiện có</small></span><span class="hsg-p-arrow" aria-hidden="true">↗</span></button>'+
+  '<button class="hsg-p-mode" type="button" data-hsg-topic-practice><span><strong>Luyện tập theo dạng</strong><small>Chọn dạng bài và luyện từng set</small></span><span class="hsg-p-arrow" aria-hidden="true">↗</span></button></div>'+
  '<div class="hsg-catalogue-title"><div><h2>Thư viện đề thi</h2><p>Chọn đề để bắt đầu hoặc tiếp tục.</p></div><span class="hsg-hint">Tự lưu</span></div>'+
  '<div class="hsg-grid">'+CONFIGS.map((e,i)=>{
  const p=progressFor(e);
@@ -86,6 +89,7 @@ function opening(){
  '<div class="hsg-card-bottom"><span>'+p.done+' câu đã làm</span><strong>'+p.pct+'%</strong></div><div class="hsg-mini-track"><i style="width:'+p.pct+'%"></i></div></button>'}).join("")+'</div>'+
  '<div class="hsg-info"><b>Giai đoạn thử nghiệm</b><span>Chọn A–D hoặc nhập tự luận · Lưu nháp, in phiếu · Chưa chấm điểm.</span></div></div>';
  root.querySelectorAll("[data-exam]").forEach(el=>el.addEventListener("click",()=>{location.hash=BASE+"/"+el.dataset.exam}));
+  root.querySelector("[data-hsg-topic-practice]")?.addEventListener("click",()=>{location.hash=BASE+"/practice"});
 }
 async function getExamData(id){
  if(CACHE.has(id))return CACHE.get(id);
@@ -1393,6 +1397,12 @@ function exportAnswers(){
 }
 async function open(hash){
  const route=String(hash||"").replace(/^#/,"");
+ if(route===BASE+"/practice"||route.startsWith(BASE+"/practice/")){
+  removeReadingPortal();
+  if(!global.TeacherHSGTopics)throw new Error("Chưa tải giao diện luyện tập theo dạng.");
+  global.TeacherHSGTopics.open(route);
+  return;
+ }
  const match=route.match(/^teacher\/hsg-tinh(?:\/([a-z0-9-]+))?$/);
  if(!match){location.hash=BASE;return}
  if(!match[1]){opening();return}
