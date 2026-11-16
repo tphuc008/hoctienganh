@@ -66,3 +66,11 @@ test("MCQ is four-way while matching endings uses a single shared A-F bank",()=>
  assert.match(manifest,/id:"reading-pacific-docs"/);
  assert.match(manifest,/renderSmartReadingExercise/);
 });
+
+test("Post-submit Pacific explanation uses three visible Format B cards",()=>{
+ assert.match(engine,/mis-doc-layout-cards/);
+ assert.match(engine,/mis-doc-card--/);
+ assert.match(engine,/mis-doc-source-quote/);
+ assert.match(engine,/smartReadingEvidence/);
+ assert.doesNotMatch(engine,/mis-doc-step/,"all three explanations must remain visible");
+});
