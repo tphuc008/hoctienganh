@@ -74,9 +74,7 @@ function opening(){
  const root=$("pageMount"); if(!root)return;
  root.style.display="block";
  root.innerHTML='<div class="hsg-root"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button><span>›</span><span>HSG tỉnh</span></div>'+
- '<div class="hsg-hero"><div class="hsg-kicker">TEACHER PREVIEW · EXAM LIBRARY</div><h1>Đề thi <span>Tiếng Anh chuyên</span></h1>'+
- '<p>Luyện đề · Đánh dấu câu · Tự lưu · Không Listening.</p>'+
- '<div class="hsg-hero-facts"><span>8 bộ đề</span><span>Năm học 2026–2027</span><span>Chưa có đáp án chính thức toàn đề</span></div></div>'+
+ '<div class="hsg-hero"><h1>ADVANCED ENGLISH</h1></div>'+
   '<div class="hsg-p-mode-row">'+
   '<button class="hsg-p-mode active" type="button" data-hsg-catalogue><span><strong>Luyện đề tổng hợp</strong><small>8 bộ đề HSG tỉnh hiện có</small></span><span class="hsg-p-arrow" aria-hidden="true">↗</span></button>'+
   '<button class="hsg-p-mode" type="button" data-hsg-topic-practice><span><strong>Luyện tập theo dạng</strong><small>Chọn dạng bài và luyện từng set</small></span><span class="hsg-p-arrow" aria-hidden="true">↗</span></button></div>'+
