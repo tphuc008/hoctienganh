@@ -1415,7 +1415,7 @@ function ensureTeacherHSG(){
   if(!hsgAssetsPromise){
     hsgAssetsPromise=(async()=>{
       await loadGrammar21Asset("link","features/hsg-tinh.css?v=20261116-compact-list-v1");
-       await loadGrammar21Asset("link","features/hsg-topic-practice.css?v=20261116-layout-v1");
+       await loadGrammar21Asset("link","features/hsg-topic-practice.css?v=20261116-sentence-design1-v1");
       await loadGrammar21Asset("link","features/hsg-print.css?v=20261021-error-lines-v1");
       await loadGrammar21Asset("link","features/hsg-hai-phong-workspace-v2.css?v=20261023-silent-save-v1");
       await loadGrammar21Asset("link","features/hsg-workspace-v1.css?v=20261023-two-provinces-v2");
@@ -1431,7 +1431,8 @@ function ensureTeacherHSG(){
       await loadGrammar21Asset("script","features/hsg-exam-solutions-v1.js?v=20261023-explanation-v3");
       await loadGrammar21Asset("script","features/hsg-next-three-explanation-formats.js?v=20261028-next-three-v1");
       await loadGrammar21Asset("script","content/hsg-tinh/practice-bank.js?v=20261116-layout-v1");
-       await loadGrammar21Asset("script","features/hsg-topic-practice.js?v=20261116-layout-v1");
+       await loadGrammar21Asset("script","content/hsg-tinh/sentence-transformation-bank.js?v=20261116-import-v1");
+       await loadGrammar21Asset("script","features/hsg-topic-practice.js?v=20261116-sentence-design1-v1");
        await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261116-compact-list-v1");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});
