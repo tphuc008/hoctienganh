@@ -115,7 +115,7 @@
       description:"YES/NO/NOT GIVEN · Multiple Choice · Matching Sentence Endings",
       kind:"handler",handler:"renderSmartReadingExercise",args:["pacific-navigation-and-voyaging"],
       dependencies:["content/reading-pacific-docs.js?v=20261116-doc-import-v3"],
-      source:"features/reading-docs-engine.js?v=20261116-smart-v2"},
+      source:"features/reading-docs-engine.js?v=20261116-layout-b-v1"},
     {id:"listening-home",route:"listening",title:"Listening",category:"listening-home",kind:"handler",handler:"renderListeningHome",source:"listening-entertainment.js?v=20261021-compact1"},
     {id:"listening-entertainment-home",route:"listening/entertainment",title:"Entertainment",category:"listening-home",kind:"handler",handler:"renderEntertainment",source:"listening-entertainment.js?v=20261021-compact1"},
     {id:"listening-entertainment-habits",route:"listening/entertainment/change-your-life-one-tiny-step-at-a-time",
