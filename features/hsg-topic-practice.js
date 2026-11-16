@@ -60,7 +60,7 @@ function mount(html){
  el.style.display="block";
  el.innerHTML='<div class="hsg-root hsg-p-root">'+html+'</div>';
  el.querySelectorAll("[data-hsgp-route]").forEach(button=>button.addEventListener("click",()=>{global.location.hash=button.dataset.hsgpRoute}));
- global.scrollTo?.({top:0,behavior:"instant"});
+ global.scrollTo?.({top:0,behavior:"auto"});
 }
 function intro(title,description,kicker="PRACTICE BY TYPE"){
  return '<header class="hsg-p-intro"><div class="hsg-p-kicker">'+esc(kicker)+'</div>'+
