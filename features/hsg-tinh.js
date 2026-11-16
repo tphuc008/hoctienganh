@@ -70,25 +70,72 @@ function progressFor(exam){
  return {done,max,pct:Math.round(100*done/Math.max(max,1))};
 }
 function opening(){
- removeReadingPortal();
- const root=$("pageMount"); if(!root)return;
- root.style.display="block";
- root.innerHTML='<div class="hsg-root"><div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button><span>›</span><span>HSG tỉnh</span></div>'+
- '<div class="hsg-hero"><h1>ADVANCED ENGLISH</h1></div>'+
-  '<div class="hsg-p-mode-row">'+
-  '<button class="hsg-p-mode active" type="button" data-hsg-catalogue><span><strong>Luyện đề tổng hợp</strong><small>8 bộ đề HSG tỉnh hiện có</small></span><span class="hsg-p-arrow" aria-hidden="true">↗</span></button>'+
-  '<button class="hsg-p-mode" type="button" data-hsg-topic-practice><span><strong>Luyện tập theo dạng</strong><small>Chọn dạng bài và luyện từng set</small></span><span class="hsg-p-arrow" aria-hidden="true">↗</span></button></div>'+
- '<div class="hsg-catalogue-title"><div><h2>Thư viện đề thi</h2><p>Chọn đề để bắt đầu hoặc tiếp tục.</p></div><span class="hsg-hint">Tự lưu</span></div>'+
- '<div class="hsg-grid">'+CONFIGS.map((e,i)=>{
- const p=progressFor(e);
- return '<button class="hsg-exam-card" type="button" data-exam="'+esc(e.id)+'">'+
- '<div class="hsg-card-upper"><span class="hsg-card-number">'+String(i+1).padStart(2,"0")+'</span><span class="hsg-card-arrow">↗</span></div>'+
- '<h3>'+esc(e.title)+'</h3><p>'+esc(e.subtitle)+'</p><div class="hsg-card-chips">'+meta(e)+'</div>'+
- '<div class="hsg-card-bottom"><span>'+p.done+' câu đã làm</span><strong>'+p.pct+'%</strong></div><div class="hsg-mini-track"><i style="width:'+p.pct+'%"></i></div></button>'}).join("")+'</div>'+
- '<div class="hsg-info"><b>Giai đoạn thử nghiệm</b><span>Chọn A–D hoặc nhập tự luận · Lưu nháp, in phiếu · Chưa chấm điểm.</span></div></div>';
- root.querySelectorAll("[data-exam]").forEach(el=>el.addEventListener("click",()=>{location.hash=BASE+"/"+el.dataset.exam}));
+  removeReadingPortal();
+  const root=$("pageMount");if(!root)return;
+  root.style.display="block";
+  const items=CONFIGS.map((exam,index)=>({exam,index,progress:progressFor(exam)}));
+  const priority=item=>item.progress.done>0&&item.progress.done<item.progress.max?0:item.progress.done>=item.progress.max?2:1;
+  items.sort((a,b)=>priority(a)-priority(b)||a.index-b.index);
+  const list=items.map(({exam,progress},i)=>{
+    const started=progress.done>0;
+    const completed=started&&progress.done>=progress.max;
+    const status=completed?"Hoàn thành":started?progress.done+"/"+progress.max+" câu":"Bắt đầu";
+    const meter=started?
+      `<span class="hsg-list-meter" role="progressbar" aria-label="Đã làm ${progress.done} trên ${progress.max} câu" aria-valuemin="0" aria-valuemax="${progress.max}" aria-valuenow="${progress.done}"><i style="width:${progress.pct}%"></i></span>`:"";
+    return `<li class="hsg-exam-row" data-search="${esc(exam.title+" "+exam.subtitle+" "+exam.year)}">
+      <button class="hsg-exam-row-btn" type="button" data-exam="${esc(exam.id)}" aria-label="Mở đề ${esc(exam.title)}">
+        <span class="hsg-list-index" aria-hidden="true">${String(i+1).padStart(2,"0")}</span>
+        <span class="hsg-list-details">
+          <strong>${esc(exam.title)}</strong>
+          <small>${esc(exam.subtitle)} · ${esc(exam.year)}</small>
+          ${meter}
+        </span>
+        <span class="hsg-list-aside">
+          <span class="hsg-list-status${started?" is-started":""}${completed?" is-complete":""}">${status}</span>
+          <span class="hsg-list-chevron" aria-hidden="true">›</span>
+        </span>
+      </button>
+    </li>`;
+  }).join("");
+  root.innerHTML=`<div class="hsg-root hsg-catalogue-page">
+    <div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=''">Home</button><span>›</span><span>HSG tỉnh</span></div>
+    <header class="hsg-catalogue-heading"><h1>HSG Tỉnh</h1><span>${items.length} bộ đề</span></header>
+    <nav class="hsg-catalogue-switch" aria-label="Chế độ luyện tập">
+      <button type="button" class="is-active" aria-current="page" data-hsg-catalogue>Luyện đề</button>
+      <button type="button" data-hsg-topic-practice>Luyện tập theo dạng</button>
+    </nav>
+    <div class="hsg-catalogue-toolbar">
+      <label class="hsg-catalogue-search">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+        <input id="hsg-catalogue-search" type="search" autocomplete="off" placeholder="Tìm tỉnh hoặc trường..." aria-label="Tìm đề thi HSG tỉnh">
+      </label>
+      <span class="hsg-catalogue-count" id="hsg-catalogue-count" role="status" aria-live="polite">${items.length} đề</span>
+    </div>
+    <div class="hsg-catalogue-section-title">Thư viện đề thi</div>
+    <ul class="hsg-exam-list">${list}</ul>
+    <p id="hsg-catalogue-empty" class="hsg-catalogue-empty" hidden>Không tìm thấy đề phù hợp.</p>
+    <p class="hsg-catalogue-note">Không bao gồm Listening · Tiến độ được lưu tự động.</p>
+  </div>`;
+  root.querySelectorAll("[data-exam]").forEach(el=>el.addEventListener("click",()=>{location.hash=BASE+"/"+el.dataset.exam}));
   root.querySelector("[data-hsg-topic-practice]")?.addEventListener("click",()=>{location.hash=BASE+"/practice"});
-  root.querySelector("[data-hsg-catalogue]")?.addEventListener("click",()=>{root.querySelector(".hsg-catalogue-title")?.scrollIntoView({behavior:"smooth",block:"start"})});
+  const search=root.querySelector("#hsg-catalogue-search");
+  if(search){
+    const rows=[...root.querySelectorAll(".hsg-exam-row")];
+    const count=root.querySelector("#hsg-catalogue-count");
+    const empty=root.querySelector("#hsg-catalogue-empty");
+    const normalize=value=>String(value||"").normalize("NFD").toLowerCase().replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d");
+    search.addEventListener("input",()=>{
+      const query=normalize(search.value.trim());
+      let visible=0;
+      rows.forEach(row=>{
+        const match=normalize(row.dataset.search).includes(query);
+        row.hidden=!match;
+        if(match)visible++;
+      });
+      if(count)count.textContent=visible+" / "+items.length+" đề";
+      if(empty)empty.hidden=visible!==0;
+    });
+  }
 }
 async function getExamData(id){
  if(CACHE.has(id))return CACHE.get(id);
