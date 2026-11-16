@@ -24,6 +24,7 @@ function boot(extraBank={}){
  const document={getElementById(id){return id==="pageMount"?root:null}};
  const context={window,document,location:window.location};
  vm.runInNewContext(read("content/hsg-tinh/practice-bank.js"),context);
+ vm.runInNewContext(read("content/hsg-tinh/sentence-transformation-bank.js"),context);
  Object.assign(window.HSGTopicPracticeBank,extraBank);
  vm.runInNewContext(read("features/hsg-topic-practice.js"),context);
  vm.runInNewContext(read("features/hsg-tinh.js"),context);
@@ -81,9 +82,49 @@ test("Provided questions render but answer explanations are hidden during practi
  assert.match(root.innerHTML,/data-hsgp-choice="B"/);
  assert.doesNotMatch(root.innerHTML,/SECRET_TEST_EXPLANATION/);
 });
+
+test("Sentence Transformation imports 131 original Google Docs questions in 13 sets",()=>{
+ const {window}=boot();
+ const sets=window.HSGTopicPracticeBank["sentence-transformation"];
+ assert.equal(sets.length,13);
+ assert.equal(sets.reduce((n,s)=>n+s.questions.length,0),131);
+ assert.deepEqual(Array.from(sets,s=>s.questions.length),[10,10,10,10,11,10,10,10,10,10,10,10,10]);
+ const all=sets.flatMap(s=>s.questions);
+ assert.ok(all.every(q=>q.stem&&q.target&&q.answer&&
+   ["structure","pattern","breakdown","transformation","pitfalls"].every(k=>q.analysis[k])));
+ assert.equal(all.filter(q=>q.sourceNote).length,20);
+ assert.equal(all.filter(q=>q.appendixNote).length,20);
+ assert.match(all[0].stem,/Richard only took over the family business/);
+ assert.match(all[0].answer,/Had it not been for his father/);
+});
+test("Sentence Transformation presents focused sets and progressive explanation",async()=>{
+ const {window,root}=boot();
+ await window.TeacherHSG.open("teacher/hsg-tinh/practice/sentence-transformation");
+ assert.match(root.innerHTML,/hsg-st-set-list/);
+ assert.equal((root.innerHTML.match(/class="hsg-st-set-item"/g)||[]).length,13);
+ let reveal=null;
+ root.querySelector=selector=>selector==="[data-hsgp-reveal]"?{
+  addEventListener(name,listener){if(name==="click")reveal=listener;}
+ }:null;
+ await window.TeacherHSG.open("teacher/hsg-tinh/practice/sentence-transformation/set-01");
+ assert.match(root.innerHTML,/Richard only took over the family business/);
+ assert.match(root.innerHTML,/Xem đáp án & giải thích/);
+ assert.doesNotMatch(root.innerHTML,/Had it not been for his father/);
+ assert.doesNotMatch(root.innerHTML,/General Grammar Pattern/);
+ assert.equal(typeof reveal,"function");
+ reveal();
+ assert.match(root.innerHTML,/Had it not been for his father/);
+ assert.match(root.innerHTML,/General Grammar Pattern/);
+ assert.match(root.innerHTML,/Grammatical Breakdown/);
+ assert.match(root.innerHTML,/Lưu ý đáp án gốc/);
+ reveal();
+ assert.doesNotMatch(root.innerHTML,/Had it not been for his father/);
+});
+
 test("Teacher route allows practice topic and nested set URLs",()=>{
  const html=read("index.html");
  assert.match(html,/hsg-topic-practice\.js/);
  assert.match(html,/practice-bank\.js/);
+ assert.match(html,/sentence-transformation-bank\.js/);
  assert.ok(html.includes(String.raw`^teacher\/hsg-tinh(?:\/[a-z0-9-]+){0,3}$`));
 });
