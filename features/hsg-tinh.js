@@ -90,6 +90,7 @@ function opening(){
  '<div class="hsg-info"><b>Giai đoạn thử nghiệm</b><span>Chọn A–D hoặc nhập tự luận · Lưu nháp, in phiếu · Chưa chấm điểm.</span></div></div>';
  root.querySelectorAll("[data-exam]").forEach(el=>el.addEventListener("click",()=>{location.hash=BASE+"/"+el.dataset.exam}));
   root.querySelector("[data-hsg-topic-practice]")?.addEventListener("click",()=>{location.hash=BASE+"/practice"});
+  root.querySelector("[data-hsg-catalogue]")?.addEventListener("click",()=>{root.querySelector(".hsg-catalogue-title")?.scrollIntoView({behavior:"smooth",block:"start"})});
 }
 async function getExamData(id){
  if(CACHE.has(id))return CACHE.get(id);
