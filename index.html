@@ -1973,16 +1973,7 @@ function renderGrade(id){
     '<span class="chip">IELTS Academic</span></div></button></div>'
   ].join(""):"";
 
-  const lessonPlansHTML=id===12?`
-    <div class="section-title"><h2>Lesson Plans &amp; Practice</h2><span>New learning area</span></div>
-    <div class="exercise-grid">
-      <button type="button" class="exercise-card lp-entry-card" data-lesson-plan-route="grade-12/lesson-plans">
-        <div class="exercise-icon">📚</div>
-        <h3>Lesson Plans &amp; Practice</h3>
-        <p>Google Docs · Luyện tập · In đề</p>
-        <div class="meta"><span class="chip">Unit 7</span><span class="chip">Chờ nội dung</span></div>
-      </button>
-    </div>`:"";
+
 
   pageMount.innerHTML=`
     <div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><span>Lớp ${id}</span></div>
@@ -1995,10 +1986,8 @@ function renderGrade(id){
     </div>
 
     ${unitsHTML}
-    ${readingHTML}
-    ${lessonPlansHTML}`;
+    ${readingHTML}`;
   pageMount.querySelectorAll("[data-reading-route]").forEach(btn=>btn.addEventListener("click",()=>{location.hash=btn.dataset.readingRoute}));
-  pageMount.querySelectorAll("[data-lesson-plan-route]").forEach(btn=>btn.addEventListener("click",()=>{location.hash=btn.dataset.lessonPlanRoute}));
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function goUnit(id,grade){
