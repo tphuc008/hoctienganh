@@ -39,6 +39,19 @@ const assert=require("node:assert/strict");
     "Main portal keeps exactly two access choices");
   assert.equal(await page.locator("#pageMount .account-banner").count(),0,
     "Redundant account banner is removed");
+  assert.equal(await page.locator("#portalHplus").getAttribute("data-area"),"tutoring",
+    "Initial preview should show Tutoring");
+  await page.locator('[data-portal-select="school"]').click();
+  assert.equal(await page.locator("#portalHplus").getAttribute("data-area"),"school",
+    "Switching to School must update preview without navigating");
+  assert.equal(await page.locator('[data-portal-select="school"]').getAttribute("aria-pressed"),"true");
+  assert.ok(await page.locator('.portal-hplus-modules[data-portal-content="school"]').isVisible());
+  assert.ok(!await page.locator('.portal-hplus-modules[data-portal-content="tutoring"]').isVisible());
+  await page.locator('[data-portal-select="tutoring"]').click();
+  await page.locator("[data-portal-enter-selected]").click();
+  await page.locator(".tutoring-grade-grid").waitFor({timeout:12000});
+  assert.equal(new URL(page.url()).hash,"#tutoring",
+    "Enter button must navigate through the existing access checks");
   async function open(route,selector){
    // The portal intentionally clears the active area; emulate entering the right area.
    await page.evaluate(area=>localStorage.setItem("hoctienganh_active_area",area),
