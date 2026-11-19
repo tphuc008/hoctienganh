@@ -136,14 +136,10 @@ function renderSchoolHome(){
   const data=schoolReviewData();
   pageMount.style.display="block";
   pageMount.innerHTML=`
-    <div class="hero">
-      <div class="eyebrow">Học trên trường · School</div>
-      <h1><span class="gradient">Chọn lớp học.</span></h1>
-    </div>
-    <div class="section-title"><h2>Lớp học</h2><span><button class="crumb-btn" onclick="forgetAreaAccess('school')">Quên quyền trên máy này</button></span></div>
-    <div class="units">
+    <div class="section-title portal-title"><h1>Chọn lớp học</h1></div>
+    <div class="units portal-areas">
       <button class="unit-card" onclick="location.hash='school/grade-10'">
-        <div class="unit-top"><span class="unit-no">GRADE 10</span><span class="status live">Available</span></div>
+        <div class="unit-top"><span class="portal-area-symbol" aria-hidden="true">▤</span></div>
         <h3>Lớp 10</h3>
         <p>${data?esc(data.title):"Ôn tập trên trường"}</p>
         <span class="unit-arrow">→</span>
