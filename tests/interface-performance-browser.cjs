@@ -50,7 +50,17 @@ const assert=require("node:assert/strict");
   assert.ok(initial.css.some(x=>x.startsWith("styles/site.css")),"Extracted stylesheet not found");
   assert.ok(initial.css.some(x=>x.startsWith("styles/study-workspace.css")),"Shared responsive study design not loaded");
   const grid=await page.locator(".units").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length);
-  assert.equal(grid,2,"Desktop portal should show two compact access choices");
+  assert.equal(grid,1,"Desktop H+ choices must form a vertical selector");
+  assert.equal(await page.locator(".portal-hplus-layout").evaluate(el=>
+    getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),2,
+    "H+ needs two columns on desktop");
+  await page.setViewportSize({width:390,height:844});
+  assert.equal(await page.locator(".portal-hplus-choices").evaluate(el=>
+    getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),2,
+    "Mobile H+ choices must appear side-by-side");
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+4),
+    "Mobile H+ portal should not overflow horizontally");
+  await page.setViewportSize({width:1280,height:820});
 
   assert.ok(initial.scripts.length<=27,"Initial scripts not reduced: "+initial.scripts.length);
   const source=await (await context.request.get(base)).text();
