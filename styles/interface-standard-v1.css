@@ -325,3 +325,85 @@
   }
 }
 @media print { .ui-standard-sidebar { display:none!important } }
+
+/* H+ homepage. Scoped to the entry portal: other learning pages and print stay unchanged. */
+@media screen {
+ body:not(.mis-reading-mode) .portal-hplus{--hblue:#305fe4;--hink:#1b304a;--hline:#e0e8f2;width:min(100%,1060px);margin:14px auto 4px}
+ body:not(.mis-reading-mode) .portal-hplus-heading{margin:0 0 23px}
+ body:not(.mis-reading-mode) .portal-hplus-eyebrow{font-size:11px;letter-spacing:.12em;font-weight:800;color:#6584b6}
+ body:not(.mis-reading-mode) .portal-hplus-heading h1{font-size:clamp(27px,3vw,36px);line-height:1.2;letter-spacing:-.04em;margin:7px 0 0;color:var(--hink);font-weight:800}
+ body:not(.mis-reading-mode) .portal-hplus-layout{display:grid;grid-template-columns:minmax(215px,.78fr) minmax(0,1.72fr);gap:16px;align-items:stretch}
+ body:not(.mis-reading-mode) .portal-hplus-chooser{min-width:0}
+ body:not(.mis-reading-mode) .portal-hplus-choice-label{font-size:10px;letter-spacing:.09em;font-weight:800;color:#8a9aae;margin:0 0 10px 3px}
+ body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choices{display:grid;grid-template-columns:minmax(0,1fr);gap:11px}
+ body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choice{min-height:106px;margin:0;padding:5px;display:flex;align-items:stretch;gap:2px;border:1px solid var(--hline);background:#fff;border-radius:14px;box-shadow:none;transform:none}
+ body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choice:after{display:none}
+ body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choice:hover{transform:none;border-color:#a9c2f0;box-shadow:0 5px 18px rgba(47,100,206,.055)}
+ body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choice:has([aria-pressed="true"]){background:#eff5ff;border-color:#9dbaf2;box-shadow:0 0 0 1px #dbe6ff}
+ body:not(.mis-reading-mode) .portal-hplus-select{border:0;background:transparent;flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:9px;padding:9px 6px 9px 12px;text-align:left;color:var(--hink);cursor:pointer}
+ body:not(.mis-reading-mode) .portal-hplus-choice-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:#f0f4fb;color:#5f7ba4;font-size:18px;font-weight:800}
+ body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choice:has([aria-pressed="true"]) .portal-hplus-choice-icon{background:#dce9ff;color:#2c62dd}
+ body:not(.mis-reading-mode) .portal-hplus-choice-name{font-size:15px;line-height:1.3;font-weight:760}
+ body:not(.mis-reading-mode) .portal-hplus-choice-name small{display:block;margin-top:4px;font-size:11px;font-weight:500;color:#8798ac}
+ body:not(.mis-reading-mode) .portal-hplus-quick{align-self:center;width:33px;height:36px;background:transparent;border:0;border-radius:8px;color:#7388a4;font-size:19px;cursor:pointer}
+ body:not(.mis-reading-mode) .portal-hplus-quick:hover{background:#e3edff;color:#285dd2}
+ body:not(.mis-reading-mode) .portal-hplus button:focus-visible{outline:3px solid #93b5f5;outline-offset:2px}
+ body:not(.mis-reading-mode) .portal-hplus-preview{min-width:0;overflow:hidden;border:1px solid #dce6f2;border-radius:16px;background:#fff;box-shadow:0 6px 22px rgba(38,72,132,.035)}
+ body:not(.mis-reading-mode) .portal-hplus-feature{position:relative;isolation:isolate;min-height:222px;display:flex;overflow:hidden;padding:23px 23px 66px;background:linear-gradient(116deg,#edf3ff,#dce8ff)}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-feature{background:linear-gradient(116deg,#eaf8f7,#d5edec)}
+ body:not(.mis-reading-mode) .portal-hplus-feature-copy{position:relative;z-index:1;max-width:78%}
+ body:not(.mis-reading-mode) .portal-hplus-feature-kicker{font-size:10px;font-weight:800;letter-spacing:.1em;color:#4d75be}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-feature-kicker{color:#357d81}
+ body:not(.mis-reading-mode) .portal-hplus-feature h2{font-size:clamp(25px,2.6vw,31px);letter-spacing:-.05em;line-height:1.12;font-weight:800;color:#19386d;margin:12px 0 9px}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-feature h2{color:#245e65}
+ body:not(.mis-reading-mode) .portal-hplus-feature p{font-size:13px;line-height:1.6;color:#5b789c;max-width:350px;margin:0}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-feature p{color:#517f82}
+ body:not(.mis-reading-mode) .portal-hplus-access{display:inline-flex;align-items:center;margin-top:15px;padding:7px 10px;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.7);border-radius:8px;font-size:11px;font-weight:700;color:#436da8}
+ body:not(.mis-reading-mode) .portal-hplus-access:before{content:"";width:7px;height:7px;border-radius:50%;background:#dda64f;margin-right:7px}
+ body:not(.mis-reading-mode) .portal-hplus-art{position:absolute;z-index:0;width:150px;height:150px;top:29px;right:-17px;transform:rotate(-23deg);pointer-events:none}
+ body:not(.mis-reading-mode) .portal-hplus-art span{position:absolute;inset:9px;display:block;border:22px solid rgba(89,137,227,.32);border-radius:42px;transform:rotate(35deg)}
+ body:not(.mis-reading-mode) .portal-hplus-art i{position:absolute;left:0;bottom:0;width:48px;height:48px;border-radius:13px;background:rgba(89,137,227,.28);transform:rotate(20deg)}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-art span{border-color:rgba(82,166,168,.29)}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-art i{background:rgba(82,166,168,.29)}
+ body:not(.mis-reading-mode) .portal-hplus-entry{position:absolute;z-index:2;right:20px;bottom:18px;border:0;border-radius:9px;background:#285ed8;color:#fff;padding:11px 16px;font-size:13px;font-weight:750;cursor:pointer;box-shadow:0 5px 12px rgba(45,81,182,.16)}
+ body:not(.mis-reading-mode) .portal-hplus-entry:hover{background:#1c4dbc}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-entry{background:#287e83}
+ body:not(.mis-reading-mode) .portal-hplus[data-area="school"] .portal-hplus-entry:hover{background:#206970}
+ body:not(.mis-reading-mode) .portal-hplus-details{padding:17px 18px 19px}
+ body:not(.mis-reading-mode) .portal-hplus-detail-title{font-size:12px;font-weight:800;color:#354a66;margin-bottom:12px}
+ body:not(.mis-reading-mode) .portal-hplus-modules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ body:not(.mis-reading-mode) .portal-hplus-module{display:flex;align-items:center;gap:10px;padding:10px;min-height:58px;min-width:0;border:1px solid #e3eaf3;border-radius:10px;background:#fff}
+ body:not(.mis-reading-mode) .portal-hplus-module-icon{flex:0 0 29px;display:grid;place-items:center;width:29px;height:29px;border-radius:8px;background:#f0f5fc;color:#4973ad;font-size:13px;font-weight:800}
+ body:not(.mis-reading-mode) .portal-hplus-module b{display:block;font-size:12px;color:#364b66;font-weight:770}
+ body:not(.mis-reading-mode) .portal-hplus-module small{display:block;font-size:10px;color:#8b9bad;margin-top:3px}
+ body:not(.mis-reading-mode) .portal-hplus [hidden]{display:none!important}
+ body:not(.mis-reading-mode) .portal-hplus .portal-teacher-title{margin:30px 0 13px}
+ body:not(.mis-reading-mode) .portal-hplus .portal-teacher-areas .unit-card{min-height:118px}
+ @media(max-width:760px){
+  body:not(.mis-reading-mode) .portal-hplus-layout{grid-template-columns:1fr;gap:12px}
+  body:not(.mis-reading-mode) .portal-hplus-choice-label{display:none}
+  body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choice{min-height:96px;padding:3px}
+  body:not(.mis-reading-mode) .portal-hplus-select{gap:7px;padding:8px 4px 8px 9px}
+  body:not(.mis-reading-mode) .portal-hplus-choice-name{font-size:13px}
+  body:not(.mis-reading-mode) .portal-hplus-choice-name small{display:none}
+  body:not(.mis-reading-mode) .portal-hplus-quick{width:27px;font-size:17px}
+  body:not(.mis-reading-mode) .portal-hplus-feature{min-height:202px;padding:20px 18px 64px}
+  body:not(.mis-reading-mode) .portal-hplus-details{padding:14px}
+ }
+ @media(max-width:410px){
+  body:not(.mis-reading-mode) .portal-hplus{margin-top:3px}
+  body:not(.mis-reading-mode) .portal-hplus-heading{margin-bottom:18px}
+  body:not(.mis-reading-mode) .portal-hplus .portal-hplus-choice{min-height:91px}
+  body:not(.mis-reading-mode) .portal-hplus-choice-name{font-size:12px}
+  body:not(.mis-reading-mode) .portal-hplus-select{padding:7px 1px 7px 7px}
+  body:not(.mis-reading-mode) .portal-hplus-choice-icon{width:29px;height:29px;font-size:16px}
+  body:not(.mis-reading-mode) .portal-hplus-feature h2{font-size:26px}
+  body:not(.mis-reading-mode) .portal-hplus-feature-copy{max-width:80%}
+  body:not(.mis-reading-mode) .portal-hplus-feature p{font-size:12px}
+  body:not(.mis-reading-mode) .portal-hplus-art{width:120px;height:120px;right:-33px}
+  body:not(.mis-reading-mode) .portal-hplus-module{gap:7px;padding:9px 7px}
+  body:not(.mis-reading-mode) .portal-hplus-module small{display:none}
+ }
+ @media(prefers-reduced-motion:reduce){body:not(.mis-reading-mode) .portal-hplus *{transition:none!important;animation:none!important}}
+}
