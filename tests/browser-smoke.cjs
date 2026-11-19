@@ -48,6 +48,14 @@ const assert=require("node:assert/strict");
   assert.ok(await page.locator('.portal-hplus-modules[data-portal-content="school"]').isVisible());
   assert.ok(!await page.locator('.portal-hplus-modules[data-portal-content="tutoring"]').isVisible());
   await page.locator('[data-portal-select="tutoring"]').click();
+  await page.setViewportSize({width:390,height:844});
+  const mobilePortal=await page.evaluate(()=>({
+    cols:getComputedStyle(document.querySelector(".portal-hplus-choices")).gridTemplateColumns.split(" ").filter(Boolean).length,
+    overflow:document.documentElement.scrollWidth-innerWidth
+  }));
+  assert.equal(mobilePortal.cols,2,"Mobile H+ selection must become two horizontal tabs");
+  assert.ok(mobilePortal.overflow<=4,"Mobile H+ must not scroll horizontally");
+  await page.setViewportSize({width:1280,height:850});
   await page.locator("[data-portal-enter-selected]").click();
   await page.locator(".tutoring-grade-grid").waitFor({timeout:12000});
   assert.equal(new URL(page.url()).hash,"#tutoring",
