@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="styles/study-workspace.css?v=20261120-home-clean-v1">
 <link rel="stylesheet" href="features/explanation-v1.css?v=20261020-exp1">
 <link rel="stylesheet" href="styles/universal-print.css?v=20261020-allprint1">
-<link rel="stylesheet" href="styles/interface-standard-v1.css?v=20261022-v2">
+<link rel="stylesheet" href="styles/interface-standard-v1.css?v=20261120-hplus-v1">
 <script src="features/interface-standard-v1.js?v=20261022-v3" defer></script>
 </head>
 <body>
@@ -1452,25 +1452,97 @@ function renderTeacherPreviewPage(hash){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
+let portalSelectedArea="tutoring";
+function selectPortalArea(area){
+  if(area!=="school"&&area!=="tutoring")return;
+  portalSelectedArea=area;
+  const root=document.getElementById("portalHplus");
+  if(!root)return;
+  root.dataset.area=area;
+  root.querySelectorAll("[data-portal-select]").forEach(button=>
+    button.setAttribute("aria-pressed",String(button.dataset.portalSelect===area)));
+  root.querySelectorAll("[data-portal-content]").forEach(node=>
+    node.hidden=node.dataset.portalContent!==area);
+  const enter=root.querySelector("[data-portal-enter-selected]");
+  if(enter)enter.setAttribute("aria-label","Vào khu vực "+(area==="school"?"Học trên trường":"Học thêm"));
+}
+function enterSelectedPortalArea(){return enterArea(portalSelectedArea)}
+function portalAccessLabel(area){
+  const stored=getStoredAccess(area);
+  const expiry=Date.parse(stored?.expiresAt||"");
+  return stored?.token&&Number.isFinite(expiry)&&expiry>Date.now()
+    ?"Đã lưu mã trên thiết bị":"Cần mã truy cập";
+}
 function renderPortal(teacherPreview=false){
   clearActiveArea();
   syncLearnerHeader();
   pageMount.style.display="block";
   pageMount.innerHTML=`
-    <div class="portal-home">
-      <div class="section-title portal-title"><h1>Chọn khu vực học</h1></div>
-      <div class="units portal-areas">
-        <button class="unit-card" onclick="enterArea('school')">
-          <div class="unit-top"><span class="portal-area-symbol" aria-hidden="true">▤</span>${getStoredAccess("school")?"":'<span class="status access-state">Cần mã truy cập</span>'}</div>
-          <h3>Học trên trường</h3><span class="unit-arrow">→</span>
-        </button>
-        <button class="unit-card" onclick="enterArea('tutoring')">
-          <div class="unit-top"><span class="portal-area-symbol" aria-hidden="true">✦</span>${getStoredAccess("tutoring")?"":'<span class="status access-state">Cần mã truy cập</span>'}</div>
-          <h3>Học thêm</h3><span class="unit-arrow">→</span>
-        </button>
+    <div class="portal-hplus" id="portalHplus" data-area="tutoring">
+      <div class="portal-hplus-heading">
+        <div class="portal-hplus-eyebrow">LEARNING WORKSPACE</div>
+        <h1>Chọn khu vực học</h1>
+      </div>
+      <div class="portal-hplus-layout">
+        <div class="portal-hplus-chooser" role="group" aria-label="Chọn khu vực học tập">
+          <div class="portal-hplus-choice-label">KHU VỰC HỌC TẬP</div>
+          <div class="units portal-areas portal-hplus-choices">
+            <div class="unit-card portal-hplus-choice">
+              <button class="portal-hplus-select" type="button" data-portal-select="school"
+                aria-pressed="false" aria-controls="portalHplusPreview" onclick="selectPortalArea('school')">
+                <span class="portal-hplus-choice-icon" aria-hidden="true">▤</span>
+                <span class="portal-hplus-choice-name">Học trên trường<small>School · Lớp 10</small></span>
+              </button>
+              <button class="portal-hplus-quick" type="button" data-portal-enter="school"
+                onclick="enterArea('school')" aria-label="Vào ngay khu vực Học trên trường">↗</button>
+            </div>
+            <div class="unit-card portal-hplus-choice">
+              <button class="portal-hplus-select" type="button" data-portal-select="tutoring"
+                aria-pressed="true" aria-controls="portalHplusPreview" onclick="selectPortalArea('tutoring')">
+                <span class="portal-hplus-choice-icon" aria-hidden="true">✦</span>
+                <span class="portal-hplus-choice-name">Học thêm<small>Tutoring · Luyện kỹ năng</small></span>
+              </button>
+              <button class="portal-hplus-quick" type="button" data-portal-enter="tutoring"
+                onclick="enterArea('tutoring')" aria-label="Vào ngay khu vực Học thêm">↗</button>
+            </div>
+          </div>
+        </div>
+        <section class="portal-hplus-preview" id="portalHplusPreview" aria-label="Xem trước khu vực học">
+          <div class="portal-hplus-feature">
+            <div class="portal-hplus-art" aria-hidden="true"><span></span><i></i></div>
+            <div class="portal-hplus-feature-copy">
+              <div class="portal-hplus-feature-kicker" data-portal-content="school" hidden>SCHOOL SPACE / 01</div>
+              <div class="portal-hplus-feature-kicker" data-portal-content="tutoring">TUTORING SPACE / 02</div>
+              <h2 data-portal-content="school" hidden>Học trên trường</h2>
+              <h2 data-portal-content="tutoring">Học thêm</h2>
+              <p data-portal-content="school" hidden>Ôn tập theo chương trình và làm các bài kiểm tra trên trường.</p>
+              <p data-portal-content="tutoring">Luyện từ vựng, ngữ pháp và các kỹ năng tiếng Anh.</p>
+              <div class="portal-hplus-access" data-portal-content="school" hidden>${esc(portalAccessLabel("school"))}</div>
+              <div class="portal-hplus-access" data-portal-content="tutoring">${esc(portalAccessLabel("tutoring"))}</div>
+            </div>
+            <button class="portal-hplus-entry" type="button" data-portal-enter-selected
+              aria-label="Vào khu vực Học thêm" onclick="enterSelectedPortalArea()">Vào học <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="portal-hplus-details">
+            <div class="portal-hplus-detail-title">Nội dung học tập</div>
+            <div class="portal-hplus-modules" data-portal-content="school" hidden>
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">10</span><span><b>Lớp 10</b><small>Chương trình hiện có</small></span></div>
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">▤</span><span><b>Ôn tập</b><small>Theo chương trình</small></span></div>
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">✓</span><span><b>Kiểm tra</b><small>Luyện đề</small></span></div>
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">↺</span><span><b>Kết quả</b><small>Xem lại bài đã làm</small></span></div>
+            </div>
+            <div class="portal-hplus-modules" data-portal-content="tutoring">
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">Aa</span><span><b>Vocabulary</b><small>Từ vựng theo Unit</small></span></div>
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">✦</span><span><b>Grammar</b><small>Chuyên đề ngữ pháp</small></span></div>
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">▤</span><span><b>Reading</b><small>Luyện đọc hiểu</small></span></div>
+              <div class="portal-hplus-module"><span class="portal-hplus-module-icon" aria-hidden="true">♫</span><span><b>Listening</b><small>Luyện nghe qua video</small></span></div>
+            </div>
+          </div>
+        </section>
       </div>
       ${teacherPreview?teacherPreviewCards():""}
     </div>`;
+  portalSelectedArea="tutoring";
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderAccessPrompt(area,message=""){
