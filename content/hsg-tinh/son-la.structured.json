@@ -1,0 +1,361 @@
+{
+  "version": 1,
+  "examId": "son-la",
+  "parts": [
+    {
+      "id": "g1",
+      "kind": "guided_cloze",
+      "title": "Green Transportation",
+      "start": 26,
+      "end": 30,
+      "optionsLayout": "stacked",
+      "passage": [
+        {
+          "type": "heading",
+          "text": "GREEN TRANSPORTATION"
+        },
+        {
+          "type": "paragraph",
+          "text": "As cities continue to grow rapidly, traffic congestion and air pollution have become serious concerns in many countries. To solve these problems, some governments are investing heavily in public transportation systems, such as electric buses and underground railways. These solutions are expected to reduce carbon emissions significantly, (26) _____."
+        },
+        {
+          "type": "paragraph",
+          "text": "In many urban areas, cycling has also become increasingly popular. People who ride bicycles regularly not only improve their physical health but also help protect the environment. (27) _____ has encouraged local authorities to build more bike lanes and public parks."
+        },
+        {
+          "type": "paragraph",
+          "text": "However, not everyone is willing to change their daily habits. Some people continue using private vehicles, (28) _____. Environmental experts argue that long-term change requires both education and stricter environmental policies. (29) _____, many cities are now offering financial support for citizens who choose eco-friendly transportation. In the future, (30) _____, this can help create cleaner and more sustainable communities."
+        }
+      ],
+      "questions": [
+        {
+          "number": 26,
+          "stem": "Choose the best option for gap (26).",
+          "options": [
+            "which many environmental scientists strongly support",
+            "where many environmental scientists strongly support",
+            "that many environmental scientists support them strongly",
+            "whom many environmental scientists strongly support"
+          ]
+        },
+        {
+          "number": 27,
+          "stem": "Choose the best option for gap (27).",
+          "options": [
+            "Reduce pollution in crowded cities",
+            "Reducing pollution in crowded cities",
+            "Reduced pollution in crowded cities",
+            "To reduce pollution in crowded cities"
+          ]
+        },
+        {
+          "number": 28,
+          "stem": "Choose the best option for gap (28).",
+          "options": [
+            "although public transportation is improving",
+            "despite public transportation is improving",
+            "because of public transportation improving",
+            "only when public transportation improved"
+          ]
+        },
+        {
+          "number": 29,
+          "stem": "Choose the best option for gap (29).",
+          "options": [
+            "Because environmental problems are becoming more serious",
+            "Much as environmental problems are becoming more serious",
+            "Although environmental problems becoming more serious",
+            "As though environmental problems become more serious"
+          ]
+        },
+        {
+          "number": 30,
+          "stem": "Choose the best option for gap (30).",
+          "options": [
+            "if the governments encouraging people to use greener transportation",
+            "were the governments to encourage people to use greener transportation",
+            "should the governments encourage people to use greener transportation",
+            "unless the governments encourage people to use greener transportation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g2",
+      "kind": "guided_cloze",
+      "title": "The Rise of Paperless Exams",
+      "start": 31,
+      "end": 40,
+      "optionsLayout": "compact",
+      "passage": [
+        {
+          "type": "heading",
+          "text": "THE RISE OF PAPERLESS EXAMS"
+        },
+        {
+          "type": "paragraph",
+          "text": "In the rapidly evolving landscape of modern education, the traditional pen-and-paper method of examination is undergoing a massive, highly anticipated technological transformation. Digital evaluation, once dismissed as an impractical alternative for schools, (31) _____ into a fundamental component of institutional assessment. With environmental sustainability becoming a critical priority, many school authorities are replacing paper booklets with portable tablets. If educational leaders (32) _____ digital testing platforms a decade ago, the entire academic sector would be far more ecologically sustainable today."
+        },
+        {
+          "type": "paragraph",
+          "text": "Some skeptical school administrators initially argued that the initial technological costs would be far too high for standard budgets. However, progressive research proved that processing electronic tests across online networks is significantly (33) _____ expensive than printing thousands of physical paper sheets each year. Furthermore, this innovative approach streamlines administrative workflows, allowing schools to eliminate physical waste and (34) _____ a major milestone in modernizing classroom infrastructure."
+        },
+        {
+          "type": "paragraph",
+          "text": "Traditional high-stakes examinations have often (35) _____ as the absolute metric for measuring student intelligence, but paperless testing completely redefines this classroom experience. In these secure online setups, students submit answers through specialized software. A digital encryption program (36) _____ the exam data, monitoring security protocols continuously until each electronic script is ready (37) _____ processed by external examiners."
+        },
+        {
+          "type": "paragraph",
+          "text": "Of course, transitioning to completely paperless assessments is not a walk in the park. IT coordinators must (38) _____ up against unexpected technical glitches and internet connectivity issues. Yet, test software continues to improve, and advanced algorithms protect student exam integrity. It is clear that the more we refine these digital platforms, the (39) _____ our evaluation systems will become. Educational policy makers must now work together to (40) _____ into account the vital operational advantages of electronic testing for all future student generations."
+        }
+      ],
+      "questions": [
+        {
+          "number": 31,
+          "stem": "Choose the best option for gap (31).",
+          "options": [
+            "has evolved",
+            "evolved",
+            "is evolving",
+            "evolves"
+          ]
+        },
+        {
+          "number": 32,
+          "stem": "Choose the best option for gap (32).",
+          "options": [
+            "adopt",
+            "had adopted",
+            "would adopt",
+            "have adopted"
+          ]
+        },
+        {
+          "number": 33,
+          "stem": "Choose the best option for gap (33).",
+          "options": [
+            "least",
+            "much",
+            "less",
+            "more"
+          ]
+        },
+        {
+          "number": 34,
+          "stem": "Choose the best option for gap (34).",
+          "options": [
+            "reach",
+            "take",
+            "hit",
+            "make"
+          ]
+        },
+        {
+          "number": 35,
+          "stem": "Choose the best option for gap (35).",
+          "options": [
+            "viewed",
+            "been viewed",
+            "being viewed",
+            "been viewing"
+          ]
+        },
+        {
+          "number": 36,
+          "stem": "Choose the best option for gap (36).",
+          "options": [
+            "looks through",
+            "sets up",
+            "brings about",
+            "runs after"
+          ]
+        },
+        {
+          "number": 37,
+          "stem": "Choose the best option for gap (37).",
+          "options": [
+            "to be",
+            "being",
+            "for being",
+            "to have"
+          ]
+        },
+        {
+          "number": 38,
+          "stem": "Choose the best option for gap (38).",
+          "options": [
+            "cope",
+            "come",
+            "run",
+            "face"
+          ]
+        },
+        {
+          "number": 39,
+          "stem": "Choose the best option for gap (39).",
+          "options": [
+            "reliable",
+            "more reliable",
+            "most reliable",
+            "reliably"
+          ]
+        },
+        {
+          "number": 40,
+          "stem": "Choose the best option for gap (40).",
+          "options": [
+            "put",
+            "give",
+            "bring",
+            "take"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oc",
+      "kind": "open_cloze",
+      "title": "Reading · Soft Skills and Career Success",
+      "start": 51,
+      "end": 55,
+      "passage": [
+        {
+          "type": "paragraph",
+          "text": "In today’s rapidly evolving job market, academic excellence alone no longer guarantees career success. Consequently, secondary schools are increasingly incorporating interpersonal development into their core curricula, recognizing that students (51) _____ have mastered emotional intelligence tend to perform better in team environments. Educators emphasize that critical thinking and conflict resolution are not innate talents; rather, they are competencies that can be systematically cultivated."
+        },
+        {
+          "type": "paragraph",
+          "text": "Acquiring these abilities (52) _____ adolescents to navigate complex social dynamics, which is essential for fostering long-term professional relationships. Furthermore, when schools prioritize cooperative projects, students learn to negotiate and compromise effectively. This hands-on approach ensures that learners do not just absorb theoretical knowledge but actually put these vital skills (53) _____ practice."
+        },
+        {
+          "type": "paragraph",
+          "text": "However, integrating soft skills training into traditional frameworks presents challenges, (54) _____ standard grading systems are often ill-equipped to measure subjective growth. Despite these structural hurdles, institutions must persevere in balancing metrics with holistic growth. Ultimately, fostering adaptability prepares the next generation for an unpredictable future, ensuring they graduate (55) _____ prepared to face modern workplace challenges."
+        }
+      ],
+      "questions": [
+        {
+          "number": 51,
+          "stem": "Write ONE suitable word for gap (51)."
+        },
+        {
+          "number": 52,
+          "stem": "Write ONE suitable word for gap (52)."
+        },
+        {
+          "number": 53,
+          "stem": "Write ONE suitable word for gap (53)."
+        },
+        {
+          "number": 54,
+          "stem": "Write ONE suitable word for gap (54)."
+        },
+        {
+          "number": 55,
+          "stem": "Write ONE suitable word for gap (55)."
+        }
+      ]
+    },
+    {
+      "id": "r",
+      "kind": "reading_comprehension",
+      "title": "Reading · Potentials of AI in English Learning",
+      "start": 61,
+      "end": 67,
+      "optionsLayout": "stacked",
+      "passage": [
+        {
+          "type": "heading",
+          "text": "POTENTIALS OF AI IN ENGLISH LEARNING"
+        },
+        {
+          "type": "paragraph",
+          "text": "The integration of Artificial Intelligence (AI) into educational systems has fundamentally revolutionized how students approach language acquisition, particularly in mastering English. Traditionally, learning a second language required intensive classroom instruction, rigid grammar drills, and limited opportunities for interactive conversation. However, the emergence of AI-driven applications has shattered these conventional boundaries, offering language learners highly flexible, personalized, and engaging tools that accommodate individual study preferences and varying levels of proficiency."
+        },
+        {
+          "type": "paragraph",
+          "text": "One of the primary benefits of AI in English education is the provision of instantaneous feedback. Advanced speech-recognition software allows learners to practice speaking and pronunciation in real time without the fear of public embarrassment. These intelligent platforms instantly detect accent inconsistencies and phonetic errors, guiding students to adjust their intonation immediately. Furthermore, AI-powered writing assistants evaluate essays by analyzing grammatical structures and vocabulary choices, suggesting sophisticated alternatives that enhance a user's writing style and overall comprehension."
+        },
+        {
+          "type": "paragraph",
+          "text": "However, relying heavily on automated systems for language education presents notable drawbacks. The most critical issue is the lack of genuine cultural nuance and emotional intelligence in AI interactions. Language is inherently social and deeply tied to cultural contexts, idioms, and subtle emotional cues that machines often fail to interpret accurately. Consequently, over-reliance on technology can lead to mechanical language use, where students speak grammatically perfect English but struggle to navigate natural, spontaneous conversations with native speakers."
+        },
+        {
+          "type": "paragraph",
+          "text": "To optimize these technological advancements, educators must advocate for a blended learning approach. AI should not be viewed as a total replacement for human instructors, but rather as a complementary tool that enhances classroom learning. While software can efficiently handle repetitive tasks, vocabulary memorization, and basic grammar corrections, human teachers remain indispensable for cultivating critical thinking, explaining cultural subtleties, and fostering authentic communication. Ultimately, the future of English learning lies in a harmonious partnership between human empathy and technological precision."
+        }
+      ],
+      "questions": [
+        {
+          "number": 61,
+          "stem": "What does the word \"shattered\" in paragraph 1 closest in meaning to?",
+          "options": [
+            "restored",
+            "destroyed",
+            "protected",
+            "followed"
+          ]
+        },
+        {
+          "number": 62,
+          "stem": "What does the phrase \"these technological advancements\" in paragraph 4 refer to?",
+          "options": [
+            "Repetitive tasks and grammar corrections",
+            "Cultural nuances and subtle emotional cues",
+            "AI-driven applications and intelligent software platforms",
+            "Blended learning approaches and classroom instruction"
+          ]
+        },
+        {
+          "number": 63,
+          "stem": "Which of the following is mentioned as a specific feature of AI-powered writing assistants?",
+          "options": [
+            "They can automatically translate essays into multiple languages.",
+            "They can grade papers faster than human teachers do.",
+            "They offer advanced vocabulary alternatives to improve writing.",
+            "They force students to memorize complex dictionary definitions."
+          ]
+        },
+        {
+          "number": 64,
+          "stem": "What is the main idea of the passage?",
+          "options": [
+            "The historical shift from traditional classrooms to online universities.",
+            "The superiority of human teachers over modern software tools.",
+            "The technical process of developing speech-recognition algorithms.",
+            "The advantages, limitations, and balanced utilization of AI in English learning."
+          ]
+        },
+        {
+          "number": 65,
+          "stem": "Which of the following best paraphrases the underlined sentence of paragraph 3?",
+          "options": [
+            "Because language is social and cultural, AI programs often struggle to accurately understand emotional subtleties and idioms.",
+            "Native speakers prefer interacting with machines rather than dealing with cultural and context misunderstandings.",
+            "Emotional cues, cultural context and idioms are easy for modern technology to process without human intervention.",
+            "Students must avoid idioms, emotional cues and cultural contexts if they want to speak grammatically perfect English."
+          ]
+        },
+        {
+          "number": 66,
+          "stem": "Which of the following is NOT mentioned as a problem caused by an over-reliance on AI?",
+          "options": [
+            "A lack of emotional intelligence in conversation practice.",
+            "High financial subscription costs for advanced language applications.",
+            "The potential for students to develop a mechanical way of speaking.",
+            "Difficulties in understanding cultural nuances and idiomatic expressions."
+          ]
+        },
+        {
+          "number": 67,
+          "stem": "What can be inferred from the passage about the ideal future of language education?",
+          "options": [
+            "Human teachers will eventually be replaced completely by superior AI systems.",
+            "Technology and human educators should be combined to create the best learning experience.",
+            "AI systems should only be used by advanced students who already know cultural nuances.",
+            "Traditional classrooms without technology are the most effective way to learn English."
+          ]
+        }
+      ]
+    }
+  ]
+}

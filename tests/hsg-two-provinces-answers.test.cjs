@@ -44,6 +44,8 @@ const check=(id,sections,expectedCount,fixtures)=>{
 };
 const v=check("dh-vinh",null,90,{"b1:1":"B","b2:21":"has cracked → cracked","c1:1":"C","c2:11":"NOT GIVEN","c4:19":"E","c5:30":"be","c6:34":"H","d:10":"overcame all the obstacles"});
 const p=check("phu-tho",null,70,{"g:21":"B","g:26":"D","wf:36":"scientists","e:49":"device → devices","r1:60":"B","r2:68":"horse","r3:80":"D","w:90":"turned on the waterworks"});
-assert.equal(api.HSGExamSolutions.assess("fill",{value:"become"},api.HSGExamSolutions.findSolution(v,"c5:30")),"correct");
+const needsSourceReview=api.HSGExamSolutions.findSolution(v,"c5:30");
+assert.equal(needsSourceReview.editorialStatus,"source-quote-needs-review");
+assert.equal(api.HSGExamSolutions.assess("fill",{value:"become"},needsSourceReview),"review","Unverified source citation must not be presented as auto-graded correct");
 assert.equal(api.HSGExamSolutions.assess("fill",{value:"which"},api.HSGExamSolutions.findSolution(p,"r2:70")),"correct");
 console.log("Verified 160 reference answer records, alternative spellings, conservative assessment and non-scored essay models.");

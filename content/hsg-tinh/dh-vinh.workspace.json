@@ -64,7 +64,7 @@
       "end": 15,
       "input": "ynng",
       "layout": "reading",
-      "source": "source-extracted",
+      "source": "structured",
       "optionLayout": "stacked",
       "questionFlow": "scroll-list",
       "passageRatio": 54
@@ -86,7 +86,7 @@
       "end": 23,
       "input": "match",
       "layout": "reading",
-      "source": "source-extracted",
+      "source": "structured",
       "optionLayout": "stacked",
       "questionFlow": "scroll-list",
       "passageRatio": 54

@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "examId": "dh-vinh",
+  "parts": [
+    {
+      "id": "c2",
+      "kind": "yes_no_not_given",
+      "title": "Reading · SUNSET FOR THE OIL BUSINESS · YES / NO / NOT GIVEN",
+      "start": 11,
+      "end": 15,
+      "passage": [
+        {
+          "type": "heading",
+          "text": "SUNSET FOR THE OIL BUSINESS"
+        },
+        {
+          "type": "paragraph",
+          "text": "Members of the Department Analysis Centre (ODAC) presented technical data supporting their grim forecast that the world oil is perilously running out. ODAC leading experts, including the geologist Colin Campbell, rejected contradictory views from America’s Geological Survey and the International Energy Agency. Dr Campbell even decried the display of ignorance, denial and obfuscation by government, industry and academics on this topic."
+        },
+        {
+          "type": "paragraph",
+          "text": "So is the oil really running out? Obviously yes. Nobody seriously disputes the notion that oil is a non-renewable resource that will run out someday, be that years or decades away. The harder question is determining when oil will get scarce. Answering that question involves scaling Hubbert’s peak."
+        },
+        {
+          "type": "paragraph",
+          "text": "M. King Hubbert, a Shell geologist of legendary status among depletion experts, forecast in 1956 that American oil production would peak in the early 1970s and then decline, in something resembling a bell-shaped curve. At the time, his forecast was rubbished. After 1970, however, empirical evidence proved him correct: oil production in America did indeed peak and has been in decline ever since. Dr Hubbert’s analysis drew on the observation that oil production in a new area typically rises quickly at first, as the easiest and cheapest reserves are tapped. Over time, reservoirs age and go into decline, and so lifting oil becomes more expensive. Oil from that area then becomes less competitive than other fuels, or oil from other areas. Consequently, production slows down and usually declines."
+        },
+        {
+          "type": "paragraph",
+          "text": "His successful prediction has emboldened new geologists to apply his methodology on a global scale. Chief among them are the experts at ODAC, who worry about global peak in production in the next decade. Dr Campbell used to argue that the peak should have come already; he now thinks it is just around the corner. A heavyweight has now joined this gloomy chorus. Kenneth Deffeyes of Princeton University argues in a lively new book that global oil production could peak as soon as 2004. That sharply contradicts mainstream thinking. America’s Geological Survey prepared an exhaustive study of oil depletion last year (in part to rebut Dr Campbell’s arguments) that put the peak of production some decades off. The IEA has just foreseen enough oil to comfortably meet the demand to 2020 from remaining reserves. René Dahan, a top manager of the world’s largest energy company, insists that the world will be awash in oil for another 70 years."
+        },
+        {
+          "type": "paragraph",
+          "text": "Who is right? In making sense of these wildly opposing views, it is useful to look back at the pitiful history of oil forecasting. Doomsters have been predicting dry wells since the 1970s, but so far the oil is still gushing. Nearly all the predictions for 2000 made after the 1970s oil shocks were far too pessimistic. Michael Lynch, an economic consultancy, is one of the few oil forecasters who has got things right. In a new paper, Dr Lynch analyses those historical forecasts. He finds evidence of both bias and recurring errors, which suggests that methodological mistakes were the problem. In particular, he faults forecasters who used Hubbert-style analysis for relying on fixed estimates of how much “ultimately recoverable” oil there really is below ground, in the industry’s jargon: that figure is actually a dynamic one, as improvements in infrastructure, knowledge and technology raise the amount of oil which is recoverable."
+        },
+        {
+          "type": "paragraph",
+          "text": "That points to technological innovation, which will probably determine whether the pessimists or the optimists are right. The former tends to be dismissive of claims of forthcoming technological revolutions in areas like deep-water drilling and enhanced recovery. Dr Deffeyes captures this end-of-technology mindset well. In his opinion, the industry has already spent billions inventing most of the wheels so it is difficult today to ask for new technology. Yet techno-optimists argue that the technological revolution in oil has only just begun. Average recovery rates (how much of the known oil in a reservoir can actually be brought to the surface) are still only around 30-35%. Industry optimists believe that newly crafted techniques today could lift that figure to 50-60% within a decade. Given the industry’s astonishing track record of innovation, it may be foolish to bet against it. That is the result of adversity: the nationalisations of the 1970s forced Big Oil to develop reserves in expensive and inaccessible places, undermining Dr Hubbert’s assumption that cheap reserves are developed first. The resulting upstream investments have driven down the cost of finding and developing wells over the last two decades from over $20 to around $6 a barrel. The cost of producing oil has fallen by half, to under $4 a barrel."
+        },
+        {
+          "type": "paragraph",
+          "text": "Such miracles will not come cheap, however, since much of the world’s oil is now produced in rapidly declining fields. The IEA concludes that global oil production need not peak in the next two decades if necessary investments are made. So how much is necessary? The agency reckons they must invest $1 trillion in non-OPEC countries over the next decade alone. That’s quite a figure."
+        }
+      ],
+      "questions": [
+        {
+          "number": 11,
+          "stem": "Oil is likely to last longer than most other non-renewable energy sources."
+        },
+        {
+          "number": 12,
+          "stem": "Hubbert has a high-profile reputation amongst ODAC members."
+        },
+        {
+          "number": 13,
+          "stem": "The majority of geologists believe that global oil production will peak within this decade."
+        },
+        {
+          "number": 14,
+          "stem": "More than half of the oil known to exist in the ground is currently being successfully extracted."
+        },
+        {
+          "number": 15,
+          "stem": "History has shown that some of Hubbert’s principles were mistaken."
+        }
+      ]
+    },
+    {
+      "id": "c4",
+      "kind": "matching",
+      "title": "Reading · SUNSET FOR THE OIL BUSINESS · Match People",
+      "start": 19,
+      "end": 23,
+      "passage": [
+        {
+          "type": "heading",
+          "text": "SUNSET FOR THE OIL BUSINESS"
+        },
+        {
+          "type": "paragraph",
+          "text": "Members of the Department Analysis Centre (ODAC) presented technical data supporting their grim forecast that the world oil is perilously running out. ODAC leading experts, including the geologist Colin Campbell, rejected contradictory views from America’s Geological Survey and the International Energy Agency. Dr Campbell even decried the display of ignorance, denial and obfuscation by government, industry and academics on this topic."
+        },
+        {
+          "type": "paragraph",
+          "text": "So is the oil really running out? Obviously yes. Nobody seriously disputes the notion that oil is a non-renewable resource that will run out someday, be that years or decades away. The harder question is determining when oil will get scarce. Answering that question involves scaling Hubbert’s peak."
+        },
+        {
+          "type": "paragraph",
+          "text": "M. King Hubbert, a Shell geologist of legendary status among depletion experts, forecast in 1956 that American oil production would peak in the early 1970s and then decline, in something resembling a bell-shaped curve. At the time, his forecast was rubbished. After 1970, however, empirical evidence proved him correct: oil production in America did indeed peak and has been in decline ever since. Dr Hubbert’s analysis drew on the observation that oil production in a new area typically rises quickly at first, as the easiest and cheapest reserves are tapped. Over time, reservoirs age and go into decline, and so lifting oil becomes more expensive. Oil from that area then becomes less competitive than other fuels, or oil from other areas. Consequently, production slows down and usually declines."
+        },
+        {
+          "type": "paragraph",
+          "text": "His successful prediction has emboldened new geologists to apply his methodology on a global scale. Chief among them are the experts at ODAC, who worry about global peak in production in the next decade. Dr Campbell used to argue that the peak should have come already; he now thinks it is just around the corner. A heavyweight has now joined this gloomy chorus. Kenneth Deffeyes of Princeton University argues in a lively new book that global oil production could peak as soon as 2004. That sharply contradicts mainstream thinking. America’s Geological Survey prepared an exhaustive study of oil depletion last year (in part to rebut Dr Campbell’s arguments) that put the peak of production some decades off. The IEA has just foreseen enough oil to comfortably meet the demand to 2020 from remaining reserves. René Dahan, a top manager of the world’s largest energy company, insists that the world will be awash in oil for another 70 years."
+        },
+        {
+          "type": "paragraph",
+          "text": "Who is right? In making sense of these wildly opposing views, it is useful to look back at the pitiful history of oil forecasting. Doomsters have been predicting dry wells since the 1970s, but so far the oil is still gushing. Nearly all the predictions for 2000 made after the 1970s oil shocks were far too pessimistic. Michael Lynch, an economic consultancy, is one of the few oil forecasters who has got things right. In a new paper, Dr Lynch analyses those historical forecasts. He finds evidence of both bias and recurring errors, which suggests that methodological mistakes were the problem. In particular, he faults forecasters who used Hubbert-style analysis for relying on fixed estimates of how much “ultimately recoverable” oil there really is below ground, in the industry’s jargon: that figure is actually a dynamic one, as improvements in infrastructure, knowledge and technology raise the amount of oil which is recoverable."
+        },
+        {
+          "type": "paragraph",
+          "text": "That points to technological innovation, which will probably determine whether the pessimists or the optimists are right. The former tends to be dismissive of claims of forthcoming technological revolutions in areas like deep-water drilling and enhanced recovery. Dr Deffeyes captures this end-of-technology mindset well. In his opinion, the industry has already spent billions inventing most of the wheels so it is difficult today to ask for new technology. Yet techno-optimists argue that the technological revolution in oil has only just begun. Average recovery rates (how much of the known oil in a reservoir can actually be brought to the surface) are still only around 30-35%. Industry optimists believe that newly crafted techniques today could lift that figure to 50-60% within a decade. Given the industry’s astonishing track record of innovation, it may be foolish to bet against it. That is the result of adversity: the nationalisations of the 1970s forced Big Oil to develop reserves in expensive and inaccessible places, undermining Dr Hubbert’s assumption that cheap reserves are developed first. The resulting upstream investments have driven down the cost of finding and developing wells over the last two decades from over $20 to around $6 a barrel. The cost of producing oil has fallen by half, to under $4 a barrel."
+        },
+        {
+          "type": "paragraph",
+          "text": "Such miracles will not come cheap, however, since much of the world’s oil is now produced in rapidly declining fields. The IEA concludes that global oil production need not peak in the next two decades if necessary investments are made. So how much is necessary? The agency reckons they must invest $1 trillion in non-OPEC countries over the next decade alone. That’s quite a figure."
+        },
+        {
+          "type": "heading",
+          "text": "List of People"
+        },
+        {
+          "type": "bullet",
+          "text": "A. Colin Campell"
+        },
+        {
+          "type": "bullet",
+          "text": "B. M. King Hubbert"
+        },
+        {
+          "type": "bullet",
+          "text": "C. Kenneth Deffeyes"
+        },
+        {
+          "type": "bullet",
+          "text": "D. René Dahan"
+        },
+        {
+          "type": "bullet",
+          "text": "E. Michael Lynch"
+        }
+      ],
+      "questions": [
+        {
+          "number": 19,
+          "stem": "has found fault in the geological research procedure used to forecast oil production."
+        },
+        {
+          "number": 20,
+          "stem": "has provided the longest-range prediction regarding oil supply."
+        },
+        {
+          "number": 21,
+          "stem": "has convinced others that oil production will follow a particular model."
+        },
+        {
+          "number": 22,
+          "stem": "has accused fellow scientists of deliberately ignoring evidence about oil depletion."
+        },
+        {
+          "number": 23,
+          "stem": "has questioned whether significant advances in oil extraction technology are achievable."
+        }
+      ]
+    }
+  ]
+}
