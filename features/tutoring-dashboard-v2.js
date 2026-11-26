@@ -72,7 +72,7 @@
    '<div class="td-top"><section class="td-card td-continue" aria-labelledby="td-continue-title"><div class="td-continue-inner"><span class="td-eyebrow">CONTINUE LEARNING</span><div id="td-resume"><h2 id="td-continue-title">Bắt đầu học</h2><p>Chọn lớp học hoặc luyện tập Listening.</p><a class="td-primary" href="#td-classes" data-scroll-classes>Chọn lớp học '+icon("arrow")+'</a></div></div><div class="td-illustration" aria-hidden="true"><svg viewBox="0 0 160 130" fill="none"><circle cx="85" cy="65" r="59" fill="#dceafe"/><circle cx="85" cy="65" r="44" fill="#cbdfff"/><g transform="rotate(-11 81 65)"><rect x="40" y="20" width="78" height="94" rx="10" fill="#fff" stroke="#9bbcf6" stroke-width="2"/><rect x="51" y="34" width="32" height="8" rx="4" fill="#81aaf1"/><path d="M52 54h53M52 66h43M52 78h49" stroke="#c9dcfc" stroke-width="5" stroke-linecap="round"/><circle cx="98" cy="94" r="14" fill="#2563eb"/><path d="m92 94 4 4 7-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M129 14v15m-7-7h14M20 91v12m-6-6h12" stroke="#83a9ef" stroke-width="2" stroke-linecap="round"/></svg></div></section>'+
    '<section class="td-card td-activity" id="tutoringStreakCard" aria-label="Hoạt động học tập"><div class="td-card-head"><div><h2>Hoạt động học tập</h2><p>27 tuần gần nhất</p></div><div class="td-streak">'+icon("flame")+'<strong id="tutoringStreakNumber">—</strong><span>ngày streak</span></div></div><div class="streak-heatmap-pane"><div class="streak-months" id="tutoringStreakMonths"></div><div class="streak-chart-row"><div class="streak-weekdays" aria-hidden="true"><span></span><span></span><span>Tue</span><span></span><span>Thu</span><span></span><span>Sat</span></div><div class="streak-heatmap" id="tutoringStreakHeatmap" aria-label="Hoạt động theo ngày"></div></div><div class="streak-legend"><span>Ít</span><span class="streak-legend-cells" aria-hidden="true">'+[0,1,2,3,4].map(n=>'<i class="streak-cell level-'+n+'"></i>').join("")+'</span><span>Nhiều</span></div></div><div class="td-activity-foot" id="td-activity-foot" role="status">Đang tải hoạt động…</div></section></div>'+
    '<section class="td-stats" aria-label="Thống kê học tập">'+[['book','Bài đã nộp gần đây','td-stat-attempts'],['target','Điểm TB gần đây','td-stat-score'],['calendar','Ngày học tháng này','td-stat-days'],['flame','Streak cao nhất','td-stat-best']].map(x=>'<div class="td-card td-stat"><span class="td-stat-icon">'+icon(x[0])+'</span><div><strong id="'+x[2]+'">—</strong><span>'+x[1]+'</span></div></div>').join("")+'</section>'+
-   '<div class="td-bottom"><section id="td-classes"><div class="td-section-head"><h2>Chọn lớp học</h2><span>'+opt.grades.filter(g=>g.live).length+' lớp</span></div><div class="td-grade-grid">'+gradeCards+'</div></section><aside class="td-side"><section><div class="td-section-head"><h2>Luyện tập kỹ năng</h2></div><a class="td-card td-listening" href="#listening"><span class="td-listen-icon">'+icon("headphones")+'</span><div><h3>IELTS Listening</h3><p>Luyện nghe qua video</p></div>'+icon("arrow")+'</a></section><section><div class="td-section-head"><h2>Học tập gần đây</h2><a href="#history">Xem tất cả '+icon("arrow")+'</a></div><div class="td-card td-recent" id="td-recent" role="status">Đang tải kết quả…</div></section></aside></div></div>';
+   '<div class="td-bottom"><section id="td-classes"><div class="td-section-head"><h2>Chọn lớp học</h2><span>'+opt.grades.filter(g=>g.live).length+' lớp</span></div><div class="td-grade-grid">'+gradeCards+'</div></section><aside class="td-side"><section class="td-skills"><div class="td-section-head"><h2>Luyện tập kỹ năng</h2><span>2 kỹ năng</span></div><div class="td-skill-grid"><a class="td-card td-listening td-skill" href="#listening"><span class="td-listen-icon">'+icon("headphones")+'</span><div><h3>IELTS Listening</h3><p>Luyện nghe qua video</p><span class="td-skill-action">Bắt đầu luyện nghe</span></div>'+icon("arrow")+'</a><a class="td-card td-listening td-skill" href="#grade-12/reading"><span class="td-listen-icon td-reading-icon">'+icon("book")+'</span><div><h3>IELTS Reading</h3><p>IELTS Academic · '+global.LearningCore.list({category:"reading",grade:12,listing:true}).length+' bài đọc</p><span class="td-skill-action">Bắt đầu luyện đọc</span></div>'+icon("arrow")+'</a></div></section></aside></div></div>';
   const root=mount.querySelector("#tutoringDashboard");
   root.querySelector("[data-scroll-classes]").addEventListener("click",e=>{e.preventDefault();root.querySelector("#td-classes").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})});
   const draft=findDraft(owner);
@@ -93,7 +93,7 @@
  async function load(root,owner,opt,draft){
   const active=()=>root.isConnected&&location.hash==="#tutoring"&&global.LearningCore.userId()===owner;
   const set=(id,value)=>{const el=root.querySelector("#"+id);if(el)el.textContent=value};
-  const fail=()=>{if(!active())return;set("td-activity-foot","Chưa tải được hoạt động. Mở lại trang để thử lại.");set("td-recent","Chưa tải được kết quả học tập.");};
+  const fail=()=>{if(!active())return;set("td-activity-foot","Chưa tải được hoạt động. Mở lại trang để thử lại.");};
   try{
    const s=await opt.session();
    if(!owner||s?.user?.id!==owner||!s.access_token)throw Error("No learner session");
@@ -117,18 +117,11 @@
     set("td-activity-foot",month+" ngày hoạt động trong tháng này · Giờ Việt Nam");
    }else set("td-activity-foot","Chưa tải được hoạt động học tập.");
    const history=results.slice(1),partial=history.some(x=>x===null);
-   if(history.every(x=>x===null)){set("td-recent","Chưa tải được kết quả học tập.");return}
+   if(history.every(x=>x===null))return;
    const records=global.LearningHistoryCore.merge(history[0]||[],history[1]||[],history[2]||[]).filter(x=>tutoringSlug(x.slug));
    const valid=records.filter(x=>x.total>0&&x.correct>=0&&x.correct<=x.total);
    set("td-stat-attempts",(partial?"≥":"")+records.length);
    set("td-stat-score",partial||!valid.length?"—":Math.round(valid.reduce((sum,x)=>sum+x.correct/x.total,0)/valid.length*100)+"%");
-   const recent=root.querySelector("#td-recent");
-   recent.innerHTML=(partial?'<p class="td-notice">Một phần dữ liệu chưa tải được.</p>':'')+(records.length?records.slice(0,4).map(x=>{
-    const route=routeFor(x.slug),title=label(x.slug,x.title,opt.units),pct=x.total>0&&x.correct>=0&&x.correct<=x.total?Math.round(x.correct/x.total*100)+"%":"—";
-    let date="";try{date=new Intl.DateTimeFormat("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric",timeZone:"Asia/Ho_Chi_Minh"}).format(new Date(x.date))}catch(_){}
-    const body='<span class="td-recent-icon">'+icon("check")+'</span><span class="td-recent-copy"><b>'+esc(title)+'</b><small>'+esc(date)+' · '+esc(global.LearningHistoryCore.names[x.category]||x.category)+'</small></span><strong class="td-score">'+pct+'</strong>';
-    return route?'<a class="td-recent-row" href="#'+esc(route)+'">'+body+'</a>':'<div class="td-recent-row">'+body+'</div>';
-   }).join(""):'<p class="td-empty">Chưa có bài hoàn thành. Kết quả sẽ xuất hiện tại đây sau khi bạn nộp bài.</p>');
    if(!draft&&records.length)paintResume(root,records.find(x=>routeFor(x.slug))||records[0],opt.units,false);
   }catch(e){console.warn("Tutoring dashboard load failed",e);fail()}
  }
