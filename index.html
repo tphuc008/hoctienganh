@@ -16,6 +16,8 @@
 <script src="features/interface-standard-v1.js?v=20261022-v3" defer></script>
 <link rel="stylesheet" href="styles/tutoring-dashboard-v2.css?v=20261126-v2">
 <script src="features/tutoring-dashboard-v2.js?v=20261126-v2"></script>
+<link rel="stylesheet" href="styles/course-library-v2.css?v=20261126-v1">
+<script src="features/course-library-v2.js?v=20261126-v1"></script>
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -1959,38 +1961,9 @@ function goGrade(id){location.hash="grade-"+id}
 function renderGrade(id){
   const grade=GRADES.find(g=>g.id===id);
   if(!grade){location.hash="";return}
-
-  const units=UNITS.filter(u=>u.grade===id);
   pageMount.style.display="block";
-
-  const unitsHTML=units.length ? `
-    <div class="section-title"><h2>Units</h2><span>${units.length} unit${units.length===1?"":"s"}</span></div>
-    <div class="units">
-      ${units.map(u=>`
-        <button class="unit-card" ${u.live?`onclick="location.hash='${esc(u.route)}'"`:"disabled"} style="${u.live?"":"cursor:default;opacity:.68"}">
-          <div class="unit-top">
-            <span class="unit-no">${u.midterm?"MID TERM TEST":u.review?"UNIT ÔN LẠI CƠ BẢN":"UNIT "+String(u.displayUnitNumber||u.id).padStart(2,"0")}</span>
-            <span class="status ${u.live?"live":""}">${u.live?"Exercises available":"Coming soon"}</span>
-          </div>
-          <h3>${esc(u.title)}</h3>
-          <p>${esc(u.subtitle)}</p>
-          <span class="unit-arrow">${u.live?"→":"·"}</span>
-        </button>`).join("")}
-    </div>`
-    : `<div class="empty"><b>Coming soon</b>Nội dung cho Lớp ${id} sẽ được thêm sau.</div>`;
-
-  pageMount.innerHTML=`
-    <div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><span>Lớp ${id}</span></div>
-
-    <div class="grade-overview">
-      <div class="unit-hero">
-        <div class="eyebrow">Grade ${id}</div>
-        <h1>Lớp ${id}</h1>
-      </div>
-    </div>
-
-    ${unitsHTML}`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  CourseLibrary.render(pageMount,grade,UNITS.filter(u=>u.grade===id));
+  window.scrollTo({top:0,behavior:"auto"});
 }
 function goUnit(id,grade){
   const g=Number(grade)||activeGrade;
