@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="styles/universal-print.css?v=20261020-allprint1">
 <link rel="stylesheet" href="styles/interface-standard-v1.css?v=20261120-hplus-v1">
 <script src="features/interface-standard-v1.js?v=20261022-v3" defer></script>
+<link rel="stylesheet" href="styles/tutoring-dashboard-v2.css?v=20261126-v1">
+<script src="features/tutoring-dashboard-v2.js?v=20261126-v1"></script>
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -1837,47 +1839,12 @@ async function loadTutoringStreak(){
 
 function renderHome(){
   pageMount.style.display="block";
-  pageMount.innerHTML=`
-    <div class="tutoring-top">
-      <div class="hero">
-        <h1><span class="gradient">Học thêm</span></h1>
-      </div>
-      <section class="global-streak-card" id="tutoringStreakCard" aria-label="Learning streak" title="Ngày streak bắt đầu từ 0h theo giờ Việt Nam">
-        <div class="streak-heatmap-pane">
-          <div class="streak-months" id="tutoringStreakMonths"></div>
-          <div class="streak-chart-row">
-            <div class="streak-weekdays" aria-hidden="true"><span></span><span></span><span>Tue</span><span></span><span>Thu</span><span></span><span>Sat</span></div>
-            <div class="streak-heatmap" id="tutoringStreakHeatmap" aria-label="Daily learning activity"></div>
-          </div>
-          <div class="streak-legend">
-            <span>Ít</span>
-            <span class="streak-legend-cells" aria-hidden="true"><i class="streak-cell level-0"></i><i class="streak-cell level-1"></i><i class="streak-cell level-2"></i><i class="streak-cell level-3"></i><i class="streak-cell level-4"></i></span>
-            <span>Nhiều</span>
-          </div>
-        </div>
-        <div class="streak-summary">
-          <div class="streak-flame" aria-hidden="true">🔥</div>
-          <div class="streak-number" id="tutoringStreakNumber">0</div>
-          <div class="streak-label">Day streak</div>
-        </div>
-      </section>
-    </div>
-    <div class="section-title"><h2>Chọn lớp học</h2></div>
-    <div class="units tutoring-grade-grid">
-      ${GRADES.filter(g=>g.live).map(g=>`
-        <button class="unit-card" onclick="goGrade(${g.id})">
-          <div class="unit-top"><span class="portal-area-symbol" aria-hidden="true">▤</span></div>
-          <h3>${g.title}</h3><span class="unit-arrow">→</span>
-        </button>
-      `).join("")}
-      <button class="unit-card" onclick="location.hash='listening'">
-        <div class="unit-top"><span class="portal-area-symbol" aria-hidden="true">♫</span></div>
-        <h3>Listening</h3><p>Luyện nghe qua video IELTS</p><span class="unit-arrow">→</span>
-      </button>
-    </div>`;
-  renderTutoringStreak([]);
-  loadTutoringStreak();
-  window.scrollTo({top:0,behavior:"smooth"});
+  TutoringDashboard.render(pageMount,{
+    grades:GRADES,units:UNITS,name:learnerDisplayName(),
+    paintStreak:renderTutoringStreak,today:vnDateKey,previousDay:key=>addDaysKey(key,-1),
+    session:ensureLearnerSession
+  });
+  window.scrollTo({top:0,behavior:"auto"});
 }
 function goGrammar(){location.hash="grammar"}
 
