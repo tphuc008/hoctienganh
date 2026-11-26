@@ -62,10 +62,7 @@ function styles(){
  document.head.appendChild(el);
 }
 function header(tab){
- const tabs=[["knowledge","01 · Kiến thức"],["original","02 · Bài tập gốc"],["practice","03 · Luyện tập thêm"]];
- return '<div class="breadcrumbs"><button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span><button class="crumb-btn" onclick="goGrade(6)">Lớp 6</button><span>›</span><span>Unit 1</span></div>'+
- '<div class="unit-hero"><div class="eyebrow">GRADE 6 · UNIT 01</div><h1>My New School</h1><p>Vocabulary · Present Simple · Present Continuous</p><div class="meta"><span class="chip">34 từ vựng</span><span class="chip">'+originalTotal+' bài tập gốc</span><span class="chip">30 câu luyện thêm</span></div></div>'+
- '<nav class="g6-tabs" aria-label="Phần học trong Unit 1">'+tabs.map(x=>'<a href="#'+BASE+(x[0]==="knowledge"?"":"/"+x[0])+'" class="'+(x[0]===tab?"current":"")+'" '+(x[0]===tab?'aria-current="page"':'')+'>'+x[1]+'</a>').join("")+'</nav>';
+ return global.UnitWorkspace.grade6Header({unit:1,title:"My New School",base:BASE,tab,words:A.words.reduce((n,g)=>n+g.items.length,0),original:originalTotal,practice:practiceSets.reduce((n,s)=>n+s.items.length,0)});
 }
 function lesson(){
  const listing=A.words.map(category=>'<section class="g6-vocab-group"><h3>'+esc(category.group)+' · '+category.items.length+' words</h3><div class="g6-word-grid">'+

@@ -18,6 +18,8 @@
 <script src="features/tutoring-dashboard-v2.js?v=20261126-v2"></script>
 <link rel="stylesheet" href="styles/course-library-v2.css?v=20261126-v1">
 <script src="features/course-library-v2.js?v=20261126-v1"></script>
+<link rel="stylesheet" href="styles/unit-workspace-v3.css?v=20261126-v1">
+<script src="features/unit-workspace-v3.js?v=20261126-v1"></script>
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -79,7 +81,7 @@
 
 <script src="core/learning-core.js?v=20261020-v1"></script>
 <script src="core/learning-flow.js?v=20261020-v1"></script>
-<script src="content/manifest.js?v=20261116-layout-b-v1"></script>
+<script src="content/manifest.js?v=20261126-unit-workspace-v1"></script>
 <script src="core/history-core.js"></script>
 <script src="features/learning-history.js?v=20261021-compact1"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
@@ -1972,42 +1974,21 @@ function goUnit(id,grade){
 function renderUnit(grade,id){
   if(!useBank(grade,id)){goGrade(grade);return}
   pageMount.style.display="block";
-  const setNumbers=getUnitSetNumbers();
-
-  const exerciseHTML=`
-    <div class="section-title"><h2>${activeBank?.testOnly?"Practice Sets":"Exercises"}</h2><span>${setNumbers.length} sets</span></div>
-    <div class="exercise-grid">
-      ${setNumbers.map(setNo=>{
-        const count=getSetCount(setNo);
-        const level=getSetLevel(setNo);
-        const special=!!activeLevelConfig[setNo]?.contextGuessing;
-        const completed=!!activeBank?.trackSetCompletion&&isSetCompleted(activeGrade,activeUnit,setNo);
-        return `
-          <button class="exercise-card" onclick="openExercise(${activeUnit},${setNo},${activeGrade})">
-            <div class="exercise-icon">${getSetIcon(setNo)}</div>
-            <h3>${getSetTitle(setNo)}</h3>
-            <div class="meta">
-              ${completed?'<span class="chip done-chip">✓ Đã làm</span>':""}
-              <span class="chip">${getSetNote(setNo)}</span>
-              <span class="chip">${special?((activeLevelConfig[setNo]?.bankSize||24)+"-word bank · 10 per set"):(activeLevelConfig[setNo]?.pending?"Chờ đề":count+" questions")}</span>
-              <span class="chip">${level}</span>
-
-            </div>
-          </button>`;
-      }).join("")}
-    </div>`;
-
-  pageMount.innerHTML=`
-    <div class="breadcrumbs">
-      <button class="crumb-btn" onclick="goAreaHome()">Home</button><span>›</span>
-      <button class="crumb-btn" onclick="goGrade(${activeGrade})">Lớp ${activeGrade}</button><span>›</span><span>${esc(currentUnitLabel())}</span>
-    </div>
-    <div class="unit-hero">
-      <div class="eyebrow">Grade ${activeGrade} · ${esc(currentUnitEyebrow())}</div>
-      <h1>${esc(activeBank.title)}</h1>
-    </div>
-    ${exerciseHTML}`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  const sets=getUnitSetNumbers().map(setNo=>{
+    const cfg=activeLevelConfig[setNo];
+    const slug="grade-"+grade+"/unit-"+id+"/set-"+setNo+(cfg.contextGuessing?"/context":"");
+    const lifecycle=LearningFlow.read("vocabulary",slug);
+    const draft=LearningCore.readDraft("quiz",slug);
+    return {setNo,title:getSetTitle(setNo),level:getSetLevel(setNo),count:getSetCount(setNo),
+      name:cfg.name,context:!!cfg.contextGuessing,pending:!!cfg.pending,
+      bankSize:cfg.bankSize||cfg.pool?.length||24,review:!!activeBank.reviewMode,
+      completed:!!(activeBank.trackSetCompletion&&isSetCompleted(grade,id,setNo))||lifecycle?.phase==="completed",
+      inProgress:!!draft&&lifecycle?.phase==="in_progress",
+      route:"grade-"+grade+"/unit-"+id+"/vocabulary-practice-"+setNo};
+  });
+  UnitWorkspace.render(pageMount,{grade,id,unitLabel:currentUnitLabel(),eyebrow:currentUnitEyebrow(),title:activeBank.title,
+    test:!!activeBank.testOnly,review:!!activeBank.reviewMode,semantic:!!activeBank.semanticPrecisionPilot,sets});
+  window.scrollTo({top:0,behavior:"auto"});
 }
 
 function openExercise(id,setNo,grade){
@@ -2037,11 +2018,7 @@ function renderExercise(grade,id,setNo){
       <div class="exercise-intro">
         <div class="eyebrow">Grade ${activeGrade} · Unit ${activeUnit} · Context Guessing</div>
         <h1><span class="gradient">Context Guessing Reading</span></h1>
-        <div class="pills">
-          <span class="pill">${bankSize}-word rotating bank</span>
-          <span class="pill">10 adaptive words per set</span>
-          <span class="pill">1 mixed reading</span>
-          </div>
+        ${UnitWorkspace.introMeta("10 từ / Set",bankSize+" từ trong ngân hàng","1 bài đọc")}
         ${nicknameHTML}
         <button class="primary" style="margin-top:18px" onclick="startContextGuessing('mixed')">Start 10-word set →</button>
       </div>`;
@@ -2059,7 +2036,7 @@ function renderExercise(grade,id,setNo){
     <div class="exercise-intro">
       <div class="eyebrow">Grade ${activeGrade} · ${esc(currentUnitLabel())} · Set ${activeSet}</div>
       <h1><span class="gradient">${activeBank?.testOnly?esc(getSetTitle(activeSet)):(activeBank?.reviewMode?"Ôn tập · Set "+activeSet:"Vocabulary Practice "+activeSet)}</span></h1>
-      <div class="pills"><span class="pill">${activeLevel.note||activeLevel.name}</span><span class="pill">${activeLevel.pending?"Chờ đề":count+" questions"}</span><span class="pill">${activeLevel.label}</span><span class="pill">Immediate feedback</span><span class="pill">Deep vocabulary notes</span></div>
+      ${UnitWorkspace.introMeta(activeLevel.pending?"Chờ đề":count+" câu",activeLevel.label)}
       ${startHTML}
     </div>`;
 }
