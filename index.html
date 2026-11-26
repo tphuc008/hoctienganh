@@ -22,8 +22,8 @@
 <script src="features/unit-workspace-v3.js?v=20261126-v1"></script>
 <link rel="stylesheet" href="styles/portal-workspace-v2.css?v=20261126-v1">
 <script src="features/portal-workspace-v2.js?v=20261126-v1"></script>
-<link rel="stylesheet" href="styles/motion-system.css?v=20261126-v1">
-<script src="core/motion-core.js?v=20261126-v1"></script>
+<link rel="stylesheet" href="styles/motion-system.css?v=20261126-v2">
+<script src="core/motion-core.js?v=20261126-v2"></script>
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -1495,15 +1495,9 @@ function toggleAccessPassword(){
   input.focus();
 }
 async function enterArea(area){
-  hideAll();
-  pageMount.style.display="block";
-  pageMount.innerHTML=`<div class="empty"><b>Đang kiểm tra quyền truy cập…</b></div>`;
-  if(await validateStoredAccess(area)){
-    setActiveArea(area);
-    location.hash=area;
-    return;
-  }
-  renderAccessPrompt(area);
+  if(area!=="school"&&area!=="tutoring")return;
+  // The router remains authoritative for access; avoid a second loading screen.
+  if(location.hash==="#"+area)await route();else location.hash=area;
 }
 async function submitAreaPass(area){
   const input=document.getElementById("accessPassInput");
@@ -1557,6 +1551,7 @@ function hideAll(){
 async function route(){
   consumeLearnerAuthCallback();
   const hash=location.hash.replace(/^#/,"");
+  MotionCore.capture(pageMount,readLearnerSession()?.user?.id);
   if(typeof destroyEntertainmentPlayer==="function")destroyEntertainmentPlayer();
   if(typeof destroyNewsPlayer==="function")destroyNewsPlayer();
   hideAll();
@@ -1574,7 +1569,7 @@ async function route(){
   }
   syncLearnerHeader();
   LearningCore.flushPending().catch(e=>console.warn("Pending score sync failed",e));
-  if(!hash){renderPortal(await hasTeacherPreviewAccess(learnerSession));return}
+  if(!hash){const teacher=await hasTeacherPreviewAccess(learnerSession);if(location.hash.replace(/^#/,"")!==hash)return;MotionCore.authorize(hash,learnerSession.user?.id);MotionCore.commit(hash,pageMount,()=>renderPortal(teacher));return}
   if(hash==="history"){LearningCore.renderRoute(hash);return}
 
   if(hash.startsWith("teacher/")){
@@ -1582,7 +1577,9 @@ async function route(){
       location.hash="";
       return;
     }
-    if(!await hasTeacherPreviewAccess(learnerSession)){
+    const teacherAllowed=await hasTeacherPreviewAccess(learnerSession);
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    if(!teacherAllowed){
       clearActiveArea();
       pageMount.style.display="block";
       pageMount.innerHTML='<div class="breadcrumbs"><button class="crumb-btn" type="button" onclick="location.hash=\'\'">Home</button></div><div class="empty"><b>Không có quyền truy cập</b>Khu vực thử nghiệm này chỉ dành cho giáo viên.</div>';
@@ -1601,9 +1598,10 @@ async function route(){
   }
 
   if(hash==="school"){
-    pageMount.style.display="block";
-    pageMount.innerHTML='<div class="empty"><b>Đang kiểm tra quyền truy cập…</b></div>';
-    if(await validateStoredAccess("school")){
+    MotionCore.loading(hash,pageMount);
+    const allowed=await validateStoredAccess("school");
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    if(allowed){
       setActiveArea("school");
       if(!LearningCore.renderRoute("school")){
         pageMount.style.display="block";
@@ -1618,9 +1616,12 @@ async function route(){
   }
 
   if(hash==="tutoring"){
-    if(await validateStoredAccess("tutoring")){
+    const allowed=await validateStoredAccess("tutoring");
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    if(allowed){
       setActiveArea("tutoring");
-      renderHome();
+      MotionCore.authorize(hash,learnerSession.user?.id);
+      MotionCore.commit(hash,pageMount,renderHome);
     }else{
       clearStoredAccess("tutoring");
       clearActiveArea();
@@ -1630,9 +1631,10 @@ async function route(){
   }
 
   if(hash.startsWith("school/")){
-    pageMount.style.display="block";
-    pageMount.innerHTML='<div class="empty"><b>Đang kiểm tra quyền truy cập…</b></div>';
-    if(!await validateStoredAccess("school")){
+    MotionCore.loading(hash,pageMount);
+    const allowed=await validateStoredAccess("school");
+    if(location.hash.replace(/^#/,"")!==hash)return;
+    if(!allowed){
       clearStoredAccess("school");
       clearActiveArea();
       renderAccessPrompt("school");
@@ -1646,8 +1648,10 @@ async function route(){
   }
 
   const area=await ensureActiveAccess();
-  if(!area){renderPortal(await hasTeacherPreviewAccess(learnerSession));return}
+  if(location.hash.replace(/^#/,"")!==hash)return;
+  if(!area){const teacher=await hasTeacherPreviewAccess(learnerSession);if(location.hash.replace(/^#/,"")!==hash)return;MotionCore.commit(hash,pageMount,()=>renderPortal(teacher));return}
   if(area!=="tutoring"){location.hash="school";return}
+  MotionCore.authorize(hash,learnerSession.user?.id);
 
   if(LearningCore.renderRoute(hash))return;
   const dynamic=ContentManifest.matchSetRoute(hash);
@@ -2482,15 +2486,14 @@ document.addEventListener("keydown",e=>{
 });
 // One manifest registers every published page; no duplicated route declarations.
 function renderManifestItem(item){
-  if(item.kind==="grade"){renderGrade(item.grade);return}
+  if(item.kind==="grade"){MotionCore.commit(item.route,pageMount,()=>renderGrade(item.grade));return}
   if(item.kind==="handler"){
     const handler=window[item.handler];
-    if(typeof handler==="function"){handler(...(item.args||[]));return}
+    if(typeof handler==="function"){MotionCore.commit(item.route,pageMount,()=>handler(...(item.args||[])));return}
     const requested=item.route;
-    pageMount.style.display="block";
-    pageMount.innerHTML='<div class="empty"><b>Đang tải bài học…</b></div>';
+    MotionCore.loading(requested,pageMount);
     ContentManifest.ensureHandler(item).then(fn=>{
-      if(location.hash.slice(1)===requested)fn(...(item.args||[]));
+      if(location.hash.slice(1)===requested)MotionCore.commit(requested,pageMount,()=>fn(...(item.args||[])));
     }).catch(err=>{
       if(location.hash.slice(1)!==requested)return;
       console.error("Content Manifest renderer load failed",err);
@@ -2504,16 +2507,17 @@ function renderManifestItem(item){
     const isGrammar=item.kind.startsWith("grammar");
     const key=item.grade+"-"+item.unit;
     if((isGrammar&&!window.GRAMMAR_BANKS?.[item.slug])||(!isGrammar&&!BANKS[key])){
-      pageMount.style.display="block";
-      pageMount.innerHTML='<div class="empty"><b>Đang tải bài học…</b></div>';
+      MotionCore.loading(requested,pageMount);
     }
     ContentManifest.ensureBank(item).then(bank=>{
       if(location.hash.slice(1)!==requested)return;
       if(!isGrammar){BANKS[key]=bank;prepareManifestBank(bank)}
-      if(item.kind==="vocabulary-unit")renderUnit(item.grade,item.unit);
-      else if(item.kind==="vocabulary-set")renderExercise(item.grade,item.unit,item.setNo);
-      else if(item.kind==="grammar-unit")renderGrammarUnit(item.slug);
-      else renderGrammarExercise(item.slug,item.setNo);
+      MotionCore.commit(requested,pageMount,()=>{
+        if(item.kind==="vocabulary-unit")renderUnit(item.grade,item.unit);
+        else if(item.kind==="vocabulary-set")renderExercise(item.grade,item.unit,item.setNo);
+        else if(item.kind==="grammar-unit")renderGrammarUnit(item.slug);
+        else renderGrammarExercise(item.slug,item.setNo);
+      });
     }).catch(err=>{
       if(location.hash.slice(1)!==requested)return;
       console.error("Content Manifest loading error",err);

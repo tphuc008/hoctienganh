@@ -28,3 +28,16 @@ body:has(.hsg-hp-focus) #pageMount,body:has(.mis-app) #pageMount{animation:none}
 @media(max-width:520px){.motion-loading-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.motion-loading-grid>span:last-child{display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.motion-route-loading *,#quizShell *,#pageMount [data-school-quiz] *, .ev1-details>*,.g21 details>*,.g6-root details>*,.listening-part,.mis-app *,dialog.hsg-print-dialog,dialog.hsg-print-dialog::backdrop{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media print{.motion-route-loading{display:none!important}*{animation:none!important;transition:none!important}}
+
+/* Seamless page transitions. Header and other root content do not animate. */
+html.motion-native{view-transition-name:none}
+html.motion-native #pageMount{view-transition-name:motion-page}
+::view-transition-old(motion-page){animation:motion-page-out 200ms ease-out both;mix-blend-mode:normal}
+::view-transition-new(motion-page){animation:motion-page-in 280ms var(--motion-ease) both;mix-blend-mode:normal}
+::view-transition-group(motion-page){animation-duration:280ms;animation-timing-function:var(--motion-ease)}
+@keyframes motion-page-out{to{opacity:0}}
+@keyframes motion-page-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.motion-old-layer{position:fixed;z-index:30;overflow:hidden;pointer-events:none;background:#f4f7fc;contain:layout paint;max-height:100vh}
+.motion-old-layer *{animation:none!important;transition:none!important;pointer-events:none!important}
+@media(prefers-reduced-motion:reduce){::view-transition-old(motion-page),::view-transition-new(motion-page),::view-transition-group(motion-page){animation:none!important}.motion-old-layer{display:none!important}}
+@media print{.motion-old-layer{display:none!important}}
