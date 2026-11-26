@@ -22,6 +22,8 @@
 <script src="features/unit-workspace-v3.js?v=20261126-v1"></script>
 <link rel="stylesheet" href="styles/portal-workspace-v2.css?v=20261126-v1">
 <script src="features/portal-workspace-v2.js?v=20261126-v1"></script>
+<link rel="stylesheet" href="styles/motion-system.css?v=20261126-v1">
+<script src="core/motion-core.js?v=20261126-v1"></script>
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
@@ -83,7 +85,7 @@
 
 <script src="core/learning-core.js?v=20261020-v1"></script>
 <script src="core/learning-flow.js?v=20261020-v1"></script>
-<script src="content/manifest.js?v=20261126-unit-workspace-v1"></script>
+<script src="content/manifest.js?v=20261126-motion-v1"></script>
 <script src="core/history-core.js"></script>
 <script src="features/learning-history.js?v=20261021-compact1"></script>
 <script src="grade9-unit1.js?v=20261001-deep-v5"></script>
@@ -1442,7 +1444,7 @@ function renderTeacherPreviewPage(hash){
     '<p>Chỉ dành cho tài khoản giáo viên.</p></div>',
     '<div class="empty"><b>Nội dung đang được xây dựng</b>Bài học đang được chuẩn bị.</div>'
   ].join("");
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 function portalAccessLabel(area){
@@ -1562,7 +1564,9 @@ async function route(){
   if(typeof window.destroyRobotsReading==="function")window.destroyRobotsReading();
   if(typeof window.destroySmartReading==="function")window.destroySmartReading();
 
+  MotionCore.beginRoute(hash,pageMount);
   const learnerSession=await ensureLearnerSession();
+  if(location.hash.replace(/^#/,"")!==hash)return;
   if(!learnerSession){
     clearActiveArea();
     renderAccountGate("login");
@@ -1788,7 +1792,7 @@ function renderGrammarHome(){
       <p>Chọn chuyên đề.</p>
     </div>
     ${unitsHTML}`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 function goGrammarUnit(slug){
@@ -1823,7 +1827,7 @@ function renderGrammarUnit(slug){
           </div>
         </button>`).join("")}
     </div>`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 function openGrammarExercise(slug,setNo){
@@ -2018,8 +2022,8 @@ function showQuizShell(){
       ? "← "+currentUnitLabel()+" · Context Guessing"
       : "← "+currentUnitLabel()+" · Set "+activeSet);
   quizShell.style.display="block";
-  renderQuestion();
-  window.scrollTo({top:0,behavior:"smooth"});
+  renderQuestion({direction:1});
+  window.scrollTo({top:0,behavior:"instant"});
 }
 function startContextGuessing(levelKey,fromRetry=false){
   const cfg=activeLevelConfig[activeSet];
@@ -2095,7 +2099,7 @@ function readingPassageHTML(q){
   }
   return html;
 }
-function renderQuestion(){
+function renderQuestion(motion={}){
   saveQuizAttempt();
   const q=activeQuestions[current],isSolved=solved[current];
   const solvedCount=solved.filter(Boolean).length;
@@ -2197,6 +2201,7 @@ function renderQuestion(){
   const p=document.getElementById("prevBtn"); if(p)p.onclick=()=>move(-1);
   const n=document.getElementById("nextBtn"); if(n)n.onclick=()=>move(1);
   const finish=document.getElementById("finishBtn"); if(finish)finish.onclick=finishLearning;
+  MotionCore.question(qMount,motion);
 }
 
 function checkInputAnswer(value){
@@ -2211,15 +2216,15 @@ function checkInputAnswer(value){
     answers[current]=value.trim();wordformDrafts[current]="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
-    renderQuestion();
+    renderQuestion({feedback:true});
     const panel=document.querySelector(".feedback.correct");
-    if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+    if(panel)panel.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"nearest"});
     return;
   }
 
   mistakes[current]++;
   wrongChoices[current].add(entered);
-  renderQuestion();
+  renderQuestion({feedback:true});
   const input=document.getElementById("wordformInput");
   if(input){
     input.value=value;
@@ -2227,7 +2232,7 @@ function checkInputAnswer(value){
     input.select();
   }
   const panel=document.querySelector(".feedback.wrong");
-  if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(panel)panel.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"nearest"});
 }
 
 function skipWordformQuestion(){
@@ -2238,10 +2243,10 @@ function skipWordformQuestion(){
   answers[current]=correctAnswerText(q);
   solved[current]=true;
   recordVocabProgress(q,mistakes[current]);
-  renderQuestion();
+  renderQuestion({feedback:true});
 
   const panel=document.querySelector(".feedback.correct");
-  if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(panel)panel.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"nearest"});
 }
 
 function checkAnswer(i){
@@ -2251,16 +2256,16 @@ function checkAnswer(i){
     answers[current]=i;wordformDrafts[current]="";
     solved[current]=true;
     recordVocabProgress(q,mistakes[current]);
-    renderQuestion();
+    renderQuestion({feedback:true});
     const panel=document.querySelector(".feedback.correct");
-    if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+    if(panel)panel.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"nearest"});
     return;
   }
   mistakes[current]++;
   wrongChoices[current].add(i);
-  renderQuestion();
+  renderQuestion({feedback:true});
   const panel=document.querySelector(".feedback.wrong");
-  if(panel)panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(panel)panel.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"nearest"});
 }
 
 function wrongFeedback(index){
@@ -2366,7 +2371,7 @@ function move(step){
   const n=current+step;
   if(n<0||n>=activeQuestions.length)return;
   if(step>0&&!solved[current])return;
-  current=n;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+  current=n;renderQuestion({direction:step});window.scrollTo({top:0,behavior:"instant"});
 }
 
 async function submitLearningScore(firstTry,totalMistakes,totalQuestions,submissionId){
@@ -2435,8 +2440,9 @@ function finishLearning(){
     duration:Math.max(0,Math.round((Date.now()-quizStartedAt)/1000)),
     submissionId:completedSubmissionId,details:{mistakes:totalMistakes,firstTryAccuracy:pct}
   }).catch(err=>{console.error("Unified result save failed",err);toast("Chưa đồng bộ được kết quả bổ sung")});
-  if(pct>=75)confetti();
-  window.scrollTo({top:0,behavior:"smooth"});
+  MotionCore.result(resultScreen,pct);
+  if(pct===100&&!MotionCore.reduced())confetti();
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 function buildReview(){
@@ -2460,7 +2466,7 @@ function buildReview(){
 
 function confetti(){
   const h=document.getElementById("confetti");h.innerHTML="";
-  for(let i=0;i<80;i++){const e=document.createElement("i");e.style.left=Math.random()*100+"vw";e.style.setProperty("--x",(Math.random()*220-110)+"px");e.style.setProperty("--t",(2.6+Math.random()*2)+"s");e.style.setProperty("--h",Math.floor(Math.random()*360));e.style.animationDelay=Math.random()*.6+"s";h.appendChild(e)}
+  for(let i=0;i<28;i++){const e=document.createElement("i");e.style.left=Math.random()*100+"vw";e.style.setProperty("--x",(Math.random()*220-110)+"px");e.style.setProperty("--t",(2.6+Math.random()*2)+"s");e.style.setProperty("--h",Math.floor(Math.random()*360));e.style.animationDelay=Math.random()*.6+"s";h.appendChild(e)}
   setTimeout(()=>h.innerHTML="",5200);
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}

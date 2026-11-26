@@ -145,7 +145,7 @@ function renderSchoolHome(){
         <span class="unit-arrow">→</span>
       </button>
     </div>`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 function renderSchoolGrade10(){
   const data=schoolReviewData();
@@ -180,7 +180,7 @@ function renderSchoolGrade10(){
         <div class="meta"><span class="chip">164 questions</span><span class="chip">68 vocabulary items</span><span class="chip">Original PDF</span></div>
       </button>
     </div>`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 function renderSchoolMidterm1(){
   const data=schoolReviewData();
@@ -215,7 +215,7 @@ function renderSchoolMidterm1(){
     </div>
     <div class="section-title"><h2>Sets</h2><span>7 sets · chia theo dạng bài</span></div>
     <div class="exercise-grid">${cards}</div>`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 function renderSchoolSetIntro(setNo){
   const data=schoolReviewData();
@@ -241,7 +241,7 @@ function renderSchoolSetIntro(setNo){
       </div>
       <button class="primary" onclick="startSchoolQuiz(${setNo})">${LearningFlow.labels.start} →</button>
     </div>`;
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 function startSchoolQuiz(setNo,forceNew=false){
   const sourceItems=schoolSetItems(setNo);
@@ -271,7 +271,7 @@ function startSchoolQuiz(setNo,forceNew=false){
   persistSchoolAttempt();
   renderSchoolQuestion();
 }
-function renderSchoolQuestion(){
+function renderSchoolQuestion(motion={}){
   if(!schoolSession)return;
   persistSchoolAttempt();
   const s=schoolSession,q=s.items[s.current],solved=s.solved[s.current];
@@ -351,7 +351,8 @@ function renderSchoolQuestion(){
       }
     });
   }
-  window.scrollTo({top:0,behavior:"smooth"});
+  MotionCore.question(pageMount,motion);
+  if(!motion.feedback)window.scrollTo({top:0,behavior:"instant"});
 }
 function checkSchoolMcq(i){
   const s=schoolSession;
@@ -366,8 +367,8 @@ function checkSchoolMcq(i){
     s.wrongChoices[s.current].add(i);
     s.lastWrong[s.current]=true;
   }
-  renderSchoolQuestion();
-  if(s.solved[s.current])document.querySelector(".feedback.correct")?.scrollIntoView({behavior:"smooth",block:"nearest"});
+  renderSchoolQuestion({feedback:true});
+  if(s.solved[s.current])document.querySelector(".feedback.correct")?.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"nearest"});
 }
 function checkSchoolInput(){
   const s=schoolSession;
@@ -386,8 +387,8 @@ function checkSchoolInput(){
     s.mistakes[s.current]++;
     s.lastWrong[s.current]=true;
   }
-  renderSchoolQuestion();
-  if(s.solved[s.current])document.querySelector(".feedback.correct")?.scrollIntoView({behavior:"smooth",block:"nearest"});
+  renderSchoolQuestion({feedback:true});
+  if(s.solved[s.current])document.querySelector(".feedback.correct")?.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"nearest"});
 }
 function moveSchoolQuestion(step){
   const s=schoolSession;
@@ -396,7 +397,7 @@ function moveSchoolQuestion(step){
   const next=s.current+step;
   if(next<0||next>=s.items.length)return;
   s.current=next;
-  renderSchoolQuestion();
+  renderSchoolQuestion({direction:step});
 }
 function finishSchoolQuiz(){
   const s=schoolSession;
@@ -448,7 +449,7 @@ function finishSchoolQuiz(){
   if(s.remoteSaved&&status)status.textContent="✓ Đã lưu kết quả vào tài khoản";
   if(!s.remoteSaved)saveSchoolOutcome();
   if(pct>=75)confetti();
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 window.saveSchoolOutcome=saveSchoolOutcome;

@@ -245,7 +245,7 @@ function seekQuestion(partId,qid){
   }
   if(window.innerWidth<901){
     var card=document.getElementById("ent-p"+partId+"-q-"+qid);
-    if(card)card.scrollIntoView({behavior:"smooth",block:"center"});
+    if(card)card.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"center"});
   }
 }
 function readAnswer(part,q){
@@ -341,7 +341,7 @@ function submitPart(partId,restoring=false){
   var firstWrong=part.questions.find(function(q){return !st.results[q.id];});
   if(firstWrong){
     var c=document.getElementById("ent-p"+part.id+"-q-"+firstWrong.id);
-    if(c)c.scrollIntoView({behavior:"smooth",block:"center"});
+    if(c)c.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"center"});
   }
 }
 function toggleAnswers(partId,silent=false){
@@ -446,7 +446,7 @@ function renderListeningHome(){
         '<h3>News</h3><p>Luyện nghe tin tức theo video.</p><span class="unit-arrow">→</span>'+
       '</button>'+
     '</div>';
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 function renderEntertainment(){
@@ -466,7 +466,7 @@ function renderEntertainment(){
         '</button>';
       }).join("")+
     '</div>';
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 var persistListening=function(){};
@@ -503,7 +503,7 @@ function renderEntertainmentVideo(){
   });
   PARTS.forEach(part=>updateProgress(part.id));
   initPlayer();
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 
 injectStyles();

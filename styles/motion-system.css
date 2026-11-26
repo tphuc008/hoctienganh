@@ -1,0 +1,30 @@
+/* Shared motion tokens; explicit properties, no blanket transition:all. */
+:root{--motion-instant:80ms;--motion-fast:150ms;--motion-normal:220ms;--motion-moderate:280ms;--motion-expressive:350ms;--motion-result:650ms;--motion-ease:cubic-bezier(.22,1,.36,1)}
+#pageMount.page{animation:none}
+#quizShell .question-card,#pageMount [data-school-quiz] .question-card{animation:none}
+#quizShell .feedback,#pageMount [data-school-quiz] .feedback{animation:none}
+#quizShell .answer,#pageMount [data-school-quiz] .answer{transition:background-color var(--motion-fast),border-color var(--motion-fast),color var(--motion-fast),box-shadow var(--motion-fast)}
+#quizShell .answer:is(:hover,.correct,.selected,.wrong-choice),#pageMount [data-school-quiz] .answer:is(:hover,.correct,.selected,.wrong-choice){transform:none;animation:none}
+#quizShell .progress,#pageMount [data-school-quiz] .progress{transition:width var(--motion-expressive) var(--motion-ease)}
+.motion-route-loading{padding:18px 0;min-height:180px;max-width:900px;margin:auto;color:#64748b}
+.motion-loading-label{font-size:13px;font-weight:650}
+.motion-loading-line,.motion-loading-grid>span{border-radius:12px;background:linear-gradient(105deg,#e8eef7 30%,#f6f9fd 48%,#e8eef7 65%);background-size:220% 100%;animation:motion-skeleton 1.6s linear infinite}
+.motion-loading-line{height:74px;margin:14px 0}
+.motion-loading-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.motion-loading-grid>span{height:74px}
+@keyframes motion-skeleton{from{background-position:200% 0}to{background-position:-20% 0}}
+@keyframes motion-fade{from{opacity:.65}to{opacity:1}}
+@keyframes motion-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes motion-evidence{from{background-color:transparent;box-shadow:none}to{background-color:#fde68a;box-shadow:0 0 0 2px #fde68a}}
+.ev1-details[open]>.ev1-full,.g21 details[open]>:not(summary),.g6-root details[open]>:not(summary){animation:motion-open var(--motion-moderate) var(--motion-ease)}
+.ev1-toggle{transition:background-color var(--motion-fast),color var(--motion-fast)}
+.listening-part.active{animation:motion-fade var(--motion-normal) var(--motion-ease)}
+.listening-part-tab,.mis-mobile-switch button,.hsg-group-tabs button{transition:background-color var(--motion-fast),border-color var(--motion-fast),color var(--motion-fast)}
+.mis-paragraph mark.mis-evidence{animation:motion-evidence 300ms var(--motion-ease)}
+@media(max-width:730px){.mis-app[data-tab=reading] .mis-left,.mis-app[data-tab=questions] .mis-right{animation:motion-fade var(--motion-normal) var(--motion-ease)}}
+dialog.hsg-print-dialog[open]{animation:motion-open var(--motion-moderate) var(--motion-ease)}
+dialog.hsg-print-dialog[open]::backdrop{animation:motion-fade var(--motion-fast) var(--motion-ease)}
+body:has(.hsg-hp-focus) #pageMount,body:has(.mis-app) #pageMount{animation:none}
+@media(max-width:520px){.motion-loading-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.motion-loading-grid>span:last-child{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.motion-route-loading *,#quizShell *,#pageMount [data-school-quiz] *, .ev1-details>*,.g21 details>*,.g6-root details>*,.listening-part,.mis-app *,dialog.hsg-print-dialog,dialog.hsg-print-dialog::backdrop{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.motion-route-loading{display:none!important}*{animation:none!important;transition:none!important}}

@@ -333,13 +333,13 @@ function goQuestion(id){
  state.focus=Number(id);save();
  if(el("mis-app")&&window.innerWidth<=730)switchTab("questions");
  document.querySelectorAll(".mis-q-card").forEach(function(card){card.classList.toggle("mis-focus",card.id==="mis-q-"+id)});
- const card=el("mis-q-"+id);if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
+ const card=el("mis-q-"+id);if(card)card.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"start"});
  updateProgress();
  if(state.submitted){
   const left=el("mis-passage-pane");const top=left?left.scrollTop:0;
   if(left)left.innerHTML=passageHTML();
   const next=el("mis-p-"+Q.find(function(q){return q.id===Number(id)}).p);
-  if(next)next.scrollIntoView({behavior:"smooth",block:"center"});
+  if(next)next.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"center"});
   if(left){left.addEventListener("mouseup",captureSelection);left.addEventListener("keyup",captureSelection)}
  }
 }
@@ -393,7 +393,7 @@ function landing(){
  '<div class="unit-hero"><div class="eyebrow">Grade 12 · IELTS Reading</div><h1>Reading</h1><p>IELTS Academic Reading · Chấm điểm và giải thích sau khi nộp.</p></div>'+
  '<div class="section-title"><h2>Reading Passages</h2><span>2 bài đọc</span></div>'+
  '<div class="exercise-grid"><button class="exercise-card" onclick="location.hash=\''+PATH+'\'"><div class="exercise-icon">📖</div><h3>Marketing and the Information Age</h3><p>Passage 3 · Matching Information · YES/NO/NOT GIVEN · Flow-chart Completion</p><div class="meta"><span class="chip">25 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích chi tiết tiếng Việt</span>'+(old?.startedAt?'<span class="chip">'+(old.submitted?"Đã làm · "+Q.filter(function(q){return cleaned(old.answers?.[q.id])===cleaned(q.answer)}).length+"/14":"Đang làm dở")+'</span>':"")+'</div></button><button class="exercise-card" onclick="location.hash=\'grade-12/reading/robots-and-us\'"><div class="exercise-icon">🤖</div><h3>Robots and us</h3><p>Passage 3 · Matching Features · Matching Sentence Endings · Multiple Choice</p><div class="meta"><span class="chip">20 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích chi tiết tiếng Việt</span></div></button></div>';
- window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 function exercise(){
  const old=read();
@@ -405,7 +405,7 @@ function exercise(){
  '<div class="pills"><span class="pill">Matching Information</span><span class="pill">YES / NO / NOT GIVEN</span><span class="pill">Flow-chart Completion</span></div>'+
  '<p><strong>Lưu ý:</strong> Bắt đầu tính giờ · Hết giờ tự nộp.</p>'+
  '<button class="primary" onclick="misContinue()">Bắt đầu làm bài →</button></div>';
- window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 window.renderMISReadingHome=function(){
   landing();

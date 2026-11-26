@@ -228,7 +228,7 @@ function go(id,showEvidence){
  state.focus=q.id;save();
  if(window.innerWidth<=730)switchTab(showEvidence?"reading":"questions");
  paint();
- if(!showEvidence)$("mis-q-"+q.id)?.scrollIntoView({behavior:"smooth",block:"start"});
+ if(!showEvidence)$("mis-q-"+q.id)?.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"start"});
  if(state.submitted){
   const pane=$("mis-passage-pane");
   if(pane){
@@ -242,7 +242,7 @@ function go(id,showEvidence){
     if(target){
      const box=target.getBoundingClientRect(),host=pane.getBoundingClientRect();
      const top=pane.scrollTop+box.top-host.top-Math.max(70,host.height*.24);
-     pane.scrollTo({top:Math.max(0,top),behavior:"smooth"});
+     pane.scrollTo({top:Math.max(0,top),behavior:MotionCore.scrollBehavior()});
     }else{
      const status=$("mis-selection-status");
      if(status)status.textContent="Dẫn chứng chưa được định vị chính xác; vui lòng kiểm tra lời giải.";

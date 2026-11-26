@@ -314,7 +314,7 @@ function goQuestion(id,showEvidence){
  state.focus=Number(id);save();
  if(el("mis-app")&&window.innerWidth<=730)switchTab(showEvidence?"reading":"questions");
  document.querySelectorAll(".mis-q-card").forEach(card=>card.classList.toggle("mis-focus",card.id==="mis-q-"+id));
- if(!showEvidence){const card=el("mis-q-"+id);if(card)card.scrollIntoView({behavior:"smooth",block:"start"})}
+ if(!showEvidence){const card=el("mis-q-"+id);if(card)card.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"start"})}
  updateProgress();
  if(state.submitted){
   const left=el("mis-passage-pane");
@@ -324,7 +324,7 @@ function goQuestion(id,showEvidence){
    left.addEventListener("keyup",captureSelection);
    if(showEvidence||window.innerWidth>730){
     const next=el("mis-p-"+Q.find(q=>q.id===Number(id)).p);
-    if(next)next.scrollIntoView({behavior:"smooth",block:"center"});
+    if(next)next.scrollIntoView({behavior:MotionCore.scrollBehavior(),block:"center"});
    }
   }
  }
@@ -383,7 +383,7 @@ function landing(){
  '<div class="unit-hero"><div class="eyebrow">Grade 12 · IELTS Reading</div><h1>Reading</h1><p>IELTS Reading · Chấm điểm sau khi nộp.</p></div>'+
  '<div class="section-title"><h2>Reading Passages</h2><span>2 bài đọc</span></div>'+
  '<div class="exercise-grid"><button class="exercise-card" onclick="location.hash=\''+PATH+'\'"><div class="exercise-icon">📖</div><h3>Robots and us</h3><p>Passage 3 · Matching Features · Sentence Endings · Multiple Choice</p><div class="meta"><span class="chip">20 phút</span><span class="chip">14 câu (27–40)</span><span class="chip">Giải thích sau khi nộp</span>'+(old?.startedAt?'<span class="chip">'+(old.submitted?"Đã làm · "+Q.filter(function(q){return cleaned(old.answers?.[q.id])===cleaned(q.answer)}).length+"/14":"Đang làm dở")+'</span>':"")+'</div></button></div>';
- window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 function exercise(){
  const old=read();
@@ -395,7 +395,7 @@ function exercise(){
  '<div class="pills"><span class="pill">Matching Features</span><span class="pill">Sentence Endings</span><span class="pill">Multiple Choice</span></div>'+
  '<p><strong>Lưu ý:</strong> Bắt đầu tính giờ · Hết giờ tự nộp.</p>'+
  '<button class="primary" onclick="robotsContinue()">Bắt đầu làm bài →</button></div>';
- window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo({top:0,behavior:MotionCore.scrollBehavior()});
 }
 window.renderRobotsReadingHome=landing;
 
