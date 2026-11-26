@@ -40,13 +40,13 @@ const assert=require("node:assert/strict");
        "invasive","crowd out","unchecked","overexploitation","unanimously","deterrent","rangers","sanctuary","rehabilitate","fall through"]}
   ];
   try{
-    await open("grade-12/unit-88",".exercise-card");
-    assert.equal(await page.locator(".exercise-card").count(),2);
+    await open("grade-12/unit-88",".uw-card");
+    assert.equal(await page.locator(".uw-card").count(),2);
     assert.match(await page.locator("#pageMount").innerText(),/Wildlife Conservation/);
     for(const spec of specs){
-      await open("grade-12/unit-88",".exercise-card");
-      assert.match(await page.locator(".exercise-card").nth(spec.set-1).innerText(),new RegExp(spec.title));
-      assert.match(await page.locator(".exercise-card").nth(spec.set-1).innerText(),/20 questions/);
+      await open("grade-12/unit-88",".uw-card");
+      assert.match(await page.locator(".uw-card").nth(spec.set-1).innerText(),new RegExp(spec.title));
+      assert.match(await page.locator(".uw-card").nth(spec.set-1).innerText(),/20 câu/);
       await open("grade-12/unit-88/vocabulary-practice-"+spec.set,".exercise-intro");
       assert.match(await page.locator(".exercise-intro").innerText(),new RegExp(spec.title));
       assert.match(await page.locator(".exercise-intro").innerText(),/20 questions/);

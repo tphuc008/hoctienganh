@@ -31,7 +31,7 @@ const assert=require("node:assert/strict");
   assert.equal(new URL(page.url()).hash.slice(1),route);
  }
  try{
-  await open("grade-12",".units");
+  await open("grade-12",".cl-grid");
   const catalogue=await page.evaluate(()=>({
    count:ContentManifest.vocabulary.length,
    routes:ContentManifest.entries.map(x=>x.route),
@@ -43,10 +43,10 @@ const assert=require("node:assert/strict");
   assert.equal(new Set(catalogue.routes).size,catalogue.routes.length);
   console.log("Manifest catalogue: "+catalogue.count+" Vocabulary units and "+catalogue.routes.length+" unique pages");
   for(const u of catalogue.units){
-   await open(u.route,".exercise-grid");
+   await open(u.route,".uw-grid");
    const counts=await page.evaluate(({grade,unit})=>({
     real:Object.keys(window.ContentManifest.loadedBanks()[grade+"-"+unit].levelConfig).length,
-    displayed:document.querySelectorAll("#pageMount .exercise-card").length
+    displayed:document.querySelectorAll("#pageMount .uw-card").length
    }),u);
    assert.equal(counts.real,counts.displayed,"Mismatch for "+u.route);
    await open(u.route+"/vocabulary-practice-1",".exercise-intro");
@@ -63,7 +63,7 @@ const assert=require("node:assert/strict");
   await open("school/grade-10/midterm-1/set-7",".exercise-intro");
   console.log("School manifest routes and access separation: passed");
   // These three lessons are in Tutoring, whereas the preceding test opened School.
-  await open("tutoring",".units");
+  await open("tutoring",".td-grade-grid");
   await open("grade-12/lesson-plans/unit-7",".lp-inline-question");
   assert.equal(await page.locator(".lp-inline-question").count(),40,"Lesson page should show 40 original questions");
   assert.equal(await page.locator("#lp-section-practice").count(),0,"Practice page must not be on the lesson page");

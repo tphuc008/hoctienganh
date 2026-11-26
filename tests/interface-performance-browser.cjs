@@ -39,7 +39,7 @@ const assert=require("node:assert/strict");
  try{
   const result=await page.goto(base,{waitUntil:"domcontentloaded",timeout:26000});
   assert.equal(result.status(),200);
-  await page.locator("#pageMount .portal-areas").first().waitFor({timeout:16000});
+  await page.locator("#portalWorkspace").first().waitFor({timeout:16000});
   assert.equal(await page.locator("#brandBtn").evaluate(el=>el.tagName),"BUTTON","Brand navigation needs native keyboard support");
   assert.equal(await page.locator("html").getAttribute("lang"),"vi","Vietnamese interface needs appropriate document language");
   await page.locator(".skip-link").focus();
@@ -49,24 +49,17 @@ const assert=require("node:assert/strict");
   for(const name of lazy)assert.ok(!initial.scripts.includes(name),"Eager script "+name);
   assert.ok(initial.css.some(x=>x.startsWith("styles/site.css")),"Extracted stylesheet not found");
   assert.ok(initial.css.some(x=>x.startsWith("styles/study-workspace.css")),"Shared responsive study design not loaded");
-  const grid=await page.locator(".units").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length);
-  assert.equal(grid,1,"Desktop H+ choices must form a vertical selector");
-  assert.equal(await page.locator(".portal-hplus-layout").evaluate(el=>
-    getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),2,
-    "H+ needs two columns on desktop");
+  assert.equal(await page.locator(".pw-grid").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),2,"Desktop portal has two direct-entry cards");
   await page.setViewportSize({width:390,height:844});
-  assert.equal(await page.locator(".portal-hplus-choices").evaluate(el=>
-    getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),2,
-    "Mobile H+ choices must appear side-by-side");
-  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+4),
-    "Mobile H+ portal should not overflow horizontally");
+  assert.equal(await page.locator(".pw-grid").evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length),1,"Mobile portal stacks cards");
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+4),"Mobile portal must not overflow horizontally");
   await page.setViewportSize({width:1280,height:820});
 
   assert.ok(initial.scripts.length<=27,"Initial scripts not reduced: "+initial.scripts.length);
   const source=await (await context.request.get(base)).text();
   assert.ok(Buffer.byteLength(source,"utf8")<120000,"HTML still has a large inline CSS payload");
   console.log("STARTUP PASS: "+initial.scripts.length+" scripts, HTML "+Buffer.byteLength(source)+" bytes");
-  await open("tutoring",".tutoring-grade-grid");
+  await open("tutoring",".td-grade-grid");
   await page.locator("#learnerAccountMenu summary").click();
   assert.ok(await page.locator("#forgetCurrentAreaBtn").isVisible(),
     "Current-area access management must remain accessible through account menu");

@@ -34,32 +34,22 @@ const assert=require("node:assert/strict");
   });
   await page.reload({waitUntil:"domcontentloaded"});
   assert.equal(await page.evaluate(()=>window.LearningCore.userId()),"00000000-0000-4000-8000-000000000042","mock learner session");
-  await page.locator("#pageMount .portal-areas").first().waitFor({timeout:12000});
-  assert.equal(await page.locator("#pageMount .portal-areas").first().locator(".unit-card").count(),2,
-    "Main portal keeps exactly two access choices");
-  assert.equal(await page.locator("#pageMount .account-banner").count(),0,
-    "Redundant account banner is removed");
-  assert.equal(await page.locator("#portalHplus").getAttribute("data-area"),"tutoring",
-    "Initial preview should show Tutoring");
-  await page.locator('[data-portal-select="school"]').click();
-  assert.equal(await page.locator("#portalHplus").getAttribute("data-area"),"school",
-    "Switching to School must update preview without navigating");
-  assert.equal(await page.locator('[data-portal-select="school"]').getAttribute("aria-pressed"),"true");
-  assert.ok(await page.locator('.portal-hplus-modules[data-portal-content="school"]').isVisible());
-  assert.ok(!await page.locator('.portal-hplus-modules[data-portal-content="tutoring"]').isVisible());
-  await page.locator('[data-portal-select="tutoring"]').click();
+  await page.locator("#portalWorkspace").waitFor({timeout:12000});
+  assert.equal(await page.locator("#portalWorkspace [data-portal-enter]").count(),2);
+  assert.equal(await page.locator("#pageMount .account-banner").count(),0);
+  assert.equal(await page.locator("#portalHplusPreview").count(),0);
+  assert.equal(await page.locator(".pw-teacher").count(),0,"Non-teacher must not see teacher links");
   await page.setViewportSize({width:390,height:844});
   const mobilePortal=await page.evaluate(()=>({
-    cols:getComputedStyle(document.querySelector(".portal-hplus-choices")).gridTemplateColumns.split(" ").filter(Boolean).length,
+    cols:getComputedStyle(document.querySelector(".pw-grid")).gridTemplateColumns.split(" ").filter(Boolean).length,
     overflow:document.documentElement.scrollWidth-innerWidth
   }));
-  assert.equal(mobilePortal.cols,2,"Mobile H+ selection must become two horizontal tabs");
-  assert.ok(mobilePortal.overflow<=4,"Mobile H+ must not scroll horizontally");
+  assert.equal(mobilePortal.cols,1,"Mobile portal stacks cards");
+  assert.ok(mobilePortal.overflow<=4,"Mobile portal must not scroll horizontally");
   await page.setViewportSize({width:1280,height:850});
-  await page.locator("[data-portal-enter-selected]").click();
-  await page.locator(".tutoring-grade-grid").waitFor({timeout:12000});
-  assert.equal(new URL(page.url()).hash,"#tutoring",
-    "Enter button must navigate through the existing access checks");
+  await page.locator('[data-portal-enter="tutoring"]').click();
+  await page.locator(".td-grade-grid").waitFor({timeout:12000});
+  assert.equal(new URL(page.url()).hash,"#tutoring","Direct entry preserves access checks");
   async function open(route,selector){
    // The portal intentionally clears the active area; emulate entering the right area.
    await page.evaluate(area=>localStorage.setItem("hoctienganh_active_area",area),

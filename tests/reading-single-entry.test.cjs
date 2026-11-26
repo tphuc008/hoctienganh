@@ -4,13 +4,12 @@ const fs=require("node:fs");
 const source=fs.readFileSync("index.html","utf8");
 const manifest=fs.readFileSync("content/manifest.js","utf8");
 const list=fs.readFileSync("grade12-reading.js","utf8");
-test("Grade 12 displays exactly one Reading entry that opens the Reading library",()=>{
-  const section=source.split("const readingHTML=id===12?")[1]?.split("const lessonPlansHTML")[0];
-  assert.ok(section,"Grade 12 Reading overview found");
-  assert.match(section,/data-reading-route="grade-12\/reading"/);
-  assert.match(section,/<h3>Reading<\/h3>/);
-  assert.doesNotMatch(section,/\.map\(item=>/,"No one-card-per-passage rendering in Grade overview");
-  assert.match(source,/btn\.dataset\.readingRoute/,"Card navigates to library");
+test("Tutoring displays a single Reading shortcut and Grade 12 no longer duplicates it",()=>{
+  const dashboard=fs.readFileSync("features/tutoring-dashboard-v2.js","utf8");
+  assert.equal((dashboard.match(/href="#grade-12\/reading"/g)||[]).length,1);
+  assert.doesNotMatch(source,/data-reading-route|const readingHTML/);
+  const catalogue=fs.readFileSync("features/course-library-v2.js","utf8");
+  assert.doesNotMatch(catalogue,/grade-12\/reading/);
 });
 test("Reading library still lists all published articles and original passage routes",()=>{
   assert.match(list,/LearningCore\.list\(\{category:"reading",grade:12,listing:true\}\)/);
