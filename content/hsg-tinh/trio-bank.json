@@ -1,0 +1,362 @@
+{
+  "version": 1,
+  "sets": [
+    {
+      "id": "demo-01",
+      "title": "Demo Set 01",
+      "demo": true,
+      "questions": [
+        {
+          "id": "demo-q1",
+          "answer": "meet",
+          "sentences": [
+            "The proposals would ___ with strong opposition.",
+            "Factories increased production to ___ the demand.",
+            "The family struggled to make ends ___."
+          ],
+          "hints": [
+            "A negative reaction to a proposal.",
+            "M _ _ _ (4 letters)",
+            "M E _ T — satisfy a need."
+          ],
+          "phrases": [
+            {
+              "id": "demo-p1-1",
+              "phrase": "meet with opposition",
+              "meaning": "Vấp phải sự phản đối",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st1-1",
+                  "original": "The plan is likely to face strong opposition.",
+                  "target": "The plan is likely to ___ .",
+                  "keyword": "MEET",
+                  "acceptedAnswers": [
+                    "meet with strong opposition"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p1-2",
+              "phrase": "meet the demand",
+              "meaning": "Đáp ứng nhu cầu",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st1-2",
+                  "original": "The factory must satisfy the demand.",
+                  "target": "The factory must ___.",
+                  "keyword": "MEET",
+                  "acceptedAnswers": [
+                    "meet the demand"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p1-3",
+              "phrase": "make ends meet",
+              "meaning": "Kiếm đủ tiền trang trải cuộc sống",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st1-3",
+                  "original": "They struggle to earn enough to cover living expenses.",
+                  "target": "They struggle to ___.",
+                  "keyword": "MEET",
+                  "acceptedAnswers": [
+                    "make ends meet"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "demo-q2",
+          "answer": "draw",
+          "sentences": [
+            "The report aims to ___ attention to poverty.",
+            "We cannot ___ a conclusion yet.",
+            "It is important to ___ a distinction between fact and opinion."
+          ],
+          "hints": [
+            "Direct people's attention to something.",
+            "D _ _ _ (4 letters)",
+            "D R _ W — reach a conclusion."
+          ],
+          "phrases": [
+            {
+              "id": "demo-p2-1",
+              "phrase": "draw attention to",
+              "meaning": "Thu hút sự chú ý đến",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st2-1",
+                  "original": "The campaign highlights pollution.",
+                  "target": "The campaign aims to ___ pollution.",
+                  "keyword": "DRAW",
+                  "acceptedAnswers": [
+                    "draw attention to"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p2-2",
+              "phrase": "draw a conclusion",
+              "meaning": "Rút ra kết luận",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st2-2",
+                  "original": "We cannot conclude anything yet.",
+                  "target": "We cannot ___ yet.",
+                  "keyword": "DRAW",
+                  "acceptedAnswers": [
+                    "draw a conclusion"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p2-3",
+              "phrase": "draw a distinction",
+              "meaning": "Phân biệt",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st2-3",
+                  "original": "We must distinguish between the two concepts.",
+                  "target": "We must ___ between the two concepts.",
+                  "keyword": "DRAW",
+                  "acceptedAnswers": [
+                    "draw a distinction"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "demo-q3",
+          "answer": "strike",
+          "sentences": [
+            "We must ___ a balance between work and rest.",
+            "The companies hope to ___ a deal.",
+            "Her speech managed to ___ a chord with the audience."
+          ],
+          "hints": [
+            "Find an appropriate balance.",
+            "S _ _ _ _ _ (6 letters)",
+            "S T R _ K E — reach an agreement."
+          ],
+          "phrases": [
+            {
+              "id": "demo-p3-1",
+              "phrase": "strike a balance",
+              "meaning": "Tìm sự cân bằng",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st3-1",
+                  "original": "We need to balance cost and quality.",
+                  "target": "We need to ___ between cost and quality.",
+                  "keyword": "STRIKE",
+                  "acceptedAnswers": [
+                    "strike a balance"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p3-2",
+              "phrase": "strike a deal",
+              "meaning": "Đạt được thỏa thuận",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st3-2",
+                  "original": "Both firms hope to reach an agreement.",
+                  "target": "Both firms hope to ___.",
+                  "keyword": "STRIKE",
+                  "acceptedAnswers": [
+                    "strike a deal"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p3-3",
+              "phrase": "strike a chord",
+              "meaning": "Tạo sự đồng cảm",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st3-3",
+                  "original": "Her story resonated with listeners.",
+                  "target": "Her story managed to ___ with listeners.",
+                  "keyword": "STRIKE",
+                  "acceptedAnswers": [
+                    "strike a chord"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "demo-q4",
+          "answer": "hold",
+          "sentences": [
+            "We must ___ officials accountable.",
+            "He tends to ___ a grudge.",
+            "The two countries will ___ talks next week."
+          ],
+          "hints": [
+            "Make someone responsible for their actions.",
+            "H _ _ _ (4 letters)",
+            "H O _ D — conduct discussions."
+          ],
+          "phrases": [
+            {
+              "id": "demo-p4-1",
+              "phrase": "hold someone accountable",
+              "meaning": "Yêu cầu ai chịu trách nhiệm",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st4-1",
+                  "original": "Managers must make staff answer for their actions.",
+                  "target": "Managers must ___ for their actions.",
+                  "keyword": "HOLD",
+                  "acceptedAnswers": [
+                    "hold staff accountable"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p4-2",
+              "phrase": "hold a grudge",
+              "meaning": "Mang lòng oán giận",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st4-2",
+                  "original": "She tends to remain resentful.",
+                  "target": "She tends to ___.",
+                  "keyword": "HOLD",
+                  "acceptedAnswers": [
+                    "hold a grudge"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p4-3",
+              "phrase": "hold talks",
+              "meaning": "Tiến hành đàm phán",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st4-3",
+                  "original": "The countries will conduct negotiations.",
+                  "target": "The countries will ___.",
+                  "keyword": "HOLD",
+                  "acceptedAnswers": [
+                    "hold talks"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "demo-q5",
+          "answer": "bear",
+          "sentences": [
+            "Please ___ in mind the deadline.",
+            "The company must ___ the cost of repairs.",
+            "The twins ___ a resemblance to each other."
+          ],
+          "hints": [
+            "Remember a relevant fact.",
+            "B _ _ _ (4 letters)",
+            "B E _ R — take responsibility for a cost."
+          ],
+          "phrases": [
+            {
+              "id": "demo-p5-1",
+              "phrase": "bear in mind",
+              "meaning": "Ghi nhớ",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st5-1",
+                  "original": "Remember that prices may change.",
+                  "target": "Please ___ that prices may change.",
+                  "keyword": "BEAR",
+                  "acceptedAnswers": [
+                    "bear in mind"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p5-2",
+              "phrase": "bear the cost",
+              "meaning": "Gánh chịu chi phí",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st5-2",
+                  "original": "The company must pay for the repairs.",
+                  "target": "The company must ___ of the repairs.",
+                  "keyword": "BEAR",
+                  "acceptedAnswers": [
+                    "bear the cost"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            },
+            {
+              "id": "demo-p5-3",
+              "phrase": "bear a resemblance",
+              "meaning": "Có nét tương đồng",
+              "explanation": "",
+              "transformations": [
+                {
+                  "id": "demo-st5-3",
+                  "original": "The children look like their parents.",
+                  "target": "The children ___ to their parents.",
+                  "keyword": "BEAR",
+                  "acceptedAnswers": [
+                    "bear a resemblance"
+                  ],
+                  "explanation": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
