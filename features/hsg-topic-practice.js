@@ -16,7 +16,7 @@ function setsFor(topic){
  return values.map((item,i)=>{
   const n=String(i+1).padStart(2,"0");
   return {id:item.id||"set-"+n,title:item.title||"Set "+n,passage:item.passage||"",
-   questions:Array.isArray(item.questions)?item.questions.filter(q=>q&&typeof q.stem==="string"&&q.stem.trim()):[]};
+   questions:Array.isArray(item.questions)?item.questions.filter(q=>q&&typeof q.stem==="string"&&q.stem.trim()):[],legacyFingerprint:item.legacyFingerprint||"",extendedSets:Array.isArray(item.extendedSets)?item.extendedSets.filter(x=>x.questions?.length).map(x=>({...x,parentId:item.id,isExtended:true})):[]};
  });
 }
 function fingerprint(set){
@@ -24,7 +24,7 @@ function fingerprint(set){
 }
 function draft(topic,set){
  const raw=global.LearningCore?.readDraft?.("hsg-topic-practice",topic.id+"/"+set.id)||{};
- return raw.fingerprint===fingerprint(set)?raw:{answers:{},index:0,submitted:false,fingerprint:fingerprint(set)};
+ return (raw.fingerprint===fingerprint(set)||(set.legacyFingerprint&&raw.fingerprint===set.legacyFingerprint))?raw:{answers:{},index:0,submitted:false,fingerprint:fingerprint(set)};
 }
 function persist(topic,set,record){
  global.LearningCore?.writeDraft?.("hsg-topic-practice",topic.id+"/"+set.id,{...record,fingerprint:fingerprint(set)});
@@ -178,8 +178,37 @@ function resultPage(topic,set,record){
 }
 
 /* Format 1 — Full Explanation. All four sections stay in a continuous reading flow. */
+function extendedCatalogue(topic,parent){
+ const sets=parent.extendedSets||[];
+ const stats=sets.map(set=>{const d=draft(topic,set),total=set.questions.length,checked=set.questions.filter((_,i)=>d.revealed?.[i]).length,score=set.questions.filter((q,i)=>d.revealed?.[i]&&correct(q,d.answers?.[i])).length;return {set,total,checked,score,submitted:!!d.submitted}});
+ const total=stats.reduce((a,x)=>a+x.total,0),checked=stats.reduce((a,x)=>a+x.checked,0),completed=stats.filter(x=>x.submitted).length;
+ const header=crumbs([{title:"Practice",route:BASE},{title:topic.title,route:routeFor(topic)},{title:parent.title,route:routeFor(topic,parent)},{title:"Extended MCQs"}]);
+ const stat=(n,label)=>'<div class="hsg-f-stat"><strong>'+n+'</strong><span>'+label+'</span></div>';
+ mount(header+'<section class="hsg-f-dashboard hsg-f-catalogue">'+intro("Extended MCQs","Based on "+parent.title,"VOCABULARY EXPANSION")+
+  '<section class="hsg-f-stats">'+stat(total,"Questions")+stat(sets.length,"Practice sets")+stat(completed+"/"+sets.length,"Completed")+'</section>'+
+  '<section class="hsg-f-tool hsg-f-overall"><div class="hsg-f-progress-label"><strong>Overall progress</strong><span>'+checked+'/'+total+' questions checked</span></div><div class="hsg-p-progress"><i style="width:'+(total?Math.round(checked/total*100):0)+'%"></i></div></section>'+
+  '<section class="hsg-f-learning"><h2>Practice sets</h2>'+stats.map((x,i)=>{
+   const status=x.submitted?"Completed":x.checked?"In progress":"Not started",action=x.submitted?"Review set":x.checked?"Continue":"Start set";
+   return '<article class="hsg-f-tool hsg-f-set"><div class="hsg-f-ext-head"><span class="hsg-f-icon hsg-f-set-number">'+String(i+1).padStart(2,"0")+'</span><div class="hsg-f-row-text"><h2>'+esc(x.set.title)+'</h2><small>'+ (x.submitted?Math.round(x.score/x.total*100)+'% accuracy · '+x.total+' questions':x.checked?x.checked+'/'+x.total+' questions checked':x.total+' questions · Full Explanation')+'</small></div><span class="hsg-p-status'+(x.submitted?' done':x.checked?' ready':'')+'">'+status+'</span></div><div class="hsg-p-progress"><i style="width:'+Math.round(x.checked/x.total*100)+'%"></i></div><button type="button" class="hsg-p-action '+(!x.submitted?'primary':'')+'" data-hsgp-route="'+esc(routeFor(topic,x.set))+'">'+action+' →</button></article>';
+  }).join("")+(completed===sets.length&&sets.length?'<div class="hsg-f-complete">All Extended Sets completed!</div>':'')+'</section><footer class="hsg-f-footer"><button class="hsg-p-action" type="button" data-hsgp-route="'+esc(routeFor(topic,parent))+'">← Back to original set</button></footer></section>');
+}
 function fullExplanationPage(topic,set){
  const current=draft(topic,set),qs=set.questions,total=qs.length;
+ const isExtended=!!set.isExtended;
+ const parent=isExtended?setsFor(topic).find(x=>x.id===set.parentId):set;
+ const siblings=parent?.extendedSets||[];
+ const catalogueRoute=routeFor(topic,{id:parent.id+"-extended"});
+ const parentRoute=routeFor(topic,parent);
+ const fullCrumbs=(finish=false)=>crumbs([{title:"Practice",route:BASE},{title:topic.title,route:routeFor(topic)},...(isExtended?[{title:parent.title,route:parentRoute},{title:"Extended MCQs",route:catalogueRoute}]:[]),{title:set.title},...(finish?[{title:"Finish"}]:[])]);
+ function extensionCard(){
+  if(isExtended){
+   const completed=siblings.filter(x=>x.id===set.id?current.submitted:draft(topic,x).submitted).length;
+   const next=siblings.slice(siblings.findIndex(x=>x.id===set.id)+1).find(x=>!draft(topic,x).submitted)||siblings.find(x=>x.id!==set.id&&!draft(topic,x).submitted);
+   return '<section class="hsg-f-extended"><div class="hsg-f-ext-head"><div class="hsg-f-row-text"><h2>Extended MCQs progress</h2><small>'+completed+'/'+siblings.length+' sets completed</small></div></div><div class="hsg-f-segments">'+siblings.map(x=>'<i class="'+((x.id===set.id?current.submitted:draft(topic,x).submitted)?'done':'')+'"></i>').join("")+'</div>'+(next?'<button class="hsg-p-action primary hsg-f-ext-start" type="button" data-hsgp-route="'+esc(routeFor(topic,next))+'">Continue to '+esc(next.title)+' →</button>':'<p class="hsg-f-complete">All Extended Sets completed!</p>')+'<button class="hsg-p-action" type="button" data-hsgp-route="'+esc(catalogueRoute)+'">All Extended Sets</button></section>';
+  }
+  const count=siblings.reduce((a,x)=>a+x.questions.length,0),complete=siblings.filter(x=>draft(topic,x).submitted).length;
+  return '<section class="hsg-f-extended" aria-label="Extended MCQs"><div class="hsg-f-ext-head"><span class="hsg-f-icon" aria-hidden="true">▱</span><div class="hsg-f-row-text"><h2>Extended MCQs</h2><small>Distractor-based vocabulary expansion</small></div><span class="hsg-f-availability">'+(count?siblings.length+' sets':'Coming soon')+'</span></div><p>Practise new uses of the distractors encountered in this set, including those from questions you answered correctly.</p>'+(count?'<div class="hsg-f-ext-counts"><span><strong>'+count+'</strong> additional questions</span><span><strong>'+complete+'/'+siblings.length+'</strong> sets completed</span></div><button class="hsg-p-action primary hsg-f-ext-start" type="button" data-hsgp-route="'+esc(catalogueRoute)+'">Start Extended MCQs →</button>':'<p class="hsg-f-empty">No published Extended MCQs for this set yet.</p><button class="hsg-p-action primary hsg-f-ext-start" type="button" disabled>Start Extended MCQs</button>')+'</section>';
+ }
  current.answers=current.answers||{};current.revealed=current.revealed||{};
  current.miniAnswers=current.miniAnswers||{};current.miniChecked=current.miniChecked||{};
  let index=Math.max(0,Math.min(total-1,Number(current.index)||0));
@@ -200,19 +229,20 @@ function fullExplanationPage(topic,set){
   const chosen=current.answers[index]||"";
   return '<section class="hsg-full-explanation" aria-label="Full explanation">'+
    '<div class="hsg-full-feedback '+(correct(q,chosen)?'good':'bad')+'" role="status"><strong>'+(correct(q,chosen)?"Correct!":"Incorrect.")+'</strong><span>Correct answer: '+esc(correctLabel(q))+'</span></div>'+
+   (q.sourceNote?'<p class="hsg-full-source-note">'+esc(q.sourceNote)+'</p>':'')+
    '<section class="hsg-full-section"><h2>1. Dịch câu</h2><p>'+esc(a.translation)+'</p></section>'+
    '<section class="hsg-full-section"><h2>2. Phân tích các cụm hay</h2><dl class="hsg-full-expressions">'+a.expressions.map(e=>
     '<div><dt>'+(e.origin?anchor(searchLink(e.term),e.term):esc(e.term))+(e.origin?' <span class="hsg-full-links">'+anchor(searchLink(e.term),"EN")+' | '+anchor(searchLink(e.term,true),"VI")+'</span>':'')+'</dt><dd>'+esc(e.meaning)+'</dd></div>').join("")+'</dl></section>'+
    '<section class="hsg-full-section"><h2>3. Phân tích A–D</h2>'+a.analysis.map((item,i)=>
     '<article class="hsg-full-word'+(letter(i)===q.answer?' is-correct':'')+'"><h3>'+letter(i)+'. '+esc(item.label)+(letter(i)===q.answer?' <small>Correct ✓</small>':'')+'</h3>'+item.lines.map(line).join("")+'</article>').join("")+'</section>'+
-   '<section class="hsg-full-section"><h2>4. Mini practice</h2>'+a.minis.map((m,j)=>{
+   (isExtended?'<div class="hsg-full-source-note"><strong>Original Question '+esc(q.sourceNumber)+'</strong><p>Source: Extended '+esc(q.extendedId)+'</p></div>':'<section class="hsg-full-section"><h2>4. Mini practice</h2>'+a.minis.map((m,j)=>{
     const key=index+":"+j,selected=current.miniAnswers[key]||"",done=!!current.miniChecked[key];
     return '<article class="hsg-full-mini"><h3>Mini '+(q.sourceNumber||index+1)+'.'+(j+1)+'</h3><p class="hsg-full-mini-stem">'+esc(m.stem)+'</p>'+
      choiceGrid(m,selected,done,j)+
      (!done?'<button type="button" class="hsg-p-action primary hsg-full-check" data-full-mini-check="'+j+'"'+(!selected?' disabled':'')+'>Check answer</button>':
       '<div class="hsg-full-mini-solution" role="status"><h4>Mini solution '+(q.sourceNumber||index+1)+'.'+(j+1)+' · '+esc(correctLabel(m))+'</h4><p><strong>'+(correct(m,selected)?'Correct!':'Incorrect.')+'</strong></p>'+m.solution.map(line).join("")+'</div>')+
      '</article>';
-   }).join("")+'</section></section>';
+   }).join("")+'</section>')+'</section>';
  }
  function save(){current.index=index;persist(topic,set,current)}
  function finishDashboard(){
@@ -233,19 +263,19 @@ function fullExplanationPage(topic,set){
    const reviewIcon=icon('<path d="M3 12a9 9 0 1 1 3 6.7M3 12V5m0 7h7"/>');
    const bookIcon=icon('<path d="M12 6c-3-3-7-3-9-2v15c3-1 6-1 9 2 3-3 6-3 9-2V4c-2-1-6-1-9 2v15"/>');
    const layersIcon=icon('<path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/>');
-   const header=crumbs([{title:"Practice",route:BASE},{title:topic.title,route:routeFor(topic)},{title:set.title},{title:"Finish"}]);
+   const header=fullCrumbs(true);
    const stat=(value,label,kind="")=>'<div class="hsg-f-stat '+kind+'"><strong>'+esc(value)+'</strong><span>'+esc(label)+'</span></div>';
    const row=(ic,title,desc,num)=>'<span class="hsg-f-icon">'+ic+'</span><span class="hsg-f-row-text"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span><span class="hsg-f-row-count">'+esc(num)+'</span><span class="hsg-f-chevron" aria-hidden="true">⌄</span>';
    mount(header+'<section class="hsg-f-dashboard" aria-label="Set results">'+
     '<section class="hsg-f-hero"><div class="hsg-f-ring" style="--score:'+pct+'%" role="img" aria-label="'+pct+' percent first-try accuracy"><div><strong>'+pct+'%</strong><small>Accuracy</small></div></div>'+
-    '<div class="hsg-f-hero-copy"><div class="hsg-p-kicker">SESSION COMPLETE</div><h1 tabindex="-1" id="hsgFinishTitle">Set completed!</h1><p>'+esc(set.title)+' · '+done+' of '+total+' questions checked</p><p class="hsg-f-mini">Mini practice: '+miniDone+'/'+miniTotal+' checked</p></div></section>'+
+    '<div class="hsg-f-hero-copy"><div class="hsg-p-kicker">SESSION COMPLETE</div><h1 tabindex="-1" id="hsgFinishTitle">'+(isExtended?esc(set.title)+' completed!':'Set completed!')+'</h1><p>'+esc(set.title)+' · '+done+' of '+total+' questions checked</p>'+(isExtended?'':'<p class="hsg-f-mini">Mini practice: '+miniDone+'/'+miniTotal+' checked</p>')+'</div></section>'+
     '<section class="hsg-f-stats" aria-label="Performance summary">'+stat(score+'/'+total,"First-try correct","good")+stat(mistakes.length,"Incorrect questions","bad")+stat(done+'/'+total,"Completed")+'</section>'+
     '<section class="hsg-f-learning"><h2>Continue learning</h2>'+
     '<details class="hsg-f-tool"><summary>'+row(reviewIcon,"Review mistakes","Revisit your incorrect answers.",mistakes.length)+'</summary><div class="hsg-f-tool-body">'+(mistakes.length?questionRows(mistakes):'<p class="hsg-f-empty">No incorrect answers in this set.</p>')+'</div></details>'+
     '<details class="hsg-f-tool"><summary>'+row(bookIcon,"Vocabulary review","Review the words and useful expressions from this set.",vocab.size)+'</summary><div class="hsg-f-tool-body"><dl class="hsg-f-vocabulary">'+Array.from(vocab.values()).map(e=>'<div><dt>'+(e.origin?anchor(searchLink(e.term),e.term)+' <span class="hsg-full-links">'+anchor(searchLink(e.term),"EN")+' | '+anchor(searchLink(e.term,true),"VI")+'</span>':esc(e.term))+'</dt><dd>'+esc(e.meaning)+'</dd></div>').join("")+'</dl></div></details>'+
-    '<details class="hsg-f-tool"><summary>'+row(bookIcon,"Answer review","Open any original question and its full explanation.",total)+'</summary><div class="hsg-f-tool-body">'+questionRows(qs.map((q,i)=>({q,i})))+'</div></details>'+
-    '<section class="hsg-f-extended" aria-label="Extended MCQs"><div class="hsg-f-ext-head"><span class="hsg-f-icon">'+layersIcon+'</span><div class="hsg-f-row-text"><h2>Extended MCQs</h2><small>Distractor-based vocabulary expansion</small></div><span class="hsg-f-availability">Coming soon</span></div><p>Practise new uses of the distractors encountered in this set, including those from questions you answered correctly.</p><p class="hsg-f-empty">No published Extended MCQs for this set yet.</p><button class="hsg-p-action primary hsg-f-ext-start" type="button" disabled>Start Extended MCQs</button></section></section>'+
-    '<footer class="hsg-f-footer"><button type="button" class="hsg-p-action" data-full-reset>Retry set</button><button type="button" class="hsg-p-action" data-hsgp-route="'+esc(routeFor(topic))+'">Back to sets</button></footer></section>');
+    '<details class="hsg-f-tool"><summary>'+row(bookIcon,"Answer review","Open any question and its full explanation.",total)+'</summary><div class="hsg-f-tool-body">'+questionRows(qs.map((q,i)=>({q,i})))+'</div></details>'+
+    extensionCard()+'</section>'+
+    '<footer class="hsg-f-footer"><button type="button" class="hsg-p-action" data-full-reset>Retry set</button><button type="button" class="hsg-p-action" data-hsgp-route="'+esc(isExtended?parentRoute:routeFor(topic))+'">'+(isExtended?'Back to original set':'Back to sets')+'</button></footer></section>');
    const el=root();
    el.querySelectorAll("[data-finish-question]").forEach(b=>b.addEventListener("click",()=>{reviewing=true;index=Number(b.dataset.finishQuestion);save();render()}));
    el.querySelector("[data-full-reset]")?.addEventListener("click",reset);
@@ -262,9 +292,9 @@ function fullExplanationPage(topic,set){
   const score=qs.reduce((n,x,i)=>n+(current.revealed[i]&&correct(x,current.answers[i])?1:0),0);
   const miniTotal=qs.reduce((n,x)=>n+x.fullExplanation.minis.length,0);
   const miniDone=qs.reduce((n,x,i)=>n+x.fullExplanation.minis.filter((_,j)=>current.miniChecked[i+":"+j]).length,0);
-  const header=crumbs([{title:"Practice",route:BASE},{title:topic.title,route:routeFor(topic)},{title:set.title}]);
-  const summary=current.submitted?'<div class="hsg-p-result"><h2>Answer review</h2><p>'+score+'/'+total+' correct · '+miniDone+'/'+miniTotal+' mini practice checked</p><button type="button" class="hsg-p-action" data-full-finish style="margin-top:10px">← Back to results</button></div>':'';
-  const body=summary+'<div class="hsg-p-q-meta"><span>QUESTION '+(index+1)+' / '+total+'</span><span>Format 1 · Full Explanation</span></div>'+
+  const header=fullCrumbs();
+  const summary=current.submitted?'<div class="hsg-p-result"><h2>Answer review</h2><p>'+score+'/'+total+' correct'+(isExtended?'':' · '+miniDone+'/'+miniTotal+' mini practice checked')+'</p><button type="button" class="hsg-p-action" data-full-finish style="margin-top:10px">← Back to results</button></div>':'';
+  const body=summary+'<div class="hsg-p-q-meta"><span>QUESTION '+(index+1)+' / '+total+'</span><span>'+(isExtended?'Extended MCQs':'Format 1')+' · Full Explanation</span></div>'+
    '<div class="hsg-p-stem">'+esc(q.stem)+'</div>'+choiceGrid(q,chosen,checked)+
    (!checked?'<button type="button" class="hsg-p-action primary hsg-full-check" data-full-check'+(!chosen?' disabled':'')+'>Check answer</button>':fullBody(q))+
    '<div class="hsg-p-actions"><button type="button" class="hsg-p-action" data-full-prev'+(!index?' disabled':'')+'>← Previous</button>'+
@@ -273,9 +303,9 @@ function fullExplanationPage(topic,set){
    '';
   const side='<aside class="hsg-p-side"><h2>Questions</h2><p>'+done+'/'+total+' checked</p><div class="hsg-p-dot-grid">'+qs.map((x,i)=>
    '<button type="button" data-full-go="'+i+'" class="hsg-p-dot'+(i===index?' is-active':'')+(current.revealed[i]?' is-done':'')+'" aria-label="Question '+(i+1)+'">'+(i+1)+'</button>').join("")+
-   '</div><div class="hsg-p-progress"><i style="width:'+Math.round(done/total*100)+'%"></i></div><p class="hsg-full-mini-progress">Mini practice: '+miniDone+'/'+miniTotal+'</p>'+
+   '</div><div class="hsg-p-progress"><i style="width:'+Math.round(done/total*100)+'%"></i></div>'+(isExtended?'':'<p class="hsg-full-mini-progress">Mini practice: '+miniDone+'/'+miniTotal+'</p>')+
    (current.submitted?'<button type="button" class="hsg-p-action" data-full-finish>Back to results</button>':'')+'</aside>';
-  mount(header+intro(set.title,total+' questions · '+miniTotal+' mini practice',"FULL EXPLANATION")+
+  mount(header+intro(set.title,total+' questions'+(isExtended?'':' · '+miniTotal+' mini practice'),isExtended?"EXTENDED MCQs":"FULL EXPLANATION")+
    '<div class="hsg-p-exercise hsg-full-layout"><section class="hsg-p-main">'+body+'</section>'+side+'</div>');
   const el=root();const refresh=()=>{save();render(true)};const go=i=>{index=i;save();render()};
   el.querySelectorAll("[data-full-choice]").forEach(b=>b.addEventListener("click",()=>{if(checked)return;current.answers[index]=b.dataset.fullChoice;refresh()}));
@@ -376,13 +406,23 @@ function setPage(topic,set){
  render();
 }
 function open(route){
- const match=String(route||"").replace(/^#/,"").match(/^teacher\/hsg-tinh\/practice(?:\/([a-z0-9-]+))?(?:\/(set-[0-9]+))?$/);
+ const match=String(route||"").replace(/^#/,"").match(/^teacher\/hsg-tinh\/practice(?:\/([a-z0-9-]+))?(?:\/(set-[0-9]+(?:-extended(?:-[0-9]+)?)?))?$/);
  if(!match){global.location.hash=BASE;return}
  if(!match[1]){catalogue();return}
  const topic=TOPICS.find(x=>x.id===match[1]);
  if(!topic){global.location.hash=BASE;return}
  if(!match[2]){topicPage(topic);return}
- const set=setsFor(topic).find(x=>x.id===match[2]);
+ const all=setsFor(topic),id=match[2];
+ const ext=id.match(/^(set-\d+)-extended(?:-(\d+))?$/);
+ if(ext){
+  const parent=all.find(x=>x.id===ext[1]);
+  if(!parent||!parent.extendedSets.length){global.location.hash=parent?routeFor(topic,parent):routeFor(topic);return}
+  if(!ext[2]){extendedCatalogue(topic,parent);return}
+  const child=parent.extendedSets.find(x=>x.id===id);
+  if(!child){global.location.hash=routeFor(topic,{id:parent.id+"-extended"});return}
+  setPage(topic,child);return;
+ }
+ const set=all.find(x=>x.id===id);
  if(!set){global.location.hash=routeFor(topic);return}
  setPage(topic,set);
 }
