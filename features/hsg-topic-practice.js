@@ -2,27 +2,9 @@
 (function(global){
 "use strict";
 const BASE="teacher/hsg-tinh/practice";
-const GROUPS=[
- {id:"grammar",title:"Grammar & Vocabulary"},
- {id:"reading",title:"Reading & Cloze"},
- {id:"writing",title:"Writing"}
-];
-const TOPICS=[
- {id:"lexico-grammar",title:"Lexico-Grammar",description:"Multiple Choice",group:"grammar",kind:"mcq"},
- {id:"word-formation",title:"Word Formation",description:"Word Building",group:"grammar",kind:"text"},
- {id:"error-correction",title:"Error Correction",description:"Find & Correct",group:"grammar",kind:"text"},
- {id:"verb-forms",title:"Verb Forms",description:"Verb Tenses & Forms",group:"grammar",kind:"text"},
- {id:"prepositions",title:"Prepositions & Articles",description:"Gap Filling",group:"grammar",kind:"text"},
- {id:"phonetics",title:"Phonetics & Stress",description:"Multiple Choice",group:"grammar",kind:"mcq"},
- {id:"guided-cloze",title:"Guided Cloze",description:"Multiple-choice Cloze",group:"reading",kind:"mcq"},
- {id:"open-cloze",title:"Open Cloze",description:"Gap Filling",group:"reading",kind:"text"},
- {id:"reading-comprehension",title:"Reading Comprehension",description:"Multiple Choice",group:"reading",kind:"mcq"},
- {id:"matching",title:"Matching",description:"Headings & Information",group:"reading",kind:"mcq"},
- {id:"true-false-not-given",title:"True / False / Not Given",description:"Reading Statements",group:"reading",kind:"mcq"},
- {id:"missing-sentences",title:"Missing Sentences",description:"Text Completion",group:"reading",kind:"mcq"},
- {id:"sentence-transformation",title:"Sentence Transformation",description:"Sentence Rewriting",group:"writing",kind:"text"},
- {id:"key-word-transformation",title:"Key Word Transformation",description:"Key Word Rewriting",group:"writing",kind:"text"}
-];
+// Catalogue reset; previously imported question banks are retained for future reuse.
+const GROUPS=[];
+const TOPICS=[];
 const BANK=global.HSGTopicPracticeBank||{};
 const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const root=()=>document.getElementById("pageMount");
@@ -67,6 +49,12 @@ function intro(title,description,kicker="PRACTICE BY TYPE"){
   '<h1>'+esc(title)+'</h1><p>'+esc(description)+'</p></header>';
 }
 function catalogue(){
+ if(!TOPICS.length){
+  mount(crumbs([{title:"Luyện tập theo dạng"}])+
+   intro("Luyện tập theo dạng","Chưa có dạng bài nào.")+
+   '<div class="empty"><b>Chưa có dạng bài</b></div>');
+  return;
+ }
  const sections=GROUPS.map(group=>{
   const topics=TOPICS.filter(t=>t.group===group.id);
   return '<section class="hsg-p-group"><div class="hsg-p-group-head"><h2>'+esc(group.title)+'</h2>'+
