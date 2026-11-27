@@ -183,6 +183,7 @@ function fullExplanationPage(topic,set){
  current.answers=current.answers||{};current.revealed=current.revealed||{};
  current.miniAnswers=current.miniAnswers||{};current.miniChecked=current.miniChecked||{};
  let index=Math.max(0,Math.min(total-1,Number(current.index)||0));
+ let reviewing=false;
  const letter=i=>String.fromCharCode(65+i);
  const searchLink=(term,vi=false)=>"https://www.google.com/search?q="+encodeURIComponent(vi?"nguồn gốc thành ngữ "+term:term+" idiom origin")+"&hl="+(vi?"vi":"en");
  const anchor=(url,label)=>'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>';
@@ -214,7 +215,47 @@ function fullExplanationPage(topic,set){
    }).join("")+'</section></section>';
  }
  function save(){current.index=index;persist(topic,set,current)}
+ function finishDashboard(){
+   const done=qs.filter((_,i)=>current.revealed[i]).length;
+   const score=qs.reduce((n,q,i)=>n+(current.revealed[i]&&correct(q,current.answers[i])?1:0),0);
+   const mistakes=qs.map((q,i)=>({q,i})).filter(({q,i})=>current.revealed[i]&&!correct(q,current.answers[i]));
+   const miniTotal=qs.reduce((n,q)=>n+q.fullExplanation.minis.length,0);
+   const miniDone=qs.reduce((n,q,i)=>n+q.fullExplanation.minis.filter((_,j)=>current.miniChecked[i+":"+j]).length,0);
+   const pct=total?Math.round(score/total*100):0;
+   const vocab=new Map();
+   qs.forEach((q,i)=>{
+    if(!current.revealed[i])return;
+    q.fullExplanation.expressions.forEach(e=>{if(e.term&&!vocab.has(normalize(e.term)))vocab.set(normalize(e.term),{term:e.term,meaning:e.meaning,origin:e.origin});});
+    q.fullExplanation.analysis.forEach(a=>{const meaning=a.lines.find(t=>t.startsWith("Nghĩa:"));if(a.label&&meaning&&!vocab.has(normalize(a.label)))vocab.set(normalize(a.label),{term:a.label,meaning:meaning.slice("Nghĩa:".length).trim()});});
+   });
+   const questionRows=items=>items.map(({q,i})=>'<button type="button" class="hsg-f-question" data-finish-question="'+i+'"><span class="hsg-f-question-num">'+(i+1)+'</span><span class="hsg-f-question-text"><strong>'+esc(q.stem)+'</strong><small>Your answer: '+esc(answerLabel(q,current.answers[i]))+' · Correct: '+esc(correctLabel(q))+'</small></span><span class="hsg-f-question-status '+(correct(q,current.answers[i])?'good':'bad')+'">'+(correct(q,current.answers[i])?'Correct':'Incorrect')+'</span><span aria-hidden="true">›</span></button>').join("");
+   const icon=(path)=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>';
+   const reviewIcon=icon('<path d="M3 12a9 9 0 1 1 3 6.7M3 12V5m0 7h7"/>');
+   const bookIcon=icon('<path d="M12 6c-3-3-7-3-9-2v15c3-1 6-1 9 2 3-3 6-3 9-2V4c-2-1-6-1-9 2v15"/>');
+   const layersIcon=icon('<path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/>');
+   const header=crumbs([{title:"Practice",route:BASE},{title:topic.title,route:routeFor(topic)},{title:set.title},{title:"Finish"}]);
+   const stat=(value,label,kind="")=>'<div class="hsg-f-stat '+kind+'"><strong>'+esc(value)+'</strong><span>'+esc(label)+'</span></div>';
+   const row=(ic,title,desc,num)=>'<span class="hsg-f-icon">'+ic+'</span><span class="hsg-f-row-text"><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></span><span class="hsg-f-row-count">'+esc(num)+'</span><span class="hsg-f-chevron" aria-hidden="true">⌄</span>';
+   mount(header+'<section class="hsg-f-dashboard" aria-label="Set results">'+
+    '<section class="hsg-f-hero"><div class="hsg-f-ring" style="--score:'+pct+'%" role="img" aria-label="'+pct+' percent first-try accuracy"><div><strong>'+pct+'%</strong><small>Accuracy</small></div></div>'+
+    '<div class="hsg-f-hero-copy"><div class="hsg-p-kicker">SESSION COMPLETE</div><h1 tabindex="-1" id="hsgFinishTitle">Set completed!</h1><p>'+esc(set.title)+' · '+done+' of '+total+' questions checked</p><p class="hsg-f-mini">Mini practice: '+miniDone+'/'+miniTotal+' checked</p></div></section>'+
+    '<section class="hsg-f-stats" aria-label="Performance summary">'+stat(score+'/'+total,"First-try correct","good")+stat(mistakes.length,"Incorrect questions","bad")+stat(done+'/'+total,"Completed")+'</section>'+
+    '<section class="hsg-f-learning"><h2>Continue learning</h2>'+
+    '<details class="hsg-f-tool"><summary>'+row(reviewIcon,"Review mistakes","Revisit your incorrect answers.",mistakes.length)+'</summary><div class="hsg-f-tool-body">'+(mistakes.length?questionRows(mistakes):'<p class="hsg-f-empty">No incorrect answers in this set.</p>')+'</div></details>'+
+    '<details class="hsg-f-tool"><summary>'+row(bookIcon,"Vocabulary review","Review the words and useful expressions from this set.",vocab.size)+'</summary><div class="hsg-f-tool-body"><dl class="hsg-f-vocabulary">'+Array.from(vocab.values()).map(e=>'<div><dt>'+(e.origin?anchor(searchLink(e.term),e.term)+' <span class="hsg-full-links">'+anchor(searchLink(e.term),"EN")+' | '+anchor(searchLink(e.term,true),"VI")+'</span>':esc(e.term))+'</dt><dd>'+esc(e.meaning)+'</dd></div>').join("")+'</dl></div></details>'+
+    '<details class="hsg-f-tool"><summary>'+row(bookIcon,"Answer review","Open any original question and its full explanation.",total)+'</summary><div class="hsg-f-tool-body">'+questionRows(qs.map((q,i)=>({q,i})))+'</div></details>'+
+    '<section class="hsg-f-extended" aria-label="Extended MCQs"><div class="hsg-f-ext-head"><span class="hsg-f-icon">'+layersIcon+'</span><div class="hsg-f-row-text"><h2>Extended MCQs</h2><small>Distractor-based vocabulary expansion</small></div><span class="hsg-f-availability">Coming soon</span></div><p>Practise new uses of the distractors encountered in this set, including those from questions you answered correctly.</p><p class="hsg-f-empty">No published Extended MCQs for this set yet.</p><button class="hsg-p-action primary hsg-f-ext-start" type="button" disabled>Start Extended MCQs</button></section></section>'+
+    '<footer class="hsg-f-footer"><button type="button" class="hsg-p-action" data-full-reset>Retry set</button><button type="button" class="hsg-p-action" data-hsgp-route="'+esc(routeFor(topic))+'">Back to sets</button></footer></section>');
+   const el=root();
+   el.querySelectorAll("[data-finish-question]").forEach(b=>b.addEventListener("click",()=>{reviewing=true;index=Number(b.dataset.finishQuestion);save();render()}));
+   el.querySelector("[data-full-reset]")?.addEventListener("click",reset);
+ }
+ function reset(){
+   if(!global.confirm("Retry this set? Your current answers will be cleared."))return;
+   current.answers={};current.revealed={};current.miniAnswers={};current.miniChecked={};current.submitted=false;reviewing=false;index=0;save();render();
+ }
  function render(keepScroll=false){
+   if(current.submitted&&!reviewing){finishDashboard();return}
   const y=keepScroll?global.scrollY:0;
   const q=qs[index],checked=!!current.revealed[index],chosen=current.answers[index]||"";
   const done=qs.filter((_,i)=>current.revealed[i]).length;
@@ -222,18 +263,18 @@ function fullExplanationPage(topic,set){
   const miniTotal=qs.reduce((n,x)=>n+x.fullExplanation.minis.length,0);
   const miniDone=qs.reduce((n,x,i)=>n+x.fullExplanation.minis.filter((_,j)=>current.miniChecked[i+":"+j]).length,0);
   const header=crumbs([{title:"Practice",route:BASE},{title:topic.title,route:routeFor(topic)},{title:set.title}]);
-  const summary=current.submitted?'<div class="hsg-p-result"><h2>Set complete</h2><p>'+score+'/'+total+' correct · '+miniDone+'/'+miniTotal+' mini practice checked</p></div>':'';
+  const summary=current.submitted?'<div class="hsg-p-result"><h2>Answer review</h2><p>'+score+'/'+total+' correct · '+miniDone+'/'+miniTotal+' mini practice checked</p><button type="button" class="hsg-p-action" data-full-finish style="margin-top:10px">← Back to results</button></div>':'';
   const body=summary+'<div class="hsg-p-q-meta"><span>QUESTION '+(index+1)+' / '+total+'</span><span>Format 1 · Full Explanation</span></div>'+
    '<div class="hsg-p-stem">'+esc(q.stem)+'</div>'+choiceGrid(q,chosen,checked)+
    (!checked?'<button type="button" class="hsg-p-action primary hsg-full-check" data-full-check'+(!chosen?' disabled':'')+'>Check answer</button>':fullBody(q))+
    '<div class="hsg-p-actions"><button type="button" class="hsg-p-action" data-full-prev'+(!index?' disabled':'')+'>← Previous</button>'+
    (index<total-1?'<button type="button" class="hsg-p-action primary" data-full-next>Next →</button>':
-    (!current.submitted?'<button type="button" class="hsg-p-action primary" data-full-submit'+(done!==total?' disabled':'')+'>Finish set →</button>':'<button type="button" class="hsg-p-action" data-full-reset>Retry set</button>'))+'</div>'+
+    (!current.submitted?'<button type="button" class="hsg-p-action primary" data-full-submit'+(done!==total?' disabled':'')+'>Finish set →</button>':'<button type="button" class="hsg-p-action" data-full-finish>Back to results</button>'))+'</div>'+
    '';
   const side='<aside class="hsg-p-side"><h2>Questions</h2><p>'+done+'/'+total+' checked</p><div class="hsg-p-dot-grid">'+qs.map((x,i)=>
    '<button type="button" data-full-go="'+i+'" class="hsg-p-dot'+(i===index?' is-active':'')+(current.revealed[i]?' is-done':'')+'" aria-label="Question '+(i+1)+'">'+(i+1)+'</button>').join("")+
    '</div><div class="hsg-p-progress"><i style="width:'+Math.round(done/total*100)+'%"></i></div><p class="hsg-full-mini-progress">Mini practice: '+miniDone+'/'+miniTotal+'</p>'+
-   (current.submitted?'<button type="button" class="hsg-p-action" data-full-reset>Retry set</button>':'')+'</aside>';
+   (current.submitted?'<button type="button" class="hsg-p-action" data-full-finish>Back to results</button>':'')+'</aside>';
   mount(header+intro(set.title,total+' questions · '+miniTotal+' mini practice',"FULL EXPLANATION")+
    '<div class="hsg-p-exercise hsg-full-layout"><section class="hsg-p-main">'+body+'</section>'+side+'</div>');
   const el=root();const refresh=()=>{save();render(true)};const go=i=>{index=i;save();render()};
@@ -245,7 +286,7 @@ function fullExplanationPage(topic,set){
   el.querySelector("[data-full-prev]")?.addEventListener("click",()=>go(Math.max(0,index-1)));
   el.querySelector("[data-full-next]")?.addEventListener("click",()=>go(Math.min(total-1,index+1)));
   el.querySelector("[data-full-submit]")?.addEventListener("click",()=>{if(done!==total)return;current.submitted=true;save();render()});
-  el.querySelectorAll("[data-full-reset]").forEach(b=>b.addEventListener("click",()=>{if(!global.confirm("Retry this set? Your current answers will be cleared."))return;current.answers={};current.revealed={};current.miniAnswers={};current.miniChecked={};current.submitted=false;go(0)}));
+  el.querySelectorAll("[data-full-finish]").forEach(b=>b.addEventListener("click",()=>{reviewing=false;save();render()}));
   if(keepScroll)global.scrollTo?.({top:y,behavior:"auto"});
  }
  render();
