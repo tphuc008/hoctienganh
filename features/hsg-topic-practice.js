@@ -235,7 +235,7 @@ function fullExplanationPage(topic,set){
     '<div><dt>'+(e.origin?anchor(searchLink(e.term),e.term):esc(e.term))+(e.origin?' <span class="hsg-full-links">'+anchor(searchLink(e.term),"EN")+' | '+anchor(searchLink(e.term,true),"VI")+'</span>':'')+'</dt><dd>'+esc(e.meaning)+'</dd></div>').join("")+'</dl></section>'+
    '<section class="hsg-full-section"><h2>3. Phân tích A–D</h2>'+a.analysis.map((item,i)=>
     '<article class="hsg-full-word'+(letter(i)===q.answer?' is-correct':'')+'"><h3>'+letter(i)+'. '+esc(item.label)+(letter(i)===q.answer?' <small>Correct ✓</small>':'')+'</h3>'+item.lines.map(line).join("")+'</article>').join("")+'</section>'+
-   (isExtended?'<div class="hsg-full-source-note"><strong>Original Question '+esc(q.sourceNumber)+'</strong><p>Source: Extended '+esc(q.extendedId)+'</p></div>':'<section class="hsg-full-section"><h2>4. Mini practice</h2>'+a.minis.map((m,j)=>{
+   (isExtended?'':'<section class="hsg-full-section"><h2>4. Mini practice</h2>'+a.minis.map((m,j)=>{
     const key=index+":"+j,selected=current.miniAnswers[key]||"",done=!!current.miniChecked[key];
     return '<article class="hsg-full-mini"><h3>Mini '+(q.sourceNumber||index+1)+'.'+(j+1)+'</h3><p class="hsg-full-mini-stem">'+esc(m.stem)+'</p>'+
      choiceGrid(m,selected,done,j)+
