@@ -115,7 +115,7 @@ function topicPage(topic){
   return '<button class="hsg-p-card hsg-p-set-card" type="button" data-hsgp-route="'+esc(routeFor(topic,set))+'">'+
    '<div class="hsg-p-card-top"><span class="hsg-p-number">'+String(i+1).padStart(2,"0")+'</span><span class="hsg-p-arrow" aria-hidden="true">↗</span></div>'+
    '<h3>'+esc(set.title)+'</h3><p>'+(total?total+' questions':'10 questions / set')+'</p>'+
-   '<div class="hsg-p-card-foot"><span>'+ (total?answered+'/'+total+' answered':'Chưa có questions')+'</span>'+
+   '<div class="hsg-p-card-foot"><span>'+ (total?answered+'/'+total+' answered':'No questions yet')+'</span>'+
    '<span class="hsg-p-status'+(done?' done':total?' ready':'')+'">'+(done?'Completed':total?'Start':'Coming soon')+'</span></div>'+
    '<div class="hsg-p-set-bar"><i style="width:'+pct+'%"></i></div></button>';
  }).join("");
