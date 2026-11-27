@@ -16,7 +16,7 @@ function setsFor(topic){
  return values.map((item,i)=>{
   const n=String(i+1).padStart(2,"0");
   return {id:item.id||"set-"+n,title:item.title||"Set "+n,passage:item.passage||"",
-   questions:Array.isArray(item.questions)?item.questions.filter(q=>q&&typeof q.stem==="string"&&q.stem.trim()):[],legacyFingerprint:item.legacyFingerprint||"",extendedSets:Array.isArray(item.extendedSets)?item.extendedSets.filter(x=>x.questions?.length).map(x=>({...x,parentId:item.id,isExtended:true})):[]};
+   questions:Array.isArray(item.questions)?item.questions.filter(q=>q&&typeof q.stem==="string"&&q.stem.trim()):[],legacyFingerprint:item.legacyFingerprint||"",legacyMiniReset:Array.isArray(item.legacyMiniReset)?item.legacyMiniReset:[],extendedSets:Array.isArray(item.extendedSets)?item.extendedSets.filter(x=>x.questions?.length).map(x=>({...x,parentId:item.id,isExtended:true})):[]};
  });
 }
 function fingerprint(set){
@@ -24,7 +24,13 @@ function fingerprint(set){
 }
 function draft(topic,set){
  const raw=global.LearningCore?.readDraft?.("hsg-topic-practice",topic.id+"/"+set.id)||{};
- return (raw.fingerprint===fingerprint(set)||(set.legacyFingerprint&&raw.fingerprint===set.legacyFingerprint))?raw:{answers:{},index:0,submitted:false,fingerprint:fingerprint(set)};
+ if(raw.fingerprint===fingerprint(set))return raw;
+ if(set.legacyFingerprint&&raw.fingerprint===set.legacyFingerprint){
+  const migrated={...raw,fingerprint:fingerprint(set),miniAnswers:{...(raw.miniAnswers||{})},miniChecked:{...(raw.miniChecked||{})}};
+  for(const key of set.legacyMiniReset||[]){delete migrated.miniAnswers[key];delete migrated.miniChecked[key]}
+  return migrated;
+ }
+ return {answers:{},index:0,submitted:false,fingerprint:fingerprint(set)};
 }
 function persist(topic,set,record){
  global.LearningCore?.writeDraft?.("hsg-topic-practice",topic.id+"/"+set.id,{...record,fingerprint:fingerprint(set)});
