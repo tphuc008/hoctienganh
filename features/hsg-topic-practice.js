@@ -4,7 +4,7 @@
 const BASE="teacher/hsg-tinh/practice";
 // Catalogue reset; previously imported question banks are retained for future reuse.
 const GROUPS=[{id:"vocabulary",title:"Vocabulary & Idioms"}];
-const TOPICS=[{id:"mcq-vocabulary",group:"vocabulary",title:"Vocabulary MCQs",description:"50 MCQs · Lời giải đầy đủ, ví dụ và mini practice"}];
+const TOPICS=[{id:"mcq-vocabulary",group:"vocabulary",title:"Vocabulary MCQs",description:"50 MCQs · Full Explanation"}];
 const BANK=global.HSGTopicPracticeBank||{};
 const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const root=()=>document.getElementById("pageMount");
@@ -31,7 +31,7 @@ function persist(topic,set,record){
 }
 function completeCount(answers){return Object.values(answers||{}).filter(x=>String(x??"").trim()).length}
 function crumbs(segments){
- return '<nav class="hsg-p-crumbs" aria-label="Đường dẫn">'+
+ return '<nav class="hsg-p-crumbs" aria-label="Breadcrumb">'+
   '<button type="button" data-hsgp-route="teacher/hsg-tinh">HSG tỉnh</button><span>›</span>'+
   segments.map((s,i)=>s.route?
     '<button type="button" data-hsgp-route="'+esc(s.route)+'">'+esc(s.title)+'</button><span>›</span>':
@@ -50,26 +50,26 @@ function intro(title,description,kicker="PRACTICE BY TYPE"){
 }
 function catalogue(){
  if(!TOPICS.length){
-  mount(crumbs([{title:"Luyện tập theo dạng"}])+
-   intro("Luyện tập theo dạng","Chưa có dạng bài nào.")+
-   '<div class="empty"><b>Chưa có dạng bài</b></div>');
+  mount(crumbs([{title:"Practice"}])+
+   intro("Practice","")+
+   '<div class="empty"><b>No topics yet</b></div>');
   return;
  }
  const sections=GROUPS.map(group=>{
   const topics=TOPICS.filter(t=>t.group===group.id);
   return '<section class="hsg-p-group"><div class="hsg-p-group-head"><h2>'+esc(group.title)+'</h2>'+
-   '<small>'+topics.length+' dạng bài</small></div><div class="hsg-p-grid">'+
+   '<small>'+topics.length+' topics</small></div><div class="hsg-p-grid">'+
    topics.map((topic,i)=>{
     const sets=setsFor(topic),ready=sets.filter(s=>s.questions.length).length;
     return '<button class="hsg-p-card" type="button" data-hsgp-route="'+esc(routeFor(topic))+'">'+
      '<div class="hsg-p-card-top"><span class="hsg-p-number">'+String(i+1).padStart(2,"0")+'</span><span class="hsg-p-arrow" aria-hidden="true">↗</span></div>'+
      '<h3>'+esc(topic.title)+'</h3><p>'+esc(topic.description)+'</p>'+
-     '<div class="hsg-p-card-foot"><span>'+sets.length+' set</span><span class="hsg-p-status'+(ready?' ready':'')+'">'+
-     (ready?ready+' set có nội dung':'Chờ nội dung')+'</span></div></button>';
+     '<div class="hsg-p-card-foot"><span>'+sets.length+' sets</span><span class="hsg-p-status'+(ready?' ready':'')+'">'+
+     (ready?ready+' sets available':'Coming soon')+'</span></div></button>';
    }).join("")+'</div></section>';
  }).join("");
- mount(crumbs([{title:"Luyện tập theo dạng"}])+
-  intro("Luyện tập theo dạng","Chọn một dạng bài để luyện theo từng set.")+sections);
+ mount(crumbs([{title:"Practice"}])+
+  intro("Practice","Chọn một topics để luyện theo từng set.")+sections);
 }
 
 /* Display the Google Docs author's grammar analyses verbatim, without generating answers. */
@@ -109,19 +109,19 @@ function topicPage(topic){
  }
  const cards=sets.map((set,i)=>{
   const total=set.questions.length,progress=draft(topic,set);
-  const answered=Math.min(total,completeCount(progress.answers));
+  const answered=Math.min(total,topic.id==="mcq-vocabulary"?Object.values(progress.revealed||{}).filter(Boolean).length:completeCount(progress.answers));
   const done=total>0&&progress.submitted;
   const pct=total?Math.round(answered/total*100):0;
   return '<button class="hsg-p-card hsg-p-set-card" type="button" data-hsgp-route="'+esc(routeFor(topic,set))+'">'+
    '<div class="hsg-p-card-top"><span class="hsg-p-number">'+String(i+1).padStart(2,"0")+'</span><span class="hsg-p-arrow" aria-hidden="true">↗</span></div>'+
-   '<h3>'+esc(set.title)+'</h3><p>'+(total?total+' câu hỏi':'Dự kiến 10 câu / set')+'</p>'+
-   '<div class="hsg-p-card-foot"><span>'+ (total?answered+'/'+total+' câu đã làm':'Chưa có câu hỏi')+'</span>'+
-   '<span class="hsg-p-status'+(done?' done':total?' ready':'')+'">'+(done?'Đã nộp':total?'Bắt đầu':'Chờ nội dung')+'</span></div>'+
+   '<h3>'+esc(set.title)+'</h3><p>'+(total?total+' questions':'10 questions / set')+'</p>'+
+   '<div class="hsg-p-card-foot"><span>'+ (total?answered+'/'+total+' answered':'Chưa có questions')+'</span>'+
+   '<span class="hsg-p-status'+(done?' done':total?' ready':'')+'">'+(done?'Completed':total?'Start':'Coming soon')+'</span></div>'+
    '<div class="hsg-p-set-bar"><i style="width:'+pct+'%"></i></div></button>';
  }).join("");
- mount(crumbs([{title:"Luyện tập theo dạng",route:BASE},{title:topic.title}])+
-  intro(topic.title,topic.description+(topic.id==="mcq-vocabulary"?" · Bản thử 3 câu":" · Mỗi set khoảng 10 câu"),"QUESTION SETS")+
-  '<section class="hsg-p-group"><div class="hsg-p-group-head"><h2>Danh sách Set</h2><small>'+sets.length+' set</small></div>'+
+ mount(crumbs([{title:"Practice",route:BASE},{title:topic.title}])+
+  intro(topic.title,topic.description+(topic.id==="mcq-vocabulary"?" · 5 sets":" · 10 questions per set"),"QUESTION SETS")+
+  '<section class="hsg-p-group"><div class="hsg-p-group-head"><h2>Sets</h2><small>'+sets.length+' sets</small></div>'+
   '<div class="hsg-p-grid">'+cards+'</div></section>');
 }
 function normalize(v){return String(v??"").trim().replace(/\s+/g," ").toLocaleLowerCase()}
@@ -191,25 +191,25 @@ function fullExplanationPage(topic,set){
   return '<div class="hsg-p-options hsg-full-options">'+q.options.map((option,i)=>{
    const l=letter(i),active=chosen===l,good=revealed&&q.answer===l,bad=revealed&&active&&!good;
    const data=mini===null?'data-full-choice="'+l+'"':'data-full-mini-choice="'+mini+'" data-letter="'+l+'"';
-   return '<button type="button" '+data+' aria-pressed="'+active+'" class="hsg-p-option'+(active?' selected':'')+(good?' full-correct':'')+(bad?' full-incorrect':'')+'"'+(revealed?' disabled':'')+'><b>'+l+'</b><span>'+esc(option)+'</span>'+(good?'<small>Đúng ✓</small>':bad?'<small>Sai ✕</small>':'')+'</button>';
+   return '<button type="button" '+data+' aria-pressed="'+active+'" class="hsg-p-option'+(active?' selected':'')+(good?' full-correct':'')+(bad?' full-incorrect':'')+'"'+(revealed?' disabled':'')+'><b>'+l+'</b><span>'+esc(option)+'</span>'+(good?'<small>Correct ✓</small>':bad?'<small>Incorrect ✕</small>':'')+'</button>';
   }).join("")+'</div>';
  }
  function fullBody(q){
   const a=q.fullExplanation;
   const chosen=current.answers[index]||"";
-  return '<section class="hsg-full-explanation" aria-label="Lời giải đầy đủ">'+
-   '<div class="hsg-full-feedback '+(correct(q,chosen)?'good':'bad')+'" role="status"><strong>'+(correct(q,chosen)?"Chính xác!":"Chưa chính xác.")+'</strong><span>Đáp án đúng: '+esc(correctLabel(q))+'</span></div>'+
+  return '<section class="hsg-full-explanation" aria-label="Full explanation">'+
+   '<div class="hsg-full-feedback '+(correct(q,chosen)?'good':'bad')+'" role="status"><strong>'+(correct(q,chosen)?"Correct!":"Incorrect.")+'</strong><span>Correct answer: '+esc(correctLabel(q))+'</span></div>'+
    '<section class="hsg-full-section"><h2>1. Dịch câu</h2><p>'+esc(a.translation)+'</p></section>'+
    '<section class="hsg-full-section"><h2>2. Phân tích các cụm hay</h2><dl class="hsg-full-expressions">'+a.expressions.map(e=>
     '<div><dt>'+(e.origin?anchor(searchLink(e.term),e.term):esc(e.term))+(e.origin?' <span class="hsg-full-links">'+anchor(searchLink(e.term),"EN")+' | '+anchor(searchLink(e.term,true),"VI")+'</span>':'')+'</dt><dd>'+esc(e.meaning)+'</dd></div>').join("")+'</dl></section>'+
    '<section class="hsg-full-section"><h2>3. Phân tích A–D</h2>'+a.analysis.map((item,i)=>
-    '<article class="hsg-full-word'+(letter(i)===q.answer?' is-correct':'')+'"><h3>'+letter(i)+'. '+esc(item.label)+(letter(i)===q.answer?' <small>Đáp án đúng ✓</small>':'')+'</h3>'+item.lines.map(line).join("")+'</article>').join("")+'</section>'+
+    '<article class="hsg-full-word'+(letter(i)===q.answer?' is-correct':'')+'"><h3>'+letter(i)+'. '+esc(item.label)+(letter(i)===q.answer?' <small>Correct ✓</small>':'')+'</h3>'+item.lines.map(line).join("")+'</article>').join("")+'</section>'+
    '<section class="hsg-full-section"><h2>4. Mini practice</h2>'+a.minis.map((m,j)=>{
     const key=index+":"+j,selected=current.miniAnswers[key]||"",done=!!current.miniChecked[key];
-    return '<article class="hsg-full-mini"><h3>Mini '+(index+1)+'.'+(j+1)+'</h3><p class="hsg-full-mini-stem">'+esc(m.stem)+'</p>'+
+    return '<article class="hsg-full-mini"><h3>Mini '+(q.sourceNumber||index+1)+'.'+(j+1)+'</h3><p class="hsg-full-mini-stem">'+esc(m.stem)+'</p>'+
      choiceGrid(m,selected,done,j)+
-     (!done?'<button type="button" class="hsg-p-action primary hsg-full-check" data-full-mini-check="'+j+'"'+(!selected?' disabled':'')+'>Kiểm tra đáp án</button>':
-      '<div class="hsg-full-mini-solution" role="status"><h4>Lời giải mini '+(index+1)+'.'+(j+1)+' · '+esc(correctLabel(m))+'</h4><p><strong>'+(correct(m,selected)?'Chính xác!':'Chưa chính xác.')+'</strong></p>'+m.solution.map(line).join("")+'</div>')+
+     (!done?'<button type="button" class="hsg-p-action primary hsg-full-check" data-full-mini-check="'+j+'"'+(!selected?' disabled':'')+'>Check answer</button>':
+      '<div class="hsg-full-mini-solution" role="status"><h4>Mini solution '+(q.sourceNumber||index+1)+'.'+(j+1)+' · '+esc(correctLabel(m))+'</h4><p><strong>'+(correct(m,selected)?'Correct!':'Incorrect.')+'</strong></p>'+m.solution.map(line).join("")+'</div>')+
      '</article>';
    }).join("")+'</section></section>';
  }
@@ -221,20 +221,20 @@ function fullExplanationPage(topic,set){
   const score=qs.reduce((n,x,i)=>n+(current.revealed[i]&&correct(x,current.answers[i])?1:0),0);
   const miniTotal=qs.reduce((n,x)=>n+x.fullExplanation.minis.length,0);
   const miniDone=qs.reduce((n,x,i)=>n+x.fullExplanation.minis.filter((_,j)=>current.miniChecked[i+":"+j]).length,0);
-  const header=crumbs([{title:"Luyện tập theo dạng",route:BASE},{title:topic.title,route:routeFor(topic)},{title:set.title}]);
-  const summary=current.submitted?'<div class="hsg-p-result"><h2>Hoàn thành bài thử</h2><p>'+score+'/'+total+' câu chính đúng · '+miniDone+'/'+miniTotal+' mini practice đã kiểm tra. Chọn câu bên dưới để xem lại lời giải.</p></div>':'';
-  const body=summary+'<div class="hsg-p-q-meta"><span>CÂU '+(index+1)+' / '+total+'</span><span>Format 1 · Full Explanation</span></div>'+
+  const header=crumbs([{title:"Practice",route:BASE},{title:topic.title,route:routeFor(topic)},{title:set.title}]);
+  const summary=current.submitted?'<div class="hsg-p-result"><h2>Set complete</h2><p>'+score+'/'+total+' correct · '+miniDone+'/'+miniTotal+' mini practice checked</p></div>':'';
+  const body=summary+'<div class="hsg-p-q-meta"><span>QUESTION '+(index+1)+' / '+total+'</span><span>Format 1 · Full Explanation</span></div>'+
    '<div class="hsg-p-stem">'+esc(q.stem)+'</div>'+choiceGrid(q,chosen,checked)+
-   (!checked?'<button type="button" class="hsg-p-action primary hsg-full-check" data-full-check'+(!chosen?' disabled':'')+'>Kiểm tra đáp án & xem lời giải</button>':fullBody(q))+
-   '<div class="hsg-p-actions"><button type="button" class="hsg-p-action" data-full-prev'+(!index?' disabled':'')+'>← Câu trước</button>'+
-   (index<total-1?'<button type="button" class="hsg-p-action primary" data-full-next>Câu tiếp →</button>':
-    (!current.submitted?'<button type="button" class="hsg-p-action primary" data-full-submit'+(done!==total?' disabled':'')+'>Hoàn thành Set →</button>':'<button type="button" class="hsg-p-action" data-full-reset>Làm lại Set</button>'))+'</div>'+
-   (index===total-1&&!current.submitted&&done!==total?'<p class="hsg-full-hint">Kiểm tra cả '+total+' câu chính để hoàn thành Set. Mini practice không bắt buộc.</p>':'');
-  const side='<aside class="hsg-p-side"><h2>Điều hướng câu hỏi</h2><p>'+done+'/'+total+' câu đã kiểm tra</p><div class="hsg-p-dot-grid">'+qs.map((x,i)=>
-   '<button type="button" data-full-go="'+i+'" class="hsg-p-dot'+(i===index?' is-active':'')+(current.revealed[i]?' is-done':'')+'" aria-label="Câu '+(i+1)+'">'+(i+1)+'</button>').join("")+
+   (!checked?'<button type="button" class="hsg-p-action primary hsg-full-check" data-full-check'+(!chosen?' disabled':'')+'>Check answer</button>':fullBody(q))+
+   '<div class="hsg-p-actions"><button type="button" class="hsg-p-action" data-full-prev'+(!index?' disabled':'')+'>← Previous</button>'+
+   (index<total-1?'<button type="button" class="hsg-p-action primary" data-full-next>Next →</button>':
+    (!current.submitted?'<button type="button" class="hsg-p-action primary" data-full-submit'+(done!==total?' disabled':'')+'>Finish set →</button>':'<button type="button" class="hsg-p-action" data-full-reset>Retry set</button>'))+'</div>'+
+   '';
+  const side='<aside class="hsg-p-side"><h2>Questions</h2><p>'+done+'/'+total+' checked</p><div class="hsg-p-dot-grid">'+qs.map((x,i)=>
+   '<button type="button" data-full-go="'+i+'" class="hsg-p-dot'+(i===index?' is-active':'')+(current.revealed[i]?' is-done':'')+'" aria-label="Question '+(i+1)+'">'+(i+1)+'</button>').join("")+
    '</div><div class="hsg-p-progress"><i style="width:'+Math.round(done/total*100)+'%"></i></div><p class="hsg-full-mini-progress">Mini practice: '+miniDone+'/'+miniTotal+'</p>'+
-   (current.submitted?'<button type="button" class="hsg-p-action" data-full-reset>Làm lại Set</button>':'')+'</aside>';
-  mount(header+intro(set.title,total+' câu chính · '+miniTotal+' mini practice · Lời giải chi tiết theo chiều dọc',"FULL EXPLANATION")+
+   (current.submitted?'<button type="button" class="hsg-p-action" data-full-reset>Retry set</button>':'')+'</aside>';
+  mount(header+intro(set.title,total+' questions · '+miniTotal+' mini practice',"FULL EXPLANATION")+
    '<div class="hsg-p-exercise hsg-full-layout"><section class="hsg-p-main">'+body+'</section>'+side+'</div>');
   const el=root();const refresh=()=>{save();render(true)};const go=i=>{index=i;save();render()};
   el.querySelectorAll("[data-full-choice]").forEach(b=>b.addEventListener("click",()=>{if(checked)return;current.answers[index]=b.dataset.fullChoice;refresh()}));
@@ -245,7 +245,7 @@ function fullExplanationPage(topic,set){
   el.querySelector("[data-full-prev]")?.addEventListener("click",()=>go(Math.max(0,index-1)));
   el.querySelector("[data-full-next]")?.addEventListener("click",()=>go(Math.min(total-1,index+1)));
   el.querySelector("[data-full-submit]")?.addEventListener("click",()=>{if(done!==total)return;current.submitted=true;save();render()});
-  el.querySelectorAll("[data-full-reset]").forEach(b=>b.addEventListener("click",()=>{if(!global.confirm("Làm lại Set và xóa các lựa chọn hiện tại?"))return;current.answers={};current.revealed={};current.miniAnswers={};current.miniChecked={};current.submitted=false;go(0)}));
+  el.querySelectorAll("[data-full-reset]").forEach(b=>b.addEventListener("click",()=>{if(!global.confirm("Retry this set? Your current answers will be cleared."))return;current.answers={};current.revealed={};current.miniAnswers={};current.miniChecked={};current.submitted=false;go(0)}));
   if(keepScroll)global.scrollTo?.({top:y,behavior:"auto"});
  }
  render();
