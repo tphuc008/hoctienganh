@@ -5333,6 +5333,10 @@
           }
         ]
       }
+    ],
+    "legacyFingerprint": "1twb68i",
+    "legacyMiniReset": [
+      "7:0"
     ]
   },
   {
@@ -7853,6 +7857,10 @@
           }
         ]
       }
+    ],
+    "legacyFingerprint": "1pb3z5e",
+    "legacyMiniReset": [
+      "5:0"
     ]
   },
   {
@@ -12950,6 +12958,10 @@
           }
         ]
       }
+    ],
+    "legacyFingerprint": "1rsisho",
+    "legacyMiniReset": [
+      "8:0"
     ]
   }
 ],
