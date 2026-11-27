@@ -47,7 +47,6 @@
               "label": "merge (v)",
               "lines": [
                 "Nghĩa: sáp nhập",
-                "Vì sao sai: Nhấn mạnh sự hợp nhất thành một tổ chức.",
                 "Ví dụ: The two banks merged last year.",
                 "→ Dịch tiếng Việt: Hai ngân hàng sáp nhập năm ngoái."
               ]
@@ -65,7 +64,6 @@
               "label": "bond (v)",
               "lines": [
                 "Nghĩa: gắn bó; kết dính",
-                "Vì sao sai: Nhấn mạnh quan hệ tình cảm hoặc liên kết vật lý.",
                 "Ví dụ: Children bond with their parents through play.",
                 "→ Dịch tiếng Việt: Trẻ em gắn bó với cha mẹ qua việc chơi cùng nhau."
               ]
@@ -74,7 +72,6 @@
               "label": "blend (v)",
               "lines": [
                 "Nghĩa: pha trộn hài hòa",
-                "Vì sao sai: Nhấn mạnh sự hòa trộn các thành phần.",
                 "Ví dụ: Blend the flour with the milk.",
                 "→ Dịch tiếng Việt: Trộn bột với sữa."
               ]
@@ -92,7 +89,6 @@
               "answer": "B",
               "solution": [
                 "1) Đúng: Local charities decided to join forces after the storm. → Các tổ chức từ thiện quyết định chung sức sau cơn bão. join forces = chung sức vì mục tiêu chung.",
-                "2) Phân biệt: merge: sáp nhập; bond: gắn bó; kết dính; blend: pha trộn hài hòa.",
                 "3) Ví dụ: Two schools joined forces to raise funds. → Hai trường chung sức gây quỹ."
               ]
             },
@@ -107,7 +103,6 @@
               "answer": "A",
               "solution": [
                 "1) Đúng: The two firms agreed to merge into a single company. → Hai công ty đồng ý sáp nhập thành một công ty duy nhất. sáp nhập.",
-                "2) Phân biệt: join: tham gia; kết hợp; bond: gắn bó; kết dính; blend: pha trộn hài hòa.",
                 "3) Ví dụ: The airlines merged into one business. → Các hãng hàng không sáp nhập thành một doanh nghiệp."
               ]
             }
@@ -148,7 +143,7 @@
               "label": "shortage (n)",
               "lines": [
                 "Nghĩa: sự thiếu hụt nguồn cung",
-                "Vì sao sai: Thường dùng shortage of + nguồn lực; không phải cách gọi thông dụng của tình trạng thiếu ngủ.",
+                "Vì sao sai: A shortage of sleep có thể dùng, nhưng sleep deprivation là collocation thông dụng chỉ tình trạng thiếu ngủ.",
                 "Ví dụ: There is a shortage of nurses.",
                 "→ Dịch tiếng Việt: Đang thiếu y tá."
               ]
@@ -157,7 +152,6 @@
               "label": "scarcity (n)",
               "lines": [
                 "Nghĩa: sự khan hiếm",
-                "Vì sao sai: Nhấn mạnh tài nguyên khó kiếm.",
                 "Ví dụ: Water scarcity threatens crops.",
                 "→ Dịch tiếng Việt: Khan hiếm nước đe dọa mùa màng."
               ]
@@ -193,7 +187,6 @@
               "answer": "D",
               "solution": [
                 "1) Đúng: Chronic sleep deprivation can affect reaction times. → Thiếu ngủ kéo dài có thể ảnh hưởng thời gian phản ứng. sleep deprivation = tình trạng thiếu ngủ.",
-                "2) Phân biệt: shortage: sự thiếu hụt nguồn cung; scarcity: sự khan hiếm; absence: sự vắng mặt; không có.",
                 "3) Ví dụ: Sleep deprivation made her irritable. → Thiếu ngủ khiến cô dễ cáu."
               ]
             },
@@ -208,7 +201,6 @@
               "answer": "A",
               "solution": [
                 "1) Đúng: The hospital faces a shortage of qualified doctors. → Bệnh viện đối mặt tình trạng thiếu bác sĩ đủ chuyên môn. sự thiếu hụt nguồn cung.",
-                "2) Phân biệt: scarcity: sự khan hiếm; absence: sự vắng mặt; không có; deprivation: sự thiếu thốn thứ thiết yếu.",
                 "3) Ví dụ: A housing shortage drove up rents. → Thiếu nhà ở khiến tiền thuê tăng."
               ]
             }
@@ -258,7 +250,6 @@
               "label": "copped out (phrasal verb)",
               "lines": [
                 "Nghĩa: đã trốn tránh trách nhiệm",
-                "Vì sao sai: Không có nghĩa loại bỏ vật.",
                 "Ví dụ: He copped out at the last minute.",
                 "→ Dịch tiếng Việt: Anh ấy trốn tránh trách nhiệm vào phút chót."
               ]
@@ -267,7 +258,6 @@
               "label": "nodded off (phrasal verb)",
               "lines": [
                 "Nghĩa: đã ngủ gật",
-                "Vì sao sai: Chỉ việc thiếp đi.",
                 "Ví dụ: She nodded off during the film.",
                 "→ Dịch tiếng Việt: Cô ngủ gật trong lúc xem phim."
               ]
@@ -276,7 +266,6 @@
               "label": "zoned out (phrasal verb)",
               "lines": [
                 "Nghĩa: đã lơ đãng, mất tập trung",
-                "Vì sao sai: Chỉ trạng thái chú ý.",
                 "Ví dụ: I zoned out during the lecture.",
                 "→ Dịch tiếng Việt: Tôi mất tập trung trong bài giảng."
               ]
@@ -294,7 +283,6 @@
               "answer": "A",
               "solution": [
                 "1) Đúng: I tossed out the mouldy bread before breakfast. → Tôi vứt bánh mì bị mốc trước bữa sáng. toss out = vứt bỏ.",
-                "2) Phân biệt: copped out: đã trốn tránh trách nhiệm; nodded off: đã ngủ gật; zoned out: đã lơ đãng, mất tập trung.",
                 "3) Ví dụ: He tossed out his old receipts. → Anh ấy vứt các hóa đơn cũ."
               ]
             },
@@ -309,7 +297,6 @@
               "answer": "C",
               "solution": [
                 "1) Đúng: The exhausted passenger nodded off on the train. → Hành khách kiệt sức ngủ gật trên tàu. đã ngủ gật.",
-                "2) Phân biệt: tossed out: đã vứt bỏ; copped out: đã trốn tránh trách nhiệm; zoned out: đã lơ đãng, mất tập trung.",
                 "3) Ví dụ: Dad nodded off on the sofa. → Bố ngủ gật trên ghế sofa."
               ]
             }
@@ -895,7 +882,8 @@
               ]
             }
           ]
-        }
+        },
+        "sourceNote": "Lưu ý đề gốc: Cách diễn đạt thông dụng là another turn of the screw hoặc turn the screw on somebody; cấu trúc put a turn of the screw on khá gượng."
       },
       {
         "sourceNumber": 10,
@@ -992,6 +980,1680 @@
             }
           ]
         }
+      }
+    ],
+    "legacyFingerprint": "rhy1x2",
+    "extendedSets": [
+      {
+        "id": "set-01-extended-01",
+        "title": "Extended Set 01",
+        "questions": [
+          {
+            "sourceNumber": 1,
+            "stem": "The slip road gives drivers time to ______ with the traffic on the motorway.",
+            "options": [
+              "merge",
+              "interfere",
+              "collide",
+              "compete"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Đường dẫn cho tài xế thời gian nhập vào dòng xe trên cao tốc.",
+              "expressions": [
+                {
+                  "term": "merge with traffic",
+                  "meaning": "nhập vào dòng xe",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "merge (v)",
+                  "lines": [
+                    "Nghĩa: nhập vào dòng xe",
+                    "Ví dụ: Check your mirrors before merging into traffic.",
+                    "→ Dịch tiếng Việt: Hãy kiểm tra gương trước khi nhập vào dòng xe."
+                  ]
+                },
+                {
+                  "label": "interfere (v)",
+                  "lines": [
+                    "Nghĩa: can thiệp; gây cản trở",
+                    "Ví dụ: Noise can interfere with concentration.",
+                    "→ Dịch tiếng Việt: Tiếng ồn có thể cản trở sự tập trung."
+                  ]
+                },
+                {
+                  "label": "collide (v)",
+                  "lines": [
+                    "Nghĩa: va chạm",
+                    "Ví dụ: The two vehicles collided at the junction.",
+                    "→ Dịch tiếng Việt: Hai xe va chạm tại giao lộ."
+                  ]
+                },
+                {
+                  "label": "compete (v)",
+                  "lines": [
+                    "Nghĩa: cạnh tranh",
+                    "Ví dụ: Small firms compete with larger companies.",
+                    "→ Dịch tiếng Việt: Các công ty nhỏ cạnh tranh với doanh nghiệp lớn."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "1.1"
+          },
+          {
+            "sourceNumber": 2,
+            "stem": "A temporary ______ of semiconductors forced the factory to suspend production until deliveries resumed.",
+            "options": [
+              "backlog",
+              "surplus",
+              "stockpile",
+              "shortage"
+            ],
+            "answer": "D",
+            "fullExplanation": {
+              "translation": "Tình trạng thiếu hụt chất bán dẫn tạm thời buộc nhà máy ngừng sản xuất cho đến khi nguồn hàng được giao lại.",
+              "expressions": [
+                {
+                  "term": "a temporary shortage of something",
+                  "meaning": "sự thiếu hụt tạm thời",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "backlog (n)",
+                  "lines": [
+                    "Nghĩa: lượng công việc hoặc đơn hàng tồn đọng",
+                    "Ví dụ: The hospital is trying to clear a backlog of appointments.",
+                    "→ Dịch tiếng Việt: Bệnh viện đang cố giải quyết các lịch hẹn tồn đọng."
+                  ]
+                },
+                {
+                  "label": "surplus (n)",
+                  "lines": [
+                    "Nghĩa: lượng dư thừa",
+                    "Ví dụ: The farm donated its surplus produce.",
+                    "→ Dịch tiếng Việt: Trang trại quyên góp nông sản dư thừa."
+                  ]
+                },
+                {
+                  "label": "stockpile (n)",
+                  "lines": [
+                    "Nghĩa: kho dự trữ",
+                    "Ví dụ: The agency maintains a stockpile of emergency supplies.",
+                    "→ Dịch tiếng Việt: Cơ quan duy trì kho vật tư khẩn cấp."
+                  ]
+                },
+                {
+                  "label": "shortage (n)",
+                  "lines": [
+                    "Nghĩa: sự thiếu hụt tạm thời",
+                    "Ví dụ: A shortage of spare parts kept the buses off the road.",
+                    "→ Dịch tiếng Việt: Việc thiếu linh kiện khiến xe buýt không thể hoạt động."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "2.1"
+          },
+          {
+            "sourceNumber": 3,
+            "stem": "Blaming the computer for an error you made yourself is a ______, not an honest explanation.",
+            "options": [
+              "setback",
+              "trade-off",
+              "cop-out",
+              "cover-up"
+            ],
+            "answer": "C",
+            "fullExplanation": {
+              "translation": "Đổ lỗi cho máy tính về lỗi do chính mình gây ra là một cách thoái thác trách nhiệm, không phải lời giải thích trung thực.",
+              "expressions": [
+                {
+                  "term": "a cop-out",
+                  "meaning": "lời bào chữa hoặc cách thoái thác trách nhiệm",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "setback (n)",
+                  "lines": [
+                    "Nghĩa: trở ngại làm chậm tiến triển",
+                    "Ví dụ: Losing funding was a serious setback.",
+                    "→ Dịch tiếng Việt: Mất tài trợ là một trở ngại nghiêm trọng."
+                  ]
+                },
+                {
+                  "label": "trade-off (n)",
+                  "lines": [
+                    "Nghĩa: sự đánh đổi",
+                    "Ví dụ: There is a trade-off between speed and accuracy.",
+                    "→ Dịch tiếng Việt: Có sự đánh đổi giữa tốc độ và độ chính xác."
+                  ]
+                },
+                {
+                  "label": "cop-out (n)",
+                  "lines": [
+                    "Nghĩa: lời bào chữa hoặc cách thoái thác trách nhiệm",
+                    "Ví dụ: Calling the problem impossible was a cop-out.",
+                    "→ Dịch tiếng Việt: Việc nói rằng vấn đề không thể giải quyết là cách thoái thác trách nhiệm."
+                  ]
+                },
+                {
+                  "label": "cover-up (n)",
+                  "lines": [
+                    "Nghĩa: hành vi che giấu sự thật",
+                    "Ví dụ: The inquiry exposed a cover-up.",
+                    "→ Dịch tiếng Việt: Cuộc điều tra phơi bày hành vi che giấu sự thật."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "3.1"
+          },
+          {
+            "sourceNumber": 4,
+            "stem": "Volunteering to speak in public pushed her out of her comfort ______.",
+            "options": [
+              "sphere",
+              "zone",
+              "scope",
+              "track"
+            ],
+            "answer": "B",
+            "fullExplanation": {
+              "translation": "Việc tình nguyện nói trước đám đông khiến cô bước ra khỏi vùng an toàn.",
+              "expressions": [
+                {
+                  "term": "comfort zone",
+                  "meaning": "vùng an toàn",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "sphere (n)",
+                  "lines": [
+                    "Nghĩa: lĩnh vực; hình cầu",
+                    "Ví dụ: Education falls within her sphere of expertise.",
+                    "→ Dịch tiếng Việt: Giáo dục thuộc lĩnh vực chuyên môn của cô."
+                  ]
+                },
+                {
+                  "label": "zone (n)",
+                  "lines": [
+                    "Nghĩa: vùng an toàn",
+                    "Ví dụ: Learning a new language took him outside his comfort zone.",
+                    "→ Dịch tiếng Việt: Học một ngôn ngữ mới khiến anh bước ra khỏi vùng an toàn."
+                  ]
+                },
+                {
+                  "label": "scope (n)",
+                  "lines": [
+                    "Nghĩa: phạm vi",
+                    "Ví dụ: The task is beyond the scope of this report.",
+                    "→ Dịch tiếng Việt: Nhiệm vụ nằm ngoài phạm vi báo cáo này."
+                  ]
+                },
+                {
+                  "label": "track (n)",
+                  "lines": [
+                    "Nghĩa: đường mòn; đường ray; đường chạy",
+                    "Ví dụ: The runners trained on an athletics track.",
+                    "→ Dịch tiếng Việt: Các vận động viên tập trên đường chạy điền kinh."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "4.1"
+          },
+          {
+            "sourceNumber": 5,
+            "stem": "Before applying the second coat, ______ the brush into the paint and wipe off the excess.",
+            "options": [
+              "dip",
+              "shrink",
+              "wane",
+              "recede"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Trước khi sơn lớp thứ hai, hãy nhúng cọ vào sơn rồi gạt phần dư.",
+              "expressions": [
+                {
+                  "term": "dip something into something",
+                  "meaning": "nhúng vật vào chất lỏng",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "dip (v)",
+                  "lines": [
+                    "Nghĩa: nhúng vật vào chất lỏng",
+                    "Ví dụ: She dipped a piece of bread into the soup.",
+                    "→ Dịch tiếng Việt: Cô nhúng một miếng bánh mì vào súp."
+                  ]
+                },
+                {
+                  "label": "shrink (v)",
+                  "lines": [
+                    "Nghĩa: co lại, thu nhỏ",
+                    "Ví dụ: The company's workforce shrank significantly.",
+                    "→ Dịch tiếng Việt: Lực lượng lao động của công ty giảm đáng kể."
+                  ]
+                },
+                {
+                  "label": "wane (v)",
+                  "lines": [
+                    "Nghĩa: suy giảm dần",
+                    "Ví dụ: Interest in the project began to wane.",
+                    "→ Dịch tiếng Việt: Sự quan tâm đến dự án bắt đầu suy giảm."
+                  ]
+                },
+                {
+                  "label": "recede (v)",
+                  "lines": [
+                    "Nghĩa: lùi lại, rút xuống, mờ dần",
+                    "Ví dụ: The floodwater began to recede.",
+                    "→ Dịch tiếng Việt: Nước lũ bắt đầu rút."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "5.1"
+          },
+          {
+            "sourceNumber": 6,
+            "stem": "You should accept the confirmed offer rather than gamble on an uncertain one: a ______ in the hand is worth two in the bush.",
+            "options": [
+              "cardinal",
+              "parrot",
+              "goat",
+              "bird"
+            ],
+            "answer": "D",
+            "fullExplanation": {
+              "translation": "Bạn nên nhận lời đề nghị chắc chắn thay vì đánh cược vào một cơ hội chưa rõ: một cái chắc chắn đáng giá hơn hai cái chưa chắc.",
+              "expressions": [
+                {
+                  "term": "a bird in the hand is worth two in the bush",
+                  "meaning": "nên trân trọng điều chắc chắn hơn lợi ích chưa chắc đạt được",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "cardinal (n)",
+                  "lines": [
+                    "Nghĩa: chim hồng y; hồng y",
+                    "Ví dụ: A red cardinal visited the feeder.",
+                    "→ Dịch tiếng Việt: Một con chim hồng y đỏ ghé máng ăn."
+                  ]
+                },
+                {
+                  "label": "parrot (n)",
+                  "lines": [
+                    "Nghĩa: vẹt",
+                    "Ví dụ: The parrot mimicked her voice.",
+                    "→ Dịch tiếng Việt: Con vẹt bắt chước giọng cô."
+                  ]
+                },
+                {
+                  "label": "goat (n)",
+                  "lines": [
+                    "Nghĩa: dê",
+                    "Ví dụ: A goat climbed onto the rocky ledge.",
+                    "→ Dịch tiếng Việt: Một con dê trèo lên gờ đá."
+                  ]
+                },
+                {
+                  "label": "bird (n)",
+                  "lines": [
+                    "Nghĩa: nên trân trọng điều chắc chắn hơn lợi ích chưa chắc đạt được",
+                    "Ví dụ: I kept my current job; a bird in the hand is worth two in the bush.",
+                    "→ Dịch tiếng Việt: Tôi giữ công việc hiện tại; điều chắc chắn quý hơn cơ hội chưa rõ."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "6.1"
+          },
+          {
+            "sourceNumber": 7,
+            "stem": "The little dog would not stop ______ at every passer-by, disturbing the whole street.",
+            "options": [
+              "nagging",
+              "dragging",
+              "yapping",
+              "wagging"
+            ],
+            "answer": "C",
+            "fullExplanation": {
+              "translation": "Con chó nhỏ không ngừng sủa inh ỏi mỗi khi có người đi qua, làm phiền cả con phố.",
+              "expressions": [
+                {
+                  "term": "yap at somebody",
+                  "meaning": "sủa dai dẳng vào ai",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "nagging (v-ing)",
+                  "lines": [
+                    "Nghĩa: cằn nhằn; thúc giục dai dẳng",
+                    "Ví dụ: She kept nagging him to tidy up.",
+                    "→ Dịch tiếng Việt: Cô liên tục nhắc anh dọn dẹp."
+                  ]
+                },
+                {
+                  "label": "dragging (v-ing)",
+                  "lines": [
+                    "Nghĩa: kéo lê",
+                    "Ví dụ: He was dragging a heavy suitcase.",
+                    "→ Dịch tiếng Việt: Anh ấy đang kéo lê một va li nặng."
+                  ]
+                },
+                {
+                  "label": "yapping (v-ing)",
+                  "lines": [
+                    "Nghĩa: sủa dai dẳng vào ai",
+                    "Ví dụ: The puppy yapped at the postman.",
+                    "→ Dịch tiếng Việt: Chó con sủa dai dẳng người đưa thư."
+                  ]
+                },
+                {
+                  "label": "wagging (v-ing)",
+                  "lines": [
+                    "Nghĩa: vẫy qua lại",
+                    "Ví dụ: The unexpected announcement set tongues wagging.",
+                    "→ Dịch tiếng Việt: Thông báo bất ngờ khiến mọi người bàn tán."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "7.1"
+          },
+          {
+            "sourceNumber": 8,
+            "stem": "After the long interruption, the speaker struggled to pick up the ______ of his argument.",
+            "options": [
+              "wire",
+              "thread",
+              "rope",
+              "pole"
+            ],
+            "answer": "B",
+            "fullExplanation": {
+              "translation": "Sau gián đoạn dài, diễn giả chật vật nối lại mạch lập luận.",
+              "expressions": [
+                {
+                  "term": "pick up the thread of something",
+                  "meaning": "nối lại mạch câu chuyện hoặc lập luận",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "wire (n)",
+                  "lines": [
+                    "Nghĩa: dây kim loại",
+                    "Ví dụ: The fence was made of wire.",
+                    "→ Dịch tiếng Việt: Hàng rào làm bằng dây kim loại."
+                  ]
+                },
+                {
+                  "label": "thread (n)",
+                  "lines": [
+                    "Nghĩa: nối lại mạch câu chuyện hoặc lập luận",
+                    "Ví dụ: She lost the thread of the conversation.",
+                    "→ Dịch tiếng Việt: Cô mất dấu mạch cuộc trò chuyện."
+                  ]
+                },
+                {
+                  "label": "rope (n)",
+                  "lines": [
+                    "Nghĩa: dây thừng",
+                    "Ví dụ: They secured the boat with a rope.",
+                    "→ Dịch tiếng Việt: Họ buộc thuyền bằng dây thừng."
+                  ]
+                },
+                {
+                  "label": "pole (n)",
+                  "lines": [
+                    "Nghĩa: cột, sào",
+                    "Ví dụ: A flag flew from the pole.",
+                    "→ Dịch tiếng Việt: Một lá cờ bay trên cột."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "8.1"
+          },
+          {
+            "sourceNumber": 9,
+            "stem": "The announcement came like a ______ from the blue: nobody had expected the merger.",
+            "options": [
+              "bolt",
+              "nail",
+              "pin",
+              "twig"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Thông báo đến hoàn toàn bất ngờ: không ai ngờ vụ sáp nhập.",
+              "expressions": [
+                {
+                  "term": "a bolt from the blue",
+                  "meaning": "một sự việc hoàn toàn bất ngờ",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "bolt (n)",
+                  "lines": [
+                    "Nghĩa: một sự việc hoàn toàn bất ngờ",
+                    "Ví dụ: The resignation was a bolt from the blue.",
+                    "→ Dịch tiếng Việt: Việc từ chức là một bất ngờ lớn."
+                  ]
+                },
+                {
+                  "label": "nail (n)",
+                  "lines": [
+                    "Nghĩa: đinh; móng tay",
+                    "Ví dụ: He hammered a nail into the wall.",
+                    "→ Dịch tiếng Việt: Anh đóng đinh vào tường."
+                  ]
+                },
+                {
+                  "label": "pin (n)",
+                  "lines": [
+                    "Nghĩa: ghim; chốt nhỏ",
+                    "Ví dụ: She fixed the fabric with a pin.",
+                    "→ Dịch tiếng Việt: Cô cố định vải bằng ghim."
+                  ]
+                },
+                {
+                  "label": "twig (n)",
+                  "lines": [
+                    "Nghĩa: cành cây nhỏ",
+                    "Ví dụ: The bird carried a twig to its nest.",
+                    "→ Dịch tiếng Việt: Con chim mang một cành nhỏ về tổ."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "9.1"
+          },
+          {
+            "sourceNumber": 10,
+            "stem": "In Thailand, mango is often served with sticky ______ as a traditional dessert.",
+            "options": [
+              "corn",
+              "flour",
+              "cereal",
+              "rice"
+            ],
+            "answer": "D",
+            "fullExplanation": {
+              "translation": "Ở Thái Lan, xoài thường được ăn cùng xôi nếp như một món tráng miệng truyền thống.",
+              "expressions": [
+                {
+                  "term": "sticky rice",
+                  "meaning": "gạo nếp hoặc cơm dẻo",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "corn (n)",
+                  "lines": [
+                    "Nghĩa: ngô (mainly US)",
+                    "Ví dụ: They grow corn on the farm.",
+                    "→ Dịch tiếng Việt: Họ trồng ngô trên trang trại."
+                  ]
+                },
+                {
+                  "label": "flour (n)",
+                  "lines": [
+                    "Nghĩa: bột mì",
+                    "Ví dụ: Add flour to the mixture.",
+                    "→ Dịch tiếng Việt: Thêm bột mì vào hỗn hợp."
+                  ]
+                },
+                {
+                  "label": "cereal (n)",
+                  "lines": [
+                    "Nghĩa: ngũ cốc; ngũ cốc ăn sáng",
+                    "Ví dụ: He poured milk over his cereal.",
+                    "→ Dịch tiếng Việt: Anh rót sữa vào ngũ cốc."
+                  ]
+                },
+                {
+                  "label": "rice (n)",
+                  "lines": [
+                    "Nghĩa: gạo nếp hoặc cơm dẻo",
+                    "Ví dụ: Sticky rice is served with mango in Thailand.",
+                    "→ Dịch tiếng Việt: Xôi nếp được ăn cùng xoài ở Thái Lan."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "10.1"
+          }
+        ]
+      },
+      {
+        "id": "set-01-extended-02",
+        "title": "Extended Set 02",
+        "questions": [
+          {
+            "sourceNumber": 1,
+            "stem": "The two flatmates began to ______ over their shared love of photography.",
+            "options": [
+              "adhere",
+              "bond",
+              "attach",
+              "fasten"
+            ],
+            "answer": "B",
+            "fullExplanation": {
+              "translation": "Hai người ở cùng căn hộ bắt đầu trở nên thân thiết nhờ cùng yêu nhiếp ảnh.",
+              "expressions": [
+                {
+                  "term": "bond over something",
+                  "meaning": "gắn bó nhờ sở thích hoặc trải nghiệm chung",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "adhere (v)",
+                  "lines": [
+                    "Nghĩa: bám dính; tuân thủ",
+                    "Ví dụ: Staff must adhere to the safety rules.",
+                    "→ Dịch tiếng Việt: Nhân viên phải tuân thủ quy định an toàn."
+                  ]
+                },
+                {
+                  "label": "bond (v)",
+                  "lines": [
+                    "Nghĩa: gắn bó nhờ sở thích hoặc trải nghiệm chung",
+                    "Ví dụ: The volunteers bonded over their shared experiences.",
+                    "→ Dịch tiếng Việt: Các tình nguyện viên trở nên thân thiết nhờ những trải nghiệm chung."
+                  ]
+                },
+                {
+                  "label": "attach (v)",
+                  "lines": [
+                    "Nghĩa: gắn; đính kèm",
+                    "Ví dụ: Attach the document to your email.",
+                    "→ Dịch tiếng Việt: Hãy đính kèm tài liệu vào email."
+                  ]
+                },
+                {
+                  "label": "fasten (v)",
+                  "lines": [
+                    "Nghĩa: buộc, cài, cố định",
+                    "Ví dụ: Fasten your seat belt before departure.",
+                    "→ Dịch tiếng Việt: Hãy thắt dây an toàn trước khi khởi hành."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "1.2"
+          },
+          {
+            "sourceNumber": 2,
+            "stem": "In economics, ______ is the fundamental condition in which limited resources cannot satisfy unlimited wants.",
+            "options": [
+              "scarcity",
+              "austerity",
+              "insolvency",
+              "stagnation"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Trong kinh tế học, sự khan hiếm là tình trạng cơ bản trong đó nguồn lực hữu hạn không đáp ứng được mong muốn vô hạn.",
+              "expressions": [
+                {
+                  "term": "resource scarcity",
+                  "meaning": "sự khan hiếm nguồn lực",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "scarcity (n)",
+                  "lines": [
+                    "Nghĩa: sự khan hiếm nguồn lực",
+                    "Ví dụ: Scarcity forces consumers to make choices.",
+                    "→ Dịch tiếng Việt: Sự khan hiếm buộc người tiêu dùng phải lựa chọn."
+                  ]
+                },
+                {
+                  "label": "austerity (n)",
+                  "lines": [
+                    "Nghĩa: chính sách thắt lưng buộc bụng",
+                    "Ví dụ: The government introduced austerity measures.",
+                    "→ Dịch tiếng Việt: Chính phủ áp dụng biện pháp thắt lưng buộc bụng."
+                  ]
+                },
+                {
+                  "label": "insolvency (n)",
+                  "lines": [
+                    "Nghĩa: tình trạng mất khả năng thanh toán",
+                    "Ví dụ: The business faced insolvency after losing its biggest client.",
+                    "→ Dịch tiếng Việt: Doanh nghiệp đối mặt nguy cơ mất khả năng thanh toán sau khi mất khách hàng lớn nhất."
+                  ]
+                },
+                {
+                  "label": "stagnation (n)",
+                  "lines": [
+                    "Nghĩa: sự đình trệ",
+                    "Ví dụ: Economic stagnation discouraged investment.",
+                    "→ Dịch tiếng Việt: Sự đình trệ kinh tế làm giảm động lực đầu tư."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "2.2"
+          },
+          {
+            "sourceNumber": 3,
+            "stem": "The driver briefly ______ at the wheel and woke with a start when the car hit the rumble strip.",
+            "options": [
+              "zoned out",
+              "copped out",
+              "tossed out",
+              "nodded off"
+            ],
+            "answer": "D",
+            "fullExplanation": {
+              "translation": "Tài xế thoáng ngủ gật khi lái xe và giật mình tỉnh lại khi xe chạm dải cảnh báo.",
+              "expressions": [
+                {
+                  "term": "nod off at the wheel",
+                  "meaning": "ngủ gật khi đang lái xe",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "zoned out (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: đã lơ đãng, mất tập trung",
+                    "Ví dụ: I zoned out during the lecture.",
+                    "→ Dịch tiếng Việt: Tôi mất tập trung trong bài giảng."
+                  ]
+                },
+                {
+                  "label": "copped out (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: đã trốn tránh trách nhiệm",
+                    "Ví dụ: He copped out at the last minute.",
+                    "→ Dịch tiếng Việt: Anh ấy trốn tránh trách nhiệm vào phút chót."
+                  ]
+                },
+                {
+                  "label": "tossed out (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: đã vứt bỏ",
+                    "Ví dụ: We tossed out the broken chairs.",
+                    "→ Dịch tiếng Việt: Chúng tôi vứt bỏ những chiếc ghế hỏng."
+                  ]
+                },
+                {
+                  "label": "nodded off (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: ngủ gật khi đang lái xe",
+                    "Ví dụ: He nodded off at his desk after working through the night.",
+                    "→ Dịch tiếng Việt: Anh ngủ gật tại bàn làm việc sau khi làm xuyên đêm."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "3.2"
+          },
+          {
+            "sourceNumber": 4,
+            "stem": "The superpower sought to bring neighbouring countries into its ______ of influence.",
+            "options": [
+              "bar",
+              "scope",
+              "sphere",
+              "sector"
+            ],
+            "answer": "C",
+            "fullExplanation": {
+              "translation": "Siêu cường tìm cách đưa các quốc gia láng giềng vào phạm vi ảnh hưởng của mình.",
+              "expressions": [
+                {
+                  "term": "sphere of influence",
+                  "meaning": "phạm vi ảnh hưởng",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "bar (n)",
+                  "lines": [
+                    "Nghĩa: thanh; quầy; rào cản",
+                    "Ví dụ: He lifted a heavy metal bar.",
+                    "→ Dịch tiếng Việt: Anh nâng một thanh kim loại nặng."
+                  ]
+                },
+                {
+                  "label": "scope (n)",
+                  "lines": [
+                    "Nghĩa: phạm vi",
+                    "Ví dụ: The task is beyond the scope of this report.",
+                    "→ Dịch tiếng Việt: Nhiệm vụ nằm ngoài phạm vi báo cáo này."
+                  ]
+                },
+                {
+                  "label": "sphere (n)",
+                  "lines": [
+                    "Nghĩa: phạm vi ảnh hưởng",
+                    "Ví dụ: The treaty expanded the country's sphere of influence.",
+                    "→ Dịch tiếng Việt: Hiệp ước mở rộng phạm vi ảnh hưởng của quốc gia."
+                  ]
+                },
+                {
+                  "label": "sector (n)",
+                  "lines": [
+                    "Nghĩa: khu vực, ngành kinh tế",
+                    "Ví dụ: She works in the public sector.",
+                    "→ Dịch tiếng Việt: Cô làm việc trong khu vực công."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "4.2"
+          },
+          {
+            "sourceNumber": 5,
+            "stem": "The stone bounced twice across the surface, seeming to ______ over the water.",
+            "options": [
+              "dip",
+              "skip",
+              "grip",
+              "flip"
+            ],
+            "answer": "B",
+            "fullExplanation": {
+              "translation": "Viên đá nảy hai lần trên mặt nước, như lướt nảy qua nước.",
+              "expressions": [
+                {
+                  "term": "skip over a surface",
+                  "meaning": "nảy lướt trên bề mặt",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "dip (v)",
+                  "lines": [
+                    "Nghĩa: nhúng; giảm nhẹ",
+                    "Ví dụ: Dip the bread into the sauce.",
+                    "→ Dịch tiếng Việt: Nhúng bánh mì vào nước sốt."
+                  ]
+                },
+                {
+                  "label": "skip (v)",
+                  "lines": [
+                    "Nghĩa: nảy lướt trên bề mặt",
+                    "Ví dụ: The flat pebble skipped across the pond.",
+                    "→ Dịch tiếng Việt: Viên sỏi dẹt nảy lướt qua ao."
+                  ]
+                },
+                {
+                  "label": "grip (v)",
+                  "lines": [
+                    "Nghĩa: nắm chặt",
+                    "Ví dụ: Grip the handle firmly.",
+                    "→ Dịch tiếng Việt: Nắm chặt tay cầm."
+                  ]
+                },
+                {
+                  "label": "flip (v)",
+                  "lines": [
+                    "Nghĩa: lật; đảo ngược",
+                    "Ví dụ: The underdogs flipped the script and won.",
+                    "→ Dịch tiếng Việt: Đội bị đánh giá thấp đã đảo ngược cục diện và thắng."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "5.2"
+          },
+          {
+            "sourceNumber": 6,
+            "stem": "The ______ rule of laboratory safety is never to handle unknown chemicals without proper training; this principle overrides all other considerations.",
+            "options": [
+              "cardinal",
+              "provisional",
+              "subsidiary",
+              "optional"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Quy tắc tối quan trọng của an toàn phòng thí nghiệm là không bao giờ xử lý hóa chất lạ khi chưa được đào tạo; nguyên tắc này được ưu tiên hơn mọi cân nhắc khác.",
+              "expressions": [
+                {
+                  "term": "cardinal rule",
+                  "meaning": "quy tắc quan trọng nhất",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "cardinal (adj)",
+                  "lines": [
+                    "Nghĩa: quy tắc quan trọng nhất",
+                    "Ví dụ: Honesty is a cardinal principle of scientific research.",
+                    "→ Dịch tiếng Việt: Trung thực là nguyên tắc cốt lõi của nghiên cứu khoa học."
+                  ]
+                },
+                {
+                  "label": "provisional (adj)",
+                  "lines": [
+                    "Nghĩa: tạm thời, chưa chính thức",
+                    "Ví dụ: The figures are provisional and may change.",
+                    "→ Dịch tiếng Việt: Số liệu chỉ là tạm thời và có thể thay đổi."
+                  ]
+                },
+                {
+                  "label": "subsidiary (adj)",
+                  "lines": [
+                    "Nghĩa: thứ yếu, bổ trợ",
+                    "Ví dụ: The report raises a subsidiary question.",
+                    "→ Dịch tiếng Việt: Báo cáo nêu một vấn đề thứ yếu."
+                  ]
+                },
+                {
+                  "label": "optional (adj)",
+                  "lines": [
+                    "Nghĩa: không bắt buộc",
+                    "Ví dụ: The extra workshop is optional.",
+                    "→ Dịch tiếng Việt: Buổi hội thảo bổ sung không bắt buộc."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "6.2"
+          },
+          {
+            "sourceNumber": 7,
+            "stem": "The company is accused of ______ its feet over the promised reforms, repeatedly postponing decisions.",
+            "options": [
+              "yapping",
+              "nagging",
+              "wagging",
+              "dragging"
+            ],
+            "answer": "D",
+            "fullExplanation": {
+              "translation": "Công ty bị cáo buộc cố tình trì hoãn cải cách đã hứa, liên tục hoãn quyết định.",
+              "expressions": [
+                {
+                  "term": "drag one's feet",
+                  "meaning": "cố tình chậm trễ",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "yapping (v-ing)",
+                  "lines": [
+                    "Nghĩa: sủa liên tục; nói dai",
+                    "Ví dụ: The dog kept yapping all night.",
+                    "→ Dịch tiếng Việt: Con chó sủa dai suốt đêm."
+                  ]
+                },
+                {
+                  "label": "nagging (v-ing)",
+                  "lines": [
+                    "Nghĩa: cằn nhằn; thúc giục dai dẳng",
+                    "Ví dụ: She kept nagging him to tidy up.",
+                    "→ Dịch tiếng Việt: Cô liên tục nhắc anh dọn dẹp."
+                  ]
+                },
+                {
+                  "label": "wagging (v-ing)",
+                  "lines": [
+                    "Nghĩa: vẫy qua lại",
+                    "Ví dụ: The unexpected announcement set tongues wagging.",
+                    "→ Dịch tiếng Việt: Thông báo bất ngờ khiến mọi người bàn tán."
+                  ]
+                },
+                {
+                  "label": "dragging (v-ing)",
+                  "lines": [
+                    "Nghĩa: cố tình chậm trễ",
+                    "Ví dụ: The council dragged its feet over the repairs.",
+                    "→ Dịch tiếng Việt: Hội đồng cố tình trì hoãn việc sửa chữa."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "7.2"
+          },
+          {
+            "sourceNumber": 8,
+            "stem": "The two runners were neck and neck; the contest went down to the ______.",
+            "options": [
+              "thread",
+              "rope",
+              "wire",
+              "bar"
+            ],
+            "answer": "C",
+            "fullExplanation": {
+              "translation": "Hai vận động viên bám sát nhau; cuộc thi gay cấn đến phút cuối.",
+              "expressions": [
+                {
+                  "term": "go down to the wire",
+                  "meaning": "chỉ được quyết định ở phút cuối",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "thread (n)",
+                  "lines": [
+                    "Nghĩa: sợi chỉ; mạch nội dung",
+                    "Ví dụ: She threaded a needle with blue thread.",
+                    "→ Dịch tiếng Việt: Cô xỏ chỉ xanh vào kim."
+                  ]
+                },
+                {
+                  "label": "rope (n)",
+                  "lines": [
+                    "Nghĩa: dây thừng",
+                    "Ví dụ: They secured the boat with a rope.",
+                    "→ Dịch tiếng Việt: Họ buộc thuyền bằng dây thừng."
+                  ]
+                },
+                {
+                  "label": "wire (n)",
+                  "lines": [
+                    "Nghĩa: chỉ được quyết định ở phút cuối",
+                    "Ví dụ: The negotiations went down to the wire.",
+                    "→ Dịch tiếng Việt: Cuộc đàm phán kéo dài đến phút cuối mới ngã ngũ."
+                  ]
+                },
+                {
+                  "label": "bar (n)",
+                  "lines": [
+                    "Nghĩa: thanh; quầy; rào cản",
+                    "Ví dụ: He lifted a heavy metal bar.",
+                    "→ Dịch tiếng Việt: Anh nâng một thanh kim loại nặng."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "8.2"
+          },
+          {
+            "sourceNumber": 9,
+            "stem": "Her analysis hit the ______ on the head by identifying the real cause of the problem.",
+            "options": [
+              "bolt",
+              "nail",
+              "pin",
+              "pole"
+            ],
+            "answer": "B",
+            "fullExplanation": {
+              "translation": "Phân tích của cô nói trúng vấn đề khi xác định nguyên nhân thực sự.",
+              "expressions": [
+                {
+                  "term": "hit the nail on the head",
+                  "meaning": "nói hoặc xác định chính xác vấn đề",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "bolt (n)",
+                  "lines": [
+                    "Nghĩa: bu lông; chốt",
+                    "Ví dụ: Tighten the bolt with a wrench.",
+                    "→ Dịch tiếng Việt: Siết bu lông bằng cờ lê."
+                  ]
+                },
+                {
+                  "label": "nail (n)",
+                  "lines": [
+                    "Nghĩa: nói hoặc xác định chính xác vấn đề",
+                    "Ví dụ: You've hit the nail on the head: the deadline is unrealistic.",
+                    "→ Dịch tiếng Việt: Bạn đã nói đúng trọng tâm: thời hạn không thực tế."
+                  ]
+                },
+                {
+                  "label": "pin (n)",
+                  "lines": [
+                    "Nghĩa: ghim; chốt nhỏ",
+                    "Ví dụ: She fixed the fabric with a pin.",
+                    "→ Dịch tiếng Việt: Cô cố định vải bằng ghim."
+                  ]
+                },
+                {
+                  "label": "pole (n)",
+                  "lines": [
+                    "Nghĩa: cột, sào",
+                    "Ví dụ: A flag flew from the pole.",
+                    "→ Dịch tiếng Việt: Một lá cờ bay trên cột."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "9.2"
+          },
+          {
+            "sourceNumber": 10,
+            "stem": "To stop the dough sticking to the counter, lightly dust the surface with ______ before kneading.",
+            "options": [
+              "flour",
+              "rice",
+              "corn",
+              "cereal"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Để bột nhào không dính vào mặt bàn, hãy rắc nhẹ bột mì trước khi nhào.",
+              "expressions": [
+                {
+                  "term": "dust a surface with flour",
+                  "meaning": "rắc một lớp bột mì lên bề mặt",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "flour (n)",
+                  "lines": [
+                    "Nghĩa: rắc một lớp bột mì lên bề mặt",
+                    "Ví dụ: Dust the baking tray with flour.",
+                    "→ Dịch tiếng Việt: Rắc bột mì lên khay nướng."
+                  ]
+                },
+                {
+                  "label": "rice (n)",
+                  "lines": [
+                    "Nghĩa: gạo; cơm",
+                    "Ví dụ: We served the curry with rice.",
+                    "→ Dịch tiếng Việt: Chúng tôi ăn cà ri với cơm."
+                  ]
+                },
+                {
+                  "label": "corn (n)",
+                  "lines": [
+                    "Nghĩa: ngô (mainly US)",
+                    "Ví dụ: They grow corn on the farm.",
+                    "→ Dịch tiếng Việt: Họ trồng ngô trên trang trại."
+                  ]
+                },
+                {
+                  "label": "cereal (n)",
+                  "lines": [
+                    "Nghĩa: ngũ cốc; ngũ cốc ăn sáng",
+                    "Ví dụ: He poured milk over his cereal.",
+                    "→ Dịch tiếng Việt: Anh rót sữa vào ngũ cốc."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "10.2"
+          }
+        ]
+      },
+      {
+        "id": "set-01-extended-03",
+        "title": "Extended Set 03",
+        "questions": [
+          {
+            "sourceNumber": 1,
+            "stem": "The animal's pale fur helps it ______ the snowy landscape, making it hard to spot.",
+            "options": [
+              "stand out from",
+              "clash with",
+              "blend in with",
+              "detract from"
+            ],
+            "answer": "C",
+            "fullExplanation": {
+              "translation": "Bộ lông nhạt màu giúp con vật hòa lẫn vào cảnh tuyết, khiến nó khó bị phát hiện.",
+              "expressions": [
+                {
+                  "term": "blend in with something",
+                  "meaning": "hòa lẫn vào môi trường xung quanh",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "stand out from (phrasal verb + preposition)",
+                  "lines": [
+                    "Nghĩa: nổi bật so với",
+                    "Ví dụ: Her work stands out from that of her peers.",
+                    "→ Dịch tiếng Việt: Công việc của cô nổi bật so với đồng nghiệp."
+                  ]
+                },
+                {
+                  "label": "clash with (v + preposition)",
+                  "lines": [
+                    "Nghĩa: xung đột; không hài hòa",
+                    "Ví dụ: The curtains clash with the wallpaper.",
+                    "→ Dịch tiếng Việt: Rèm cửa không hài hòa với giấy dán tường."
+                  ]
+                },
+                {
+                  "label": "blend in with (phrasal verb + preposition)",
+                  "lines": [
+                    "Nghĩa: hòa lẫn, không nổi bật so với xung quanh",
+                    "Ví dụ: The extension blends in with the older buildings.",
+                    "→ Dịch tiếng Việt: Phần công trình mở rộng hòa hợp với các tòa nhà cũ."
+                  ]
+                },
+                {
+                  "label": "detract from (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: làm giảm giá trị, sức hấp dẫn",
+                    "Ví dụ: The loud music detracted from the atmosphere.",
+                    "→ Dịch tiếng Việt: Âm nhạc ồn ào làm giảm sức hấp dẫn của bầu không khí."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "1.3"
+          },
+          {
+            "sourceNumber": 2,
+            "stem": "In the ______ of reliable evidence, the researchers refused to make a firm claim.",
+            "options": [
+              "light",
+              "absence",
+              "wake",
+              "presence"
+            ],
+            "answer": "B",
+            "fullExplanation": {
+              "translation": "Do không có bằng chứng đáng tin cậy, các nhà nghiên cứu từ chối đưa ra khẳng định chắc chắn.",
+              "expressions": [
+                {
+                  "term": "in the absence of something",
+                  "meaning": "trong trường hợp không có điều gì",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "light (n)",
+                  "lines": [
+                    "Nghĩa: ánh sáng; thông tin làm sáng tỏ vấn đề",
+                    "Ví dụ: The policy was revised in the light of new evidence.",
+                    "→ Dịch tiếng Việt: Chính sách được chỉnh sửa sau khi xem xét bằng chứng mới."
+                  ]
+                },
+                {
+                  "label": "absence (n)",
+                  "lines": [
+                    "Nghĩa: trong trường hợp không có điều gì",
+                    "Ví dụ: In the absence of a written contract, the dispute was difficult to resolve.",
+                    "→ Dịch tiếng Việt: Do không có hợp đồng bằng văn bản, tranh chấp khó giải quyết."
+                  ]
+                },
+                {
+                  "label": "wake (n)",
+                  "lines": [
+                    "Nghĩa: vệt nước sau tàu; hệ quả sau một sự kiện",
+                    "Ví dụ: New regulations were introduced in the wake of the accident.",
+                    "→ Dịch tiếng Việt: Các quy định mới được ban hành sau vụ tai nạn."
+                  ]
+                },
+                {
+                  "label": "presence (n)",
+                  "lines": [
+                    "Nghĩa: sự hiện diện",
+                    "Ví dụ: The contract was signed in the presence of witnesses.",
+                    "→ Dịch tiếng Việt: Hợp đồng được ký trước sự chứng kiến của nhân chứng."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "2.3"
+          },
+          {
+            "sourceNumber": 3,
+            "stem": "I sometimes ______ during repetitive meetings even though I am wide awake.",
+            "options": [
+              "zone out",
+              "cop out",
+              "nod off",
+              "ease off"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Đôi lúc tôi mất tập trung trong các cuộc họp lặp đi lặp lại dù vẫn hoàn toàn tỉnh táo.",
+              "expressions": [
+                {
+                  "term": "zone out during something",
+                  "meaning": "mất tập trung trong khi làm gì",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "zone out (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: mất tập trung trong khi làm gì",
+                    "Ví dụ: She zoned out halfway through the lecture.",
+                    "→ Dịch tiếng Việt: Cô mất tập trung giữa buổi giảng."
+                  ]
+                },
+                {
+                  "label": "cop out (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: đã trốn tránh trách nhiệm",
+                    "Ví dụ: He copped out at the last minute.",
+                    "→ Dịch tiếng Việt: Anh ấy trốn tránh trách nhiệm vào phút chót."
+                  ]
+                },
+                {
+                  "label": "nod off (phrasal verb)",
+                  "lines": [
+                    "Nghĩa: đã ngủ gật",
+                    "Ví dụ: She nodded off during the film.",
+                    "→ Dịch tiếng Việt: Cô ngủ gật trong lúc xem phim."
+                  ]
+                },
+                {
+                  "label": "ease off (v)",
+                  "lines": [
+                    "Nghĩa: làm dịu; di chuyển từ từ",
+                    "Ví dụ: She eased back into her work routine.",
+                    "→ Dịch tiếng Việt: Cô dần trở lại nhịp làm việc."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "3.3"
+          },
+          {
+            "sourceNumber": 4,
+            "stem": "The researchers narrowed the ______ of the study by excluding psychological factors.",
+            "options": [
+              "sphere",
+              "zone",
+              "realm",
+              "scope"
+            ],
+            "answer": "D",
+            "fullExplanation": {
+              "translation": "Các nhà nghiên cứu thu hẹp phạm vi nghiên cứu bằng cách loại trừ yếu tố tâm lý.",
+              "expressions": [
+                {
+                  "term": "narrow the scope of something",
+                  "meaning": "thu hẹp phạm vi",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "sphere (n)",
+                  "lines": [
+                    "Nghĩa: lĩnh vực; hình cầu",
+                    "Ví dụ: Education falls within her sphere of expertise.",
+                    "→ Dịch tiếng Việt: Giáo dục thuộc lĩnh vực chuyên môn của cô."
+                  ]
+                },
+                {
+                  "label": "zone (n)",
+                  "lines": [
+                    "Nghĩa: khu vực",
+                    "Ví dụ: This is a pedestrian zone.",
+                    "→ Dịch tiếng Việt: Đây là khu vực dành cho người đi bộ."
+                  ]
+                },
+                {
+                  "label": "realm (n)",
+                  "lines": [
+                    "Nghĩa: lĩnh vực, phạm vi; vương quốc",
+                    "Ví dụ: The idea belongs to the realm of science fiction.",
+                    "→ Dịch tiếng Việt: Ý tưởng đó thuộc phạm vi khoa học viễn tưởng."
+                  ]
+                },
+                {
+                  "label": "scope (n)",
+                  "lines": [
+                    "Nghĩa: thu hẹp phạm vi",
+                    "Ví dụ: The issue falls outside the scope of this report.",
+                    "→ Dịch tiếng Việt: Vấn đề nằm ngoài phạm vi báo cáo này."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "4.3"
+          },
+          {
+            "sourceNumber": 5,
+            "stem": "A wave of panic began to ______ the city as rumours spread.",
+            "options": [
+              "cement",
+              "fix",
+              "grip",
+              "revive"
+            ],
+            "answer": "C",
+            "fullExplanation": {
+              "translation": "Một làn sóng hoảng loạn bắt đầu bao trùm thành phố khi tin đồn lan rộng.",
+              "expressions": [
+                {
+                  "term": "panic grips a place",
+                  "meaning": "sự hoảng loạn bao trùm một nơi",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "cement (v)",
+                  "lines": [
+                    "Nghĩa: củng cố, làm vững chắc",
+                    "Ví dụ: The agreement cemented their partnership.",
+                    "→ Dịch tiếng Việt: Thỏa thuận củng cố quan hệ đối tác."
+                  ]
+                },
+                {
+                  "label": "fix (v)",
+                  "lines": [
+                    "Nghĩa: sửa chữa; khắc phục",
+                    "Ví dụ: Can you fix the broken printer?",
+                    "→ Dịch tiếng Việt: Bạn sửa được máy in hỏng không?"
+                  ]
+                },
+                {
+                  "label": "grip (v)",
+                  "lines": [
+                    "Nghĩa: sự hoảng loạn bao trùm một nơi",
+                    "Ví dụ: Fear gripped the village after the earthquake.",
+                    "→ Dịch tiếng Việt: Nỗi sợ bao trùm ngôi làng sau trận động đất."
+                  ]
+                },
+                {
+                  "label": "revive (v)",
+                  "lines": [
+                    "Nghĩa: hồi sinh; khôi phục",
+                    "Ví dụ: The campaign revived interest in local history.",
+                    "→ Dịch tiếng Việt: Chiến dịch khơi lại sự quan tâm đến lịch sử địa phương."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "5.3"
+          },
+          {
+            "sourceNumber": 6,
+            "stem": "Instead of evaluating the evidence, some students simply ______ their teacher's opinions without understanding them.",
+            "options": [
+              "glimpse",
+              "parrot",
+              "wield",
+              "skip"
+            ],
+            "answer": "B",
+            "fullExplanation": {
+              "translation": "Thay vì đánh giá bằng chứng, một số học sinh chỉ lặp lại ý kiến giáo viên như vẹt mà không hiểu.",
+              "expressions": [
+                {
+                  "term": "parrot somebody's views",
+                  "meaning": "lặp lại máy móc quan điểm của ai",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "glimpse (v)",
+                  "lines": [
+                    "Nghĩa: thoáng nhìn thấy",
+                    "Ví dụ: We glimpsed the mountains through the fog.",
+                    "→ Dịch tiếng Việt: Chúng tôi thoáng thấy núi qua màn sương."
+                  ]
+                },
+                {
+                  "label": "parrot (v)",
+                  "lines": [
+                    "Nghĩa: lặp lại máy móc quan điểm của ai",
+                    "Ví dụ: The candidate parroted the party's slogans.",
+                    "→ Dịch tiếng Việt: Ứng viên lặp lại máy móc khẩu hiệu của đảng."
+                  ]
+                },
+                {
+                  "label": "wield (v)",
+                  "lines": [
+                    "Nghĩa: sử dụng, nắm giữ quyền lực hoặc công cụ",
+                    "Ví dụ: The director wields considerable influence.",
+                    "→ Dịch tiếng Việt: Giám đốc có ảnh hưởng đáng kể."
+                  ]
+                },
+                {
+                  "label": "skip (v)",
+                  "lines": [
+                    "Nghĩa: bỏ qua",
+                    "Ví dụ: She skipped breakfast.",
+                    "→ Dịch tiếng Việt: Cô bỏ bữa sáng."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "6.3"
+          },
+          {
+            "sourceNumber": 7,
+            "stem": "Despite passing every inspection, she had a ______ doubt that something had been overlooked.",
+            "options": [
+              "nagging",
+              "fleeting",
+              "echoing",
+              "matching"
+            ],
+            "answer": "A",
+            "fullExplanation": {
+              "translation": "Dù vượt qua mọi cuộc kiểm tra, cô vẫn có nỗi nghi ngờ dai dẳng rằng có điều gì bị bỏ sót.",
+              "expressions": [
+                {
+                  "term": "a nagging doubt",
+                  "meaning": "nỗi nghi ngờ dai dẳng",
+                  "origin": false
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "nagging (adj)",
+                  "lines": [
+                    "Nghĩa: nỗi nghi ngờ dai dẳng",
+                    "Ví dụ: A nagging pain kept him awake.",
+                    "→ Dịch tiếng Việt: Cơn đau dai dẳng khiến anh không ngủ được."
+                  ]
+                },
+                {
+                  "label": "fleeting (adj)",
+                  "lines": [
+                    "Nghĩa: thoáng qua, ngắn ngủi",
+                    "Ví dụ: She caught a fleeting glimpse of the deer.",
+                    "→ Dịch tiếng Việt: Cô thoáng nhìn thấy con hươu."
+                  ]
+                },
+                {
+                  "label": "echoing (adj/participle)",
+                  "lines": [
+                    "Nghĩa: vang vọng; lặp lại",
+                    "Ví dụ: His footsteps filled the echoing hallway.",
+                    "→ Dịch tiếng Việt: Tiếng bước chân anh vang khắp hành lang."
+                  ]
+                },
+                {
+                  "label": "matching (adj)",
+                  "lines": [
+                    "Nghĩa: tương xứng, đồng bộ",
+                    "Ví dụ: They wore matching jackets.",
+                    "→ Dịch tiếng Việt: Họ mặc áo khoác giống nhau."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "7.3"
+          },
+          {
+            "sourceNumber": 8,
+            "stem": "A senior colleague showed the new intern the ______ during her first week.",
+            "options": [
+              "threads",
+              "wires",
+              "poles",
+              "ropes"
+            ],
+            "answer": "D",
+            "fullExplanation": {
+              "translation": "Một đồng nghiệp lâu năm hướng dẫn thực tập sinh cách làm việc trong tuần đầu.",
+              "expressions": [
+                {
+                  "term": "show somebody the ropes",
+                  "meaning": "hướng dẫn ai cách làm một việc mới",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "threads (n)",
+                  "lines": [
+                    "Nghĩa: sợi chỉ; mạch nội dung",
+                    "Ví dụ: She threaded a needle with blue thread.",
+                    "→ Dịch tiếng Việt: Cô xỏ chỉ xanh vào kim."
+                  ]
+                },
+                {
+                  "label": "wires (n)",
+                  "lines": [
+                    "Nghĩa: dây kim loại",
+                    "Ví dụ: The fence was made of wire.",
+                    "→ Dịch tiếng Việt: Hàng rào làm bằng dây kim loại."
+                  ]
+                },
+                {
+                  "label": "poles (n)",
+                  "lines": [
+                    "Nghĩa: cột, sào",
+                    "Ví dụ: A flag flew from the pole.",
+                    "→ Dịch tiếng Việt: Một lá cờ bay trên cột."
+                  ]
+                },
+                {
+                  "label": "ropes (n)",
+                  "lines": [
+                    "Nghĩa: hướng dẫn ai cách làm một việc mới",
+                    "Ví dụ: I'll show you the ropes when you start tomorrow.",
+                    "→ Dịch tiếng Việt: Tôi sẽ hướng dẫn bạn làm việc khi bạn bắt đầu ngày mai."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "8.3"
+          },
+          {
+            "sourceNumber": 9,
+            "stem": "The hall was so quiet you could hear a ______ drop.",
+            "options": [
+              "bolt",
+              "nail",
+              "pin",
+              "twig"
+            ],
+            "answer": "C",
+            "fullExplanation": {
+              "translation": "Hội trường yên tĩnh đến mức có thể nghe thấy tiếng ghim rơi.",
+              "expressions": [
+                {
+                  "term": "you could hear a pin drop",
+                  "meaning": "yên lặng tuyệt đối",
+                  "origin": true
+                }
+              ],
+              "analysis": [
+                {
+                  "label": "bolt (n)",
+                  "lines": [
+                    "Nghĩa: bu lông; chốt",
+                    "Ví dụ: Tighten the bolt with a wrench.",
+                    "→ Dịch tiếng Việt: Siết bu lông bằng cờ lê."
+                  ]
+                },
+                {
+                  "label": "nail (n)",
+                  "lines": [
+                    "Nghĩa: đinh; móng tay",
+                    "Ví dụ: He hammered a nail into the wall.",
+                    "→ Dịch tiếng Việt: Anh đóng đinh vào tường."
+                  ]
+                },
+                {
+                  "label": "pin (n)",
+                  "lines": [
+                    "Nghĩa: yên lặng tuyệt đối",
+                    "Ví dụ: When the results were announced, you could hear a pin drop.",
+                    "→ Dịch tiếng Việt: Khi kết quả được công bố, mọi người im phăng phắc."
+                  ]
+                },
+                {
+                  "label": "twig (n)",
+                  "lines": [
+                    "Nghĩa: cành cây nhỏ",
+                    "Ví dụ: The bird carried a twig to its nest.",
+                    "→ Dịch tiếng Việt: Con chim mang một cành nhỏ về tổ."
+                  ]
+                }
+              ],
+              "minis": []
+            },
+            "extendedId": "9.3"
+          }
+        ]
       }
     ]
   },
