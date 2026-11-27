@@ -1414,7 +1414,7 @@ function ensureTeacherHSG(){
       await loadGrammar21Asset("script","features/hsg-next-three-explanation-formats.js?v=20261028-next-three-v1");
       await loadGrammar21Asset("script","content/hsg-tinh/practice-bank.js?v=20261127-extended-pilot-v1");
        await loadGrammar21Asset("script","content/hsg-tinh/sentence-transformation-bank.js?v=20261116-import-v1");
-       await loadGrammar21Asset("script","features/hsg-topic-practice.js?v=20261127-extended-pilot-v1");
+       await loadGrammar21Asset("script","features/hsg-topic-practice.js?v=20261127-extended-pilot-v2");
        await loadGrammar21Asset("script","features/hsg-tinh.js?v=20261116-compact-list-v1");
       if(!window.TeacherHSG)throw new Error("Không thể khởi tạo thư viện HSG tỉnh.");
     })().catch(err=>{hsgAssetsPromise=null;throw err});
