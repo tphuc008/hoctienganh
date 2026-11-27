@@ -58,7 +58,7 @@ function catalogue(){
  const sections=GROUPS.map(group=>{
   const topics=TOPICS.filter(t=>t.group===group.id);
   return '<section class="hsg-p-group"><div class="hsg-p-group-head"><h2>'+esc(group.title)+'</h2>'+
-   '<small>'+topics.length+' topics</small></div><div class="hsg-p-grid">'+
+   '<small>'+topics.length+(topics.length===1?' topic':' topics')+'</small></div><div class="hsg-p-grid">'+
    topics.map((topic,i)=>{
     const sets=setsFor(topic),ready=sets.filter(s=>s.questions.length).length;
     return '<button class="hsg-p-card" type="button" data-hsgp-route="'+esc(routeFor(topic))+'">'+
@@ -69,7 +69,7 @@ function catalogue(){
    }).join("")+'</div></section>';
  }).join("");
  mount(crumbs([{title:"Practice"}])+
-  intro("Practice","Chọn một topics để luyện theo từng set.")+sections);
+  intro("Practice","")+sections);
 }
 
 /* Display the Google Docs author's grammar analyses verbatim, without generating answers. */
