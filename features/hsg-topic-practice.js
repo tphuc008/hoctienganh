@@ -4,7 +4,7 @@
 const BASE="teacher/hsg-tinh/practice";
 // Catalogue reset; previously imported question banks are retained for future reuse.
 const GROUPS=[{id:"vocabulary",title:"Vocabulary & Idioms"}];
-const TOPICS=[{id:"mcq-vocabulary",group:"vocabulary",title:"Vocabulary MCQs",description:"50 MCQs · Full Explanation"},{id:"trio",group:"vocabulary",title:"Trio Practice",description:"5 Trio · Focus Mode · Contextual Transfer"}];
+const TOPICS=[{id:"mcq-vocabulary",group:"vocabulary",title:"Vocabulary MCQs",description:"50 MCQs · Full Explanation"},{id:"trio",group:"vocabulary",title:"Trio Practice",description:"5 Trio · Focus Mode · Contextual Transfer"},{id:"word-formation",group:"vocabulary",title:"Word Formation",description:"10 questions · Word Family · Contextual Transfer"}];
 const BANK=global.HSGTopicPracticeBank||{};
 const esc=value=>String(value==null?"":value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const root=()=>document.getElementById("pageMount");
@@ -66,7 +66,7 @@ function catalogue(){
   return '<section class="hsg-p-group"><div class="hsg-p-group-head"><h2>'+esc(group.title)+'</h2>'+
    '<small>'+topics.length+(topics.length===1?' topic':' topics')+'</small></div><div class="hsg-p-grid">'+
    topics.map((topic,i)=>{
-    const sets=topic.id==="trio"?(global.TrioBank||[]):setsFor(topic),ready=sets.filter(s=>s.questions.length).length;
+    const sets=topic.id==="trio"?(global.TrioBank||[]):topic.id==="word-formation"?(global.WordFormationBank||[]):setsFor(topic),ready=sets.filter(s=>s.questions.length).length;
     return '<button class="hsg-p-card" type="button" data-hsgp-route="'+esc(routeFor(topic))+'">'+
      '<div class="hsg-p-card-top"><span class="hsg-p-number">'+String(i+1).padStart(2,"0")+'</span><span class="hsg-p-arrow" aria-hidden="true">↗</span></div>'+
      '<h3>'+esc(topic.title)+'</h3><p>'+esc(topic.description)+'</p>'+
@@ -416,6 +416,7 @@ function open(route){
  if(!match){global.location.hash=BASE;return}
  if(!match[1]){catalogue();return}
  if(match[1]==="trio"){global.TeacherTrioFocus.open(match[2]||null);return}
+ if(match[1]==="word-formation"){global.TeacherWordFormation.open(match[2]||null);return}
  const topic=TOPICS.find(x=>x.id===match[1]);
  if(!topic){global.location.hash=BASE;return}
  if(!match[2]){topicPage(topic);return}
