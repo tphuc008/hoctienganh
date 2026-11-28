@@ -8,12 +8,11 @@ const equal=(a,b,alts=[])=>[b,...alts].some(v=>norm(v)===norm(a));
 const find=id=>all.find(p=>p.id===id&&p.set===activeSet?.id)||all.find(p=>p.set+"/"+p.id===id);
 const key=p=>p.set+"/"+p.id;
 let activeSet=null,db,screen="library",notice="";
-const empty=()=>({sets:{},vocab:{},history:{}});
-const read=()=>{const d=g.LearningCore?.readDraft?.("trio-focus","personal-v1");return d&&d.sets&&d.vocab&&d.history?d:empty()};
+const empty=()=>({sets:{},history:{}});
+const read=()=>{const d=g.LearningCore?.readDraft?.("trio-focus","personal-v1");return d&&d.sets&&d.history?d:empty()};
 function save(){const ok=g.LearningCore?.writeDraft?.("trio-focus","personal-v1",db);notice=ok?"":"Progress could not be saved on this device."}
 const setState=()=>db.sets[activeSet.id]||(db.sets[activeSet.id]={index:0,questions:{},review:null});
 const qs=q=>setState().questions[q.id]||(setState().questions[q.id]={input:"",hints:0,wrong:0,result:""});
-const vstate=p=>db.vocab[key(p)]||(db.vocab[key(p)]={marked:false,note:""});
 const done=r=>r?.result==="correct"||r?.result==="revealed";
 const count=s=>s.questions.filter(q=>done(db.sets[s.id]?.questions?.[q.id])).length;
 const phrases=()=>all.filter(p=>p.set===activeSet.id);
@@ -31,7 +30,7 @@ let h=title("Set "+activeSet.number,"Trio "+(s.index+1)+" of "+activeSet.questio
 if(!resolved){h+='<label class="tr-label" for="tr-answer">Your answer</label><input id="tr-answer" data-input="trio" autocomplete="off" spellcheck="false" value="'+esc(r.input)+'" placeholder="Enter the common word">'+(r.wrong&&r.feedback?'<p class="tr-error" role="status">Not quite. Try again or use a hint.</p>':"");if(r.hints){h+='<div class="tr-hint"><strong>Progressive hints · '+r.hints+'/3</strong><p>1. '+esc(q.hint1)+'</p>'+(r.hints>=2?'<p>2. <b>'+esc(q.answer[0].toUpperCase()+" "+Array.from(q.answer.slice(1)).map(()=>"_").join(" "))+'</b> · '+q.answer.length+' letters</p>':"")+(r.hints>=3?'<p>3. '+esc(q.hint3)+'</p>':"")+'</div>'}h+='<div class="tr-actions">'+button("Hint ("+r.hints+"/3)","hint",r.hints>=3?"disabled":"")+button("Check answer","check","",true)+'</div>'+button("Reveal answer","reveal");}
 else{h+='<div class="tr-feedback"><strong>'+esc(q.answer.toUpperCase())+'</strong><p>'+(r.result==="correct"?(r.hints?"Correct with hints":r.wrong?"Correct after retry":"Correct without hints"):"Answer revealed")+' · '+r.hints+' hints · '+r.wrong+' wrong attempts</p></div>'}
 h+='</section>';
-if(resolved){h+='<h2>Vocabulary breakdown</h2>'+ps.map(p=>{const v=vstate(p);return '<article class="tr-card"><div class="tr-line"><span class="tr-meta">CONTEXT 0'+p.number+' / '+esc(p.type)+'</span>'+button(v.marked?"✓ Marked":"Mark","mark",'data-id="'+esc(key(p))+'" aria-pressed="'+v.marked+'"')+'</div><h3>'+esc(p.phrase)+'</h3><strong>'+esc(p.meaning)+'</strong><p>'+esc(p.context)+'</p><details><summary>Example</summary><p>'+esc(p.example)+'</p>'+(p.exampleTranslation?'<p class="tr-muted">'+esc(p.exampleTranslation)+'</p>':"")+'</details><details '+(v.note?'open':'')+'><summary>My Note</summary><textarea data-input="note" data-id="'+esc(key(p))+'" placeholder="Your personal note…">'+esc(v.note)+'</textarea></details></article>'}).join("");h+='<div class="tr-actions">'+button("Previous","prev",s.index===0?"disabled":"")+button(count(activeSet)===activeSet.questions.length?"Finish set":"Next Trio","next","",true)+'</div>';}
+if(resolved){h+='<h2>Vocabulary breakdown</h2>'+ps.map(p=>{return '<article class="tr-card"><div class="tr-line"><span class="tr-meta">CONTEXT 0'+p.number+' / '+esc(p.type)+'</span>'+'</div><h3>'+esc(p.phrase)+'</h3><strong>'+esc(p.meaning)+'</strong><p>'+esc(p.context)+'</p><details><summary>Example</summary><p>'+esc(p.example)+'</p>'+(p.exampleTranslation?'<p class="tr-muted">'+esc(p.exampleTranslation)+'</p>':"")+'</details></article>'}).join("");h+='<div class="tr-actions">'+button("Previous","prev",s.index===0?"disabled":"")+button(count(activeSet)===activeSet.questions.length?"Finish set":"Next Trio","next","",true)+'</div>';}
 mount(h)}
 function finishSet(){
  const s=setState(),total=activeSet.questions.length;
@@ -51,7 +50,13 @@ function finishSet(){
  const bars=stats.map(([label,n,kind])=>'<div class="tr-finish-stat '+kind+'"><div class="tr-line"><span>'+esc(label)+'</span><strong>'+n+'/'+total+'</strong></div><div class="tr-finish-bar"><i style="width:'+(n/total*100)+'%"></i></div></div>').join("");
  mount(title("Set "+activeSet.number+" completed",total+"/"+total+" Trio questions completed")+'<section class="tr-card tr-finish-card"><div class="tr-finish-head"><div><span class="tr-meta">PERFORMANCE REPORT</span><h2>Your performance</h2><p class="tr-muted">Correct without hints, including correct answers after retries.</p></div>'+chart+'</div>'+bars+'<details class="tr-breakdown"><summary>Question breakdown <span>'+total+' questions</span></summary><div>'+breakdown+'</div></details></section><section class="tr-card tr-finish-actions"><h2>Practise what you\'ve learned</h2><p class="tr-muted">Reinforce the phrases from this set through Sentence Transformation in new contexts.</p>'+button("Continue to Sentence Transformation","select","",true)+button("Finish & return to library","library")+'</section>');
 }
-function selection(){const s=setState(),ps=phrases(),marked=ps.filter(p=>vstate(p).marked);if(count(activeSet)<activeSet.questions.length){go("trio");return}if(!s.selection)s.selection={mode:marked.length?"marked":"all",custom:marked.map(key)};const sel=s.selection;const ids=sel.mode==="all"?ps.map(key):sel.mode==="marked"?marked.map(key):sel.custom;mount(title("Review Selection","Choose your review scope.")+'<section class="tr-card"><div class="tr-stats"><span><b>5/5</b>Trio</span><span><b>'+ps.length+'</b>Phrases</span><span><b>'+marked.length+'</b>Marked</span></div>'+["all","marked","custom"].map(m=>'<label class="tr-option"><input type="radio" name="review-mode" data-input="mode" value="'+m+'" '+(sel.mode===m?"checked":"")+'> '+({all:"Review all phrases",marked:"Review marked phrases",custom:"Custom selection"}[m])+'</label>').join("")+(sel.mode==="custom"?ps.map(p=>'<label class="tr-option"><input type="checkbox" data-input="custom" data-id="'+esc(key(p))+'" '+(sel.custom.includes(key(p))?"checked":"")+'> '+esc(p.phrase)+'</label>').join(""):"")+'<p>'+ids.length+' questions · Contextual Transfer</p>'+button("Start review","start-review",ids.length?"":"disabled",true)+button("Back to finish","set-finish")+'</section>')}
+function selection(){
+ const s=setState(),ps=phrases();if(count(activeSet)<activeSet.questions.length){go("trio");return}
+ if(!s.selection||!["all","custom"].includes(s.selection.mode))s.selection={mode:"all",custom:[]};
+ const sel=s.selection,valid=new Set(ps.map(key));sel.custom=(Array.isArray(sel.custom)?sel.custom:[]).filter(id=>valid.has(id));
+ const ids=sel.mode==="all"?ps.map(key):sel.custom;
+ mount(title("Review Selection","Choose the phrases you want to practise.")+'<section class="tr-card"><h2>Sentence Transformation</h2><p class="tr-muted">Contextual Transfer · '+ps.length+' phrases available</p>'+["all","custom"].map(m=>'<label class="tr-option"><input type="radio" name="review-mode" data-input="mode" value="'+m+'" '+(sel.mode===m?"checked":"")+'> '+(m==="all"?"Review all phrases":"Custom selection")+'</label>').join("")+(sel.mode==="custom"?'<div class="tr-custom-list">'+ps.map(p=>'<label class="tr-option"><input type="checkbox" data-input="custom" data-id="'+esc(key(p))+'" '+(sel.custom.includes(key(p))?"checked":"")+'> '+esc(p.phrase)+'</label>').join("")+'</div>':"")+'<p>'+ids.length+' questions selected</p>'+button("Start review","start-review",ids.length?"":"disabled",true)+button("Back to finish","set-finish")+'</section>')
+}
 function begin(ids){if(!ids.length)return;setState().review={queue:ids,index:0,input:"",wrong:0,result:"",outcomes:{}};save();go("review")}
 function review(){const r=setState().review;if(!r||!r.queue.length){go("selection");return}if(r.index>=r.queue.length){go("summary");return}const p=find(r.queue[r.index]);if(!p){go("selection");return}const t=p.transformation,resolved=done(r);let h=title("Sentence Transformation","Contextual Transfer · "+(r.index+1)+"/"+r.queue.length)+progress(r.index,r.queue.length)+'<section class="tr-card"><p class="tr-muted">Complete the second sentence using '+esc(t.limit)+', including the keyword. Do not change the keyword.</p><p class="tr-meta">ORIGINAL SENTENCE</p><p class="tr-original">'+esc(t.original)+'</p><div class="tr-keyword">'+esc(t.keyword)+'</div><p class="tr-meta">YOUR TRANSFORMATION</p><p class="tr-original">'+gap(t.target,resolved?t.answer:r.input,resolved)+'</p>';
 if(resolved){h+='<div class="tr-feedback"><strong>'+(r.result==="correct"?"Correct!":"Answer revealed")+'</strong><p>'+esc(t.answer)+'</p><p class="tr-meta">EXPLANATION</p><p>'+esc(t.translation)+'</p></div>'+button(r.index+1===r.queue.length?"Finish review":"Next question","next-review","",true)}
@@ -62,7 +67,6 @@ function summary(){const r=setState().review;if(!r){go("selection");return}const
 function render(){({library,trio,finish:finishSet,selection,review,summary}[screen]||library)()}
 function handle(ev){const b=ev.target.closest("[data-act]");if(!b||b.disabled)return;const a=b.dataset.act;
 if(a==="library"){g.location.hash=BASE;if(screen!=="library")go("library");return}if(a==="start"){g.location.hash=BASE+"/"+b.dataset.set;return}
-if(a==="mark"){const p=find(b.dataset.id);if(p){const v=vstate(p);v.marked=!v.marked;save();b.textContent=v.marked?"✓ Marked":"Mark";b.setAttribute("aria-pressed",v.marked)}return}
 if(!activeSet)return;const s=setState(),q=activeSet.questions[s.index],r=qs(q);
 if(a==="jump"||a==="prev"){s.index=a==="jump"?Number(b.dataset.index):Math.max(0,s.index-1);save();go("trio");return}
 if(a==="hint"&&!done(r)){r.hints=Math.min(3,r.hints+1);save();render();return}
@@ -71,7 +75,7 @@ if(a==="reveal"&&!done(r)){r.result="revealed";save();render();return}
 if(a==="next"&&done(r)){if(count(activeSet)===activeSet.questions.length){save();go("finish")}else if(s.index<activeSet.questions.length-1){s.index++;save();go("trio")}else{s.index=activeSet.questions.findIndex(x=>!done(s.questions[x.id]));save();go("trio")}return}
 if(a==="set-finish"){go("finish");return}
 if(a==="select"){go("selection");return}
-if(a==="start-review"){const sel=s.selection,ps=phrases();begin(sel.mode==="all"?ps.map(key):sel.mode==="marked"?ps.filter(p=>vstate(p).marked).map(key):sel.custom);return}
+if(a==="start-review"){const sel=s.selection,ps=phrases();begin(sel.mode==="all"?ps.map(key):sel.custom);return}
 const rev=s.review;if(!rev)return;
 if(a==="retry"){begin(rev.queue.filter(id=>rev.outcomes[id]==="Needs Review"));return}
 if(a==="skip"&&!done(rev)){finish("Skipped");return}
@@ -79,7 +83,6 @@ if(a==="reveal-review"&&!done(rev)){rev.result="revealed";save();render();return
 if(a==="check-review"&&!done(rev)){if(!rev.input.trim())return;const t=find(rev.queue[rev.index]).transformation;if(equal(rev.input,t.answer,t.alternatives)){rev.result="correct";rev.feedback=false}else{rev.wrong++;rev.feedback=true}save();render();return}
 if(a==="next-review"&&done(rev)){finish(rev.result==="correct"?"Recalled":"Needs Review");return}}
 function input(ev){const el=ev.target,type=el.dataset.input;if(!type)return;
-if(type==="note"){const p=find(el.dataset.id);if(p){vstate(p).note=el.value;save()}return}
 
 if(!activeSet)return;const s=setState(),r=qs(activeSet.questions[s.index]);
 if(type==="trio"||type==="review"){const state=type==="trio"?r:s.review;state.input=el.value;state.feedback=false;el.closest(".tr-card").querySelectorAll(".tr-gap").forEach(gap=>gap.textContent=el.value||"________");el.closest(".tr-card").querySelector(".tr-error")?.remove();save();return}
