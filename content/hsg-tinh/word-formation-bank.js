@@ -1,4 +1,4 @@
-/* Source: Google Docs 1L27BgDggSM0elWGlqTqmEWIxMR0yktUfRo9IhIm1mB8, Set 01 only. */
+/* Source: Google Docs 1L27BgDggSM0elWGlqTqmEWIxMR0yktUfRo9IhIm1mB8, Set 01 only; Semantic Tabs display mapping. */
 window.WordFormationBank = [
   {
     "id": "set-01",
@@ -144,6 +144,39 @@ window.WordFormationBank = [
             "meaning": "cách đều",
             "completed": "Every point on a circle is equidistant from its centre.",
             "translation": "Mọi điểm trên đường tròn đều cách đều tâm."
+          }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "equi-",
+            "type": "Prefix",
+            "frequency": "Medium",
+            "title": "Equality",
+            "pattern": "equi- + base",
+            "meaning": "Biểu thị sự bằng nhau của đại lượng hoặc đặc điểm.",
+            "words": [
+              [
+                "equilateral",
+                "các cạnh bằng nhau"
+              ],
+              [
+                "equiangular",
+                "các góc bằng nhau"
+              ],
+              [
+                "equipotential",
+                "cùng điện thế"
+              ],
+              [
+                "equivalence",
+                "sự tương đương"
+              ]
+            ],
+            "note": "Đây là thành tố gốc Latin, không tự do ghép vào mọi tính từ.",
+            "extra": [
+              "A and B are equidistant from C",
+              "A is equidistant from B and C"
+            ]
           }
         ]
       },
@@ -355,6 +388,124 @@ window.WordFormationBank = [
             "completed": "The poster shows a highly stylized image of a tree rather than a realistic depiction.",
             "translation": "Áp phích thể hiện hình cây được cách điệu rõ nét thay vì khắc họa chân thực."
           }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "-ish",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Characteristics",
+            "pattern": "Noun + -ish",
+            "meaning": "Mang đặc điểm của danh từ.",
+            "words": [
+              [
+                "childish",
+                "trẻ con, thiếu chín chắn"
+              ],
+              [
+                "foolish",
+                "ngu ngốc"
+              ],
+              [
+                "bookish",
+                "thiên về sách vở"
+              ],
+              [
+                "amateurish",
+                "thiếu chuyên nghiệp"
+              ],
+              [
+                "sheepish",
+                "ngượng ngùng"
+              ]
+            ],
+            "note": "Không mặc định tiêu cực: stylish, boyish có thể tích cực.",
+            "extra": []
+          },
+          {
+            "affix": "-ish",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Approximation",
+            "pattern": "Adjective + -ish",
+            "meaning": "Hơi, gần đúng.",
+            "words": [
+              [
+                "greenish",
+                "hơi xanh"
+              ],
+              [
+                "reddish",
+                "hơi đỏ"
+              ],
+              [
+                "tallish",
+                "tương đối cao"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          },
+          {
+            "affix": "-ish",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Number & Time",
+            "pattern": "Number/time + -ish",
+            "meaning": "Xấp xỉ, khẩu ngữ.",
+            "words": [
+              [
+                "seven-ish",
+                "khoảng bảy giờ"
+              ],
+              [
+                "fortyish",
+                "khoảng 40"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          },
+          {
+            "affix": "-ish",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Nationality",
+            "pattern": "Tính từ quốc tịch cố định",
+            "meaning": "Chỉ quốc tịch hoặc nguồn gốc.",
+            "words": [
+              [
+                "British",
+                "thuộc Vương quốc Anh"
+              ],
+              [
+                "Scottish",
+                "thuộc Scotland"
+              ],
+              [
+                "Irish",
+                "thuộc Ireland"
+              ],
+              [
+                "Turkish",
+                "thuộc Thổ Nhĩ Kỳ"
+              ],
+              [
+                "Swedish",
+                "thuộc Thụy Điển"
+              ],
+              [
+                "Polish",
+                "thuộc Ba Lan"
+              ],
+              [
+                "Spanish",
+                "thuộc Tây Ban Nha"
+              ]
+            ],
+            "note": "Không tùy ý thêm -ish vào mọi tên nước. -ly chỉ thể hiện trong sơ đồ.",
+            "extra": []
+          }
         ]
       },
       {
@@ -529,6 +680,36 @@ window.WordFormationBank = [
             "completed": "His extraordinary painstakingness was evident in every carefully documented detail.",
             "translation": "Sự tỉ mỉ đặc biệt của ông thể hiện ở từng chi tiết được ghi chép cẩn thận."
           }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "Noun + -ing",
+            "type": "Compound pattern",
+            "frequency": "High",
+            "title": "Compound adjectives",
+            "pattern": "Danh từ + dạng -ing",
+            "meaning": "Từ ghép có thể biểu thị tác động hoặc đối tượng của hành động.",
+            "words": [
+              [
+                "time-consuming",
+                "tốn thời gian"
+              ],
+              [
+                "thought-provoking",
+                "gợi suy ngẫm"
+              ],
+              [
+                "breathtaking",
+                "đẹp đến nghẹt thở"
+              ],
+              [
+                "eye-catching",
+                "thu hút ánh nhìn"
+              ]
+            ],
+            "note": "Học nghĩa cả cụm; không dịch riêng từng thành tố.",
+            "extra": []
+          }
         ]
       },
       {
@@ -702,6 +883,64 @@ window.WordFormationBank = [
             "meaning": "gây bực tức",
             "completed": "It is infuriating to wait for hours without any explanation.",
             "translation": "Thật bực mình khi chờ hàng giờ mà không có lời giải thích."
+          }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "-ate",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Creating a state",
+            "pattern": "-ate",
+            "meaning": "Một nhóm động từ chỉ việc tạo ra trạng thái hoặc tác động.",
+            "words": [
+              [
+                "activate",
+                "kích hoạt"
+              ],
+              [
+                "validate",
+                "xác nhận hợp lệ"
+              ],
+              [
+                "domesticate",
+                "thuần hóa"
+              ],
+              [
+                "intimidate",
+                "làm khiếp sợ"
+              ],
+              [
+                "exhilarate",
+                "làm phấn chấn"
+              ]
+            ],
+            "note": "Không phải mọi từ tận cùng -ate là động từ (accurate, delicate). Không phải mọi ví dụ có phép ghép trực tiếp trong tiếng Anh hiện đại.",
+            "extra": []
+          },
+          {
+            "affix": "-ous",
+            "type": "Suffix",
+            "frequency": "",
+            "title": "Characteristics",
+            "pattern": "-ous",
+            "meaning": "Tạo tính từ chỉ đặc điểm.",
+            "words": [
+              [
+                "dangerous",
+                ""
+              ],
+              [
+                "courageous",
+                ""
+              ],
+              [
+                "furious",
+                "vô cùng tức giận"
+              ]
+            ],
+            "note": "Không tự do gắn vào mọi danh từ.",
+            "extra": []
           }
         ]
       },
@@ -893,6 +1132,75 @@ window.WordFormationBank = [
             "meaning": "sự tái thống nhất",
             "completed": "The divided country celebrated its reunification after decades of separation.",
             "translation": "Quốc gia bị chia cắt ăn mừng việc tái thống nhất sau hàng chục năm chia tách."
+          }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "uni-",
+            "type": "Prefix",
+            "frequency": "Medium",
+            "title": "One",
+            "pattern": "uni-",
+            "meaning": "Biểu thị một.",
+            "words": [
+              [
+                "unilateral",
+                "đơn phương"
+              ],
+              [
+                "unidirectional",
+                "một chiều"
+              ],
+              [
+                "unicellular",
+                "đơn bào"
+              ]
+            ],
+            "note": "Đối chiếu bi- (hai), multi- (nhiều).",
+            "extra": []
+          },
+          {
+            "affix": "-ify / -ification",
+            "type": "Suffixes",
+            "frequency": "High",
+            "title": "Change & process",
+            "pattern": "-ify → -ification",
+            "meaning": "-ify tạo động từ chuyển trạng thái; -ification chỉ quá trình hoặc kết quả.",
+            "words": [
+              [
+                "simplify/simplification",
+                "đơn giản hóa"
+              ],
+              [
+                "diversify/diversification",
+                "đa dạng hóa"
+              ],
+              [
+                "clarify/clarification",
+                "làm rõ"
+              ],
+              [
+                "rectify/rectification",
+                "khắc phục"
+              ],
+              [
+                "verify/verification",
+                "xác minh"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          },
+          {
+            "affix": "re-",
+            "type": "Prefix",
+            "frequency": "",
+            "title": "Repetition & restoration",
+            "pattern": "re-",
+            "meaning": "Chỉ lặp lại hoặc khôi phục.",
+            "words": [],
+            "note": "",
+            "extra": []
           }
         ]
       },
@@ -1098,6 +1406,80 @@ window.WordFormationBank = [
             "completed": "At the end of the course, each learner completes a self-evaluation of their own performance.",
             "translation": "Cuối khóa, mỗi học viên tự đánh giá kết quả của mình."
           }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "self-",
+            "type": "Combining form",
+            "frequency": "High",
+            "title": "Self-directed actions",
+            "pattern": "self-",
+            "meaning": "Hành động hướng về bản thân.",
+            "words": [
+              [
+                "self-assessment",
+                "tự đánh giá"
+              ],
+              [
+                "self-reflection",
+                "tự nhìn nhận"
+              ],
+              [
+                "self-deception",
+                "tự lừa dối"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          },
+          {
+            "affix": "self-",
+            "type": "Combining form",
+            "frequency": "High",
+            "title": "Independence",
+            "pattern": "self-",
+            "meaning": "Tính độc lập.",
+            "words": [
+              [
+                "self-reliant",
+                "tự lực"
+              ],
+              [
+                "self-sufficient",
+                "tự đáp ứng nhu cầu"
+              ],
+              [
+                "self-governing",
+                "tự quản"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          },
+          {
+            "affix": "self-",
+            "type": "Combining form",
+            "frequency": "High",
+            "title": "Awareness & qualities",
+            "pattern": "self-",
+            "meaning": "Nhận thức/phẩm chất.",
+            "words": [
+              [
+                "self-aware",
+                "tự nhận thức"
+              ],
+              [
+                "self-conscious",
+                "ngượng vì quá để ý bản thân"
+              ],
+              [
+                "self-righteous",
+                "tự cho mình đúng về đạo đức"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          }
         ]
       },
       {
@@ -1286,6 +1668,44 @@ window.WordFormationBank = [
             "completed": "The organisation unequivocally denied any involvement in the scandal.",
             "translation": "Tổ chức dứt khoát phủ nhận mọi liên quan tới vụ bê bối."
           }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "voc- / vok-",
+            "type": "Root",
+            "frequency": "Medium–High",
+            "title": "Voice & calling",
+            "pattern": "voc-/vok-",
+            "meaning": "Gốc Latin liên quan đến giọng nói hoặc gọi.",
+            "words": [
+              [
+                "advocate",
+                "ủng hộ"
+              ],
+              [
+                "invoke",
+                "viện dẫn"
+              ],
+              [
+                "evoke",
+                "gợi lên"
+              ],
+              [
+                "provoke",
+                "kích động"
+              ],
+              [
+                "revoke",
+                "thu hồi"
+              ],
+              [
+                "vocation",
+                "thiên hướng nghề nghiệp"
+              ]
+            ],
+            "note": "Equivocal có thể hiểu theo nhiều nghĩa; univocal chỉ một nghĩa. Phân biệt quan hệ lịch sử với ghép phụ tố hiện đại.",
+            "extra": []
+          }
         ]
       },
       {
@@ -1452,6 +1872,44 @@ window.WordFormationBank = [
             "completed": "The scandal deepened public distrust of the authorities.",
             "translation": "Vụ bê bối làm gia tăng sự mất lòng tin của công chúng vào nhà chức trách."
           }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "-worthy",
+            "type": "Combining element",
+            "frequency": "Medium",
+            "title": "Deserving",
+            "pattern": "Noun + worthy",
+            "meaning": "Biểu thị xứng đáng nhận điều gì.",
+            "words": [
+              [
+                "noteworthy",
+                "đáng chú ý"
+              ],
+              [
+                "newsworthy",
+                "đáng đưa tin"
+              ],
+              [
+                "praiseworthy",
+                "đáng khen"
+              ],
+              [
+                "blameworthy",
+                "đáng trách"
+              ],
+              [
+                "seaworthy",
+                "đủ khả năng đi biển"
+              ],
+              [
+                "creditworthy",
+                "đủ uy tín tín dụng"
+              ]
+            ],
+            "note": "Không chỉ có đánh giá tích cực; blameworthy mang nghĩa tiêu cực.",
+            "extra": []
+          }
         ]
       },
       {
@@ -1599,6 +2057,68 @@ window.WordFormationBank = [
             "meaning": "một cách man rợ",
             "completed": "The authorities had acted barbarically towards the detainees.",
             "translation": "Nhà chức trách đã hành xử man rợ với người bị giam."
+          }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "-ism",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Ideologies & systems",
+            "pattern": "-ism",
+            "meaning": "Hệ tư tưởng/hệ thống.",
+            "words": [
+              [
+                "capitalism",
+                "chủ nghĩa tư bản"
+              ],
+              [
+                "nationalism",
+                "chủ nghĩa dân tộc"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          },
+          {
+            "affix": "-ism",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Behaviour & attitudes",
+            "pattern": "-ism",
+            "meaning": "Hành vi/thái độ.",
+            "words": [
+              [
+                "racism",
+                "phân biệt chủng tộc"
+              ],
+              [
+                "favouritism",
+                "thiên vị"
+              ],
+              [
+                "barbarism",
+                "sự man rợ"
+              ]
+            ],
+            "note": "",
+            "extra": []
+          },
+          {
+            "affix": "-ism",
+            "type": "Suffix",
+            "frequency": "High",
+            "title": "Conditions",
+            "pattern": "-ism",
+            "meaning": "Tình trạng.",
+            "words": [
+              [
+                "alcoholism",
+                "nghiện rượu"
+              ]
+            ],
+            "note": "Không mặc định là chủ nghĩa; cần xác định nghĩa của từ cơ sở.",
+            "extra": []
           }
         ]
       },
@@ -1767,6 +2287,40 @@ window.WordFormationBank = [
             "meaning": "giống người; robot giống người",
             "completed": "The machine has a humanoid form, with two arms and two legs.",
             "translation": "Máy có hình dạng giống người, với hai tay và hai chân."
+          }
+        ],
+        "semanticAffixes": [
+          {
+            "affix": "-oid",
+            "type": "Suffix",
+            "frequency": "Medium",
+            "title": "Shape & resemblance",
+            "pattern": "-oid",
+            "meaning": "Gốc Hy Lạp biểu thị hình dạng hoặc sự tương đồng.",
+            "words": [
+              [
+                "humanoid",
+                "giống người"
+              ],
+              [
+                "android",
+                "robot giống người"
+              ],
+              [
+                "spheroid",
+                "hình gần cầu"
+              ],
+              [
+                "asteroid",
+                "tiểu hành tinh, từ nghĩa giống sao"
+              ],
+              [
+                "ovoid",
+                "hình trứng"
+              ]
+            ],
+            "note": "Thường trong khoa học/kỹ thuật. Có thể chỉ sự tương tự chứ không phải đối tượng thực sự.",
+            "extra": []
           }
         ]
       }
